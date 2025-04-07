@@ -1,31 +1,30 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
-} from "../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import ApplyForLC from "./applyForLC";
-import { GetProformaInvoiceById } from "../helper";
+} from '../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import ApplyForLC from './applyForLC';
+import { GetProformaInvoiceById } from '../helper';
 
 const initData = {
-  bank: "",
-  branch: "",
-  applyType: "",
+  bank: '',
+  branch: '',
+  applyType: '',
 };
 
 const ApplyForModal = ({ obj }) => {
   const { singleItem } = obj;
   const [bankDDL, getBankDDL] = useAxiosGet();
   const [branchDDL, getBranchDDL, loader, setBranchDDL] = useAxiosGet();
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [piLoader, setPILoader] = useState(false);
 
   const [show, setShow] = useState(false);
@@ -72,7 +71,7 @@ const ApplyForModal = ({ obj }) => {
                       placeholder="Bank name"
                       name="bank"
                       onChange={(valueOption) => {
-                        setFieldValue("bank", valueOption);
+                        setFieldValue('bank', valueOption);
                         getBranchDDL(
                           `/partner/BusinessPartnerBankInfo/GetBranchDDLInfo?BankId=${valueOption?.value}`,
                           (resData) => {
@@ -99,7 +98,7 @@ const ApplyForModal = ({ obj }) => {
                       placeholder="Branch name"
                       name="branch"
                       onChange={(valueOption) => {
-                        setFieldValue("branch", valueOption);
+                        setFieldValue('branch', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -111,15 +110,15 @@ const ApplyForModal = ({ obj }) => {
                       options={[
                         {
                           value: 1,
-                          label: "Prayer for issuance of LC",
+                          label: 'Prayer for issuance of LC',
                         },
                         {
                           value: 2,
-                          label: "Request for original documents",
+                          label: 'Request for original documents',
                         },
                         {
                           value: 3,
-                          label: "Request for Issuance",
+                          label: 'Request for Issuance',
                         },
                       ]}
                       value={values?.applyType}
@@ -127,7 +126,7 @@ const ApplyForModal = ({ obj }) => {
                       placeholder="Apply Type"
                       name="applyType"
                       onChange={(valueOption) => {
-                        setFieldValue("applyType", valueOption);
+                        setFieldValue('applyType', valueOption);
                       }}
                       errors={errors}
                       touched={touched}

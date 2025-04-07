@@ -1,7 +1,7 @@
-import React from "react";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import signature_one from "./signature_1.png";
-import signature_two from "./signature_2.png";
+import React from 'react';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import signature_one from './signature_1.png';
+import signature_two from './signature_2.png';
 function PrayerForIssuanceOfLC({ obj }) {
   const { values, buName, singleData } = obj;
   const {
@@ -13,9 +13,9 @@ function PrayerForIssuanceOfLC({ obj }) {
     total_amount,
   } = {
     total_amount: singleData?.objHeader?.piAmount || 0,
-    item: singleData?.objRow?.[0]?.itemName || "",
+    item: singleData?.objRow?.[0]?.itemName || '',
     quantity: singleData?.objRow?.[0]?.quantity || 0,
-    pi_no: singleData?.objHeader?.pinumber || "",
+    pi_no: singleData?.objHeader?.pinumber || '',
     reference_id:
       singleData?.purchaseRequestrNo || singleData?.purchaseContractNo,
   };
@@ -55,7 +55,7 @@ function PrayerForIssuanceOfLC({ obj }) {
           Dear sir,
           <br /> <br />
           Reference to above mentioned subject, we want to open an L/C under
-          unit of “{buName}” Proforma Invoice No.{pi_no}, <b>“{item}”</b>{" "}
+          unit of “{buName}” Proforma Invoice No.{pi_no}, <b>“{item}”</b>{' '}
           Valuing: USD. {total_amount} for the purpose of factory use. Under
           such terms we undertake to arrange full USD at the time of making LC
           payment. Furthermore, we also undertake to solve any issues related to

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call bank ddl APi
 export function getBankDDL() {

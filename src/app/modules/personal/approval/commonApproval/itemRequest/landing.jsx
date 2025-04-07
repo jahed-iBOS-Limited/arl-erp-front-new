@@ -1,24 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 // import { useHistory } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { getItemGridData, approvalApi } from "./helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import PaginationSearch from './../../../../_helper/_search'
-import IViewModal from "../../../../_helper/_viewModal";
-import { ItemReqViewTableRow } from "../../../../inventoryManagement/warehouseManagement/itemRequest/report/tableRow";
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { getItemGridData, approvalApi } from './helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import PaginationSearch from './../../../../_helper/_search';
+import IViewModal from '../../../../_helper/_viewModal';
+import { ItemReqViewTableRow } from '../../../../inventoryManagement/warehouseManagement/itemRequest/report/tableRow';
 
-let initData = {
+let initData = {};
 
-}
-
-
-const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityChange,selectedPlant }) => {
+const ItemRequestApprovalGrid = ({
+  onChangeForActivity,
+  activityName,
+  activityChange,
+  selectedPlant,
+}) => {
   // const history = useHistory();
 
   const [loader, setLoader] = useState(false);
@@ -26,8 +28,10 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
   const [pageSize, setPageSize] = React.useState(15);
   const [rowDto, setRowDto] = useState([]);
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
-  const [itemRequestViewModalState, setItemRequestViewModalState] = useState(false)
-  const [itemRequestViewModalDate, setItemRequestViewModalData] = useState(false)
+  const [itemRequestViewModalState, setItemRequestViewModalState] =
+    useState(false);
+  const [itemRequestViewModalDate, setItemRequestViewModalData] =
+    useState(false);
 
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -38,12 +42,9 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-
   useEffect(() => {
-    cb()
-
-  }, [activityChange])
-
+    cb();
+  }, [activityChange]);
 
   let cb = () => {
     getItemGridData(
@@ -55,10 +56,10 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
       setLoader,
       pageNo,
       pageSize,
-      "",
+      '',
       selectedPlant?.value
     );
-  }
+  };
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
@@ -71,7 +72,7 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
       setLoader,
       pageNo,
       pageSize,
-      "",
+      '',
       selectedPlant?.value
     );
   };
@@ -119,7 +120,7 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
   // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to post the selected approve submit`,
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.data?.filter(
@@ -130,7 +131,7 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
             approvalId: item?.approvalId,
             reffId: item?.transectionId,
             quantity: item?.quantity,
-            isApprove: true
+            isApprove: true,
           };
         });
 
@@ -138,16 +139,15 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
           accid: profileData?.accountId,
           buId: selectedBusinessUnit?.value,
           userId: profileData?.userId,
-          activityId: activityName?.value
-        }
+          activityId: activityName?.value,
+        };
         approvalApi(parameter, payload, activityName, cb, setBillSubmitBtn);
         //setBillSubmitBtn(true);
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
-
 
   const paginationSearchHandler = (value) => {
     getItemGridData(
@@ -162,9 +162,8 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
       value,
       selectedPlant?.value
     );
-    setPageNo(0)
-  }
-
+    setPageNo(0);
+  };
 
   // All item select
   return (
@@ -173,7 +172,7 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: "Pending Application" },
+          applicationType: { value: 1, label: 'Pending Application' },
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -225,61 +224,61 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
                 />
               </div>
             </Form>
-            {rowDto?.data?.length ?
-           <div className="table-responsive">
-             <table className="table table-striped table-bordered global-table">
-              <thead>
-                <tr>
-                  <th style={{ width: "20px" }}>
-                    <input
-                      type="checkbox"
-                      id="parent"
-                      onChange={(event) => {
-                        allGridCheck(event.target.checked);
-                      }}
-                    />
-                  </th>
-                  <th>SL</th>
-                  <th>Item Request Code</th>
-                  <th>Warehouse Name</th>
-                  <th>Transaction Date</th>
-                  {/* <th>Due Date</th>*/}
-                  <th>Quantity</th>
-                  <th>Purpose</th>
-                  <th className="text-right pr-3">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rowDto?.data?.map((item, i) => (
-                  <tr>
-                    <td>
-                      <input
-                        id="isSelect"
-                        type="checkbox"
-                        value={item?.isSelect}
-                        checked={item?.isSelect}
-                        onChange={(e) => {
-                          itemSlectedHandler(e.target.checked, i);
-                        }}
-                      />
-                    </td>
-                    <td className="text-center">{item?.sl}</td>
-                    <td>
-                      <span className="pl-2">{item?.strCode}</span>
-                    </td>
-                    <td>
-                        <span className="pl-2">{item.whName}</span>
-                      </td>
-                    <td className="text-center">
-                      {_dateFormatter(item?.transectionDate)}
-                    </td>
-                    {/* <td className="text-center">
+            {rowDto?.data?.length ? (
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered global-table">
+                  <thead>
+                    <tr>
+                      <th style={{ width: '20px' }}>
+                        <input
+                          type="checkbox"
+                          id="parent"
+                          onChange={(event) => {
+                            allGridCheck(event.target.checked);
+                          }}
+                        />
+                      </th>
+                      <th>SL</th>
+                      <th>Item Request Code</th>
+                      <th>Warehouse Name</th>
+                      <th>Transaction Date</th>
+                      {/* <th>Due Date</th>*/}
+                      <th>Quantity</th>
+                      <th>Purpose</th>
+                      <th className="text-right pr-3">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowDto?.data?.map((item, i) => (
+                      <tr>
+                        <td>
+                          <input
+                            id="isSelect"
+                            type="checkbox"
+                            value={item?.isSelect}
+                            checked={item?.isSelect}
+                            onChange={(e) => {
+                              itemSlectedHandler(e.target.checked, i);
+                            }}
+                          />
+                        </td>
+                        <td className="text-center">{item?.sl}</td>
+                        <td>
+                          <span className="pl-2">{item?.strCode}</span>
+                        </td>
+                        <td>
+                          <span className="pl-2">{item.whName}</span>
+                        </td>
+                        <td className="text-center">
+                          {_dateFormatter(item?.transectionDate)}
+                        </td>
+                        {/* <td className="text-center">
                       {_dateFormatter(item.dueDate)}
                     </td>  */}
-                    <td className="text-center">{item?.quantity}</td>
-                    <td className="text-center">{item?.strNarration}</td>
-                    <td className="text-center">
-                      {/* <span
+                        <td className="text-center">{item?.quantity}</td>
+                        <td className="text-center">{item?.strNarration}</td>
+                        <td className="text-center">
+                          {/* <span
                       className="mr-2"
                       onClick={(e) => singleApprovalndler(item.transectionId)}
                     >
@@ -287,34 +286,35 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
                       <IApproval />
                     </span> */}
 
-
-                      <span
-                        onClick={(e) => {
-                          // history.push(
-                          //   `/inventory-management/warehouse-management/item-request/ReportView/${item?.transectionId}`
-                          // );
-                          setItemRequestViewModalState(true)
-                          setItemRequestViewModalData(item)
-                        }}
-                      >
-                        <OverlayTrigger
-                          overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
-                        >
-                          <span>
-                            <i
-                              className={`fa pointer fa-eye`}
-                              aria-hidden="true"
-                            ></i>
+                          <span
+                            onClick={(e) => {
+                              // history.push(
+                              //   `/inventory-management/warehouse-management/item-request/ReportView/${item?.transectionId}`
+                              // );
+                              setItemRequestViewModalState(true);
+                              setItemRequestViewModalData(item);
+                            }}
+                          >
+                            <OverlayTrigger
+                              overlay={<Tooltip id="cs-icon">{'View'}</Tooltip>}
+                            >
+                              <span>
+                                <i
+                                  className={`fa pointer fa-eye`}
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+                            </OverlayTrigger>
                           </span>
-                        </OverlayTrigger>
-                      </span>
-
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-           </div>: ""}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              ''
+            )}
             {rowDto?.data?.length > 0 && (
               <PaginationTable
                 count={rowDto?.totalCount}
@@ -331,9 +331,7 @@ const ItemRequestApprovalGrid = ({ onChangeForActivity, activityName, activityCh
               />
             </IViewModal>
           </>
-
         )}
-
       </Formik>
     </>
   );

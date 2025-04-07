@@ -1,23 +1,23 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 
 function ContractorLabourRegister() {
   const history = useHistory();
@@ -33,15 +33,15 @@ function ContractorLabourRegister() {
     getRowData(
       `/mes/MSIL/GetAllLabourInOutRegisterLanding?intBusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
-
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowData(
       `/mes/MSIL/GetAllLabourInOutRegisterLanding?intBusinessUnitId=${
         selectedBusinessUnit?.value
-      }&PageNo=${pageNo}&PageSize=${pageSize}&search=${searchValue}&date=${values?.date ||
-        ""}`
+      }&PageNo=${pageNo}&PageSize=${pageSize}&search=${searchValue}&date=${
+        values?.date || ''
+      }`
     );
   };
   const paginationSearchHandler = (searchValue, values) => {
@@ -60,7 +60,7 @@ function ContractorLabourRegister() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Contractor Labour Register"}>
+              <CardHeader title={'Contractor Labour Register'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -87,22 +87,23 @@ function ContractorLabourRegister() {
                         name="date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("date", e.target.value);
+                          setFieldValue('date', e.target.value);
                           //setDate(e.target.value);
                         }}
                       />
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         className="btn btn-primary ml-2"
                         disabled={false}
                         onClick={() => {
                           getRowData(
                             `/mes/MSIL/GetAllLabourInOutRegisterLanding?intBusinessUnitId=${
                               selectedBusinessUnit?.value
-                            }&PageNo=${pageNo}&PageSize=${pageSize}&search=${""}&date=${values?.date ||
-                              ""}`
+                            }&PageNo=${pageNo}&PageSize=${pageSize}&search=${''}&date=${
+                              values?.date || ''
+                            }`
                           );
                         }}
                       >
@@ -123,7 +124,7 @@ function ContractorLabourRegister() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>তারিখ</th>
                             <th>শ্রমিক সরবরাহকারীর নাম</th>
                             <th>প্রবেশের সময়</th>
@@ -133,7 +134,7 @@ function ContractorLabourRegister() {
                             <th>কাজের বর্ণনা</th>
                             <th>কাজের স্থান</th>
                             <th>মন্তব্য</th>
-                            <th style={{ width: "50px" }}>Action</th>
+                            <th style={{ width: '50px' }}>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -144,22 +145,22 @@ function ContractorLabourRegister() {
                                   <td>{index + 1}</td>
                                   <td
                                     className="text-center"
-                                    style={{ width: "70px" }}
+                                    style={{ width: '70px' }}
                                   >
                                     {_dateFormatter(item?.dteDate)}
                                   </td>
                                   <td>{item?.strLabourSupplierName}</td>
                                   <td
                                     className="text-center"
-                                    style={{ width: "100px" }}
+                                    style={{ width: '100px' }}
                                   >
-                                    {_timeFormatter(item?.tmInTime || "")}
+                                    {_timeFormatter(item?.tmInTime || '')}
                                   </td>
                                   <td
                                     className="text-center"
-                                    style={{ width: "100px" }}
+                                    style={{ width: '100px' }}
                                   >
-                                    {_timeFormatter(item?.tmOutTime || "")}
+                                    {_timeFormatter(item?.tmOutTime || '')}
                                   </td>
                                   <td>{item?.numTotalLabour}</td>
                                   <td>{item?.strWorkSectionName}</td>

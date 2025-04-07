@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import "./style.css";
-import signature_one from "./signature_1.png";
-import signature_two from "./signature_2.png";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { ExportPDF } from "../../../../../chartering/_chartinghelper/exportPdf";
-import Loading from "../../../../../_helper/_loading";
+import React, { useState } from 'react';
+import './style.css';
+import signature_one from './signature_1.png';
+import signature_two from './signature_2.png';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import { ExportPDF } from '../../../../../chartering/_chartinghelper/exportPdf';
+import Loading from '../../../../../_helper/_loading';
 
 const LCApplication = ({ obj }) => {
   const { values, lcInfo, buName } = obj;
@@ -73,7 +73,7 @@ const LCApplication = ({ obj }) => {
               USD. {total_amount} for the purpose of factory use. Under such
               terms we undertake to arrange full USD at the time of making LC
               payment. Furthermore, we also undertake to solve any issues
-              related to these LCs at our own arrangement. <br /> <br />{" "}
+              related to these LCs at our own arrangement. <br /> <br />{' '}
               Therefore, we are requesting you to issue a LC, and necessary
               charges will be debit from our account.
             </p>

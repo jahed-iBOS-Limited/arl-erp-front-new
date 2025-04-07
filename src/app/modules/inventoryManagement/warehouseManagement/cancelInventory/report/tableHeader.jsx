@@ -1,5 +1,5 @@
-import React from "react";
-import { TableRow } from "./tableRow";
+import React from 'react';
+import { TableRow } from './tableRow';
 
 export function CancelInvReportView({
   history,
@@ -7,7 +7,5 @@ export function CancelInvReportView({
     params: { CrId },
   },
 }) {
-  return (
-      <TableRow CrId ={CrId}/>
-  );
+  return <TableRow CrId={CrId} />;
 }

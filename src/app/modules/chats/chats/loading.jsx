@@ -1,10 +1,10 @@
-import React from "react";
-import { Spinner } from "react-bootstrap";
+import React from 'react';
+import { Spinner } from 'react-bootstrap';
 
 const ChatAppLoading = () => {
   return (
     <div
-      style={{ height: "60vh" }}
+      style={{ height: '60vh' }}
       className="d-flex justify-content-center align-items-center"
     >
       <Spinner animation="grow" variant="light" />

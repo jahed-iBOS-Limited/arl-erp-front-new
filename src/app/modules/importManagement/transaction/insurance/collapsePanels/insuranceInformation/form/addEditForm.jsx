@@ -1,14 +1,11 @@
-
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router";
-import { toast } from "react-toastify";
-import { getShipByDDL } from "../../../../../../_helper/_commonApi";
-import { _dateFormatter } from "../../../../../../_helper/_dateFormate";
-import Loading from "../../../../../../_helper/_loading";
-import removeComma from "../../../../../../_helper/_removeComma";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router';
+import { toast } from 'react-toastify';
+import { getShipByDDL } from '../../../../../../_helper/_commonApi';
+import { _dateFormatter } from '../../../../../../_helper/_dateFormate';
+import Loading from '../../../../../../_helper/_loading';
+import removeComma from '../../../../../../_helper/_removeComma';
 import {
   CreateInsuranceCoverNote,
   EditInstanceCoverNote,
@@ -17,30 +14,30 @@ import {
   GetInsuranceCoverNoteById,
   GetPaymentTypeDDL,
   GetProviderDDL,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  poNo: "",
-  poId: "",
-  coverage: "",
-  shipmentType: "",
-  provider: "",
-  paymentBy: "",
+  poNo: '',
+  poId: '',
+  coverage: '',
+  shipmentType: '',
+  provider: '',
+  paymentBy: '',
   insuranceDate: _dateFormatter(new Date()),
   dueDate: _dateFormatter(new Date()),
-  coverNoteNumber: "",
-  PIAmountFC: "",
-  PIAmountFCNumber: "",
-  currency: "",
-  exchangeRate: "",
-  PIAmountBDT: "",
-  PIAmountBDTNumber: "",
-  insuredAmount: "",
-  vat: "",
-  total: "",
-  attachment: "",
-  prefix: "",
+  coverNoteNumber: '',
+  PIAmountFC: '',
+  PIAmountFCNumber: '',
+  currency: '',
+  exchangeRate: '',
+  PIAmountBDT: '',
+  PIAmountBDTNumber: '',
+  insuredAmount: '',
+  vat: '',
+  total: '',
+  attachment: '',
+  prefix: '',
 };
 
 export default function InsurancePolicyForm() {
@@ -60,7 +57,7 @@ export default function InsurancePolicyForm() {
   const [uploadImage, setUploadImage] = useState([]);
   const [dataByPO, setDataByPO] = useState([]);
   const [viewType, setViewType] = useState(type);
-  const [calculationFormData, setCalculationFormData] = useState("");
+  const [calculationFormData, setCalculationFormData] = useState('');
 
   //   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -88,7 +85,7 @@ export default function InsurancePolicyForm() {
   }, []);
 
   useEffect(() => {
-    if (id && state.checkbox === "insuranceCoverNote") {
+    if (id && state.checkbox === 'insuranceCoverNote') {
       GetInsuranceCoverNoteById(id, setSingleData);
     }
   }, [id]);
@@ -142,7 +139,7 @@ export default function InsurancePolicyForm() {
         numVatamount: +values?.vat,
         numTotalAmount: +values?.total,
         dueDate: values?.dueDate,
-        coverNoteDocumentId: uploadImage[0]?.id || "",
+        coverNoteDocumentId: uploadImage[0]?.id || '',
         actionBy: profileData?.employeeId,
         numDiscountAmount: calculationFormData?.discountOnCommision,
         numNetAmount: calculationFormData?.netPaid,
@@ -156,15 +153,15 @@ export default function InsurancePolicyForm() {
   return (
     <>
       {isDisabled && <Loading />}
-      <div className='mt-0'>
+      <div className="mt-0">
         <Form
           {...objProps}
           initData={
             id
               ? {
-                ...singleData,
-                coverNoteNumberActual: singleData?.providerPolicyPrefix,
-              }
+                  ...singleData,
+                  coverNoteNumberActual: singleData?.providerPolicyPrefix,
+                }
               : { ...initFOrmData, poNo: state?.po?.label }
           }
           saveHandler={saveHandler}

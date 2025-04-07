@@ -1,13 +1,13 @@
-
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { _todayDate, _todayDateTime12HFormet } from "../../../../_helper/_todayDate";
-import { useLocation } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import {
+  _todayDate,
+  _todayDateTime12HFormet,
+} from '../../../../_helper/_todayDate';
+import { useLocation } from 'react-router-dom';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import {
   getCostCenterDDL,
   getSingleData,
@@ -17,21 +17,21 @@ import {
   saveWorkOrderTaskData,
   getMaintananceTaskRowData,
   saveMntTaskforEdit,
-} from "../helpers";
+} from '../helpers';
 
 const initData = {
-  workOrder: "",
-  status: "",
-  reparingType: "",
-  startDate: "",
-  priority: "",
-  costCenter: "",
-  service: "",
-  assignTo: "",
-  note: "",
-  depService: "",
-  amount: "",
-  description: "",
+  workOrder: '',
+  status: '',
+  reparingType: '',
+  startDate: '',
+  priority: '',
+  costCenter: '',
+  service: '',
+  assignTo: '',
+  note: '',
+  depService: '',
+  amount: '',
+  description: '',
 };
 
 export default function MaintenanceServiceForm({
@@ -53,7 +53,7 @@ export default function MaintenanceServiceForm({
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [costCenter, setCostCenter] = useState([]);
   const [AssignTo, setAssignTo] = useState([]);
   const [serviceDDL, setServiceDDL] = useState([]);
@@ -111,7 +111,7 @@ export default function MaintenanceServiceForm({
   const rowDtoHandler = (name, value, sl) => {
     let data = [...taskRowData];
     let _sl = data[sl];
-    if (name === "description") {
+    if (name === 'description') {
       _sl[name] = value;
     } else {
       _sl[name] = +value;
@@ -126,16 +126,17 @@ export default function MaintenanceServiceForm({
       const payload = {
         assetMaintenanceId: id,
         status: values?.status?.label,
-        dteEndDateTime: values?.status?.label === "Close" ? _todayDateTime12HFormet() : "",
+        dteEndDateTime:
+          values?.status?.label === 'Close' ? _todayDateTime12HFormet() : '',
         costCenterId: values?.costCenter?.value,
         costCenterName: values?.costCenter?.label,
-        notes: values?.note || "",
+        notes: values?.note || '',
         actionBy: profileData?.userId,
-        assign: values?.assignTo?.map((item)=> ({
+        assign: values?.assignTo?.map((item) => ({
           engineerEmployeeId: item?.value,
           engineerName: item?.label,
           engineerContact: item?.contactNumber,
-        }))
+        })),
       };
       saveWorkOrderEdit(payload, cb, setDisabled);
     } else {

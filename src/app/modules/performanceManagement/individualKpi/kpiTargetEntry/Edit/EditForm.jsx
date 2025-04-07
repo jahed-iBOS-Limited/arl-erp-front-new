@@ -1,9 +1,8 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import axios from "axios";
-import Form from "./form";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import axios from 'axios';
+import Form from './form';
+import { useHistory } from 'react-router-dom';
 import {
   getEmpDDLAction,
   getBSCPerspectiveDDLAction,
@@ -18,37 +17,37 @@ import {
   getKpiEditedSingleDataAction,
   EditIndividualKpiTargetAction,
   getDataSourceDDLAction,
-} from "../../../_redux/Actions";
-import { BrowserRouter, useParams } from "react-router-dom";
-import IForm from "../../../../_helper/_form";
-import { getPMSFrequencyDDLAction } from "../../../../_helper/_redux/Actions";
+} from '../../../_redux/Actions';
+import { BrowserRouter, useParams } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
+import { getPMSFrequencyDDLAction } from '../../../../_helper/_redux/Actions';
 import {
   getStrategicParticularsGridAction,
   setParticullersGridEmpty,
-} from "../../../_redux/Actions";
-import { toArray } from "lodash";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
+} from '../../../_redux/Actions';
+import { toArray } from 'lodash';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
 
 const initData = {
-  kpiformat: "",
-  objective: "",
-  bscPerspective: "",
-  kpiname: "",
-  weight: "",
-  dataSource: "",
-  maxiMini: "",
-  employee: "",
-  year: "",
-  aggregationType: "",
-  targetFrequency: "",
+  kpiformat: '',
+  objective: '',
+  bscPerspective: '',
+  kpiname: '',
+  weight: '',
+  dataSource: '',
+  maxiMini: '',
+  employee: '',
+  year: '',
+  aggregationType: '',
+  targetFrequency: '',
   isDailyEntry: false,
-  url: "",
-  benchmark: "",
+  url: '',
+  benchmark: '',
 };
 
 export default function IndividualKpiEditForm({ isView, data }) {
   const [isDisabled, setDisabled] = useState(true);
-  const [report, setReport] = useState({})
+  const [report, setReport] = useState({});
   let history = useHistory();
   const { id } = useParams();
   // get user profile data from store
@@ -145,12 +144,10 @@ export default function IndividualKpiEditForm({ isView, data }) {
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
     dispatch(getKpiEditedSingleDataAction(id, 1));
-
   }, [id]);
 
   const getBscPerspectiveDefaultValue = (id) => {
@@ -159,7 +156,7 @@ export default function IndividualKpiEditForm({ isView, data }) {
 
   const indKpiTartCrPageRedirect = () => {
     history.push(
-      "/performance-management/individual-kpi/individual-kpi-target/create"
+      '/performance-management/individual-kpi/individual-kpi-target/create'
     );
   };
 
@@ -169,7 +166,7 @@ export default function IndividualKpiEditForm({ isView, data }) {
       setDisabled(false);
       if (values && profileData?.accountId && selectedBusinessUnit?.value) {
         const { objValues, objRowTargetAchivment } = values;
-        const employeeName = objValues.employee.label.split("[")[0];
+        const employeeName = objValues.employee.label.split('[')[0];
         const objHeader = {
           pmsid: +editedSingleData?.objHeader?.pmsid,
           accountId: +profileData.accountId,
@@ -179,12 +176,12 @@ export default function IndividualKpiEditForm({ isView, data }) {
           employeeName: employeeName,
           yearId: +objValues.year?.value,
           yearName: objValues.year?.label,
-          dteStartDate: "2020-10-08T10:37:49.823Z",
-          dteEndDate: "2020-10-08T10:37:49.823Z",
+          dteStartDate: '2020-10-08T10:37:49.823Z',
+          dteEndDate: '2020-10-08T10:37:49.823Z',
           actionBy: +profileData.userId,
           departmentId: 0,
           kpiforId: 1,
-          kpifor: "Employee",
+          kpifor: 'Employee',
         };
         const objRow = {
           kpiid: +id,
@@ -231,7 +228,6 @@ export default function IndividualKpiEditForm({ isView, data }) {
 
   useEffect(() => {
     return () => dispatch(setParticullersGridEmpty());
-
   }, []);
 
   const disableHandler = (cond) => {
@@ -248,7 +244,6 @@ export default function IndividualKpiEditForm({ isView, data }) {
     if (id) {
       dispatch(getKpiEntryById(+id, 1));
     }
-
   }, [id]);
 
   useEffect(() => {
@@ -256,7 +251,6 @@ export default function IndividualKpiEditForm({ isView, data }) {
       dispatch(setKpiTargetSingleEmpty());
       dispatch(SetEmployeeBasicInfoEmptyAction());
     };
-
   }, []);
 
   useEffect(() => {
@@ -277,8 +271,6 @@ export default function IndividualKpiEditForm({ isView, data }) {
         1
       );
     }
-
-
   }, [profileData, selectedBusinessUnit, editedSingleData, id]);
 
   useEffect(() => {
@@ -287,7 +279,6 @@ export default function IndividualKpiEditForm({ isView, data }) {
         getEmployeeBasicInfoByIdAction(editedSingleData?.objHeader?.employeeId)
       );
     }
-
   }, [editedSingleData]);
 
   useEffect(() => {
@@ -301,7 +292,6 @@ export default function IndividualKpiEditForm({ isView, data }) {
         )
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   // dipatch getStrategicParticularsGridAction

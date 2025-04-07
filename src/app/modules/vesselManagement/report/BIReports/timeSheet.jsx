@@ -23,8 +23,8 @@ const TimeSheetReport = () => {
     return [1, 2].includes(typeId)
       ? timeSheet
       : [3].includes(typeId)
-      ? ghatOperations
-      : '';
+        ? ghatOperations
+        : '';
   };
 
   const [showReport, setShowReport] = useState(false);
@@ -72,8 +72,8 @@ const TimeSheetReport = () => {
     return [1, 2].includes(typeId)
       ? timeSheet
       : [3].includes(typeId)
-      ? ghatOperations
-      : '';
+        ? ghatOperations
+        : '';
   };
 
   const handleGetGetMotherVesselWiseRate = (values) => {
@@ -88,11 +88,11 @@ const TimeSheetReport = () => {
 
   const fetchForLocalAndGlobalReportDDL = () => {
     getOrganizationDDL(
-      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`,
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
     );
 
     getMotherVesselDDL(
-      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
+      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
   };
@@ -100,11 +100,9 @@ const TimeSheetReport = () => {
   useEffect(() => {
     getShippointDDL(accId, buId, setShippointDDL);
     getSupplierDDL(
-      `/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`,
+      `/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`
     );
-
   }, [accId, buId]);
-
 
   return (
     <>
@@ -132,7 +130,7 @@ const TimeSheetReport = () => {
                       setFieldValue('type', valueOption);
                       if (valueOption?.value === 4) {
                         //fetch all ddl data
-                        fetchForLocalAndGlobalReportDDL()
+                        fetchForLocalAndGlobalReportDDL();
                       }
                     }}
                     placeholder="Type"
@@ -167,7 +165,7 @@ const TimeSheetReport = () => {
                           if (filedName === 'motherVessel') {
                             GetLighterVesselDDL(
                               allValues?.motherVessel?.value,
-                              setLighterVessel,
+                              setLighterVessel
                             );
                             setFieldValue('lighterVessel', '');
                           }
@@ -260,7 +258,7 @@ const TimeSheetReport = () => {
                           setFieldValue('godown', '');
                           if (valueOption?.value) {
                             getGodownDDL(
-                              `/tms/LigterLoadUnload/GetShipToPartnerG2GDDL?BusinessUnitId=${buId}&BusinessPartnerId=${valueOption?.value}`,
+                              `/tms/LigterLoadUnload/GetShipToPartnerG2GDDL?BusinessUnitId=${buId}&BusinessPartnerId=${valueOption?.value}`
                             );
                           }
                         }}

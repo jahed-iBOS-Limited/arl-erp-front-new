@@ -1,7 +1,7 @@
 // For Communication with external API's , for example ... get data, post data etc
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
 
 /* ================= Fetch All DDL ================= */
 export const getDesignationDDL = async (setter) => {
@@ -149,12 +149,12 @@ export const createSalesForceInfo = async (payload, setDisabled, cb) => {
     );
     if (res?.status === 200) {
       cb();
-      toast.success(res?.data?.message, { toastId: "createBeat" });
+      toast.success(res?.data?.message, { toastId: 'createBeat' });
       setDisabled(false);
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "createBeatError",
+      toastId: 'createBeatError',
     });
     setDisabled(false);
   }
@@ -168,12 +168,12 @@ export const editSalesForceInfo = async (payload, setDisabled) => {
       payload
     );
     if (res?.status === 200) {
-      toast.success(res?.data?.message, { toastId: "editSalesForceInfo" });
+      toast.success(res?.data?.message, { toastId: 'editSalesForceInfo' });
       setDisabled(false);
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "editSalesForceInfoErr",
+      toastId: 'editSalesForceInfoErr',
     });
     setDisabled(false);
   }

@@ -20,7 +20,7 @@ export const validationSchema = Yup.object().shape({
     .required('Email is required')
     .matches(
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-      'Email is invalid',
+      'Email is invalid'
     ),
   // country: Yup.object().shape({
   //   label: Yup.string().required("Country type is required"),
@@ -38,7 +38,7 @@ export const GetStakeholderLandingData = async (
   typeId,
   setLoading,
   setter,
-  portId,
+  portId
 ) => {
   setLoading(true);
   const search = searchValue ? `&search=${searchValue}` : '';
@@ -46,7 +46,7 @@ export const GetStakeholderLandingData = async (
     const res = await axios.get(
       `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${
         portId || 0
-      }&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}&filterByStakeholderTypeId=${typeId}`,
+      }&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}&filterByStakeholderTypeId=${typeId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -60,7 +60,7 @@ export const GetStakeholderLandingData = async (
 export const getStakeholderType = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderTypeDDL`,
+      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderTypeDDL`
     );
     setter(res?.data);
   } catch (error) {
@@ -73,7 +73,7 @@ export const createStakeholder = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/Stakeholder/CreateStakeholder`,
-      data,
+      data
     );
     toast.success(res?.data?.message);
     cb();
@@ -89,7 +89,7 @@ export const updateStakeholder = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/Stakeholder/EditStakeholder`,
-      data,
+      data
     );
     toast.success(res?.data?.message);
     setLoading(false);
@@ -103,7 +103,7 @@ export const GetStakeholderById = async (id, setLoading, setter) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderViewDetailsById?stakeholderId=${id}`,
+      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderViewDetailsById?stakeholderId=${id}`
     );
     const modifyData = {
       ...res?.data,
@@ -137,7 +137,7 @@ export const activeInactiveStakeholder = async (id, status, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${imarineBaseUrl}/domain/Stakeholder/ActiveOrInActive?stakeholderId=${id}&activeOrInActive=${status}`,
+      `${imarineBaseUrl}/domain/Stakeholder/ActiveOrInActive?stakeholderId=${id}&activeOrInActive=${status}`
     );
     toast.success(res?.data?.message);
     cb();
@@ -151,7 +151,7 @@ export const activeInactiveStakeholder = async (id, status, setLoading, cb) => {
 export const getBusinessPartnerList = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?accountId=${accId}&businessUnitId=${buId}`,
+      `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
     );
     setter(res?.data);
   } catch (error) {

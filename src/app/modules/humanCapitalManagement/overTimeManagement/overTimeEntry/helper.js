@@ -1,26 +1,24 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _todayDate } from "../../../_helper/_todayDate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 export const getPurposeDDL = async (setter) => {
   try {
-    let res = await axios.get("/hcm/HCMDDL/GetOverTimePurposeListDDL");
+    let res = await axios.get('/hcm/HCMDDL/GetOverTimePurposeListDDL');
     setter(res?.data);
   } catch (error) {
     setter([]);
   }
 };
 
-
 export const getEmpInfoById = async (id, setFieldValue) => {
   try {
-    let res = await axios.get(`/hcm/HCMDDL/GetEmployeeDetailsByEmpId?EmpId=${id}`);
-    let {employeeInfoDesignation} = res?.data
-    setFieldValue(
-      "designation",
-      employeeInfoDesignation || ""
+    let res = await axios.get(
+      `/hcm/HCMDDL/GetEmployeeDetailsByEmpId?EmpId=${id}`
     );
+    let { employeeInfoDesignation } = res?.data;
+    setFieldValue('designation', employeeInfoDesignation || '');
   } catch (error) {
     return null;
   }
@@ -50,16 +48,15 @@ export const saveOverTime = async (
   setLoading
 ) => {
   try {
-    
     if (rowDto?.length < 1)
-      return toast.warn("Please add atleast one overtime");
-      setLoading(true);
+      return toast.warn('Please add atleast one overtime');
+    setLoading(true);
     let employeeId;
     let workPlaceId;
 
     let data = rowDto?.map((item) => {
-      console.log("item", item)
-      let diff = item.difference.split(":");
+      console.log('item', item);
+      let diff = item.difference.split(':');
       let hour = `${diff[0]}.${diff[1]}`;
 
       employeeId = item?.employee?.value;
@@ -71,31 +68,31 @@ export const saveOverTime = async (
         tmEndTime: item?.endTime,
         numHours: +hour,
         intPurposeId: item?.purpose?.value || 0,
-        strPurpose: item?.purpose?.label || "",
-        strRemarks: item?.remarks || "",
+        strPurpose: item?.purpose?.label || '',
+        strRemarks: item?.remarks || '',
       };
     });
 
     let payload = {
       employeeId,
       businessUnitId: selectedBusinessUnit?.value,
-      workPlaceId : workPlaceId,
+      workPlaceId: workPlaceId,
       insertBy: profileData?.userId,
       insertDateTime: _todayDate(),
       overTimeLine: data,
     };
 
     const res = await axios.post(
-      "/hcm/HCMOverTime/CreateOverTimeEntry",
+      '/hcm/HCMOverTime/CreateOverTimeEntry',
       payload
     );
     setLoading(false);
-    toast.success(res?.data?.message || "Submitted Successfully");
+    toast.success(res?.data?.message || 'Submitted Successfully');
   } catch (error) {
-    console.log("Error", error);
+    console.log('Error', error);
     setLoading(false);
     toast.error(
-      error?.response?.data?.message || "Something went wrong, try again"
+      error?.response?.data?.message || 'Something went wrong, try again'
     );
   }
 };
@@ -149,21 +146,21 @@ export const getOvertimeByEmp = async (empId, buId, setRowDto) => {
       `/hcm/HCMOverTime/GetOverTimeByBUIdEmpId?BusinessUnitId=${buId}&EmployeeId=${empId}`
     );
     let data = res?.data?.map((item) => {
-      console.log("item", item)
-      let startTime = item?.startTime?.split(":");
+      console.log('item', item);
+      let startTime = item?.startTime?.split(':');
       startTime = `${startTime[0]}:${startTime[1]}`;
 
-      let endTime = item?.endTime?.split(":");
+      let endTime = item?.endTime?.split(':');
       endTime = `${endTime[0]}:${endTime[1]}`;
 
       let date = _dateFormatter(item?.date);
 
       let difference = getDifferenceBetweenTime(date, startTime, endTime);
-      console.log("t", startTime, endTime, difference);
+      console.log('t', startTime, endTime, difference);
 
       return {
-        employee: { value: item?.employeeId, label: "" },
-        workPlace: { value: item?.workplaceId, label: "" },
+        employee: { value: item?.employeeId, label: '' },
+        workPlace: { value: item?.workplaceId, label: '' },
         date: date,
         startTime: item?.startTime,
         endTime: item?.endTime,

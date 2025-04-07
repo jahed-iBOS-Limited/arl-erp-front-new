@@ -1,7 +1,7 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { monthDDL } from "../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { monthDDL } from '../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm';
 
 export const getCompanyList = async (buId, setter, setLoading) => {
   setLoading && setLoading(true);
@@ -12,7 +12,7 @@ export const getCompanyList = async (buId, setter, setLoading) => {
     setter(
       res?.data?.map((item) => ({
         ...item,
-        quantity: "",
+        quantity: '',
         companyName: item?.label,
       }))
     );
@@ -78,15 +78,15 @@ export const editMarketShareEntry = async (payload, setLoading) => {
 
 export const validationSchema = Yup.object().shape({
   territory: Yup.object().shape({
-    label: Yup.string().required("Territory is required"),
-    value: Yup.string().required("Territory is required"),
+    label: Yup.string().required('Territory is required'),
+    value: Yup.string().required('Territory is required'),
   }),
   month: Yup.object().shape({
-    label: Yup.string().required("Month is required"),
-    value: Yup.string().required("Month is required"),
+    label: Yup.string().required('Month is required'),
+    value: Yup.string().required('Month is required'),
   }),
   year: Yup.object().shape({
-    label: Yup.string().required("Year is required"),
-    value: Yup.string().required("Year is required"),
+    label: Yup.string().required('Year is required'),
+    value: Yup.string().required('Year is required'),
   }),
 });

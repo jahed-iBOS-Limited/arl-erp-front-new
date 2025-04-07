@@ -1,9 +1,9 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import NewSelect from "../../../../../_helper/_select";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import NewSelect from '../../../../../_helper/_select';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 
 export default function RespondentModal({
   title,
@@ -13,19 +13,11 @@ export default function RespondentModal({
 }) {
   const [districtDDL, getDistrictDDL, loadDistrictDDL] = useAxiosGet();
   const [thanaDDL, getThanaDDL] = useAxiosGet();
-  const [searchValue, setSearchValue] = useState("");
-  const [
-    territoryDDL,
-    getTerritoryDDL,
-    loadTerritoryDDL,
-    setTerritoryDDL,
-  ] = useAxiosGet();
-  const [
-    partnerDDL,
-    getPartnerDDL,
-    loadPartnerDDL,
-    setPartnerDDL,
-  ] = useAxiosGet();
+  const [searchValue, setSearchValue] = useState('');
+  const [territoryDDL, getTerritoryDDL, loadTerritoryDDL, setTerritoryDDL] =
+    useAxiosGet();
+  const [partnerDDL, getPartnerDDL, loadPartnerDDL, setPartnerDDL] =
+    useAxiosGet();
   const [rowDta, getRowData, loadRowData] = useAxiosGet();
 
   const filteredRowData = rowDta?.filter(
@@ -39,12 +31,11 @@ export default function RespondentModal({
   );
   useEffect(() => {
     getDistrictDDL(
-      "/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=0"
+      '/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=0'
     );
-
   }, []);
   useEffect(() => {
-    if (title === "Retailer") {
+    if (title === 'Retailer') {
       getPartnerDDL(
         `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=""&territoryId=0`,
         (data) => {
@@ -57,16 +48,15 @@ export default function RespondentModal({
         }
       );
     }
-
   }, [title, respondedBuId]);
   return (
     <Formik
       enableReinitialize={true}
       initialValues={{
-        district: "",
-        thana: "",
-        territory: { value: 0, label: "All" },
-        partner: { value: 0, label: "All" },
+        district: '',
+        thana: '',
+        territory: { value: 0, label: 'All' },
+        partner: { value: 0, label: 'All' },
       }}
     >
       {({
@@ -94,12 +84,12 @@ export default function RespondentModal({
                 <div className="col-lg-3">
                   <NewSelect
                     name="district"
-                    options={[{ label: "All", value: 0 }, ...districtDDL]}
+                    options={[{ label: 'All', value: 0 }, ...districtDDL]}
                     value={values?.district}
                     label="District"
                     onChange={(valueOption) => {
-                      setFieldValue("thana", "");
-                      setFieldValue("district", valueOption);
+                      setFieldValue('thana', '');
+                      setFieldValue('district', valueOption);
                       if (!valueOption) return;
                       getThanaDDL(
                         `/oms/TerritoryInfo/GetThanaDDL?countryId=18&divisionId=0&districtId=${valueOption?.value}`
@@ -110,17 +100,17 @@ export default function RespondentModal({
                 <div className="col-lg-3">
                   <NewSelect
                     name="thana"
-                    options={[{ label: "All", value: 0 }, ...thanaDDL]}
+                    options={[{ label: 'All', value: 0 }, ...thanaDDL]}
                     value={values?.thana}
                     label="Thana"
                     onChange={(valueOption) => {
-                      setFieldValue("thana", valueOption);
-                      setFieldValue("territory", { label: "All", value: 0 });
-                      setFieldValue("partner", { label: "All", value: 0 });
+                      setFieldValue('thana', valueOption);
+                      setFieldValue('territory', { label: 'All', value: 0 });
+                      setFieldValue('partner', { label: 'All', value: 0 });
                       if (!valueOption) return;
                       getTerritoryDDL(
                         `/oms/CustomerPoint/GetBusinessPartnerTerritoryByUpazila?businessUnitId=4&upazilaName=${
-                          valueOption?.label !== "All" ? valueOption?.label : ""
+                          valueOption?.label !== 'All' ? valueOption?.label : ''
                         }`,
                         (data) => {
                           const updatedData = data?.map((d) => ({
@@ -131,12 +121,12 @@ export default function RespondentModal({
                           setTerritoryDDL(updatedData);
                         }
                       );
-                      if (title === "Retailer") {
+                      if (title === 'Retailer') {
                         getPartnerDDL(
                           `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${
-                            valueOption?.label !== "All"
+                            valueOption?.label !== 'All'
                               ? valueOption?.label
-                              : ""
+                              : ''
                           }&territoryId=0`,
                           (data) => {
                             const updatedData = data?.map((d) => ({
@@ -147,21 +137,21 @@ export default function RespondentModal({
                             setPartnerDDL(updatedData);
                           }
                         );
-                        if (valueOption?.label !== "All") {
+                        if (valueOption?.label !== 'All') {
                           getRowData(
                             `/oms/CustomerPoint/GetRetailerByBusinessPartner?businessUnitId=${respondedBuId}&upazilaName=${
-                              valueOption?.label !== "All"
+                              valueOption?.label !== 'All'
                                 ? valueOption?.label
-                                : ""
+                                : ''
                             }&territoryId=0&businessPartnerId=0`
                           );
                         }
                       } else {
                         getRowData(
                           `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${
-                            valueOption?.label !== "All"
+                            valueOption?.label !== 'All'
                               ? valueOption?.label
-                              : ""
+                              : ''
                           }&territoryId=0`
                         );
                       }
@@ -172,19 +162,19 @@ export default function RespondentModal({
                 <div className="col-lg-3">
                   <NewSelect
                     name="territory"
-                    options={[{ label: "All", value: 0 }, ...territoryDDL]}
+                    options={[{ label: 'All', value: 0 }, ...territoryDDL]}
                     value={values?.territory}
                     label="Territory"
                     onChange={(valueOption) => {
-                      setFieldValue("partner", { label: "All", value: 0 });
-                      setFieldValue("territory", valueOption);
+                      setFieldValue('partner', { label: 'All', value: 0 });
+                      setFieldValue('territory', valueOption);
                       if (!valueOption) return;
-                      if (title === "Retailer") {
+                      if (title === 'Retailer') {
                         getPartnerDDL(
                           `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${
-                            values?.thana?.label !== "All"
+                            values?.thana?.label !== 'All'
                               ? values?.thana?.label
-                              : ""
+                              : ''
                           }&territoryId=${valueOption?.value}`,
                           (data) => {
                             const updatedData = data?.map((d) => ({
@@ -195,12 +185,12 @@ export default function RespondentModal({
                             setPartnerDDL(updatedData);
                           }
                         );
-                        if (valueOption?.label !== "All") {
+                        if (valueOption?.label !== 'All') {
                           getRowData(
                             `/oms/CustomerPoint/GetRetailerByBusinessPartner?businessUnitId=${respondedBuId}&upazilaName=${
-                              values?.thana?.label !== "All"
+                              values?.thana?.label !== 'All'
                                 ? values?.thana?.label
-                                : ""
+                                : ''
                             }&territoryId=${
                               valueOption?.value
                             }&businessPartnerId=0`
@@ -209,9 +199,9 @@ export default function RespondentModal({
                       } else {
                         getRowData(
                           `/oms/CustomerPoint/GetBusinessPartnerByUpazila?businessUnitId=${respondedBuId}&upazilaName=${
-                            values?.thana?.label !== "All"
+                            values?.thana?.label !== 'All'
                               ? values?.thana?.label
-                              : ""
+                              : ''
                           }&territoryId=${valueOption?.value}`
                         );
                       }
@@ -219,21 +209,21 @@ export default function RespondentModal({
                     isDisabled={!values?.thana}
                   />
                 </div>
-                {title === "Retailer" && (
+                {title === 'Retailer' && (
                   <div className="col-lg-3">
                     <NewSelect
                       name="partner"
-                      options={[{ label: "All", value: 0 }, ...partnerDDL]}
+                      options={[{ label: 'All', value: 0 }, ...partnerDDL]}
                       value={values?.partner}
                       label="Partner"
                       onChange={(valueOption) => {
-                        setFieldValue("partner", valueOption);
+                        setFieldValue('partner', valueOption);
                         if (!valueOption) return;
                         getRowData(
                           `/oms/CustomerPoint/GetRetailerByBusinessPartner?businessUnitId=${respondedBuId}&upazilaName=${
-                            values?.thana?.label !== "All"
+                            values?.thana?.label !== 'All'
                               ? values?.thana?.label
-                              : ""
+                              : ''
                           }&territoryId=${
                             values?.territory?.value
                           }&businessPartnerId=${valueOption?.value}`
@@ -245,8 +235,8 @@ export default function RespondentModal({
                 )}
               </div>
               {/* search element */}
-              <div style={{ width: "25%" }}>
-                <div className={"input-group"}>
+              <div style={{ width: '25%' }}>
+                <div className={'input-group'}>
                   <input
                     type="text"
                     className="form-control"
@@ -280,15 +270,15 @@ export default function RespondentModal({
                   <table className="table table-striped one-column-sticky table-bordered global-table mt-3 ">
                     <thead>
                       <tr>
-                        {title === "Distributor " && (
-                          <th style={{ maxWidth: "130px" }}>{title} Code </th>
+                        {title === 'Distributor ' && (
+                          <th style={{ maxWidth: '130px' }}>{title} Code </th>
                         )}
                         <th>{title} Name </th>
                         <th>{title} Code </th>
-                        <th style={{ maxWidth: "100px" }}>Contact No</th>
+                        <th style={{ maxWidth: '100px' }}>Contact No</th>
                         <th>Address</th>
-                        <th style={{ maxWidth: "100px" }}>Area</th>
-                        <th style={{ maxWidth: "100px" }}>Region</th>
+                        <th style={{ maxWidth: '100px' }}>Area</th>
+                        <th style={{ maxWidth: '100px' }}>Region</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -297,32 +287,32 @@ export default function RespondentModal({
                           <tr
                             key={index}
                             onClick={() => {
-                              setter("customer", {
+                              setter('customer', {
                                 label:
                                   item?.retailerName ||
                                   item?.businessPartnerName +
-                                    " [" +
+                                    ' [' +
                                     item?.territoryName +
-                                    "]",
+                                    ']',
                                 value:
                                   item?.retailerId || item?.businessPartnerId,
                               });
 
-                              setter("upazila", {
+                              setter('upazila', {
                                 label: item?.label,
                                 value: 0,
                                 districtName: item?.districtName,
                                 upazilaName: item?.upazilaName,
                               });
-                              if (title !== "Retailer") {
-                                setter("territoryName", item?.territoryName);
-                                setter("territoryId", item?.territoryId);
+                              if (title !== 'Retailer') {
+                                setter('territoryName', item?.territoryName);
+                                setter('territoryId', item?.territoryId);
                               }
                               onHide();
                             }}
                           >
-                            {title === "Distributor " && (
-                              <td>{item?.businessPartnerCode || ""}</td>
+                            {title === 'Distributor ' && (
+                              <td>{item?.businessPartnerCode || ''}</td>
                             )}
                             <td>
                               {item?.businessPartnerName || item?.retailerName}

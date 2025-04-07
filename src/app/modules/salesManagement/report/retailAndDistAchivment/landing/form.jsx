@@ -1,4 +1,3 @@
-
 import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
@@ -75,17 +74,17 @@ const RetailAndDistributorAchievementForm = () => {
   useEffect(() => {
     GetSalesOrganizationDDL_api(accId, buId, setSalesOrgDDl);
     getChannelList(
-      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`,
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
     );
     getUserLoginInfo(accId, buId, userId, setLoading, (resData) => {
       const ratId =
         resData?.empLevelId === 7
           ? +resData?.empTerritoryId
           : +resData?.levelId === 6
-          ? +resData?.areaId
-          : +resData?.levelId === 5
-          ? +resData?.regionId
-          : +resData?.empTerritoryId;
+            ? +resData?.areaId
+            : +resData?.levelId === 5
+              ? +resData?.regionId
+              : +resData?.empTerritoryId;
       const levelId = +resData?.empLevelId;
       setLoginInfo({ ...resData, ratId, levelId });
       // setLoginInfo(resData);
@@ -195,7 +194,7 @@ const RetailAndDistributorAchievementForm = () => {
                                   accId,
                                   buId,
                                   valueOption?.value,
-                                  setCustomerNameDDL,
+                                  setCustomerNameDDL
                                 );
                               }}
                               isDisabled={!values?.reportType}

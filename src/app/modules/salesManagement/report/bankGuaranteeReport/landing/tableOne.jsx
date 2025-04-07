@@ -1,20 +1,20 @@
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 const ths = [
-  "Sl",
-  "Party Name",
-  "Bank Guarantee",
-  "Actual Credit Limit",
-  "BG vs Limit (%)",
-  "Approved OD (20%)",
-  "Used OD",
-  "Out of 20% OD",
-  "Debit",
-  "Sales",
-  "BG COMM/Bag",
-  "Total BG Commission",
-  "Remarks",
+  'Sl',
+  'Party Name',
+  'Bank Guarantee',
+  'Actual Credit Limit',
+  'BG vs Limit (%)',
+  'Approved OD (20%)',
+  'Used OD',
+  'Out of 20% OD',
+  'Debit',
+  'Sales',
+  'BG COMM/Bag',
+  'Total BG Commission',
+  'Remarks',
 ];
 
 export default function TableOne({ obj }) {
@@ -58,14 +58,14 @@ export default function TableOne({ obj }) {
     <>
       <div className="react-bootstrap-table table-responsive">
         <table
-          className={"table table-striped table-bordered global-table "}
+          className={'table table-striped table-bordered global-table '}
           id="table-to-xlsx"
         >
           <thead>
             <tr>
               <th
                 onClick={() => allSelect(!selectedAll())}
-                style={{ minWidth: "30px" }}
+                style={{ minWidth: '30px' }}
               >
                 <input
                   type="checkbox"
@@ -97,7 +97,7 @@ export default function TableOne({ obj }) {
                   <tr key={index}>
                     <td
                       onClick={() => {
-                        rowDataHandler("isSelected", index, !itm.isSelected);
+                        rowDataHandler('isSelected', index, !itm.isSelected);
                       }}
                       className="text-center"
                     >
@@ -126,7 +126,7 @@ export default function TableOne({ obj }) {
                 </>
               );
             })}
-            <tr style={{ fontWeight: "bold" }}>
+            <tr style={{ fontWeight: 'bold' }}>
               <td className="text-right" colSpan={3}>
                 Total
               </td>

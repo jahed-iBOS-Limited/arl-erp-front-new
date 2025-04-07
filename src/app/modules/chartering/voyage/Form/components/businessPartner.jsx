@@ -1,11 +1,11 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { getStakeholderNameByTypeId } from "../../../helper";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import IDelete from "../../../_chartinghelper/icons/_delete";
-import ICustomTable from "../../../_chartinghelper/_customTable";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { getStakeholderNameByTypeId } from '../../../helper';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import IDelete from '../../../_chartinghelper/icons/_delete';
+import ICustomTable from '../../../_chartinghelper/_customTable';
 
 export default function BusinessPartner({
   values,
@@ -35,7 +35,7 @@ export default function BusinessPartner({
           item?.stakeholderId === values?.businessPartnerName?.value
       )
     ) {
-      toast.warn("Item already added");
+      toast.warn('Item already added');
     } else {
       const newItem = {
         stakeholderTypeId: values?.businessPartnerType?.value,
@@ -44,8 +44,8 @@ export default function BusinessPartner({
         stakeholderName: values?.businessPartnerName?.label,
       };
       setBusinessPartnerGrid([...businessPartnerGrid, newItem]);
-      setFieldValue("businessPartnerName", "");
-      setFieldValue("businessPartnerType", "");
+      setFieldValue('businessPartnerName', '');
+      setFieldValue('businessPartnerType', '');
     }
   };
   const removeItem = (index) => {
@@ -54,12 +54,12 @@ export default function BusinessPartner({
 
   return (
     <>
-      {viewType !== "view" ? (
+      {viewType !== 'view' ? (
         <div className="marine-form-card-content">
           <div className="row">
             <div className="col-lg-3">
               <FormikSelect
-                value={values?.businessPartnerType || ""}
+                value={values?.businessPartnerType || ''}
                 isSearchable={true}
                 options={businessPartnerTypeDDL || []}
                 styles={customStyles}
@@ -68,8 +68,8 @@ export default function BusinessPartner({
                 // placeholder="Business Partner Type"
                 label="Service Type"
                 onChange={(valueOption) => {
-                  setFieldValue("businessPartnerName", "");
-                  setFieldValue("businessPartnerType", valueOption);
+                  setFieldValue('businessPartnerName', '');
+                  setFieldValue('businessPartnerType', valueOption);
                   getStakeholderNameByTypeId(
                     profileData?.accountId,
                     selectedBusinessUnit?.value,
@@ -77,14 +77,14 @@ export default function BusinessPartner({
                     setBusinessPartnerNameDDL
                   );
                 }}
-                isDisabled={viewType === "view"}
+                isDisabled={viewType === 'view'}
                 errors={errors}
                 touched={touched}
               />
             </div>
             <div className="col-lg-3">
               <FormikSelect
-                value={values?.businessPartnerName || ""}
+                value={values?.businessPartnerName || ''}
                 isSearchable={true}
                 options={businessPartnerNameDDL || []}
                 styles={customStyles}
@@ -93,9 +93,9 @@ export default function BusinessPartner({
                 // placeholder="Business Partner Name"
                 label="Vendor Name"
                 onChange={(valueOption) => {
-                  setFieldValue("businessPartnerName", valueOption);
+                  setFieldValue('businessPartnerName', valueOption);
                 }}
-                isDisabled={viewType === "view"}
+                isDisabled={viewType === 'view'}
                 errors={errors}
                 touched={touched}
               />
@@ -117,10 +117,10 @@ export default function BusinessPartner({
                       setErrors({
                         businessPartnerName:
                           !values?.businessPartnerName?.value &&
-                          "Business Partner Name is required",
+                          'Business Partner Name is required',
                         businessPartnerType:
                           !values?.businessPartnerType?.value &&
-                          "Business Partner Type is required",
+                          'Business Partner Type is required',
                       });
                     }, 50);
                   } else {
@@ -141,21 +141,21 @@ export default function BusinessPartner({
           <div>
             <ICustomTable
               ths={[
-                { name: "SL" },
-                { name: "Business Partner Type" },
-                { name: "Business Partner Name" },
-                { name: "Action", isHide: viewType === "view" },
+                { name: 'SL' },
+                { name: 'Business Partner Type' },
+                { name: 'Business Partner Name' },
+                { name: 'Action', isHide: viewType === 'view' },
               ]}
             >
               <>
                 {businessPartnerGrid?.map((item, index) => (
                   <tr>
-                    <td style={{ maxWidth: "30px" }} className="text-center">
+                    <td style={{ maxWidth: '30px' }} className="text-center">
                       {index + 1}
                     </td>
                     <td>{item?.stakeholderTypeName}</td>
                     <td>{item?.stakeholderName}</td>
-                    {viewType !== "view" ? (
+                    {viewType !== 'view' ? (
                       <td className="text-center">
                         <span onClick={() => removeItem(index)}>
                           <IDelete />

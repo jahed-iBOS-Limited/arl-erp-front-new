@@ -1,11 +1,10 @@
 .bank-letter-print-wrapper {
   box-sizing: border-box;
-  font-family: "Times New Roman", Times, serif;
+  font-family: 'Times New Roman', Times, serif;
   font-size: 11px;
   text-align: justify;
   display: none;
 }
-
 
 .bank-letter-print-wrapper .no-border > table,
 .bank-letter-print-wrapper .no-border td,

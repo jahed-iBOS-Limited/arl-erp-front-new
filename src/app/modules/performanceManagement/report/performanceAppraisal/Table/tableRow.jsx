@@ -1,30 +1,29 @@
-
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { setEmpKpiReportInitData_Action } from "../../../../_helper/reduxForLocalStorage/Actions";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICard from "../../../../_helper/_card";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { getMonthDDLAction } from "../../../individualKpi/PerformanceChart/_redux/Actions";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { setEmpKpiReportInitData_Action } from '../../../../_helper/reduxForLocalStorage/Actions';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICard from '../../../../_helper/_card';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { getMonthDDLAction } from '../../../individualKpi/PerformanceChart/_redux/Actions';
 import {
   getDepartmentDDL,
   getEmployeeDDL,
   GetKpiLandingReportActions,
   getYearDDL,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  employee: "",
-  department: "",
-  year: "",
-  fromMonth: "",
-  toMonth: "",
+  employee: '',
+  department: '',
+  year: '',
+  fromMonth: '',
+  toMonth: '',
 };
 
 export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
@@ -34,7 +33,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
   const [gridData, setGridData] = useState([]);
   const [yearDDL, setYearDDL] = useState([]);
 
-  console.log(employeeDDL, "employeeDDL");
+  console.log(employeeDDL, 'employeeDDL');
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -101,19 +100,19 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
       const obj = empKpiReportInitData?.department
         ? {
             value: empKpiReportInitData?.department?.value,
-            label: "Department",
+            label: 'Department',
           }
         : empKpiReportInitData?.employee
-        ? {
-            value: empKpiReportInitData?.employee?.value,
-            label: "Employee",
-          }
-        : { value: 0, label: "Employee" };
+          ? {
+              value: empKpiReportInitData?.employee?.value,
+              label: 'Employee',
+            }
+          : { value: 0, label: 'Employee' };
       let yearId = empKpiReportInitData?.year?.value
         ? empKpiReportInitData?.year?.value
         : yearDDL?.length > 0
-        ? yearDDL[0]?.value
-        : "";
+          ? yearDDL[0]?.value
+          : '';
       commonGridDataFunc(obj?.label, obj?.value, yearId);
     }
   }, [profileData, selectedBusinessUnit, yearDDL]);
@@ -140,8 +139,8 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
           year: empKpiReportInitData?.year?.value
             ? empKpiReportInitData?.year
             : yearDDL?.length > 0
-            ? yearDDL[0]
-            : "",
+              ? yearDDL[0]
+              : '',
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -169,9 +168,9 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
             >
               <div
                 style={{
-                  marginTop: "-42px",
+                  marginTop: '-42px',
                   // marginRight: "100px",
-                  textAlign: "right",
+                  textAlign: 'right',
                 }}
               >
                 <ReactHTMLTableToExcel
@@ -192,27 +191,27 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                         selectedValue={values?.employee}
                         isSearchIcon={true}
                         handleChange={(valueOption) => {
-                          setFieldValue("department", "");
+                          setFieldValue('department', '');
                           if (valueOption) {
-                            setFieldValue("employee", valueOption);
+                            setFieldValue('employee', valueOption);
                             let obj = {
                               employee: valueOption,
-                              department: "",
+                              department: '',
                               year: values?.year,
                             };
                             dispatch(setEmpKpiReportInitData_Action(obj));
 
                             commonGridDataFunc(
-                              "Employee",
+                              'Employee',
                               valueOption?.value,
                               values?.year?.value,
                               values?.fromMonth?.value,
                               values?.toMonth?.value
                             );
                           } else {
-                            setFieldValue("employee", "");
+                            setFieldValue('employee', '');
                             commonGridDataFunc(
-                              "Employee",
+                              'Employee',
                               0,
                               values?.year?.value,
                               values?.fromMonth?.value,
@@ -231,27 +230,27 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                         value={values?.department}
                         label="Department"
                         onChange={(valueOption) => {
-                          setFieldValue("employee", "");
+                          setFieldValue('employee', '');
                           if (valueOption) {
-                            setFieldValue("department", valueOption);
+                            setFieldValue('department', valueOption);
                             let obj = {
-                              employee: "",
+                              employee: '',
                               department: valueOption,
                               year: values?.year,
                             };
                             dispatch(setEmpKpiReportInitData_Action(obj));
 
                             commonGridDataFunc(
-                              "Department",
+                              'Department',
                               valueOption?.value,
                               values?.year?.value,
                               values?.fromMonth?.value,
                               values?.toMonth?.value
                             );
                           } else {
-                            setFieldValue("department", "");
+                            setFieldValue('department', '');
                             commonGridDataFunc(
-                              "Employee",
+                              'Employee',
                               0,
                               values?.year?.value,
                               values?.fromMonth?.value,
@@ -272,7 +271,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                         value={values?.year}
                         label="Year"
                         onChange={(valueOption) => {
-                          setFieldValue("year", valueOption);
+                          setFieldValue('year', valueOption);
                           dispatch(getMonthDDLAction(valueOption?.value));
                           // for local storage,
                           let objOne = {
@@ -286,11 +285,11 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                           const obj = values?.department
                             ? {
                                 value: values?.department?.value,
-                                label: "Department",
+                                label: 'Department',
                               }
                             : {
                                 value: values?.employee?.value || 0,
-                                label: "Employee",
+                                label: 'Employee',
                               };
                           commonGridDataFunc(
                             obj?.label,
@@ -313,15 +312,15 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                         value={values?.fromMonth}
                         label="From Month"
                         onChange={(valueOption) => {
-                          setFieldValue("fromMonth", valueOption);
+                          setFieldValue('fromMonth', valueOption);
                           const obj = values?.department
                             ? {
                                 value: values?.department?.value,
-                                label: "Department",
+                                label: 'Department',
                               }
                             : {
                                 value: values?.employee?.value || 0,
-                                label: "Employee",
+                                label: 'Employee',
                               };
                           commonGridDataFunc(
                             obj?.label,
@@ -344,15 +343,15 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                         value={values?.toMonth}
                         label="To Month"
                         onChange={(valueOption) => {
-                          setFieldValue("toMonth", valueOption);
+                          setFieldValue('toMonth', valueOption);
                           const obj = values?.department
                             ? {
                                 value: values?.department?.value,
-                                label: "Department",
+                                label: 'Department',
                               }
                             : {
                                 value: values?.employee?.value || 0,
-                                label: "Employee",
+                                label: 'Employee',
                               };
                           commonGridDataFunc(
                             obj?.label,
@@ -371,14 +370,14 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                 </div>
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>
@@ -407,22 +406,22 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                     >
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th style={{ width: "90px" }}>Enroll</th>
-                          <th style={{ width: "90px" }}>Name of Employee</th>
-                          <th style={{ width: "90px" }}>Designation</th>
-                          <th style={{ width: "90px" }}>Section</th>
-                          <th style={{ width: "90px" }}>Department</th>
-                          <th style={{ width: "90px" }}>Employment Type</th>
-                          <th style={{ width: "90px" }}>
+                          <th style={{ width: '30px' }}>SL</th>
+                          <th style={{ width: '90px' }}>Enroll</th>
+                          <th style={{ width: '90px' }}>Name of Employee</th>
+                          <th style={{ width: '90px' }}>Designation</th>
+                          <th style={{ width: '90px' }}>Section</th>
+                          <th style={{ width: '90px' }}>Department</th>
+                          <th style={{ width: '90px' }}>Employment Type</th>
+                          <th style={{ width: '90px' }}>
                             Work Place(Graphic Location)
                           </th>
-                          <th style={{ width: "90px" }}>SBU Name</th>
-                          <th style={{ width: "90px" }}>
+                          <th style={{ width: '90px' }}>SBU Name</th>
+                          <th style={{ width: '90px' }}>
                             Individual KPI Marks (out of 70)
                           </th>
-                          <th style={{ width: "90px" }}>% of Acheivement</th>
-                          <th style={{ width: "90px" }}>Action</th>
+                          <th style={{ width: '90px' }}>% of Acheivement</th>
+                          <th style={{ width: '90px' }}>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -430,51 +429,51 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef }) {
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td className="text-center">
-                              {item?.intEmployeeId || "-"}
+                              {item?.intEmployeeId || '-'}
                             </td>
                             <td>
                               <div className="pl-2">
-                                {item?.strEmployeeFullName || "-"}
+                                {item?.strEmployeeFullName || '-'}
                               </div>
                             </td>
                             <td>
                               <div className="pl-2">
-                                {item?.strDesignationName || "-"}
+                                {item?.strDesignationName || '-'}
                               </div>
                             </td>
                             <td>
                               <div className="pl-2">
-                                {item?.strSectionName || "-"}
+                                {item?.strSectionName || '-'}
                               </div>
                             </td>
                             <td>
                               <div className="pl-2">
-                                {item?.strDepartmentName || "-"}
+                                {item?.strDepartmentName || '-'}
                               </div>
                             </td>
                             <td>
                               <div className="pl-2">
-                                {item?.strEmploymentType || "-"}
+                                {item?.strEmploymentType || '-'}
                               </div>
                             </td>
                             <td>
                               <div className="pl-2">
-                                {item?.strWorkplaceName || "-"}
+                                {item?.strWorkplaceName || '-'}
                               </div>
                             </td>
                             <td>
                               <div className="pl-2">
-                                {item?.strSBUName || "-"}
+                                {item?.strSBUName || '-'}
                               </div>
                             </td>
                             <td>
                               <div className="text-right pr-2">
-                                {item?.score || "-"}
+                                {item?.score || '-'}
                               </div>
                             </td>
                             <td>
                               <div className="text-right pr-2">
-                                {item?.achievements || "-"}
+                                {item?.achievements || '-'}
                               </div>
                             </td>
                             <td>

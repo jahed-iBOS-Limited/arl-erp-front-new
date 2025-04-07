@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getSBUDDL_api = async (accId, buId, setter) => {
   try {
@@ -103,7 +103,7 @@ export const getSingleData = async (id, setter, setRowDto) => {
           value: res?.data[0]?.itemId,
           label: res?.data[0]?.itemName,
         },
-        transactionDate: res?.data[0]?.transactionDate
+        transactionDate: res?.data[0]?.transactionDate,
       };
 
       const row = res?.data;
@@ -123,7 +123,7 @@ export const createReceiveFromShopFloor = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }

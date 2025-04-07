@@ -7,7 +7,7 @@ function InformationSectionLanding({ history }) {
   const uIEvents = {
     openEditPage: (id) => {
       history.push(
-        `/config/partner-management/partner-info-section/edit/${id}`,
+        `/config/partner-management/partner-info-section/edit/${id}`
       );
     },
   };

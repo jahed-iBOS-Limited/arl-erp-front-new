@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -246,7 +245,7 @@ export default function FormCmp({
           return obj;
         }
         const count = reports.filter(
-          (item) => item.bscperspectiveId === row.bscperspectiveId,
+          (item) => item.bscperspectiveId === row.bscperspectiveId
         ).length;
         _sameKey = value;
 
@@ -358,7 +357,7 @@ export default function FormCmp({
                                     'achievement',
                                     e.target.value,
                                     idx,
-                                    itm?.intRowId,
+                                    itm?.intRowId
                                   )
                                 }
                                 value={rowDto?.[idx]?.achievement}

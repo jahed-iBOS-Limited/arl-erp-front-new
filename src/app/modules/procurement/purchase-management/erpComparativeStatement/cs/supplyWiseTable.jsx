@@ -1,4 +1,3 @@
-
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -57,7 +56,7 @@ function Row(props) {
             }}
             onClick={() => {
               getLastPurchaseInfo(
-                `${eProcurementBaseURL}/ComparativeStatement/GetItemsLastPurchaseInformation?itemId=${row?.itemId}`,
+                `${eProcurementBaseURL}/ComparativeStatement/GetItemsLastPurchaseInformation?itemId=${row?.itemId}`
               );
               setShowPurchaseModal(true);
             }}
@@ -269,7 +268,7 @@ Row.propTypes = {
         amount: PropTypes.number.isRequired,
         customerId: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
-      }),
+      })
     ).isRequired,
     name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,

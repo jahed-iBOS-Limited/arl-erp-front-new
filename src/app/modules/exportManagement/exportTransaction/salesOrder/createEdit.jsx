@@ -138,12 +138,10 @@ export default function SalesOrderCreateEdit() {
   const [, saveForeignSalesOrder, saveLoading] = useAxiosPost();
   useEffect(() => {
     getSoldToPartyDDL(
-      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerForSalesOrderDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&Sbuid=${sbu?.value}&SalesOrg=${salesOrg?.value}&ShipPoint=${shipPoint?.value}&DistributionChannel=${distributionChannel?.value}`,
+      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerForSalesOrderDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&Sbuid=${sbu?.value}&SalesOrg=${salesOrg?.value}&ShipPoint=${shipPoint?.value}&DistributionChannel=${distributionChannel?.value}`
     );
     getOrderReferenceTypeDDL(`/oms/SalesOrder/GetOrderReferanceTypeDDL`);
     getCurrencyDDL(`/domain/Purchase/GetBaseCurrencyList`);
-
-
   }, [
     profileData,
     selectedBusinessUnit,
@@ -252,7 +250,7 @@ export default function SalesOrderCreateEdit() {
   // };
 
   const modifyOrderReferenceTypeDDL = orderReferenceTypeDDL?.filter(
-    (itm) => itm?.value === 4,
+    (itm) => itm?.value === 4
   );
 
   const saveHandler = (values, cb) => {
@@ -287,7 +285,7 @@ export default function SalesOrderCreateEdit() {
         ciRate: +itm?.ciRate || 0,
         cogs: +itm?.cogs || 0,
         ciValue: +itm?.ciValue || 0,
-      }),
+      })
     );
 
     const payload = {
@@ -343,7 +341,7 @@ export default function SalesOrderCreateEdit() {
       `/oms/SalesOrder/CreateForeignSalesOrder`,
       payload,
       cb,
-      true,
+      true
     );
 
     console.log('payload', payload);
@@ -433,29 +431,29 @@ export default function SalesOrderCreateEdit() {
                             setFieldValue('shipToParty', data[0]);
                             setFieldValue(
                               'shipToPartyAddress',
-                              data[0]?.address,
+                              data[0]?.address
                             );
                             setFieldValue(
                               'contactPersonNo',
-                              data[0]?.contactNumber,
+                              data[0]?.contactNumber
                             );
-                          },
+                          }
                         );
 
                         getPartnerBalance(
-                          `/partner/BusinessPartnerSales/GetBPartnerBalanceByPartnerId?BusinessPartnerId=${valueOption?.value}`,
+                          `/partner/BusinessPartnerSales/GetBPartnerBalanceByPartnerId?BusinessPartnerId=${valueOption?.value}`
                         );
                         getReferenceNoDDL(
-                          `/oms/SalesOrder/GetSalesQuotationDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&SoldToPartnerId=${valueOption?.value}`,
+                          `/oms/SalesOrder/GetSalesQuotationDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&SoldToPartnerId=${valueOption?.value}`
                         );
                         getUnDeliverdAmount(
-                          `/oms/SalesOrder/GetUndeliveryValues?SoldToPartnerId=${valueOption?.value}`,
+                          `/oms/SalesOrder/GetUndeliveryValues?SoldToPartnerId=${valueOption?.value}`
                         );
                         getAvailableBalance(
-                          `/oms/SalesOrder/GetAvailableBalanceForInternalUser?pId=${valueOption?.value}`,
+                          `/oms/SalesOrder/GetAvailableBalanceForInternalUser?pId=${valueOption?.value}`
                         );
                         getPartnerCreditLimit(
-                          `/oms/SalesOrder/GetCreditLimitForInternalUser?pId=${valueOption?.value}`,
+                          `/oms/SalesOrder/GetCreditLimitForInternalUser?pId=${valueOption?.value}`
                         );
                       } else {
                         setFieldValue('soldToParty', '');
@@ -482,11 +480,11 @@ export default function SalesOrderCreateEdit() {
                         setFieldValue('shipToParty', valueOption);
                         setFieldValue(
                           'shipToPartyAddress',
-                          valueOption?.shiptoPartnerAddress,
+                          valueOption?.shiptoPartnerAddress
                         );
                         setFieldValue(
                           'contactPersonNo',
-                          valueOption?.contactNumber,
+                          valueOption?.contactNumber
                         );
                       } else {
                         setFieldValue('shipToParty', '');
@@ -714,7 +712,7 @@ export default function SalesOrderCreateEdit() {
                             setDisabled,
                             () => {
                               setShow(true);
-                            },
+                            }
                           );
                         }}
                       >
@@ -739,7 +737,7 @@ export default function SalesOrderCreateEdit() {
                             setDisabled,
                             () => {
                               setShow(true);
-                            },
+                            }
                           );
                         }}
                       >
@@ -760,7 +758,7 @@ export default function SalesOrderCreateEdit() {
                             setDisabled,
                             () => {
                               setShow(true);
-                            },
+                            }
                           );
                         }}
                       >
@@ -802,7 +800,7 @@ export default function SalesOrderCreateEdit() {
                                   ciRate: 0,
                                   ciValue: 0,
                                 };
-                              },
+                              }
                             );
 
                             modifyData.Data.RowData = modifyRow;
@@ -816,46 +814,46 @@ export default function SalesOrderCreateEdit() {
                               },
                               setFieldValue(
                                 'partyRefNo',
-                                data?.Data?.HeaderData?.PartnerReffNo,
+                                data?.Data?.HeaderData?.PartnerReffNo
                               ),
                               setFieldValue(
                                 'pricingDate',
                                 data?.Data?.HeaderData?.PricingDate
                                   ? dateFormatterForInput(
-                                      data?.Data?.HeaderData?.PricingDate,
+                                      data?.Data?.HeaderData?.PricingDate
                                     )
-                                  : '',
+                                  : ''
                               ),
                               setFieldValue(
                                 'salesTerm',
-                                data?.Data?.HeaderData?.SalesTerm,
+                                data?.Data?.HeaderData?.SalesTerm
                               ),
                               setFieldValue(
                                 'modeOfShipment',
-                                data?.Data?.HeaderData?.ModeofShipment,
+                                data?.Data?.HeaderData?.ModeofShipment
                               ),
                               setFieldValue(
                                 'placeOfShipment',
-                                data?.Data?.HeaderData?.PortofShipment,
+                                data?.Data?.HeaderData?.PortofShipment
                               ),
                               setFieldValue(
                                 'placeOfDischarge',
-                                data?.Data?.HeaderData?.PortofDishcharge,
+                                data?.Data?.HeaderData?.PortofDishcharge
                               ),
                               setFieldValue(
                                 'finalDestination',
-                                data?.Data?.HeaderData?.FinalDestination,
+                                data?.Data?.HeaderData?.FinalDestination
                               ),
                               setFieldValue(
                                 'countryOfOrigin',
-                                data?.Data?.HeaderData?.CountryOfOrigin,
+                                data?.Data?.HeaderData?.CountryOfOrigin
                               ),
                               setFieldValue(
                                 'freightCharge',
-                                data?.Data?.HeaderData?.FreightAmountBDT,
-                              ),
+                                data?.Data?.HeaderData?.FreightAmountBDT
+                              )
                             );
-                          },
+                          }
                         );
 
                         // getItemDDL(`/oms/SalesOrder/GetReferenceWithItemListById?TypeId=${4}&Id=${valueOption?.value}`,
@@ -911,7 +909,7 @@ export default function SalesOrderCreateEdit() {
                   }}
                   onDelete={(deleteFileObj) => {
                     const newData = fileObjects.filter(
-                      (item) => item.file.name !== deleteFileObj.file.name,
+                      (item) => item.file.name !== deleteFileObj.file.name
                     );
                     setFileObjects(newData);
                   }}
@@ -1034,10 +1032,10 @@ export default function SalesOrderCreateEdit() {
                   tableType === 'order'
                     ? 'Pending Order Details'
                     : tableType === 'delivery'
-                    ? 'Pending Delivery Details'
-                    : tableType === 'unBilled'
-                    ? 'UnBilled Amount Details'
-                    : ''
+                      ? 'Pending Delivery Details'
+                      : tableType === 'unBilled'
+                        ? 'UnBilled Amount Details'
+                        : ''
                 }`}
                 show={show}
                 onHide={() => setShow(false)}

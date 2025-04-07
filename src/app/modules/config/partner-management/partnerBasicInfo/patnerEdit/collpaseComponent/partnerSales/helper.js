@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 // getBusinessPartnerBasicinfoAction
 export const getBusinessPartnerBasicinfoAction = async (
@@ -14,9 +14,8 @@ export const getBusinessPartnerBasicinfoAction = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
-
 
 export const getBankNameDDL_api = async (setter) => {
   try {
@@ -77,12 +76,12 @@ export const getBusinessPartnerSalesByPartnerId = async (
       });
     }
     const limitType = bothCheck
-      ? "both"
+      ? 'both'
       : data?.objData?.[0]?.isDayLimit
-        ? "dayesLimit"
+        ? 'dayesLimit'
         : data?.objData?.length > 0
-          ? "creditLimit"
-          : "";
+          ? 'creditLimit'
+          : '';
 
     const daysLimitFind = data?.objData?.find((itm) => itm?.isDayLimit);
 
@@ -93,109 +92,109 @@ export const getBusinessPartnerSalesByPartnerId = async (
       businessUnitId: buId,
       customerType: objDataGet?.customerType
         ? {
-          value: 100,
-          label: objDataGet?.customerType,
-        }
-        : "",
+            value: 100,
+            label: objDataGet?.customerType,
+          }
+        : '',
       sbu: objDataGet?.businessAreaId
         ? {
-          value: objDataGet?.businessAreaId,
-          label: objDataGet?.businessAreaName,
-        }
-        : "",
+            value: objDataGet?.businessAreaId,
+            label: objDataGet?.businessAreaName,
+          }
+        : '',
       salesOrganaization: objDataGet?.salesOrganizationId
         ? {
-          value: objDataGet?.salesOrganizationId,
-          label: objDataGet?.salesOrganizationName,
-        }
-        : "",
+            value: objDataGet?.salesOrganizationId,
+            label: objDataGet?.salesOrganizationName,
+          }
+        : '',
       distributionChannel: objDataGet?.distributionChannelId
         ? {
-          value: objDataGet?.distributionChannelId,
-          label: objDataGet?.distributionChannelName,
-        }
-        : "",
+            value: objDataGet?.distributionChannelId,
+            label: objDataGet?.distributionChannelName,
+          }
+        : '',
       salesTerriory:
         objDataGet?.territoryId && objDataGet?.territoryName
           ? {
-            value: objDataGet?.territoryId,
-            label: objDataGet?.territoryName,
-          }
-          : "",
+              value: objDataGet?.territoryId,
+              label: objDataGet?.territoryName,
+            }
+          : '',
       transportZone: objDataGet?.transportZoneId
         ? {
-          value: objDataGet?.transportZoneId,
-          label: objDataGet?.transportZoneName,
-        }
-        : "",
+            value: objDataGet?.transportZoneId,
+            label: objDataGet?.transportZoneName,
+          }
+        : '',
       reconGeneralLedger: objDataGet?.generalLederId
         ? {
-          value: objDataGet?.generalLederId,
-          label: objDataGet?.generalLederName,
-        }
-        : "",
+            value: objDataGet?.generalLederId,
+            label: objDataGet?.generalLederName,
+          }
+        : '',
       alternetGeneralLedger: objDataGet?.alternateGlid
         ? {
-          value: objDataGet?.alternateGlid,
-          label: objDataGet?.alternateGlidName,
-        }
-        : "",
+            value: objDataGet?.alternateGlid,
+            label: objDataGet?.alternateGlidName,
+          }
+        : '',
       shippingPoint: defaultShipPoint[0]?.shipPointId
         ? {
-          value: defaultShipPoint[0]?.shipPointId,
-          label: defaultShipPoint[0]?.shipPointName,
-        }
-        : "",
+            value: defaultShipPoint[0]?.shipPointId,
+            label: defaultShipPoint[0]?.shipPointName,
+          }
+        : '',
       defaultDistanceKm: defaultShipPoint[0]?.distanceKm,
       creditLimit: objDataGet?.creditLimit,
       soldToParty: objDataGet?.soldToPartnerShipToPartnerID
         ? {
-          value: objDataGet?.soldToPartnerShipToPartnerID,
-          label: objDataGet?.soldToPartnerShipToPartnerName,
-        }
-        : "",
+            value: objDataGet?.soldToPartnerShipToPartnerID,
+            label: objDataGet?.soldToPartnerShipToPartnerName,
+          }
+        : '',
       priceStructure: objDataGet?.priceStructureId
         ? {
-          value: objDataGet?.priceStructureId,
-          label: objDataGet?.priceStructureName,
-        }
-        : "",
+            value: objDataGet?.priceStructureId,
+            label: objDataGet?.priceStructureName,
+          }
+        : '',
       collectionDays: objDataGet?.collectionDays || 0,
-      bankName: "",
-      branchName: "",
-      refNo: "",
+      bankName: '',
+      branchName: '',
+      refNo: '',
       limitType: limitType,
       numberOfDays:
-        limitType === "dayesLimit" || limitType === "both"
+        limitType === 'dayesLimit' || limitType === 'both'
           ? daysLimitFind?.limitDays
-          : "0",
+          : '0',
       daysCreditLimitAmount:
-        limitType === "dayesLimit" || limitType === "both"
+        limitType === 'dayesLimit' || limitType === 'both'
           ? daysLimitFind?.creditLimit
-          : "0",
+          : '0',
       daysLimitBtnDisabled:
-        limitType === "creditLimit" || limitType === "both" ? true : false,
+        limitType === 'creditLimit' || limitType === 'both' ? true : false,
       paymentMode: objDataGet?.creditFacilityTypeId
         ? {
-          value: objDataGet?.creditFacilityTypeId,
-          label: objDataGet?.creditFacilityTypeName,
-        }
-        : "",
+            value: objDataGet?.creditFacilityTypeId,
+            label: objDataGet?.creditFacilityTypeName,
+          }
+        : '',
       partyStatusType: objDataGet?.partyStatusType
         ? {
-          value: 0,
-          label: objDataGet?.partyStatusType,
-        }
-        : "",
+            value: 0,
+            label: objDataGet?.partyStatusType,
+          }
+        : '',
       customerCategory: objDataGet?.customerCategory
         ? {
-          value: objDataGet?.customerCategory,
-          label: objDataGet?.customerCategory,
-        }
-        : "",
+            value: objDataGet?.customerCategory,
+            label: objDataGet?.customerCategory,
+          }
+        : '',
       exclusivity: objDataGet?.isExclusive
-        ? { value: true, label: "Exclusive" }
-        : { value: false, label: "Non-Exclusive" },
+        ? { value: true, label: 'Exclusive' }
+        : { value: false, label: 'Non-Exclusive' },
       isManualAuto: objDataGet?.isManualAuto || false,
     };
     setSalesData(singleData);

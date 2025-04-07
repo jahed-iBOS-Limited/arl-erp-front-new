@@ -31,10 +31,9 @@ function Report({ weightmentId }) {
   useEffect(() => {
     if (weightmentId) {
       getReportData(
-        `/mes/MSIL/GetAllMSIL?PartName=FirstWeightSecondWeightInfoForPDF&AutoId=${weightmentId}`,
+        `/mes/MSIL/GetAllMSIL?PartName=FirstWeightSecondWeightInfoForPDF&AutoId=${weightmentId}`
       );
     }
-
   }, [weightmentId, selectedBusinessUnit]);
 
   const printRef = useRef();
@@ -82,7 +81,7 @@ function Report({ weightmentId }) {
                       <div className="d-flex justify-content-center align-items-center">
                         {/* <div className="d-flex justify-content-center align-items-center"> */}
                         {[171, 224, 4, 144].includes(
-                          reportData[0]?.intBusinessUnitId,
+                          reportData[0]?.intBusinessUnitId
                         ) ? (
                           <img
                             style={{
@@ -94,10 +93,10 @@ function Report({ weightmentId }) {
                               reportData[0]?.intBusinessUnitId === 171
                                 ? magnumLogo
                                 : reportData[0]?.intBusinessUnitId === 224
-                                ? ispatLogo
-                                : reportData[0]?.intBusinessUnitId === 144
-                                ? essentialLogo
-                                : cementLogo
+                                  ? ispatLogo
+                                  : reportData[0]?.intBusinessUnitId === 144
+                                    ? essentialLogo
+                                    : cementLogo
                             }
                             alt="logo"
                           />
@@ -150,7 +149,7 @@ function Report({ weightmentId }) {
                             }}
                           >
                             {_dateFormatter(
-                              reportData[0]?.lastWeightDate?.split('T'),
+                              reportData[0]?.lastWeightDate?.split('T')
                             )}
                           </td>
                           <td

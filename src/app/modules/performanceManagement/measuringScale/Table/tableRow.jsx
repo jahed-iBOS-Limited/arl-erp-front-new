@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { getMeasuringScaleGridData } from "../_redux/Actions";
+import React, { useEffect } from 'react';
+import BootstrapTable from 'react-bootstrap-table-next';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { getMeasuringScaleGridData } from '../_redux/Actions';
 
 export function TableRow() {
   // storeData
@@ -26,28 +26,27 @@ export function TableRow() {
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   // Table columns
   const columns = [
     {
-      dataField: "sl",
-      text: "SL",
-      classes: "text-center",
+      dataField: 'sl',
+      text: 'SL',
+      classes: 'text-center',
     },
     {
-      dataField: "scaleForName",
-      text: "Scale For",
+      dataField: 'scaleForName',
+      text: 'Scale For',
     },
     {
-      dataField: "measuringScaleName",
-      text: "Scale Name",
+      dataField: 'measuringScaleName',
+      text: 'Scale Name',
     },
     {
-      dataField: "measuringScaleValue",
-      text: "Value",
-      classes: "text-center",
+      dataField: 'measuringScaleValue',
+      text: 'Value',
+      classes: 'text-center',
     },
   ];
 

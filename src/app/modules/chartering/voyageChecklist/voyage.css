@@ -40,7 +40,7 @@
 .voyage-checklist-filter .common-overview-part {
   padding: 18px 35px;
 }
-.voyage-checklist-filter  .common-overview-content h5 {
+.voyage-checklist-filter .common-overview-content h5 {
   color: rgba(0, 0, 0, 0.7);
   font-weight: 500;
   font-size: 12px;
@@ -123,13 +123,13 @@
 
 .voyage-checklist-filter .btn-tab:hover,
 .voyage-checklist-filter .btn-tab:focus {
-  color: #3699ff ;
+  color: #3699ff;
 }
 
 .voyage-checklist-filter .btn-tab-active {
-  color: #3699ff ;
-  border-right: 1px solid #3699ff ;
-  background: rgb(54, 153, 255,0.1);
+  color: #3699ff;
+  border-right: 1px solid #3699ff;
+  background: rgb(54, 153, 255, 0.1);
 }
 
 .voyage-checklist-filter .row-filter-tabs {
@@ -146,33 +146,33 @@
 .voyage-checklist-filter .row-filter-tabs .col-md-9 {
   padding: 0 !important;
 }
-.voyage-checklist-filter .description-section h5{
+.voyage-checklist-filter .description-section h5 {
   color: #444 !;
   font-size: 12px;
   font-weight: 500;
   margin-bottom: 0;
   padding-bottom: 5px;
 }
-.voyageChecklistView h6{
+.voyageChecklistView h6 {
   font-size: 12px;
   font-weight: 400;
 }
-.voyageCardItem{
+.voyageCardItem {
   background-color: #eff6ff;
   border-radius: 5px;
   padding: 15px;
   display: flex;
   align-items: center;
 }
-.voyageCardItem .voyageContent .text{
+.voyageCardItem .voyageContent .text {
   display: flex;
 }
-.voyageSidebar{
+.voyageSidebar {
   background-color: #eff6ff;
   border-radius: 5px;
   padding: 15px;
   margin-top: 37px;
 }
-.voyageCardItemActive{
-  border-left: 5px solid #3699FF;
+.voyageCardItemActive {
+  border-left: 5px solid #3699ff;
 }

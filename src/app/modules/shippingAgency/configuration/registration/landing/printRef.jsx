@@ -1,9 +1,9 @@
-import moment from "moment";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import { getASLLAgencyRegistrationById } from "../helper";
-import "./printRef.css";
+import moment from 'moment';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
+import { getASLLAgencyRegistrationById } from '../helper';
+import './printRef.css';
 function PrintRef({ componentRef, registrationId }) {
   const [loading, setLoading] = React.useState(false);
   const [singleData, setSingleData] = React.useState({});
@@ -48,20 +48,20 @@ function PrintRef({ componentRef, registrationId }) {
             </div>
             <div className="right">
               <p>
-                <b>Arrived Time:</b>{" "}
+                <b>Arrived Time:</b>{' '}
                 {singleData?.serverDateTime
                   ? moment(singleData?.serverDateTime).format(
-                      "YYYY-DD-MM, hh:mm A"
+                      'YYYY-DD-MM, hh:mm A'
                     )
-                  : "N/A"}
+                  : 'N/A'}
               </p>
               <p>
-                <b>Sailed Time:</b>{" "}
+                <b>Sailed Time:</b>{' '}
                 {singleData?.sailedDateTime
                   ? moment(singleData?.sailedDateTime).format(
-                      "YYYY-DD-MM, hh:mm A"
+                      'YYYY-DD-MM, hh:mm A'
                     )
-                  : "N/A"}
+                  : 'N/A'}
               </p>
             </div>
           </div>
@@ -84,7 +84,7 @@ function PrintRef({ componentRef, registrationId }) {
                       <td className="text-center"> {index + 1}</td>
                       <td>
                         {item?.completionDate &&
-                          moment(item?.completionDate).format("YYYY-MM-DD")}
+                          moment(item?.completionDate).format('YYYY-MM-DD')}
                       </td>
                       <td>{item?.dischargePortName}</td>
                       <td>{item?.cargoName}</td>

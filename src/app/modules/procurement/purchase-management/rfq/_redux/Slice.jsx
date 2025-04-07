@@ -1,23 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   gridData: [],
-  singleData: "",
-  refNoDDL: "",
-  itemDDL: "",
-  uoMDDL: "",
+  singleData: '',
+  refNoDDL: '',
+  itemDDL: '',
+  uoMDDL: '',
   quotationGridData: [],
   csData: [],
 };
 
 export const rfqSlice = createSlice({
-  name: "rfq",
+  name: 'rfq',
   initialState: initState,
   reducers: {
-
     SetGridData: (state, action) => {
       const { payload } = action;
       state.gridData = payload;
@@ -56,17 +55,14 @@ export const rfqSlice = createSlice({
       const { payload } = action;
       state.refNoDDL = payload;
     },
-    
+
     SetSingleData: (state, action) => {
       const { payload } = action;
       state.singleData = payload;
     },
-    
+
     SetSingleStoreEmpty: (state, action) => {
-      
-      state.singleData = "";
+      state.singleData = '';
     },
-
-  }
+  },
 });
-

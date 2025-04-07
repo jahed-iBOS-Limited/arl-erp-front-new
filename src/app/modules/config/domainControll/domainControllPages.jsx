@@ -1,47 +1,47 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { BusinessUnit } from "./businessUnit";
-import { CreateUser } from "./createUser/UserPage";
-import { RoleExtension } from "./roleExtension";
-import AddForm from "./businessUnit/businessUnitCreate/addForm";
-import { RoleAddForm } from "./roleExtension/roleExtensionCreate/addForm";
-import RoleEditForm from "./roleExtension/roleExtensionEdit/editForm";
-import CreateUserHeader from "./createUser/createUser-create/createUserHeader";
-import { ContentRoute } from "../../../../_metronic/layout";
-import EditForm from "./businessUnit/businessUnitEdit/editForm";
-import { UserGroup } from "./userGroup";
-import UserGroupAddForm from "./userGroup/userGroupCreate/addForm";
-import UserGroupEditForm from "./userGroup/userGroupEdit/editForm";
-import { CodeGenerate } from "./code-generate";
-import CodeGenerateForm from "./code-generate/Form/addEditForm";
-import ApprovalLanding from "./approvalSetup/landing";
-import ApprovalSetupCreate from "./approvalSetup/Form/addEditForm";
-import UserGroupViewFrom from "./userGroup/userGroupView/editForm";
-import FutureGroupForm from "./featureGroup/form/addEditForm";
-import FutureGroupLanding from "./featureGroup/landing/table";
-import RoleManagerForm from "./roleManager/form/addEditForm";
-import RoleManager from "./roleManager/landing/table";
-import { shallowEqual, useSelector } from "react-redux";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import { PriceStructureGlLanding } from "./priceStructureGL/landing/Form/addEditForm";
-import findIndex from "../../_helper/_findIndex";
-import { AccountingConfigForm } from "./accountingConfig/form/addEditForm";
-import AccountsControlLanding from "./accountsControl/landing";
-import ReportRoleManagerCreateForm from "./reportRoleExtension/form/addEditForm";
-import UserPassword from "./userPassword";
-import ItemStockUpdate from "./itemStockUpdate";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { BusinessUnit } from './businessUnit';
+import { CreateUser } from './createUser/UserPage';
+import { RoleExtension } from './roleExtension';
+import AddForm from './businessUnit/businessUnitCreate/addForm';
+import { RoleAddForm } from './roleExtension/roleExtensionCreate/addForm';
+import RoleEditForm from './roleExtension/roleExtensionEdit/editForm';
+import CreateUserHeader from './createUser/createUser-create/createUserHeader';
+import { ContentRoute } from '../../../../_metronic/layout';
+import EditForm from './businessUnit/businessUnitEdit/editForm';
+import { UserGroup } from './userGroup';
+import UserGroupAddForm from './userGroup/userGroupCreate/addForm';
+import UserGroupEditForm from './userGroup/userGroupEdit/editForm';
+import { CodeGenerate } from './code-generate';
+import CodeGenerateForm from './code-generate/Form/addEditForm';
+import ApprovalLanding from './approvalSetup/landing';
+import ApprovalSetupCreate from './approvalSetup/Form/addEditForm';
+import UserGroupViewFrom from './userGroup/userGroupView/editForm';
+import FutureGroupForm from './featureGroup/form/addEditForm';
+import FutureGroupLanding from './featureGroup/landing/table';
+import RoleManagerForm from './roleManager/form/addEditForm';
+import RoleManager from './roleManager/landing/table';
+import { shallowEqual, useSelector } from 'react-redux';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import { PriceStructureGlLanding } from './priceStructureGL/landing/Form/addEditForm';
+import findIndex from '../../_helper/_findIndex';
+import { AccountingConfigForm } from './accountingConfig/form/addEditForm';
+import AccountsControlLanding from './accountsControl/landing';
+import ReportRoleManagerCreateForm from './reportRoleExtension/form/addEditForm';
+import UserPassword from './userPassword';
+import ItemStockUpdate from './itemStockUpdate';
 
 export function DomainControllPages() {
   let { userRole } = useSelector((state) => state?.authData, shallowEqual);
 
-  let roleManager = userRole[findIndex(userRole, "User Role Manager")];
+  let roleManager = userRole[findIndex(userRole, 'User Role Manager')];
 
-  let roleExtension = userRole[findIndex(userRole, "User Role Extension")];
-  let businessUnitPermission = userRole[findIndex(userRole, "Business Unit")];
-  let userPermission = userRole[findIndex(userRole, "User")];
-  let userGroupPermission = userRole[findIndex(userRole, "User Group")];
-  let codeGeneratePermission = userRole[findIndex(userRole, "Code Generate")];
-  let approvalSetupPermission = userRole[findIndex(userRole, "Approval Setup")];
+  let roleExtension = userRole[findIndex(userRole, 'User Role Extension')];
+  let businessUnitPermission = userRole[findIndex(userRole, 'Business Unit')];
+  let userPermission = userRole[findIndex(userRole, 'User')];
+  let userGroupPermission = userRole[findIndex(userRole, 'User Group')];
+  let codeGeneratePermission = userRole[findIndex(userRole, 'Code Generate')];
+  let approvalSetupPermission = userRole[findIndex(userRole, 'Approval Setup')];
 
   return (
     <Switch>

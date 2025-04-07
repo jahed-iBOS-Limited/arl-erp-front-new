@@ -1,9 +1,8 @@
-
-import React, { useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { getKpiTargetGridData } from "../../../_redux/Actions";
-import ICustomTable from "../../../../_helper/_customTable";
-import { useHistory } from "react-router";
+import React, { useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { getKpiTargetGridData } from '../../../_redux/Actions';
+import ICustomTable from '../../../../_helper/_customTable';
+import { useHistory } from 'react-router';
 
 export function TableRow() {
   const dispatch = useDispatch();
@@ -34,7 +33,15 @@ export function TableRow() {
     <>
       <div className="kpi-landing sbu-kpi-landing">
         <ICustomTable
-          ths={["SL", "SBU", "Section", "NUMBER OF KPI", "UNIT", "YEAR", "ACTIONS"]}
+          ths={[
+            'SL',
+            'SBU',
+            'Section',
+            'NUMBER OF KPI',
+            'UNIT',
+            'YEAR',
+            'ACTIONS',
+          ]}
         >
           {gridData?.map((item, index) => (
             <tr>

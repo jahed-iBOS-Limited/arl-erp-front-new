@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import SpeechRecognition, {
   useSpeechRecognition,
-} from "react-speech-recognition";
+} from 'react-speech-recognition';
 
 function ReactSpeechRecognition({ setSearchInput, searchHandlerCB }) {
   const [componetRender, setComponetRender] = React.useState(false);
@@ -14,24 +14,24 @@ function ReactSpeechRecognition({ setSearchInput, searchHandlerCB }) {
 
   if (!browserSupportsSpeechRecognition) {
     alert(
-      "Your browser does not support speech recognition software! Try Chrome desktop, maybe?"
+      'Your browser does not support speech recognition software! Try Chrome desktop, maybe?'
     );
     return null;
   }
 
-  console.log(listening , componetRender)
+  console.log(listening, componetRender);
   return (
     <>
-      <div className='microphone d-flex align-items-center mr-6 ml-1'>
+      <div className="microphone d-flex align-items-center mr-6 ml-1">
         <i
-          class='fa fa-microphone pointer'
-          aria-hidden='true'
+          class="fa fa-microphone pointer"
+          aria-hidden="true"
           style={{
-            fontSize: "15px",
-            color: listening && componetRender ? "red" : "",
+            fontSize: '15px',
+            color: listening && componetRender ? 'red' : '',
           }}
           onClick={() => {
-            setSearchInput("")
+            setSearchInput('');
             if (!listening) {
               SpeechRecognition.startListening();
               setComponetRender(true);
@@ -70,7 +70,6 @@ function TranscriptSet({
       resetTranscript();
       searchHandlerCB(transcript);
     }
-
   }, [listening, transcript]);
 
   return <></>;

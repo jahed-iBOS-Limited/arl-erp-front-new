@@ -1,9 +1,8 @@
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import axios from 'axios';
 import {
   getBusinessUnitDDL,
   getCostCenterDDL,
@@ -13,110 +12,110 @@ import {
   getSBUDDL,
   getWorkplaceDDL_api,
   monthDDL,
-} from "./helper";
-import * as Yup from "yup";
-import NewSelect from "../../../../../../_helper/_select";
-import InputField from "../../../../../../_helper/_inputField";
+} from './helper';
+import * as Yup from 'yup';
+import NewSelect from '../../../../../../_helper/_select';
+import InputField from '../../../../../../_helper/_inputField';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../../../../_helper/_formikError";
-import { getDepartmentDDL } from "../../../../employeeInformation/helper";
+} from '../../../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../../../../_helper/_formikError';
+import { getDepartmentDDL } from '../../../../employeeInformation/helper';
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string()
-    .min(1, "Minimum 1 symbol")
-    .max(300, "Maximum 300 symbols")
-    .required("Employee name is required")
-    .typeError("Employee name is required"),
+    .min(1, 'Minimum 1 symbol')
+    .max(300, 'Maximum 300 symbols')
+    .required('Employee name is required')
+    .typeError('Employee name is required'),
   gender: Yup.object()
     .shape({
-      label: Yup.string().required("Gender is required"),
-      value: Yup.string().required("Gender is required"),
+      label: Yup.string().required('Gender is required'),
+      value: Yup.string().required('Gender is required'),
     })
-    .typeError("Gender is required"),
+    .typeError('Gender is required'),
   businessUnit: Yup.object()
     .shape({
-      label: Yup.string().required("Business unit is required"),
-      value: Yup.string().required("Business unit is required"),
+      label: Yup.string().required('Business unit is required'),
+      value: Yup.string().required('Business unit is required'),
     })
-    .typeError("Business unit is required"),
+    .typeError('Business unit is required'),
   SBUName: Yup.object()
     .shape({
-      label: Yup.string().required("SBU name is required"),
-      value: Yup.string().required("SBU name is required"),
+      label: Yup.string().required('SBU name is required'),
+      value: Yup.string().required('SBU name is required'),
     })
-    .typeError("SBU name is required"),
+    .typeError('SBU name is required'),
   functionalDepartment: Yup.object()
     .shape({
-      label: Yup.string().required("Functional department is required"),
-      value: Yup.string().required("Functional department is required"),
+      label: Yup.string().required('Functional department is required'),
+      value: Yup.string().required('Functional department is required'),
     })
-    .typeError("Functional department is required"),
+    .typeError('Functional department is required'),
   designation: Yup.object()
     .shape({
-      label: Yup.string().required("Designation is required"),
-      value: Yup.string().required("Designation is required"),
+      label: Yup.string().required('Designation is required'),
+      value: Yup.string().required('Designation is required'),
     })
-    .typeError("Designation is required"),
+    .typeError('Designation is required'),
   workplace: Yup.object()
     .shape({
-      label: Yup.string().required("Workplace is required"),
-      value: Yup.string().required("Workplace is required"),
+      label: Yup.string().required('Workplace is required'),
+      value: Yup.string().required('Workplace is required'),
     })
-    .typeError("Workplace is required"),
+    .typeError('Workplace is required'),
   employmentType: Yup.object()
     .shape({
-      label: Yup.string().required("Employment type is required"),
-      value: Yup.string().required("Employment type is required"),
+      label: Yup.string().required('Employment type is required'),
+      value: Yup.string().required('Employment type is required'),
     })
-    .typeError("Employment type is required"),
+    .typeError('Employment type is required'),
   employeeStatus: Yup.object()
     .shape({
-      label: Yup.string().required("Employee status is required"),
-      value: Yup.string().required("Employee status is required"),
+      label: Yup.string().required('Employee status is required'),
+      value: Yup.string().required('Employee status is required'),
     })
-    .typeError("Employee status is required"),
+    .typeError('Employee status is required'),
   dateOfJoining: Yup.string()
-    .required("Date of joining is required")
-    .typeError("Date of joining is required"),
+    .required('Date of joining is required')
+    .typeError('Date of joining is required'),
   code: Yup.string()
-    .required("Employee code is required")
-    .typeError("Employee code is required"),
+    .required('Employee code is required')
+    .typeError('Employee code is required'),
   superVisor: Yup.object()
     .shape({
-      label: Yup.string().required("Supervisor is required"),
-      value: Yup.string().required("Supervisor is required"),
+      label: Yup.string().required('Supervisor is required'),
+      value: Yup.string().required('Supervisor is required'),
     })
-    .typeError("Supervisor is required"),
+    .typeError('Supervisor is required'),
   religion: Yup.object()
     .shape({
-      label: Yup.string().required("Religion is required"),
-      value: Yup.string().required("Religion is required"),
+      label: Yup.string().required('Religion is required'),
+      value: Yup.string().required('Religion is required'),
     })
-    .typeError("Religion is required"),
-  effectiveYear: Yup.object().when("designation", {
+    .typeError('Religion is required'),
+  effectiveYear: Yup.object().when('designation', {
     is: false,
     then: Yup.object()
       .shape({
-        value: Yup.string().required("Effected year is required"),
-        label: Yup.string().required("Effected year is required"),
+        value: Yup.string().required('Effected year is required'),
+        label: Yup.string().required('Effected year is required'),
       })
-      .typeError("Effected year is required"),
+      .typeError('Effected year is required'),
   }),
-  effectiveMonth: Yup.object().when("designation", {
+  effectiveMonth: Yup.object().when('designation', {
     is: false,
     then: Yup.object()
       .shape({
-        value: Yup.string().required("Effected month is required"),
-        label: Yup.string().required("Effected month is required"),
+        value: Yup.string().required('Effected month is required'),
+        label: Yup.string().required('Effected month is required'),
       })
-      .typeError("Effected month is required"),
+      .typeError('Effected month is required'),
   }),
 });
 
@@ -189,7 +188,6 @@ export default function FormCmp({
         setWorkplaceDDL
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const loadEmpList = (v) => {
@@ -205,9 +203,9 @@ export default function FormCmp({
   };
 
   const genderDDL = [
-    { value: 1, label: "Male" },
-    { value: 2, label: "Female" },
-    { value: 3, label: "Common" },
+    { value: 1, label: 'Male' },
+    { value: 2, label: 'Female' },
+    { value: 3, label: 'Common' },
   ];
 
   const ddlForEdit = (values) => {
@@ -241,10 +239,10 @@ export default function FormCmp({
           setFieldValue,
           isValid,
         }) => (
-          <div className={!edit ? "editForm" : ""}>
+          <div className={!edit ? 'editForm' : ''}>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Basic Employee Information"}>
+              <CardHeader title={'Basic Employee Information'}>
                 <CardHeaderToolbar>
                   {edit ? (
                     <>
@@ -289,7 +287,7 @@ export default function FormCmp({
                     <div className="col-lg-3 ">
                       <label>Employee Name</label>
                       <InputField
-                        value={values?.firstName || ""}
+                        value={values?.firstName || ''}
                         name="firstName"
                         placeholder="Employee Name"
                         type="text"
@@ -322,7 +320,7 @@ export default function FormCmp({
                         options={genderDDL}
                         value={values?.gender}
                         onChange={(valueOption) => {
-                          setFieldValue("gender", valueOption);
+                          setFieldValue('gender', valueOption);
                         }}
                         label="Gender"
                         placeholder="Gender"
@@ -338,7 +336,7 @@ export default function FormCmp({
                         value={values?.religion}
                         label="Religion"
                         onChange={(valueOption) => {
-                          setFieldValue("religion", valueOption);
+                          setFieldValue('religion', valueOption);
                         }}
                         placeholder="Religion"
                         errors={errors}
@@ -369,7 +367,7 @@ export default function FormCmp({
                     <div className="col-lg-3  mt-1">
                       <label>Date of Joining</label>
                       <InputField
-                        value={values?.dateOfJoining || ""}
+                        value={values?.dateOfJoining || ''}
                         name="dateOfJoining"
                         placeholder="Date of Joining"
                         type="date"
@@ -381,13 +379,13 @@ export default function FormCmp({
                       <NewSelect
                         name="businessUnit"
                         options={businessUnitDDL || []}
-                        value={values?.businessUnit || ""}
+                        value={values?.businessUnit || ''}
                         label="Business Unit"
                         onChange={(valueOption) => {
-                          setFieldValue("costCenter", "");
-                          setFieldValue("SBUName", "");
-                          setFieldValue("employmentType", "");
-                          setFieldValue("businessUnit", valueOption);
+                          setFieldValue('costCenter', '');
+                          setFieldValue('SBUName', '');
+                          setFieldValue('employmentType', '');
+                          setFieldValue('businessUnit', valueOption);
                           businessUnitOnChangeHandler(valueOption?.value);
                           getEmpTypeDDL(
                             profileData?.accountId,
@@ -405,11 +403,11 @@ export default function FormCmp({
                       <NewSelect
                         name="SBUName"
                         options={SBUDDL || []}
-                        value={values?.SBUName || ""}
+                        value={values?.SBUName || ''}
                         label="SBU Name"
                         onChange={(valueOption) => {
-                          setFieldValue("costCenter", "");
-                          setFieldValue("SBUName", valueOption);
+                          setFieldValue('costCenter', '');
+                          setFieldValue('SBUName', valueOption);
                           subOnChangeHandler(valueOption?.value);
                         }}
                         placeholder="SBU Name"
@@ -422,10 +420,10 @@ export default function FormCmp({
                       <NewSelect
                         name="costCenter"
                         options={costCenterDDL || []}
-                        value={values?.costCenter || ""}
+                        value={values?.costCenter || ''}
                         label="Cost Center (Optional)"
                         onChange={(valueOption) => {
-                          setFieldValue("costCenter", valueOption);
+                          setFieldValue('costCenter', valueOption);
                         }}
                         placeholder="Cost Center"
                         errors={errors}
@@ -437,11 +435,11 @@ export default function FormCmp({
                       <NewSelect
                         name="workplace"
                         options={workplaceDDL || []}
-                        value={values?.workplace || ""}
+                        value={values?.workplace || ''}
                         label="Workplace"
                         onChange={(valueOption) => {
-                          console.log("Value option", valueOption);
-                          setFieldValue("workplace", valueOption);
+                          console.log('Value option', valueOption);
+                          setFieldValue('workplace', valueOption);
                         }}
                         placeholder="Workplace"
                         errors={errors}
@@ -456,7 +454,7 @@ export default function FormCmp({
                         value={values?.functionalDepartment}
                         label="Functional Department"
                         onChange={(valueOption) => {
-                          setFieldValue("functionalDepartment", valueOption);
+                          setFieldValue('functionalDepartment', valueOption);
                         }}
                         placeholder="Functional Department"
                         errors={errors}
@@ -483,12 +481,12 @@ export default function FormCmp({
                       <NewSelect
                         name="designation"
                         options={designationDDL || []}
-                        value={values?.designation || ""}
+                        value={values?.designation || ''}
                         label="Designation"
                         onChange={(valueOption) => {
-                          setFieldValue("effectiveYear", "");
-                          setFieldValue("effectiveMonth", "");
-                          setFieldValue("designation", valueOption);
+                          setFieldValue('effectiveYear', '');
+                          setFieldValue('effectiveMonth', '');
+                          setFieldValue('designation', valueOption);
                         }}
                         placeholder="Designation"
                         errors={errors}
@@ -515,7 +513,7 @@ export default function FormCmp({
                       <NewSelect
                         name="employmentType"
                         options={employeeTypeDDL || []}
-                        value={values?.employmentType || ""}
+                        value={values?.employmentType || ''}
                         label="Employment Type"
                         onChange={(valueOption) => {
                           // if current data and database prev data is same , then we will set gross salary and basic salary from database value, which user save previously,
@@ -523,23 +521,23 @@ export default function FormCmp({
                             initData?.employmentType?.label ===
                             valueOption?.label
                           ) {
-                            setFieldValue("grossSalary", initData?.grossSalary);
-                            setFieldValue("basicSalary", initData?.basicSalary);
+                            setFieldValue('grossSalary', initData?.grossSalary);
+                            setFieldValue('basicSalary', initData?.basicSalary);
                           } else {
-                            setFieldValue("grossSalary", "");
-                            setFieldValue("basicSalary", "");
+                            setFieldValue('grossSalary', '');
+                            setFieldValue('basicSalary', '');
                           }
 
                           if (
-                            valueOption?.label !== "Permanent" &&
+                            valueOption?.label !== 'Permanent' &&
                             initData?.employmentType?.label !==
                               valueOption?.label
                           ) {
-                            setFieldValue("grossSalary", 0);
+                            setFieldValue('grossSalary', 0);
                           }
-                          setFieldValue("effectiveYear", "");
-                          setFieldValue("effectiveMonth", "");
-                          setFieldValue("employmentType", valueOption);
+                          setFieldValue('effectiveYear', '');
+                          setFieldValue('effectiveMonth', '');
+                          setFieldValue('employmentType', valueOption);
                         }}
                         placeholder="Employment Type"
                         errors={errors}
@@ -547,11 +545,11 @@ export default function FormCmp({
                         isDisabled={!edit}
                       />
                     </div>
-                    {values?.employmentType?.label === "Permanent" ? (
+                    {values?.employmentType?.label === 'Permanent' ? (
                       <div className="col-lg-3  mt-1">
                         <label>Confirmation Date</label>
                         <InputField
-                          value={values?.confirmationDate || ""}
+                          value={values?.confirmationDate || ''}
                           name="confirmationDate"
                           placeholder="Confirmation Date"
                           type="date"
@@ -559,7 +557,7 @@ export default function FormCmp({
                         />
                       </div>
                     ) : (
-                      ""
+                      ''
                     )}
                     <div className="col-lg-3 mt-1">
                       <label>Supervisor</label>
@@ -569,7 +567,7 @@ export default function FormCmp({
                             selectedValue={values?.superVisor}
                             isSearchIcon={true}
                             handleChange={(valueOption) => {
-                              setFieldValue("superVisor", valueOption);
+                              setFieldValue('superVisor', valueOption);
                             }}
                             loadOptions={loadEmpList}
                             isDisabled={!edit}
@@ -594,8 +592,8 @@ export default function FormCmp({
                           selectedValue={values?.lineManager}
                           isSearchIcon={true}
                           handleChange={(valueOption) => {
-                            setFieldValue("nanagerInfo", valueOption?.code);
-                            setFieldValue("lineManager", valueOption);
+                            setFieldValue('nanagerInfo', valueOption?.code);
+                            setFieldValue('lineManager', valueOption);
                           }}
                           loadOptions={loadEmpList}
                           isDisabled={!edit}
@@ -640,7 +638,7 @@ export default function FormCmp({
                         value={values?.employeeStatus}
                         label="Employee Status"
                         onChange={(valueOption) => {
-                          setFieldValue("employeeStatus", valueOption);
+                          setFieldValue('employeeStatus', valueOption);
                         }}
                         placeholder="Employee Status"
                         errors={errors}
@@ -654,14 +652,14 @@ export default function FormCmp({
                         placeholder="Basic Salary"
                         name="basicSalary"
                         disabled={
-                          values?.employmentType?.label !== "Permanent" ||
+                          values?.employmentType?.label !== 'Permanent' ||
                           !values?.employmentType ||
                           !edit
                         }
                         onChange={(e) => {
-                          setFieldValue("basicSalary", e.target.value);
-                          if (values?.employmentType?.label === "Permanent") {
-                            setFieldValue("grossSalary", e.target.value * 2);
+                          setFieldValue('basicSalary', e.target.value);
+                          if (values?.employmentType?.label === 'Permanent') {
+                            setFieldValue('grossSalary', e.target.value * 2);
                           }
                         }}
                         type="number"
@@ -673,7 +671,7 @@ export default function FormCmp({
                       <InputField
                         placeholder="Gross Salary"
                         disabled={
-                          values?.employmentType?.label === "Permanent" ||
+                          values?.employmentType?.label === 'Permanent' ||
                           !values?.employmentType ||
                           !edit
                         }
@@ -690,7 +688,7 @@ export default function FormCmp({
                             options={monthDDL}
                             value={values?.effectiveMonth}
                             onChange={(valueOption) => {
-                              setFieldValue("effectiveMonth", valueOption);
+                              setFieldValue('effectiveMonth', valueOption);
                             }}
                             label="Effected Month"
                             placeholder="Effected Month"
@@ -705,7 +703,7 @@ export default function FormCmp({
                             options={customYearDDL}
                             value={values?.effectiveYear}
                             onChange={(valueOption) => {
-                              setFieldValue("effectiveYear", valueOption);
+                              setFieldValue('effectiveYear', valueOption);
                             }}
                             label="Effected Year"
                             placeholder="Effected Year"

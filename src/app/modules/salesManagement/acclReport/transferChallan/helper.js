@@ -1,6 +1,5 @@
-import axios from "axios";
-import moment from "moment";
-
+import axios from 'axios';
+import moment from 'moment';
 
 export const GetTransferChallanShipPointToShipPoint = async (
   from,
@@ -15,10 +14,10 @@ export const GetTransferChallanShipPointToShipPoint = async (
   setLoading
 ) => {
   const fromDateTime = moment(`${fromDate} ${fromTime}`).format(
-    "YYYY-MM-DDTHH:mm:ss"
+    'YYYY-MM-DDTHH:mm:ss'
   );
   const toDateTime = moment(`${toDate} ${toTime}`).format(
-    "YYYY-MM-DDTHH:mm:ss"
+    'YYYY-MM-DDTHH:mm:ss'
   );
   setLoading(true);
   try {

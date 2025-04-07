@@ -1,4 +1,3 @@
-
 import Axios from 'axios';
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
@@ -13,7 +12,7 @@ import IDelete from '../../../../../../_helper/_helperIcons/_delete';
 import { getDownlloadFileView_Action } from '../../../../../../_helper/_redux/Actions';
 import NewSelect from '../../../../../../_helper/_select';
 import { _todayDate } from '../../../../../../_helper/_todayDate';
-import { empAttachment_action } from "../../../../../../_helper/attachmentUpload";
+import { empAttachment_action } from '../../../../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../../../../_helper/customHooks/useAxiosGet';
 import InputField from './../../../../../../_helper/_inputField';
 import { getSalesTerrioryDDLAction } from './_redux/Actions';
@@ -22,7 +21,6 @@ import {
   getBranchNameDDL_api,
   getBusinessPartnerBasicinfoAction,
 } from './helper';
-
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
@@ -136,7 +134,11 @@ export default function FormCmp({
   const [parnerBasicInfo, setParnerBasicInfo] = useState('');
 
   // api action
-  const [creditLimitApprovalData, getCreaditLimitApprovalData, getCreaditLimitApprovalDataLoading] = useAxiosGet()
+  const [
+    creditLimitApprovalData,
+    getCreaditLimitApprovalData,
+    getCreaditLimitApprovalDataLoading,
+  ] = useAxiosGet();
 
   // Credit Limit File Attachment
   const [fileObjects, setFileObjects] = useState([]);
@@ -164,20 +166,20 @@ export default function FormCmp({
         profileData?.accountId,
         selectedBusinessUnit?.value,
         id,
-        setParnerBasicInfo,
+        setParnerBasicInfo
       );
     }
 
     // getCreaditLimitApprovalData
     getCreaditLimitApprovalData(`/oms/TerritoryInfo/GetCreditLimitApprovalUser?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&userId=${profileData?.userId}
-`)
+`);
   }, [profileData, selectedBusinessUnit, id]);
 
   const getMortageTypeDDL = async () => {
     try {
       const res = await Axios.get(`/fino/FinanceCommonDDL/GetMortageTypeDDL`);
       setMortageTypeDDL(res.data);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const ReceivebleGLDDLConditionFunc = (salesOrgId, setFieldValue) => {
@@ -215,14 +217,14 @@ export default function FormCmp({
     ) {
       ReceivebleGLDDLConditionFunc(product?.salesOrganaization?.value, null);
     }
-
   }, [profileData, selectedBusinessUnit, id, product]);
 
   // is loading
-  const isLoading = getCreaditLimitApprovalDataLoading
+  const isLoading = getCreaditLimitApprovalDataLoading;
 
   // has permission to access credit limit approval
-  const hasPermissionOfCreditLimitApproval = creditLimitApprovalData?.permission
+  const hasPermissionOfCreditLimitApproval =
+    creditLimitApprovalData?.permission;
 
   return (
     <>
@@ -301,7 +303,7 @@ export default function FormCmp({
                           setFieldValue('salesOrganaization', valueOption);
                           ReceivebleGLDDLConditionFunc(
                             valueOption?.value,
-                            setFieldValue,
+                            setFieldValue
                           );
                         }}
                         placeholder="Sales Organaization"
@@ -323,8 +325,8 @@ export default function FormCmp({
                             getSalesTerrioryDDLAction(
                               profileData.accountId,
                               selectedBusinessUnit.value,
-                              valueOption?.value,
-                            ),
+                              valueOption?.value
+                            )
                           );
                         }}
                         placeholder="Distribution Channel"
@@ -502,7 +504,7 @@ export default function FormCmp({
                           onChange={(e) => {
                             setFieldValue(
                               'isTaxOnDeliveryAmount',
-                              e.target.checked,
+                              e.target.checked
                             );
                           }}
                           name="isTaxOnDeliveryAmount"
@@ -525,7 +527,7 @@ export default function FormCmp({
                           onChange={(e) => {
                             setFieldValue(
                               'priceIncludingTax',
-                              e.target.checked,
+                              e.target.checked
                             );
                           }}
                           name="priceIncludingTax"
@@ -710,15 +712,15 @@ export default function FormCmp({
                             onChange={() => {
                               setFieldValue(
                                 'shipToParner',
-                                parnerBasicInfo[0]?.businessPartnerName,
+                                parnerBasicInfo[0]?.businessPartnerName
                               );
                               setFieldValue(
                                 'address',
-                                parnerBasicInfo[0]?.businessPartnerAddress,
+                                parnerBasicInfo[0]?.businessPartnerAddress
                               );
                               setFieldValue(
                                 'contact',
-                                parnerBasicInfo[0]?.contactNumber,
+                                parnerBasicInfo[0]?.contactNumber
                               );
                             }}
                             name="shippingAddress"
@@ -748,7 +750,7 @@ export default function FormCmp({
                             onChange={(e) => {
                               setFieldValue(
                                 'isCodeShowInChallan',
-                                e.target.checked,
+                                e.target.checked
                               );
                             }}
                             name="isCodeShowInChallan"
@@ -811,13 +813,14 @@ export default function FormCmp({
                                 </td>
                                 <td>
                                   <input
-                                    style={{ width: "30px" }}
-                                    value={itm?.distanceKm || ""}
+                                    style={{ width: '30px' }}
+                                    value={itm?.distanceKm || ''}
                                     type="number"
                                     onChange={(e) => {
                                       const modifiedData = [...rowDto];
-                                      modifiedData[idx]["distanceKm"] = +e.target.value;
-                                      setRowDto(modifiedData)
+                                      modifiedData[idx]['distanceKm'] =
+                                        +e.target.value;
+                                      setRowDto(modifiedData);
                                     }}
                                   />
                                 </td>
@@ -833,7 +836,7 @@ export default function FormCmp({
                                       onChange={(e) => {
                                         itemSlectedHandler(
                                           e.target.checked,
-                                          idx,
+                                          idx
                                         );
                                       }}
                                     />
@@ -849,7 +852,7 @@ export default function FormCmp({
                                     onClick={() =>
                                       remover(
                                         itm?.shipPointId,
-                                        itm?.isDefaultShippoint,
+                                        itm?.isDefaultShippoint
                                       )
                                     }
                                   ></i>
@@ -927,7 +930,7 @@ export default function FormCmp({
                                       onChange={(e) => {
                                         itemSlectedHandlerTwo(
                                           e.target.checked,
-                                          idx,
+                                          idx
                                         );
                                       }}
                                     />
@@ -944,9 +947,10 @@ export default function FormCmp({
                                           return prevState.map((item, index) =>
                                             index === idx
                                               ? {
-                                                ...item,
-                                                isCodeShowInChallan: !itm?.isCodeShowInChallan,
-                                              }
+                                                  ...item,
+                                                  isCodeShowInChallan:
+                                                    !itm?.isCodeShowInChallan,
+                                                }
                                               : item
                                           );
                                         });
@@ -1035,7 +1039,7 @@ export default function FormCmp({
                           getBranchNameDDL_api(
                             valueOption?.value,
                             18, // Hardcode for BD
-                            setBranchNameDDL,
+                            setBranchNameDDL
                           );
                         }}
                         placeholder="Bank Name"
@@ -1205,7 +1209,7 @@ export default function FormCmp({
                   </div>
                 </div>
 
-                {hasPermissionOfCreditLimitApproval ?
+                {hasPermissionOfCreditLimitApproval ? (
                   <div className="col-lg-12 p-0">
                     <div className="row">
                       <div className="col-lg-4">
@@ -1223,7 +1227,7 @@ export default function FormCmp({
                               onChange={(e) => {
                                 if (values.daysLimitBtnDisabled) {
                                   return toast.warning(
-                                    'Firstly delete the credit limit row then click save button  finally change from credit limit to days limit',
+                                    'Firstly delete the credit limit row then click save button  finally change from credit limit to days limit'
                                   );
                                 }
                                 setFieldValue('limitType', 'dayesLimit');
@@ -1232,7 +1236,7 @@ export default function FormCmp({
                                 setFieldValue('numberOfDays', '');
                                 setCreditRowDto([]);
                               }}
-                            // disabled={values.daysLimitBtnDisabled}
+                              // disabled={values.daysLimitBtnDisabled}
                             />
                             Days Limit
                           </label>
@@ -1245,7 +1249,7 @@ export default function FormCmp({
                               onChange={(e) => {
                                 if (values.daysLimitBtnDisabled) {
                                   return toast.warning(
-                                    'Firstly delete the credit limit row then click save button  finally change from credit limit to days limit',
+                                    'Firstly delete the credit limit row then click save button  finally change from credit limit to days limit'
                                   );
                                 }
                                 if (
@@ -1279,78 +1283,80 @@ export default function FormCmp({
                         </div>
                       </div>
                     </div>
-                    {(values.limitType === "dayesLimit" ||
-                      values.limitType === "both") && (
-                        <div className="row global-form">
-                          <div className="col-lg-3">
-                            <label>Number Of Days</label>
-                            <InputField
-                              value={values?.numberOfDays}
-                              name="numberOfDays"
-                              placeholder="Number Of Days"
-                              type="number"
-                              min={0}
-                              onChange={(e) => {
-                                setFieldValue("numberOfDays", e.target.value);
-                                const currentValues = {
-                                  ...values,
-                                  numberOfDays: +e.target.value,
-                                };
-                                numberOfDaysChangeHandler(currentValues);
+                    {(values.limitType === 'dayesLimit' ||
+                      values.limitType === 'both') && (
+                      <div className="row global-form">
+                        <div className="col-lg-3">
+                          <label>Number Of Days</label>
+                          <InputField
+                            value={values?.numberOfDays}
+                            name="numberOfDays"
+                            placeholder="Number Of Days"
+                            type="number"
+                            min={0}
+                            onChange={(e) => {
+                              setFieldValue('numberOfDays', e.target.value);
+                              const currentValues = {
+                                ...values,
+                                numberOfDays: +e.target.value,
+                              };
+                              numberOfDaysChangeHandler(currentValues);
 
-                                if (e?.target?.value > 0) {
-                                  const toDate = new Date();
-                                  toDate.setDate(
-                                    toDate.getDate() + +e?.target?.value - 1
-                                  );
-                                  setFieldValue("creditValidFrom", _todayDate());
-                                  setFieldValue(
-                                    "creditValidTo",
-                                    _dateFormatter(toDate)
-                                  );
-                                } else {
-                                  setFieldValue("creditValidFrom", "");
-                                  setFieldValue("creditValidTo", "");
-                                }
-                              }}
-                            />
-                          </div>
-                          <div className="col-lg-3">
-                            <label>Credit Limit</label>
-                            <InputField
-                              value={values?.daysCreditLimitAmount}
-                              name="daysCreditLimitAmount"
-                              placeholder="Credit Limit"
-                              min="0"
-                              type="number"
-                              onChange={(e) => {
-                                setFieldValue(
-                                  "daysCreditLimitAmount",
-                                  e.target.value
+                              if (e?.target?.value > 0) {
+                                const toDate = new Date();
+                                toDate.setDate(
+                                  toDate.getDate() + +e?.target?.value - 1
                                 );
-                                const curentVaues = {
-                                  ...values,
-                                  daysCreditLimitAmount: +e.target.value,
-                                };
-                                numberOfDaysChangeHandler(curentVaues);
-                              }}
-                            />
-                          </div>
+                                setFieldValue('creditValidFrom', _todayDate());
+                                setFieldValue(
+                                  'creditValidTo',
+                                  _dateFormatter(toDate)
+                                );
+                              } else {
+                                setFieldValue('creditValidFrom', '');
+                                setFieldValue('creditValidTo', '');
+                              }
+                            }}
+                          />
                         </div>
-                      )}
+                        <div className="col-lg-3">
+                          <label>Credit Limit</label>
+                          <InputField
+                            value={values?.daysCreditLimitAmount}
+                            name="daysCreditLimitAmount"
+                            placeholder="Credit Limit"
+                            min="0"
+                            type="number"
+                            onChange={(e) => {
+                              setFieldValue(
+                                'daysCreditLimitAmount',
+                                e.target.value
+                              );
+                              const curentVaues = {
+                                ...values,
+                                daysCreditLimitAmount: +e.target.value,
+                              };
+                              numberOfDaysChangeHandler(curentVaues);
+                            }}
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
+                ) : (
+                  <></>
+                )}
 
-                  : <></>}
-
-                {hasPermissionOfCreditLimitApproval && (values.limitType === "creditLimit" ||
-                  values.limitType === "both") && (
+                {hasPermissionOfCreditLimitApproval &&
+                  (values.limitType === 'creditLimit' ||
+                    values.limitType === 'both') && (
                     <div className="col-lg-12 p-0">
                       <h6
                         style={{
-                          textAlign: "center",
-                          fontSize: "10.5px",
-                          fontWeight: "600",
-                          margin: "5px 0 3px 0",
+                          textAlign: 'center',
+                          fontSize: '10.5px',
+                          fontWeight: '600',
+                          margin: '5px 0 3px 0',
                         }}
                       >
                         Set Credit Limit(Optional)
@@ -1358,7 +1364,7 @@ export default function FormCmp({
                       <div className="row global-form mt-0">
                         <div className="col-12">
                           <h6>
-                            In word (credit limit):{" "}
+                            In word (credit limit):{' '}
                             {toWords.convert(values?.creditLimitAmount || 0)}
                           </h6>
                         </div>
@@ -1371,7 +1377,10 @@ export default function FormCmp({
                             min="0"
                             type="number"
                             onChange={(e) => {
-                              setFieldValue("creditLimitAmount", e.target.value);
+                              setFieldValue(
+                                'creditLimitAmount',
+                                e.target.value
+                              );
                             }}
                           />
                         </div>
@@ -1384,7 +1393,7 @@ export default function FormCmp({
                             placeholder="Valid From Date"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("creditValidFrom", e.target.value);
+                              setFieldValue('creditValidFrom', e.target.value);
                             }}
                           />
                         </div>
@@ -1397,7 +1406,7 @@ export default function FormCmp({
                             placeholder="Valid To Date"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("creditValidTo", e.target.value);
+                              setFieldValue('creditValidTo', e.target.value);
                             }}
                           />
                         </div>
@@ -1407,18 +1416,18 @@ export default function FormCmp({
                             name="limitStatus"
                             options={[
                               {
-                                value: "Short Time",
-                                label: "Short Time",
+                                value: 'Short Time',
+                                label: 'Short Time',
                               },
                               {
-                                value: "Life Time",
-                                label: "Life Time",
+                                value: 'Life Time',
+                                label: 'Life Time',
                               },
                             ]}
                             value={values?.limitStatus}
                             label="Limit Status"
                             onChange={(valueOption) => {
-                              setFieldValue("limitStatus", valueOption);
+                              setFieldValue('limitStatus', valueOption);
                             }}
                             placeholder="Limit Status"
                             errors={errors}
@@ -1428,16 +1437,16 @@ export default function FormCmp({
                         <div className="col mt-0 d-flex align-items-center justify-content-end">
                           <span
                             style={{
-                              cursor: "pointer",
-                              border: "1px solid",
+                              cursor: 'pointer',
+                              border: '1px solid',
                             }}
                             className="mr-4"
                             onClick={() => setOpen(true)}
                           >
                             <i
                               style={{
-                                color: "#1F2937",
-                                fontSize: "20px",
+                                color: '#1F2937',
+                                fontSize: '20px',
                               }}
                               class="fa fa-upload"
                               aria-hidden="true"
@@ -1445,7 +1454,7 @@ export default function FormCmp({
                           </span>
 
                           <button
-                            style={{ padding: "5px" }}
+                            style={{ padding: '5px' }}
                             onClick={() => {
                               let obj = {
                                 creditLimit: +values?.creditLimitAmount,
@@ -1459,10 +1468,12 @@ export default function FormCmp({
 
                               if (fileObjects?.length > 0) {
                                 // attachmentLink add
-                                empAttachment_action(fileObjects).then((data) => {
-                                  obj["uploadFile"] = data[0]?.id || "";
-                                  setFileObjects([]);
-                                });
+                                empAttachment_action(fileObjects).then(
+                                  (data) => {
+                                    obj['uploadFile'] = data[0]?.id || '';
+                                    setFileObjects([]);
+                                  }
+                                );
                               }
                               creditLimitSetter(obj);
                             }}
@@ -1491,7 +1502,7 @@ export default function FormCmp({
                                 <thead>
                                   <tr>
                                     <th>SL</th>
-                                    <th style={{ width: "120px" }}>
+                                    <th style={{ width: '120px' }}>
                                       Credit Limit
                                     </th>
                                     <th>Valid From</th>
@@ -1509,7 +1520,7 @@ export default function FormCmp({
                                           <td className="text-center">
                                             {idx + 1}
                                           </td>
-                                          <td style={{ width: "60px" }}>
+                                          <td style={{ width: '60px' }}>
                                             <InputField
                                               value={itm?.creditLimit}
                                               name="names"
@@ -1558,7 +1569,7 @@ export default function FormCmp({
                                                     <i class="fas fa-eye"></i>
                                                   </span>
                                                 ) : (
-                                                  "-"
+                                                  '-'
                                                 )}
                                               </div>
                                             </div>
@@ -1577,7 +1588,7 @@ export default function FormCmp({
                               </table>
                             </div>
                           ) : (
-                            ""
+                            ''
                           )}
                         </div>
                       </div>
@@ -1599,7 +1610,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

@@ -90,13 +90,13 @@ export default function LoanCreate({ singleData }) {
             });
             formikRef.current.setFieldValue(
               'principle',
-              +singleData?.monAmount || '',
+              +singleData?.monAmount || ''
             );
             formikRef.current.setFieldValue(
               'remarks',
               res?.strLcnumber
                 ? `${res?.strPonumber}, LC No- ${res?.strLcnumber}, ${res?.strShipmentNo}`
-                : '',
+                : ''
             );
           }
 
@@ -105,7 +105,7 @@ export default function LoanCreate({ singleData }) {
             selectedBusinessUnit?.value,
             res?.bankId,
             setAccountDDL,
-            setLoading,
+            setLoading
           );
           getFacilityDLL(
             selectedBusinessUnit?.value,
@@ -113,18 +113,15 @@ export default function LoanCreate({ singleData }) {
             (resData) => {
               setFacilityDDL(resData);
             },
-            setLoading,
+            setLoading
           );
-        },
+        }
       );
     }
-
   }, [singleData]);
 
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
-
-
   }, []);
 
   const saveHandler = (values, cb) => {
@@ -207,7 +204,7 @@ export default function LoanCreate({ singleData }) {
                         selectedBusinessUnit?.value,
                         valueOption?.value,
                         setAccountDDL,
-                        setLoading,
+                        setLoading
                       );
                       getFacilityDLL(
                         selectedBusinessUnit?.value,
@@ -215,7 +212,7 @@ export default function LoanCreate({ singleData }) {
                         (resData) => {
                           setFacilityDDL(resData);
                         },
-                        setLoading,
+                        setLoading
                       );
                     }}
                     errors={errors}
@@ -251,7 +248,7 @@ export default function LoanCreate({ singleData }) {
                       setFieldValue('facility', valueOption);
                       setFieldValue(
                         'facilityRemarks',
-                        valueOption?.remarks || '',
+                        valueOption?.remarks || ''
                       );
                     }}
                     errors={errors}

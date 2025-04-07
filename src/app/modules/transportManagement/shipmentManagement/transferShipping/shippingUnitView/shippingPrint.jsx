@@ -1,26 +1,26 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Axios from "axios";
-import ICard from "../../../../_helper/_card";
-import ICustomTable from "../../../../_helper/_customTable";
-import isDate from "lodash/isDate";
-import Loading from "../../../../_helper/_loading";
+import React, { useEffect, useState, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Axios from 'axios';
+import ICard from '../../../../_helper/_card';
+import ICustomTable from '../../../../_helper/_customTable';
+import isDate from 'lodash/isDate';
+import Loading from '../../../../_helper/_loading';
 const ths = [
-  "Ship To Party",
-  "Address",
-  "Challan No",
-  "Sales Order No",
-  "Item Code",
-  "Product Name",
-  "UoM Name",
-  "Qty",
+  'Ship To Party',
+  'Address',
+  'Challan No',
+  'Sales Order No',
+  'Item Code',
+  'Product Name',
+  'UoM Name',
+  'Qty',
   // "Amount",
 ];
 
 export default function ShippingPrint({ id, shipmentCode, state }) {
   const [loading, setLoading] = useState(false);
   const printRef = useRef();
-  const [shippingPrint, setSingleShippingPrintInfo] = useState("");
+  const [shippingPrint, setSingleShippingPrintInfo] = useState('');
   let storeData = useSelector(
     (state) => {
       return {
@@ -36,13 +36,13 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
       const date = new Date(param);
       if (isDate(date)) {
         const year = date.getFullYear();
-        const month = `${date.getMonth() + 1}`.padStart(2, "0");
-        const day = `${date.getDate()}`.padStart(2, "0");
-        return [day, month, year].join("-");
+        const month = `${date.getMonth() + 1}`.padStart(2, '0');
+        const day = `${date.getDate()}`.padStart(2, '0');
+        return [day, month, year].join('-');
       }
-      return "";
+      return '';
     } else {
-      return "";
+      return '';
     }
   };
 
@@ -77,13 +77,13 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
         isShowPrintBtn={true}
         componentRef={printRef}
         pageStyle={
-          "@media print{body { -webkit-print-color-adjust: exact;padding: 0 50px!important; }@page {size: portrait ! important}}"
+          '@media print{body { -webkit-print-color-adjust: exact;padding: 0 50px!important; }@page {size: portrait ! important}}'
         }
       >
         <div ref={printRef}>
           <div
             className="mx-auto print_wrapper-shipping"
-            style={{ color: "#000" }}
+            style={{ color: '#000' }}
           >
             {loading && <Loading />}
             <div>
@@ -91,8 +91,8 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
                 <h3> Shipping Note </h3>
                 <h4 className="display-5"> {selectedBusinessUnit?.label} </h4>
                 <h6 className="display-5">
-                  {" "}
-                  {shippingPrint?.objHeader?.shipPointAddress}{" "}
+                  {' '}
+                  {shippingPrint?.objHeader?.shipPointAddress}{' '}
                 </h6>
               </div>
               <div className="d-flex justify-content-between my-5">
@@ -109,7 +109,7 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
 
                   <br />
                   <b>
-                    Driver Contact:{" "}
+                    Driver Contact:{' '}
                     {`${shippingPrint?.objHeader?.driverContact}`}
                   </b>
 
@@ -118,45 +118,51 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
                     Item Volume: {`${shippingPrint?.objHeader?.totalVolume}`}
                   </b> */}
                   <b>
-                    Product Gross Weight:{" "}
+                    Product Gross Weight:{' '}
                     {`${shippingPrint?.objHeader?.totalGrossWeight}`}
                   </b>
 
                   <br />
                   <b>
-                    Partner Reference:{" "}
-                    {`${shippingPrint?.objHeader?.soReferenceNo || ""}`}
+                    Partner Reference:{' '}
+                    {`${shippingPrint?.objHeader?.soReferenceNo || ''}`}
                   </b>
 
                   <br />
                   <b>
-                    Pricing Date:{" "}
-                    {`${_dateFormatter(shippingPrint?.objHeader?.pricingDate) ||
-                      ""}`}
+                    Pricing Date:{' '}
+                    {`${
+                      _dateFormatter(shippingPrint?.objHeader?.pricingDate) ||
+                      ''
+                    }`}
                   </b>
                 </div>
                 <div>
                   <b>
-                    Delivery Date:{" "}
-                    {_dateFormatter(shippingPrint?.objHeader?.shipmentDate)}{" "}
-                  </b>{" "}
+                    Delivery Date:{' '}
+                    {_dateFormatter(
+                      shippingPrint?.objHeader?.shipmentDate
+                    )}{' '}
+                  </b>{' '}
                   <br />
                   <b>
                     Vehicle Name: {shippingPrint?.objHeader?.strVehicleName}
                   </b>
                   <br />
                   <b>
-                    Vehicle Owner Name:{" "}
+                    Vehicle Owner Name:{' '}
                     {shippingPrint?.objHeader?.ownerTypeName}
-                  </b>{" "}
+                  </b>{' '}
                   {/* <b>
                     Vehicle Volume:{" "}
                     {shippingPrint?.objHeader?.unloadVehicleVolume}
                   </b> */}
                   <br />
                   <b>
-                    Vehicle Weight (Kg):{" "}
-                    {shippingPrint?.objHeader?.vehicleEntryId ? shippingPrint?.objHeader?.netWeight : shippingPrint?.objHeader?.unloadVehicleWeight}
+                    Vehicle Weight (Kg):{' '}
+                    {shippingPrint?.objHeader?.vehicleEntryId
+                      ? shippingPrint?.objHeader?.netWeight
+                      : shippingPrint?.objHeader?.unloadVehicleWeight}
                   </b>
                   {/* <b>
                     Total Net Weight:{" "}
@@ -164,9 +170,10 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
                   </b> */}
                   <br />
                   <b>
-                    Contact Info:{" "}
-                    {`${shippingPrint?.objHeader?.shipToPartnerContactNo ||
-                      ""}`}
+                    Contact Info:{' '}
+                    {`${
+                      shippingPrint?.objHeader?.shipToPartnerContactNo || ''
+                    }`}
                   </b>
                 </div>
               </div>
@@ -204,20 +211,20 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
             </div>
             <div
               className="d-flex justify-content-between"
-              style={{ margin: "70px 0 0" }}
+              style={{ margin: '70px 0 0' }}
             >
               <div>
-                <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                   Authority Signature
                 </b>
               </div>
               <div>
-                <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                   Driver Signature
                 </b>
               </div>
               <div>
-                <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                   Customer Signature
                 </b>
               </div>

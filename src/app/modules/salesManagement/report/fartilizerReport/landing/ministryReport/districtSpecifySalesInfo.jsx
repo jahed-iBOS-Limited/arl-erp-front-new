@@ -1,5 +1,5 @@
-import React from "react";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
+import React from 'react';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
 
 export default function DistrictSpecifySalesInfoTable({ rowData }) {
   let totalSoldQty = 0;
@@ -12,7 +12,7 @@ export default function DistrictSpecifySalesInfoTable({ rowData }) {
         <table className="table table-striped table-bordered global-table table-font-size-sm">
           <thead>
             <tr>
-              <th style={{ width: "30px" }}>SL</th>
+              <th style={{ width: '30px' }}>SL</th>
               <th>Fertilizer Name</th>
               <th>LC No</th>
               <th>Date</th>
@@ -35,7 +35,7 @@ export default function DistrictSpecifySalesInfoTable({ rowData }) {
                   <td>{item?.strDistrictName}</td>
                   <td className="text-right">{item?.soldQty}</td>
                 </tr>
-              )
+              );
             })}
             <tr>
               <td className="text-right" colSpan={5}>

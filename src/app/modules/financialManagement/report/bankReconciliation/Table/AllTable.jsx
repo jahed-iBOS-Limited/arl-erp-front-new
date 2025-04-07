@@ -1,17 +1,17 @@
-import React from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import Total from "./Total";
+import React from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import Total from './Total';
 
 const ths = [
-  "Voucher Code",
-  "Type",
-  "Issue Date",
-  "Ref No",
-  "Particulars",
-  "Amount",
+  'Voucher Code',
+  'Type',
+  'Issue Date',
+  'Ref No',
+  'Particulars',
+  'Amount',
 ];
 
 // const getTotal = arr => {
@@ -27,7 +27,7 @@ const AllTable = ({ report, values }) => {
             <td
               colSpan="6"
               className="text-left"
-              style={{ fontSize: "15px", fontWeight: "bold" }}
+              style={{ fontSize: '15px', fontWeight: 'bold' }}
             >
               1.Add: Cheque issued but not presented in bank
             </td>
@@ -56,7 +56,7 @@ const AllTable = ({ report, values }) => {
             <td
               colSpan="6"
               className="text-left"
-              style={{ fontSize: "15px", fontWeight: "bold" }}
+              style={{ fontSize: '15px', fontWeight: 'bold' }}
             >
               2.Less: Amount debited in bank book but not credited in bank
               statement
@@ -89,7 +89,7 @@ const AllTable = ({ report, values }) => {
             <td
               colSpan="6"
               className="text-left"
-              style={{ fontSize: "15px", fontWeight: "bold" }}
+              style={{ fontSize: '15px', fontWeight: 'bold' }}
             >
               3.Add: Amount credited in bank statement but not yet debited in
               bank book
@@ -126,7 +126,7 @@ const AllTable = ({ report, values }) => {
             <td
               colSpan="6"
               className="text-left"
-              style={{ fontSize: "15px", fontWeight: "bold" }}
+              style={{ fontSize: '15px', fontWeight: 'bold' }}
             >
               4.Less: Amount debited in bank statement but not yet credited in
               bank book
@@ -164,9 +164,10 @@ const AllTable = ({ report, values }) => {
             <td
               colSpan="6"
               className="text-left"
-              style={{ fontSize: "15px", fontWeight: "bold" }}
+              style={{ fontSize: '15px', fontWeight: 'bold' }}
             >
-              5.Less: Amount Adjusted in bank statement but not yet credited in bank book
+              5.Less: Amount Adjusted in bank statement but not yet credited in
+              bank book
             </td>
           </tr>
         )}
@@ -176,7 +177,6 @@ const AllTable = ({ report, values }) => {
             <td className="text-left">{item?.strType}</td>
             <td className="text-center">
               {item?.strIssuDate && _dateFormatter(item?.strIssuDate)}
-           
             </td>
             <td className="text-center">{item?.strChequeNo}</td>
             <td className="text-left">{item?.strParty}</td>
@@ -203,7 +203,7 @@ const AllTable = ({ report, values }) => {
             <td
               colSpan="6"
               className="text-left"
-              style={{ fontSize: "15px", fontWeight: "bold" }}
+              style={{ fontSize: '15px', fontWeight: 'bold' }}
             >
               Balance Of Bank Book
             </td>
@@ -231,7 +231,7 @@ const AllTable = ({ report, values }) => {
               report?.typeTwoTotal +
               report?.typeThreeTotal +
               report?.typeFourTotal +
-              report?.typeFiveTotal+
+              report?.typeFiveTotal +
               report?.typeBalanceOfBankBookTotal
             }
           />
@@ -240,21 +240,21 @@ const AllTable = ({ report, values }) => {
         <tr>
           <td colSpan="4" className="text-right">
             <span
-              style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+              style={{ fontSize: '15px', fontWeight: 'bold', color: 'red' }}
             >
               Aggregated Bank Statement Closing
             </span>
           </td>
           <td className="text-right">
             <span
-              style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+              style={{ fontSize: '15px', fontWeight: 'bold', color: 'red' }}
             >
-              {"As On " + values?.date}
+              {'As On ' + values?.date}
             </span>
           </td>
           <td className="text-right">
             <span
-              style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+              style={{ fontSize: '15px', fontWeight: 'bold', color: 'red' }}
             >
               {numberWithCommas(
                 (
@@ -262,7 +262,7 @@ const AllTable = ({ report, values }) => {
                     report?.typeTwoTotal +
                     report?.typeThreeTotal +
                     report?.typeFourTotal +
-                    report?.typeFiveTotal+
+                    report?.typeFiveTotal +
                     report?.typeBalanceOfBankBookTotal || 0
                 ).toFixed(2)
               )}
@@ -272,21 +272,21 @@ const AllTable = ({ report, values }) => {
         <tr>
           <td colSpan="5" className="text-right">
             <span
-              style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+              style={{ fontSize: '15px', fontWeight: 'bold', color: 'red' }}
             >
               Difference
             </span>
           </td>
           <td className="text-right">
             <span
-              style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+              style={{ fontSize: '15px', fontWeight: 'bold', color: 'red' }}
             >
               {console.log(
                 report?.typeOneTotal +
                   report?.typeTwoTotal +
                   report?.typeThreeTotal +
                   report?.typeFourTotal +
-                  report?.typeFiveTotal+
+                  report?.typeFiveTotal +
                   report?.typeBalanceOfBankBookTotal -
                   report?.bankStatementClosing
               )}
@@ -297,7 +297,7 @@ const AllTable = ({ report, values }) => {
                     report?.typeTwoTotal +
                     report?.typeThreeTotal +
                     report?.typeFourTotal +
-                    report?.typeFiveTotal+
+                    report?.typeFiveTotal +
                     report?.typeBalanceOfBankBookTotal
                   ).toFixed(2)
                 ) - Number(report?.bankStatementClosing.toFixed(2))
@@ -308,21 +308,21 @@ const AllTable = ({ report, values }) => {
         <tr>
           <td colSpan="4" className="text-right">
             <span
-              style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+              style={{ fontSize: '15px', fontWeight: 'bold', color: 'red' }}
             >
               Actual Bank Statement Closing
             </span>
           </td>
           <td className="text-right">
             <span
-              style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+              style={{ fontSize: '15px', fontWeight: 'bold', color: 'red' }}
             >
-              {"As On " + values?.date}
+              {'As On ' + values?.date}
             </span>
           </td>
           <td className="text-right">
             <span
-              style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+              style={{ fontSize: '15px', fontWeight: 'bold', color: 'red' }}
             >
               {numberWithCommas((report?.bankStatementClosing).toFixed(2))}
             </span>

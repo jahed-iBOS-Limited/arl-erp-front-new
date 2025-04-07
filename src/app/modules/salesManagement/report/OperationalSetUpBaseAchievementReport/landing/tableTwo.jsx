@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IViewModal from "../../../../_helper/_viewModal";
-import RevenueVariance from "./revenueVariance";
+import React, { useState } from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IViewModal from '../../../../_helper/_viewModal';
+import RevenueVariance from './revenueVariance';
 
 export default function TableTwo({ obj }) {
   const { rowDto, printRef, values } = obj;
@@ -26,25 +26,25 @@ export default function TableTwo({ obj }) {
       >
         <thead>
           <tr>
-            <th style={{ width: "30px" }}>SL</th>
+            <th style={{ width: '30px' }}>SL</th>
             {[2].includes(values?.reportType?.value) ? (
-              <th style={{ width: "140px" }}>Territory</th>
+              <th style={{ width: '140px' }}>Territory</th>
             ) : null}
-            <th style={{ width: "80px" }}>Employee</th>
-            <th style={{ width: "60px" }}>Target Qty</th>
-            <th style={{ width: "80px" }}>One Day Qty</th>
-            <th style={{ width: "80px" }}>Monthly Qty</th>
-            <th style={{ width: "80px" }}>Revenue (TK.)</th>
-            <th style={{ width: "80px" }}>Monthly Achievement</th>
-            <th style={{ width: "80px" }}>Monthly Collection Amount (TK.)</th>
-            <th style={{ width: "80px" }}>Total Revenue Target (TK.)</th>
-            <th style={{ width: "80px" }}>95% TRT (TK.)</th>
-            <th style={{ width: "80px" }}>Credit Realization</th>
-            <th style={{ width: "80px" }}>Sales Growth</th>
-            <th style={{ width: "80px" }}>Total Visited Customer</th>
-            <th style={{ width: "80px" }}>Total New Customer</th>
-            <th style={{ width: "80px" }}>Salesforce Enroll</th>
-            <th style={{ width: "100px" }}>Action</th>
+            <th style={{ width: '80px' }}>Employee</th>
+            <th style={{ width: '60px' }}>Target Qty</th>
+            <th style={{ width: '80px' }}>One Day Qty</th>
+            <th style={{ width: '80px' }}>Monthly Qty</th>
+            <th style={{ width: '80px' }}>Revenue (TK.)</th>
+            <th style={{ width: '80px' }}>Monthly Achievement</th>
+            <th style={{ width: '80px' }}>Monthly Collection Amount (TK.)</th>
+            <th style={{ width: '80px' }}>Total Revenue Target (TK.)</th>
+            <th style={{ width: '80px' }}>95% TRT (TK.)</th>
+            <th style={{ width: '80px' }}>Credit Realization</th>
+            <th style={{ width: '80px' }}>Sales Growth</th>
+            <th style={{ width: '80px' }}>Total Visited Customer</th>
+            <th style={{ width: '80px' }}>Total New Customer</th>
+            <th style={{ width: '80px' }}>Salesforce Enroll</th>
+            <th style={{ width: '100px' }}>Action</th>
           </tr>
         </thead>
 
@@ -61,7 +61,7 @@ export default function TableTwo({ obj }) {
               <tr key={index}>
                 <td className="text-center">{index + 1}</td>
                 {[2].includes(values?.reportType?.value) ? (
-                  <td style={{ width: "120px" }}>{item?.nl7}</td>
+                  <td style={{ width: '120px' }}>{item?.nl7}</td>
                 ) : null}
                 <td className="text-left">{item?.strEmployeeName}</td>
                 <td className="text-right">{item?.numTargetQuantity}</td>
@@ -72,10 +72,10 @@ export default function TableTwo({ obj }) {
                   style={{
                     backgroundColor:
                       +item?.monAchv >= 100
-                        ? "#34d399"
+                        ? '#34d399'
                         : +item?.monAchv >= 80 && +item?.monAchv < 100
-                        ? "#facc15"
-                        : "#f87171",
+                          ? '#facc15'
+                          : '#f87171',
                   }}
                   className="text-right"
                 >
@@ -89,10 +89,10 @@ export default function TableTwo({ obj }) {
                   style={{
                     backgroundColor:
                       +item?.monAchv >= 100
-                        ? "#34d399"
+                        ? '#34d399'
                         : +item?.monAchv >= 80 && +item?.monAchv < 100
-                        ? "#facc15"
-                        : "#f87171",
+                          ? '#facc15'
+                          : '#f87171',
                   }}
                 >
                   {item?.monCreditRealization}
@@ -116,7 +116,7 @@ export default function TableTwo({ obj }) {
               </tr>
             );
           })}
-          <tr style={{ fontWeight: "bold" }}>
+          <tr style={{ fontWeight: 'bold' }}>
             <td colSpan="3" className="text-right">
               <b>Grand Total </b>
             </td>
@@ -143,7 +143,7 @@ export default function TableTwo({ obj }) {
         </tbody>
       </table>
       <IViewModal
-        title={"Revenue Variance"}
+        title={'Revenue Variance'}
         show={show}
         onHide={() => setShow(false)}
       >

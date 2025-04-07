@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IExtend from "../../../../_helper/_helperIcons/_extend";
-import Loading from "../../../../_helper/_loading";
-import { GetTransportOrganizationPagination } from "../helper";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IExtend from '../../../../_helper/_helperIcons/_extend';
+import Loading from '../../../../_helper/_loading';
+import { GetTransportOrganizationPagination } from '../helper';
+import PaginationTable from './../../../../_helper/_tablePagination';
 
 export function TableRow() {
   const [gridData, setGridData] = useState([]);
@@ -32,20 +32,17 @@ export function TableRow() {
       setGridData,
       setLoading
     );
-
-
   }, [profileData]);
 
-  const setPositionHandler=(pageNo, pageSize)=>{
-
+  const setPositionHandler = (pageNo, pageSize) => {
     GetTransportOrganizationPagination(
       profileData?.accountId,
       pageNo,
       pageSize,
       setGridData,
       setLoading
-    )
-  }
+    );
+  };
 
   return (
     <>
@@ -53,55 +50,55 @@ export function TableRow() {
       {/* Table Start */}
       <div className="row cash_journal">
         <div className="col-lg-12 pr-0 pl-0">
-        <div className="table-responsive">
-        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-            <thead>
-              <tr>
-                <th style={{ width: "10%" }}>SL</th>
-                <th style={{ width: "30%" }}>Transport Organization Name</th>
-                <th style={{ width: "30%" }}>Code</th>
-                <th style={{ width: "10%" }}>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {gridData?.data?.map((item, index) => (
-                <tr key={index}>
-                  <td> {item?.sl}</td>
-                  <td>
-                    <div className="pl-2">
-                      {item?.transportOrganizationName}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="pl-2">
-                      {item?.transportOrganizationCode}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-around">
-                      <span
-                        onClick={() => {
-                          history.push(
-                            `/transport-management/configuration/transportorganization/extend/${item.transportOrganizationId}`
-                          );
-                        }}
-                      >
-                        <IExtend />
-                      </span>
-                    </div>
-                  </td>
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+              <thead>
+                <tr>
+                  <th style={{ width: '10%' }}>SL</th>
+                  <th style={{ width: '30%' }}>Transport Organization Name</th>
+                  <th style={{ width: '30%' }}>Code</th>
+                  <th style={{ width: '10%' }}>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {gridData?.data?.map((item, index) => (
+                  <tr key={index}>
+                    <td> {item?.sl}</td>
+                    <td>
+                      <div className="pl-2">
+                        {item?.transportOrganizationName}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="pl-2">
+                        {item?.transportOrganizationCode}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="d-flex justify-content-around">
+                        <span
+                          onClick={() => {
+                            history.push(
+                              `/transport-management/configuration/transportorganization/extend/${item.transportOrganizationId}`
+                            );
+                          }}
+                        >
+                          <IExtend />
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           {gridData?.data?.length > 0 && (
-        <PaginationTable
-          count={gridData?.totalCount}
-          setPositionHandler={setPositionHandler}
-          paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
-        />
-      )}
+            <PaginationTable
+              count={gridData?.totalCount}
+              setPositionHandler={setPositionHandler}
+              paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
+            />
+          )}
         </div>
       </div>
     </>

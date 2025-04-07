@@ -1,40 +1,40 @@
-import React from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import "./style.css";
-import ICustomTable from "../../../../chartering/_chartinghelper/_customTable";
-import moment from "moment";
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import './style.css';
+import ICustomTable from '../../../../chartering/_chartinghelper/_customTable';
+import moment from 'moment';
 
 const headers = [
-  { name: "SL", style: { minWidth: "30px" } },
-  { name: "Vehicle No.", style: { minWidth: "160px" } },
-  { name: "ShipPoint", style: { minWidth: "160px" } },
-  { name: "Shipment Code", style: { minWidth: "130px" } },
-  { name: "Shipment Qty", style: { minWidth: "70px" } },
-  { name: "Out Date-Time", style: { minWidth: "120px" } },
-  { name: "In Date-Time", style: { minWidth: "120px" } },
-  { name: "Standard Millage (KM)", style: { minWidth: "70px" } },
-  { name: "Addition Millage (Km)", style: { minWidth: "70px" } },
-  { name: "Actual Millage (Km)", style: { minWidth: "70px" } },
-  { name: "Standard Fuel Cost", style: { minWidth: "70px" } },
-  { name: "Actual Fuel Cost", style: { minWidth: "70px" } },
-  { name: "Bridge Toll", style: { minWidth: "70px" } },
+  { name: 'SL', style: { minWidth: '30px' } },
+  { name: 'Vehicle No.', style: { minWidth: '160px' } },
+  { name: 'ShipPoint', style: { minWidth: '160px' } },
+  { name: 'Shipment Code', style: { minWidth: '130px' } },
+  { name: 'Shipment Qty', style: { minWidth: '70px' } },
+  { name: 'Out Date-Time', style: { minWidth: '120px' } },
+  { name: 'In Date-Time', style: { minWidth: '120px' } },
+  { name: 'Standard Millage (KM)', style: { minWidth: '70px' } },
+  { name: 'Addition Millage (Km)', style: { minWidth: '70px' } },
+  { name: 'Actual Millage (Km)', style: { minWidth: '70px' } },
+  { name: 'Standard Fuel Cost', style: { minWidth: '70px' } },
+  { name: 'Actual Fuel Cost', style: { minWidth: '70px' } },
+  { name: 'Bridge Toll', style: { minWidth: '70px' } },
   // { name: "Chada", style: { minWidth: "70px" } },
-  { name: "Labour Tips", style: { minWidth: "70px" } },
-  { name: "Police Tips", style: { minWidth: "70px" } },
-  { name: "Maintenance", style: { minWidth: "70px" } },
-  { name: "Millage Allowance", style: { minWidth: "70px" } },
-  { name: "Carrying Allowance", style: { minWidth: "70px" } },
-  { name: "DA", style: { minWidth: "70px" } },
-  { name: "Down Trip Allowance", style: { minWidth: "70px" } },
-  { name: "Total Trip Cost", style: { minWidth: "70px" } },
-  { name: "Fuel Credit", style: { minWidth: "70px" } },
-  { name: "Advance Amount", style: { minWidth: "70px" } },
-  { name: "Down Trip Fare Cash", style: { minWidth: "70px" } },
-  { name: "Shipment Cost Total", style: { minWidth: "70px" } },
-  { name: "Total Income", style: { minWidth: "70px" } },
-  { name: "Profit/Loss on Trip", style: { minWidth: "70px" } },
-  { name: "Driver Net Payable", style: { minWidth: "70px" } },
-  { name: "Bill Date", style: { minWidth: "70px" } },
+  { name: 'Labour Tips', style: { minWidth: '70px' } },
+  { name: 'Police Tips', style: { minWidth: '70px' } },
+  { name: 'Maintenance', style: { minWidth: '70px' } },
+  { name: 'Millage Allowance', style: { minWidth: '70px' } },
+  { name: 'Carrying Allowance', style: { minWidth: '70px' } },
+  { name: 'DA', style: { minWidth: '70px' } },
+  { name: 'Down Trip Allowance', style: { minWidth: '70px' } },
+  { name: 'Total Trip Cost', style: { minWidth: '70px' } },
+  { name: 'Fuel Credit', style: { minWidth: '70px' } },
+  { name: 'Advance Amount', style: { minWidth: '70px' } },
+  { name: 'Down Trip Fare Cash', style: { minWidth: '70px' } },
+  { name: 'Shipment Cost Total', style: { minWidth: '70px' } },
+  { name: 'Total Income', style: { minWidth: '70px' } },
+  { name: 'Profit/Loss on Trip', style: { minWidth: '70px' } },
+  { name: 'Driver Net Payable', style: { minWidth: '70px' } },
+  { name: 'Bill Date', style: { minWidth: '70px' } },
 ];
 
 const TripCostDetailsTable = ({ obj }) => {
@@ -130,22 +130,22 @@ const TripCostDetailsTable = ({ obj }) => {
 
               totalDriverPayable += driverNetPayable;
 
-              const inOutTime = item?.inOutTime?.split(" ");
+              const inOutTime = item?.inOutTime?.split(' ');
 
               const inDateTime = `${_dateFormatter(item?.inDate)}${
                 item?.inOutTime
-                  ? `, ${moment(inOutTime[3]?.split(".")[0], "HH:mm:ss").format(
-                      "hh:mm A"
+                  ? `, ${moment(inOutTime[3]?.split('.')[0], 'HH:mm:ss').format(
+                      'hh:mm A'
                     )}`
-                  : ""
+                  : ''
               }`;
 
               const outDateTime = `${_dateFormatter(item?.outDate)}${
                 item?.inOutTime
-                  ? `, ${moment(inOutTime[6]?.split(".")[0], "HH:mm:ss").format(
-                      "hh:mm A"
+                  ? `, ${moment(inOutTime[6]?.split('.')[0], 'HH:mm:ss').format(
+                      'hh:mm A'
                     )}`
-                  : ""
+                  : ''
               }`;
 
               return (
@@ -155,8 +155,8 @@ const TripCostDetailsTable = ({ obj }) => {
                   <td>{item?.shipPointName}</td>
                   <td>{item?.shipmentCode}</td>
                   <td className="text-right">{item?.shipmentQnt}</td>
-                  <td>{item?.inDate ? inDateTime : ""}</td>
-                  <td>{item?.outDate ? outDateTime : ""}</td>
+                  <td>{item?.inDate ? inDateTime : ''}</td>
+                  <td>{item?.outDate ? outDateTime : ''}</td>
                   <td className="text-right">{item?.millage}</td>
                   <td className="text-right">{item?.additionalMillage}</td>
                   <td className="text-right">
@@ -183,7 +183,7 @@ const TripCostDetailsTable = ({ obj }) => {
                     className="text-right"
                     style={{
                       backgroundColor: `${
-                        profitLoss > 0 ? "#26f5188f" : "#ff000070"
+                        profitLoss > 0 ? '#26f5188f' : '#ff000070'
                       }`,
                     }}
                   >
@@ -194,7 +194,7 @@ const TripCostDetailsTable = ({ obj }) => {
                 </tr>
               );
             })}
-            <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+            <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
               <td></td>
               <td className="text-right">Total</td>
               <td className="text-right" colSpan="2"></td>

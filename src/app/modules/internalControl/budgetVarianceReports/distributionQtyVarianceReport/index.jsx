@@ -1,38 +1,30 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import numberWithCommas from "../../../_helper/_numberWithCommas";
-import NewSelect from "../../../_helper/_select";
-import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import numberWithCommas from '../../../_helper/_numberWithCommas';
+import NewSelect from '../../../_helper/_select';
+import { _getCurrentMonthYearForInput } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 const initData = {
-  distributionChannel: "",
-  region: "",
-  area: "",
-  territory: "",
+  distributionChannel: '',
+  region: '',
+  area: '',
+  territory: '',
   monthYear: _getCurrentMonthYearForInput(),
-  currentBusinessUnit: "",
+  currentBusinessUnit: '',
 };
 export default function DistributionQtyVariance() {
   const [channelDDL, getChannelDDL, channelDDLloader] = useAxiosGet();
   const [regionDDL, getRegionDDL, regionLoading, setRegionDDL] = useAxiosGet();
   const [areaDDL, getAreaDDL, areaLoading, setAreaDDl] = useAxiosGet();
 
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-    setTableData,
-  ] = useAxiosGet();
-  const [
-    territoryDDL,
-    getTerritoryDDL,
-    territoryLoading,
-    setTerritoryDDL,
-  ] = useAxiosGet();
+  const [tableData, getTableData, tableDataLoader, setTableData] =
+    useAxiosGet();
+  const [territoryDDL, getTerritoryDDL, territoryLoading, setTerritoryDDL] =
+    useAxiosGet();
   const saveHandler = (values, cb) => {};
 
   const businessUnitList = useSelector((state) => {
@@ -50,11 +42,11 @@ export default function DistributionQtyVariance() {
   // }, [profileData, ]);
 
   const getData = (values) => {
-    const [year, month] = values?.monthYear.split("-").map(Number);
+    const [year, month] = values?.monthYear.split('-').map(Number);
     const startDate = new Date(Date.UTC(year, month - 1, 1));
     const endDate = new Date(Date.UTC(year, month, 0));
-    const formattedStartDate = startDate.toISOString().split("T")[0];
-    const formattedEndDate = endDate.toISOString().split("T")[0];
+    const formattedStartDate = startDate.toISOString().split('T')[0];
+    const formattedEndDate = endDate.toISOString().split('T')[0];
     getTableData(
       `/fino/Report/GetDistributionVarianceReport?partName=Quantity&businessUnitId=${values?.currentBusinessUnit?.value}&distributionId=${values?.distributionChannel?.value}&regionId=${values?.region?.value}&areaId=${values?.area?.value}&territoryId=${values?.territory?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`
     );
@@ -104,7 +96,7 @@ export default function DistributionQtyVariance() {
                       label="Business Unit"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("currentBusinessUnit", valueOption);
+                          setFieldValue('currentBusinessUnit', valueOption);
                           getChannelDDL(
                             `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${valueOption?.value}`
                           );
@@ -129,10 +121,10 @@ export default function DistributionQtyVariance() {
                       onChange={(valueOption) => {
                         setTableData([]);
                         if (valueOption) {
-                          setFieldValue("distributionChannel", valueOption);
-                          setFieldValue("region", "");
-                          setFieldValue("area", "");
-                          setFieldValue("territory", "");
+                          setFieldValue('distributionChannel', valueOption);
+                          setFieldValue('region', '');
+                          setFieldValue('area', '');
+                          setFieldValue('territory', '');
                           getRegionDDL(
                             `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${valueOption?.value}`,
                             (res) => {
@@ -145,10 +137,10 @@ export default function DistributionQtyVariance() {
                             }
                           );
                         } else {
-                          setFieldValue("distributionChannel", "");
-                          setFieldValue("region", "");
-                          setFieldValue("area", "");
-                          setFieldValue("territory", "");
+                          setFieldValue('distributionChannel', '');
+                          setFieldValue('region', '');
+                          setFieldValue('area', '');
+                          setFieldValue('territory', '');
                           setRegionDDL([]);
                         }
                       }}
@@ -166,12 +158,12 @@ export default function DistributionQtyVariance() {
                       onChange={(valueOption) => {
                         setTableData([]);
                         if (valueOption) {
-                          setFieldValue("region", valueOption);
-                          setFieldValue("area", "");
-                          setFieldValue("territory", "");
+                          setFieldValue('region', valueOption);
+                          setFieldValue('area', '');
+                          setFieldValue('territory', '');
                           const regionId = valueOption?.label
                             ? `&regionId=${valueOption?.value}`
-                            : "";
+                            : '';
                           getAreaDDL(
                             `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.distributionChannel?.value}${regionId}`,
                             (res) => {
@@ -184,9 +176,9 @@ export default function DistributionQtyVariance() {
                             }
                           );
                         } else {
-                          setFieldValue("region", "");
-                          setFieldValue("area", "");
-                          setFieldValue("territory", "");
+                          setFieldValue('region', '');
+                          setFieldValue('area', '');
+                          setFieldValue('territory', '');
                           setAreaDDl([]);
                         }
                       }}
@@ -205,11 +197,11 @@ export default function DistributionQtyVariance() {
                       onChange={(valueOption) => {
                         setTableData([]);
                         if (valueOption) {
-                          setFieldValue("area", valueOption);
-                          setFieldValue("territory", "");
+                          setFieldValue('area', valueOption);
+                          setFieldValue('territory', '');
                           const areaId = valueOption?.label
                             ? `&areaId=${valueOption?.value}`
-                            : "";
+                            : '';
                           getTerritoryDDL(
                             `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${values?.distributionChannel?.value}&regionId=${values?.region?.value}${areaId}`,
                             (res) => {
@@ -222,8 +214,8 @@ export default function DistributionQtyVariance() {
                             }
                           );
                         } else {
-                          setFieldValue("area", "");
-                          setFieldValue("territory", "");
+                          setFieldValue('area', '');
+                          setFieldValue('territory', '');
                           setTerritoryDDL([]);
                         }
                       }}
@@ -242,9 +234,9 @@ export default function DistributionQtyVariance() {
                       onChange={(valueOption) => {
                         setTableData([]);
                         if (valueOption) {
-                          setFieldValue("territory", valueOption);
+                          setFieldValue('territory', valueOption);
                         } else {
-                          setFieldValue("territory", "");
+                          setFieldValue('territory', '');
                         }
                       }}
                       placeholder="Territory"
@@ -262,7 +254,7 @@ export default function DistributionQtyVariance() {
                       type="month"
                       onChange={(e) => {
                         setTableData([]);
-                        setFieldValue("monthYear", e?.target?.value);
+                        setFieldValue('monthYear', e?.target?.value);
                       }}
                     />
                   </div>
@@ -270,7 +262,7 @@ export default function DistributionQtyVariance() {
                     <button
                       type="button"
                       className="btn btn-primary"
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       onClick={() => {
                         getData(values);
                       }}

@@ -1,33 +1,31 @@
-
-
-import { Formik } from "formik";
-import React, { useContext, useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import IEdit from "../../../_chartinghelper/icons/_edit";
-import IView from "../../../_chartinghelper/icons/_view";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { CharteringContext } from "../../../charteringContext";
-import { GetLighterVesselDDL } from "../../../helper";
+import { Formik } from 'formik';
+import React, { useContext, useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import IEdit from '../../../_chartinghelper/icons/_edit';
+import IView from '../../../_chartinghelper/icons/_view';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { CharteringContext } from '../../../charteringContext';
+import { GetLighterVesselDDL } from '../../../helper';
 // import ICustomTable from "../../../_chartinghelper/_customTable";
-import moment from "moment";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import { getTripLandingData } from "../helper";
+import moment from 'moment';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
+import { getTripLandingData } from '../helper';
 
 const headers = [
-  { name: "SL" },
-  { name: "Lighter Vessel Name" },
-  { name: "Mother Vessel Name" },
-  { name: "Trip No" },
-  { name: "Trip Start Date-Time" },
-  { name: "Trip End Date-Time" },
-  { name: "Duration (DAYS)" },
-  { name: "SR Number" },
-  { name: "Status" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Lighter Vessel Name' },
+  { name: 'Mother Vessel Name' },
+  { name: 'Trip No' },
+  { name: 'Trip Start Date-Time' },
+  { name: 'Trip End Date-Time' },
+  { name: 'Duration (DAYS)' },
+  { name: 'SR Number' },
+  { name: 'Status' },
+  { name: 'Actions' },
 ];
 
 export default function TripLanding() {
@@ -62,7 +60,7 @@ export default function TripLanding() {
       vesselType: values?.vesselType?.label || null,
       fromDate: values?.fromDate || null,
       toDate: values?.toDate || null,
-      Status: values?.status?.value ,
+      Status: values?.status?.value,
       pageNo,
       pageSize,
       setter: setGridData,
@@ -98,10 +96,10 @@ export default function TripLanding() {
                 <div>
                   <button
                     type="button"
-                    className={"btn btn-primary px-3 py-2"}
+                    className={'btn btn-primary px-3 py-2'}
                     onClick={() =>
                       history.push(
-                        "/chartering/lighterVessel/lighterVesselVoyage/create"
+                        '/chartering/lighterVessel/lighterVesselVoyage/create'
                       )
                     }
                     disabled={false}
@@ -123,7 +121,7 @@ export default function TripLanding() {
                           ...values,
                           fromDate: e.target.value,
                         });
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                       type="date"
                       errors={errors}
@@ -141,7 +139,7 @@ export default function TripLanding() {
                           ...values,
                           toDate: e.target.value,
                         });
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                       type="date"
                       errors={errors}
@@ -150,10 +148,10 @@ export default function TripLanding() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.lighterVessel || ""}
+                      value={values?.lighterVessel || ''}
                       isSearchable={true}
                       label={`Lighter Vessel`}
-                      options={[{ value: 0, label: "All" }, ...lighterDDL]}
+                      options={[{ value: 0, label: 'All' }, ...lighterDDL]}
                       styles={customStyles}
                       name="lighterVessel"
                       placeholder="Lighter Vessel"
@@ -162,7 +160,7 @@ export default function TripLanding() {
                           ...values,
                           lighterVessel: valueOption,
                         });
-                        setFieldValue("lighterVessel", valueOption);
+                        setFieldValue('lighterVessel', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -174,15 +172,15 @@ export default function TripLanding() {
                       value={values?.vesselType}
                       label={`Vessel Type*`}
                       options={[
-                        { value: 1, label: "Rental Vessel" },
-                        { value: 2, label: "Own Vessel" },
+                        { value: 1, label: 'Rental Vessel' },
+                        { value: 2, label: 'Own Vessel' },
                       ]}
                       onChange={(valueOption) => {
                         viewHandler(pageNo, pageSize, {
                           ...values,
                           vesselType: valueOption,
                         });
-                        setFieldValue("vesselType", valueOption);
+                        setFieldValue('vesselType', valueOption);
                       }}
                       styles={customStyles}
                       errors={errors}
@@ -191,14 +189,14 @@ export default function TripLanding() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.status || ""}
+                      value={values?.status || ''}
                       isSearchable={true}
                       label={`Status`}
                       options={[
-                        { value: null, label: "All" },
-                        { value: "Complete", label: "Complete" },
-                        { value: "Not Complete", label: "Not Complete" },
-                        { value: "Trip End", label: "Trip End" },
+                        { value: null, label: 'All' },
+                        { value: 'Complete', label: 'Complete' },
+                        { value: 'Not Complete', label: 'Not Complete' },
+                        { value: 'Trip End', label: 'Trip End' },
                       ]}
                       styles={customStyles}
                       name="status"
@@ -208,7 +206,7 @@ export default function TripLanding() {
                           ...values,
                           status: valueOption,
                         });
-                        setFieldValue("status", valueOption);
+                        setFieldValue('status', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -279,65 +277,65 @@ export default function TripLanding() {
                             <td className="text-center">
                               {item?.dteTripCommencedDate
                                 ? moment(item?.dteTripCommencedDate).format(
-                                    "YYYY-MM-DD HH:mm A"
+                                    'YYYY-MM-DD HH:mm A'
                                   )
-                                : ""}
+                                : ''}
                             </td>
                             <td className="text-center">
                               {item?.dteTripCompletionDate
                                 ? moment(item?.dteTripCompletionDate).format(
-                                    "YYYY-MM-DD HH:mm A"
+                                    'YYYY-MM-DD HH:mm A'
                                   )
-                                : ""}
+                                : ''}
                             </td>
                             <td className="text-center">
                               {item?.arrivalCtgDate
                                 ? moment(item?.arrivalCtgDate).format(
-                                    "YYYY-MM-DD HH:mm A"
+                                    'YYYY-MM-DD HH:mm A'
                                   )
-                                : ""}
+                                : ''}
                             </td>
                             <td className="text-center">
                               {item?.loadCommCtgDate
                                 ? moment(item?.loadCommCtgDate).format(
-                                    "YYYY-MM-DD HH:mm A"
+                                    'YYYY-MM-DD HH:mm A'
                                   )
-                                : ""}
+                                : ''}
                             </td>
                             <td className="text-center">
                               {item?.loadComplCtgDate
                                 ? moment(item?.loadComplCtgDate).format(
-                                    "YYYY-MM-DD HH:mm A"
+                                    'YYYY-MM-DD HH:mm A'
                                   )
-                                : ""}
+                                : ''}
                             </td>
                             <td className="text-center">
                               {item?.departureCtgDate
                                 ? moment(item?.departureCtgDate).format(
-                                    "YYYY-MM-DD HH:mm A"
+                                    'YYYY-MM-DD HH:mm A'
                                   )
-                                : ""}
+                                : ''}
                             </td>
                             <td className="text-center">
                               {item?.receiveDate
                                 ? moment(item?.receiveDate).format(
-                                    "YYYY-MM-DD HH:mm A"
+                                    'YYYY-MM-DD HH:mm A'
                                   )
-                                : ""}
+                                : ''}
                             </td>
                             <td className="text-center">
                               {item?.dischargeStartDate
                                 ? moment(item?.dischargeStartDate).format(
-                                    "YYYY-MM-DD HH:mm A"
+                                    'YYYY-MM-DD HH:mm A'
                                   )
-                                : ""}
+                                : ''}
                             </td>
                             <td className="text-center">
                               {item?.dischargeComplDate
                                 ? moment(item?.dischargeComplDate).format(
-                                    "YYYY-MM-DD HH:mm A"
+                                    'YYYY-MM-DD HH:mm A'
                                   )
-                                : ""}
+                                : ''}
                             </td>
                             <td className="text-center">
                               {item?.numTotalTripDuration} Days
@@ -360,15 +358,15 @@ export default function TripLanding() {
                             <td>{item?.dteTripCompletionDate}</td> */}
                             <td className="text-center">{item?.srNumber}</td>
                             <td
-                              style={{ width: "80px" }}
+                              style={{ width: '80px' }}
                               className="text-center"
                             >
                               <span
                                 className={`badge badge-${
-                                  item?.isComplete ? "success" : "warning"
+                                  item?.isComplete ? 'success' : 'warning'
                                 }`}
                               >
-                                {item?.isComplete ? "Complete" : "Not Complete"}
+                                {item?.isComplete ? 'Complete' : 'Not Complete'}
                               </span>
                             </td>
                             <td className="text-center">

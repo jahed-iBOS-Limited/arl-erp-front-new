@@ -21,7 +21,7 @@ export function TableRow() {
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   const [territoryTypeDDL, getTerritoryDDL] = useAxiosGet();
@@ -63,8 +63,8 @@ export function TableRow() {
         data,
         setLoading,
         0,
-        100,
-      ),
+        100
+      )
     );
   };
 
@@ -73,13 +73,12 @@ export function TableRow() {
       profileData.accountId,
       selectedBusinessUnit.value,
       profileData?.employeeId,
-      setEmployeeLoginInfo,
+      setEmployeeLoginInfo
     );
 
     getTerritoryDDL(
-      `/oms/TerritoryTypeInfo/GetTerritoryTypeList?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/oms/TerritoryTypeInfo/GetTerritoryTypeList?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -90,7 +89,6 @@ export function TableRow() {
     ) {
       getData();
     }
-
   }, [employeeLoginInfo]);
 
   // UI Context
@@ -137,7 +135,7 @@ export function TableRow() {
             setLoading,
             () => {
               getData();
-            },
+            }
           );
         },
       },
@@ -160,7 +158,7 @@ export function TableRow() {
     switch (name) {
       case 'region':
         return ['Region', 'Area', 'Territory'].includes(
-          values?.territoryType?.label,
+          values?.territoryType?.label
         );
       case 'area':
         return ['Area', 'Territory'].includes(values?.territoryType?.label);

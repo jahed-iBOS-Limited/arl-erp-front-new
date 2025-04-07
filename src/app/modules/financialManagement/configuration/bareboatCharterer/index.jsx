@@ -1,13 +1,13 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import Loading from "../../../_helper/_loading";
-import PaginationTable from "../../../_helper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import Loading from '../../../_helper/_loading';
+import PaginationTable from '../../../_helper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 const initData = {};
 
@@ -37,7 +37,6 @@ export default function BareboatInsuranceConfig() {
 
   useEffect(() => {
     getLandingData();
-
   }, [profileData, selectedBusinessUnit, viewType]);
 
   //setPositionHandler
@@ -88,7 +87,7 @@ export default function BareboatInsuranceConfig() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/financial-management/configuration/bareboatCharterConfig/create"
+                        '/financial-management/configuration/bareboatCharterConfig/create'
                       );
                     }}
                   >
@@ -106,7 +105,7 @@ export default function BareboatInsuranceConfig() {
                     name="viewType"
                     checked={viewType === 1}
                     className="mr-1 pointer"
-                    style={{ position: "relative", top: "2px" }}
+                    style={{ position: 'relative', top: '2px' }}
                     onChange={(valueOption) => {
                       setViewType(1);
                     }}
@@ -119,7 +118,7 @@ export default function BareboatInsuranceConfig() {
                     name="viewType"
                     checked={viewType === 2}
                     className="mr-1 pointer"
-                    style={{ position: "relative", top: "2px" }}
+                    style={{ position: 'relative', top: '2px' }}
                     onChange={(e) => {
                       setViewType(2);
                     }}
@@ -132,7 +131,7 @@ export default function BareboatInsuranceConfig() {
                     name="viewType"
                     checked={viewType === 3}
                     className="mr-1 pointer"
-                    style={{ position: "relative", top: "2px" }}
+                    style={{ position: 'relative', top: '2px' }}
                     onChange={(e) => {
                       setViewType(3);
                     }}

@@ -1,26 +1,24 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import { landingGridData } from "../helper";
-import ShipmentCostViewForm from "../view/addEditForm";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import { landingGridData } from '../helper';
+import ShipmentCostViewForm from '../view/addEditForm';
 
 const validationSchema = Yup.object().shape({
   reportType: Yup.object().shape({
-    label: Yup.string().required("Report Type  is required"),
-    value: Yup.string().required("Report Type  is required"),
+    label: Yup.string().required('Report Type  is required'),
+    value: Yup.string().required('Report Type  is required'),
   }),
 });
 
@@ -30,9 +28,8 @@ const VehicleInOutReportLanding = () => {
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
 
-
   // Modal State
-  const [id, setId] = useState("");
+  const [id, setId] = useState('');
   const [showModal, setShowModal] = useState(false);
 
   // get user profile data from store
@@ -49,10 +46,9 @@ const VehicleInOutReportLanding = () => {
   const initData = {
     fromDate: _todayDate(),
     toDate: _todayDate(),
-    reportType: "",
-    shipPoint: ShippointDDL[0] || "",
+    reportType: '',
+    shipPoint: ShippointDDL[0] || '',
   };
-
 
   // Initial Grid Data Loaded
   useEffect(() => {
@@ -63,7 +59,7 @@ const VehicleInOutReportLanding = () => {
       pageSize,
       _todayDate(),
       _todayDate(),
-      "in",
+      'in',
       initData?.shipPoint?.value,
       setGridData,
       setLoading,
@@ -106,7 +102,7 @@ const VehicleInOutReportLanding = () => {
     <ICustomCard title="Vehicle In Out Report">
       <Formik
         enableReinitialize={true}
-        initialValues={{ ...initData, reportType: { value: 1, label: "in" } }}
+        initialValues={{ ...initData, reportType: { value: 1, label: 'in' } }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           landingGridData(
@@ -141,12 +137,12 @@ const VehicleInOutReportLanding = () => {
                   <div className="col-lg-3">
                     <NewSelect
                       name="shipPoint"
-                      options={[ {value: 0 , label: "All"},...ShippointDDL]}
+                      options={[{ value: 0, label: 'All' }, ...ShippointDDL]}
                       value={values?.shipPoint}
                       label="Shippoint"
                       onChange={(valueOption) => {
-                        setFieldValue("shipPoint", valueOption);
-                        setGridData([])
+                        setFieldValue('shipPoint', valueOption);
+                        setGridData([]);
                       }}
                       placeholder="Shippoint"
                       errors={errors}
@@ -175,22 +171,26 @@ const VehicleInOutReportLanding = () => {
                     <NewSelect
                       name="reportType"
                       options={[
-                        { value: 1, label: "in" },
-                        { value: 2, label: "out" },
+                        { value: 1, label: 'in' },
+                        { value: 2, label: 'out' },
                       ]}
                       value={values?.reportType}
                       label="Report Type"
                       onChange={(valueOption) => {
-                        setFieldValue("reportType", valueOption);
-                        setGridData([])
+                        setFieldValue('reportType', valueOption);
+                        setGridData([]);
                       }}
                       placeholder="Report Type"
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div className="col-lg-1" style={{ marginTop: "14px" }}>
-                    <button type="submit" className="btn btn-primary mr-2" disabled={!values?.shipPoint || !values?.reportType}>
+                  <div className="col-lg-1" style={{ marginTop: '14px' }}>
+                    <button
+                      type="submit"
+                      className="btn btn-primary mr-2"
+                      disabled={!values?.shipPoint || !values?.reportType}
+                    >
                       View
                     </button>
                   </div>
@@ -204,49 +204,49 @@ const VehicleInOutReportLanding = () => {
                 values={values}
               />
               <div className="table-responsive">
-              <table className="table table-striped table-bordered global-table">
-                <thead>
-                  <tr>
-                    <th>SL No</th>
-                    <th>Shipment Code</th>
-                    <th>Date</th>
-                    <th>Vehicle No</th>
-                    <th>Driver Name</th>
-                    <th>Route Name</th>
-                    <th>Distance KM</th>
-                    <th>Standard Cost</th>
-                    <th>Actual Cost</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {gridData?.data?.map((data, index) => (
-                    <tr key={index}>
-                      <td className="text-center">{index + 1}</td>
-                      <td>{data?.shipmentCode}</td>
-                      <td>{_dateFormatter(data?.shipmentDate)}</td>
-                      <td>{data?.vehicleNo}</td>
-                      <td>{data?.driverName || "N/A"}</td>
-                      <td>{data?.routeName}</td>
-                      <td>{data?.distanceKM}</td>
-                      <td>{data?.totalStandardCost}</td>
-                      <td>{data?.totalActualCost}</td>
-                      <td className="text-center">
-                        <IView
-                          title="Details"
-                          clickHandler={() => {
-                            // history.push(
-                            //   `/transport-management/routecostmanagement/shipmentcost/view/${data?.shipmentCostId}`
-                            // );
-                            setId(data?.shipmentCostId);
-                            setShowModal(true);
-                          }}
-                        />
-                      </td>
+                <table className="table table-striped table-bordered global-table">
+                  <thead>
+                    <tr>
+                      <th>SL No</th>
+                      <th>Shipment Code</th>
+                      <th>Date</th>
+                      <th>Vehicle No</th>
+                      <th>Driver Name</th>
+                      <th>Route Name</th>
+                      <th>Distance KM</th>
+                      <th>Standard Cost</th>
+                      <th>Actual Cost</th>
+                      <th>Action</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {gridData?.data?.map((data, index) => (
+                      <tr key={index}>
+                        <td className="text-center">{index + 1}</td>
+                        <td>{data?.shipmentCode}</td>
+                        <td>{_dateFormatter(data?.shipmentDate)}</td>
+                        <td>{data?.vehicleNo}</td>
+                        <td>{data?.driverName || 'N/A'}</td>
+                        <td>{data?.routeName}</td>
+                        <td>{data?.distanceKM}</td>
+                        <td>{data?.totalStandardCost}</td>
+                        <td>{data?.totalActualCost}</td>
+                        <td className="text-center">
+                          <IView
+                            title="Details"
+                            clickHandler={() => {
+                              // history.push(
+                              //   `/transport-management/routecostmanagement/shipmentcost/view/${data?.shipmentCostId}`
+                              // );
+                              setId(data?.shipmentCostId);
+                              setShowModal(true);
+                            }}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
 
               <IViewModal show={showModal} onHide={() => setShowModal(false)}>

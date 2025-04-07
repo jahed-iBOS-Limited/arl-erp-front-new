@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 //Call Empddl APi
 export function getEmpDDL(accId, buId) {
   return axios.get(

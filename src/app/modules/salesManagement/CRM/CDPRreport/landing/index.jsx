@@ -40,12 +40,12 @@ const CDPRreportLanding = () => {
           unique?.map((item, idx) => ({
             value: item?.channel,
             label: item?.channel,
-          })),
+          }))
         );
         // uqique product list "productName"
         const uniqueProduct = [
           ...new Map(
-            arrylist.map((item) => [item['productName'], item]),
+            arrylist.map((item) => [item['productName'], item])
           ).values(),
         ];
         setProductList(
@@ -54,7 +54,7 @@ const CDPRreportLanding = () => {
               value: itm?.productName,
               label: itm?.productName,
             };
-          }),
+          })
         );
 
         const defaultProductName = uniqueProduct?.[0]?.productName
@@ -66,7 +66,7 @@ const CDPRreportLanding = () => {
         if (formikRef.current) {
           formikRef.current.setFieldValue(
             'productName',
-            defaultProductName || '',
+            defaultProductName || ''
           );
         }
         filterGridDataHandler({
@@ -76,13 +76,12 @@ const CDPRreportLanding = () => {
           },
           withoutModfifyData: resData,
         });
-      },
+      }
     );
   };
 
   useEffect(() => {
     commonGridData();
-
   }, []);
 
   const filterGridDataHandler = ({ values, withoutModfifyData }) => {
@@ -107,7 +106,7 @@ const CDPRreportLanding = () => {
       `/partner/PManagementCommonDDL/EditCDPMasterDataByEnrollId`,
       payload,
       () => {},
-      true,
+      true
     );
   };
 
@@ -121,7 +120,7 @@ const CDPRreportLanding = () => {
           values: { ...values },
           withoutModfifyData: resData,
         });
-      },
+      }
     );
   };
   return (

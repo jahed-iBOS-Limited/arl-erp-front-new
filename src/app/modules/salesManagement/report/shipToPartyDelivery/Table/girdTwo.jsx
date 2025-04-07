@@ -1,6 +1,6 @@
-import React from "react";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
+import React from 'react';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
 
 function TableGirdTwo({ rowDto, values }) {
   let totalSalesQty = 0;
@@ -10,7 +10,7 @@ function TableGirdTwo({ rowDto, values }) {
   let soldToShop = 0;
   return (
     <div className="react-bootstrap-table table-responsive">
-      <table className={"table table-striped table-bordered global-table "}>
+      <table className={'table table-striped table-bordered global-table '}>
         <thead>
           <tr>
             <th>SL </th>
@@ -61,7 +61,7 @@ function TableGirdTwo({ rowDto, values }) {
                 <td>{itm?.nl7}</td>
                 {[3].includes(values?.reportType?.value) && (
                   <>
-                    {" "}
+                    {' '}
                     <td className="text-right">{itm?.coveragepercentage}</td>
                     <td className="text-right">{itm?.totalSHop}</td>
                     <td className="text-right">{itm?.soldshiptopartner}</td>
@@ -85,7 +85,7 @@ function TableGirdTwo({ rowDto, values }) {
             </td>
             {[3].includes(values?.reportType?.value) && (
               <>
-                {" "}
+                {' '}
                 <td className="text-right">
                   <b>{_formatMoney(totalCoveragePercentage, 0)}</b>
                 </td>
@@ -93,7 +93,7 @@ function TableGirdTwo({ rowDto, values }) {
                   <b>{_formatMoney(totalSHop, 0)}</b>
                 </td>
                 <td className="text-right">
-                  <b>{_formatMoney(soldToShop, 0)}</b>{" "}
+                  <b>{_formatMoney(soldToShop, 0)}</b>{' '}
                 </td>
                 {/* <td className="text-right">
                   <b>{_formatMoney(totalSalesQty, 0)}</b>{" "}

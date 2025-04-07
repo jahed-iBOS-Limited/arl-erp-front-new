@@ -73,7 +73,7 @@ function BillForm({ clickRowData, estimatePDABillAddHandler }) {
     // duplicate check
     const duplicateCheck = billRowDto?.some(
       (item) =>
-        item?.billDate === obj?.billDate && item?.billType === obj?.billType,
+        item?.billDate === obj?.billDate && item?.billType === obj?.billType
     );
     if (duplicateCheck) return toast.warning('Duplicate data found');
     setBillRowDto([...billRowDto, obj]);
@@ -89,7 +89,7 @@ function BillForm({ clickRowData, estimatePDABillAddHandler }) {
   useEffect(() => {
     if (clickRowData?.estimatePDABillCreateDtos?.length > 0) {
       const copybillRowDto = JSON.parse(
-        JSON.stringify(clickRowData?.estimatePDABillCreateDtos),
+        JSON.stringify(clickRowData?.estimatePDABillCreateDtos)
       );
       setBillRowDto(copybillRowDto || []);
     }
@@ -182,10 +182,10 @@ function BillForm({ clickRowData, estimatePDABillAddHandler }) {
                       errors={errors}
                       touched={touched}
                       onChange={(e) => {
-                        setFieldValue("amount", e.target.value);
+                        setFieldValue('amount', e.target.value);
                         const amount = +e.target.value || 0;
                         const vat = +values?.vat || 0;
-                        setFieldValue("total", amount + vat);
+                        setFieldValue('total', amount + vat);
                       }}
                     />
                   </div>
@@ -199,10 +199,10 @@ function BillForm({ clickRowData, estimatePDABillAddHandler }) {
                       errors={errors}
                       touched={touched}
                       onChange={(e) => {
-                        setFieldValue("vat", e.target.value);
+                        setFieldValue('vat', e.target.value);
                         const amount = +values?.amount || 0;
                         const vat = +e.target.value || 0;
-                        setFieldValue("total", amount + vat);
+                        setFieldValue('total', amount + vat);
                       }}
                     />
                   </div>
@@ -285,7 +285,7 @@ function BillForm({ clickRowData, estimatePDABillAddHandler }) {
                           type="button"
                           onClick={() => {
                             dispatch(
-                              getDownlloadFileView_Action(values?.attachment),
+                              getDownlloadFileView_Action(values?.attachment)
                             );
                           }}
                         >
@@ -336,7 +336,7 @@ function BillForm({ clickRowData, estimatePDABillAddHandler }) {
                   }}
                   onDelete={(deleteFileObj) => {
                     const newData = fileObjects.filter(
-                      (item) => item.file.name !== deleteFileObj.file.name,
+                      (item) => item.file.name !== deleteFileObj.file.name
                     );
                     setFileObjects(newData);
                   }}
@@ -543,7 +543,7 @@ function BillRowTable({ billRowDto, setBillRowDto, dispatch }) {
                     <span
                       onClick={() => {
                         dispatch(
-                          getDownlloadFileView_Action(item?.attachmentsId),
+                          getDownlloadFileView_Action(item?.attachmentsId)
                         );
                       }}
                     >
@@ -564,7 +564,7 @@ function BillRowTable({ billRowDto, setBillRowDto, dispatch }) {
                     className="delete"
                     onClick={() => {
                       const filterData = billRowDto?.filter(
-                        (itm, idx) => idx !== index,
+                        (itm, idx) => idx !== index
                       );
                       setBillRowDto(filterData);
                     }}

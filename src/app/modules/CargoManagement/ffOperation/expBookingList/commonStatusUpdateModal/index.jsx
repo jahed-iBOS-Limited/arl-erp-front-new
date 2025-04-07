@@ -26,7 +26,7 @@ function CommonStatusUpdateModal({ CB, rowClickData }) {
       payload,
       () => {
         CB();
-      },
+      }
     );
   };
   return (

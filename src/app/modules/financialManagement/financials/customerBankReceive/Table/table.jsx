@@ -1,38 +1,38 @@
-import React, { useState, useEffect } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import { Formik, Form } from "formik";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import { Formik, Form } from 'formik';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import {
   savecustomerBankRec,
   getCustomerBankRecLanding,
   getBankAccountNoDDL,
-} from "../helper";
-import ILoader from "../../../../_helper/loader/_loader";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import * as Yup from "yup";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import FormikError from "../../../../_helper/_formikError";
-import { toast } from "react-toastify";
-import { SetFinancialsCustomerBankReceiveAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { useMemo } from "react";
-import "./style.css";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import IViewModal from "../../../../_helper/_viewModal";
-import AmountSeparateModal from "./amountSeparateModal";
+} from '../helper';
+import ILoader from '../../../../_helper/loader/_loader';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import * as Yup from 'yup';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
+import FormikError from '../../../../_helper/_formikError';
+import { toast } from 'react-toastify';
+import { SetFinancialsCustomerBankReceiveAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { useMemo } from 'react';
+import './style.css';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import IViewModal from '../../../../_helper/_viewModal';
+import AmountSeparateModal from './amountSeparateModal';
 
 const validationSchema = Yup.object().shape({
-  toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
-    if (fromDate) return Schema.required("To date is required");
+  toDate: Yup.string().when('fromDate', (fromDate, Schema) => {
+    if (fromDate) return Schema.required('To date is required');
   }),
 });
 
 const CustomerBankReceiveTable = () => {
   const [landing, setLanding] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [, setBankAccountNoDDL] = useState([]);
   const dispatch = useDispatch();
   const [isAmountSeparateModal, setIsAmountSeparateModal] = useState(false);
@@ -50,14 +50,14 @@ const CustomerBankReceiveTable = () => {
   let initData = {
     fromDate: _todayDate(),
     toDate: financialsCustomerBankReceive?.toDate || _todayDate(),
-    bankAccountNo: financialsCustomerBankReceive?.accountNo || "",
+    bankAccountNo: financialsCustomerBankReceive?.accountNo || '',
   };
 
   const viewPurchaseOrderData = (values) => {
     getCustomerBankRecLanding(
       selectedBusinessUnit?.value,
       values?.bankAccountNo?.value,
-      _dateFormatter(new Date("2021-07-01")),
+      _dateFormatter(new Date('2021-07-01')),
       values?.toDate,
       setLoading,
       setLanding,
@@ -115,9 +115,9 @@ const CustomerBankReceiveTable = () => {
                   <div
                     className="row global-form"
                     style={{
-                      background: " #d6dadd",
-                      margin: "3px 0",
-                      padding: "4px 10px",
+                      background: ' #d6dadd',
+                      margin: '3px 0',
+                      padding: '4px 10px',
                     }}
                   >
                     <div className="col-lg-2">
@@ -147,29 +147,29 @@ const CustomerBankReceiveTable = () => {
                         onChange={(e) => {
                           setSearch(e.target.value);
                         }}
-                        style={{ paddingRight: "25px" }}
+                        style={{ paddingRight: '25px' }}
                       />
                       {search && (
                         <div
                           style={{
-                            position: "absolute",
-                            top: "21px",
-                            right: "20px",
-                            fontSize: "14px",
+                            position: 'absolute',
+                            top: '21px',
+                            right: '20px',
+                            fontSize: '14px',
                           }}
                         >
                           <IClose
                             title="Clear"
                             closer={(e) => {
-                              setSearch("");
+                              setSearch('');
                               getCustomerBankRecLanding(
                                 selectedBusinessUnit?.value,
                                 values?.bankAccountNo?.value,
-                                _dateFormatter(new Date("2021-07-01")),
+                                _dateFormatter(new Date('2021-07-01')),
                                 values?.toDate,
                                 setLoading,
                                 setLanding,
-                                ""
+                                ''
                               );
                             }}
                           />
@@ -178,7 +178,7 @@ const CustomerBankReceiveTable = () => {
                     </div>
                     <div className="col-lg-2">
                       <button
-                        style={{ marginTop: "19px" }}
+                        style={{ marginTop: '19px' }}
                         type="submit"
                         className="btn btn-primary"
                         disabled={!values?.toDate}
@@ -190,7 +190,7 @@ const CustomerBankReceiveTable = () => {
                       </button>
                     </div>
                     <div className="col-lg-4 text-right">
-                      <h5 style={{ marginTop: "15px" }}>
+                      <h5 style={{ marginTop: '15px' }}>
                         <b>Total</b> : {totalAmount}
                       </h5>
                     </div>
@@ -200,25 +200,25 @@ const CustomerBankReceiveTable = () => {
                   <div className="col-lg-12">
                     <div className="loan-scrollable-table">
                       <div
-                        style={{ maxHeight: "550px" }}
+                        style={{ maxHeight: '550px' }}
                         className="scroll-table _table scroll-table-auto"
                       >
                         <table className="table table-striped table-bordered global-table table-font-size-sm">
                           <thead>
                             <tr>
-                              <th style={{ minWidth: "30px" }}>SL</th>
-                              <th style={{ minWidth: "70px" }}>Date</th>
+                              <th style={{ minWidth: '30px' }}>SL</th>
+                              <th style={{ minWidth: '70px' }}>Date</th>
                               <th>Account No</th>
-                              <th style={{ minWidth: "200px" }}>Particulars</th>
+                              <th style={{ minWidth: '200px' }}>Particulars</th>
                               {/* <th style={{ minWidth: "150px" }}>Bank Name</th>
                             <th style={{ minWidth: "150px" }}>Account No.</th> */}
-                              <th style={{ minWidth: "100px" }}>Cheque No.</th>
-                              <th style={{ minWidth: "100px" }}>Amount</th>
-                              <th style={{ minWidth: "150px" }}>
+                              <th style={{ minWidth: '100px' }}>Cheque No.</th>
+                              <th style={{ minWidth: '100px' }}>Amount</th>
+                              <th style={{ minWidth: '150px' }}>
                                 Customer List
                               </th>
                               {/* <th style={{ minWidth: "150px" }}>Remarks</th> */}
-                              <th style={{ minWidth: "70px" }}>Action</th>
+                              <th style={{ minWidth: '70px' }}>Action</th>
                             </tr>
                           </thead>
                           {loading ? (
@@ -227,34 +227,34 @@ const CustomerBankReceiveTable = () => {
                             <tbody>
                               {landing?.map((item, index) => (
                                 <tr key={index}>
-                                  <td style={{ fontSize: "10px" }}>
+                                  <td style={{ fontSize: '10px' }}>
                                     {item?.sl}
                                   </td>
-                                  <td style={{ fontSize: "10px" }}>
+                                  <td style={{ fontSize: '10px' }}>
                                     {_dateFormatter(item?.bankTransectionDate)}
                                   </td>
-                                  <td style={{ fontWeight: "bold" }}>
+                                  <td style={{ fontWeight: 'bold' }}>
                                     {item?.bankAccountNo}
                                   </td>
-                                  <td style={{ fontSize: "10px" }}>
+                                  <td style={{ fontSize: '10px' }}>
                                     {item?.particulars}
                                   </td>
                                   {/* <td>{item?.bankName}</td>
                                 <td>{item?.bankAccountNo}</td> */}
-                                  <td style={{ fontSize: "10px" }}>
+                                  <td style={{ fontSize: '10px' }}>
                                     {item?.chequeNo}
                                   </td>
-                                  <td style={{ fontWeight: "bold" }}>
+                                  <td style={{ fontWeight: 'bold' }}>
                                     {item?.creditAmount}
                                   </td>
-                                  <td style={{ width: "200px" }}>
+                                  <td style={{ width: '200px' }}>
                                     {item?.reconsileStatusId === 1 ? (
                                       <>
                                         <SearchAsyncSelect
                                           position="unset"
                                           selectedValue={item?.customerList}
                                           handleChange={(valueOption) => {
-                                            item["customerList"] = valueOption;
+                                            item['customerList'] = valueOption;
                                             setLanding([...landing]);
                                             // rowDtoHandler(
                                             //   "customerList",
@@ -269,11 +269,10 @@ const CustomerBankReceiveTable = () => {
                                                 `/fino/SupplierInvoiceInfo/GetPartnerList?BusinessUnitId=${selectedBusinessUnit?.value}&PartnerName=${v}`
                                               )
                                               .then((res) => {
-                                                const updateList = res?.data.map(
-                                                  (item) => ({
+                                                const updateList =
+                                                  res?.data.map((item) => ({
                                                     ...item,
-                                                  })
-                                                );
+                                                  }));
                                                 return updateList;
                                               });
                                           }}
@@ -292,9 +291,9 @@ const CustomerBankReceiveTable = () => {
                                   <td className="text-center align-middle">
                                     <div
                                       style={{
-                                        display: "flex",
-                                        gap: "5px",
-                                        alignItems: "center",
+                                        display: 'flex',
+                                        gap: '5px',
+                                        alignItems: 'center',
                                       }}
                                     >
                                       {item?.reconsileStatusId === 1 && (
@@ -312,7 +311,7 @@ const CustomerBankReceiveTable = () => {
 
                                             if (!item?.customerList?.value) {
                                               return toast.warning(
-                                                "Please add customer"
+                                                'Please add customer'
                                               );
                                             }
 
@@ -328,7 +327,7 @@ const CustomerBankReceiveTable = () => {
                                                   item?.customerList?.label,
                                                 ActionById: profileData?.userId,
                                                 typeId: 1,
-                                                narration: "",
+                                                narration: '',
                                                 sbuId: 0,
                                               },
                                             ];
@@ -345,9 +344,9 @@ const CustomerBankReceiveTable = () => {
                                           <i
                                             className={
                                               (item?.partnerId
-                                                ? "text-warning"
-                                                : "text-success") +
-                                              " fa fa-check-circle "
+                                                ? 'text-warning'
+                                                : 'text-success') +
+                                              ' fa fa-check-circle '
                                             }
                                           ></i>
                                         </button>

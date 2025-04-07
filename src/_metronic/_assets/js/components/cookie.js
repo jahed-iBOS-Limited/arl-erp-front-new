@@ -1,52 +1,57 @@
 /* eslint-disable no-useless-escape */
-"use strict";
+'use strict';
 // DOCS: https://javascript.info/cookie
 
 // Component Definition
-export var KTCookie = function() {
+export var KTCookie = (function () {
   return {
     // returns the cookie with the given name,
     // or undefined if not found
-    getCookie: function(name) {
-      var matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-      ));
+    getCookie: function (name) {
+      var matches = document.cookie.match(
+        new RegExp(
+          '(?:^|; )' +
+            name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
+            '=([^;]*)'
+        )
+      );
       return matches ? decodeURIComponent(matches[1]) : undefined;
     },
     // Please note that a cookie value is encoded,
     // so getCookie uses a built-in decodeURIComponent function to decode it.
-    setCookie: function(name, value, options) {
+    setCookie: function (name, value, options) {
       if (!options) {
         options = {};
       }
 
-      options = Object.assign({}, {path: '/'}, options);
+      options = Object.assign({}, { path: '/' }, options);
 
       if (options.expires instanceof Date) {
         options.expires = options.expires.toUTCString();
       }
 
-      var updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+      var updatedCookie =
+        encodeURIComponent(name) + '=' + encodeURIComponent(value);
 
       for (var optionKey in options) {
         // eslint-disable-next-line no-prototype-builtins
         if (!options.hasOwnProperty(optionKey)) {
           continue;
         }
-        updatedCookie += "; " + optionKey;
+        updatedCookie += '; ' + optionKey;
         var optionValue = options[optionKey];
         if (optionValue !== true) {
-          updatedCookie += "=" + optionValue;
+          updatedCookie += '=' + optionValue;
         }
       }
 
       document.cookie = updatedCookie;
     },
     // To delete a cookie, we can call it with a negative expiration date:
-    deleteCookie: function(name) {
-      this.setCookie(name, "", {
-        'max-age': -1
-      })
-    }
-  }
-}();
+    deleteCookie: function (name) {
+      this.setCookie(name, '', {
+        'max-age': -1,
+      });
+    },
+  };
+})();

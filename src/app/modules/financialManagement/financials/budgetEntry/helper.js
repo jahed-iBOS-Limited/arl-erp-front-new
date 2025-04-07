@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getSBUDDL = async (accId, buId, setter) => {
   try {
@@ -35,11 +35,11 @@ export const getMonthlyDataAction = async (valueOption, setter) => {
       `/fino/CommonFino/GetYearById?YearId=${valueOption?.value}`
     );
 
-    let splittedYear = valueOption?.label?.split("-");
+    let splittedYear = valueOption?.label?.split('-');
     let startYear = splittedYear?.[0];
     let endYear = splittedYear?.[1];
 
-    var lastday = function(y, m) {
+    var lastday = function (y, m) {
       return new Date(y, m + 1, 0).getDate();
     };
     const newData = res?.data?.map((item) => ({
@@ -52,7 +52,7 @@ export const getMonthlyDataAction = async (valueOption, setter) => {
         )
       ),
       toDate: `${item?.intCalenderMonthId < 7 ? endYear : startYear}-${
-        item?.intCalenderMonthId < 10 ? 0 : ""
+        item?.intCalenderMonthId < 10 ? 0 : ''
       }${item?.intCalenderMonthId}-${lastday(
         item?.intCalenderMonthId < 7 ? endYear : startYear,
         item?.intCalenderMonthId - 1
@@ -81,7 +81,7 @@ export const getBudgetEntryLanding = async (
   sbuId,
   finYearId,
   setLoading,
-  setter,
+  setter
 ) => {
   try {
     setLoading(true);
@@ -110,10 +110,10 @@ export const saveBudgetEntry = async (
     );
     setDisabled(false);
     cb();
-    toast.success(res?.data?.message || "Submitted successfully");
+    toast.success(res?.data?.message || 'Submitted successfully');
   } catch (error) {
     isFileUpload && cb();
     setDisabled(false);
-    toast.warn(error?.response?.data?.message || "Something went wrong");
+    toast.warn(error?.response?.data?.message || 'Something went wrong');
   }
 };

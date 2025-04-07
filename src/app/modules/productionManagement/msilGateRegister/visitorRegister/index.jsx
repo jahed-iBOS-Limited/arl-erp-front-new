@@ -1,6 +1,6 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 
 import {
   Card,
@@ -8,17 +8,17 @@ import {
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 
 function VisitorRegisterLanding() {
   const history = useHistory();
@@ -34,15 +34,15 @@ function VisitorRegisterLanding() {
     getRowData(
       `/mes/MSIL/GetAllVisitorRegisterLanding?intBusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
-
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowData(
       `/mes/MSIL/GetAllVisitorRegisterLanding?intBusinessUnitId=${
         selectedBusinessUnit?.value
-      }&PageNo=${pageNo}&PageSize=${pageSize}&search=${searchValue ||
-        ""}&date=${values?.date || ""}`
+      }&PageNo=${pageNo}&PageSize=${pageSize}&search=${
+        searchValue || ''
+      }&date=${values?.date || ''}`
     );
   };
 
@@ -62,7 +62,7 @@ function VisitorRegisterLanding() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Visitor Register"}>
+              <CardHeader title={'Visitor Register'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -89,22 +89,23 @@ function VisitorRegisterLanding() {
                         name="date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("date", e.target.value);
+                          setFieldValue('date', e.target.value);
                           //setDate(e.target.value);
                         }}
                       />
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         className="btn btn-primary ml-2"
                         disabled={false}
                         onClick={() => {
                           getRowData(
                             `/mes/MSIL/GetAllVisitorRegisterLanding?intBusinessUnitId=${
                               selectedBusinessUnit?.value
-                            }&PageNo=${pageNo}&PageSize=${pageSize}&search=${""}&date=${values?.date ||
-                              ""}`
+                            }&PageNo=${pageNo}&PageSize=${pageSize}&search=${''}&date=${
+                              values?.date || ''
+                            }`
                           );
                         }}
                       >
@@ -126,8 +127,8 @@ function VisitorRegisterLanding() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
-                            <th style={{ width: "70px" }}>তারিখ</th>
+                            <th style={{ width: '30px' }}>SL</th>
+                            <th style={{ width: '70px' }}>তারিখ</th>
                             <th>পরিদর্শকের নাম</th>
                             <th>পরিদর্শকের প্রতিষ্ঠানের নাম </th>
                             <th>পরিদর্শকের মোবাইল নম্বর</th>
@@ -141,7 +142,7 @@ function VisitorRegisterLanding() {
                             <th>যার সাথে দেখা করতে চান তার পদবী</th>
                             <th>প্রবেশের সময়</th>
                             <th>বহির্গমনের সময়</th>
-                            <th style={{ width: "50px" }}>Action</th>
+                            <th style={{ width: '50px' }}>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -166,10 +167,10 @@ function VisitorRegisterLanding() {
                                 <td>{item?.strOfficePersonName}</td>
                                 <td>{item?.strOfficePersonDesignation}</td>
                                 <td className="text-center">
-                                  {_timeFormatter(item?.tmInTime || "")}
+                                  {_timeFormatter(item?.tmInTime || '')}
                                 </td>
                                 <td className="text-center">
-                                  {_timeFormatter(item?.tmOutTime || "")}
+                                  {_timeFormatter(item?.tmOutTime || '')}
                                 </td>
                                 <td className="text-center">
                                   <IEdit

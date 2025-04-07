@@ -49,7 +49,7 @@ export default function ReturnPOCreateForm({
   // add single item to row or add all item to row
   const addRowDtoData = (data, values) => {
     let poDataCheck = rowDto.filter(
-      (data) => data?.referenceNo?.value !== values?.referenceNo?.value,
+      (data) => data?.referenceNo?.value !== values?.referenceNo?.value
     );
     if (poDataCheck.length > 0) {
       return toast.warning('Not allowed to differente PO');
@@ -100,11 +100,11 @@ export default function ReturnPOCreateForm({
         arr = rowDto?.filter(
           (item) =>
             item.referenceNo?.value === values?.referenceNo?.value &&
-            item?.item?.value === values?.item?.value,
+            item?.item?.value === values?.item?.value
         );
       } else {
         arr = rowDto?.filter(
-          (item) => item?.item?.value === values?.item?.value,
+          (item) => item?.item?.value === values?.item?.value
         );
       }
 
@@ -206,8 +206,8 @@ export default function ReturnPOCreateForm({
         singleData?.objHeaderDTO?.warehouseId,
         supplierId,
         refType,
-        referenceNo,
-      ),
+        referenceNo
+      )
     );
   };
 
@@ -251,15 +251,12 @@ export default function ReturnPOCreateForm({
     getItemDDL(
       singleData?.objHeaderDTO?.businessPartnerId,
       singleData?.objHeaderDTO?.referenceTypeId,
-      0,
+      0
     );
-
-
   }, [singleData]);
 
   useEffect(() => {
     getRefNoDDL();
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   // getRefNoDdlBySupplier
@@ -273,7 +270,7 @@ export default function ReturnPOCreateForm({
       singleData?.objHeaderDTO?.warehouseId,
       singleData?.objHeaderDTO?.referenceTypeName,
       singleData?.objHeaderDTO?.businessPartnerId,
-      setRefNoDDL,
+      setRefNoDDL
     );
   };
 
@@ -403,7 +400,7 @@ export default function ReturnPOCreateForm({
           cb,
           // setDisabled,
           singlereturnCB,
-        }),
+        })
       );
       // others
     } else {
@@ -676,7 +673,7 @@ export default function ReturnPOCreateForm({
                             getItemDDL(
                               values?.supplierName?.value,
                               singleData?.objHeaderDTO?.referenceTypeId,
-                              value,
+                              value
                             );
                           }
                         }}
@@ -745,8 +742,8 @@ export default function ReturnPOCreateForm({
                               ? !values.item
                               : false
                             : !values.isAllItem
-                            ? !values.referenceNo || !values.item
-                            : !values.referenceNo
+                              ? !values.referenceNo || !values.item
+                              : !values.referenceNo
                         }
                         style={{
                           marginTop: '30px',

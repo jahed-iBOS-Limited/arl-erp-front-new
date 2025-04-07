@@ -1,28 +1,28 @@
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
-import IConfirmModal from "../../../../../_helper/_confirmModal";
-import InputField from "../../../../../_helper/_inputField";
-import Loading from "../../../../../_helper/_loading";
-import NewSelect from "../../../../../_helper/_select";
-import { _todayDate } from "../../../../../_helper/_todayDate";
+} from '../../../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
+import IConfirmModal from '../../../../../_helper/_confirmModal';
+import InputField from '../../../../../_helper/_inputField';
+import Loading from '../../../../../_helper/_loading';
+import NewSelect from '../../../../../_helper/_select';
+import { _todayDate } from '../../../../../_helper/_todayDate';
 
 const initData = {
-  bankAcc: "",
-  closingDate: "",
-  ait: "",
-  exDuty: "",
-  interest: "",
+  bankAcc: '',
+  closingDate: '',
+  ait: '',
+  exDuty: '',
+  interest: '',
 };
 
 function FDRCloseModal({ singleData, getData, setOpenCloseModal }) {
@@ -41,7 +41,6 @@ function FDRCloseModal({ singleData, getData, setOpenCloseModal }) {
     setBankAccDDL(
       `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   return (
@@ -56,7 +55,7 @@ function FDRCloseModal({ singleData, getData, setOpenCloseModal }) {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"FDR Register"}>
+              <CardHeader title={'FDR Register'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -70,7 +69,7 @@ function FDRCloseModal({ singleData, getData, setOpenCloseModal }) {
                         value={values?.bankAcc}
                         label="Select Bank Account"
                         onChange={(valueOption) => {
-                          setFieldValue("bankAcc", valueOption);
+                          setFieldValue('bankAcc', valueOption);
                         }}
                       />
                     </div>
@@ -83,7 +82,7 @@ function FDRCloseModal({ singleData, getData, setOpenCloseModal }) {
                         max={_todayDate()}
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("closingDate", e.target.value);
+                          setFieldValue('closingDate', e.target.value);
                         }}
                       />
                     </div>
@@ -96,7 +95,7 @@ function FDRCloseModal({ singleData, getData, setOpenCloseModal }) {
                         onChange={(e) => {
                           if (+e.target.value < 0)
                             return toast.warn("Interest can't less than zero");
-                          setFieldValue("interest", e.target.value);
+                          setFieldValue('interest', e.target.value);
                         }}
                       />
                     </div>
@@ -109,7 +108,7 @@ function FDRCloseModal({ singleData, getData, setOpenCloseModal }) {
                         onChange={(e) => {
                           if (+e.target.value < 0)
                             return toast.warn("AIT can't be less than zero");
-                          setFieldValue("ait", e.target.value);
+                          setFieldValue('ait', e.target.value);
                         }}
                       />
                     </div>
@@ -124,13 +123,13 @@ function FDRCloseModal({ singleData, getData, setOpenCloseModal }) {
                             return toast.warn(
                               "Excise Duty can't less than zero"
                             );
-                          setFieldValue("exDuty", e.target.value);
+                          setFieldValue('exDuty', e.target.value);
                         }}
                       />
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         className="btn btn-primary ml-5"
                         disabled={
                           !values.bankAcc?.value ||
@@ -141,7 +140,7 @@ function FDRCloseModal({ singleData, getData, setOpenCloseModal }) {
                         }
                         onClick={() => {
                           IConfirmModal({
-                            message: "Are you sure you want to close ?",
+                            message: 'Are you sure you want to close ?',
                             yesAlertFunc: () => {
                               saveData(
                                 `/fino/FundManagement/FundFDRClose?intAccount=${profileData?.accountId}&intUnit=${selectedBusinessUnit?.value}&intFdrAccId=${singleData?.intFdrAccountId}&intBankAccId=${values?.bankAcc?.value}&dteCloseDate=${values?.closingDate}&numAit=${values?.ait}&numExDuty=${values?.exDuty}&numIntRate=${values?.interest}&intActionBy=${profileData?.userId}`,

@@ -1,17 +1,17 @@
-import { Formik, useFormik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { quaterDDL } from "../../../hashPerformanceCommon";
-import { getYearDDL } from "../../../performancePlanning/helper";
-import { getPerformanceDialogReport } from "../helper";
-import PerformanceDialogTable from "./performanceDialogTable";
+import { Formik, useFormik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { quaterDDL } from '../../../hashPerformanceCommon';
+import { getYearDDL } from '../../../performancePlanning/helper';
+import { getPerformanceDialogReport } from '../helper';
+import PerformanceDialogTable from './performanceDialogTable';
 
 const initialValues = {
   quarterDDLgroup: {
-    label: "",
+    label: '',
     value: 0,
   },
 };
@@ -19,31 +19,31 @@ const initialValues = {
 const reportType = [
   {
     value: 1,
-    label: "Work Plan",
+    label: 'Work Plan',
   },
   {
     value: 2,
-    label: "Action Plan",
+    label: 'Action Plan',
   },
   {
     value: 3,
-    label: "Eisenhower Matrix",
+    label: 'Eisenhower Matrix',
   },
   {
     value: 4,
-    label: "Johari Window",
+    label: 'Johari Window',
   },
   {
     value: 5,
-    label: "Action Plan Johari Window",
+    label: 'Action Plan Johari Window',
   },
   {
     value: 6,
-    label: "Grow Model",
+    label: 'Grow Model',
   },
   {
     value: 7,
-    label: "Action Plan Grow Model",
+    label: 'Action Plan Grow Model',
   },
 ];
 
@@ -51,7 +51,6 @@ const PerformanceDialogReport = () => {
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-
 
   const { accountId, employeeId } = profileData;
 
@@ -61,7 +60,6 @@ const PerformanceDialogReport = () => {
 
   useEffect(() => {
     getYearDDL(accountId, setYearDDL);
-
   }, []);
 
   const { handleSubmit, setFieldValue, values, errors } = useFormik({
@@ -82,7 +80,7 @@ const PerformanceDialogReport = () => {
                   value={values?.reportTypeDDL}
                   label="Report Type"
                   onChange={(valueOption) => {
-                    setFieldValue("reportTypeDDL", valueOption);
+                    setFieldValue('reportTypeDDL', valueOption);
                     setRowDto([]);
                     // getPerformanceDialogReport(
                     //   valueOption?.value || 0,
@@ -106,7 +104,7 @@ const PerformanceDialogReport = () => {
                   value={values?.yearDDLgroup}
                   label="Select Year"
                   onChange={(valueOption) => {
-                    setFieldValue("yearDDLgroup", valueOption);
+                    setFieldValue('yearDDLgroup', valueOption);
                     setRowDto([]);
                     // getPerformanceDialogReport(
                     //   values?.reportTypeDDL?.value || 0,
@@ -123,7 +121,7 @@ const PerformanceDialogReport = () => {
                   errors={errors}
                 />
               </div>
-              {values?.reportTypeDDL?.value !== 4 &&
+              {values?.reportTypeDDL?.value !== 4 && (
                 <div className="col-md-3">
                   <NewSelect
                     name="quarterDDLgroup"
@@ -131,7 +129,7 @@ const PerformanceDialogReport = () => {
                     value={values?.quarterDDLgroup}
                     label="Quarter"
                     onChange={(valueOption) => {
-                      setFieldValue("quarterDDLgroup", valueOption);
+                      setFieldValue('quarterDDLgroup', valueOption);
                       setRowDto([]);
                       // getPerformanceDialogReport(
                       //   values?.reportTypeDDL?.value || 0,
@@ -148,30 +146,29 @@ const PerformanceDialogReport = () => {
                     errors={errors}
                   />
                 </div>
-              }
+              )}
               <div className="col-md-3 pt-5">
                 <button
-                className="btn btn-primary"
-                type="button"
-                onClick={ ()=>{
-                  getPerformanceDialogReport(
-                    values?.reportTypeDDL?.value || 0,
-                    values?.reportTypeDDL?.label || 0,
-                    values?.yearDDLgroup?.value || 0,
-                    values?.quarterDDLgroup?.value || 0,
-                    0,
-                    0,
-                    setLoading,
-                    setRowDto
-                  );
-                }}
+                  className="btn btn-primary"
+                  type="button"
+                  onClick={() => {
+                    getPerformanceDialogReport(
+                      values?.reportTypeDDL?.value || 0,
+                      values?.reportTypeDDL?.label || 0,
+                      values?.yearDDLgroup?.value || 0,
+                      values?.quarterDDLgroup?.value || 0,
+                      0,
+                      0,
+                      setLoading,
+                      setRowDto
+                    );
+                  }}
                 >
                   View
                 </button>
               </div>
             </div>
-            <div className="row">
-            </div>
+            <div className="row"></div>
           </div>
         </form>
         <div>

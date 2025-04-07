@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import Loading from "./../../../../../_helper/_loading";
-import { GetSalesOrderReportInfoByItemWise_api } from "../../helper";
-import SalesOrderView from "../../../../orderManagement/salesOrder/View/viewModal";
+import React, { useEffect, useState } from 'react';
+import Loading from './../../../../../_helper/_loading';
+import { GetSalesOrderReportInfoByItemWise_api } from '../../helper';
+import SalesOrderView from '../../../../orderManagement/salesOrder/View/viewModal';
 function QtyClickModel({ viewClickRowData }) {
   const [rowDto, setRowDto] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isOrderModel, setIsOrderModel] = useState(false);
-  const [rowDataClick, setRowDataClick] = useState("");
+  const [rowDataClick, setRowDataClick] = useState('');
   useEffect(() => {
     if (viewClickRowData) {
       GetSalesOrderReportInfoByItemWise_api(

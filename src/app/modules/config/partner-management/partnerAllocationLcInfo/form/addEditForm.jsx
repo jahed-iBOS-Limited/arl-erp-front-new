@@ -1,11 +1,8 @@
-
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams } from "react-router";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams } from 'react-router';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   CreatePartnerProductAllocationLcInfo,
   EditPartnerProductAllocationLcInfo,
@@ -13,8 +10,8 @@ import {
   getBankNameDDL,
   getSupplierCountryDDL,
   getLcDDL,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 export default function PartnerProductAllocationLcInfoForm() {
   // get user profile data from store
@@ -34,14 +31,14 @@ export default function PartnerProductAllocationLcInfoForm() {
   const [singleData, setSingleData] = useState({});
 
   const initData = {
-    lCno: "",
+    lCno: '',
     lCdate: _todayDate(),
-    supplierCountry: "",
-    bankName: "",
-    branchName: "",
-    shipName: "",
-    color: "",
-    allotmentRefNo: "",
+    supplierCountry: '',
+    bankName: '',
+    branchName: '',
+    shipName: '',
+    color: '',
+    allotmentRefNo: '',
     allotmentRefDate: _todayDate(),
   };
 

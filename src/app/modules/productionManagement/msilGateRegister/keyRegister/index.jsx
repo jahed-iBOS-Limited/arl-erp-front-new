@@ -1,23 +1,23 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 
 function KeyRegisterLanding() {
   const history = useHistory();
@@ -34,15 +34,15 @@ function KeyRegisterLanding() {
       `/mes/MSIL/GetAllKeyRegisterLanding?intBusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`
       //  `/mes/MSIL/GetAllKeyRegisterLanding?PageNo=${pageNo}&PageSize=${pageSize}&search=asd&date=2022-01-02`
     );
-
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowData(
       `/mes/MSIL/GetAllKeyRegisterLanding?intBusinessUnitId=${
         selectedBusinessUnit?.value
-      }&PageNo=${pageNo}&PageSize=${pageSize}&search=${searchValue}&date=${values?.date ||
-        ""}`
+      }&PageNo=${pageNo}&PageSize=${pageSize}&search=${searchValue}&date=${
+        values?.date || ''
+      }`
     );
   };
 
@@ -57,7 +57,7 @@ function KeyRegisterLanding() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Key Register"}>
+              <CardHeader title={'Key Register'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -84,21 +84,21 @@ function KeyRegisterLanding() {
                         name="date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("date", e.target.value);
+                          setFieldValue('date', e.target.value);
                           //setDate(e.target.value);
                         }}
                       />
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         className="btn btn-primary ml-2"
                         disabled={false}
                         onClick={() => {
                           getRowData(
                             `/mes/MSIL/GetAllKeyRegisterLanding?intBusinessUnitId=${
                               selectedBusinessUnit?.value
-                            }&PageNo=${pageNo}&PageSize=${pageSize}&search=${""}&date=${
+                            }&PageNo=${pageNo}&PageSize=${pageSize}&search=${''}&date=${
                               values?.date
                             }`
                           );
@@ -121,7 +121,7 @@ function KeyRegisterLanding() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>তারিখ</th>
                             <th>চাবি গ্রহনকারীর নাম</th>
                             <th>পদবী</th>
@@ -130,7 +130,7 @@ function KeyRegisterLanding() {
                             <th>চাবি প্রদানের সময়</th>
                             <th>চাবি গ্রহণের সময়</th>
                             <th>চাবি প্রদানকারীর নাম</th>
-                            <th style={{ width: "50px" }}>Action</th>
+                            <th style={{ width: '50px' }}>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -148,10 +148,10 @@ function KeyRegisterLanding() {
                                   {item?.numKeyQuantity}
                                 </td>
                                 <td className="text-center">
-                                  {_timeFormatter(item?.tmKeyProvideTime || "")}
+                                  {_timeFormatter(item?.tmKeyProvideTime || '')}
                                 </td>
                                 <td className="text-center">
-                                  {_timeFormatter(item?.tmKeyReceiveTime || "")}
+                                  {_timeFormatter(item?.tmKeyReceiveTime || '')}
                                 </td>
                                 <td>{item?.strKeyProviderName}</td>
                                 <td className="text-center">

@@ -1,15 +1,15 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import IForm from "../../../_helper/_form";
-import FormikError from "../../../_helper/_formikError";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import IForm from '../../../_helper/_form';
+import FormikError from '../../../_helper/_formikError';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {};
 export default function ItemWiseSerialCreate() {
@@ -40,7 +40,6 @@ export default function ItemWiseSerialCreate() {
     setPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit.value}&OrgUnitTypeId=7`
     );
-
   }, []);
 
   const saveHandler = async (values, cb) => {
@@ -62,14 +61,14 @@ export default function ItemWiseSerialCreate() {
         mrrdate: values?.mrrNo?.mrrDate,
         itemWiseSerialNo: index + 1,
         customerId: 0,
-        customerName: "",
-        challanNo: "",
+        customerName: '',
+        challanNo: '',
         salesOrderId: 0,
-        salesOrderCode: "",
+        salesOrderCode: '',
         //salesOrderDate: "",
-        challanDate: "",
-        itemCode: "",
-        serialNo: "",
+        challanDate: '',
+        itemCode: '',
+        serialNo: '',
         actionBy: profileData?.userId,
         insertDate: _todayDate(),
         isActive: true,
@@ -120,7 +119,7 @@ export default function ItemWiseSerialCreate() {
                         value={values?.sbu}
                         label="Select SBU"
                         onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
+                          setFieldValue('sbu', valueOption);
                         }}
                         errors={errors}
                         //isDisabled={}
@@ -133,7 +132,7 @@ export default function ItemWiseSerialCreate() {
                         value={values?.plant}
                         label="Select Plant"
                         onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
+                          setFieldValue('plant', valueOption);
                           setWarehouseDDL(
                             `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
                           );
@@ -148,7 +147,7 @@ export default function ItemWiseSerialCreate() {
                         value={values?.warehouse}
                         label="Select Warehouse"
                         onChange={(valueOption) => {
-                          setFieldValue("warehouse", valueOption);
+                          setFieldValue('warehouse', valueOption);
                         }}
                         errors={errors}
                       />
@@ -158,11 +157,11 @@ export default function ItemWiseSerialCreate() {
                       <SearchAsyncSelect
                         selectedValue={values.poNumber}
                         handleChange={(valueOption) => {
-                          setFieldValue("poNumber", valueOption);
+                          setFieldValue('poNumber', valueOption);
                           getMrrNoDDL(
                             `/wms/ItemWiseSerialUpdate/GetMRRListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${values?.sbu?.value}&PlantId=${values?.plant?.value}&WarehouseId=${values?.warehouse?.value}&ReferenceId=${valueOption?.value}&ReferenceCode=${valueOption?.label}`
                           );
-                          setFieldValue("mrrNo", "");
+                          setFieldValue('mrrNo', '');
                         }}
                         loadOptions={(v) => {
                           if (v.length < 3) return [];
@@ -195,7 +194,7 @@ export default function ItemWiseSerialCreate() {
                         value={values?.mrrNo}
                         label="Select MRR No"
                         onChange={(valueOption) => {
-                          setFieldValue("mrrNo", valueOption);
+                          setFieldValue('mrrNo', valueOption);
                           getRowData(
                             `/wms/ItemWiseSerialUpdate/GetMRRItemListByMRRId?MRRId=${valueOption?.value}`
                           );
@@ -240,14 +239,14 @@ export default function ItemWiseSerialCreate() {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

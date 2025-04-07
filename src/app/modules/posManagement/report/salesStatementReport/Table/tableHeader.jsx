@@ -1,8 +1,6 @@
-import React from "react";
-import { TableRow } from "./tableRow";
+import React from 'react';
+import { TableRow } from './tableRow';
 
 export function SalesStatementTable() {
-  return (
-      <TableRow />
-  );
+  return <TableRow />;
 }

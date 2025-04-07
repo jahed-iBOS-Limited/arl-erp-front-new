@@ -1,15 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const transportZoneSlice = createSlice({
-  name: "transportZone",
+  name: 'transportZone',
   initialState: initState,
   reducers: {
     SetGridData: (state, action) => {
@@ -22,7 +22,7 @@ export const transportZoneSlice = createSlice({
       state.singleData = payload;
     },
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
   },
 });

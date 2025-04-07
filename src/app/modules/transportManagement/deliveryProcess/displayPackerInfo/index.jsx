@@ -1,8 +1,8 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import Dashboard from "./dashboard";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import Dashboard from './dashboard';
 const initData = {};
 export default function DisplayPackerInfo() {
   const saveHandler = (values, cb) => {};

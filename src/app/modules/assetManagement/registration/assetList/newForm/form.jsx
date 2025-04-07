@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import InputField from "../../../../_helper/_inputField";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import InputField from '../../../../_helper/_inputField';
 // import { MaintenanceReport } from "../maintenance";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IViewModal from "../../../../_helper/_viewModal";
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IViewModal from '../../../../_helper/_viewModal';
 // import { getMaintenanceReport } from "../helper";
-import IView from "../../../../_helper/_helperIcons/_view";
-import MaintenanceDetailReport from "./maintenanceReportModal";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import IView from '../../../../_helper/_helperIcons/_view';
+import MaintenanceDetailReport from './maintenanceReportModal';
+import { _todayDate } from '../../../../_helper/_todayDate';
 // import IDelete from "../../../../_helper/_helperIcons/_delete";
 // import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
@@ -32,18 +32,18 @@ export default function FormCmp({
   setMaintenanceRowDto,
   setDisabled,
   currentRowData,
-  assignRowDto
+  assignRowDto,
 }) {
-  const [mdalShow, setModalShow] = useState(false)
-  const [currentItem, setCurrentItem] = useState("")
+  const [mdalShow, setModalShow] = useState(false);
+  const [currentItem, setCurrentItem] = useState('');
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          fromDate: _dateFormatter(new Date("2021-06-01")),
-          toDate: _todayDate()
+          fromDate: _dateFormatter(new Date('2021-06-01')),
+          toDate: _todayDate(),
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -64,11 +64,13 @@ export default function FormCmp({
           <>
             {disableHandler(!isValid)}
             <Form className="form form-label-right">
-              <div style={{
-                height: "450px",
-                overflowY: "auto",
-                overflowX: "hidden"
-              }}>
+              <div
+                style={{
+                  height: '450px',
+                  overflowY: 'auto',
+                  overflowX: 'hidden',
+                }}
+              >
                 <div className="form-group row global-form">
                   <div className="col-lg-3">
                     <ISelect
@@ -92,18 +94,20 @@ export default function FormCmp({
                       name="referenceCode"
                     />
                   </div>
-                  {values?.itemCategory === "Vehicle" && <div className="col-lg-3">
-                    <ISelect
-                      label="Brta Vehicle Type"
-                      options={[]}
-                      value={values?.brtaType}
-                      name="brtaType"
-                      setFieldValue={setFieldValue}
-                      isDisabled={true}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>}
+                  {values?.itemCategory === 'Vehicle' && (
+                    <div className="col-lg-3">
+                      <ISelect
+                        label="Brta Vehicle Type"
+                        options={[]}
+                        value={values?.brtaType}
+                        name="brtaType"
+                        setFieldValue={setFieldValue}
+                        isDisabled={true}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  )}
                   <div className="col-lg-3">
                     <ISelect
                       label="Supplier Name"
@@ -323,67 +327,90 @@ export default function FormCmp({
                 <h4 className="my-5 py-5 border-bottom">Asset Maintenance</h4>
 
                 <div className="row">
-
                   <div className="col-lg-12">
-                   <div className="table-responsive">
-                   <table className="table table-striped table-bordered global-table table-font-size-sm">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Job Card</th>
-                          <th style={{ width: "100px" }}>Asset Code</th>
-                          <th style={{ width: "120px" }}>Name of Asset</th>
-                          {/* <th style={{ width: "100px" }}>Bill Unit</th> */}
-                          <th style={{ width: "100px" }}>Problem</th>
-                          <th>Repair Type</th>
-                          <th>Priority</th>
-                          <th>Start Date</th>
-                          <th>End Date</th>
-                          <th>Material</th>
-                          <th>Service</th>
-                          <th>Total</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {maintenanceRowDto?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.intMaintenanceNo}</td>
-                            <td>{item?.strAssetCode}</td>
-                            <td>{item?.strNameOfAsset}</td>
-                            {/* <td>{item?.strBilUnit}</td> */}
-                            <td>{item?.strProblem}</td>
-                            <td>{item?.strRepairType}</td>
-                            <td>{item?.strPriority}</td>
-                            <td>{_dateFormatter(item?.dteStart)}</td>
-                            <td>{_dateFormatter(item?.dteEnd)}</td>
-                            <td>{item?.monMaterial}</td>
-                            <td>{item?.monServiceCost}</td>
-                            <td>{item?.monMaterial + item?.monServiceCost}</td>
-                            <td className="text-center">
-                              <IView
-                                //classes="text-muted"
-                                clickHandler={() => {
-                                  setModalShow(true);
-                                  setCurrentItem(item);
-                                }}
-                              />
-                            </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table table-font-size-sm">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Job Card</th>
+                            <th style={{ width: '100px' }}>Asset Code</th>
+                            <th style={{ width: '120px' }}>Name of Asset</th>
+                            {/* <th style={{ width: "100px" }}>Bill Unit</th> */}
+                            <th style={{ width: '100px' }}>Problem</th>
+                            <th>Repair Type</th>
+                            <th>Priority</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Material</th>
+                            <th>Service</th>
+                            <th>Total</th>
+                            <th>Action</th>
                           </tr>
-                        ))}
-                        <tr>
-                          <td className="text-right font-weight-bold" colSpan="9"> Total</td>
-                          <td className="text-center font-weight-bold">{maintenanceRowDto?.reduce((acc, item) => acc + +item?.monMaterial, 0)}</td>
-                          <td className="text-center font-weight-bold">{maintenanceRowDto?.reduce((acc, item) => acc + +item?.monServiceCost, 0)}</td>
-                          <td className="text-center font-weight-bold">{maintenanceRowDto?.reduce((acc, item) => acc + (+item?.monMaterial + +item?.monServiceCost), 0)}</td>
-                          <td>
-                          </td>
-                        </tr>
-                      </tbody>
-                      {/* )} */}
-                    </table>
-                   </div>
+                        </thead>
+                        <tbody>
+                          {maintenanceRowDto?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{item?.intMaintenanceNo}</td>
+                              <td>{item?.strAssetCode}</td>
+                              <td>{item?.strNameOfAsset}</td>
+                              {/* <td>{item?.strBilUnit}</td> */}
+                              <td>{item?.strProblem}</td>
+                              <td>{item?.strRepairType}</td>
+                              <td>{item?.strPriority}</td>
+                              <td>{_dateFormatter(item?.dteStart)}</td>
+                              <td>{_dateFormatter(item?.dteEnd)}</td>
+                              <td>{item?.monMaterial}</td>
+                              <td>{item?.monServiceCost}</td>
+                              <td>
+                                {item?.monMaterial + item?.monServiceCost}
+                              </td>
+                              <td className="text-center">
+                                <IView
+                                  //classes="text-muted"
+                                  clickHandler={() => {
+                                    setModalShow(true);
+                                    setCurrentItem(item);
+                                  }}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                          <tr>
+                            <td
+                              className="text-right font-weight-bold"
+                              colSpan="9"
+                            >
+                              {' '}
+                              Total
+                            </td>
+                            <td className="text-center font-weight-bold">
+                              {maintenanceRowDto?.reduce(
+                                (acc, item) => acc + +item?.monMaterial,
+                                0
+                              )}
+                            </td>
+                            <td className="text-center font-weight-bold">
+                              {maintenanceRowDto?.reduce(
+                                (acc, item) => acc + +item?.monServiceCost,
+                                0
+                              )}
+                            </td>
+                            <td className="text-center font-weight-bold">
+                              {maintenanceRowDto?.reduce(
+                                (acc, item) =>
+                                  acc +
+                                  (+item?.monMaterial + +item?.monServiceCost),
+                                0
+                              )}
+                            </td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                        {/* )} */}
+                      </table>
+                    </div>
                   </div>
                   <>
                     <IViewModal
@@ -406,32 +433,31 @@ export default function FormCmp({
                 <h4 className="my-5 py-5 border-bottom">Asset Assign</h4>
 
                 <div className="row">
-
                   <div className="col-lg-12">
-                   <div className="table-responsive">
-                   <table className="table table-striped table-bordered global-table table-font-size-sm">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Employee Name</th>
-                          <th>Date</th>
-                          <th>Time</th>
-                          <th>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {assignRowDto?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.intMaintenanceNo}</td>
-                            <td>{item?.strAssetCode}</td>
-                            <td>{item?.strNameOfAsset}</td>
-                            <td>{item?.strProblem}</td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table table-font-size-sm">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Employee Name</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                   </div>
+                        </thead>
+                        <tbody>
+                          {assignRowDto?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{item?.intMaintenanceNo}</td>
+                              <td>{item?.strAssetCode}</td>
+                              <td>{item?.strNameOfAsset}</td>
+                              <td>{item?.strProblem}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   <>
                     <IViewModal
@@ -454,14 +480,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

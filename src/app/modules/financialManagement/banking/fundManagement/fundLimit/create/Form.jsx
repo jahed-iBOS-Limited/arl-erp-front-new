@@ -48,7 +48,6 @@ export default function LimitForm({
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
     getFacilityDLL(selectedBusinessUnit?.value, 0, setFacilityDDL, setLoading);
-
   }, []);
   useEffect(() => {
     if (isEdit) {

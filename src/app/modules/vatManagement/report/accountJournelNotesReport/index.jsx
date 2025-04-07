@@ -26,7 +26,7 @@ export function AccountJournelNotesReport() {
   // get user profile data from store
   const profileData = useSelector(
     (state) => state.authData.profileData,
-    shallowEqual,
+    shallowEqual
   );
 
   const [notesReportData, getNotesReportData, reportLoading] = useAxiosGet([]);
@@ -35,7 +35,7 @@ export function AccountJournelNotesReport() {
   // get selected business unit from store
   const selectedBusinessUnit = useSelector(
     (state) => state.authData.selectedBusinessUnit,
-    shallowEqual,
+    shallowEqual
   );
 
   //   const pdfExport = (fileName) => {
@@ -67,7 +67,7 @@ export function AccountJournelNotesReport() {
     let fromDate = values?.fromDate ? `&fromDate=${values?.fromDate}` : '';
     let toDate = values?.toDate ? `&toDate=${values?.toDate}` : '';
     getNotesReportData(
-      `/fino/AccountingJournalTax/GetAccountingJournalTaxNotesReport?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit.value}${fromDate}${toDate}&pageNo=${pageNo}&pageSize=${pageSize}`,
+      `/fino/AccountingJournalTax/GetAccountingJournalTaxNotesReport?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit.value}${fromDate}${toDate}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   };
   return (
@@ -182,7 +182,7 @@ export function AccountJournelNotesReport() {
                             ? `&toDate=${values?.toDate}`
                             : '';
                           getNotesReportData(
-                            `/fino/AccountingJournalTax/GetAccountingJournalTaxNotesReport?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit.value}${fromDate}${toDate}&pageNo=${pageNo}&pageSize=${pageSize}`,
+                            `/fino/AccountingJournalTax/GetAccountingJournalTaxNotesReport?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit.value}${fromDate}${toDate}&pageNo=${pageNo}&pageSize=${pageSize}`
                           );
                         }}
                         disabled={false}

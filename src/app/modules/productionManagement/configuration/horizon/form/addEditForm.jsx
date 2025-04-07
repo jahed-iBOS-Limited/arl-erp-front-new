@@ -1,13 +1,11 @@
-
-
-import React, { useEffect, useState } from "react";
-import Form from "./form";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
-import IForm from "./../../../../_helper/_form";
-import HorizonTable from "./horizonTable";
-import HorizonWeekTable from "./horizonWeekTable";
+import React, { useEffect, useState } from 'react';
+import Form from './form';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
+import IForm from './../../../../_helper/_form';
+import HorizonTable from './horizonTable';
+import HorizonWeekTable from './horizonWeekTable';
 import {
   createHorizon,
   getPlantDDL,
@@ -15,28 +13,28 @@ import {
   getHorizonTypeDDL,
   getDaysInMonth,
   getWeekInYear,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  plant: "",
-  year: "",
-  horizon: "",
-  schedulingHorizon: "",
+  plant: '',
+  year: '',
+  horizon: '',
+  schedulingHorizon: '',
 };
 
 const yearDetails = [
-  { strPlanningHorizonName: "January", intSubHorizonId: 1 },
-  { strPlanningHorizonName: "February", intSubHorizonId: 2 },
-  { strPlanningHorizonName: "March", intSubHorizonId: 3 },
-  { strPlanningHorizonName: "April", intSubHorizonId: 4 },
-  { strPlanningHorizonName: "May", intSubHorizonId: 5 },
-  { strPlanningHorizonName: "June", intSubHorizonId: 6 },
-  { strPlanningHorizonName: "July", intSubHorizonId: 7 },
-  { strPlanningHorizonName: "August", intSubHorizonId: 8 },
-  { strPlanningHorizonName: "September", intSubHorizonId: 9 },
-  { strPlanningHorizonName: "October", intSubHorizonId: 10 },
-  { strPlanningHorizonName: "November", intSubHorizonId: 11 },
-  { strPlanningHorizonName: "December", intSubHorizonId: 12 },
+  { strPlanningHorizonName: 'January', intSubHorizonId: 1 },
+  { strPlanningHorizonName: 'February', intSubHorizonId: 2 },
+  { strPlanningHorizonName: 'March', intSubHorizonId: 3 },
+  { strPlanningHorizonName: 'April', intSubHorizonId: 4 },
+  { strPlanningHorizonName: 'May', intSubHorizonId: 5 },
+  { strPlanningHorizonName: 'June', intSubHorizonId: 6 },
+  { strPlanningHorizonName: 'July', intSubHorizonId: 7 },
+  { strPlanningHorizonName: 'August', intSubHorizonId: 8 },
+  { strPlanningHorizonName: 'September', intSubHorizonId: 9 },
+  { strPlanningHorizonName: 'October', intSubHorizonId: 10 },
+  { strPlanningHorizonName: 'November', intSubHorizonId: 11 },
+  { strPlanningHorizonName: 'December', intSubHorizonId: 12 },
 ];
 
 const HorizonForm = () => {
@@ -44,19 +42,19 @@ const HorizonForm = () => {
 
   const [isDisabled, setDisabled] = useState(false);
 
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   // All DDL
   const [plantNameDDL, setPlantNameDDL] = useState([]);
   const [horizonYearDDL, setHorizonYearDDL] = useState([]);
   const [horizonTypeDDL, setHorizonTypeDDL] = useState([]);
-  const [horizonType, setHorizonType] = useState("");
-  const [horizonYear, setHorizonYear] = useState("");
+  const [horizonType, setHorizonType] = useState('');
+  const [horizonYear, setHorizonYear] = useState('');
   const [gridData, setGridData] = useState([]);
   const [gridWeekData, setGridWeekData] = useState([]);
   const [dataVisible, setDataVisible] = useState(true);
 
-  console.log('gridweekdata: ', gridWeekData)
+  console.log('gridweekdata: ', gridWeekData);
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -81,17 +79,17 @@ const HorizonForm = () => {
 
   //Load Horizon Year Data
   useEffect(() => {
-    if(horizonType){
-      if (horizonYear && horizonType.label == "Monthly Horizon") {
+    if (horizonType) {
+      if (horizonYear && horizonType.label == 'Monthly Horizon') {
         setGridData(getDaysInMonth(yearDetails, horizonYear.label));
         setGridWeekData([]);
-      } else if (horizonYear && horizonType.label == "Weekly Horizon") {
+      } else if (horizonYear && horizonType.label == 'Weekly Horizon') {
         setGridWeekData(getWeekInYear(horizonYear.label));
         setGridData([]);
       } else {
       }
+    } else {
     }
-    else{}
   }, [horizonYear, horizonType]);
 
   // Get Single Data By Id
@@ -106,7 +104,6 @@ const HorizonForm = () => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       // Create
       if (!id) {
-
         let payload = {
           objHeader: {
             intHorizonTypeId: values?.horizon.value,
@@ -125,7 +122,6 @@ const HorizonForm = () => {
       }
       // Edit
       else {
-
         let payload = {
           beatId: +id,
           beatCode: values?.beatCode,
@@ -144,7 +140,7 @@ const HorizonForm = () => {
   return (
     <>
       <IForm
-        title={!id ? "Horizon Create" : "Horizon Edit"}
+        title={!id ? 'Horizon Create' : 'Horizon Edit'}
         getProps={setObjprops}
         isDisabled={isDisabled}
       >
@@ -170,12 +166,12 @@ const HorizonForm = () => {
         {dataVisible && gridData.length > 0 ? (
           <HorizonTable gridData={gridData} />
         ) : (
-          ""
+          ''
         )}
         {dataVisible && gridWeekData.length > 0 ? (
           <HorizonWeekTable gridWeekData={gridWeekData} />
         ) : (
-          ""
+          ''
         )}
       </IForm>
     </>

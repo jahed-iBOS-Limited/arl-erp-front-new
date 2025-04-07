@@ -1,31 +1,27 @@
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik, Form } from "formik";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import PaginationSearch from "./../../../../_helper/_search";
-import {
-  getProductionReportData,
-  getShopfloorDDL,
-} from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import InputField from "../../../../_helper/_inputField";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
-import { getPlantNameDDL_api } from "../../../../_helper/_commonApi";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { Formik, Form } from 'formik';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import PaginationSearch from './../../../../_helper/_search';
+import { getProductionReportData, getShopfloorDDL } from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import InputField from '../../../../_helper/_inputField';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ReactHtmlTableToExcel from 'react-html-table-to-excel';
+import { getPlantNameDDL_api } from '../../../../_helper/_commonApi';
 
 const initData = {
-  plant: "",
-  shopFloor: "",
-  bomType: "",
+  plant: '',
+  shopFloor: '',
+  bomType: '',
   itemType: {
     value: 3,
-    label: "All",
+    label: 'All',
   },
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -94,9 +90,9 @@ function ProductionReportLanding() {
                       value={values?.plant}
                       label="Select Plant"
                       onChange={(valueOption) => {
-                        setFieldValue("shopFloor", "");
+                        setFieldValue('shopFloor', '');
                         setGridData([]);
-                        setFieldValue("plant", valueOption);
+                        setFieldValue('plant', valueOption);
                         getShopfloorDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -112,11 +108,11 @@ function ProductionReportLanding() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="shopFloor"
-                      options={[{ value: 0, label: "All" }, ...shopFloor]}
+                      options={[{ value: 0, label: 'All' }, ...shopFloor]}
                       value={values?.shopFloor}
                       label="Select Shop Floor"
                       onChange={(valueOption) => {
-                        setFieldValue("shopFloor", valueOption);
+                        setFieldValue('shopFloor', valueOption);
                       }}
                       placeholder="Select Shop Floor"
                       errors={errors}
@@ -130,21 +126,21 @@ function ProductionReportLanding() {
                         options={[
                           {
                             value: 1,
-                            label: "Main (Paddy to Rice)",
+                            label: 'Main (Paddy to Rice)',
                           },
                           {
                             value: 2,
-                            label: "Conversion (Rice to Rice)",
+                            label: 'Conversion (Rice to Rice)',
                           },
                           {
                             value: 3,
-                            label: "Re-Process (Rice to Rice)",
+                            label: 'Re-Process (Rice to Rice)',
                           },
                         ]}
                         value={values?.bomType}
                         label="Bom Type"
                         onChange={(valueOption) => {
-                          setFieldValue("bomType", valueOption);
+                          setFieldValue('bomType', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -157,21 +153,21 @@ function ProductionReportLanding() {
                       options={[
                         {
                           value: 3,
-                          label: "All",
+                          label: 'All',
                         },
                         {
                           value: 1,
-                          label: "Main Item",
+                          label: 'Main Item',
                         },
                         {
                           value: 2,
-                          label: "Others",
+                          label: 'Others',
                         },
                       ]}
                       value={values?.itemType}
                       label="Item Type"
                       onChange={(valueOption) => {
-                        setFieldValue("itemType", valueOption);
+                        setFieldValue('itemType', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -185,7 +181,7 @@ function ProductionReportLanding() {
                       placeholder="From Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e?.target?.value);
+                        setFieldValue('fromDate', e?.target?.value);
                       }}
                     />
                   </div>
@@ -197,11 +193,11 @@ function ProductionReportLanding() {
                       placeholder="To Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e?.target?.value);
+                        setFieldValue('toDate', e?.target?.value);
                       }}
                     />
                   </div>
-                  <div style={{ marginTop: "15px" }} className="col-lg">
+                  <div style={{ marginTop: '15px' }} className="col-lg">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -221,7 +217,7 @@ function ProductionReportLanding() {
                   </div>
                   {gridData?.length > 0 && (
                     <div
-                      style={{ marginTop: "15px" }}
+                      style={{ marginTop: '15px' }}
                       className="col-lg-3 d-flex justify-content-end"
                     >
                       <div>
@@ -232,7 +228,7 @@ function ProductionReportLanding() {
                               className="btn btn-primary px-4 py-1"
                             >
                               <img
-                                style={{ width: "25px", paddingRight: "5px" }}
+                                style={{ width: '25px', paddingRight: '5px' }}
                                 src={printIcon}
                                 alt="print-icon"
                               />
@@ -244,14 +240,14 @@ function ProductionReportLanding() {
                       </div>
                     </div>
                   )}
-                  <div className="ml-2" style={{ marginTop: "15px" }}>
+                  <div className="ml-2" style={{ marginTop: '15px' }}>
                     {gridData?.length && (
                       <ReactHtmlTableToExcel
                         id="test-table-xls-button-att-reports"
                         className="btn btn-primary"
-                        table={"table-to-xlsx"}
-                        filename={"productionReport"}
-                        sheet={"productionReport"}
+                        table={'table-to-xlsx'}
+                        filename={'productionReport'}
+                        sheet={'productionReport'}
                         buttonText="Export Excel"
                       />
                     )}
@@ -277,7 +273,7 @@ function ProductionReportLanding() {
                       <br />
                       <b
                         className="display-5"
-                        style={{ textDecoration: "underline" }}
+                        style={{ textDecoration: 'underline' }}
                       >
                         Production Report
                       </b>
@@ -299,8 +295,8 @@ function ProductionReportLanding() {
                           <th>Item Name</th>
                           {(selectedBusinessUnit?.value === 171 ||
                             selectedBusinessUnit?.value === 224) && (
-                              <th>By Product Name</th>
-                            )}
+                            <th>By Product Name</th>
+                          )}
                           <th>UoM</th>
                           <th>Production Qty</th>
                           <th>Wastage/By Product Qty</th>
@@ -330,18 +326,18 @@ function ProductionReportLanding() {
                               <span className="pr-2">{item?.strItemCode}</span>
                             </td>
                             {selectedBusinessUnit?.value === 171 ||
-                              selectedBusinessUnit?.value === 224 ? (
+                            selectedBusinessUnit?.value === 224 ? (
                               <>
                                 <td className="text-left">
                                   <span className="pr-2">
                                     {item?.isMainItem
                                       ? item?.strMainItenName
-                                      : ""}
+                                      : ''}
                                   </span>
                                 </td>
                                 <td className="text-left">
                                   <span className="pr-2">
-                                    {item?.isMainItem ? "" : item?.strItemName}
+                                    {item?.isMainItem ? '' : item?.strItemName}
                                   </span>
                                 </td>
                               </>
@@ -359,16 +355,16 @@ function ProductionReportLanding() {
                               <span className="pr-2">{item?.strUOMName}</span>
                             </td>
                             {selectedBusinessUnit?.value === 171 ||
-                              selectedBusinessUnit?.value === 224 ? (
+                            selectedBusinessUnit?.value === 224 ? (
                               <>
                                 <td className="text-right">
                                   <span className="pr-2">
-                                    {item?.isMainItem ? item?.mainQty : ""}
+                                    {item?.isMainItem ? item?.mainQty : ''}
                                   </span>
                                 </td>
                                 <td className="text-right">
                                   <span className="pr-2">
-                                    {item?.isMainItem ? "" : item?.numQuantity}
+                                    {item?.isMainItem ? '' : item?.numQuantity}
                                   </span>
                                 </td>
                               </>

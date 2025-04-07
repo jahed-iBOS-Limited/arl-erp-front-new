@@ -1,11 +1,10 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { useLocation } from "react-router-dom";
-import IForm from "../../../../../_helper/_form";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import Loading from "./../../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { useLocation } from 'react-router-dom';
+import IForm from '../../../../../_helper/_form';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import Loading from './../../../../../_helper/_loading';
 import {
   profitCenterDDL_Api,
   recivePayment_SBU_Api,
@@ -13,24 +12,27 @@ import {
   createBankReceive_Api,
   createBankPayment_Api,
   getPaymentOrReceiveById_api,
-} from "../../helper";
-import { getBankAccountDDL_api, getBusinessTransactionDDL } from "../../../../../_helper/_commonApi";
+} from '../../helper';
+import {
+  getBankAccountDDL_api,
+  getBusinessTransactionDDL,
+} from '../../../../../_helper/_commonApi';
 
 const initData = {
   id: undefined,
-  SBU: "",
-  bankAc: "",
+  SBU: '',
+  bankAc: '',
   placedInBank: false,
   placingDate: _todayDate(),
-  profitCenter: "",
-  transaction: "",
-  sbu: "",
-  amount: "",
-  instrumentType: "",
-  instrumentNo: "",
+  profitCenter: '',
+  transaction: '',
+  sbu: '',
+  amount: '',
+  instrumentType: '',
+  instrumentNo: '',
   instrumentDate: _todayDate(),
-  narration: "",
-  GLInfo: "",
+  narration: '',
+  GLInfo: '',
 };
 
 export default function RecivePaymentBankForm({
@@ -47,7 +49,7 @@ export default function RecivePaymentBankForm({
   const [businessTransactionDDL, setBusinessTransactionDDL] = useState([]);
   const [bankAcDDL, setBankAcDDL] = useState([]);
   const [instrumentType, setInstrumentType] = useState([]);
-  const [referenceTypeName, setReferenceTypeName] = useState("");
+  const [referenceTypeName, setReferenceTypeName] = useState('');
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -80,7 +82,6 @@ export default function RecivePaymentBankForm({
       setBankAcDDL
     );
     getInstrumentType_Api(setInstrumentType);
-
   }, []);
 
   console.log(headerData?.values?.transactionType?.value);
@@ -90,8 +91,8 @@ export default function RecivePaymentBankForm({
     const referenceTypeName =
       headerData?.values?.transactionType?.value === 1 ||
       headerData?.values?.transactionType?.value === 3
-        ? "Advance"
-        : "Expense";
+        ? 'Advance'
+        : 'Expense';
     getPaymentOrReceiveById_api(
       bank,
       referenceTypeName,
@@ -118,7 +119,7 @@ export default function RecivePaymentBankForm({
             narration: values?.narration,
             posted: true,
             businessPartnerId: headerData?.values?.employeeEnroll?.value,
-            businessPartnerCode: "",
+            businessPartnerCode: '',
             businessPartnerName: headerData?.values?.employeeEnroll?.label,
             accountingJournalTypeId: 2,
             directPosting: true,
@@ -152,7 +153,7 @@ export default function RecivePaymentBankForm({
             amount: values?.amount,
             narration: values?.narration,
             accountingJournalId: 0,
-            accountingJournalCode: "",
+            accountingJournalCode: '',
           },
         };
         createBankPayment_Api(
@@ -174,7 +175,7 @@ export default function RecivePaymentBankForm({
             narration: values?.narration,
             posted: true,
             businessPartnerId: headerData?.values?.employeeEnroll?.value,
-            businessPartnerCode: "",
+            businessPartnerCode: '',
             businessPartnerName: headerData?.values?.employeeEnroll?.label,
             accountingJournalTypeId: 2,
             directPosting: true,
@@ -208,7 +209,7 @@ export default function RecivePaymentBankForm({
             amount: values?.amount,
             narration: values?.narration,
             accountingJournalId: 0,
-            accountingJournalCode: "",
+            accountingJournalCode: '',
           },
         };
         createBankPayment_Api(
@@ -230,7 +231,7 @@ export default function RecivePaymentBankForm({
             narration: values?.narration,
             posted: true,
             businessPartnerId: headerData?.values?.employeeEnroll?.value,
-            businessPartnerCode: "",
+            businessPartnerCode: '',
             businessPartnerName: headerData?.values?.employeeEnroll?.label,
             accountingJournalTypeId: 2,
             directPosting: true,
@@ -264,7 +265,7 @@ export default function RecivePaymentBankForm({
             amount: values?.amount,
             narration: values?.narration,
             accountingJournalId: 0,
-            accountingJournalCode: "",
+            accountingJournalCode: '',
           },
         };
         createBankReceive_Api(
@@ -276,7 +277,6 @@ export default function RecivePaymentBankForm({
       }
     } else {
       setDisabled(false);
-
     }
   };
 
@@ -284,7 +284,6 @@ export default function RecivePaymentBankForm({
     if (bank) {
       getPaymentOrReceiveByIdFunc();
     }
-
   }, [bank]);
   return (
     <>
@@ -292,12 +291,12 @@ export default function RecivePaymentBankForm({
       <IForm
         title={`Create ${
           headerData?.values?.transactionType.value === 1
-            ? "Receive Against Advance (Bank)"
+            ? 'Receive Against Advance (Bank)'
             : headerData?.values?.transactionType.value === 2
-            ? "Receive Without Reference (Bank)"
-            : headerData?.values?.transactionType.value === 3
-            ? "Advance Pay (Bank)"
-            : "Expense Pay (Bank)"
+              ? 'Receive Without Reference (Bank)'
+              : headerData?.values?.transactionType.value === 3
+                ? 'Advance Pay (Bank)'
+                : 'Expense Pay (Bank)'
         }`}
         getProps={setObjprops}
         isDisabled={isDisabled}

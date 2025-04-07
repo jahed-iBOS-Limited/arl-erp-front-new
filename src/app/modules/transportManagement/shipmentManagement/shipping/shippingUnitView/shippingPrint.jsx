@@ -1,17 +1,17 @@
-import Axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
-import { getTransportStatusAndInfo } from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import QRCode from "qrcode.react";
+import Axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _dateFormatterTwo } from '../../../../_helper/_dateFormate';
+import { getTransportStatusAndInfo } from '../helper';
+import Loading from './../../../../_helper/_loading';
+import QRCode from 'qrcode.react';
 
 export default function ShippingPrint({ id, shipmentCode, state }) {
   const [loading, setLoading] = useState(false);
   const printRef = useRef();
-  const [shippingPrint, setSingleShippingPrintInfo] = useState("");
+  const [shippingPrint, setSingleShippingPrintInfo] = useState('');
   const [transportStatus, setTransportStatus] = useState([]);
 
   const {
@@ -47,16 +47,16 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
   let totalAmount = 0;
 
   const ths = [
-    "Ship To Party",
-    "Address",
-    "Challan No",
-    "Sales Order No",
-    "Item Code",
-    "Product Name",
-    "UoM Name",
-    "Qty",
-    [144].includes(buId) && "Rate",
-    [144].includes(buId) && "Amount",
+    'Ship To Party',
+    'Address',
+    'Challan No',
+    'Sales Order No',
+    'Item Code',
+    'Product Name',
+    'UoM Name',
+    'Qty',
+    [144].includes(buId) && 'Rate',
+    [144].includes(buId) && 'Amount',
   ];
   return (
     <>
@@ -67,33 +67,33 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
         isShowPrintBtn={true}
         componentRef={printRef}
         pageStyle={
-          "@media print{body { -webkit-print-color-adjust: exact;padding: 0 50px!important; }@page {size: portrait ! important}}"
+          '@media print{body { -webkit-print-color-adjust: exact;padding: 0 50px!important; }@page {size: portrait ! important}}'
         }
       >
         <div ref={printRef}>
           <div
             className="mx-auto print_wrapper-shipping"
-            style={{ color: "#000" }}
+            style={{ color: '#000' }}
           >
             {loading && <Loading />}
             <div>
-              <div style={{ display: "flex" }}>
-                <div style={{ width: "15%" }}></div>
-                <div style={{ width: "70%" }}>
+              <div style={{ display: 'flex' }}>
+                <div style={{ width: '15%' }}></div>
+                <div style={{ width: '70%' }}>
                   <div className="text-center my-2">
                     <h3> Shipping Note </h3>
                     <h4 className="display-5"> {buName} </h4>
                     <h6 className="display-5">
-                      {" "}
-                      {shippingPrint?.objHeader?.shipPointAddress}{" "}
+                      {' '}
+                      {shippingPrint?.objHeader?.shipPointAddress}{' '}
                     </h6>
                   </div>
                 </div>
-                <div style={{ width: "15%", paddingTop: "20px" }}>
+                <div style={{ width: '15%', paddingTop: '20px' }}>
                   {buId === 4 && (
                     <QRCode
-                      data-qr={"Shipment Code"}
-                      value={id || ""}
+                      data-qr={'Shipment Code'}
+                      value={id || ''}
                       size={120}
                     />
                   )}
@@ -103,9 +103,11 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
               <div className="d-flex justify-content-between my-5">
                 <div>
                   <b>
-                    Delivery From:{" "}
-                    {`${state?.pgiShippoint?.label ||
-                      shippingPrint?.objHeader?.shipPointName}`}
+                    Delivery From:{' '}
+                    {`${
+                      state?.pgiShippoint?.label ||
+                      shippingPrint?.objHeader?.shipPointName
+                    }`}
                   </b>
 
                   <br />
@@ -118,7 +120,7 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
 
                   <br />
                   <b>
-                    Driver Contact:{" "}
+                    Driver Contact:{' '}
                     {`${shippingPrint?.objHeader?.driverContact}`}
                   </b>
 
@@ -127,50 +129,54 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
                     Item Volume: {`${shippingPrint?.objHeader?.totalVolume}`}
                   </b> */}
                   <b>
-                    Product Gross Weight:{" "}
+                    Product Gross Weight:{' '}
                     {`${shippingPrint?.objHeader?.totalGrossWeight}`}
                   </b>
 
                   <br />
                   <b>
-                    Partner Reference:{" "}
-                    {`${shippingPrint?.objHeader?.soReferenceNo || ""}`}
+                    Partner Reference:{' '}
+                    {`${shippingPrint?.objHeader?.soReferenceNo || ''}`}
                   </b>
 
                   <br />
                   <b>
-                    Pricing Date:{" "}
-                    {`${_dateFormatterTwo(
-                      shippingPrint?.objHeader?.pricingDate
-                    ) || ""}`}
+                    Pricing Date:{' '}
+                    {`${
+                      _dateFormatterTwo(
+                        shippingPrint?.objHeader?.pricingDate
+                      ) || ''
+                    }`}
                   </b>
 
                   <br />
                   {(buId === 171 || buId === 224) && (
-                    <b>Narration: {`${transportStatus[0]?.label || ""}`}</b>
+                    <b>Narration: {`${transportStatus[0]?.label || ''}`}</b>
                   )}
                 </div>
                 <div>
                   <b>
-                    Delivery Date:{" "}
-                    {_dateFormatterTwo(shippingPrint?.objHeader?.shipmentDate)}{" "}
-                  </b>{" "}
+                    Delivery Date:{' '}
+                    {_dateFormatterTwo(
+                      shippingPrint?.objHeader?.shipmentDate
+                    )}{' '}
+                  </b>{' '}
                   <br />
                   <b>
                     Vehicle Name: {shippingPrint?.objHeader?.strVehicleName}
                   </b>
                   <br />
                   <b>
-                    Vehicle Owner Name:{" "}
+                    Vehicle Owner Name:{' '}
                     {shippingPrint?.objHeader?.ownerTypeName}
-                  </b>{" "}
+                  </b>{' '}
                   {/* <b>
                     Vehicle Volume:{" "}
                     {shippingPrint?.objHeader?.unloadVehicleVolume}
                   </b> */}
                   <br />
                   <b>
-                    Vehicle Weight (Kg):{" "}
+                    Vehicle Weight (Kg):{' '}
                     {shippingPrint?.objHeader?.vehicleEntryId
                       ? shippingPrint?.objHeader?.netWeight
                       : shippingPrint?.objHeader?.unloadVehicleWeight}
@@ -181,16 +187,17 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
                   </b> */}
                   <br />
                   <b>
-                    Contact Info:{" "}
-                    {`${shippingPrint?.objHeader?.shipToPartnerContactNo ||
-                      ""}`}
+                    Contact Info:{' '}
+                    {`${
+                      shippingPrint?.objHeader?.shipToPartnerContactNo || ''
+                    }`}
                   </b>
                   {(buId === 171 || buId === 224) && (
                     <>
                       <br />
                       <b>
-                        Product Type:{" "}
-                        {`${shippingPrint?.objHeader?.productType || ""}`}
+                        Product Type:{' '}
+                        {`${shippingPrint?.objHeader?.productType || ''}`}
                       </b>
                     </>
                   )}
@@ -198,14 +205,14 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
                     <>
                       <br />
                       <b>
-                        Sold To Party Name:{" "}
-                        {`${shippingPrint?.objHeader?.soldToPartnerName || ""}`}
+                        Sold To Party Name:{' '}
+                        {`${shippingPrint?.objHeader?.soldToPartnerName || ''}`}
                       </b>
                     </>
                   ) : null}
                   <br />
                   <b>
-                    Complete Date:{" "}
+                    Complete Date:{' '}
                     {_dateFormatterTwo(shippingPrint?.objHeader?.completeDate)}
                   </b>
                   <br />
@@ -213,8 +220,8 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
                   <br />
                   {(buId === 171 || buId === 224) && (
                     <b>
-                      Unload by Company:{" "}
-                      {transportStatus[0]?.labourstatus ? "Yes" : "No"}
+                      Unload by Company:{' '}
+                      {transportStatus[0]?.labourstatus ? 'Yes' : 'No'}
                     </b>
                   )}
                 </div>
@@ -269,7 +276,7 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
                     {/* Akij Essential Limited === 144 */}
                     {[144].includes(buId) && (
                       <>
-                        {" "}
+                        {' '}
                         <td className="text-center">
                           <b>{totalItemPrice}</b>
                         </td>
@@ -284,20 +291,20 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
             </div>
             <div
               className="d-flex justify-content-between"
-              style={{ margin: "70px 0 0" }}
+              style={{ margin: '70px 0 0' }}
             >
               <div>
-                <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                   Authority Signature
                 </b>
               </div>
               <div>
-                <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                   Driver Signature
                 </b>
               </div>
               <div>
-                <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                   Customer Signature
                 </b>
               </div>

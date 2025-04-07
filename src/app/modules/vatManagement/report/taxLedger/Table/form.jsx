@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "./../../../../_helper/_inputField";
-import { useSelector } from "react-redux";
-import GridData from "./grid";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from './../../../../_helper/_inputField';
+import { useSelector } from 'react-redux';
+import GridData from './grid';
+import { shallowEqual } from 'react-redux';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
+} from './../../../../../../_metronic/_partials/controls';
 
-import { getTaxLedgerReport_api, getVatBranches_api } from "../helper";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { getTaxLedgerReport_api, getVatBranches_api } from '../helper';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -26,7 +26,7 @@ const initData = {
 };
 
 export default function HeaderForm() {
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [loading, setLoading] = useState(false);
   const [branchDDL, setBranchDDL] = useState([]);
   // get user profile data from store
@@ -61,9 +61,8 @@ export default function HeaderForm() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Tax Ledger"}>
-                <CardHeaderToolbar>
-                </CardHeaderToolbar>
+              <CardHeader title={'Tax Ledger'}>
+                <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
                 <Form className="form form-label-right">
@@ -75,7 +74,7 @@ export default function HeaderForm() {
                         value={values?.branch}
                         label="Branch"
                         onChange={(valueOption) => {
-                          setFieldValue("branch", valueOption);
+                          setFieldValue('branch', valueOption);
                         }}
                         placeholder="Branch"
                         errors={errors}
@@ -96,12 +95,14 @@ export default function HeaderForm() {
                         className="btn btn-primary"
                         type="button"
                         onClick={() => {
-                          getTaxLedgerReport_api(  profileData.accountId,
+                          getTaxLedgerReport_api(
+                            profileData.accountId,
                             selectedBusinessUnit?.value,
                             values?.branch?.value,
                             values?.date,
                             setSingleData,
-                            setLoading)
+                            setLoading
+                          );
                         }}
                       >
                         View

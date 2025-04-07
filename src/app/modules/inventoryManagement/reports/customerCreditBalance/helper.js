@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const customerCreditBalanceLanding = async (
   accId,
@@ -18,11 +18,10 @@ export const customerCreditBalanceLanding = async (
     setter(res?.data);
     setLoading(false);
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Error occured");
+    toast.error(error?.response?.data?.message || 'Error occured');
     setLoading(false);
   }
 };
-
 
 export const getDistributionChannelDDL = async (accId, buId, setter) => {
   try {

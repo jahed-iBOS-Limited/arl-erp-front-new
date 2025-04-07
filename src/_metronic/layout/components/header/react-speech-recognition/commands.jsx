@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import { matchText } from "./matchData";
-import { useState } from "react";
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { matchText } from './matchData';
+import { useState } from 'react';
 
 function Commands({ listening, transcript, resetTranscript }) {
   const [menuList, setMenuList] = useState([]);
@@ -28,16 +28,15 @@ function Commands({ listening, transcript, resetTranscript }) {
     }
     setMenuList([
       {
-        label: "Dashboard",
-        to: "/",
+        label: 'Dashboard',
+        to: '/',
       },
       {
-        label: "Home",
-        to: "/",
+        label: 'Home',
+        to: '/',
       },
       ...menuList,
     ]);
-
   }, [menu]);
 
   const history = useHistory();
@@ -48,15 +47,14 @@ function Commands({ listening, transcript, resetTranscript }) {
         history.push(result);
         resetTranscript();
       } else {
-        toast.warn("Menu not found");
+        toast.warn('Menu not found');
         resetTranscript();
       }
     }
-
   }, [listening, transcript]);
   return (
-    <span className='pr-2'>
-      {listening && !transcript ? "`Speak Menu Name`" : transcript}
+    <span className="pr-2">
+      {listening && !transcript ? '`Speak Menu Name`' : transcript}
     </span>
   );
 }

@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const loadUserList = (v, accId, buId) => {
   if (v?.length < 3) return [];
@@ -35,7 +35,10 @@ export const saveShipPointOperator = async (payload, setLoading, cb) => {
 export const permissionCancel = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
-    const res = await axios.put(`/oms/ShipPoint/ShipPointPermissionCancel`, payload);
+    const res = await axios.put(
+      `/oms/ShipPoint/ShipPointPermissionCancel`,
+      payload
+    );
     toast.success(res?.data?.message);
     cb();
     setLoading(false);

@@ -1,29 +1,29 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useRef } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useRef } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import AccountPayableAgingTable from "./table/accPayableAgain";
-import AccountPayableAnalysisTable from "./table/accPayableAnalysis";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import AccountPayableAgingTable from './table/accPayableAgain';
+import AccountPayableAnalysisTable from './table/accPayableAnalysis';
 
 const initData = {
-  payableType: "",
-  supplier: "",
+  payableType: '',
+  supplier: '',
   reportDate: _todayDate(),
 };
 
@@ -66,25 +66,29 @@ export function AccountPayableAnalysis() {
                     className={
                       rowDto?.length > 0
                         ? `d-flex align-items-center`
-                        : "d-none"
+                        : 'd-none'
                     }
                   >
-                   {
-                    values?.payableType === 1 && (
+                    {values?.payableType === 1 && (
                       <ReactToPrint
-                      pageStyle={
-                        "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
-                      }
-                      trigger={() => (
-                        <button type="button" className="btn btn-primary mr-2">
-                          <i class="fa fa-print pointer" aria-hidden="true"></i>
-                          Print
-                        </button>
-                      )}
-                      content={() => printRef.current}
-                    />
-                    )
-                   }
+                        pageStyle={
+                          '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
+                        }
+                        trigger={() => (
+                          <button
+                            type="button"
+                            className="btn btn-primary mr-2"
+                          >
+                            <i
+                              class="fa fa-print pointer"
+                              aria-hidden="true"
+                            ></i>
+                            Print
+                          </button>
+                        )}
+                        content={() => printRef.current}
+                      />
+                    )}
 
                     <div>
                       <ReactHTMLTableToExcel
@@ -92,18 +96,18 @@ export function AccountPayableAnalysis() {
                         className="btn btn-primary"
                         table={
                           values?.payableType?.value === 1
-                            ? "table-to-xlsx"
-                            : "table-to-xlsx2"
+                            ? 'table-to-xlsx'
+                            : 'table-to-xlsx2'
                         }
                         filename={
                           values?.payableType?.value === 1
-                            ? "Account Payable Analysis"
-                            : "Account Payable Aging"
+                            ? 'Account Payable Analysis'
+                            : 'Account Payable Aging'
                         }
                         sheet={
                           values?.payableType?.value === 1
-                            ? "Account Payable Analysis"
-                            : "Account Payable Aging"
+                            ? 'Account Payable Analysis'
+                            : 'Account Payable Aging'
                         }
                         buttonText="Export Excel"
                       />
@@ -120,12 +124,12 @@ export function AccountPayableAnalysis() {
                       <NewSelect
                         name="payableType"
                         options={[
-                          { label: "Payable Analysis", value: 1 },
-                          { label: "Payable Aging", value: 2 },
+                          { label: 'Payable Analysis', value: 1 },
+                          { label: 'Payable Aging', value: 2 },
                         ]}
                         onChange={(valueOption) => {
                           setRowDto([]);
-                          setFieldValue("payableType", valueOption);
+                          setFieldValue('payableType', valueOption);
                         }}
                         value={values?.payableType}
                         label="Payable Type"
@@ -137,7 +141,7 @@ export function AccountPayableAnalysis() {
                         <SearchAsyncSelect
                           selectedValue={values?.supplier}
                           handleChange={(valueOption) => {
-                            setFieldValue("supplier", valueOption);
+                            setFieldValue('supplier', valueOption);
                           }}
                           loadOptions={(v) => {
                             if (v.length < 3) return [];
@@ -167,7 +171,7 @@ export function AccountPayableAnalysis() {
                           name="reportDate"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("reportDate", e?.target?.value);
+                            setFieldValue('reportDate', e?.target?.value);
                           }}
                         />
                       </div>
@@ -180,7 +184,7 @@ export function AccountPayableAnalysis() {
                         onClick={() => {
                           getLadingData(values);
                         }}
-                        style={{ marginTop: "19px" }}
+                        style={{ marginTop: '19px' }}
                       />
                     </div>
                   </div>

@@ -1,9 +1,9 @@
-import React from "react";
-import IDonut from "./../../_chart/IDonutChart";
-import ISpeedoMeter from "./../../_chart/ISpeedoMeter";
-import IHeart from "./../../../_helper/_helperIcons/_heart";
-import ApexBarChart from "../../_chart/apexBarChart";
-import { subStrString } from "../../_helper/subStrString";
+import React from 'react';
+import IDonut from './../../_chart/IDonutChart';
+import ISpeedoMeter from './../../_chart/ISpeedoMeter';
+import IHeart from './../../../_helper/_helperIcons/_heart';
+import ApexBarChart from '../../_chart/apexBarChart';
+import { subStrString } from '../../_helper/subStrString';
 
 function Card({ itm, updateIsShown }) {
   return (

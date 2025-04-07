@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 //employeEnrollAction Api call
 export const employeEnroll_Api = async (accId, buId, setter) => {
@@ -14,9 +14,7 @@ export const employeEnroll_Api = async (accId, buId, setter) => {
       }));
       setter(modify);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const recivePayment_SBU_Api = async (accId, buId, setter) => {
@@ -27,9 +25,7 @@ export const recivePayment_SBU_Api = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 //recivePayment_CashGL_Api
@@ -46,9 +42,7 @@ export const recivePayment_CashGL_Api = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 //getPartnerDDL_Api
@@ -64,11 +58,8 @@ export const profitCenterDDL_Api = async (accId, buId, setter) => {
       }));
       setter(newdata);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
-
 
 //getInstrumentType_Api
 export const getInstrumentType_Api = async (setter) => {
@@ -77,9 +68,7 @@ export const getInstrumentType_Api = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 //GetReferenceNoDDL_Api
@@ -97,9 +86,7 @@ export const getReferenceNoDDL_Api = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 //GetReferenceNoDDL_Api
@@ -130,7 +117,6 @@ export const getPaymentOrReceiveLandingPasignation_Api = async (
     }
   } catch (error) {
     setLoading(false);
-    
   }
 };
 
@@ -147,13 +133,12 @@ export const createCashPayment_Api = async (
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       getPaymentOrReceiveByIdFunc();
       setDisabled(false);
     }
   } catch (error) {
-    
     setDisabled(false);
   }
 };
@@ -170,13 +155,12 @@ export const createCashReceive_Api = async (
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       getPaymentOrReceiveByIdFunc();
       setDisabled(false);
     }
   } catch (error) {
-    
     setDisabled(false);
   }
 };
@@ -194,13 +178,12 @@ export const createBankReceive_Api = async (
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       getPaymentOrReceiveByIdFunc();
       setDisabled(false);
     }
   } catch (error) {
-    
     setDisabled(false);
   }
 };
@@ -218,13 +201,12 @@ export const createBankPayment_Api = async (
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       getPaymentOrReceiveByIdFunc();
       setDisabled(false);
     }
   } catch (error) {
-    
     setDisabled(false);
   }
 };
@@ -240,12 +222,11 @@ export const CreateJournalWithoutReference_api = async (
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-    
     setDisabled(false);
   }
 };
@@ -266,7 +247,5 @@ export const getPaymentOrReceiveById_api = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data[0]);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

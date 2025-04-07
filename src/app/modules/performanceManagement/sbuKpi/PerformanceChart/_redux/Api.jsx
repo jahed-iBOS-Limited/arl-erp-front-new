@@ -1,11 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
 // Save created data
 export function saveCreateData(data) {
-  return axios.post(
-    `/pms/MeasuringScale/CreateMeasuringScale`,
-    data
-  );
+  return axios.post(`/pms/MeasuringScale/CreateMeasuringScale`, data);
 }
 
 export function updateChartType(kpiId, chartId) {
@@ -15,9 +12,7 @@ export function updateChartType(kpiId, chartId) {
 }
 
 export function updateIsShown(kpiId, tf) {
-  return axios.put(
-    `/pms/Kpi2/UpdateIsShownDashBoard?Kpiid=${kpiId}&TF=${tf}`
-  );
+  return axios.put(`/pms/Kpi2/UpdateIsShownDashBoard?Kpiid=${kpiId}&TF=${tf}`);
 }
 
 export function getChartTypeDDL() {
@@ -25,7 +20,5 @@ export function getChartTypeDDL() {
 }
 
 export function getMonthDDL(yearId) {
-  return axios.get(
-    `/pms/CommonDDL/MonthDDL?yearid=${yearId}`
-  );
+  return axios.get(`/pms/CommonDDL/MonthDDL?yearid=${yearId}`);
 }

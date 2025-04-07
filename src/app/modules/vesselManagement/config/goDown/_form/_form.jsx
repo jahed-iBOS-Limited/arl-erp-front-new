@@ -1,35 +1,34 @@
-
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import TextArea from "../../../../_helper/TextArea";
-import FormikError from "../../../../_helper/_formikError";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { editGodown } from "../helper";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import TextArea from '../../../../_helper/TextArea';
+import FormikError from '../../../../_helper/_formikError';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { editGodown } from '../helper';
 
 const initData = {
-  businessPartner: "",
-  transportZone: "",
-  godownName: "",
-  godownAddress: "",
-  contactNumber: "",
-  remarks: "",
-  unloadingSupplier: "",
-  unloadingRate: "",
-  bolgateUnloadRate: "",
+  businessPartner: '',
+  transportZone: '',
+  godownName: '',
+  godownAddress: '',
+  contactNumber: '',
+  remarks: '',
+  unloadingSupplier: '',
+  unloadingRate: '',
+  bolgateUnloadRate: '',
 };
 
 const GodownForm = ({
@@ -62,7 +61,7 @@ const GodownForm = ({
   }, [accId, buId]);
 
   const getInitData = () => {
-    if (formType === "edit") {
+    if (formType === 'edit') {
       return {
         businessPartner: {
           value: singleItem?.businessPartnerId,
@@ -82,7 +81,7 @@ const GodownForm = ({
           label: singleItem?.unloadingSupplier,
         },
         unloadingRate: singleItem?.unloadingRate,
-        bolgateUnloadRate: singleItem?.bolgateUnloadRate || "",
+        bolgateUnloadRate: singleItem?.bolgateUnloadRate || '',
       };
     } else {
       return initData;
@@ -90,7 +89,7 @@ const GodownForm = ({
   };
 
   const saveHandler = (values) => {
-    if (formType === "edit") {
+    if (formType === 'edit') {
       const payload = {
         shiptoPartnerId: singleItem?.shiptoPartnerId,
         shipToParterName: values?.godownName,
@@ -146,7 +145,7 @@ const GodownForm = ({
   };
 
   const isSaveBtnDisabled = (values) => {
-    if (formType === "edit") {
+    if (formType === 'edit') {
       return !(
         values?.godownName &&
         values?.godownAddress &&
@@ -205,7 +204,7 @@ const GodownForm = ({
                           value={values?.businessPartner}
                           label="Business Partner"
                           onChange={(e) => {
-                            setFieldValue("businessPartner", e);
+                            setFieldValue('businessPartner', e);
                           }}
                           placeholder="Business Partner"
                           // isDisabled={formType === "edit"}
@@ -219,7 +218,7 @@ const GodownForm = ({
                           value={values?.transportZone}
                           label="Transport Zone"
                           onChange={(e) => {
-                            setFieldValue("transportZone", e);
+                            setFieldValue('transportZone', e);
                           }}
                           placeholder="Transport Zone"
                           // isDisabled={formType === "edit"}
@@ -260,7 +259,7 @@ const GodownForm = ({
                         <SearchAsyncSelect
                           selectedValue={values?.unloadingSupplier}
                           handleChange={(valueOption) => {
-                            setFieldValue("unloadingSupplier", valueOption);
+                            setFieldValue('unloadingSupplier', valueOption);
                           }}
                           loadOptions={loadOptions}
                         />
@@ -298,7 +297,7 @@ const GodownForm = ({
                           type="text"
                         />
                       </div>
-                      {formType !== "edit" && (
+                      {formType !== 'edit' && (
                         <div className="col-12 text-right mt-5">
                           <button
                             className="btn btn-primary"
@@ -321,28 +320,28 @@ const GodownForm = ({
                     </div>
                   </div>
                 </form>
-                {formType !== "edit" && (
+                {formType !== 'edit' && (
                   <div className="table-responsive">
                     <table
                       id="table-to-xlsx"
                       className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                       }
                     >
                       <thead>
                         <tr className="cursor-pointer">
                           {[
-                            "SL",
-                            "Business Partner",
-                            "Transport Zone",
-                            "Godown Name",
-                            "Godown Address",
-                            "Contact No",
-                            "Unloading Supplier",
-                            "Unloading Rate",
-                            "Bolgate Unload Rate",
-                            "Remarks",
-                            "Action",
+                            'SL',
+                            'Business Partner',
+                            'Transport Zone',
+                            'Godown Name',
+                            'Godown Address',
+                            'Contact No',
+                            'Unloading Supplier',
+                            'Unloading Rate',
+                            'Bolgate Unload Rate',
+                            'Remarks',
+                            'Action',
                           ]?.map((th, index) => {
                             return <th key={index}> {th} </th>;
                           })}
@@ -353,7 +352,7 @@ const GodownForm = ({
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "40px" }}
+                                style={{ width: '40px' }}
                                 className="text-center"
                               >
                                 {index + 1}
@@ -369,7 +368,7 @@ const GodownForm = ({
                               <td>{item?.remarks}</td>
 
                               <td
-                                style={{ width: "80px" }}
+                                style={{ width: '80px' }}
                                 className="text-center"
                               >
                                 <div className="d-flex justify-content-around">

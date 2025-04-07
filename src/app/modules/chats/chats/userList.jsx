@@ -1,9 +1,9 @@
-import React from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import ChatAppLoading from "./loading";
-import avatar from "./avatar.png";
-import { setCurrentChatUserAction } from "./_redux/Actions";
-import { getSingleUserMessageList } from "./helper";
+import React from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import ChatAppLoading from './loading';
+import avatar from './avatar.png';
+import { setCurrentChatUserAction } from './_redux/Actions';
+import { getSingleUserMessageList } from './helper';
 
 const UserList = ({ users, userLoading, setChatList, setMsgLoading }) => {
   const userInfo = useSelector((state) => {
@@ -37,7 +37,7 @@ const UserList = ({ users, userLoading, setChatList, setMsgLoading }) => {
                 >
                   <div className="d-flex justify-content-center align-items-center">
                     <img
-                      style={{ width: "25px", height: "25px" }}
+                      style={{ width: '25px', height: '25px' }}
                       className="mr-2"
                       src={avatar}
                       alt="avatar"
@@ -50,7 +50,7 @@ const UserList = ({ users, userLoading, setChatList, setMsgLoading }) => {
                 </div>
               )
           )}
-          {users?.length < 1 && "No user found"}
+          {users?.length < 1 && 'No user found'}
         </div>
       )}
     </div>

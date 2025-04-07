@@ -1,12 +1,12 @@
-import React from "react";
-import { Form, Row, Col } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import React from 'react';
+import { Form, Row, Col } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 
 export default function BackCalculationPEViewForm({ data }) {
-  console.log("data: ", data);
+  console.log('data: ', data);
   const dispatch = useDispatch();
 
   // console.log(data);
@@ -21,7 +21,7 @@ export default function BackCalculationPEViewForm({ data }) {
                 value={
                   data?.header?.productionDate
                     ? _dateFormatter(data?.header?.productionDate)
-                    : ""
+                    : ''
                 }
                 type="date"
                 disabled
@@ -33,7 +33,7 @@ export default function BackCalculationPEViewForm({ data }) {
             <Form.Group controlId="shiftName">
               <Form.Label className="text-left">Shift Name</Form.Label>
               <Form.Control
-                value={data?.header?.shiftName ? data?.header?.shiftName : ""}
+                value={data?.header?.shiftName ? data?.header?.shiftName : ''}
                 type="text"
                 disabled
                 placeholder="Shit Name"
@@ -44,7 +44,7 @@ export default function BackCalculationPEViewForm({ data }) {
             <Form.Group controlId="plant">
               <Form.Label className="text-left">Plant Name</Form.Label>
               <Form.Control
-                value={data?.header?.plantName ? data?.header?.plantName : ""}
+                value={data?.header?.plantName ? data?.header?.plantName : ''}
                 type="text"
                 disabled
                 placeholder="Plant Name"
@@ -83,7 +83,7 @@ export default function BackCalculationPEViewForm({ data }) {
               <Form.Label className="text-left">Shop Floor</Form.Label>
               <Form.Control
                 value={
-                  data?.header?.shopFloorName ? data?.header?.shopFloorName : ""
+                  data?.header?.shopFloorName ? data?.header?.shopFloorName : ''
                 }
                 type="text"
                 disabled
@@ -109,7 +109,7 @@ export default function BackCalculationPEViewForm({ data }) {
                 Good Production Quantity
               </Form.Label>
               <Form.Control
-                value={""}
+                value={''}
                 type="text"
                 disabled
                 placeholder="Good Production Quantity"
@@ -145,11 +145,11 @@ export default function BackCalculationPEViewForm({ data }) {
               <table className="table table-striped table-bordered mt-5 bj-table bj-table-landing">
                 <thead>
                   <tr>
-                    <th style={{ width: "30px" }}>SL</th>
-                    <th style={{ width: "50px" }}>Output Item</th>
-                    <th style={{ width: "50px" }}>Output UoM</th>
-                    <th style={{ width: "50px" }}>Output Quantity</th>
-                    <th style={{ width: "50px" }}>QC Quantity</th>
+                    <th style={{ width: '30px' }}>SL</th>
+                    <th style={{ width: '50px' }}>Output Item</th>
+                    <th style={{ width: '50px' }}>Output UoM</th>
+                    <th style={{ width: '50px' }}>Output Quantity</th>
+                    <th style={{ width: '50px' }}>QC Quantity</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -182,11 +182,11 @@ export default function BackCalculationPEViewForm({ data }) {
                 <table className="table table-striped table-bordered mt-2 bj-table bj-table-landing">
                   <thead>
                     <tr>
-                      <th style={{ width: "30px" }}>SL</th>
-                      <th style={{ width: "50px" }}>Material</th>
-                      <th style={{ width: "50px" }}>Qty</th>
-                      <th style={{ width: "50px" }}>UoM</th>
-                      <th style={{ width: "50px" }}>BoM version</th>
+                      <th style={{ width: '30px' }}>SL</th>
+                      <th style={{ width: '50px' }}>Material</th>
+                      <th style={{ width: '50px' }}>Qty</th>
+                      <th style={{ width: '50px' }}>UoM</th>
+                      <th style={{ width: '50px' }}>BoM version</th>
                     </tr>
                   </thead>
                   <tbody>

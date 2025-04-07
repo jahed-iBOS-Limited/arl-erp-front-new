@@ -1,26 +1,26 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
 export const initData = {
-  refType:"",
-  refNo:"",
-  transType:"",
-  remarks:"",
-  item:"",
-  quantity:"",
-  locaStockType:"",
-  locaStock:"",
-  personnel:"",
-  costCenter:"",
-  projName:"",
-  busiPartner:"",
-  presentLocation:""
+  refType: '',
+  refNo: '',
+  transType: '',
+  remarks: '',
+  item: '',
+  quantity: '',
+  locaStockType: '',
+  locaStock: '',
+  personnel: '',
+  costCenter: '',
+  projName: '',
+  busiPartner: '',
+  presentLocation: '',
 };
 
 // // Validation schema
 export const validationSchema = Yup.object().shape({
   refType: Yup.object().shape({
-    label: Yup.string().required("Reference Type is required"),
-    value: Yup.string().required("Reference Type is required"),
+    label: Yup.string().required('Reference Type is required'),
+    value: Yup.string().required('Reference Type is required'),
   }),
   // transType: Yup.object().shape({
   //   label: Yup.string().required("Transaction Type is required"),
@@ -39,4 +39,3 @@ export const validationSchema = Yup.object().shape({
   //   value: Yup.string().required(" is required"),
   // }),
 });
-

@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { costCenterGroupSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { costCenterGroupSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = costCenterGroupSlice;
 
 // Group Parent ddl get action
@@ -20,13 +20,12 @@ export const saveCreatedCostCenterGroup = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         payload.setDisabled(false);
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       payload.setDisabled(false);
     });
@@ -38,7 +37,7 @@ export const saveEditedCostCenterGroup = (payload, setDisabled) => () => {
     .then((res) => {
       if (res.status === 200) {
         console.log(res.data);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         setDisabled(false);
       }
     })
@@ -49,25 +48,19 @@ export const saveEditedCostCenterGroup = (payload, setDisabled) => () => {
     });
 };
 // Controlling unit action for get data of table
-export const getCostCenterGroupGridData = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-     
-    });
-};
+export const getCostCenterGroupGridData =
+  (accId, buId, setLoading, pageNo, pageSize) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
 // Controlling unit action for get single data by id
 export const getCostCenterGroupById = (id) => (dispatch) => {
@@ -90,9 +83,7 @@ export const getCostCenterGroupById = (id) => (dispatch) => {
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 // Controlling unit single to empty
 export const setCostCenterGroupSingleEmpty = () => async (dispatch) => {

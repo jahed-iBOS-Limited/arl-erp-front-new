@@ -276,7 +276,9 @@ const SingleItem = ({
               </div>
               <div className="secondRow borderBottom textTitle">
                 <div className="firstColumn borderRight">
-                  <p><span>Marks &amp; Numbers</span></p>
+                  <p>
+                    <span>Marks &amp; Numbers</span>
+                  </p>
                   <p>Container &amp; Seal Numbers</p>
                 </div>
                 <div className="secondColumn">
@@ -402,7 +404,7 @@ const SingleItem = ({
                       Invoice No: {bookingData?.refInvoiceNo} :{' '}
                       {bookingData?.refInvoiceDate &&
                         `${moment(bookingData?.refInvoiceDate).format(
-                          'DD-MM-YYYY',
+                          'DD-MM-YYYY'
                         )}`}
                     </p>
                     <p>
@@ -413,11 +415,14 @@ const SingleItem = ({
                           : 'S/C No'}
                       :{' '}
                       {bookingData?.objPurchase?.map((item, index) => {
-                        return `${item?.lcnumber || ''} : ${item?.lcdate &&
-                          `${moment(item?.lcdate).format('DD-MM-YYYY')}`}${index < bookingData?.objPurchase?.length - 1
+                        return `${item?.lcnumber || ''} : ${
+                          item?.lcdate &&
+                          `${moment(item?.lcdate).format('DD-MM-YYYY')}`
+                        }${
+                          index < bookingData?.objPurchase?.length - 1
                             ? ','
                             : ''
-                          }`;
+                        }`;
                       })}
                     </p>
                     <p>
@@ -425,7 +430,7 @@ const SingleItem = ({
                       {bookingData?.expOrCnfNumber || ''} :{' '}
                       {bookingData?.expOrCnfDate &&
                         `${moment(bookingData?.expOrCnfDate).format(
-                          'DD-MM-YYYY',
+                          'DD-MM-YYYY'
                         )}`}
                     </p>
                     <p>Stuffing mode: {bookingData?.modeOfStuffings}</p>
@@ -454,7 +459,7 @@ const SingleItem = ({
                                 </td>
                               </tr>
                             );
-                          },
+                          }
                         )}
                       </>
                     </table>
@@ -498,7 +503,7 @@ const SingleItem = ({
                         Date:{' '}
                         {transportPlanningSea?.estimatedTimeOfDepart &&
                           moment(
-                            transportPlanningSea?.estimatedTimeOfDepart,
+                            transportPlanningSea?.estimatedTimeOfDepart
                           ).format('DD-MM-YYYY')}
                       </p>
                     </div>
@@ -662,7 +667,7 @@ const HBLBackSide = () => {
                       display: 'grid',
                       gridTemplateColumns: '1fr 11fr',
                       paddingLeft: '20px',
-                      gap: 0
+                      gap: 0,
                     }}
                   >
                     <span> {content?.title}</span>
@@ -709,7 +714,7 @@ const HBLBackSide = () => {
                       display: 'grid',
                       gridTemplateColumns: '1fr 11fr',
                       paddingLeft: '20px',
-                      gap: 0
+                      gap: 0,
                     }}
                   >
                     <span> {content.title}</span>

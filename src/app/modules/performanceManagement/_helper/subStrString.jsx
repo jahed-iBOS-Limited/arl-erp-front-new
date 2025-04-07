@@ -1,5 +1,3 @@
-
-
 export const subStrString = (str, maxLength) => {
   let newStr;
   if (str.length > maxLength) {

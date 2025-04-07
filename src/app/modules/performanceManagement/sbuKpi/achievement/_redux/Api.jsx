@@ -1,11 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
 // Save created data
 export function saveCreateData(data) {
-  return axios.put(
-    `/pms/Kpi2/EmployeeActualTargetUpdate`,
-    data
-  );
+  return axios.put(`/pms/Kpi2/EmployeeActualTargetUpdate`, data);
 }
 
 export function getObjective(accId, buId, empId, yearId) {

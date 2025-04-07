@@ -1,5 +1,3 @@
-
-
 import { Formik, Form as FormikForm } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
@@ -70,7 +68,7 @@ export function PurchaseRequestReportModal({ currentRowData }) {
               const modifiedPrintRow = mergeFields(
                 getPurchaseRequestPrintRow,
                 res,
-                'itemId',
+                'itemId'
               );
 
               // Update the purchase report
@@ -79,13 +77,13 @@ export function PurchaseRequestReportModal({ currentRowData }) {
                 getPurchaseRequestPrintRow: modifiedPrintRow,
                 objEmpListDTO,
               });
-            },
+            }
           );
         }
-      },
+      }
     );
     getVesselPurchaseRequestAdditionalData(
-      `/procurement/PurchaseRequest/GetVesselPurchaseRequestAdditionalData?purchaseRequestCode=${currentRowData?.purchaseRequestCode}`,
+      `/procurement/PurchaseRequest/GetVesselPurchaseRequestAdditionalData?purchaseRequestCode=${currentRowData?.purchaseRequestCode}`
     );
   }, [currentRowData, selectedBusinessUnit]);
 
@@ -141,7 +139,7 @@ export function PurchaseRequestReportModal({ currentRowData }) {
               onClick={() => {
                 setIsShowModal(true);
                 setSubject(
-                  `Purchase Request No: ${purchaseReport?.getPurchaseRequestPrintHeader?.indendedNO}`,
+                  `Purchase Request No: ${purchaseReport?.getPurchaseRequestPrintHeader?.indendedNO}`
                 );
                 setMessage(`Dear
                         A Purchase request has been sent from  Purchase Request No: ${purchaseReport?.getPurchaseRequestPrintHeader?.indendedNO}
@@ -228,7 +226,7 @@ export function PurchaseRequestReportModal({ currentRowData }) {
                                   {_dateFormatter(
                                     purchaseReport
                                       ?.getPurchaseRequestPrintHeader
-                                      ?.requiredDate,
+                                      ?.requiredDate
                                   )}
                                 </td>
                               </tr>
@@ -293,7 +291,7 @@ export function PurchaseRequestReportModal({ currentRowData }) {
                                       <td>{item.received}</td>
                                       <td></td>
                                     </tr>
-                                  ),
+                                  )
                                 )}
                               </tbody>
                             </table>
@@ -404,7 +402,7 @@ export function PurchaseRequestReportModal({ currentRowData }) {
                                       {_dateFormatter(
                                         purchaseReport
                                           ?.getPurchaseRequestPrintHeader
-                                          ?.requiredDate,
+                                          ?.requiredDate
                                       )}
                                     </td>
                                     <td style={repairFormStyle.reqTableTd}>
@@ -481,7 +479,7 @@ export function PurchaseRequestReportModal({ currentRowData }) {
                                           {item.numRequestQuantity}
                                         </td>
                                       </tr>
-                                    ),
+                                    )
                                   )}
                                 </tbody>
                               </table>
@@ -594,7 +592,7 @@ export function PurchaseRequestReportModal({ currentRowData }) {
                                   {_dateFormatter(
                                     purchaseReport
                                       ?.getPurchaseRequestPrintHeader
-                                      ?.requiredDate,
+                                      ?.requiredDate
                                   )}
                                 </td>
                               </tr>
@@ -642,7 +640,7 @@ export function PurchaseRequestReportModal({ currentRowData }) {
                                       <td>{item.inStock}</td>
                                       <td>{''}</td>
                                     </tr>
-                                  ),
+                                  )
                                 )}
                               </tbody>
                             </table>

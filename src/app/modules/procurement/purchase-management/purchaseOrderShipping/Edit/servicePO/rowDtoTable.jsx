@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import Select from "react-select";
-import customStyles from "../../../../../selectCustomStyle";
-import IDelete from "../../../../../_helper/_helperIcons/_delete";
-import { IInput } from "../../../../../_helper/_input";
-import IViewModal from "../../../../../_helper/_viewModal";
-import ViewForm from "../../View/viewForm";
-import { rowDtoDynamicHandler } from "../../utils";
-import { validateDigit } from "../../../../../_helper/validateDigit";
+import React, { useState } from 'react';
+import Select from 'react-select';
+import customStyles from '../../../../../selectCustomStyle';
+import IDelete from '../../../../../_helper/_helperIcons/_delete';
+import { IInput } from '../../../../../_helper/_input';
+import IViewModal from '../../../../../_helper/_viewModal';
+import ViewForm from '../../View/viewForm';
+import { rowDtoDynamicHandler } from '../../utils';
+import { validateDigit } from '../../../../../_helper/validateDigit';
 
 const RowDtoTable = ({
   isWithoutRef,
@@ -30,18 +30,18 @@ const RowDtoTable = ({
                   <th>SL</th>
                   {isWithoutRef && <th>Ref No.</th>}
                   {/* <th style={{ width: "150px" }}>Code</th> */}
-                  <th style={{ width: "150px" }}>Item</th>
-                  <th style={{ width: "70px" }}>UoM</th>
-                  <th style={{ width: "150px" }}>Description</th>
+                  <th style={{ width: '150px' }}>Item</th>
+                  <th style={{ width: '70px' }}>UoM</th>
+                  <th style={{ width: '150px' }}>Description</th>
                   <th>Cost Element</th>
                   {isWithoutRef && <th>Ref. Qty.</th>}
                   {isWithoutRef && <th>Rest Qty.</th>}
                   <th className="po_custom_width">Order Qty.</th>
                   <th className="po_custom_width">Basic Price</th>
-                  <th className="po_custom_width" style={{ fontSize: "10px" }}>
+                  <th className="po_custom_width" style={{ fontSize: '10px' }}>
                     Vat (%)
                   </th>
-                  <th className="po_custom_width" style={{ fontSize: "10px" }}>
+                  <th className="po_custom_width" style={{ fontSize: '10px' }}>
                     Vat Amount
                   </th>
                   <th>Total Vat</th>
@@ -56,16 +56,16 @@ const RowDtoTable = ({
                     <td className="text-center align-middle"> {index + 1} </td>
                     {isWithoutRef && (
                       <td className="align-middle">
-                        {item?.referenceNo?.label || "NA"}
+                        {item?.referenceNo?.label || 'NA'}
                       </td>
                     )}
                     {/* <td className="align-middle">{item?.item?.code}</td> */}
                     <td className="align-middle">{item?.item?.itemName}</td>
-                    <td style={{ width: "100px" }}>
+                    <td style={{ width: '100px' }}>
                       <Select
                         onChange={(valueOption) => {
                           rowDtoDynamicHandler(
-                            "selectedUom",
+                            'selectedUom',
                             {
                               value: valueOption?.value,
                               label: valueOption?.label,
@@ -76,7 +76,7 @@ const RowDtoTable = ({
                           );
                         }}
                         defaultValue={
-                          item?.selectedUom || { value: "", label: "" }
+                          item?.selectedUom || { value: '', label: '' }
                         }
                         isSearchable={true}
                         styles={customStyles}
@@ -90,11 +90,11 @@ const RowDtoTable = ({
                         value={rowDto[index]?.desc}
                         name="desc"
                         required
-                        style={{ fontSize: "10px" }}
+                        style={{ fontSize: '10px' }}
                         placeholder="Description"
                         onChange={(e) => {
                           rowDtoDynamicHandler(
-                            "desc",
+                            'desc',
                             e.target.value,
                             index,
                             rowDto,
@@ -120,7 +120,7 @@ const RowDtoTable = ({
                       </td>
                     )}
                     <td
-                      style={{ width: "90px" }}
+                      style={{ width: '90px' }}
                       className="disabled-feedback disable-border"
                     >
                       <IInput
@@ -152,7 +152,7 @@ const RowDtoTable = ({
                           //   validNum = !item?.newItem ? item?.initOrderQty : 0;
                           // }
                           rowDtoDynamicHandler(
-                            "orderQty",
+                            'orderQty',
                             validNum,
                             index,
                             rowDto,
@@ -163,7 +163,7 @@ const RowDtoTable = ({
                       />
                     </td>
                     <td
-                      style={{ width: "120px" }}
+                      style={{ width: '120px' }}
                       className="disabled-feedback disable-border"
                     >
                       <IInput
@@ -177,7 +177,7 @@ const RowDtoTable = ({
                           let validNum = validateDigit(e.target.value);
 
                           rowDtoDynamicHandler(
-                            "basicPrice",
+                            'basicPrice',
                             validNum,
                             index,
                             rowDto,
@@ -198,7 +198,7 @@ const RowDtoTable = ({
                         onChange={(e) => {
                           const validNum = validateDigit(e.target.value);
                           rowDtoDynamicHandler(
-                            "vat",
+                            'vat',
                             validNum,
                             index,
                             rowDto,
@@ -209,7 +209,7 @@ const RowDtoTable = ({
                     </td>
                     <td
                       className="text-center align-middle"
-                      style={{ width: "100px" }}
+                      style={{ width: '100px' }}
                     >
                       <IInput
                         value={rowDto[index]?.userGivenVatAmount}
@@ -221,7 +221,7 @@ const RowDtoTable = ({
                         onChange={(e) => {
                           const validNum = validateDigit(e.target.value);
                           rowDtoDynamicHandler(
-                            "userGivenVatAmount",
+                            'userGivenVatAmount',
                             validNum,
                             index,
                             rowDto,

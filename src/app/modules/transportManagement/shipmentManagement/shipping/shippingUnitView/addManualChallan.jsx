@@ -1,27 +1,27 @@
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICustomTable from "../../../../_helper/_customTable";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { shipmentInfoUpdate, UpdateManualChallanInfo } from "../helper";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICustomTable from '../../../../_helper/_customTable';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { shipmentInfoUpdate, UpdateManualChallanInfo } from '../helper';
 
 const ths = [
-  "Ship To Party",
-  "Address",
-  "Challan No",
-  "Manual Challan No",
-  "Reason",
-  "Sales Order No",
-  "Item Code",
-  "Product Name",
-  "UoM Name",
-  "Qty",
+  'Ship To Party',
+  'Address',
+  'Challan No',
+  'Manual Challan No',
+  'Reason',
+  'Sales Order No',
+  'Item Code',
+  'Product Name',
+  'UoM Name',
+  'Qty',
 ];
 
 const AddManualChallanNo = ({ rowData, setOpen, type }) => {
@@ -35,12 +35,11 @@ const AddManualChallanNo = ({ rowData, setOpen, type }) => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   useEffect(() => {
-    if (type === "update") {
+    if (type === 'update') {
       getVehicleDDL(
         `/tms/Vehicle/GetAvailableVehicleDDL?AccountId=${accId}&BusinessUnitId=${buId}`
       );
     }
-
   }, [accId, buId]);
 
   const rowDataHandler = (name, index, value) => {
@@ -50,7 +49,7 @@ const AddManualChallanNo = ({ rowData, setOpen, type }) => {
   };
 
   const saveHandler = (values) => {
-    if (type === "challan") {
+    if (type === 'challan') {
       const payload = rows?.map((item, i) => {
         return {
           userId: userId,
@@ -75,13 +74,13 @@ const AddManualChallanNo = ({ rowData, setOpen, type }) => {
           : 0,
         laborSupplierName: [1].includes(values?.ownerType?.value)
           ? values?.laborSupplier?.label
-          : "",
+          : '',
         supplierId: [2].includes(values?.ownerType?.value)
           ? values?.supplier?.value
           : 0,
         supplierName: [2].includes(values?.ownerType?.value)
           ? values?.supplier?.label
-          : "",
+          : '',
       };
       shipmentInfoUpdate(payload, setLoading, () => {
         setOpen(false);
@@ -105,7 +104,7 @@ const AddManualChallanNo = ({ rowData, setOpen, type }) => {
           Done
         </button>
       </div>
-      {type === "update" && (
+      {type === 'update' && (
         <Formik
           enableReinitialize={true}
           initialValues={{
@@ -133,14 +132,14 @@ const AddManualChallanNo = ({ rowData, setOpen, type }) => {
                       <NewSelect
                         name="ownerType"
                         options={[
-                          { value: 1, label: "Company" },
-                          { value: 2, label: "Rental" },
-                          { value: 3, label: "Customer" },
+                          { value: 1, label: 'Company' },
+                          { value: 2, label: 'Rental' },
+                          { value: 3, label: 'Customer' },
                         ]}
                         value={values?.ownerType}
                         label="Owner Type"
                         onChange={(e) => {
-                          setFieldValue("ownerType", e);
+                          setFieldValue('ownerType', e);
                         }}
                         placeholder="Owner Type"
                       />
@@ -152,7 +151,7 @@ const AddManualChallanNo = ({ rowData, setOpen, type }) => {
                         value={values?.vehicle}
                         label="Vehicle"
                         onChange={(e) => {
-                          setFieldValue("vehicle", e);
+                          setFieldValue('vehicle', e);
                         }}
                         placeholder="Vehicle"
                       />
@@ -164,9 +163,9 @@ const AddManualChallanNo = ({ rowData, setOpen, type }) => {
                         <SearchAsyncSelect
                           selectedValue={values?.supplier}
                           handleChange={(valueOption) => {
-                            setFieldValue("supplier", valueOption);
+                            setFieldValue('supplier', valueOption);
                           }}
-                          placeholder={"Supplier"}
+                          placeholder={'Supplier'}
                           loadOptions={(v) => {
                             const searchValue = v.trim();
                             if (searchValue?.length < 2) return [];
@@ -186,7 +185,7 @@ const AddManualChallanNo = ({ rowData, setOpen, type }) => {
                         <SearchAsyncSelect
                           selectedValue={values.laborSupplier}
                           handleChange={(valueOption) => {
-                            setFieldValue("laborSupplier", valueOption);
+                            setFieldValue('laborSupplier', valueOption);
                           }}
                           loadOptions={(v) => {
                             if (v.length < 3) return [];
@@ -212,7 +211,7 @@ const AddManualChallanNo = ({ rowData, setOpen, type }) => {
         </Formik>
       )}
 
-      {type === "challan" && (
+      {type === 'challan' && (
         <ICustomTable ths={ths}>
           {rows?.map((itm, i) => {
             totalQuantity += itm?.quantity;
@@ -229,7 +228,7 @@ const AddManualChallanNo = ({ rowData, setOpen, type }) => {
                     placeholder="Manual Challan No"
                     value={itm?.manualChallanNo}
                     onChange={(e) => {
-                      rowDataHandler("manualChallanNo", i, e?.target?.value);
+                      rowDataHandler('manualChallanNo', i, e?.target?.value);
                     }}
                   />
                 </td>
@@ -239,7 +238,7 @@ const AddManualChallanNo = ({ rowData, setOpen, type }) => {
                     placeholder="Reason"
                     value={itm?.reason}
                     onChange={(e) => {
-                      rowDataHandler("reason", i, e?.target?.value);
+                      rowDataHandler('reason', i, e?.target?.value);
                     }}
                   />
                 </td>

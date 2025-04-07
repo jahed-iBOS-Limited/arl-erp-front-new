@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getShipToPartnerInformation = async (
   reportType,
@@ -19,7 +19,7 @@ export const getShipToPartnerInformation = async (
       `/oms/SalesInformation/GetShipToPartnerList?Partid=${reportType}&ShiptoPartnerId=${shipToPartner}&BusinessPartnerId=${businessPartner}&TerritoryId=${territory}&AreaId=${area}&RegionId=${region}&DistributionChannelId=${channel}&UnitId=${buId}`
     );
     if (res?.length === 1) {
-      toast.warn("Data Not Found");
+      toast.warn('Data Not Found');
     } else {
       setter(
         res?.data?.map((itm) => ({
@@ -66,7 +66,7 @@ export const getTransportZoneDDL = async (accId, buId, setter) => {
     setter([]);
   }
 };
-export const GetEmployeeLoginInfo_api = async (accId, buId,empId, setter) => {
+export const GetEmployeeLoginInfo_api = async (accId, buId, empId, setter) => {
   try {
     const res = await axios.get(
       `/hcm/RemoteAttendance/GetEmployeeLoginInfo?AccountId=${accId}&BusinessUnitId=${buId}&EmployeeId=${empId}`
@@ -136,15 +136,15 @@ export const shiptopartnerOperationalZoneSave = async (
 ) => {
   try {
     const res = await axios.post(
-      "/partner/PartnerInformation/CreateShiptopartnerOperationalZone",
+      '/partner/PartnerInformation/CreateShiptopartnerOperationalZone',
       payload
     );
 
-    toast.success(res?.data?.message || "Submitted Successfully");
+    toast.success(res?.data?.message || 'Submitted Successfully');
     cb();
     setDisabled(false);
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Submitted unsuccessful");
+    toast.error(error?.response?.data?.message || 'Submitted unsuccessful');
     setDisabled(false);
   }
 };

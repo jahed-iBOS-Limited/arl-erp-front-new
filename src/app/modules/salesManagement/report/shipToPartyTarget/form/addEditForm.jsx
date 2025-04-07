@@ -1,17 +1,16 @@
-
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import Loading from "../../../../_helper/_loading";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Form from "./form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import Loading from '../../../../_helper/_loading';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Form from './form';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
-  conditionType: "",
-  conditionTypeRef: "",
+  conditionType: '',
+  conditionTypeRef: '',
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
 };

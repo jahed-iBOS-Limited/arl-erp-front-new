@@ -51,7 +51,7 @@ export default function CustomerIncentive() {
   }, shallowEqual);
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
-    shallowEqual,
+    shallowEqual
   );
 
   // check user permission
@@ -67,7 +67,7 @@ export default function CustomerIncentive() {
     return tradeCommission?.filter(
       (item) =>
         item?.customerName?.toLowerCase().includes(searchValue?.trim()) ||
-        item?.customerCode?.toString().includes(searchValue?.trim()),
+        item?.customerCode?.toString().includes(searchValue?.trim())
     );
   }, [tradeCommission, searchValue]);
 
@@ -129,7 +129,7 @@ export default function CustomerIncentive() {
           `/oms/SalesInformation/CreateTradeCommission`,
           selectedTradeCommission,
           cb,
-          true,
+          true
         );
       },
       noAlertFunc: () => {},
@@ -139,7 +139,7 @@ export default function CustomerIncentive() {
   // get trade commission api handler
   const getTradeCommissionHandler = (values) => {
     const payload = ['DeliveryIncentive(WithAmount)'].includes(
-      values?.incentiveType?.value,
+      values?.incentiveType?.value
     )
       ? [
           {
@@ -153,7 +153,7 @@ export default function CustomerIncentive() {
 
     if (
       ['WithTarget', 'WithoutTarget', 'DeliveryIncentive(WithAmount)'].includes(
-        values?.incentiveType?.value,
+        values?.incentiveType?.value
       )
     ) {
       let url = `/oms/SalesInformation/GetTradeCommissionTarget?partName=${values?.incentiveType?.value}&businessUnitId=${buId}&customerId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}&customerCategory=${values.customerCategory.value}`;
@@ -162,11 +162,11 @@ export default function CustomerIncentive() {
       });
     } else if (values?.incentiveType?.value === 'Performance') {
       getTradeCommission(
-        `oms/SalesInformation/GetTradeCommissionForPerformance?businessUnitId=${buId}&customerId=0&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`,
+        `oms/SalesInformation/GetTradeCommissionForPerformance?businessUnitId=${buId}&customerId=0&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`
       );
     } else {
       getTradeCommission(
-        `/oms/SalesInformation/GetTradeCommission?partName=GetForCreate&businessUnitId=${buId}&customerId=0&monthYear=${values?.monthYear}-01&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`,
+        `/oms/SalesInformation/GetTradeCommission?partName=GetForCreate&businessUnitId=${buId}&customerId=0&monthYear=${values?.monthYear}-01&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`
       );
     }
   };
@@ -304,10 +304,10 @@ export default function CustomerIncentive() {
                               const nextMonthFirstDay = new Date(
                                 year,
                                 month,
-                                1,
+                                1
                               );
                               const lastDateOfMonth = new Date(
-                                nextMonthFirstDay - 1,
+                                nextMonthFirstDay - 1
                               );
                               const formattedLastDate = lastDateOfMonth
                                 .toISOString()
@@ -365,7 +365,7 @@ export default function CustomerIncentive() {
                 </div>
 
                 {['WithTarget', 'WithoutTarget'].includes(
-                  values?.incentiveType?.value,
+                  values?.incentiveType?.value
                 ) ? (
                   <>
                     <div className="row">
@@ -438,7 +438,7 @@ export default function CustomerIncentive() {
                           onClick={() => {
                             if (percentageList?.find((item) => item?.isAbove)) {
                               return toast.warn(
-                                "You cann't add now because you alredy add IsAbove",
+                                "You cann't add now because you alredy add IsAbove"
                               );
                             }
                             const data = {
@@ -490,7 +490,7 @@ export default function CustomerIncentive() {
                                     <span
                                       onClick={() => {
                                         const data = percentageList.filter(
-                                          (item, i) => i !== index,
+                                          (item, i) => i !== index
                                         );
                                         setPercentageList(data);
                                       }}
@@ -509,7 +509,7 @@ export default function CustomerIncentive() {
                 ) : null}
                 <div className="row">
                   {['DeliveryIncentive(WithAmount)'].includes(
-                    values?.incentiveType?.value,
+                    values?.incentiveType?.value
                   ) && (
                     <div className="col-lg-3">
                       <InputField
@@ -533,7 +533,7 @@ export default function CustomerIncentive() {
                           !values?.customerCategory ||
                           !values?.incentiveType ||
                           (['WithTarget', 'WithoutTarget'].includes(
-                            values?.incentiveType?.value,
+                            values?.incentiveType?.value
                           ) &&
                             !percentageList?.length)
                         }
@@ -615,7 +615,7 @@ export default function CustomerIncentive() {
                             type="checkbox"
                             name="isSelect"
                             checked={tradeCommission?.every(
-                              (item) => item?.isSelect,
+                              (item) => item?.isSelect
                             )}
                             onChange={(e) =>
                               handleAllSelect(e?.target?.checked)
@@ -672,7 +672,7 @@ export default function CustomerIncentive() {
                                   handleRowSelection(
                                     e?.target?.checked,
                                     item,
-                                    index,
+                                    index
                                   )
                                 }
                                 disabled={

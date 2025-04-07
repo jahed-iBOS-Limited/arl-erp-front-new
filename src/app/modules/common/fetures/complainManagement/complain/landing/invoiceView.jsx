@@ -1,13 +1,13 @@
-import { Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import * as Yup from "yup";
-import Loading from "../../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { getComplainByIdWidthOutModify } from "../../resolution/helper";
+import { Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import Loading from '../../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import { getComplainByIdWidthOutModify } from '../../resolution/helper';
 export const validationSchema = Yup.object().shape({});
 
 function InvoiceView({ clickRowData }) {
@@ -20,7 +20,7 @@ function InvoiceView({ clickRowData }) {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
 
   useEffect(() => {
     if (clickRowData?.complainId) {
@@ -30,7 +30,6 @@ function InvoiceView({ clickRowData }) {
         setRowDto(resData?.investigationInfo || []);
       });
     }
-
   }, [clickRowData]);
   return (
     <>
@@ -38,9 +37,9 @@ function InvoiceView({ clickRowData }) {
         enableReinitialize={true}
         initialValues={{
           investigationDate: _todayDate(),
-          investigationPerson: "",
-          rootCause: "",
-          correctiveAction: "",
+          investigationPerson: '',
+          rootCause: '',
+          correctiveAction: '',
         }}
         onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
@@ -62,18 +61,18 @@ function InvoiceView({ clickRowData }) {
             <div className="d-flex justify-content-between pt-4 pb-2 pr-5 mb-2 border-bottom">
               <h4>Feedback Details</h4>
               <h6>
-                Status:{" "}
+                Status:{' '}
                 <span
                   style={{
-                    fontSize: "14px",
+                    fontSize: '14px',
                     color:
-                      clickRowData?.status === "Open"
-                        ? "red"
-                        : clickRowData?.status === "Delegate"
-                          ? "blue"
-                          : clickRowData?.status === "Investigate"
-                            ? "orrage"
-                            : "green",
+                      clickRowData?.status === 'Open'
+                        ? 'red'
+                        : clickRowData?.status === 'Delegate'
+                          ? 'blue'
+                          : clickRowData?.status === 'Investigate'
+                            ? 'orrage'
+                            : 'green',
                   }}
                 >
                   {clickRowData?.status}
@@ -82,9 +81,9 @@ function InvoiceView({ clickRowData }) {
             </div>
             <div
               style={{
-                display: "flex",
-                gap: "10px",
-                justifyContent: "space-between",
+                display: 'flex',
+                gap: '10px',
+                justifyContent: 'space-between',
               }}
             >
               <div>
@@ -98,14 +97,14 @@ function InvoiceView({ clickRowData }) {
                   <b>Sub Issue Type:</b> {singleData?.complainSubCategoryName}
                 </p>
                 <p>
-                  <b>Occurrence Date Time: </b>{" "}
+                  <b>Occurrence Date Time: </b>{' '}
                   {singleData?.requestDateTime &&
                     moment(singleData?.requestDateTime).format(
-                      "YYYY-MM-DD"
-                    )}{" "}
+                      'YYYY-MM-DD'
+                    )}{' '}
                   {singleData?.occurrenceTime &&
-                    moment(singleData?.occurrenceTime, "HH:mm:ss").format(
-                      "hh:mm A"
+                    moment(singleData?.occurrenceTime, 'HH:mm:ss').format(
+                      'hh:mm A'
                     )}
                 </p>
 
@@ -128,7 +127,7 @@ function InvoiceView({ clickRowData }) {
                 )}
 
                 <p>
-                  <b>Designation/Relationship:</b>{" "}
+                  <b>Designation/Relationship:</b>{' '}
                   {singleData?.designationOrRelationship}
                 </p>
                 <p>
@@ -140,48 +139,48 @@ function InvoiceView({ clickRowData }) {
               </div>
               <div>
                 <p>
-                  <b>Business Unit:</b>{" "}
+                  <b>Business Unit:</b>{' '}
                   {singleData?.respondentBusinessUnitIdName}
                 </p>
                 <p>
                   <b>Create By: </b> {singleData?.actionByName}
                 </p>
                 <p>
-                  <b>Create Date: </b>{" "}
+                  <b>Create Date: </b>{' '}
                   {singleData?.lastActionDateTime &&
                     moment(singleData?.lastActionDateTime).format(
-                      "YYYY-MM-DD hh:mm A"
+                      'YYYY-MM-DD hh:mm A'
                     )}
                 </p>
                 <p>
-                  <b>Distribution Channel:</b>{" "}
+                  <b>Distribution Channel:</b>{' '}
                   {singleData?.distributionChannelName}
                 </p>
                 <p>
                   <b>Product Category:</b> {singleData?.itemCategoryName}
                 </p>
                 <p>
-                  <b>Delegate Date Time:</b>{" "}
+                  <b>Delegate Date Time:</b>{' '}
                   {singleData?.delegateDateTime &&
                     moment(singleData?.delegateDateTime).format(
-                      "YYYY-MM-DD, HH:mm A"
+                      'YYYY-MM-DD, HH:mm A'
                     )}
                 </p>
                 <p>
                   <b>Delegate To:</b> {singleData?.delegateToName}
                 </p>
                 <p>
-                  <b> Remarks:</b> {singleData?.statusRemarks || ""}
+                  <b> Remarks:</b> {singleData?.statusRemarks || ''}
                 </p>
-                {singleData?.respondentTypeName === "Employee" && (
+                {singleData?.respondentTypeName === 'Employee' && (
                   <p>
                     <b> Work Place:</b> {singleData?.workPlace}
                   </p>
                 )}
-                {singleData?.respondentTypeName === "End User" && (
+                {singleData?.respondentTypeName === 'End User' && (
                   <>
                     <p>
-                      <b>Territory Name:</b> {singleData?.territoryName || ""}
+                      <b>Territory Name:</b> {singleData?.territoryName || ''}
                     </p>
                     <p>
                       <b>Area Name:</b> {singleData?.areaName}
@@ -192,7 +191,7 @@ function InvoiceView({ clickRowData }) {
                   </>
                 )}
                 <p>
-                  <b>Attachment:</b>{" "}
+                  <b>Attachment:</b>{' '}
                   {singleData?.attachment && (
                     <span>
                       <OverlayTrigger
@@ -212,7 +211,7 @@ function InvoiceView({ clickRowData }) {
                           className="ml-2"
                         >
                           <i
-                            style={{ fontSize: "16px" }}
+                            style={{ fontSize: '16px' }}
                             className={`fa pointer fa-eye`}
                             aria-hidden="true"
                           ></i>
@@ -244,7 +243,7 @@ function InvoiceView({ clickRowData }) {
                         <td>
                           {item?.investigationDateTime &&
                             moment(item?.investigationDateTime).format(
-                              "YYYY-MM-DD HH:mm A"
+                              'YYYY-MM-DD HH:mm A'
                             )}
                         </td>
                         <td>{item?.investigatorName}</td>

@@ -1,7 +1,7 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 
 export default function FinishProductionForm({
   initData,
@@ -12,7 +12,7 @@ export default function FinishProductionForm({
   profileData,
   validationSchema,
   productDDL,
-  id
+  id,
 }) {
   return (
     <>
@@ -51,15 +51,15 @@ export default function FinishProductionForm({
                   <NewSelect
                     name="shift"
                     options={[
-                      { value: "A", label: "A" },
-                      { value: "B", label: "B" },
-                      { value: "C", label: "C" },
-                      { value: "General", label: "General" },
+                      { value: 'A', label: 'A' },
+                      { value: 'B', label: 'B' },
+                      { value: 'C', label: 'C' },
+                      { value: 'General', label: 'General' },
                     ]}
                     value={values?.shift}
                     label="Shift"
                     onChange={(valueOption) => {
-                      setFieldValue("shift", valueOption);
+                      setFieldValue('shift', valueOption);
                     }}
                     isDisabled={false}
                     errors={errors}
@@ -73,7 +73,7 @@ export default function FinishProductionForm({
                     value={values?.productName}
                     label="Product Name"
                     onChange={(valueOption) => {
-                      setFieldValue("productName", valueOption);
+                      setFieldValue('productName', valueOption);
                     }}
                     isDisabled={false}
                     errors={errors}
@@ -100,14 +100,14 @@ export default function FinishProductionForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import IViewModal from "../../../_helper/_viewModal";
-import ICustomTable from "../../../_helper/_customTable";
-import { getCoreValuesById, setCoreValuesEmpty } from "../_redux/Actions";
+import React, { useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import IViewModal from '../../../_helper/_viewModal';
+import ICustomTable from '../../../_helper/_customTable';
+import { getCoreValuesById, setCoreValuesEmpty } from '../_redux/Actions';
 
-let ths = ["SL", "Demonstrated behaviour", "Type"];
+let ths = ['SL', 'Demonstrated behaviour', 'Type'];
 
 export default function ViewForm({ id, show, onHide }) {
   const storeData = useSelector((state) => {
@@ -25,7 +25,6 @@ export default function ViewForm({ id, show, onHide }) {
     return () => {
       dispatch(setCoreValuesEmpty());
     };
-
   }, [selectedBusinessUnit, profileData, id]);
 
   return (
@@ -33,12 +32,12 @@ export default function ViewForm({ id, show, onHide }) {
       <IViewModal
         show={show}
         onHide={onHide}
-        title={singleData?.objHeader?.coreValueName || "Modal"}
+        title={singleData?.objHeader?.coreValueName || 'Modal'}
         isShow={singleData ? false : true}
       >
         {/* Modal Header */}
-        <p className="my-1 mt-6 mb-6" style={{ fontSize: "1.35rem" }}>
-          <b>Core value definition :</b>{" "}
+        <p className="my-1 mt-6 mb-6" style={{ fontSize: '1.35rem' }}>
+          <b>Core value definition :</b>{' '}
           {singleData?.objHeader?.coreValueDefinition}
         </p>
         <ICustomTable ths={ths}>
@@ -47,7 +46,7 @@ export default function ViewForm({ id, show, onHide }) {
               <tr key={index}>
                 <td className="align-middle text-center"> {index + 1} </td>
                 <td> {itm?.demonstratedBehaviour} </td>
-                <td> {itm?.isPositive ? "Positive" : "Negative"} </td>
+                <td> {itm?.isPositive ? 'Positive' : 'Negative'} </td>
               </tr>
             );
           })}

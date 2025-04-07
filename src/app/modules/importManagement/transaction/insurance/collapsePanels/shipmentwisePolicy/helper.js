@@ -1,7 +1,7 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import * as Yup from "yup";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import * as Yup from 'yup';
 
 // Get Shipment Type DDL
 export const GetShipmentDDL = async (accId, buId, PoNo, setter) => {
@@ -23,11 +23,11 @@ export const CreateInstancePolicy = async (
 ) => {
   try {
     const res = await axios.post(
-      "/imp/InsurancePolicy/CreateInsurancePolicy",
+      '/imp/InsurancePolicy/CreateInsurancePolicy',
       data
     );
     if (res.status === 200 && res.data) {
-      toast.success(res.message || "Submitted  successfully");
+      toast.success(res.message || 'Submitted  successfully');
       cb();
       GetInsurancePolicyLandingData();
     }
@@ -83,28 +83,32 @@ export const GetShipmentWiseInsurancePolicyById = async (id, setter) => {
 
 // Save Edited data of Shipment Wise Insurance Policy
 export const EditShipmentWiseInsurancePolicy = async (data, cb) => {
-  try{
-    const res = await axios.put('/imp/InsurancePolicy/EditInsurancePolicy', data);
-    toast.success(res?.message || 'Updated Successfully');
-    cb();
-  }
-  catch(error){
-    toast.error(error?.response?.data?.message);
-  }
-}
-
-
-
-export const EditInsurancePolicy = async (data, cb,GetInsurancePolicyLandingData) => {
   try {
     const res = await axios.put(
-      "/imp/InsurancePolicy/EditInsurancePolicy",
+      '/imp/InsurancePolicy/EditInsurancePolicy',
+      data
+    );
+    toast.success(res?.message || 'Updated Successfully');
+    cb();
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+  }
+};
+
+export const EditInsurancePolicy = async (
+  data,
+  cb,
+  GetInsurancePolicyLandingData
+) => {
+  try {
+    const res = await axios.put(
+      '/imp/InsurancePolicy/EditInsurancePolicy',
       data
     );
     if (res.status === 200 && res.data) {
-      toast.success(res.message || "Updated  successfully");
+      toast.success(res.message || 'Updated  successfully');
       // cb();
-      GetInsurancePolicyLandingData()
+      GetInsurancePolicyLandingData();
     }
   } catch (error) {
     toast.error(error.response.data.message);
@@ -115,16 +119,18 @@ export const EditInsurancePolicy = async (data, cb,GetInsurancePolicyLandingData
 export const validationSchema = Yup.object().shape({
   shipment: Yup.object()
     .shape({
-      label: Yup.string().required("Shipment is required"),
-      value: Yup.string().required("Shipment is required"),
+      label: Yup.string().required('Shipment is required'),
+      value: Yup.string().required('Shipment is required'),
     })
-    .typeError("Shipment is required"),
+    .typeError('Shipment is required'),
   policyNumber: Yup.string()
-    .required("Policy Number is required")
-    .typeError("Policy Number is required"),
-  policyDate: Yup.string().required("Policy Date Number is required"),
+    .required('Policy Number is required')
+    .typeError('Policy Number is required'),
+  policyDate: Yup.string().required('Policy Date Number is required'),
   // billNo: Yup.string().required("Bill No is required"),
-  invoiceAmount: Yup.string().required("Invoice Amount is required"),
-  vat: Yup.string().required("VAT is required"),
-  totalAmount:Yup.number().positive("Total Amount is always positive").required("Total Amount is required")
+  invoiceAmount: Yup.string().required('Invoice Amount is required'),
+  vat: Yup.string().required('VAT is required'),
+  totalAmount: Yup.number()
+    .positive('Total Amount is always positive')
+    .required('Total Amount is required'),
 });

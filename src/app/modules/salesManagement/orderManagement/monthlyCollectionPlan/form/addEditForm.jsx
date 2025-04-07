@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import Loading from "../../../../_helper/_loading";
-import { getMonth } from "../../../report/salesanalytics/utils";
-import Form from "./form";
-import { useLocation } from "react-router";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import Loading from '../../../../_helper/_loading';
+import { getMonth } from '../../../report/salesanalytics/utils';
+import Form from './form';
+import { useLocation } from 'react-router';
 
 const initData = {
-  year: "",
-  month: "",
-  salesman: "",
-  designation: "",
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
-  monthYear: "",
-  totalPlanTaka: "",
-  workingDays: "",
+  year: '',
+  month: '',
+  salesman: '',
+  designation: '',
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
+  monthYear: '',
+  totalPlanTaka: '',
+  workingDays: '',
 };
 
 export default function MonthlyCollectionPlanEntryForm({
@@ -53,7 +53,7 @@ export default function MonthlyCollectionPlanEntryForm({
   } = useSelector((state) => state?.authData, shallowEqual);
 
   useEffect(() => {
-    if (!type || type !== "view") {
+    if (!type || type !== 'view') {
     }
   }, [accId, buId, type]);
 
@@ -63,7 +63,7 @@ export default function MonthlyCollectionPlanEntryForm({
         (item) => item?.isSelected
       );
       if (!selectedRow.length) {
-        return toast.warn("Select at least one row");
+        return toast.warn('Select at least one row');
       }
 
       const payload = selectedRow?.map((item) => ({
@@ -92,7 +92,7 @@ export default function MonthlyCollectionPlanEntryForm({
         (item) => item?.isSelected
       );
       if (!selectedRow.length) {
-        return toast.warn("Select at least one row");
+        return toast.warn('Select at least one row');
       }
 
       const payload = selectedRow?.map((item) => ({
@@ -118,13 +118,13 @@ export default function MonthlyCollectionPlanEntryForm({
     } else {
       const selectedItems = rowData?.filter((item) => item?.isSelected);
       if (selectedItems?.length < 1) {
-        return toast.warn("Please select at least one row!");
+        return toast.warn('Please select at least one row!');
       }
       const check = selectedItems.filter(
         (item) => !(item?.week1 && item?.week2 && item?.week3 && item?.week4)
       );
       if (check?.length > 0) {
-        return toast.warn("Please fill up all the fields of selected rows!");
+        return toast.warn('Please fill up all the fields of selected rows!');
       }
       const payload = selectedItems?.map((item) => {
         return {
@@ -168,15 +168,15 @@ export default function MonthlyCollectionPlanEntryForm({
     let _data = [...rowData];
     _data[i][name] = +value;
     const total =
-      name === "week1"
+      name === 'week1'
         ? +value + Number(_data[i].week2) + +_data[i].week3 + +_data[i].week4
-        : name === "week2"
-        ? +value + +_data[i].week1 + +_data[i].week3 + +_data[i].week4
-        : name === "week3"
-        ? +value + +_data[i].week1 + +_data[i].week2 + +_data[i].week4
-        : name === "week4"
-        ? +value + +_data[i].week1 + +_data[i].week3 + +_data[i].week2
-        : 0;
+        : name === 'week2'
+          ? +value + +_data[i].week1 + +_data[i].week3 + +_data[i].week4
+          : name === 'week3'
+            ? +value + +_data[i].week1 + +_data[i].week2 + +_data[i].week4
+            : name === 'week4'
+              ? +value + +_data[i].week1 + +_data[i].week3 + +_data[i].week2
+              : 0;
     const percent = _fixedPoint(
       (total / (+_data[i].dueAmount || 10)) * 100,
       true,
@@ -209,10 +209,10 @@ export default function MonthlyCollectionPlanEntryForm({
   const title = [1].includes(landingValues?.type?.value)
     ? `Daily Collection Plan`
     : [4].includes(landingValues?.type?.value)
-    ? `Monthly Budgeted Sales Plan`
-    : `${
-        type === "view" ? "View" : type === "edit" ? "Edit" : "Enter"
-      } Monthly Collection Plan`;
+      ? `Monthly Budgeted Sales Plan`
+      : `${
+          type === 'view' ? 'View' : type === 'edit' ? 'Edit' : 'Enter'
+        } Monthly Collection Plan`;
 
   return (
     <>

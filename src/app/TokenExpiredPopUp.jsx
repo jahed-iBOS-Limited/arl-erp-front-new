@@ -24,18 +24,18 @@ const TokenExpiredPopUp = ({ isCancel }) => {
 
   const profileData = useSelector(
     (state) => state?.authData?.profileData,
-    shallowEqual,
+    shallowEqual
   );
 
   const { isExpiredPassword, email } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
   // let isExpiredPassword = true;
 
   const errorColor = useSelector(
     (state) => state?.authData?.msg?.color,
-    shallowEqual,
+    shallowEqual
   );
 
   const updatePassword = async () => {

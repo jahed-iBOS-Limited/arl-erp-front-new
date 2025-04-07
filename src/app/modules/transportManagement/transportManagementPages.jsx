@@ -1,14 +1,14 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { LayoutSplashScreen, ContentRoute } from "../../../_metronic/layout";
-import { Suspense } from "react";
-import RouteManagementPage from "./routeCostManagement/routeManagementPage";
-import { ConfigurationPages } from "./configuration/configurationPages";
-import { ShipmentManagementPages } from "./shipmentManagement/shipmentManagementPage";
-import TransportReportPages from "./report/reportPages";
-import { StuffTransportPages } from "./stuffTransport/stuffTransportPages";
-import FuelStationReport from "./fuelStationReport";
-import TransportDeliveryProcessPages from "./deliveryProcess/deliveryProcessPages";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { LayoutSplashScreen, ContentRoute } from '../../../_metronic/layout';
+import { Suspense } from 'react';
+import RouteManagementPage from './routeCostManagement/routeManagementPage';
+import { ConfigurationPages } from './configuration/configurationPages';
+import { ShipmentManagementPages } from './shipmentManagement/shipmentManagementPage';
+import TransportReportPages from './report/reportPages';
+import { StuffTransportPages } from './stuffTransport/stuffTransportPages';
+import FuelStationReport from './fuelStationReport';
+import TransportDeliveryProcessPages from './deliveryProcess/deliveryProcessPages';
 
 export function TransportManagementPages() {
   return (
@@ -24,7 +24,7 @@ export function TransportManagementPages() {
           path="/transport-management/configuration"
           component={ConfigurationPages}
         />
-        -{" "}
+        -{' '}
         <ContentRoute
           path="/transport-management/stuffreport/fuelstationreport"
           component={FuelStationReport}

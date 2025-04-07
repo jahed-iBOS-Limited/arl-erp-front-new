@@ -1,9 +1,8 @@
-
-import React, { useEffect } from "react";
-import { Col, Form, Row } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import IViewModal from "../../../../_helper/_viewModal";
-import { getTransportRouteById } from "../_redux/Actions";
+import React, { useEffect } from 'react';
+import { Col, Form, Row } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import IViewModal from '../../../../_helper/_viewModal';
+import { getTransportRouteById } from '../_redux/Actions';
 
 export default function ViewForm({ id, show, onHide }) {
   const dispatch = useDispatch();
@@ -22,7 +21,7 @@ export default function ViewForm({ id, show, onHide }) {
       <IViewModal
         show={show}
         onHide={onHide}
-        title={"View Transport Route"}
+        title={'View Transport Route'}
         isShow={singleData && false}
       >
         {singleData ? (

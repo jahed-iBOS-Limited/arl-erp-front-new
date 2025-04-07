@@ -1,4 +1,3 @@
-
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,7 +41,7 @@ export function QuickUser() {
   const profilePicChangeHandler = async () => {
     if (fileObjects.length > 0) {
       const compressedFile = await compressfile(
-        fileObjects?.map((f) => f.file),
+        fileObjects?.map((f) => f.file)
       );
       setImageUploadModal(false);
       setLoading(true);
@@ -59,7 +58,7 @@ export function QuickUser() {
                 const { emailAddress, userId, accountId, userName } =
                   res?.data[0];
                 dispatch(
-                  saveChatInfoAction(emailAddress, userName, accountId, userId),
+                  saveChatInfoAction(emailAddress, userName, accountId, userId)
                 );
               }));
           });
@@ -186,7 +185,7 @@ export function QuickUser() {
         }}
         onDelete={(deleteFileObj) => {
           const newData = fileObjects.filter(
-            (item) => item.file.name !== deleteFileObj.file.name,
+            (item) => item.file.name !== deleteFileObj.file.name
           );
           setFileObjects(newData);
         }}

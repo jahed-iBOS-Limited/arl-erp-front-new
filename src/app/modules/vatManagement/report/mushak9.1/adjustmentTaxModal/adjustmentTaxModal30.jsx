@@ -1,13 +1,10 @@
-import React, { useRef } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import {
-  Card,
-  CardBody,
-} from "../../../../../../_metronic/_partials/controls";
+import React, { useRef } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import { Card, CardBody } from '../../../../../../_metronic/_partials/controls';
 
 export default function AdjustmentTaxDetailsModal30({
   show,
@@ -23,7 +20,7 @@ export default function AdjustmentTaxDetailsModal30({
         onHide={() => {
           onHide();
         }}
-        title={"DECREASING ADJUSTMENTS [SUB-FORM]"}
+        title={'DECREASING ADJUSTMENTS [SUB-FORM]'}
         btnText="Close"
       >
         <Card>
@@ -36,7 +33,7 @@ export default function AdjustmentTaxDetailsModal30({
                     className="btn btn-primary px-1 py-1 my-0"
                   >
                     <img
-                      style={{ width: "25px", paddingRight: "5px" }}
+                      style={{ width: '25px', paddingRight: '5px' }}
                       src={printIcon}
                       alt="print-icon"
                     />
@@ -53,7 +50,7 @@ export default function AdjustmentTaxDetailsModal30({
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
-                      <th style={{ width: "30px" }}>Serial No.</th>
+                      <th style={{ width: '30px' }}>Serial No.</th>
                       <th>Bill of Entry Number</th>
                       <th>Date</th>
                       <th>Coustom House/Customs Station</th>
@@ -71,7 +68,10 @@ export default function AdjustmentTaxDetailsModal30({
                             <td> {item?.billOfEntryNumber}</td>
                             <td> {_dateFormatter(item?.date)}</td>
                             <td> {item?.customHouse}</td>
-                            <td className="text-right"> {_fixedPoint(item?.vatAmount)}</td>
+                            <td className="text-right">
+                              {' '}
+                              {_fixedPoint(item?.vatAmount)}
+                            </td>
                             <td> {item?.notes}</td>
                           </tr>
                         );

@@ -1,60 +1,59 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
 import {
   GetDomesticPortDDL,
   GetShipPointDDL,
-} from "../../generalInformation/helper";
+} from '../../generalInformation/helper';
 import {
   GetLighterDestinationDDL,
   getLightersByVesselNLighterDestination,
-} from "../../unLoadingInformation/helper";
+} from '../../unLoadingInformation/helper';
 import {
   deleteCostInfo,
   getGhatCostInfoLanding,
   getMotherVesselDDL,
-} from "../helper";
-import VehicleDemandEditModal from "../vehicleDemandEditModal";
+} from '../helper';
+import VehicleDemandEditModal from '../vehicleDemandEditModal';
 
 const initData = {
-  type: "",
-  port: "",
-  motherVessel: "",
+  type: '',
+  port: '',
+  motherVessel: '',
   fromDate: _monthFirstDate(),
   toDate: _todayDate(),
-  destination: "",
-  lighterVessel: "",
-  shipPoint: "",
+  destination: '',
+  lighterVessel: '',
+  shipPoint: '',
   demandDate: _todayDate(),
-  supplier: "",
+  supplier: '',
 };
 const headers = [
-  "SL",
-  "Lighter Vessel",
-  "ShipPoint",
-  "From Date",
-  "To Date",
-  "Total Quantity",
-  "Total Amount",
-  "Action",
+  'SL',
+  'Lighter Vessel',
+  'ShipPoint',
+  'From Date',
+  'To Date',
+  'Total Quantity',
+  'Total Amount',
+  'Action',
 ];
 
 const GhatCostInfoTable = () => {
@@ -106,7 +105,6 @@ const GhatCostInfoTable = () => {
     getSupplierDDL(
       `/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`
     );
-
   }, [accId, buId]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -115,8 +113,8 @@ const GhatCostInfoTable = () => {
 
   const deleteHandler = (id, values) => {
     const objProps = {
-      title: "Are You Sure?",
-      message: "Are you sure you want to delete this cost info?",
+      title: 'Are You Sure?',
+      message: 'Are you sure you want to delete this cost info?',
       yesAlertFunc: () => {
         deleteCostInfo(id, setLoading, () => {
           getData(values, pageNo, pageSize);
@@ -164,14 +162,14 @@ const GhatCostInfoTable = () => {
                     <NewSelect
                       name="type"
                       options={[
-                        { label: "Ghat Cost Information", value: 1 },
-                        { label: "Vehicle Demand Info", value: 2 },
+                        { label: 'Ghat Cost Information', value: 1 },
+                        { label: 'Vehicle Demand Info', value: 2 },
                       ]}
                       value={values?.type}
                       label="Type"
                       onChange={(valueOption) => {
-                        setFieldValue("type", valueOption);
-                        setFieldValue("shipPoint", "");
+                        setFieldValue('type', valueOption);
+                        setFieldValue('shipPoint', '');
                         setVehicleDemandData([]);
                       }}
                       placeholder="Type"
@@ -186,7 +184,7 @@ const GhatCostInfoTable = () => {
                           value={values?.destination}
                           label="Lighter Destination"
                           onChange={(e) => {
-                            setFieldValue("destination", e);
+                            setFieldValue('destination', e);
                           }}
                           placeholder="Lighter Destination"
                         />
@@ -198,9 +196,9 @@ const GhatCostInfoTable = () => {
                           value={values?.port}
                           label="Loading Port"
                           onChange={(valueOption) => {
-                            setFieldValue("port", valueOption);
-                            setFieldValue("motherVessel", "");
-                            setFieldValue("lighterVessel", "");
+                            setFieldValue('port', valueOption);
+                            setFieldValue('motherVessel', '');
+                            setFieldValue('lighterVessel', '');
                             getMotherVesselDDL(
                               accId,
                               buId,
@@ -218,8 +216,8 @@ const GhatCostInfoTable = () => {
                           value={values?.motherVessel}
                           label="Mother Vessel"
                           onChange={(valueOption) => {
-                            setFieldValue("motherVessel", valueOption);
-                            setFieldValue("lighterVessel", "");
+                            setFieldValue('motherVessel', valueOption);
+                            setFieldValue('lighterVessel', '');
                             if (valueOption) {
                               getLightersByVesselNLighterDestination(
                                 values?.destination?.value,
@@ -241,7 +239,7 @@ const GhatCostInfoTable = () => {
                           value={values?.lighterVessel}
                           label="Lighter Vessel"
                           onChange={(e) => {
-                            setFieldValue("lighterVessel", e);
+                            setFieldValue('lighterVessel', e);
                           }}
                           placeholder="Lighter"
                           isDisabled={!values?.motherVessel}
@@ -254,7 +252,7 @@ const GhatCostInfoTable = () => {
                           value={values?.shipPoint}
                           label="ShipPoint"
                           onChange={(e) => {
-                            setFieldValue("shipPoint", e);
+                            setFieldValue('shipPoint', e);
                           }}
                           placeholder="ShipPoint"
                         />
@@ -286,13 +284,13 @@ const GhatCostInfoTable = () => {
                         <NewSelect
                           name="shipPoint"
                           options={[
-                            { value: 0, label: "All" },
+                            { value: 0, label: 'All' },
                             ...shipPointDDL,
                           ]}
                           value={values?.shipPoint}
                           label="ShipPoint"
                           onChange={(e) => {
-                            setFieldValue("shipPoint", e);
+                            setFieldValue('shipPoint', e);
                           }}
                           placeholder="ShipPoint"
                         />
@@ -301,13 +299,13 @@ const GhatCostInfoTable = () => {
                         <NewSelect
                           name="supplier"
                           options={[
-                            { value: 0, label: "All" },
+                            { value: 0, label: 'All' },
                             ...(supplierDDL || []),
                           ]}
                           value={values?.supplier}
                           label="Supplier Name"
                           onChange={(valueOption) => {
-                            setFieldValue("supplier", valueOption);
+                            setFieldValue('supplier', valueOption);
                           }}
                           placeholder="Supplier Name"
                         />
@@ -315,7 +313,7 @@ const GhatCostInfoTable = () => {
                       <div>
                         <button
                           type="button"
-                          style={{ marginTop: "20px" }}
+                          style={{ marginTop: '20px' }}
                           className="btn btn-primary ml-2"
                           disabled={!values?.demandDate || !values?.shipPoint}
                           onClick={() => {
@@ -337,7 +335,7 @@ const GhatCostInfoTable = () => {
                         <table
                           id="table-to-xlsx"
                           className={
-                            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                            'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                           }
                         >
                           <thead>
@@ -364,7 +362,7 @@ const GhatCostInfoTable = () => {
                                   <td className="text-right">
                                     {_fixedPoint(item?.totalAmount, true)}
                                   </td>
-                                  <td style={{ width: "100px" }}>
+                                  <td style={{ width: '100px' }}>
                                     <div className="d-flex justify-content-around">
                                       <span
                                         className="edit"
@@ -375,7 +373,7 @@ const GhatCostInfoTable = () => {
                                           });
                                         }}
                                       >
-                                        <IEdit title={"Rate Entry"} />
+                                        <IEdit title={'Rate Entry'} />
                                       </span>
                                       <span>
                                         <IDelete
@@ -391,7 +389,7 @@ const GhatCostInfoTable = () => {
                               );
                             })}
                             {gridData?.data?.length > 0 && (
-                              <tr style={{ fontWeight: "bold" }}>
+                              <tr style={{ fontWeight: 'bold' }}>
                                 <td className="text-right" colSpan={5}>
                                   Total
                                 </td>
@@ -428,14 +426,14 @@ const GhatCostInfoTable = () => {
                   <>
                     <div className="row mt-4">
                       <div
-                        style={{ marginLeft: "auto", marginRight: "11px" }}
+                        style={{ marginLeft: 'auto', marginRight: '11px' }}
                       ></div>
                       <div className="col-lg-12">
                         <div className="table-responsive">
                           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                             <thead>
                               <tr>
-                                <th style={{ width: "20px" }}>Sl</th>
+                                <th style={{ width: '20px' }}>Sl</th>
                                 <th>Supplier Name</th>
                                 <th>Ship Point Name</th>
                                 <th>Demand Vehicle</th>
@@ -462,7 +460,7 @@ const GhatCostInfoTable = () => {
                                         style={{
                                           backgroundColor:
                                             item?.receiveVehicle > 0 &&
-                                            "#C7FF87",
+                                            '#C7FF87',
                                         }}
                                       >
                                         <td className="text-center">
@@ -488,7 +486,7 @@ const GhatCostInfoTable = () => {
 
                                         <td className="text-center">
                                           <IEdit
-                                            title={"Edit"}
+                                            title={'Edit'}
                                             onClick={() => {
                                               setVehicleDemandModal(true);
                                               setVehicleDemandItem(item);
@@ -501,7 +499,7 @@ const GhatCostInfoTable = () => {
                                 })}
                               <tr>
                                 <td
-                                  style={{ fontWeight: "bold" }}
+                                  style={{ fontWeight: 'bold' }}
                                   colSpan="2"
                                   className="fw-bold"
                                 >
@@ -509,13 +507,13 @@ const GhatCostInfoTable = () => {
                                 </td>
                                 <td></td>
                                 <td
-                                  style={{ fontWeight: "bold" }}
+                                  style={{ fontWeight: 'bold' }}
                                   className="text-center"
                                 >
                                   {totalDemandVehicle}
                                 </td>
                                 <td
-                                  style={{ fontWeight: "bold" }}
+                                  style={{ fontWeight: 'bold' }}
                                   className="text-center"
                                 >
                                   {totalReceiveVehicle}
@@ -533,25 +531,25 @@ const GhatCostInfoTable = () => {
                                 {totalDumpQtyTon}
                               </td> */}
                                 <td
-                                  style={{ fontWeight: "bold" }}
+                                  style={{ fontWeight: 'bold' }}
                                   className="text-center"
                                 >
                                   {totalLabourRequirement}
                                 </td>
                                 <td
-                                  style={{ fontWeight: "bold" }}
+                                  style={{ fontWeight: 'bold' }}
                                   className="text-center"
                                 >
                                   {totalLabourPresent}
                                 </td>
                                 <td
-                                  style={{ fontWeight: "bold" }}
+                                  style={{ fontWeight: 'bold' }}
                                   className="text-center"
                                 >
                                   {totalLighterWaiting}
                                 </td>
                                 <td
-                                  style={{ fontWeight: "bold" }}
+                                  style={{ fontWeight: 'bold' }}
                                   className="text-center"
                                 ></td>
                               </tr>

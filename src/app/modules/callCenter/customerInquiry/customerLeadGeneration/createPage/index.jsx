@@ -47,7 +47,7 @@ function CreateCustomerLeadGeneration() {
     // }),
     shipToPartnerName: Yup.string().required('Shop is required'),
     shipToPartnerAddress: Yup.string().required(
-      'Retail Shop Address is required',
+      'Retail Shop Address is required'
     ),
     updatedDateTime: id
       ? Yup.string().required('Date & Time is required')
@@ -137,7 +137,7 @@ function CreateCustomerLeadGeneration() {
             cb();
           }
         },
-        'save',
+        'save'
       );
     }
   };
@@ -204,18 +204,18 @@ function CreateCustomerLeadGeneration() {
       `/oms/SalesQuotation/UpdateCustomerAcquisitionPipeline`,
       payload,
       () => history.goBack(),
-      'update',
+      'update'
     );
   };
 
   const getDistrict = (divisionId) => {
     getDistrictDDL(
-      `/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=${divisionId}`,
+      `/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=${divisionId}`
     );
   };
   const getThana = (districtId) => {
     getThanaDDL(
-      `/oms/SalesQuotation/GetUserWiseShipToPartnerAndZoneDDL?partName=TransportZoneDDL&userId=${userId}&businessUnitId=${selectedBusinessUnit?.value}&districtId=${districtId}`,
+      `/oms/SalesQuotation/GetUserWiseShipToPartnerAndZoneDDL?partName=TransportZoneDDL&userId=${userId}&businessUnitId=${selectedBusinessUnit?.value}&districtId=${districtId}`
     );
   };
 
@@ -223,7 +223,7 @@ function CreateCustomerLeadGeneration() {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`,
+        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`
       )
       .then((res) => {
         return res?.data;
@@ -242,7 +242,7 @@ function CreateCustomerLeadGeneration() {
           };
         });
         setAreaDDL(modifyData);
-      },
+      }
     );
   };
   const getTerritory = (areaId) => {
@@ -257,7 +257,7 @@ function CreateCustomerLeadGeneration() {
           };
         });
         setTerritoryDDL(modifyData);
-      },
+      }
     );
   };
 
@@ -265,21 +265,21 @@ function CreateCustomerLeadGeneration() {
   React.useEffect(() => {
     getDivisionDDL('/oms/TerritoryInfo/GetDivisionDDL?countryId=18');
     getStoriedDDL(
-      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=5&referenceId=5`,
+      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=5&referenceId=5`
     );
     getProjectStatusDDL(
       `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${
         selectedBusinessUnit?.value === 4 ? 4 : 0
-      }&typeId=2&referenceId=2`,
+      }&typeId=2&referenceId=2`
     );
     getSourceOrAdvertiseDDL(
-      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=4&referenceId=4`,
+      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=4&referenceId=4`
     );
     getBrandDDL(
-      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=3&referenceId=3`,
+      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=3&referenceId=3`
     );
     getShipPointDDL(
-      `/wms/ShipPoint/GetShipPointDDL?accountId=1&businessUnitId=${selectedBusinessUnit?.value}`,
+      `/wms/ShipPoint/GetShipPointDDL?accountId=1&businessUnitId=${selectedBusinessUnit?.value}`
     );
     // /oms/SalesInformation/GetUserWiseRegionAreaTerritoryDDL?businessUnitId=4&userId=204856&typeName=Region&distributionChannelId=46
 
@@ -294,12 +294,11 @@ function CreateCustomerLeadGeneration() {
           };
         });
         setRegionDDL(modifyData);
-      },
+      }
     );
     getItemDDL(
-      `/oms/SalesQuotation/GetItemSalesByItemTypeIdDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=4`,
+      `/oms/SalesQuotation/GetItemSalesByItemTypeIdDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=4`
     );
-
   }, []);
 
   // get by id for edit
@@ -402,10 +401,9 @@ function CreateCustomerLeadGeneration() {
               };
             }),
           });
-        },
+        }
       );
     }
-
   }, [id]);
   return (
     <ICustomCard
@@ -858,7 +856,7 @@ function CreateCustomerLeadGeneration() {
                         const isExist =
                           Array.isArray(values?.row) &&
                           values.row.some(
-                            (item) => item?.item?.value === values?.item?.value,
+                            (item) => item?.item?.value === values?.item?.value
                           );
 
                         if (isExist) {
@@ -909,7 +907,7 @@ function CreateCustomerLeadGeneration() {
                                 <Button
                                   onClick={() => {
                                     const filterData = values.row.filter(
-                                      (itm, indx) => indx !== index,
+                                      (itm, indx) => indx !== index
                                     );
                                     setFieldValue('row', filterData);
                                   }}

@@ -1,18 +1,15 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router-dom";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { getMotherVesselInfo } from "../../../../_helper/_commonApi";
-import ICustomCard from "../../../../_helper/_customCard";
-import FormikError from "../../../../_helper/_formikError";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import IButton from "../../../../_helper/iButton";
-import {
-  getMotherVesselDDL,
-  validationSchema,
-} from "../helper";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { getMotherVesselInfo } from '../../../../_helper/_commonApi';
+import ICustomCard from '../../../../_helper/_customCard';
+import FormikError from '../../../../_helper/_formikError';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import IButton from '../../../../_helper/iButton';
+import { getMotherVesselDDL, validationSchema } from '../helper';
 
 export default function FormCmp({
   type,
@@ -28,7 +25,7 @@ export default function FormCmp({
   setMotherVesselDDL,
   approveTenderInformation,
 }) {
-  const radioStyle = { height: "25px", width: "25px" };
+  const radioStyle = { height: '25px', width: '25px' };
   const history = useHistory();
   const loadOptions = async (v) => {
     await [];
@@ -77,9 +74,9 @@ export default function FormCmp({
                 {buId === 94 && (
                   <div
                     className={
-                      type === "edit"
-                        ? "col-9 mt-3 d-flex"
-                        : "col-12 mt-3 d-flex"
+                      type === 'edit'
+                        ? 'col-9 mt-3 d-flex'
+                        : 'col-12 mt-3 d-flex'
                     }
                   >
                     <div className="d-flex align-items-center mr-5">
@@ -89,11 +86,11 @@ export default function FormCmp({
                         name="type"
                         id="badc"
                         value={values?.type}
-                        checked={values?.type === "badc"}
+                        checked={values?.type === 'badc'}
                         onChange={() => {
-                          setFieldValue("type", "badc");
+                          setFieldValue('type', 'badc');
                         }}
-                        disabled={type === "view"}
+                        disabled={type === 'view'}
                       />
                       <label htmlFor="badc" className="ml-1">
                         <h3>BADC</h3>
@@ -106,11 +103,11 @@ export default function FormCmp({
                         name="type"
                         id="bcic"
                         value={values?.type}
-                        checked={values?.type === "bcic"}
+                        checked={values?.type === 'bcic'}
                         onChange={() => {
-                          setFieldValue("type", "bcic");
+                          setFieldValue('type', 'bcic');
                         }}
-                        disabled={type === "view"}
+                        disabled={type === 'view'}
                       />
                       <label htmlFor="bcic" className="ml-1">
                         <h3>BCIC</h3>
@@ -118,9 +115,9 @@ export default function FormCmp({
                     </div>
                   </div>
                 )}
-                {type === "edit" && (
+                {type === 'edit' && (
                   <IButton
-                    className={"btn-info"}
+                    className={'btn-info'}
                     onClick={() => {
                       approveTenderInformation(values);
                     }}
@@ -136,7 +133,7 @@ export default function FormCmp({
                       value={values?.organization}
                       label="Organization"
                       onChange={(valueOption) => {
-                        setFieldValue("organization", valueOption);
+                        setFieldValue('organization', valueOption);
                       }}
                       placeholder="Organization"
                       errors={errors}
@@ -151,8 +148,8 @@ export default function FormCmp({
                     value={values?.port}
                     label="Port"
                     onChange={(valueOption) => {
-                      setFieldValue("port", valueOption);
-                      setFieldValue("motherVessel", "");
+                      setFieldValue('port', valueOption);
+                      setFieldValue('motherVessel', '');
                       getMotherVesselDDL(
                         accId,
                         buId,
@@ -173,7 +170,7 @@ export default function FormCmp({
                     value={values?.motherVessel}
                     label="Mother Vessel"
                     onChange={(valueOption) => {
-                      setFieldValue("motherVessel", valueOption);
+                      setFieldValue('motherVessel', valueOption);
 
                       if (values?.port && valueOption) {
                         getMotherVesselInfo(
@@ -182,14 +179,14 @@ export default function FormCmp({
                           setLoading,
                           (resData) => {
                             setFieldValue(
-                              "programNo",
-                              resData?.programNo || ""
+                              'programNo',
+                              resData?.programNo || ''
                             );
-                            setFieldValue("item", {
+                            setFieldValue('item', {
                               value: resData?.intProductId,
                               label: resData?.strProductName,
                             });
-                            setFieldValue("lotNo", resData?.strLotNumber || "");
+                            setFieldValue('lotNo', resData?.strLotNumber || '');
                           }
                         );
                       }
@@ -215,14 +212,14 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.item}
                     handleChange={(valueOption) => {
-                      setFieldValue("item", valueOption);
+                      setFieldValue('item', valueOption);
                     }}
                     placeholder="Search Item"
                     loadOptions={(v) => {
                       const searchValue = v.trim();
                       const corporationTypeId =
                         buId === 94
-                          ? values?.type === "badc"
+                          ? values?.type === 'badc'
                             ? 73244
                             : 73245
                           : values?.organization?.value;
@@ -240,11 +237,11 @@ export default function FormCmp({
                 <div className="col-lg-3">
                   <NewSelect
                     name="UoM"
-                    options={[{ value: 1, label: "Ton" }]}
+                    options={[{ value: 1, label: 'Ton' }]}
                     value={values?.UoM}
                     label="UoM"
                     onChange={(valueOption) => {
-                      setFieldValue("UoM", valueOption);
+                      setFieldValue('UoM', valueOption);
                     }}
                     placeholder="UoM"
                     errors={errors}
@@ -280,8 +277,8 @@ export default function FormCmp({
                     label="Program Quantity"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("programQuantity", e.target.value);
-                      setFieldValue("weight", e.target.value);
+                      setFieldValue('programQuantity', e.target.value);
+                      setFieldValue('weight', e.target.value);
                     }}
                   />
                 </div>
@@ -300,9 +297,9 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.cnf}
                     handleChange={(valueOption) => {
-                      setFieldValue("cnf", valueOption);
+                      setFieldValue('cnf', valueOption);
                     }}
-                    placeholder={"Search CNF"}
+                    placeholder={'Search CNF'}
                     loadOptions={loadOptions}
                   />
                 </div>
@@ -320,9 +317,9 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.steveDore}
                     handleChange={(valueOption) => {
-                      setFieldValue("steveDore", valueOption);
+                      setFieldValue('steveDore', valueOption);
                     }}
-                    placeholder={"Search Steve Dore"}
+                    placeholder={'Search Steve Dore'}
                     loadOptions={loadOptions}
                   />
                 </div>
@@ -340,9 +337,9 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.surveyor}
                     handleChange={(valueOption) => {
-                      setFieldValue("surveyor", valueOption);
+                      setFieldValue('surveyor', valueOption);
                     }}
-                    placeholder={"Search Surveyor"}
+                    placeholder={'Search Surveyor'}
                     loadOptions={loadOptions}
                   />
                 </div>
@@ -360,9 +357,9 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.hatchLabour}
                     handleChange={(valueOption) => {
-                      setFieldValue("hatchLabour", valueOption);
+                      setFieldValue('hatchLabour', valueOption);
                     }}
-                    placeholder={"Search Hatch Labour"}
+                    placeholder={'Search Hatch Labour'}
                     loadOptions={loadOptions}
                   />
                 </div>
@@ -379,16 +376,16 @@ export default function FormCmp({
                   <NewSelect
                     name="hasTransportBill"
                     options={[
-                      { value: true, label: "Yes" },
-                      { value: false, label: "No" },
+                      { value: true, label: 'Yes' },
+                      { value: false, label: 'No' },
                     ]}
                     value={values?.hasTransportBill}
                     label="Has Transport Bill"
                     onChange={(valueOption) => {
-                      setFieldValue("hasTransportBill", valueOption);
+                      setFieldValue('hasTransportBill', valueOption);
                     }}
                     placeholder="Has Transport Bill"
-                  // isDisabled={type}
+                    // isDisabled={type}
                   />
                 </div>
               </div>

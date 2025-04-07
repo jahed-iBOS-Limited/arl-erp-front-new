@@ -60,7 +60,7 @@ export default function FormCmp({
         profileData?.accountId,
         selectedBusinessUnit?.value,
         initData.plantId,
-        setOthersOutputItemDDL,
+        setOthersOutputItemDDL
       );
       // getOrderQuantityDDL(
       //   profileData?.accountId,
@@ -79,7 +79,7 @@ export default function FormCmp({
 
   const rowDataAddHandler = (values, setFieldValue) => {
     const isExist = rowData.find(
-      (data) => data.itemName === values.othersOutputItem.label,
+      (data) => data.itemName === values.othersOutputItem.label
     );
 
     if (isExist) {
@@ -167,13 +167,13 @@ export default function FormCmp({
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
                               valueOption?.value,
-                              setOthersOutputItemDDL,
+                              setOthersOutputItemDDL
                             );
                             getShopFloorDDL(
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
                               valueOption?.value,
-                              setShopFloorDDL,
+                              setShopFloorDDL
                             );
                             // getProductionOrderDDL(
                             //   profileData.accountId,
@@ -186,7 +186,7 @@ export default function FormCmp({
                               selectedBusinessUnit.value,
                               valueOption?.value,
                               values?.productionOrder?.value,
-                              setGetOrderQuantity,
+                              setGetOrderQuantity
                             );
                             setFieldValue('plantName', valueOption);
                             setFieldValue('shopFloor', '');
@@ -213,7 +213,7 @@ export default function FormCmp({
                               selectedBusinessUnit?.value,
                               values?.plantName?.value,
                               valueOption?.value,
-                              setWorkCenterDDL,
+                              setWorkCenterDDL
                             );
                           }}
                           placeholder="Shop Floor"
@@ -240,7 +240,7 @@ export default function FormCmp({
                               values?.plantName?.value,
                               values?.shopFloor?.value,
                               valueOption?.value,
-                              setItemDDL,
+                              setItemDDL
                             );
                           }}
                           placeholder="Work Center"
@@ -265,7 +265,7 @@ export default function FormCmp({
                               valueOption?.value,
                               values?.workcenterName?.value,
                               values?.shopFloor?.value,
-                              setBomDDL,
+                              setBomDDL
                             );
                           }}
                           placeholder="Item Name"
@@ -314,7 +314,7 @@ export default function FormCmp({
                             if (e?.target?.value) {
                               setFieldValue(
                                 'dteProductionDate',
-                                e?.target?.value,
+                                e?.target?.value
                               );
                             }
                           }}
@@ -380,7 +380,7 @@ export default function FormCmp({
                             onChange={(e) => {
                               setFieldValue(
                                 'checkOutputItem',
-                                e.target.checked,
+                                e.target.checked
                               );
                             }}
                             disabled={
@@ -403,7 +403,7 @@ export default function FormCmp({
                                 onChange={(valueOption) => {
                                   setFieldValue(
                                     'othersOutputItem',
-                                    valueOption,
+                                    valueOption
                                   );
                                 }}
                                 placeholder="Others Output Item"
@@ -484,7 +484,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

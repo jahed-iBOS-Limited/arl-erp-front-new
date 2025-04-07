@@ -49,7 +49,6 @@ function ProfitAndLoss() {
 
   useEffect(() => {
     modeOfTransportHandelar(initData);
-
   }, [profileData, selectedBusinessUnit]);
 
   const getLandingData = (masterBlId, values) => {
@@ -60,14 +59,14 @@ function ProfitAndLoss() {
           commonReportDataSet(resData, {
             ...values,
           });
-        },
+        }
       );
     }
   };
 
   const modeOfTransportHandelar = (values) => {
     getGenarateMasterBLDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetGenarateMasterBLDDL?typeId=${values?.modeOfTransport?.value}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetGenarateMasterBLDDL?typeId=${values?.modeOfTransport?.value}`
     );
   };
 
@@ -80,7 +79,7 @@ function ProfitAndLoss() {
           label: item?.label,
         }));
         setHBLFromMasterBL(modifyData);
-      },
+      }
     );
   };
 
@@ -104,7 +103,7 @@ function ProfitAndLoss() {
 
   const commonReportDataSet = (reportData, values) => {
     const bookingRequestId = reportData?.rowData?.find(
-      (item) => item?.hwabno === values?.hbl?.value,
+      (item) => item?.hwabno === values?.hbl?.value
     )?.bookingRequestId;
 
     const rowDataFilter = reportData?.rowData?.filter((item) => {
@@ -123,7 +122,7 @@ function ProfitAndLoss() {
         return bookingRequestId
           ? item?.bookingRequestId === bookingRequestId
           : true;
-      },
+      }
     );
 
     const collecttionHeadOfChargeWiseGroup =
@@ -150,10 +149,10 @@ function ProfitAndLoss() {
         }
         return acc;
       },
-      {},
+      {}
     );
     const collecttionBillingDatas = Object.values(
-      collecttionHeadOfChargeWiseGroup,
+      collecttionHeadOfChargeWiseGroup
     )?.map((item) => {
       const converstionrate = +item?.converstionrate || 0;
       const collectionActualAmount = +item?.collectionActualAmount || 0;
@@ -182,7 +181,7 @@ function ProfitAndLoss() {
       };
     });
     const paymentBillingDatas = Object.values(
-      paymentHeadOfChargeWiseGroup,
+      paymentHeadOfChargeWiseGroup
     )?.map((item) => {
       const paymentActualAmount = +item?.paymentActualAmount || 0;
       const converstionrate = +item?.converstionrate || 0;

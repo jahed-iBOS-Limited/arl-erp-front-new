@@ -1,28 +1,24 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { Formik, Form } from 'formik';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import PaginationSearch from '../../../../_helper/_search';
+import InputField from '../../../../_helper/_inputField';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import DetailsModal from './detailsModal';
 
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik, Form } from "formik";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import PaginationSearch from "../../../../_helper/_search";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import DetailsModal from "./detailsModal";
-
-import {
-  getShopfloorDDL,
-  getShopfloorIssueReportLandingData,
-} from "../helper";
-import { getPlantNameDDL_api } from "../../../../_helper/_commonApi";
+import { getShopfloorDDL, getShopfloorIssueReportLandingData } from '../helper';
+import { getPlantNameDDL_api } from '../../../../_helper/_commonApi';
 
 const initData = {
-  plant: "",
-  shopFloor: "",
+  plant: '',
+  shopFloor: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -92,9 +88,9 @@ function ShopFloorIssueReportLanding() {
                       value={values?.plant}
                       label="Select Plant"
                       onChange={(valueOption) => {
-                        setFieldValue("shopFloor", "");
+                        setFieldValue('shopFloor', '');
                         setGridData([]);
-                        setFieldValue("plant", valueOption);
+                        setFieldValue('plant', valueOption);
                         getShopfloorDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -114,7 +110,7 @@ function ShopFloorIssueReportLanding() {
                       value={values?.shopFloor}
                       label="Select Shop Floor"
                       onChange={(valueOption) => {
-                        setFieldValue("shopFloor", valueOption);
+                        setFieldValue('shopFloor', valueOption);
                       }}
                       placeholder="Select Shop Floor"
                       errors={errors}
@@ -139,7 +135,7 @@ function ShopFloorIssueReportLanding() {
                       type="date"
                     />
                   </div>
-                  <div style={{ marginTop: "18px" }} className="col-lg-1">
+                  <div style={{ marginTop: '18px' }} className="col-lg-1">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -155,7 +151,7 @@ function ShopFloorIssueReportLanding() {
                   </div>
                   {gridData?.length > 0 && (
                     <div
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       // className="col-lg-3 d-flex justify-content-end"
                       className="col-lg-1"
                     >
@@ -167,7 +163,7 @@ function ShopFloorIssueReportLanding() {
                               className="btn btn-primary px-4 pr-1 btn-sm d-flex"
                             >
                               <img
-                                style={{ width: "15px" }}
+                                style={{ width: '15px' }}
                                 src={printIcon}
                                 alt="print-icon"
                               />
@@ -217,7 +213,9 @@ function ShopFloorIssueReportLanding() {
                               <span className="pl-2">{item?.uoMName}</span>
                             </td>
                             <td className="text-center">
-                              <span className="pl-2">{item?.requestQuantity}</span>
+                              <span className="pl-2">
+                                {item?.requestQuantity}
+                              </span>
                             </td>
                             <td className="text-center">
                               <span className="pr-2">
@@ -245,7 +243,6 @@ function ShopFloorIssueReportLanding() {
                       </tbody>
                     </table>
                   </div>
-
                 </div>
               )}
 

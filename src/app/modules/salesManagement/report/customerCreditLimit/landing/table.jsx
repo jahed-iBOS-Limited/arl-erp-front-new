@@ -1,74 +1,74 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import axios from "axios";
-import ICard from "../../../../_helper/_card";
-import ICustomTable from "../../../../_helper/_customTable";
-import { Formik, Form } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import NewSelect from "../../../../_helper/_select";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import React, { useEffect, useState, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import axios from 'axios';
+import ICard from '../../../../_helper/_card';
+import ICustomTable from '../../../../_helper/_customTable';
+import { Formik, Form } from 'formik';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import NewSelect from '../../../../_helper/_select';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 import {
   getDistributionChannelDDL,
   getChannelWiseSalesReportLandingData,
-} from "../helper";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
+} from '../helper';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 
 // Table Header
 const dayThs = [
-  "Sl",
-  "Region",
-  "Area",
-  "Territory",
-  "Partner Name",
+  'Sl',
+  'Region',
+  'Area',
+  'Territory',
+  'Partner Name',
 
-  "Days",
-  "Present BG",
-  "Present Credit Limit",
-  "Approved OD",
-  "Total Present Credit Limit",
-  "Debit As on Today",
-  "Credit As On Today",
-  "Outstanding As on Today",
-  "Last Product Delivery Date",
-  "Last Payment Date",
-  "Product Delivery Gap",
-  "Payment Gap",
+  'Days',
+  'Present BG',
+  'Present Credit Limit',
+  'Approved OD',
+  'Total Present Credit Limit',
+  'Debit As on Today',
+  'Credit As On Today',
+  'Outstanding As on Today',
+  'Last Product Delivery Date',
+  'Last Payment Date',
+  'Product Delivery Gap',
+  'Payment Gap',
 ];
 const creditThs = [
-  "Sl",
-  "Region",
-  "Area",
-  "Territory",
-  "Customer Name",
-  "Present BG",
-  "Present Credit Limit",
-  "Approved OD",
-  "Total Present Credit Limit",
-  "Debit As on Today",
-  "Credit As On Today",
-  "Outstanding As on Today",
-  "Last Product Delivery Date",
-  "Last Payment Date",
-  "Product Delivery Gap",
-  "Payment Gap",
+  'Sl',
+  'Region',
+  'Area',
+  'Territory',
+  'Customer Name',
+  'Present BG',
+  'Present Credit Limit',
+  'Approved OD',
+  'Total Present Credit Limit',
+  'Debit As on Today',
+  'Credit As On Today',
+  'Outstanding As on Today',
+  'Last Product Delivery Date',
+  'Last Payment Date',
+  'Product Delivery Gap',
+  'Payment Gap',
 ];
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  date: Yup.date().required("From Date is required"),
+  date: Yup.date().required('From Date is required'),
   distributionChannel: Yup.object().shape({
-    label: Yup.string().required("Distribution Channel is required"),
-    value: Yup.string().required("Distribution Channel is required"),
+    label: Yup.string().required('Distribution Channel is required'),
+    value: Yup.string().required('Distribution Channel is required'),
   }),
 });
 
 const initData = {
   date: _todayDate(),
-  distributionChannel: "",
+  distributionChannel: '',
 };
 
 export default function CustomerCreditLimitReport() {
@@ -97,7 +97,6 @@ export default function CustomerCreditLimitReport() {
         setDistributionChannelDDL
       );
     }
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const viewHandler = async (values, setter) => {
@@ -169,7 +168,7 @@ export default function CustomerCreditLimitReport() {
                             name="date"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("date", e?.target?.value);
+                              setFieldValue('date', e?.target?.value);
                               setRowDto([]);
                             }}
                           />
@@ -181,7 +180,7 @@ export default function CustomerCreditLimitReport() {
                             value={values?.distributionChannel}
                             label="Distribution Channel"
                             onChange={(valueOption) => {
-                              setFieldValue("distributionChannel", valueOption);
+                              setFieldValue('distributionChannel', valueOption);
                               setChannelId(valueOption?.value);
                               setRowDto([]);
                             }}
@@ -195,16 +194,16 @@ export default function CustomerCreditLimitReport() {
                             name="type"
                             options={
                               values?.distributionChannel?.value === 46
-                                ? [{ value: 2, label: "Credit Limit" }]
+                                ? [{ value: 2, label: 'Credit Limit' }]
                                 : [
-                                    { value: 1, label: "Days Limit" },
-                                    { value: 2, label: "Credit Limit" },
+                                    { value: 1, label: 'Days Limit' },
+                                    { value: 2, label: 'Credit Limit' },
                                   ]
                             }
                             value={values?.type}
                             label="Type"
                             onChange={(valueOption) => {
-                              setFieldValue("type", valueOption);
+                              setFieldValue('type', valueOption);
                               setRowDto([]);
                             }}
                             placeholder="Type"
@@ -218,7 +217,7 @@ export default function CustomerCreditLimitReport() {
                             <SearchAsyncSelect
                               selectedValue={values?.customer}
                               handleChange={(valueOption) => {
-                                setFieldValue("customer", valueOption);
+                                setFieldValue('customer', valueOption);
                                 setRowDto([]);
                               }}
                               placeholder="Search Customer"
@@ -233,7 +232,7 @@ export default function CustomerCreditLimitReport() {
                             }
                             type="submit"
                             className="btn btn-primary mt-5"
-                            style={{ marginLeft: "13px" }}
+                            style={{ marginLeft: '13px' }}
                           >
                             View
                           </button>
@@ -274,12 +273,12 @@ export default function CustomerCreditLimitReport() {
                                             className="text-right"
                                           >
                                             <b>
-                                              {itm?.type === "area"
-                                                ? (itm?.areaName || "") +
-                                                  " Area"
-                                                : (itm?.regionName || "") +
-                                                  " Region"}{" "}
-                                              Grand Total{" "}
+                                              {itm?.type === 'area'
+                                                ? (itm?.areaName || '') +
+                                                  ' Area'
+                                                : (itm?.regionName || '') +
+                                                  ' Region'}{' '}
+                                              Grand Total{' '}
                                             </b>
                                           </td>
                                           <td className="text-right">
@@ -322,7 +321,7 @@ export default function CustomerCreditLimitReport() {
                                       ) : (
                                         <tr key={index}>
                                           <td className="text-center">
-                                            {" "}
+                                            {' '}
                                             {i + 1}
                                           </td>
                                           <td> {data?.RegionName}</td>
@@ -331,11 +330,11 @@ export default function CustomerCreditLimitReport() {
                                           <td> {itm?.strCustomerName}</td>
                                           {values?.type?.value === 1 ? (
                                             <td className="text-center">
-                                              {" "}
+                                              {' '}
                                               {itm?.DaysDuration}
                                             </td>
                                           ) : (
-                                            ""
+                                            ''
                                           )}
                                           <td className="text-right">
                                             {itm?.monbg}
@@ -347,11 +346,11 @@ export default function CustomerCreditLimitReport() {
                                             {itm?.SCL}
                                           </td>
                                           <td className="text-right">
-                                            {" "}
+                                            {' '}
                                             {itm?.monCreditLimit}
                                           </td>
                                           <td className="text-right">
-                                            {" "}
+                                            {' '}
                                             {itm?.monDebit}
                                           </td>
                                           <td className="text-right">
@@ -364,15 +363,15 @@ export default function CustomerCreditLimitReport() {
                                               style={
                                                 itm?.monOutstanding < 0
                                                   ? {
-                                                      color: "Green",
+                                                      color: 'Green',
                                                       fontWeight: 900,
                                                     }
                                                   : itm?.monOutstanding > 0
-                                                  ? {
-                                                      color: "Red",
-                                                      fontWeight: 900,
-                                                    }
-                                                  : { fontWeight: 900 }
+                                                    ? {
+                                                        color: 'Red',
+                                                        fontWeight: 900,
+                                                      }
+                                                    : { fontWeight: 900 }
                                               }
                                             >
                                               {itm?.monOutstanding}
@@ -386,11 +385,11 @@ export default function CustomerCreditLimitReport() {
                                               style={
                                                 itm?.monOutstanding > 0
                                                   ? {
-                                                      color: "red",
+                                                      color: 'red',
                                                       fontWeight: 900,
                                                     }
                                                   : {
-                                                      color: "green",
+                                                      color: 'green',
                                                       fontWeight: 900,
                                                     }
                                               }

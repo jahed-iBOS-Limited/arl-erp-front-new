@@ -1,7 +1,7 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _todayDate } from "../../../_helper/_todayDate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 //create data;
 export const createPurchaseOrder = async (
@@ -28,7 +28,7 @@ export const createPurchaseOrder = async (
     const res = await axios.post(`/imp/PurchaseOrder/CreatePurchaseOrder`, obj);
     setDisabled(false);
     cb && cb();
-    toast.success(res?.data?.message || "Create successfully");
+    toast.success(res?.data?.message || 'Create successfully');
     return res;
   } catch (error) {
     setDisabled(false);
@@ -44,10 +44,10 @@ const createPayloadChange = (
   proformaInvoiceValue,
   rowDto
 ) => {
-  console.log("tamkinrowDto", rowDto);
-  console.log("tamkinrowDtovalues", values);
+  console.log('tamkinrowDto', rowDto);
+  console.log('tamkinrowDtovalues', values);
 
-  console.log("ASWEDRFTGYHUJKJHGTFRDESWAQWSEDRFGH", rowDto);
+  console.log('ASWEDRFTGYHUJKJHGTFRDESWAQWSEDRFGH', rowDto);
   let payload = {
     objHeaderDTO: {
       purchaseRequestNo: values?.purchaseRequestNo,
@@ -59,9 +59,9 @@ const createPayloadChange = (
       plantName: proformaInvoiceValue?.plantName,
       purchaseOrganizationId: 0,
       warehouseId: values?.warehouse?.value || 0,
-      warehouseName: values?.warehouse?.label || "",
+      warehouseName: values?.warehouse?.label || '',
       supplyingWarehouseId: 0,
-      supplyingWarehouseName: "",
+      supplyingWarehouseName: '',
       purchaseOrderTypeId: 0,
       referenceTypeId: 2,
       businessPartnerId: values?.supplierName?.value,
@@ -77,7 +77,7 @@ const createPayloadChange = (
       supplierReference: values?.supplierReference,
       referenceDate: values?.PIDate,
       poValidityDate: values?.lastShipmentDate,
-      otherTerms: values?.otherTerms || "",
+      otherTerms: values?.otherTerms || '',
       actionBy: userId,
       priceStructureId: 0,
       creditPercent: values?.castAdvance || 0,
@@ -90,12 +90,12 @@ const createPayloadChange = (
     objRowListDTO: rowDto?.map((data) => ({
       referenceQty: 0,
       controllingUnitId: 0,
-      controllingUnitName: "",
+      controllingUnitName: '',
       costCenterId: 0,
-      costCenterName: "",
+      costCenterName: '',
       costElementId: 0,
-      costElementName: "",
-      purchaseDescription: "",
+      costElementName: '',
+      purchaseDescription: '',
       lastActionDateTime: _todayDate(),
       discount: 0,
       itemId: data?.value,
@@ -167,7 +167,7 @@ export const getSingleData = async (id, setter, setDisabled) => {
 export const getPaymentTermDDL = async (setter) => {
   try {
     let res = await axios.get(
-      "/procurement/PurchaseOrder/GetPaymentTermsListDDL"
+      '/procurement/PurchaseOrder/GetPaymentTermsListDDL'
     );
     setter(res?.data);
   } catch (error) {
@@ -190,7 +190,7 @@ export const getItemListDDL = async (id, setter) => {
       // modifiedValue: `${item?.value}-${item?.referenceCode}`
     }));
     setter(payload);
-    console.log("paypayloadpayloadload", payload);
+    console.log('paypayloadpayloadload', payload);
   } catch (error) {
     toast.error(error?.response?.data?.message);
     setter([]);

@@ -1,26 +1,24 @@
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IEdit from "../../../_chartinghelper/icons/_edit";
-import IView from "../../../_chartinghelper/icons/_view";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import IViewModal from "../../../_chartinghelper/_viewModal";
-import SurveyVesselForm from "../From/addEditFrom";
-import { getSurveyVesselData } from "../helper";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IEdit from '../../../_chartinghelper/icons/_edit';
+import IView from '../../../_chartinghelper/icons/_view';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import { _dateFormatter } from '../../../_chartinghelper/_dateFormatter';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
+import IViewModal from '../../../_chartinghelper/_viewModal';
+import SurveyVesselForm from '../From/addEditFrom';
+import { getSurveyVesselData } from '../helper';
 
 const headers = [
-  { name: "SL" },
+  { name: 'SL' },
   // { name: "Mother Vessel Name" },
-  { name: "Reference No" },
+  { name: 'Reference No' },
   // { name: "Cargo Name" },
-  { name: "LC No" },
-  { name: "Arrival Date" },
-  { name: "B/L Quantity" },
-  { name: "Actions" },
+  { name: 'LC No' },
+  { name: 'Arrival Date' },
+  { name: 'B/L Quantity' },
+  { name: 'Actions' },
 ];
 
 export default function SurveyVesselTable() {
@@ -30,7 +28,7 @@ export default function SurveyVesselTable() {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [singleData, setSingleData] = useState({});
-  const [editViewTag, setEditViewTag] = useState("");
+  const [editViewTag, setEditViewTag] = useState('');
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
@@ -64,11 +62,11 @@ export default function SurveyVesselTable() {
           <div>
             <button
               type="button"
-              className={"btn btn-primary px-3 py-2"}
+              className={'btn btn-primary px-3 py-2'}
               onClick={() => {
                 setSingleData({});
                 setOpen(true);
-                setEditViewTag("");
+                setEditViewTag('');
               }}
               disabled={false}
             >
@@ -79,7 +77,7 @@ export default function SurveyVesselTable() {
         <ICustomTable ths={headers}>
           {gridData?.data?.map((item, index) => (
             <tr key={index}>
-              <td className="text-center" style={{ width: "40px" }}>
+              <td className="text-center" style={{ width: '40px' }}>
                 {index + 1}
               </td>
               {/* <td>{item?.motherVesselName}</td> */}
@@ -90,14 +88,14 @@ export default function SurveyVesselTable() {
                 {_dateFormatter(item?.arrivalDate)}
               </td>
               <td className="text-center">{item?.blqty}</td>
-              <td className="text-center" style={{ width: "130px" }}>
+              <td className="text-center" style={{ width: '130px' }}>
                 <div className="d-flex justify-content-center">
                   <div className="mr-4">
                     <IView
                       clickHandler={() => {
                         setSingleData(item);
                         setOpen(true);
-                        setEditViewTag("view");
+                        setEditViewTag('view');
                       }}
                     />
                   </div>
@@ -106,7 +104,7 @@ export default function SurveyVesselTable() {
                       clickHandler={() => {
                         setSingleData(item);
                         setOpen(true);
-                        setEditViewTag("edit");
+                        setEditViewTag('edit');
                       }}
                     />
                   </div>

@@ -27,7 +27,7 @@ export default function MachineEmpAssign() {
 
   const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     getGridData(
-      `/mes/ProductionPlanning/GetAssignMachineonEmployeeLanding?businessUnitId=${values?.businessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}`,
+      `/mes/ProductionPlanning/GetAssignMachineonEmployeeLanding?businessUnitId=${values?.businessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   };
 
@@ -73,7 +73,7 @@ export default function MachineEmpAssign() {
                     className="btn btn-primary mx-2"
                     onClick={() => {
                       history.push(
-                        `/production-management/mes/machine-employee-assign/create`,
+                        `/production-management/mes/machine-employee-assign/create`
                       );
                     }}
                   >

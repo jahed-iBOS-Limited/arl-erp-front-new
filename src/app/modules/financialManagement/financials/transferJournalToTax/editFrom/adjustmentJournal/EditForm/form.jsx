@@ -48,7 +48,7 @@ export default function FormCmp({
           selectedBusinessUnit?.value
         }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
           partnerType?.reffPrtTypeId
-        }`,
+        }`
       )
       .then((res) => {
         return res?.data;
@@ -79,12 +79,12 @@ export default function FormCmp({
     getCostElementDDL(
       selectedBusinessUnit.value,
       profileData.accountId,
-      setCostElementDDL,
+      setCostElementDDL
     );
     getCostCenterDDL(
       selectedBusinessUnit.value,
       profileData.accountId,
-      setCostCenterDDL,
+      setCostCenterDDL
     );
     getRevenueElementListDDL(selectedBusinessUnit.value, setRevenueElementDDL);
     getRevenueCenterListDDL(selectedBusinessUnit.value, setRevenueCenterDDL);
@@ -389,7 +389,7 @@ export default function FormCmp({
 
                           if (values?.amount < 1)
                             return toast.error(
-                              'Amount Field must be positive !',
+                              'Amount Field must be positive !'
                             );
                           setter(values);
                         }}
@@ -478,7 +478,7 @@ export default function FormCmp({
                                                 rowDtoHandler(
                                                   idx,
                                                   'amount',
-                                                  e.target.value,
+                                                  e.target.value
                                                 );
                                               }}
                                             />
@@ -501,7 +501,7 @@ export default function FormCmp({
                                                 rowDtoHandler(
                                                   idx,
                                                   'amount',
-                                                  e.target.value,
+                                                  e.target.value
                                                 );
                                               }}
                                             />

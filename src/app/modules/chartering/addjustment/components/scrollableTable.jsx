@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import InputField from "../../../_helper/_inputField";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import AdjustmentFilter from "./form";
-import { shallowEqual, useSelector } from "react-redux";
-import { getVesselDDL } from "../../helper";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import InputField from '../../../_helper/_inputField';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import AdjustmentFilter from './form';
+import { shallowEqual, useSelector } from 'react-redux';
+import { getVesselDDL } from '../../helper';
 import {
   createOutstandingAdjust,
   getPayload,
   outstandingAdjustLanding,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
+  vesselName: '',
+  voyageNo: '',
 };
 
 const ScrollableTable = ({ setLoading }) => {
@@ -40,7 +40,7 @@ const ScrollableTable = ({ setLoading }) => {
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setVesselDDL,
-      ""
+      ''
     );
   }, [profileData, selectedBusinessUnit]);
 
@@ -62,7 +62,7 @@ const ScrollableTable = ({ setLoading }) => {
   const submitHandler = (index, values) => {
     let changedItem = rowDto.filter((item) => item.isChange);
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to save row no: ${index + 1}`,
       yesAlertFunc: () => {
         createOutstandingAdjust(
@@ -128,60 +128,60 @@ const ScrollableTable = ({ setLoading }) => {
                   <table className="table table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th rowspan="2" style={{ minWidth: "30px" }}>
+                        <th rowspan="2" style={{ minWidth: '30px' }}>
                           SL
                         </th>
-                        <th rowspan="2" style={{ minWidth: "90px" }}>
+                        <th rowspan="2" style={{ minWidth: '90px' }}>
                           Voyage No
                         </th>
-                        <th colspan="2" style={{ minWidth: "240px" }}>
+                        <th colspan="2" style={{ minWidth: '240px' }}>
                           Dispute With Charterer
                         </th>
-                        <th rowspan="2" style={{ minWidth: "120px" }}>
+                        <th rowspan="2" style={{ minWidth: '120px' }}>
                           Freight
                         </th>
-                        <th colspan="2" style={{ minWidth: "240px" }}>
+                        <th colspan="2" style={{ minWidth: '240px' }}>
                           LP & DP
                         </th>
-                        <th rowspan="2" style={{ minWidth: "220px" }}>
+                        <th rowspan="2" style={{ minWidth: '220px' }}>
                           Charter/Shipper
                         </th>
-                        <th colspan="2" style={{ minWidth: "250px" }}>
+                        <th colspan="2" style={{ minWidth: '250px' }}>
                           Brokerage
                         </th>
-                        <th colspan="4" style={{ minWidth: "450px" }}>
+                        <th colspan="4" style={{ minWidth: '450px' }}>
                           PDA
                         </th>
-                        <th style={{ minWidth: "120px" }} rowspan="2">
+                        <th style={{ minWidth: '120px' }} rowspan="2">
                           PnI/TCL
                         </th>
-                        <th style={{ minWidth: "120px" }} rowspan="2">
+                        <th style={{ minWidth: '120px' }} rowspan="2">
                           Weather Routing
                         </th>
-                        <th style={{ minWidth: "120px" }} rowspan="2">
+                        <th style={{ minWidth: '120px' }} rowspan="2">
                           Survey
                         </th>
-                        <th style={{ minWidth: "120px" }} rowspan="2">
+                        <th style={{ minWidth: '120px' }} rowspan="2">
                           AP/Guard
                         </th>
-                        <th style={{ minWidth: "120px" }} rowspan="2">
+                        <th style={{ minWidth: '120px' }} rowspan="2">
                           Other
                         </th>
-                        <th style={{ minWidth: "80px" }} rowspan="2">
+                        <th style={{ minWidth: '80px' }} rowspan="2">
                           Action
                         </th>
                       </tr>
                       <tr>
-                        <th style={{ minWidth: "120px" }}>Charterer</th>
-                        <th style={{ minWidth: "120px" }}>Owner</th>
-                        <th style={{ minWidth: "120px" }}>Despatch</th>
-                        <th style={{ minWidth: "120px" }}>Demurage</th>
-                        <th style={{ minWidth: "100px" }}>Amount</th>
-                        <th style={{ minWidth: "150px" }}>Party</th>
-                        <th style={{ minWidth: "100px" }}>LP</th>
-                        <th style={{ minWidth: "100px" }}>DP</th>
-                        <th style={{ minWidth: "150px" }}>Bunker Port</th>
-                        <th style={{ minWidth: "100px" }}>OPA</th>
+                        <th style={{ minWidth: '120px' }}>Charterer</th>
+                        <th style={{ minWidth: '120px' }}>Owner</th>
+                        <th style={{ minWidth: '120px' }}>Despatch</th>
+                        <th style={{ minWidth: '120px' }}>Demurage</th>
+                        <th style={{ minWidth: '100px' }}>Amount</th>
+                        <th style={{ minWidth: '150px' }}>Party</th>
+                        <th style={{ minWidth: '100px' }}>LP</th>
+                        <th style={{ minWidth: '100px' }}>DP</th>
+                        <th style={{ minWidth: '150px' }}>Bunker Port</th>
+                        <th style={{ minWidth: '100px' }}>OPA</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -197,7 +197,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "numDisputeWithCharter",
+                                    'numDisputeWithCharter',
                                     e.target.value,
                                     index
                                   );
@@ -214,7 +214,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "numDisputeWithOwner",
+                                    'numDisputeWithOwner',
                                     e.target.value,
                                     index
                                   );
@@ -231,7 +231,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "numFreight",
+                                    'numFreight',
                                     e.target.value,
                                     index
                                   );
@@ -248,7 +248,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "numLpDpDespatch",
+                                    'numLpDpDespatch',
                                     e.target.value,
                                     index
                                   );
@@ -265,7 +265,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "numLpDpDemurrage",
+                                    'numLpDpDemurrage',
                                     e.target.value,
                                     index
                                   );
@@ -277,12 +277,12 @@ const ScrollableTable = ({ setLoading }) => {
                             </td>
                             <td className="text-center">
                               <InputField
-                                value={item?.strCharterOrShipper || ""}
+                                value={item?.strCharterOrShipper || ''}
                                 name="strCharterOrShipper"
                                 type="text"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "strCharterOrShipper",
+                                    'strCharterOrShipper',
                                     e.target.value,
                                     index
                                   );
@@ -299,7 +299,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "numBrokerageAmount",
+                                    'numBrokerageAmount',
                                     e.target.value,
                                     index
                                   );
@@ -316,7 +316,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="text"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "strBrokerageParty",
+                                    'strBrokerageParty',
                                     e.target.value,
                                     index
                                   );
@@ -333,7 +333,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "numPDA_LP",
+                                    'numPDA_LP',
                                     e.target.value,
                                     index
                                   );
@@ -350,7 +350,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "numPDA_DP",
+                                    'numPDA_DP',
                                     e.target.value,
                                     index
                                   );
@@ -367,7 +367,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="text"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "strPDABunkerPort",
+                                    'strPDABunkerPort',
                                     e.target.value,
                                     index
                                   );
@@ -384,7 +384,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "numPDA_OPA",
+                                    'numPDA_OPA',
                                     e.target.value,
                                     index
                                   );
@@ -401,7 +401,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "numPnlTcl",
+                                    'numPnlTcl',
                                     e.target.value,
                                     index
                                   );
@@ -418,7 +418,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "numWeatherRouting",
+                                    'numWeatherRouting',
                                     e.target.value,
                                     index
                                   );
@@ -435,7 +435,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "numSurvey",
+                                    'numSurvey',
                                     e.target.value,
                                     index
                                   );
@@ -452,7 +452,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "numApGuard",
+                                    'numApGuard',
                                     e.target.value,
                                     index
                                   );
@@ -469,7 +469,7 @@ const ScrollableTable = ({ setLoading }) => {
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "numOther",
+                                    'numOther',
                                     e.target.value,
                                     index
                                   );

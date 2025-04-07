@@ -1,23 +1,23 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getRowTotal = (arr, property) => {
   return arr.reduce((sum, item) => sum + item[property], 0);
 };
 
 export const monthDDL = [
-  { value: 1, label: "January" },
-  { value: 2, label: "February" },
-  { value: 3, label: "March" },
-  { value: 4, label: "April" },
-  { value: 5, label: "May" },
-  { value: 6, label: "June" },
-  { value: 7, label: "July" },
-  { value: 8, label: "August" },
-  { value: 9, label: "September" },
-  { value: 10, label: "October" },
-  { value: 11, label: "November" },
-  { value: 12, label: "December" },
+  { value: 1, label: 'January' },
+  { value: 2, label: 'February' },
+  { value: 3, label: 'March' },
+  { value: 4, label: 'April' },
+  { value: 5, label: 'May' },
+  { value: 6, label: 'June' },
+  { value: 7, label: 'July' },
+  { value: 8, label: 'August' },
+  { value: 9, label: 'September' },
+  { value: 10, label: 'October' },
+  { value: 11, label: 'November' },
+  { value: 12, label: 'December' },
 ];
 
 export const getFinYearDDLAction = async (buId, setter) => {
@@ -92,23 +92,19 @@ export const getBudgetCreateLanding = async (
         // quantity
         levelVariableQty: `${itm?.strElementName
           .toLowerCase()
-          .split(" ")
-          .join("")}Qty`,
-        [`${itm?.strElementName
-          .toLowerCase()
-          .split(" ")
-          .join("")}Qty`]: itm?.numBudgetQty,
+          .split(' ')
+          .join('')}Qty`,
+        [`${itm?.strElementName.toLowerCase().split(' ').join('')}Qty`]:
+          itm?.numBudgetQty,
         numBudgetQty: itm?.numBudgetQty,
 
         // amount
         levelVariableAmount: `${itm?.strElementName
           .toLowerCase()
-          .split(" ")
-          .join("")}Amount`,
-        [`${itm?.strElementName
-          .toLowerCase()
-          .split(" ")
-          .join("")}Amount`]: itm?.numBudgetQty,
+          .split(' ')
+          .join('')}Amount`,
+        [`${itm?.strElementName.toLowerCase().split(' ').join('')}Amount`]:
+          itm?.numBudgetQty,
         numBudgetValue: itm?.numBudgetValue,
       };
     });
@@ -125,10 +121,10 @@ export const saveBudgetCreate = async (data, setDisabled, cb) => {
     const res = await axios.post(`/fino/BudgetFinancial/BudgetCreate`, data);
     setDisabled && setDisabled(false);
     cb();
-    toast.success(res?.data?.message || "Submitted successfully");
+    toast.success(res?.data?.message || 'Submitted successfully');
   } catch (error) {
     setDisabled && setDisabled(false);
-    toast.warn(error?.response?.data?.message || "Something went wrong");
+    toast.warn(error?.response?.data?.message || 'Something went wrong');
   }
 };
 
@@ -145,23 +141,19 @@ export const getBudgetEntryGetById = async (id, setLoading, setter) => {
         // quantity
         levelVariableQty: `${itm?.strElementName
           .toLowerCase()
-          .split(" ")
-          .join("")}Qty`,
-        [`${itm?.strElementName
-          .toLowerCase()
-          .split(" ")
-          .join("")}Qty`]: itm?.numBudgetQty,
+          .split(' ')
+          .join('')}Qty`,
+        [`${itm?.strElementName.toLowerCase().split(' ').join('')}Qty`]:
+          itm?.numBudgetQty,
         numBudgetQty: itm?.numBudgetQty,
 
         // amount
         levelVariableAmount: `${itm?.strElementName
           .toLowerCase()
-          .split(" ")
-          .join("")}Amount`,
-        [`${itm?.strElementName
-          .toLowerCase()
-          .split(" ")
-          .join("")}Amount`]: itm?.numBudgetValue,
+          .split(' ')
+          .join('')}Amount`,
+        [`${itm?.strElementName.toLowerCase().split(' ').join('')}Amount`]:
+          itm?.numBudgetValue,
         numBudgetValue: itm?.numBudgetValue,
       };
     });
@@ -177,9 +169,9 @@ export const saveBudgetUpdated = async (data, setDisabled, cb) => {
     const res = await axios.post(`/fino/BudgetFinancial/BudgetUpdated`, data);
     setDisabled && setDisabled(false);
     cb();
-    toast.success(res?.data?.message || "Submitted successfully");
+    toast.success(res?.data?.message || 'Submitted successfully');
   } catch (error) {
     setDisabled && setDisabled(false);
-    toast.warn(error?.response?.data?.message || "Something went wrong");
+    toast.warn(error?.response?.data?.message || 'Something went wrong');
   }
 };

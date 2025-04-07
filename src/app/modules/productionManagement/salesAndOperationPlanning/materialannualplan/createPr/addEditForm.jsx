@@ -1,34 +1,33 @@
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
-import { savePurchaseRequest } from "./helper";
-import { useLocation, useParams } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
-import { confirmAlert } from "react-confirm-alert";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
+import { savePurchaseRequest } from './helper';
+import { useLocation, useParams } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
+import { confirmAlert } from 'react-confirm-alert';
 
 const initData = {
-  requestType: "",
-  supplyingWh: "",
+  requestType: '',
+  supplyingWh: '',
   requestDate: _todayDate(),
-  bom: "",
-  controllingUnit: "",
-  costCenter: "",
-  costElement: "",
-  purpose: "",
-  refNo: "",
-  code: "",
-  address: "",
+  bom: '',
+  controllingUnit: '',
+  costCenter: '',
+  costElement: '',
+  purpose: '',
+  refNo: '',
+  code: '',
+  address: '',
   requiredDate: _todayDate(),
-  itemName: "",
-  quantity: "",
-  sbu: "",
-  po: "",
-  plant: "",
-  wh: "",
+  itemName: '',
+  quantity: '',
+  sbu: '',
+  po: '',
+  plant: '',
+  wh: '',
 };
 
 export default function CreateForm() {
@@ -55,7 +54,7 @@ export default function CreateForm() {
       message: message,
       buttons: [
         {
-          label: "Ok",
+          label: 'Ok',
           onClick: () => noAlertFunc(),
         },
       ],
@@ -63,7 +62,7 @@ export default function CreateForm() {
   };
 
   const saveHandler = async (values, cb) => {
-    if (rowDto?.length < 1) return toast.warn("Please add item");
+    if (rowDto?.length < 1) return toast.warn('Please add item');
 
     setDisabled(true);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
@@ -76,12 +75,12 @@ export default function CreateForm() {
         costElementId: item?.costElement?.value,
         costElementName: item?.costElement?.label,
         billOfMaterialId: 0,
-        remarks: item?.rowPurpose || "",
+        remarks: item?.rowPurpose || '',
       }));
 
       let payload = {
         createPurchaseRequestHeader: {
-          purchaseRequestCode: "",
+          purchaseRequestCode: '',
           reffNo: values?.refNo,
           purchaseRequestTypeId: values?.requestType?.value,
           purchaseRequestTypeName: values?.requestType?.label,
@@ -99,17 +98,17 @@ export default function CreateForm() {
           warehouseName: values?.wh?.label,
           deliveryAddress: values?.address,
           supplyingWarehouseId: values?.supplyingWh?.value || 0,
-          supplyingWarehouseName: values?.supplyingWh?.label || "",
+          supplyingWarehouseName: values?.supplyingWh?.label || '',
           requestDate: values?.requestDate,
           actionBy: profileData?.userId,
           costControlingUnitId: values?.controllingUnit?.value || 0,
-          costControlingUnitName: values?.controllingUnit?.value || "",
+          costControlingUnitName: values?.controllingUnit?.value || '',
           costCenterName: values?.costCenter?.label,
           costCenterId: values?.costCenter?.value,
           costElementId: values?.costElement?.value,
           costElementName: values?.costElement?.label,
           requiredDate: values?.requiredDate,
-          strPurpose: values?.purpose || "",
+          strPurpose: values?.purpose || '',
         },
         createPurchaseRequestRow,
       };
@@ -123,14 +122,14 @@ export default function CreateForm() {
 
   const setter = (payload, successCB) => {
     if (payload.quantity < 0) {
-      return toast.warn("Quantity must be greater than 0");
+      return toast.warn('Quantity must be greater than 0');
     }
     const foundItem = rowDto?.filter(
       (item) => item?.itemName?.value === payload?.itemName?.value
     );
     //if (!payload?.purpose) return toast.warn("Add Purpose");
     if (foundItem?.length >= 1)
-      return toast.warn("Not allowed to duplicate item");
+      return toast.warn('Not allowed to duplicate item');
 
     successCB();
 
@@ -149,11 +148,11 @@ export default function CreateForm() {
 
   return (
     <IForm
-      title={"Create Purchase Request"}
+      title={'Create Purchase Request'}
       getProps={setObjprops}
       isDisabled={isDisabled}
-      isHiddenSave={params?.type === "viewType"}
-      isHiddenReset={params?.type === "viewType"}
+      isHiddenSave={params?.type === 'viewType'}
+      isHiddenReset={params?.type === 'viewType'}
     >
       {isDisabled && <Loading />}
       <Form

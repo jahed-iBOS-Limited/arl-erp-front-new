@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import Axios from 'axios';
@@ -17,7 +16,7 @@ export function PriceStructureTableCard() {
   const [pageSize, setPageSize] = useState(15);
 
   const selectedBusinessUnit = useSelector(
-    (state) => state.authData.selectedBusinessUnit,
+    (state) => state.authData.selectedBusinessUnit
   );
 
   const profileData = useSelector((state) => state.authData.profileData);
@@ -26,7 +25,7 @@ export function PriceStructureTableCard() {
     setLoading(true);
     try {
       const res = await Axios.get(
-        `/item/PriceStructure/GetPriceStructureLandingPasignation?AccountId=${accId}&BusinessUnitId=${buId}&Status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+        `/item/PriceStructure/GetPriceStructureLandingPasignation?AccountId=${accId}&BusinessUnitId=${buId}&Status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
       );
       setProducts(res?.data);
       setLoading(false);
@@ -41,7 +40,7 @@ export function PriceStructureTableCard() {
         profileData.accountId,
         selectedBusinessUnit.value,
         pageNo,
-        pageSize,
+        pageSize
       );
     }
   }, [selectedBusinessUnit, profileData]);
@@ -52,7 +51,7 @@ export function PriceStructureTableCard() {
       profileData.accountId,
       selectedBusinessUnit.value,
       pageNo,
-      pageSize,
+      pageSize
     );
   };
 

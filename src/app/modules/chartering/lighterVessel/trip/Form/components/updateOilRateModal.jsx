@@ -1,8 +1,8 @@
-import React from "react";
-import FormikInput from "../../../../_chartinghelper/common/formikInput";
-import Loading from "../../../../_chartinghelper/loading/_loading";
-import { getOilRateApi } from "../../helper";
-import { rateUpdateModalHandler } from "../../utils";
+import React from 'react';
+import FormikInput from '../../../../_chartinghelper/common/formikInput';
+import Loading from '../../../../_chartinghelper/loading/_loading';
+import { getOilRateApi } from '../../helper';
+import { rateUpdateModalHandler } from '../../utils';
 
 export function UpdateOilRateModal(props) {
   const {
@@ -20,7 +20,7 @@ export function UpdateOilRateModal(props) {
       {loading && <Loading />}
       <div className="marine-modal-form-card">
         <div className="marine-form-card-heading">
-          <p>{"Update Oil Rate"}</p>
+          <p>{'Update Oil Rate'}</p>
 
           <div>
             <button
@@ -53,7 +53,7 @@ export function UpdateOilRateModal(props) {
               name="numDiesel"
               placeholder="Rate"
               onChange={(e) => {
-                setFieldValue("numDiesel", {
+                setFieldValue('numDiesel', {
                   ...values?.numDiesel,
                   numOilRate: e.target.value,
                 });
@@ -71,7 +71,7 @@ export function UpdateOilRateModal(props) {
               placeholder="Rate"
               type="number"
               onChange={(e) => {
-                setFieldValue("numLub", {
+                setFieldValue('numLub', {
                   ...values?.numLub,
                   numOilRate: e.target.value,
                 });
@@ -88,7 +88,7 @@ export function UpdateOilRateModal(props) {
               name="numHydrolic"
               placeholder="Rate"
               onChange={(e) => {
-                setFieldValue("numHydrolic", {
+                setFieldValue('numHydrolic', {
                   ...values?.numHydrolic,
                   numOilRate: e.target.value,
                 });

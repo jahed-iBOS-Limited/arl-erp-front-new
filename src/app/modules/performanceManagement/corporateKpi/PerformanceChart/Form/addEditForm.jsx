@@ -1,17 +1,15 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { getMonthDDLAction } from "../_redux/Actions";
-import { getReportAction, getYearDDLAction } from "../../../_redux/Actions";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { getMonthDDLAction } from '../_redux/Actions';
+import { getReportAction, getYearDDLAction } from '../../../_redux/Actions';
+import { useParams } from 'react-router-dom';
 const initData = {
   id: undefined,
-  year: "",
-  from: "",
-  to: "",
+  year: '',
+  from: '',
+  to: '',
 };
 
 export default function CorporatePerformanceForm({
@@ -36,13 +34,8 @@ export default function CorporatePerformanceForm({
     },
     { shallowEqual }
   );
-  let {
-    profileData,
-    selectedBusinessUnit,
-    yearDDL,
-    month,
-    employeeBasicInfo,
-  } = pmsData;
+  let { profileData, selectedBusinessUnit, yearDDL, month, employeeBasicInfo } =
+    pmsData;
 
   useEffect(() => {
     if (profileData && selectedBusinessUnit) {
@@ -50,14 +43,12 @@ export default function CorporatePerformanceForm({
         getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     if (yearDDL.length > 0) {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
-
   }, [yearDDL]);
 
   const saveHandler = async (values, cb) => {

@@ -1,24 +1,23 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
-} from "../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import IViewModal from "../../../../_helper/_viewModal";
-import LCApplication from "./LCApplication/index";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+} from '../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import IViewModal from '../../../../_helper/_viewModal';
+import LCApplication from './LCApplication/index';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  bank: "",
-  branch: "",
-  type: "",
+  bank: '',
+  branch: '',
+  type: '',
 };
 
 const LCApplicationExport = ({ obj }) => {
@@ -61,7 +60,7 @@ const LCApplicationExport = ({ obj }) => {
                       placeholder="Bank name"
                       name="bank"
                       onChange={(valueOption) => {
-                        setFieldValue("bank", valueOption);
+                        setFieldValue('bank', valueOption);
                         getBranchDDL(
                           `/partner/BusinessPartnerBankInfo/GetBranchDDLInfo?BankId=${valueOption?.value}`,
                           (resData) => {
@@ -88,7 +87,7 @@ const LCApplicationExport = ({ obj }) => {
                       placeholder="Branch name"
                       name="branch"
                       onChange={(valueOption) => {
-                        setFieldValue("branch", valueOption);
+                        setFieldValue('branch', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -97,15 +96,15 @@ const LCApplicationExport = ({ obj }) => {
                   <div className="col-lg-3 pt-2">
                     <NewSelect
                       options={[
-                        { value: 1, label: "With Dollar Arrange" },
-                        { value: 2, label: "Without Dollar Arrange" },
+                        { value: 1, label: 'With Dollar Arrange' },
+                        { value: 2, label: 'Without Dollar Arrange' },
                       ]}
                       value={values?.type}
                       label="Type"
                       placeholder="Type"
                       name="type"
                       onChange={(valueOption) => {
-                        setFieldValue("type", valueOption);
+                        setFieldValue('type', valueOption);
                       }}
                       errors={errors}
                       touched={touched}

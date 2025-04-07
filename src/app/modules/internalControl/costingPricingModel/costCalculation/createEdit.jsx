@@ -41,12 +41,8 @@ export default function CostConfigurationCreateEdit() {
   const [objProps, setObjprops] = useState({});
   const [, saveData] = useAxiosPost();
   const [productDDL, getProductDDL, productLoader] = useAxiosGet();
-  const [
-    finishGoodDDL,
-    getFinishGoodDDL,
-    finishGoodLoader,
-    setFinishGoodDDL,
-  ] = useAxiosGet();
+  const [finishGoodDDL, getFinishGoodDDL, finishGoodLoader, setFinishGoodDDL] =
+    useAxiosGet();
   const [
     productPreCostingData,
     getProductPreCostingData,
@@ -68,15 +64,14 @@ export default function CostConfigurationCreateEdit() {
 
   useEffect(() => {
     getProductDDL(
-      `/costmgmt/Precosting/ProductDDL?businessUnitId=${selectedBusinessUnit?.value}`,
+      `/costmgmt/Precosting/ProductDDL?businessUnitId=${selectedBusinessUnit?.value}`
     );
 
     getBusinessPartnerDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setCustomerDDL,
+      setCustomerDDL
     );
-
   }, []);
 
   const saveHandler = async (values, cb) => {
@@ -137,7 +132,7 @@ export default function CostConfigurationCreateEdit() {
           rate: +itm?.averageCost,
           amount: +itm?.conversion * itm?.averageCost,
         };
-      },
+      }
     );
     const precostingOverhead = productPreCostingData?.precostingOverhead?.map(
       (itm) => {
@@ -147,7 +142,7 @@ export default function CostConfigurationCreateEdit() {
           costElementId: itm?.costElementId,
           amount: +itm?.costElementAmount || 0,
         };
-      },
+      }
     );
     const payload = {
       costingId: 0,
@@ -177,7 +172,7 @@ export default function CostConfigurationCreateEdit() {
       `/costmgmt/Precosting/SaveProductPrecosting`,
       payload,
       cb && cb(),
-      true,
+      true
     );
   };
   const costElementAmountHandler = (index, key, value) => {
@@ -201,23 +196,19 @@ export default function CostConfigurationCreateEdit() {
       (acc, item) => {
         return acc + (+item?.newCost || 0);
       },
-      0,
+      0
     );
     setTotalNewCost(totalNewCostRow);
-    const totalCurrentCostRow = productPreCostingData?.precostingMaterial?.reduce(
-      (acc, item) => {
+    const totalCurrentCostRow =
+      productPreCostingData?.precostingMaterial?.reduce((acc, item) => {
         return acc + (+item?.currentCost || 0);
-      },
-      0,
-    );
+      }, 0);
     setTotalCurrentCost(totalCurrentCostRow);
 
-    const totalPeriodCostRow = productPreCostingData?.precostingOverhead?.reduce(
-      (acc, item) => {
+    const totalPeriodCostRow =
+      productPreCostingData?.precostingOverhead?.reduce((acc, item) => {
         return acc + (+item?.costElementAmount || 0);
-      },
-      0,
-    );
+      }, 0);
     setTotalPeriodCost(totalPeriodCostRow);
   }, [productPreCostingData]);
   console.log('productPreCostingData', productPreCostingData);
@@ -265,7 +256,7 @@ export default function CostConfigurationCreateEdit() {
                               label: valueOption?.uomName,
                             });
                             getFinishGoodDDL(
-                              `/costmgmt/Precosting/FgItemByProductDDL?businessUnitId=${selectedBusinessUnit?.value}&productId=${valueOption?.value}`,
+                              `/costmgmt/Precosting/FgItemByProductDDL?businessUnitId=${selectedBusinessUnit?.value}&productId=${valueOption?.value}`
                             );
                           } else {
                             setFieldValue('product', '');
@@ -306,7 +297,7 @@ export default function CostConfigurationCreateEdit() {
                             });
                             setFieldValue(
                               'fgConversionRate',
-                              valueOption?.conversion || '',
+                              valueOption?.conversion || ''
                             );
                             getProductPreCostingData(
                               `/costmgmt/Precosting/ViewProductPrecosting?businessUnit=${selectedBusinessUnit?.value}&productId=${values?.product?.value}&fgItemId=${valueOption?.value}`,
@@ -326,7 +317,7 @@ export default function CostConfigurationCreateEdit() {
                                   ...data,
                                   precostingOverhead: modData,
                                 });
-                              },
+                              }
                             );
                           } else {
                             setFieldValue('finishGood', '');
@@ -520,7 +511,7 @@ export default function CostConfigurationCreateEdit() {
                               : ''}
                           </td>
                         </tr>
-                      ),
+                      )
                     )}
                     <tr>
                       <td colSpan={11}>
@@ -572,7 +563,7 @@ export default function CostConfigurationCreateEdit() {
                         onChange={(e) => {
                           setFieldValue(
                             'manufacturingOverhead',
-                            e.target.value,
+                            e.target.value
                           );
                         }}
                       />
@@ -620,7 +611,7 @@ export default function CostConfigurationCreateEdit() {
                                 costElementAmountHandler(
                                   index,
                                   'costElementMultiplier',
-                                  e.target.value,
+                                  e.target.value
                                 );
                               }}
                             />
@@ -634,7 +625,7 @@ export default function CostConfigurationCreateEdit() {
                                 costElementAmountHandler(
                                   index,
                                   'costElementMultiplicand',
-                                  e.target.value,
+                                  e.target.value
                                 );
                               }}
                             />
@@ -658,7 +649,7 @@ export default function CostConfigurationCreateEdit() {
                             />
                           </td>
                         </tr>
-                      ),
+                      )
                     )}
 
                     <tr>

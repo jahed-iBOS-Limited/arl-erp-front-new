@@ -1,13 +1,13 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { initData, validationSchema } from "./helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { initData, validationSchema } from './helper';
 
 export default function COCReportLandingPage() {
   //hook
@@ -21,16 +21,10 @@ export default function COCReportLandingPage() {
   const [pageSize, setPageSize] = useState(15);
 
   // api
-  const [
-    cocReportData,
-    getCocReportData,
-    getCocReportDataLoading,
-  ] = useAxiosGet();
-  const [
-    activityNameDDL,
-    getActivityNameDDL,
-    getActivityNameDDLLoading,
-  ] = useAxiosGet();
+  const [cocReportData, getCocReportData, getCocReportDataLoading] =
+    useAxiosGet();
+  const [activityNameDDL, getActivityNameDDL, getActivityNameDDLLoading] =
+    useAxiosGet();
   const [employeeDDL, getEmployeeDDL, getEmployeeDDLLoading] = useAxiosGet();
 
   // use effect
@@ -39,8 +33,6 @@ export default function COCReportLandingPage() {
     getEmployeeDDL(
       `/costmgmt/ServiceLevelAgreementCOC/GetCOCReport?partName=SLAEmployeeDDL&businessUnitId=${selectedBusinessUnit?.value}`
     );
-
-
   }, []);
 
   // fetch coc report data
@@ -56,8 +48,9 @@ export default function COCReportLandingPage() {
     getCocReportData(
       `/costmgmt/ServiceLevelAgreementCOC/GetCOCReport?partName=COCReport&businessUnitId=${
         selectedBusinessUnit?.value
-      }&activityId=${activityName?.value || 0}&employeeId=${employee?.value ||
-        0}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}`
+      }&activityId=${activityName?.value || 0}&employeeId=${
+        employee?.value || 0
+      }&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   }
 
@@ -104,7 +97,7 @@ export default function COCReportLandingPage() {
                     value={values?.activityName}
                     label="Activity Name"
                     onChange={(valueOption) => {
-                      setFieldValue("activityName", valueOption);
+                      setFieldValue('activityName', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -117,7 +110,7 @@ export default function COCReportLandingPage() {
                     value={values?.employee}
                     label="Employee"
                     onChange={(valueOption) => {
-                      setFieldValue("employee", valueOption);
+                      setFieldValue('employee', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -130,7 +123,7 @@ export default function COCReportLandingPage() {
                     type="date"
                     label="From Date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                     }}
                   />
                 </div>
@@ -141,7 +134,7 @@ export default function COCReportLandingPage() {
                     type="date"
                     label="To Date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                     }}
                   />
                 </div>

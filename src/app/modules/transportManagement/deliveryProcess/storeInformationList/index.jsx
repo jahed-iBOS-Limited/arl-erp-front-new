@@ -1,55 +1,55 @@
-import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICustomTable from "../../../_helper/_customTable";
+import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICustomTable from '../../../_helper/_customTable';
 import {
   _dateFormatter,
   _dateTimeFormatter,
-} from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IButton from "../../../_helper/iButton";
-import QRCodeScanner from "../../../_helper/qrCodeScanner";
-import { burstingQuantityTableHeader } from "./helper";
-import ShippingInfoDetails from "./shippingNote";
+} from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import FromDateToDateForm from '../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IButton from '../../../_helper/iButton';
+import QRCodeScanner from '../../../_helper/qrCodeScanner';
+import { burstingQuantityTableHeader } from './helper';
+import ShippingInfoDetails from './shippingNote';
 
 const initData = {
-  type: { value: 1, label: "Bag Issue Pending List" },
-  shipmentId: "",
-  shipmentCode: "",
-  shippingPoint: "",
-  vehicleNumber: "",
-  driver: "",
-  deliveryDate: "",
-  packerName: "",
-  tlm: "",
+  type: { value: 1, label: 'Bag Issue Pending List' },
+  shipmentId: '',
+  shipmentCode: '',
+  shippingPoint: '',
+  vehicleNumber: '',
+  driver: '',
+  deliveryDate: '',
+  packerName: '',
+  tlm: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
-const headers_one = ["SL", "Item", "Bag Type", "UoM", "Quantity"];
+const headers_one = ['SL', 'Item', 'Bag Type', 'UoM', 'Quantity'];
 const headers_two = [
-  "SL",
-  "Packing Time",
-  "Shipment Code",
-  "Vehicle",
-  "Bag Type",
-  "Total Qty",
-  "UoM",
-  "Route Name",
-  "Transport Name",
-  "Provider Type",
-  "Shipping Type",
-  "TLM",
-  "Bursting Qty",
-  "Actions",
+  'SL',
+  'Packing Time',
+  'Shipment Code',
+  'Vehicle',
+  'Bag Type',
+  'Total Qty',
+  'UoM',
+  'Route Name',
+  'Transport Name',
+  'Provider Type',
+  'Shipping Type',
+  'TLM',
+  'Bursting Qty',
+  'Actions',
 ];
 
 export default function StoreInformationList() {
@@ -58,7 +58,7 @@ export default function StoreInformationList() {
   const [, onComplete, loader] = useAxiosPost();
   const [shipmentId, setShipmentId] = useState(null);
   const [isQrCodeShow, setIsQRCodeSHow] = useState(false);
-  const [actionType, setActionType] = useState("Manual");
+  const [actionType, setActionType] = useState('Manual');
   const [rowData, getRowData, rowLoading, setRowData] = useAxiosGet();
   const [open, setOpen] = useState(false);
   const [singleItem, setSingleItem] = useState({});
@@ -126,19 +126,19 @@ export default function StoreInformationList() {
         <NewSelect
           name="transferChallan"
           options={[
-            { value: true, label: "True" },
-            { value: false, label: "False" },
+            { value: true, label: 'True' },
+            { value: false, label: 'False' },
           ]}
           value={values?.transferChallan}
           label="Transfer Challan"
           onChange={(valueOption) => {
-            setFieldValue("transferChallan", valueOption);
+            setFieldValue('transferChallan', valueOption);
             setRowData([]);
             setReportData({});
           }}
         />
       </div>
-    ) 
+    );
   }
 
   return (
@@ -210,9 +210,9 @@ export default function StoreInformationList() {
                   <NewSelect
                     name="type"
                     options={[
-                      { value: 1, label: "Bag Issue Pending List" },
-                      { value: 2, label: "Bag Issued List" },
-                      { value: 4, label: "Bursting Quantity Report" },
+                      { value: 1, label: 'Bag Issue Pending List' },
+                      { value: 2, label: 'Bag Issued List' },
+                      { value: 4, label: 'Bursting Quantity Report' },
 
                       // { value: 3, label: "Scan Card/QR Code" },
                       // { value: 2, label: "Loading Completed" },
@@ -220,7 +220,7 @@ export default function StoreInformationList() {
                     value={values?.type}
                     label="Type"
                     onChange={(valueOption) => {
-                      setFieldValue("type", valueOption);
+                      setFieldValue('type', valueOption);
                       setRowData([]);
                       setReportData({});
                     }}
@@ -235,17 +235,17 @@ export default function StoreInformationList() {
                     <div className="col-lg-3">
                       <NewSelect
                         name="shipPoint"
-                        options={[{ value: 0, label: "All" }, ...shipPointDDL]}
+                        options={[{ value: 0, label: 'All' }, ...shipPointDDL]}
                         value={values?.shipPoint}
                         label="ShipPoint"
                         onChange={(valueOption) => {
-                          setFieldValue("shipPoint", valueOption);
+                          setFieldValue('shipPoint', valueOption);
                         }}
                         placeholder="ShipPoint"
                       />
                     </div>
                     <FromDateToDateForm
-                      obj={{ values, setFieldValue, type: "datetime-local" }}
+                      obj={{ values, setFieldValue, type: 'datetime-local' }}
                     />
                     <IButton
                       disabled={!values?.type || !values?.shipPoint}
@@ -263,11 +263,11 @@ export default function StoreInformationList() {
                         <input
                           type="radio"
                           name="actionType"
-                          checked={actionType === "Manual"}
+                          checked={actionType === 'Manual'}
                           className="mr-1 pointer"
-                          style={{ position: "relative", top: "2px" }}
+                          style={{ position: 'relative', top: '2px' }}
                           onChange={(e) => {
-                            setActionType("Manual");
+                            setActionType('Manual');
                             setValues({ ...initData, type: values?.type });
 
                             setShipmentId(null);
@@ -280,11 +280,11 @@ export default function StoreInformationList() {
                         <input
                           type="radio"
                           name="actionType"
-                          checked={actionType === "Auto"}
+                          checked={actionType === 'Auto'}
                           className="mr-1 pointer"
-                          style={{ position: "relative", top: "2px" }}
+                          style={{ position: 'relative', top: '2px' }}
                           onChange={(e) => {
-                            setActionType("Auto");
+                            setActionType('Auto');
                             setValues({ ...initData, type: values?.type });
                             setShipmentId(null);
                             setReportData({});
@@ -306,9 +306,9 @@ export default function StoreInformationList() {
                       </p>
                     )} */}
                     <div className="col-lg-12"></div>
-                    {["Auto"].includes(actionType) ? (
+                    {['Auto'].includes(actionType) ? (
                       <div className="col-lg-3">
-                        <div style={{ display: "inline-block", width: "95%" }}>
+                        <div style={{ display: 'inline-block', width: '95%' }}>
                           <InputField
                             value={shipmentId}
                             label="Card Id"
@@ -319,14 +319,14 @@ export default function StoreInformationList() {
                         </div>
                         <span
                           className="pl-1"
-                          style={{ display: "inline-block" }}
+                          style={{ display: 'inline-block' }}
                         >
                           <i
                             onClick={(e) => {
                               e.stopPropagation();
                               setIsQRCodeSHow(true);
                             }}
-                            style={{ color: "blue", cursor: "pointer" }}
+                            style={{ color: 'blue', cursor: 'pointer' }}
                             class="fa fa-qrcode"
                             aria-hidden="true"
                           ></i>
@@ -340,36 +340,36 @@ export default function StoreInformationList() {
                           name="shipmentCode"
                           type="text"
                           onChange={(e) => {
-                            setFieldValue("shipmentCode", e.target.value);
+                            setFieldValue('shipmentCode', e.target.value);
                           }}
                           onKeyDown={(e) => {
                             if (e.keyCode === 13) {
-                              setFieldValue("shipmentCode", e.target.value);
+                              setFieldValue('shipmentCode', e.target.value);
                               getReportData(
                                 // `/wms/Delivery/GetDeliveryPrintInfoManual?businessUnitId=${selectedBusinessUnit?.value}&shipmentCode=${e.target.value}`,
                                 `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${e.target.value}`,
                                 (res) => {
                                   setFieldValue(
-                                    "shippingPoint",
-                                    res?.objHeader?.shipPointName || ""
+                                    'shippingPoint',
+                                    res?.objHeader?.shipPointName || ''
                                   );
                                   setFieldValue(
-                                    "vehicleNumber",
-                                    res?.objHeader?.strVehicleName || ""
+                                    'vehicleNumber',
+                                    res?.objHeader?.strVehicleName || ''
                                   );
                                   setFieldValue(
-                                    "driver",
-                                    res?.objHeader?.driverName || ""
+                                    'driver',
+                                    res?.objHeader?.driverName || ''
                                   );
                                   setFieldValue(
-                                    "packerName",
-                                    res?.objHeader?.packerName || ""
+                                    'packerName',
+                                    res?.objHeader?.packerName || ''
                                   );
                                   setFieldValue(
-                                    "deliveryDate",
+                                    'deliveryDate',
                                     _dateFormatter(
                                       res?.objHeader?.pricingDate
-                                    ) || ""
+                                    ) || ''
                                   );
                                 }
                               );
@@ -386,7 +386,7 @@ export default function StoreInformationList() {
                         name="shippingPoint"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("shippingPoint", e.target.value);
+                          setFieldValue('shippingPoint', e.target.value);
                         }}
                       />
                     </div>
@@ -397,7 +397,7 @@ export default function StoreInformationList() {
                         name="vehicleNumber"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("vehicleNumber", e.target.value);
+                          setFieldValue('vehicleNumber', e.target.value);
                         }}
                       />
                     </div>
@@ -408,7 +408,7 @@ export default function StoreInformationList() {
                         name="driver"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("driver", e.target.value);
+                          setFieldValue('driver', e.target.value);
                         }}
                       />
                     </div>
@@ -419,7 +419,7 @@ export default function StoreInformationList() {
                         name="packerName"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("packerName", e.target.value);
+                          setFieldValue('packerName', e.target.value);
                         }}
                       />
                     </div>
@@ -430,7 +430,7 @@ export default function StoreInformationList() {
                         name="deliveryDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("deliveryDate", e.target.value);
+                          setFieldValue('deliveryDate', e.target.value);
                         }}
                       />
                     </div>
@@ -438,17 +438,17 @@ export default function StoreInformationList() {
                       <NewSelect
                         name="tlm"
                         options={[
-                          { value: 1, label: "TLM-1" },
-                          { value: 2, label: "TLM-2" },
-                          { value: 3, label: "TLM-3" },
-                          { value: 4, label: "TLM-4" },
-                          { value: 5, label: "TLM-5" },
-                          { value: 6, label: "TLM-6" },
+                          { value: 1, label: 'TLM-1' },
+                          { value: 2, label: 'TLM-2' },
+                          { value: 3, label: 'TLM-3' },
+                          { value: 4, label: 'TLM-4' },
+                          { value: 5, label: 'TLM-5' },
+                          { value: 6, label: 'TLM-6' },
                         ]}
                         value={values?.tlm}
                         label="TLM"
                         onChange={(valueOption) => {
-                          setFieldValue("tlm", valueOption);
+                          setFieldValue('tlm', valueOption);
                         }}
                         placeholder="TLM"
                       />
@@ -508,13 +508,13 @@ export default function StoreInformationList() {
                           <tr
                             style={{
                               backgroundColor: `${
-                                item?.bagType === "Pasting"
-                                  ? "#57d557c2"
-                                  : item?.bagType === "Sewing"
-                                  ? "#6cbbe7de"
-                                  : item?.bagType === "MES PCC"
-                                  ? "#bb8ef2f0"
-                                  : ""
+                                item?.bagType === 'Pasting'
+                                  ? '#57d557c2'
+                                  : item?.bagType === 'Sewing'
+                                    ? '#6cbbe7de'
+                                    : item?.bagType === 'MES PCC'
+                                      ? '#bb8ef2f0'
+                                      : ''
                               }`,
                             }}
                           >
@@ -532,7 +532,7 @@ export default function StoreInformationList() {
                                 ? item?.itemTransferTotalQty
                                 : item?.itemTotalQty}
                             </td>
-                            <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
+                            <td>{item?.shippingTypeId === 9 ? 'Ton' : ''}</td>
                             <td>{item?.routeName}</td>
                             <td>{item?.transportModeName}</td>
                             <td>{item?.strOwnerType}</td>
@@ -546,7 +546,7 @@ export default function StoreInformationList() {
                                   placeholder="Bursting Qty"
                                   onChange={(e) => {
                                     let _data = [...rowData?.data];
-                                    _data[index]["brustingQuantity"] =
+                                    _data[index]['brustingQuantity'] =
                                       e?.target?.value;
                                     setRowData({ ...rowData, data: _data });
                                   }}
@@ -555,7 +555,7 @@ export default function StoreInformationList() {
                             </td>
                             <td
                               className="text-center"
-                              style={{ backgroundColor: "#e0ffff" }}
+                              style={{ backgroundColor: '#e0ffff' }}
                             >
                               <div className="d-flex justify-content-around">
                                 {[1].includes(values?.type?.value) ? (
@@ -587,14 +587,14 @@ export default function StoreInformationList() {
                                   //     setOpen(true);
                                   //   }}
                                   // />
-                                  ""
+                                  ''
                                 )}
                               </div>
                             </td>
                           </tr>
                         );
                       })}
-                  <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                  <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
                     <td
                       colSpan={5}
                       // colSpan={[1, 2].includes(values?.type?.value) ? 10 : 4}
@@ -625,14 +625,14 @@ export default function StoreInformationList() {
               )}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -649,24 +649,24 @@ export default function StoreInformationList() {
                       `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${result}`,
                       (res) => {
                         setFieldValue(
-                          "shippingPoint",
-                          res?.objHeader?.shipPointName || ""
+                          'shippingPoint',
+                          res?.objHeader?.shipPointName || ''
                         );
                         setFieldValue(
-                          "vehicleNumber",
-                          res?.objHeader?.strVehicleName || ""
+                          'vehicleNumber',
+                          res?.objHeader?.strVehicleName || ''
                         );
                         setFieldValue(
-                          "driver",
-                          res?.objHeader?.driverName || ""
+                          'driver',
+                          res?.objHeader?.driverName || ''
                         );
                         setFieldValue(
-                          "packerName",
-                          res?.objHeader?.packerName || ""
+                          'packerName',
+                          res?.objHeader?.packerName || ''
                         );
                         setFieldValue(
-                          "deliveryDate",
-                          _dateFormatter(res?.objHeader?.pricingDate) || ""
+                          'deliveryDate',
+                          _dateFormatter(res?.objHeader?.pricingDate) || ''
                         );
                       }
                     );

@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { createFile } from "../../../_helper/excel/index";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { createFile } from '../../../_helper/excel/index';
 
 export const getAssetPlantDDL = async (userId, accId, buId, setter) => {
   try {
@@ -117,7 +117,7 @@ export const saveAssetData = async (data, cb) => {
   try {
     const res = await Axios.post(`/asset/Asset/CreateAsset`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {}
@@ -127,7 +127,7 @@ export const saveAssetForData = async (data, cb, setter) => {
   try {
     const res = await Axios.post(`/asset/Asset/CreateAsset`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setter([]);
     }
@@ -213,15 +213,11 @@ export const getItemAttributeforCreate = async (
 
 export const getBrtaDDL = async (setter) => {
   try {
-    const res = await Axios.get(
-      `/asset/DropDown/GetBRTAVehicleType`
-    );
+    const res = await Axios.get(`/asset/DropDown/GetBRTAVehicleType`);
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getSingleDataForEdit = async (accId, buId, assetId, setter) => {
@@ -243,10 +239,12 @@ export const getSingleDataForEdit = async (accId, buId, assetId, setter) => {
           label: currentRowData.supplierName,
         },
         itemCategory: currentRowData?.itemCategoryName,
-        brtaType: currentRowData.brtaTypeId?{
-          value: currentRowData.brtaTypeId,
-          label: currentRowData.brtaTypeName,
-        }:"",
+        brtaType: currentRowData.brtaTypeId
+          ? {
+              value: currentRowData.brtaTypeId,
+              label: currentRowData.brtaTypeName,
+            }
+          : '',
         transactionDate: _dateFormatter(currentRowData.acquisitionDate),
         transactionValue: currentRowData.invoiceValue,
         acquisitionValue: currentRowData.acquisitionValue,
@@ -274,9 +272,20 @@ export const getSingleDataForEdit = async (accId, buId, assetId, setter) => {
           label: currentRowData.departmentName,
         },
         strManufacturerSerialNo: currentRowData.serialNo,
-        assetName:currentRowData?.assetName,
-        category: currentRowData?.assetCagegoryId ? { value: currentRowData.assetCagegoryId, label: currentRowData?.assetCagegoryName } : "",
-        profitCenter: currentRowData?.profitCenter  && currentRowData?.profitCenterName ? {value:currentRowData?.profitCenter , label:currentRowData?.profitCenterName} : "",
+        assetName: currentRowData?.assetName,
+        category: currentRowData?.assetCagegoryId
+          ? {
+              value: currentRowData.assetCagegoryId,
+              label: currentRowData?.assetCagegoryName,
+            }
+          : '',
+        profitCenter:
+          currentRowData?.profitCenter && currentRowData?.profitCenterName
+            ? {
+                value: currentRowData?.profitCenter,
+                label: currentRowData?.profitCenterName,
+              }
+            : '',
       };
       setter(initDataForEdit);
     }
@@ -288,7 +297,7 @@ export const saveAssetListEdit = async (data, setDisabled) => {
     setDisabled(true);
     const res = await Axios.post(`/asset/Asset/CreateAsset`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       setDisabled(false);
     }
   } catch (error) {
@@ -316,29 +325,29 @@ export const exportExcel = async (
     setLoading(false);
     if (res.status === 200 && res?.data) {
       const headerName = [
-        "Asset Id",
-        "Asset Code",
-        "Asset Name",
-        "Name Manufacturer",
-        "Country Origin",
-        "Supplier Name",
-        "Acquisition Date",
-        "Warrenty End Date",
+        'Asset Id',
+        'Asset Code',
+        'Asset Name',
+        'Name Manufacturer',
+        'Country Origin',
+        'Supplier Name',
+        'Acquisition Date',
+        'Warrenty End Date',
       ];
       const header = headerName?.map((item) => {
         return {
           text: item,
           bold: true,
           fontSize: 12,
-          textColor: "ffffff",
-          bgColor: "666699",
+          textColor: 'ffffff',
+          bgColor: '666699',
         };
       });
 
       const body = res?.data?.data?.map((item, index) => {
         return [
           item?.assetId,
-          String(item?.assetCode || ""),
+          String(item?.assetCode || ''),
           item?.assetName,
           item?.nameManufacturer,
           item?.countryOrigin,
@@ -352,12 +361,12 @@ export const exportExcel = async (
       // console.log(row);
 
       createFile({
-        name: "Asset List Report",
+        name: 'Asset List Report',
         sheets: [
           {
-            name: "assetList",
-            border: "all 000000 thin",
-            alignment: "center:middle",
+            name: 'assetList',
+            border: 'all 000000 thin',
+            alignment: 'center:middle',
             rows: row,
           },
         ],
@@ -367,7 +376,6 @@ export const exportExcel = async (
     setLoading(false);
   }
 };
-
 
 export const getMaintenanceReport = async (
   part,
@@ -382,26 +390,22 @@ export const getMaintenanceReport = async (
 ) => {
   setLoading(true);
   try {
-    const res = await Axios.get(`/asset/Asset/GetAssetManitenanceRPT?intPart=${part}&intUnitId=${businessUnitId}&intPlantId=${plantId}&dteFrom=${fromDate}&dteTo=${toDate}&intReffId=${intReffId}&intRptType=${reportType}`
+    const res = await Axios.get(
+      `/asset/Asset/GetAssetManitenanceRPT?intPart=${part}&intUnitId=${businessUnitId}&intPlantId=${plantId}&dteFrom=${fromDate}&dteTo=${toDate}&intReffId=${intReffId}&intRptType=${reportType}`
     );
     setLoading(false);
     setter(res?.data);
   } catch (error) {
     setter([]);
     setLoading(false);
-
   }
 };
 
 export const getAssetCategoryList = async (setter) => {
   try {
-    const res = await Axios.get(
-      `/asset/Asset/AssetCategory`
-    );
+    const res = await Axios.get(`/asset/Asset/AssetCategory`);
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

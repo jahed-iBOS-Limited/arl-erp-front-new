@@ -1,7 +1,6 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveShipment,
   getSalesContactById,
@@ -17,36 +16,36 @@ import {
   GetPendingDeliveryDDLAction,
   getVehicleSingleDatabyVehicleIdAction,
   getDeliveryItemVolumeInfoAction,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
 import {
   getPlantDDLAction,
   getSalesOrgDDLAction,
   getDistributionChannelDDLAction,
   getItemSaleDDLAction,
-} from "../../../../_helper/_redux/Actions";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import { _todayDate } from "../../../../_helper/_todayDate";
+} from '../../../../_helper/_redux/Actions';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 const initData = {
   id: undefined,
-  Vehicle: "",
-  vehicleId: "",
-  route: "",
-  transportMode: "",
-  transportZone: "",
-  shipPoint: "",
-  shipmentType: "",
-  loadingPoint: "",
-  pendingDelivery: "",
+  Vehicle: '',
+  vehicleId: '',
+  route: '',
+  transportMode: '',
+  transportZone: '',
+  shipPoint: '',
+  shipmentType: '',
+  loadingPoint: '',
+  pendingDelivery: '',
   startDate: _todayDate(),
   shipmentdate: _todayDate(),
-  lastDistance: "",
+  lastDistance: '',
   estimatedTimeofArrival: _todayDate(),
   planedLoadingTime: _todayDate(),
-  driverName: "",
-  driverContactNo: "",
-  driverId: "",
+  driverName: '',
+  driverContactNo: '',
+  driverId: '',
 };
 
 export default function ShipmentForm({
@@ -58,7 +57,7 @@ export default function ShipmentForm({
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
   const [rowDto, setRowDto] = useState([]);
-  const [LastKM, setLastKM] = useState("");
+  const [LastKM, setLastKM] = useState('');
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -157,7 +156,6 @@ export default function ShipmentForm({
     } else {
       dispatch(setSalesContactSingleEmpty());
     }
-
   }, [profileData.accountId, selectedBusinessUnit.value, id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -204,9 +202,7 @@ export default function ShipmentForm({
           selectedBusinessUnit.value
         )
       );
-
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const vehicleSingeDataView = (id, accId, buId, setter) => {
@@ -367,7 +363,7 @@ export default function ShipmentForm({
         },
       ];
 
-      if (isUniq("deliveryCode", values.pendingDelivery?.label, rowDto)) {
+      if (isUniq('deliveryCode', values.pendingDelivery?.label, rowDto)) {
         setRowDto([...rowDto, ...newData]);
       }
 
@@ -401,19 +397,17 @@ export default function ShipmentForm({
     if (id) {
       setRowDto(singleData?.shipmentRowList);
     }
-
   }, [singleData?.shipmentRowList]);
 
   useEffect(() => {
     return () => {
       dispatch(setSalesContactSingleEmpty());
     };
-
   }, []);
 
   return (
     <IForm
-      title={id ? "Edit Shipment" : "Create Shipment"}
+      title={id ? 'Edit Shipment' : 'Create Shipment'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

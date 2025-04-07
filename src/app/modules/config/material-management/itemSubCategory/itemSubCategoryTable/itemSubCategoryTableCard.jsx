@@ -1,13 +1,12 @@
-
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import BootstrapTable from "react-bootstrap-table-next";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import BootstrapTable from 'react-bootstrap-table-next';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import PaginationTable from './../../../../_helper/_tablePagination';
 
 export function ItemSubCategoryTable() {
   const [products, setProducts] = useState(null);
@@ -23,9 +22,9 @@ export function ItemSubCategoryTable() {
     return state.authData.profileData;
   }, shallowEqual);
 
-  const dispatchProduct = async (accId, pageNo, pageSize,search) => {
+  const dispatchProduct = async (accId, pageNo, pageSize, search) => {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
     try {
       const res = await axios.get(
         `/item/MasterCategory/GetItemMasterSubCategoryPasignation?${searchPath}AccountId=${accId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -34,7 +33,6 @@ export function ItemSubCategoryTable() {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-
     }
   };
 
@@ -42,62 +40,47 @@ export function ItemSubCategoryTable() {
   //AccountId=1&viewOrder=asc&PageNo=1&PageSize=100&searchTerm=asc
 
   useEffect(() => {
-      dispatchProduct(
-        profileData.accountId,
-        pageNo,
-        pageSize
-      );
+    dispatchProduct(profileData.accountId, pageNo, pageSize);
   }, [profileData]);
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
-    dispatchProduct(
-      profileData.accountId,
-      pageNo,
-      pageSize,
-      searchValue
-    );
+    dispatchProduct(profileData.accountId, pageNo, pageSize, searchValue);
   };
 
-  const paginationSearchHandler =(searchValue)=>{
-    setPositionHandler(pageNo, pageSize, searchValue)
-  }
+  const paginationSearchHandler = (searchValue) => {
+    setPositionHandler(pageNo, pageSize, searchValue);
+  };
 
   // Table columns
   const columns = [
     {
-      dataField: "sl",
-      text: "SL",
+      dataField: 'sl',
+      text: 'SL',
     },
     {
-      dataField: "itemMasterSubCategoryName",
-      text: "Item Sub-Category",
+      dataField: 'itemMasterSubCategoryName',
+      text: 'Item Sub-Category',
     },
     {
-      dataField: "itemMasterTypeName",
-      text: "Item Type",
+      dataField: 'itemMasterTypeName',
+      text: 'Item Type',
     },
     {
-      dataField: "itemMasterCategoryName",
-      text: "Item Category",
+      dataField: 'itemMasterCategoryName',
+      text: 'Item Category',
     },
     {
-      dataField: "",
-      text: "Action",
+      dataField: '',
+      text: 'Action',
       formatter: (cellContent, row) => {
         return (
-          <span
-            className="d-flex align-items-center justify-content-center"
-          >
+          <span className="d-flex align-items-center justify-content-center">
             <OverlayTrigger
-              overlay={
-                <Tooltip id="cs-icon">
-                  Business Unit Expand
-                </Tooltip>
-              }
+              overlay={<Tooltip id="cs-icon">Business Unit Expand</Tooltip>}
             >
               <span
-                style={{ cursor: "pointer"}}
+                style={{ cursor: 'pointer' }}
                 onClick={() => {
                   history.push({
                     pathname: `/config/material-management/item-sub-category/itemSubCategoryExpend/${row.itemMasterSubCategoryId}`,
@@ -105,10 +88,7 @@ export function ItemSubCategoryTable() {
                   });
                 }}
               >
-                <i
-                  className={`fa fa-arrows-alt`}
-                  onClick={() => {}}
-                ></i>
+                <i className={`fa fa-arrows-alt`} onClick={() => {}}></i>
               </span>
             </OverlayTrigger>
           </span>

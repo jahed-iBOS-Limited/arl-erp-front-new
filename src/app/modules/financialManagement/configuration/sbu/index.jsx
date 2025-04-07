@@ -1,8 +1,8 @@
-import React from "react";
-import { Route } from "react-router-dom";
-import { ViewModal } from "./businessUnitView/viewModal";
-import { SBULandingCard } from "./SbuTable/SbuLandingCard";
-import { UiProvider } from "../../../_helper/uiContextHelper";
+import React from 'react';
+import { Route } from 'react-router-dom';
+import { ViewModal } from './businessUnitView/viewModal';
+import { SBULandingCard } from './SbuTable/SbuLandingCard';
+import { UiProvider } from '../../../_helper/uiContextHelper';
 
 export function Sbu({ history }) {
   const uIEvents = {
@@ -23,7 +23,7 @@ export function Sbu({ history }) {
             id={match && match.params.id}
             history={history}
             onHide={() => {
-              history.push("/financial-management/configuration/sbu");
+              history.push('/financial-management/configuration/sbu');
             }}
           />
         )}

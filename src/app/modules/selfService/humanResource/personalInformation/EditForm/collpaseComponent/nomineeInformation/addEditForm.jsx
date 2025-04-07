@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import Form from './form';
 import { _todayDate } from './../../../../../../_helper/_todayDate';
@@ -128,18 +126,18 @@ export default function NomineeInformation({
             identificationDocLink: uploadImage[0]?.id
               ? uploadImage[0]?.id
               : values?.identificationDocLink
-              ? values?.identificationDocLink
-              : '',
+                ? values?.identificationDocLink
+                : '',
           };
           if (percent === 100) {
             editEmployeeNomineeInfo_api(copyRodto, cb, setDisabled).then(
               (data) => {
                 getEmployeeNomineeById_api(
                   headerData?.employeeId,
-                  setSingleData,
+                  setSingleData
                 );
                 setEditClick(false);
-              },
+              }
             );
           } else {
             toast.warn('Please fill in total (100%) ');
@@ -155,9 +153,9 @@ export default function NomineeInformation({
               (data) => {
                 getEmployeeNomineeById_api(
                   headerData?.employeeId,
-                  setSingleData,
+                  setSingleData
                 );
-              },
+              }
             );
           } else {
             toast.warn('Please fill in total (100%) ');
@@ -173,7 +171,7 @@ export default function NomineeInformation({
           createEmployeeNomineeInfo_api(rowDto, cb, setDisabled).then(
             (data) => {
               getEmployeeNomineeById_api(headerData?.employeeId, setSingleData);
-            },
+            }
           );
         } else {
           toast.warn(`Please fill in total (100%)`);
@@ -252,7 +250,6 @@ export default function NomineeInformation({
 
   useEffect(() => {
     getNomineeById();
-
   }, []);
 
   useEffect(() => {

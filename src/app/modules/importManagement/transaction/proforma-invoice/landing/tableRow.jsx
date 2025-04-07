@@ -1,30 +1,29 @@
-
-import Axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import Axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import IViewModal from "../../../../_helper/_viewModal";
-import PurchaseOrder from "../../purchase-order/form/addEditForm";
-import { getLandingData } from "../helper";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IViewModal from '../../../../_helper/_viewModal';
+import PurchaseOrder from '../../purchase-order/form/addEditForm';
+import { getLandingData } from '../helper';
 // import IWarningModal from "../../../../_helper/_warningModal";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import { getSingleDataForPoView } from "../../purchase-order/helper";
-import LCApplicationExport from "./lcApplication";
-import LCApplicationFormDownload from "./lcApplicationForm";
-import ApplyForModal from "./applyForModal";
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import { getSingleDataForPoView } from '../../purchase-order/helper';
+import LCApplicationExport from './lcApplication';
+import LCApplicationFormDownload from './lcApplicationForm';
+import ApplyForModal from './applyForModal';
 
 const TableRow = () => {
   const history = useHistory();
@@ -39,7 +38,7 @@ const TableRow = () => {
   const [pageSize, setPageSize] = useState(75);
 
   const [proformaInvoice, setProformaInvoice] = useState({});
-  const [viewStateOfModal, setViewStateOfModal] = useState("create");
+  const [viewStateOfModal, setViewStateOfModal] = useState('create');
   //for PO view;
 
   const [rowDto, setRowDto] = useState([]);
@@ -55,7 +54,7 @@ const TableRow = () => {
     getLandingData(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      "",
+      '',
       setGridData,
       setIsLoading,
       pageNo,
@@ -104,7 +103,7 @@ const TableRow = () => {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{ PiNo: "" }}
+        initialValues={{ PiNo: '' }}
         onSubmit={() => {}}
       >
         {({ setFieldValue, values }) => (
@@ -115,7 +114,7 @@ const TableRow = () => {
                   <button
                     onClick={() =>
                       history.push(
-                        "/managementImport/transaction/proforma-invoice/add"
+                        '/managementImport/transaction/proforma-invoice/add'
                       )
                     }
                     className="btn btn-primary"
@@ -134,7 +133,7 @@ const TableRow = () => {
                       isSearchIcon={true}
                       name="PiNo"
                       handleChange={(valueOption) => {
-                        setFieldValue("PiNo", valueOption);
+                        setFieldValue('PiNo', valueOption);
                         getLandingData(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -152,7 +151,7 @@ const TableRow = () => {
                 <div className="react-bootstrap-table table-responsive">
                   <table
                     className={
-                      "table table-striped table-bordered global-table "
+                      'table table-striped table-bordered global-table '
                     }
                   >
                     <thead>
@@ -166,7 +165,7 @@ const TableRow = () => {
                         <th>Currrency</th>
                         <th
                           style={{
-                            width: "240px",
+                            width: '240px',
                           }}
                         >
                           Action
@@ -179,13 +178,13 @@ const TableRow = () => {
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "30px" }}
+                                style={{ width: '30px' }}
                                 className="text-center"
                               >
                                 {index + 1}
                               </td>
                               <td
-                                style={{ width: "110px" }}
+                                style={{ width: '110px' }}
                                 className="text-center"
                               >
                                 {item?.purchaseRequestrNo
@@ -193,13 +192,13 @@ const TableRow = () => {
                                   : item?.purchaseContractNo}
                               </td>
                               <td
-                                style={{ width: "110px" }}
+                                style={{ width: '110px' }}
                                 className="text-center"
                               >
                                 {item?.pinumber}
                               </td>
                               <td
-                                style={{ width: "150px" }}
+                                style={{ width: '150px' }}
                                 className="text-center"
                               >
                                 {item?.purchaseOrderNo}
@@ -207,19 +206,19 @@ const TableRow = () => {
                               <td>{item?.supplierName}</td>
                               <td
                                 className="text-right"
-                                style={{ width: "140px" }}
+                                style={{ width: '140px' }}
                               >
                                 {_formatMoney(item?.pivalue)}
                               </td>
                               <td
                                 className="text-center"
-                                style={{ width: "100px" }}
+                                style={{ width: '100px' }}
                               >
                                 {item?.currencyName}
                               </td>
 
                               <td
-                                style={{ width: "150px" }}
+                                style={{ width: '150px' }}
                                 className="text-center"
                               >
                                 <div className="d-flex justify-content-center">
@@ -257,7 +256,7 @@ const TableRow = () => {
                                   )}
                                   <span className="ml-3">
                                     <ICon
-                                      title={"Download LC Application Form"}
+                                      title={'Download LC Application Form'}
                                       onClick={() => {
                                         setShow(true);
                                         setSingleItem(item);
@@ -268,7 +267,7 @@ const TableRow = () => {
                                   </span>
                                   <span className="ml-3">
                                     <ICon
-                                      title={"LC Application"}
+                                      title={'LC Application'}
                                       onClick={() => {
                                         setOpen(true);
                                         setSingleItem(item);
@@ -279,7 +278,7 @@ const TableRow = () => {
                                   </span>
                                   <span className="ml-3">
                                     <ICon
-                                      title={"Apply for LC"}
+                                      title={'Apply for LC'}
                                       onClick={() => {
                                         setApplyForLCOpen(true);
                                         setSingleItem(item);
@@ -296,9 +295,9 @@ const TableRow = () => {
                                       className="btn btn-outline-dark mr-1 pointer"
                                       type="button"
                                       style={{
-                                        padding: "1px 5px",
-                                        fontSize: "11px",
-                                        width: "100px",
+                                        padding: '1px 5px',
+                                        fontSize: '11px',
+                                        width: '100px',
                                       }}
                                       onClick={() => {
                                         setIsShowModal(true);
@@ -312,12 +311,12 @@ const TableRow = () => {
                                             setRowDto
                                           );
                                           setViewStateOfModal({
-                                            view: "view",
+                                            view: 'view',
                                             purchaseOrderId:
                                               item?.purchaseOrderId,
                                           });
                                         } else {
-                                          setViewStateOfModal("create");
+                                          setViewStateOfModal('create');
                                           setRowDto([]);
                                         }
                                         setProformaInvoice({
@@ -326,7 +325,7 @@ const TableRow = () => {
                                         });
                                       }}
                                     >
-                                      {item.poStatus ? "View PO" : "Create PO"}
+                                      {item.poStatus ? 'View PO' : 'Create PO'}
                                     </button>
                                   </span>
                                 </div>
@@ -356,7 +355,7 @@ const TableRow = () => {
 
                 {/* LC Application Form */}
                 <IViewModal
-                  modelSize={"md"}
+                  modelSize={'md'}
                   show={show}
                   onHide={() => {
                     setSingleItem({});

@@ -1,16 +1,15 @@
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { validationSchema } from "../helper";
-import InputField from "../../../../_helper/_inputField";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "../../../../_helper/_loading";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { validationSchema } from '../helper';
+import InputField from '../../../../_helper/_inputField';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
+import NewSelect from '../../../../_helper/_select';
+import Loading from '../../../../_helper/_loading';
 
 const TableRow = () => {
   const [rowDto, setRowDto] = useState([]);
@@ -21,133 +20,116 @@ const TableRow = () => {
   }, shallowEqual);
 
   const header = [
-  {
-    name:
-    "SL",
-    style: {
-      minWidth: "50px",
+    {
+      name: 'SL',
+      style: {
+        minWidth: '50px',
+      },
     },
-  },
-  {
-    name:
-    "LC Number",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'LC Number',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
-  {
-    name:
-    "Date",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'Date',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
-  {
-    name:
-    "PO No",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'PO No',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
-  {
-    name:
-    "Cover Note No",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'Cover Note No',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
-  {
-    name:
-    "CN Date",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'CN Date',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
-  {
-    name:
-    "Policy No",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'Policy No',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
-  {
-    name:
-    "Date",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'Date',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
-  {
-    name:
-    "Invoice Amt.",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'Invoice Amt.',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
-  {
-    name:
-    "Currency",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'Currency',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
-  {
-    name:
-    "Insured BDT",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'Insured BDT',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
-  {
-    name:
-    "Premium  VAT Stamp",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'Premium  VAT Stamp',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
-  {
-    name:
-    "Total  Discount",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'Total  Discount',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
-  {
-    name:
-    "Billing  Store",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'Billing  Store',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
-  {
-    name:
-    "Bill ID",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'Bill ID',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
-  {
-    name:
-    "Payment,",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'Payment,',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
-  {
-    name:
-    "Discount Rcv.",
-    style: {
-      minWidth: "100px",
+    {
+      name: 'Discount Rcv.',
+      style: {
+        minWidth: '100px',
+      },
     },
-  },
   ];
 
   const initData = {
     startDate: _todayDate(),
     endDate: _todayDate(),
-    filter: "",
-    provider: "",
-    status: "",
+    filter: '',
+    provider: '',
+    status: '',
   };
 
   const loadPoNumbers = (v) => {
@@ -206,7 +188,7 @@ const TableRow = () => {
                       selectedValue={values?.provider}
                       isSearchIcon={true}
                       handleChange={(valueOption) => {
-                        setFieldValue("provider", valueOption);
+                        setFieldValue('provider', valueOption);
                       }}
                       loadOptions={loadPoNumbers}
                       placeholder="Search by Provider"
@@ -218,7 +200,7 @@ const TableRow = () => {
                       placeholder="Filter By"
                       value={values?.filter}
                       onChange={(valueOption) => {
-                        setFieldValue("filter", valueOption);
+                        setFieldValue('filter', valueOption);
                       }}
                       isSearchable={true}
                       options={[]}
@@ -233,7 +215,7 @@ const TableRow = () => {
                       placeholder="Status"
                       value={values?.status}
                       onChange={(valueOption) => {
-                        setFieldValue("status", valueOption);
+                        setFieldValue('status', valueOption);
                       }}
                       isSearchable={true}
                       options={[]}
@@ -261,7 +243,7 @@ const TableRow = () => {
                   // rowDto?.length > 0 &&
                   <div className="loan-scrollable-table">
                     <div
-                      style={{ maxHeight: "500px" }}
+                      style={{ maxHeight: '500px' }}
                       className="scroll-table _table"
                     >
                       <table className="table table-striped table-bordered bj-table bj-table-landing">
@@ -269,7 +251,9 @@ const TableRow = () => {
                           <tr>
                             {header?.length > 0 &&
                               header?.map((item, index) => (
-                                <th key={index} style={item?.style}>{item?.name}</th>
+                                <th key={index} style={item?.style}>
+                                  {item?.name}
+                                </th>
                               ))}
                           </tr>
                         </thead>

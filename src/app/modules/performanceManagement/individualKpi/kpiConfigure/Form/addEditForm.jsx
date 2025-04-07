@@ -1,21 +1,20 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { toast } from 'react-toastify';
 import {
   createKPIConfigure,
   getSingleKPIConfigureById,
   SaveEditedKPIConfigure,
-} from "../helper";
+} from '../helper';
 
 const initData = {
   id: undefined,
-  BSCPerspective: "",
-  KPIName: "",
-  KPIFormat: "",
-  Comments: "",
+  BSCPerspective: '',
+  KPIName: '',
+  KPIFormat: '',
+  Comments: '',
 };
 
 export default function KpiConfigureForm({
@@ -26,9 +25,9 @@ export default function KpiConfigureForm({
 }) {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
-  console.log(rowDto, "rowDto");
+  console.log(rowDto, 'rowDto');
 
   const remover = (index) => {
     const filterArr = rowDto.filter((itm, idx) => idx !== index);
@@ -39,10 +38,9 @@ export default function KpiConfigureForm({
     getSingleKPIConfigureById(id, setSingleData);
   }, [id]);
 
-
   const addItemToTheGrid = (values) => {
     if (values.quantity < 0) {
-      return toast.warn("Quantity must be greater than 0");
+      return toast.warn('Quantity must be greater than 0');
     }
 
     let data = rowDto.find(
@@ -51,7 +49,7 @@ export default function KpiConfigureForm({
         data.KPIName === values?.KPIName
     );
     if (data) {
-      toast.error("Item already added");
+      toast.error('Item already added');
     } else {
       let itemRow = {
         BSCPerspective: values?.BSCPerspective.label,
@@ -117,8 +115,8 @@ export default function KpiConfigureForm({
       title="Create KPI Configure"
       getProps={setObjprops}
       isDisabled={isDisabled}
-      isHiddenSave={type === "view"}
-      isHiddenReset={type === "view"}
+      isHiddenSave={type === 'view'}
+      isHiddenReset={type === 'view'}
     >
       <Form
         {...objProps}

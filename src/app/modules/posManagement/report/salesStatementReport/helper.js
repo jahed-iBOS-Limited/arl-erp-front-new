@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 //InventoryStatement_api Api call
 export const inventoryStatement_api = async (
@@ -19,16 +19,15 @@ export const inventoryStatement_api = async (
   setLoading,
   search
 ) => {
-  const searchPath = search ? `Search=${search}&` : "";
+  const searchPath = search ? `Search=${search}&` : '';
   setLoading(true);
 
   let api;
   if (type?.value === 2) {
     // api = `/wms/WmsReport/InventoryStatementNew?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&warehouseId=${warehouseId}&plantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&Itemtype=${itemtypeId}&ItemCategory=${itemcatId}&itemSubCategory=${itemSubId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
-    api = `/wms/WmsReport/InventoryStatementDetail?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&warehouseId=${warehouseId}&plantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&Itemtype=${itemtypeId}&ItemCategory=${itemcatId}&itemSubCategory=${itemSubId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
+    api = `/wms/WmsReport/InventoryStatementDetail?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&warehouseId=${warehouseId}&plantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&Itemtype=${itemtypeId}&ItemCategory=${itemcatId}&itemSubCategory=${itemSubId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`;
   } else {
-
-    api = `/wms/WmsReport/InventoryRegister?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&warehouseId=${warehouseId}&plantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&type=${type?.value}&Itemtype=${itemtypeId}&ItemCategory=${itemcatId}&itemSubCategory=${itemSubId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
+    api = `/wms/WmsReport/InventoryRegister?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&warehouseId=${warehouseId}&plantId=${plantId}&fromDate=${fromDate}&toDate=${toDate}&type=${type?.value}&Itemtype=${itemtypeId}&ItemCategory=${itemcatId}&itemSubCategory=${itemSubId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`;
   }
 
   try {

@@ -1,28 +1,26 @@
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useHistory } from 'react-router-dom';
 import {
   getAssetPlantDDL,
   getassetWarehouseData,
   getGridData,
   getAssetSBUDDL,
-} from "../landingHelper";
-import IViewModal from "../../../../_helper/_viewModal";
-import AssetOrderForm from "../newForm/addEditForm";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
+} from '../landingHelper';
+import IViewModal from '../../../../_helper/_viewModal';
+import AssetOrderForm from '../newForm/addEditForm';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
 import {
   setWorkOrderAction,
   setworkOrderTableLastAction,
-} from "../../../../_helper/reduxForLocalStorage/Actions";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+} from '../../../../_helper/reduxForLocalStorage/Actions';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 export function TableRow(props) {
   //const dispatch = useDispatch();
@@ -44,16 +42,16 @@ export function TableRow(props) {
 
   const [gridData, setGridData] = useState([]);
   const [sbu, setSbu] = useState([]);
-  const [sbuName, setSbuName] = useState("");
+  const [sbuName, setSbuName] = useState('');
   const [plant, setPlant] = useState([]);
-  const [plantName, setPlantName] = useState("");
+  const [plantName, setPlantName] = useState('');
   const [warehouse, setWarehouse] = useState([]);
-  const [warehouseName, setWarehouseName] = useState("");
-  const [status, setStatus] = useState("");
-  const [costCenter, setCostCenter] = useState("");
+  const [warehouseName, setWarehouseName] = useState('');
+  const [status, setStatus] = useState('');
+  const [costCenter, setCostCenter] = useState('');
   const [costCenterDDL, getCostCenterDDL, costCenterDDLLoader] = useAxiosGet();
   // const [isShowModal, setIsShowModal] = useState(false);
-  const [currentRowData, setCurrentRowData] = useState("");
+  const [currentRowData, setCurrentRowData] = useState('');
   const [isShowModalforCreate, setisShowModalforCreate] = useState(false);
   const [loading, setLoading] = useState(false);
   const [pageNo, setPageNo] = React.useState(0);
@@ -120,7 +118,7 @@ export function TableRow(props) {
           pageSize,
           wordOrder?.warehouseName?.value,
           wordOrder?.status?.value,
-          wordOrder?.costCenter?.value,
+          wordOrder?.costCenter?.value
         );
       }
     }
@@ -138,8 +136,10 @@ export function TableRow(props) {
 
   // get cost center ddl handler
   const getCostCenterDDLHandler = (sbuId) => {
-    getCostCenterDDL(`/asset/DropDown/GetCostCenterList?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SbuId=${sbuId}`)
-  }
+    getCostCenterDDL(
+      `/asset/DropDown/GetCostCenterList?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SbuId=${sbuId}`
+    );
+  };
 
   const viewGridData = () => {
     getGridData(
@@ -239,10 +239,10 @@ export function TableRow(props) {
               <Select
                 placeholder="Select Status"
                 options={[
-                  {value: "All", label: "All"},
-                  {value: "Pending", label: "Pending" },
-                  {value: "Open", label: "Open" },
-                  {value: "Close", label: "Close" }
+                  { value: 'All', label: 'All' },
+                  { value: 'Pending', label: 'Pending' },
+                  { value: 'Open', label: 'Open' },
+                  { value: 'Close', label: 'Close' },
                 ]}
                 value={status}
                 onChange={(value) => {
@@ -259,7 +259,7 @@ export function TableRow(props) {
               <label>Select Cost Center</label>
               <Select
                 placeholder="Select Cost Center"
-                options={[{ value: 0, label: "All" }, ...costCenterDDL]}
+                options={[{ value: 0, label: 'All' }, ...costCenterDDL]}
                 value={costCenter}
                 onChange={(value) => {
                   setCostCenter(value);
@@ -308,7 +308,9 @@ export function TableRow(props) {
                   <td>{item?.problems} </td>
                   <td>{item.priorityName}</td>
                   <td>{item?.status}</td>
-                  <td>{item?.actionByName} [{item?.actionBy}]</td>
+                  <td>
+                    {item?.actionByName} [{item?.actionBy}]
+                  </td>
                   <td>{_dateFormatter(item.dueMaintenanceDate)}</td>
                   <td className="text-center">
                     <span
@@ -325,8 +327,8 @@ export function TableRow(props) {
                       <IEdit
                         classes={
                           tableworkOrderId === item?.assetMaintenanceId
-                            ? "text-primary"
-                            : ""
+                            ? 'text-primary'
+                            : ''
                         }
                       />
                     </span>

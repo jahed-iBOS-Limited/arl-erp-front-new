@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export function getReport(
   buId,
@@ -10,7 +10,6 @@ export function getReport(
   reportType,
   sectionId = 0
 ) {
-
   return axios.get(
     `/pms/Kpi2/GetKpiReport?intUnitID=${buId}&ReportTypeReffId=${reportTypeRefId}&intYearId=${yearId}&intFromMonthId=${fromMonth}&intToMonthId=${toMonth}&isDashBoard=${isDashboard}&ReportType=${reportType}&SectionId=${sectionId}`
   );
@@ -83,8 +82,9 @@ export function getCompetencyList(accId, buId, employeeId) {
 // Get objectiveDDL
 export function getObjectiveDDL(accId, buId, typeId, objType, yearId = 0) {
   return axios.get(
-    `/pms/CommonDDL/ObjectiveDDL?AccountId=${accId}&BusinessUnitId=${buId}&StrategicParticularsTypeId=${typeId ||
-      1}&emp_dept_sbu_Type=${objType}&yearId=${yearId}`
+    `/pms/CommonDDL/ObjectiveDDL?AccountId=${accId}&BusinessUnitId=${buId}&StrategicParticularsTypeId=${
+      typeId || 1
+    }&emp_dept_sbu_Type=${objType}&yearId=${yearId}`
   );
 }
 // unFavourite ddl for dep or sbu

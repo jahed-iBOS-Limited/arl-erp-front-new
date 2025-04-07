@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { costCenterTypeSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { costCenterTypeSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 
 const { actions: slice } = costCenterTypeSlice;
 
@@ -11,13 +11,12 @@ export const saveCostCenterTypeData = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success("Submitted successfully");
+        toast.success('Submitted successfully');
         payload.cb();
         payload.setDisabled(false);
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       payload.setDisabled(false);
     });
@@ -29,7 +28,7 @@ export const saveEditedCostCenterTypeData = (payload, setDisabled) => () => {
     .saveEditData(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         setDisabled(false);
       }
     })
@@ -41,25 +40,19 @@ export const saveEditedCostCenterTypeData = (payload, setDisabled) => () => {
 };
 
 // Controlling unit action for get data of table
-export const getCostCenterTypeData = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-     
-    });
-};
+export const getCostCenterTypeData =
+  (accId, buId, setLoading, pageNo, pageSize) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
 // Controlling unit action for get single data by id
 export const getControllingUnitById = (id) => (dispatch) => {
@@ -78,9 +71,7 @@ export const getControllingUnitById = (id) => (dispatch) => {
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 
 // Controlling unit single to empty

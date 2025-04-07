@@ -1,45 +1,44 @@
-
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
-import { getBeatNameDDL } from "../helper";
-import InputField from "./../../../../_helper/_inputField";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from '../../../../_helper/_select';
+import { getBeatNameDDL } from '../helper';
+import InputField from './../../../../_helper/_inputField';
 import {
   getOutletNameDDL,
   getItemDDL,
   getdistributorNameDDL,
   getdistributorCahnelNameDDL,
   getTerrotoryDDL,
-} from "./../helper";
+} from './../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   territoryName: Yup.object().shape({
-    label: Yup.string().required("Territory Name Name is required"),
-    value: Yup.string().required("Territory Name Name is required"),
+    label: Yup.string().required('Territory Name Name is required'),
+    value: Yup.string().required('Territory Name Name is required'),
   }),
   distributorName: Yup.object().shape({
-    label: Yup.string().required("Distributor Name Name is required"),
-    value: Yup.string().required("Distributor Name Name is required"),
+    label: Yup.string().required('Distributor Name Name is required'),
+    value: Yup.string().required('Distributor Name Name is required'),
   }),
   distributionChannel: Yup.object().shape({
-    label: Yup.string().required("Distribution Channel Name is required"),
-    value: Yup.string().required("Distribution Channel Name is required"),
+    label: Yup.string().required('Distribution Channel Name is required'),
+    value: Yup.string().required('Distribution Channel Name is required'),
   }),
   routeName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(1000000, "Maximum 1000000 symbols")
-    .required("Route Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(1000000, 'Maximum 1000000 symbols')
+    .required('Route Name is required'),
   beatName: Yup.object().shape({
-    label: Yup.string().required("Market Name is required"),
-    value: Yup.string().required("Market Name is required"),
+    label: Yup.string().required('Market Name is required'),
+    value: Yup.string().required('Market Name is required'),
   }),
   outlateName: Yup.object().shape({
-    label: Yup.string().required("Outlet Name is required"),
-    value: Yup.string().required("Outlet Name is required"),
+    label: Yup.string().required('Outlet Name is required'),
+    value: Yup.string().required('Outlet Name is required'),
   }),
-  receivedAmount: Yup.number().required("Received Amount is required"),
+  receivedAmount: Yup.number().required('Received Amount is required'),
 });
 
 export default function FormCmp({
@@ -58,7 +57,7 @@ export default function FormCmp({
   setRowData,
   rowData,
   rowDtoHandler,
-  totalAmount
+  totalAmount,
 }) {
   const [trrytoryDDL, setTrrytoryDDL] = useState([]);
   const [distibiotuorDDL, setDistibiotuorDDL] = useState([]);
@@ -83,7 +82,7 @@ export default function FormCmp({
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
-            setRowData([])
+            setRowData([]);
           });
         }}
       >
@@ -108,9 +107,9 @@ export default function FormCmp({
                       value={values?.territoryName}
                       label="Territory Name*"
                       onChange={(valueOption) => {
-                        setFieldValue("territoryName", valueOption);
-                        setFieldValue("distributionChannel", "");
-                        setFieldValue("distributorName", "");
+                        setFieldValue('territoryName', valueOption);
+                        setFieldValue('distributionChannel', '');
+                        setFieldValue('distributorName', '');
                         getdistributorNameDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -132,8 +131,8 @@ export default function FormCmp({
                       value={values?.distributorName}
                       label="Distributor Name*"
                       onChange={(valueOption) => {
-                        setFieldValue("distributorName", valueOption);
-                        setFieldValue("distributionChannel", "");
+                        setFieldValue('distributorName', valueOption);
+                        setFieldValue('distributionChannel', '');
                         getdistributorCahnelNameDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -154,8 +153,8 @@ export default function FormCmp({
                       value={values?.routeName}
                       label="Route Name"
                       onChange={(valueOption) => {
-                        setFieldValue("beatName", "");
-                        setFieldValue("routeName", valueOption);
+                        setFieldValue('beatName', '');
+                        setFieldValue('routeName', valueOption);
                         getBeatNameDDL(valueOption?.value, setBeatNameDDL);
                         getOutletNameDDL(valueOption?.value, setOutletNameDDL);
                       }}
@@ -172,7 +171,7 @@ export default function FormCmp({
                       value={values?.beatName}
                       label="Market Name"
                       onChange={(valueOption) => {
-                        setFieldValue("beatName", valueOption);
+                        setFieldValue('beatName', valueOption);
                       }}
                       isDisabled={isEdit}
                       placeholder="Market Name"
@@ -187,7 +186,7 @@ export default function FormCmp({
                       value={values?.outlateName}
                       label="Outlet Name"
                       onChange={(valueOption) => {
-                        setFieldValue("outlateName", valueOption);
+                        setFieldValue('outlateName', valueOption);
                       }}
                       isDisabled={isEdit}
                       placeholder="Outlet Name"
@@ -202,7 +201,7 @@ export default function FormCmp({
                       value={values?.distributionChannel}
                       label="Distribution Channel*"
                       onChange={(valueOption) => {
-                        setFieldValue("distributionChannel", valueOption);
+                        setFieldValue('distributionChannel', valueOption);
                         getItemDDL(
                           setRowData,
                           profileData?.accountId,
@@ -267,33 +266,33 @@ export default function FormCmp({
                                   <div className="pl-2">{itm?.uomName}</div>
                                 </div>
                               </td>
-                              <td style={{width:"150px"}}>
+                              <td style={{ width: '150px' }}>
                                 <input
-                                  value={rowData[idx]?.rate || ""}
+                                  value={rowData[idx]?.rate || ''}
                                   name="rate"
                                   placeholder="Rate"
-                                  style={{paddingLeft:"10px"}}
+                                  style={{ paddingLeft: '10px' }}
                                   type="number"
                                   step="any"
                                   onChange={(e) => {
-                                    rowDtoHandler("rate", e.target.value, idx);
+                                    rowDtoHandler('rate', e.target.value, idx);
                                   }}
                                   min="0"
                                   errors={errors}
                                   touched={touched}
                                 />
                               </td>
-                              <td style={{width:"150px"}}>
+                              <td style={{ width: '150px' }}>
                                 <input
-                                  value={rowData[idx]?.orderQty || ""}
+                                  value={rowData[idx]?.orderQty || ''}
                                   name="orderQty"
-                                  style={{paddingLeft:"10px"}}
+                                  style={{ paddingLeft: '10px' }}
                                   placeholder="Order Qty"
                                   type="number"
                                   step="any"
                                   onChange={(e) => {
                                     rowDtoHandler(
-                                      "orderQty",
+                                      'orderQty',
                                       e.target.value,
                                       idx
                                     );
@@ -301,28 +300,30 @@ export default function FormCmp({
                                   min="0"
                                 />
                               </td>
-                              <td className="text-right pr-2">{itm?.orderQty * itm?.rate}</td>
+                              <td className="text-right pr-2">
+                                {itm?.orderQty * itm?.rate}
+                              </td>
                             </tr>
                           );
                         })}
                       </tbody>
                     </table>
                   ) : (
-                    ""
+                    ''
                   )}
                 </div>
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

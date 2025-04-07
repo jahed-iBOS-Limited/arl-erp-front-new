@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import { Formik, Form } from "formik";
-import IView from "../../../../_helper/_helperIcons/_view";
-import PurchaseOrderView from "./purchaseOrderView";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "./../../../../_helper/_redux/Actions";
+import React, { useState } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import { Formik, Form } from 'formik';
+import IView from '../../../../_helper/_helperIcons/_view';
+import PurchaseOrderView from './purchaseOrderView';
+import { useDispatch } from 'react-redux';
+import { getDownlloadFileView_Action } from './../../../../_helper/_redux/Actions';
 const initData = {};
 
 export default function ClearInvoiceViewModel({
@@ -20,8 +20,8 @@ export default function ClearInvoiceViewModel({
       <IViewModal
         show={show}
         onHide={onHide}
-        title={"Internal Expense View"}
-        style={{ fontSize: "1.2rem !important" }}
+        title={'Internal Expense View'}
+        style={{ fontSize: '1.2rem !important' }}
         btnText="Close"
       >
         <div>
@@ -68,7 +68,6 @@ export default function ClearInvoiceViewModel({
                         onClick={() => {}}
                         className="btn btn-primary ml-2 mr-2"
                         type="button"
-                       
                       >
                         Save
                       </button>
@@ -83,7 +82,7 @@ export default function ClearInvoiceViewModel({
                           }}
                           className="btn btn-primary ml-2 mt-4 mr-2"
                           type="button"
-                          style={{ padding: "5px 4px" }}
+                          style={{ padding: '5px 4px' }}
                         >
                           Purchase Order
                           <i
@@ -95,13 +94,13 @@ export default function ClearInvoiceViewModel({
                           onClick={() => {
                             dispatch(
                               getDownlloadFileView_Action(
-                                "60bd998747097661d29daf75"
+                                '60bd998747097661d29daf75'
                               )
                             );
                           }}
                           className="btn btn-primary ml-2 mt-4 mr-2"
                           type="button"
-                          style={{ padding: "5px 4px" }}
+                          style={{ padding: '5px 4px' }}
                         >
                           Invoice
                           <i
@@ -116,10 +115,10 @@ export default function ClearInvoiceViewModel({
                         <table className="table table-striped table-bordered mt-3 global-table">
                           <thead>
                             <tr>
-                              <th style={{ width: "35px" }}>SL</th>
-                              <th style={{ width: "150px" }}>GRN NO</th>
-                              <th style={{ width: "150px" }}>Amount</th>
-                              <th style={{ width: "150px" }}>Action</th>
+                              <th style={{ width: '35px' }}>SL</th>
+                              <th style={{ width: '150px' }}>GRN NO</th>
+                              <th style={{ width: '150px' }}>Amount</th>
+                              <th style={{ width: '150px' }}>Action</th>
                             </tr>
                           </thead>
                           <tbody>

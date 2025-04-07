@@ -1,10 +1,9 @@
-
-import React, { useEffect, useState } from "react";
-import Axios from "axios";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import ICustomTable from "../../../../_helper/_customTable";
+import React, { useEffect, useState } from 'react';
+import Axios from 'axios';
+import { useSelector, shallowEqual } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import ICustomTable from '../../../../_helper/_customTable';
 
 export function PlantWarehouseTable() {
   const [products, setProducts] = useState(null);
@@ -61,7 +60,7 @@ export function PlantWarehouseTable() {
   };
 
   // Table columns
-  const columns = ["SL", "Plant", "Warehouse", "Business Unit"];
+  const columns = ['SL', 'Plant', 'Warehouse', 'Business Unit'];
   return (
     <>
       {loading && <Loading />}

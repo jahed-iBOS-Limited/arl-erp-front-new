@@ -1,18 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
-import { InventoryLedger_api } from "../helper";
-import { useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { shallowEqual } from "react-redux";
-import { _timeFormatter } from "./../../../../_helper/_timeFormatter";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import Loading from "./../../../../_helper/_loading";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-
+import React, { useEffect, useState, useRef } from 'react';
+import { InventoryLedger_api } from '../helper';
+import { useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual } from 'react-redux';
+import { _timeFormatter } from './../../../../_helper/_timeFormatter';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import Loading from './../../../../_helper/_loading';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 
 const DetailsModal = ({ tableItem, values, type }) => {
-
-
   const [inventoryLedger, setInventoryLedger] = useState([]);
   const [loading, setLoading] = useState(false);
   // get user profile data from store
@@ -37,7 +34,7 @@ const DetailsModal = ({ tableItem, values, type }) => {
       values?.toDate,
       // this modal is used from two place, for summary table and for detail table
       // type  1 means summary,
-    // type 2 means detail
+      // type 2 means detail
       tableItem?.opnQty || tableItem?.openQty,
       tableItem?.openValue,
       tableItem?.clossingQty,
@@ -46,7 +43,6 @@ const DetailsModal = ({ tableItem, values, type }) => {
       setInventoryLedger,
       setLoading
     );
-
   }, [tableItem]);
 
   const printRef = useRef();
@@ -55,12 +51,12 @@ const DetailsModal = ({ tableItem, values, type }) => {
       {loading && <Loading />}
       <div
         className="text-right pointer"
-        style={{ position: "absolute", top: "16px", right: "16px" }}
+        style={{ position: 'absolute', top: '16px', right: '16px' }}
       >
         <ReactToPrint
           trigger={() => (
             <i
-              style={{ fontSize: "18px", marginRight: "5px" }}
+              style={{ fontSize: '18px', marginRight: '5px' }}
               className="fas fa-print"
             ></i>
           )}
@@ -79,7 +75,7 @@ const DetailsModal = ({ tableItem, values, type }) => {
       <div className="inventoryStatement-reports mt-6 " ref={printRef}>
         <div
           className="text-right pointer"
-          style={{ position: "absolute", top: "161px", right: "42px" }}
+          style={{ position: 'absolute', top: '161px', right: '42px' }}
         ></div>
         <div className="text-center">
           <h3>Business Unit : {selectedBusinessUnit?.label}</h3>
@@ -93,14 +89,14 @@ const DetailsModal = ({ tableItem, values, type }) => {
         </div>
         <div>
           <h6 className="text-center">
-            Item Name:{" "}
+            Item Name:{' '}
             {`${inventoryLedger?.header?.itemName} (${inventoryLedger?.header?.itemCode}`}
             )
           </h6>
         </div>
         <div className="d-flex justify-content-between">
           <h6>
-            From Date: {values?.fromDate} Time:{" "}
+            From Date: {values?.fromDate} Time:{' '}
             {_timeFormatter(values?.fromTime)}
           </h6>
           <h6>
@@ -141,12 +137,12 @@ const DetailsModal = ({ tableItem, values, type }) => {
                     <tr className="bg-light">
                       <td>{index + 1}</td>
                       <td>{values?.fromDate}</td>
-                      <td>{"-"}</td>
-                      <td>{"Opening Balance"}</td>
-                      <td>{"-"}</td>
-                      <td>{"-"}</td>
-                      <td>{"-"}</td>
-                      <td>{"-"}</td>
+                      <td>{'-'}</td>
+                      <td>{'Opening Balance'}</td>
+                      <td>{'-'}</td>
+                      <td>{'-'}</td>
+                      <td>{'-'}</td>
+                      <td>{'-'}</td>
                       {/* <td>{"-"}</td> */}
                       {/* <td>{"-"}</td> */}
                       <td className="text-right">0</td>
@@ -171,15 +167,21 @@ const DetailsModal = ({ tableItem, values, type }) => {
                       {Math.abs(item?.transactionQty || 0)}
                     </td>
                     <td className="text-right">
-                      {numberWithCommas(( Math.abs(item?.transactionValue || 0)).toFixed(2))}
+                      {numberWithCommas(
+                        Math.abs(item?.transactionValue || 0).toFixed(2)
+                      )}
                     </td>
                     {/* <td className="text-right">{item?.issueQty}</td>
                     <td className="text-right">{item?.issueValue}</td> */}
                     {/* opening balance 0 */}
-                    <td className="text-right">{Math.abs(item?.balanceQty || 0)}</td>
+                    <td className="text-right">
+                      {Math.abs(item?.balanceQty || 0)}
+                    </td>
                     {/* opening balance 0 */}
                     <td className="text-right">
-                      {numberWithCommas(( Math.abs(item?.balanceValue || 0)).toFixed(2))}
+                      {numberWithCommas(
+                        Math.abs(item?.balanceValue || 0).toFixed(2)
+                      )}
                     </td>
                   </tr>
 
@@ -187,12 +189,12 @@ const DetailsModal = ({ tableItem, values, type }) => {
                     <tr className="bg-light">
                       <td>{index + 3}</td>
                       <td>{values?.toDate}</td>
-                      <td>{"-"}</td>
-                      <td>{"Closing Balance"}</td>
-                      <td>{"-"}</td>
-                      <td>{"-"}</td>
-                      <td>{"-"}</td>
-                      <td>{"-"}</td>
+                      <td>{'-'}</td>
+                      <td>{'Closing Balance'}</td>
+                      <td>{'-'}</td>
+                      <td>{'-'}</td>
+                      <td>{'-'}</td>
+                      <td>{'-'}</td>
                       {/* <td>{"-"}</td> */}
                       <td className="text-right">0</td>
                       <td className="text-right">0</td>

@@ -1,28 +1,25 @@
-
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import ICustomTable from "../../../../_helper/_customTable";
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import ICustomTable from '../../../../_helper/_customTable';
 // import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { useSelector, useDispatch } from "react-redux";
-import { setServiceTableLastAction } from '../../../../_helper/reduxForLocalStorage/Actions'
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewForm from "../attachmentView/viewForm";
-import { inventoryTransactionCancelAction } from "../helper/Actions";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-
-
+import { useSelector, useDispatch } from 'react-redux';
+import { setServiceTableLastAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewForm from '../attachmentView/viewForm';
+import { inventoryTransactionCancelAction } from '../helper/Actions';
+import IConfirmModal from '../../../../_helper/_confirmModal';
 
 const headers = [
-  "SL",
-  "Receive Code",
-  "PO Number",
-  "PO Qty",
-  "PO Amount",
-  "Receive Qty",
-  "Receive Amount",
-  "Supplier",
-  "Action",
+  'SL',
+  'Receive Code',
+  'PO Number',
+  'PO Qty',
+  'PO Amount',
+  'Receive Qty',
+  'Receive Amount',
+  'Supplier',
+  'Action',
 ];
 
 const TBody = ({ gridData, viewGridData, setLoading }) => {
@@ -44,16 +41,16 @@ const TBody = ({ gridData, viewGridData, setLoading }) => {
   //   });
   // };
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const serviceTable = useSelector((state) => {
     return state.localStorage.serviceTableIndex;
-  })
+  });
 
   const viewPOData = (id, receiveAmount) => {
     history.push({
       pathname: `/inventory-management/warehouse-management/serviceReceive/viewReport/${id}`,
-      state: { receiveAmount }
+      state: { receiveAmount },
     });
   };
 
@@ -68,10 +65,12 @@ const TBody = ({ gridData, viewGridData, setLoading }) => {
       setRowData
     ); */
   }, []);
-  const { profileData, selectedBusinessUnit } = useSelector(state => state?.authData)
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData
+  );
   const cancelPopUp = (td) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Code : ${td?.serviceCode}`,
       yesAlertFunc: () => {
         inventoryTransactionCancelAction(
@@ -82,7 +81,7 @@ const TBody = ({ gridData, viewGridData, setLoading }) => {
           setLoading
         );
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
@@ -94,17 +93,19 @@ const TBody = ({ gridData, viewGridData, setLoading }) => {
         gridData.map((item, index) => {
           return (
             <tr key={index}>
-              <td style={{ textAlign: "center" }}>{item?.sl}</td>
-              <td >{item.serviceCode}</td>
-              <td >{item.purchaseOrderNo}</td>
-              <td style={{ textAlign: "center" }}>{item?.poQuantity}</td>
-              <td style={{ textAlign: "center" }}>{item?.poAmount}</td>
-              <td style={{ textAlign: "center" }}>{item?.receiveQuantity}</td>
-              <td style={{ textAlign: "center" }}>{item?.receiveAmount.toFixed(4)}</td>
-              <td style={{ textAlign: "center" }}>
+              <td style={{ textAlign: 'center' }}>{item?.sl}</td>
+              <td>{item.serviceCode}</td>
+              <td>{item.purchaseOrderNo}</td>
+              <td style={{ textAlign: 'center' }}>{item?.poQuantity}</td>
+              <td style={{ textAlign: 'center' }}>{item?.poAmount}</td>
+              <td style={{ textAlign: 'center' }}>{item?.receiveQuantity}</td>
+              <td style={{ textAlign: 'center' }}>
+                {item?.receiveAmount.toFixed(4)}
+              </td>
+              <td style={{ textAlign: 'center' }}>
                 {item.businessPartnerName}
               </td>
-              <td colSpan="" style={{ textAlign: "center" }}>
+              <td colSpan="" style={{ textAlign: 'center' }}>
                 {/* {
                   !item?.isInvoicePosted && (
                     <span
@@ -115,16 +116,21 @@ const TBody = ({ gridData, viewGridData, setLoading }) => {
                     </span>
                   )
                 } */}
-                <span onClick={(e) => {
-                  viewPOData(item.serviceId, item?.receiveAmount)
-                  dispatch(setServiceTableLastAction(item?.serviceId))
-                }}>
+                <span
+                  onClick={(e) => {
+                    viewPOData(item.serviceId, item?.receiveAmount);
+                    dispatch(setServiceTableLastAction(item?.serviceId));
+                  }}
+                >
                   {/* <IView  /> */}
                   <OverlayTrigger
-                    overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                    overlay={<Tooltip id="cs-icon">{'View'}</Tooltip>}
                   >
-                    <span style={{ cursor: "pointer" }}>
-                      <i className={`fas fa-eye ${serviceTable === item?.serviceId ? "text-primary" : ""}`} aria-hidden="true"></i>
+                    <span style={{ cursor: 'pointer' }}>
+                      <i
+                        className={`fas fa-eye ${serviceTable === item?.serviceId ? 'text-primary' : ''}`}
+                        aria-hidden="true"
+                      ></i>
                     </span>
                   </OverlayTrigger>
                 </span>
@@ -132,23 +138,27 @@ const TBody = ({ gridData, viewGridData, setLoading }) => {
                   onClick={() => {
                     setIsShowModal(true);
                     setPOData(item);
-                  }
-                  }
-                  style={{ border: "none", background: "none", cursor: "pointer" }}
+                  }}
+                  style={{
+                    border: 'none',
+                    background: 'none',
+                    cursor: 'pointer',
+                  }}
                 >
-                  <OverlayTrigger overlay={<Tooltip id='cs-icon'>{"PO Receive Attachment"}</Tooltip>}>
+                  <OverlayTrigger
+                    overlay={
+                      <Tooltip id="cs-icon">{'PO Receive Attachment'}</Tooltip>
+                    }
+                  >
                     <i class="far fa-file-image"></i>
                   </OverlayTrigger>
                 </button>
-                {
-                  !item?.isBillPosted  &&
-                  <span
-                    onClick={() => cancelPopUp(item)}
-                  >
+                {!item?.isBillPosted && (
+                  <span onClick={() => cancelPopUp(item)}>
                     <OverlayTrigger
-                      overlay={<Tooltip id="cs-icon">{"Cancel"}</Tooltip>}
+                      overlay={<Tooltip id="cs-icon">{'Cancel'}</Tooltip>}
                     >
-                      <span style={{ cursor: "pointer" }}>
+                      <span style={{ cursor: 'pointer' }}>
                         <i
                           className="fa fa-times-circle closeBtn"
                           aria-hidden="true"
@@ -156,8 +166,7 @@ const TBody = ({ gridData, viewGridData, setLoading }) => {
                       </span>
                     </OverlayTrigger>
                   </span>
-                }
-
+                )}
               </td>
             </tr>
           );
@@ -169,18 +178,29 @@ const TBody = ({ gridData, viewGridData, setLoading }) => {
           show={isShowModal}
           onHide={() => setIsShowModal(false)}
         >
-          <ViewForm
-            poData={poData}
-            setIsShowModal={setIsShowModal}
-          />
+          <ViewForm poData={poData} setIsShowModal={setIsShowModal} />
         </IViewModal>
       </>
     </>
   );
 };
 
-export default function ServiceReceiveLandingTable({ gridData, setLoading, viewGridData }) {
+export default function ServiceReceiveLandingTable({
+  gridData,
+  setLoading,
+  viewGridData,
+}) {
   return (
-    <ICustomTable ths={headers} className="table-font-size-sm" children={<TBody gridData={gridData} setLoading={setLoading} viewGridData={viewGridData} />} />
+    <ICustomTable
+      ths={headers}
+      className="table-font-size-sm"
+      children={
+        <TBody
+          gridData={gridData}
+          setLoading={setLoading}
+          viewGridData={viewGridData}
+        />
+      }
+    />
   );
 }

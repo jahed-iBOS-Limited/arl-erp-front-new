@@ -1,15 +1,15 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { LayoutSplashScreen, ContentRoute } from "../../../_metronic/layout";
-import { Suspense } from "react";
-import { SalesConfigurationPages } from "./configuration/configurationPages";
-import { OrderManagementPages } from "./orderManagement/orderManagementPages";
-import { TransportManagementPages } from "./transportManagementSystem/transportManagementPages";
-import { ReportManagementPages } from "./report/reportManagementPages";
-import { AcclReportPages } from "./acclReport/acclReportPages";
-import { ServiceSalesPages } from "./serviceSales/serviceSalesPages";
-import { CRMPages } from "./CRM/CRMPages";
-import { ComplainManagement } from "../common/fetures";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { LayoutSplashScreen, ContentRoute } from '../../../_metronic/layout';
+import { Suspense } from 'react';
+import { SalesConfigurationPages } from './configuration/configurationPages';
+import { OrderManagementPages } from './orderManagement/orderManagementPages';
+import { TransportManagementPages } from './transportManagementSystem/transportManagementPages';
+import { ReportManagementPages } from './report/reportManagementPages';
+import { AcclReportPages } from './acclReport/acclReportPages';
+import { ServiceSalesPages } from './serviceSales/serviceSalesPages';
+import { CRMPages } from './CRM/CRMPages';
+import { ComplainManagement } from '../common/fetures';
 
 export function SalesManagementPages() {
   return (
@@ -17,42 +17,38 @@ export function SalesManagementPages() {
       <Switch>
         <Redirect
           exact={true}
-          from='/sales-management'
-          to='/sales-management/configuration/salesorganization'
+          from="/sales-management"
+          to="/sales-management/configuration/salesorganization"
         />
         <ContentRoute
-          path='/sales-management/configuration'
+          path="/sales-management/configuration"
           component={SalesConfigurationPages}
         />
         <ContentRoute
-          path='/sales-management/ordermanagement'
+          path="/sales-management/ordermanagement"
           component={OrderManagementPages}
         />
         <ContentRoute
-          path='/sales-management/servicesales'
+          path="/sales-management/servicesales"
           component={ServiceSalesPages}
         />
         <ContentRoute
-          path='/sales-management/transportmanagement'
+          path="/sales-management/transportmanagement"
           component={TransportManagementPages}
         />
         <ContentRoute
-          path='/sales-management/report'
+          path="/sales-management/report"
           component={ReportManagementPages}
         />
         <ContentRoute
-          path='/sales-management/AcclReport'
+          path="/sales-management/AcclReport"
           component={AcclReportPages}
-        />{" "}
+        />{' '}
+        <ContentRoute path="/sales-management/CRM" component={CRMPages} />
         <ContentRoute
-          path='/sales-management/CRM'
-          component={CRMPages}
-          />
-          <ContentRoute
-            path='/sales-management/complainmanagement'
-            component={()=> ComplainManagement("sales-management")}
-          />
-
+          path="/sales-management/complainmanagement"
+          component={() => ComplainManagement('sales-management')}
+        />
       </Switch>
     </Suspense>
   );

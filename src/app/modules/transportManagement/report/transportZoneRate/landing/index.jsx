@@ -1,32 +1,31 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { setExistingtransportpolicyLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { getLandingData } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { setExistingtransportpolicyLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { getLandingData } from '../helper';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import { generateJsonToExcel } from "./../../../../_helper/excel/jsonToExcel";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import InputField from "../../../../_helper/_inputField";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
+} from './../../../../../../_metronic/_partials/controls';
+import { generateJsonToExcel } from './../../../../_helper/excel/jsonToExcel';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import InputField from '../../../../_helper/_inputField';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  shipPoint: "",
-  reportType: "",
+  shipPoint: '',
+  reportType: '',
 };
 
 function TransportZoneRateReport({ title }) {
@@ -67,76 +66,76 @@ function TransportZoneRateReport({ title }) {
   const generateExcel = (row) => {
     const header = [
       {
-        text: "SL",
-        textFormat: "number",
-        alignment: "center:middle",
-        key: "sl",
+        text: 'SL',
+        textFormat: 'number',
+        alignment: 'center:middle',
+        key: 'sl',
       },
       {
-        text: "Shippoint Name",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "shippointName",
+        text: 'Shippoint Name',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'shippointName',
       },
       {
-        text: "Transport Zone",
-        textFormat: "money",
-        alignment: "center:middle",
-        key: "transportZoneName",
+        text: 'Transport Zone',
+        textFormat: 'money',
+        alignment: 'center:middle',
+        key: 'transportZoneName',
       },
       {
-        text: "Transport Rate",
-        textFormat: "money",
-        alignment: "center:middle",
-        key: "transferRate",
+        text: 'Transport Rate',
+        textFormat: 'money',
+        alignment: 'center:middle',
+        key: 'transferRate',
       },
       {
-        text: "Three Tone Rate",
-        textFormat: "money",
-        alignment: "center:middle",
-        key: "num3tonRate",
+        text: 'Three Tone Rate',
+        textFormat: 'money',
+        alignment: 'center:middle',
+        key: 'num3tonRate',
       },
       {
-        text: "Five Tone Rate",
-        textFormat: "money",
-        alignment: "center:middle",
-        key: "num5tonRate",
+        text: 'Five Tone Rate',
+        textFormat: 'money',
+        alignment: 'center:middle',
+        key: 'num5tonRate',
       },
       {
-        text: "Twenty Tone Rate",
-        textFormat: "money",
-        alignment: "center:middle",
-        key: "num7tonRate",
+        text: 'Twenty Tone Rate',
+        textFormat: 'money',
+        alignment: 'center:middle',
+        key: 'num7tonRate',
       },
       {
-        text: "Twenty Tone Rate",
-        textFormat: "money",
-        alignment: "center:middle",
-        key: "num20tonRate",
+        text: 'Twenty Tone Rate',
+        textFormat: 'money',
+        alignment: 'center:middle',
+        key: 'num20tonRate',
       },
       {
-        text: "Handling Cost",
-        textFormat: "money",
-        alignment: "center:middle",
-        key: "handlingCost",
+        text: 'Handling Cost',
+        textFormat: 'money',
+        alignment: 'center:middle',
+        key: 'handlingCost',
       },
       {
-        text: "Dropping Charge",
-        textFormat: "money",
-        alignment: "center:middle",
-        key: "labourCost",
+        text: 'Dropping Charge',
+        textFormat: 'money',
+        alignment: 'center:middle',
+        key: 'labourCost',
       },
       {
-        text: "Dropping Charge less 6ton",
-        textFormat: "money",
-        alignment: "center:middle",
-        key: "labourCostLess6",
+        text: 'Dropping Charge less 6ton',
+        textFormat: 'money',
+        alignment: 'center:middle',
+        key: 'labourCostLess6',
       },
       {
-        text: "Subsidy Rate",
-        textFormat: "money",
-        alignment: "center:middle",
-        key: "subsidyCostRate",
+        text: 'Subsidy Rate',
+        textFormat: 'money',
+        alignment: 'center:middle',
+        key: 'subsidyCostRate',
       },
     ];
     const _data = row.map((item, index) => {
@@ -146,7 +145,7 @@ function TransportZoneRateReport({ title }) {
         transferRate: item?.transferRate || 0,
       };
     });
-    generateJsonToExcel(header, _data, "transportZoneRate");
+    generateJsonToExcel(header, _data, 'transportZoneRate');
   };
 
   useEffect(() => {
@@ -162,19 +161,19 @@ function TransportZoneRateReport({ title }) {
     <>
       <Card>
         {true && <ModalProgressBar />}
-        <CardHeader title={title ? title : "Transport Zone Rate Report"}>
+        <CardHeader title={title ? title : 'Transport Zone Rate Report'}>
           <CardHeaderToolbar>
             <ReactToPrint
               trigger={() => (
                 <button
                   type="button"
                   className="btn btn-primary"
-                  style={{ padding: "2px 5px" }}
+                  style={{ padding: '2px 5px' }}
                 >
                   <img
                     style={{
-                      width: "25px",
-                      paddingRight: "5px",
+                      width: '25px',
+                      paddingRight: '5px',
                     }}
                     src={printIcon}
                     alt="print-icon"
@@ -184,14 +183,14 @@ function TransportZoneRateReport({ title }) {
               )}
               content={() => printRef.current}
               pageStyle={
-                "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}"
+                '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}'
               }
             />
             <button
               className="btn btn-primary ml-2"
               type="button"
               onClick={(e) => generateExcel(gridData)}
-              style={{ padding: "6px 5px" }}
+              style={{ padding: '6px 5px' }}
               disabled={gridData?.length === 0}
             >
               Export Excel
@@ -212,17 +211,17 @@ function TransportZoneRateReport({ title }) {
                       <NewSelect
                         name="reportType"
                         options={[
-                          { value: 6, label: "Ghat Base" },
-                          { value: 7, label: "Ghat vs Customer Transportcost" },
+                          { value: 6, label: 'Ghat Base' },
+                          { value: 7, label: 'Ghat vs Customer Transportcost' },
                           {
                             value: 8,
-                            label: "Ghat vs Territory  Transportcost",
+                            label: 'Ghat vs Territory  Transportcost',
                           },
                         ]}
                         value={values?.reportType}
                         label="Report Type"
                         onChange={(valueOption) => {
-                          setFieldValue("reportType", valueOption);
+                          setFieldValue('reportType', valueOption);
                           setShowReport(false);
                           setGridData([]);
                         }}
@@ -234,11 +233,11 @@ function TransportZoneRateReport({ title }) {
                     <div className="col-lg-3">
                       <NewSelect
                         name="shipPoint"
-                        options={[{ value: 0, label: "All" }, ...shipPointDDL]}
+                        options={[{ value: 0, label: 'All' }, ...shipPointDDL]}
                         value={values?.shipPoint}
                         label="Shippoint"
                         onChange={(valueOption) => {
-                          setFieldValue("shipPoint", valueOption);
+                          setFieldValue('shipPoint', valueOption);
                           setShowReport(false);
                           setGridData([]);
                         }}
@@ -249,7 +248,7 @@ function TransportZoneRateReport({ title }) {
                     </div>
                     {[7, 8].includes(values?.reportType?.value) && (
                       <>
-                        {" "}
+                        {' '}
                         <RATForm
                           obj={{
                             values,
@@ -266,7 +265,7 @@ function TransportZoneRateReport({ title }) {
                             name="fromDate"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("fromDate", e.target.value);
+                              setFieldValue('fromDate', e.target.value);
                               setShowReport(false);
                             }}
                           />
@@ -278,7 +277,7 @@ function TransportZoneRateReport({ title }) {
                             name="toDate"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("toDate", e.target.value);
+                              setFieldValue('toDate', e.target.value);
                               setShowReport(false);
                             }}
                           />
@@ -411,39 +410,39 @@ function TransportZoneRateReport({ title }) {
                       groupId={`e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`}
                       parameterValues={[
                         {
-                          name: "BusinessUnitId",
+                          name: 'BusinessUnitId',
                           value: `${selectedBusinessUnit?.value?.toString()}`,
                         },
                         {
-                          name: "ShipPointId",
+                          name: 'ShipPointId',
                           value: `${values?.shipPoint?.value?.toString()}`,
                         },
                         {
-                          name: "intpartid",
+                          name: 'intpartid',
                           value: `${values?.reportType?.value?.toString()}`,
                         },
                         {
-                          name: "intDistributionChannel",
+                          name: 'intDistributionChannel',
                           value: `${values?.channel?.value?.toString()}`,
                         },
                         {
-                          name: "intRegionid",
+                          name: 'intRegionid',
                           value: `${values?.region?.value?.toString()}`,
                         },
                         {
-                          name: "intAreaid",
+                          name: 'intAreaid',
                           value: `${values?.area?.value?.toString()}`,
                         },
                         {
-                          name: "intTerritoryid",
+                          name: 'intTerritoryid',
                           value: `${values?.territory?.value?.toString()}`,
                         },
                         {
-                          name: "fromdate",
+                          name: 'fromdate',
                           value: `${values?.fromDate}`,
                         },
                         {
-                          name: "todate",
+                          name: 'todate',
                           value: `${values?.toDate}`,
                         },
                       ]}

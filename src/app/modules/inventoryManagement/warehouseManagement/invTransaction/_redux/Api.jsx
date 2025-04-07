@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 // Save created data
 export function saveCreateData(data) {
@@ -81,7 +81,7 @@ export function getGridData(
   pageSize,
   search
 ) {
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
   const pageNo = search ? 0 : PageNo;
   return axios.get(
     `/wms/InventoryTransaction/GetInventoryTransectionSearchPagination?${searchPath}InventoryTransectionGroupId=${grId}&accountId=${accId}&fromDate=${fromDate}&toDate=${toDate}&businessUnitId=${buId}&sbuId=${sbuId}&plantId=${plId}&warehouse=${wrId}&status=${true}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
@@ -390,9 +390,9 @@ export function getBusinessTransactionDDL(id) {
   );
 }
 export function attachmentSave(data) {
-  return axios.post("/domain/Document/UploadFile", data, {
+  return axios.post('/domain/Document/UploadFile', data, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
     },
   });
 }

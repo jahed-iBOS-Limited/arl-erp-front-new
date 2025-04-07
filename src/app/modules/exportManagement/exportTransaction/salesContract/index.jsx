@@ -1,30 +1,30 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import PaginationSearch from "../../../_helper/_search";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import ICon from "../../../chartering/_chartinghelper/icons/_icon";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import CommercialInvoiceModalView from "./commercialInvoiceViewModal";
-import PackingAndWeightListViewModal from "./packingAndWeightListViewModal";
-import SalesContractView from "./salesContractViewModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import ICon from '../../../chartering/_chartinghelper/icons/_icon';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import CommercialInvoiceModalView from './commercialInvoiceViewModal';
+import PackingAndWeightListViewModal from './packingAndWeightListViewModal';
+import SalesContractView from './salesContractViewModal';
 const initData = {
-  status: { value: false, label: "Quotation Open" },
+  status: { value: false, label: 'Quotation Open' },
   formDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -50,9 +50,9 @@ export default function SalesContractLanding() {
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowData(
       `/oms/SalesQuotation/GetSalesQuotationSearchLandingPagination?searchTerm=${searchValue}&AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&QuotationStatus=${values?.status?.value}&fromDate=${values?.formDate}&toDate=${values?.toDate}`,
       (data) => {
@@ -72,28 +72,27 @@ export default function SalesContractLanding() {
         setRowData(data?.data);
       }
     );
-
   }, []);
 
   const actionClickHandler = (values, type, id) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `If you ${type} this, it can not be undone`,
       yesAlertFunc: async () => {
-        if (type === "delete") {
-          console.log("delete called");
+        if (type === 'delete') {
+          console.log('delete called');
           deleteData(`deleted`, () => {
             setPositionHandler(pageNo, pageSize, values);
           });
         }
-        if (type === "approve") {
-          console.log("approve called");
+        if (type === 'approve') {
+          console.log('approve called');
           approveQuotation(`approved`, () => {
             setPositionHandler(pageNo, pageSize, values);
           });
         }
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
@@ -148,17 +147,17 @@ export default function SalesContractLanding() {
                   <NewSelect
                     name="status"
                     options={[
-                      { value: false, label: "Quotation Open" },
-                      { value: true, label: "Quotation Closed" },
+                      { value: false, label: 'Quotation Open' },
+                      { value: true, label: 'Quotation Closed' },
                     ]}
                     value={values?.status}
                     label="Quotation Status"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("status", valueOption);
+                        setFieldValue('status', valueOption);
                         setRowData([]);
                       } else {
-                        setFieldValue("status", "");
+                        setFieldValue('status', '');
                         setRowData([]);
                       }
                     }}
@@ -176,7 +175,7 @@ export default function SalesContractLanding() {
                     placeholder="From Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("formDate", e.target.value);
+                      setFieldValue('formDate', e.target.value);
                       setRowData([]);
                     }}
                   />
@@ -189,7 +188,7 @@ export default function SalesContractLanding() {
                     placeholder="To Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                       setRowData([]);
                     }}
                   />
@@ -198,7 +197,7 @@ export default function SalesContractLanding() {
                 <div className="col-lg-3">
                   <button
                     style={{
-                      marginTop: "17px",
+                      marginTop: '17px',
                     }}
                     className="btn btn-primary"
                     type="button"
@@ -233,15 +232,17 @@ export default function SalesContractLanding() {
                     <table className="table table-striped table-bordered global-table sales_order_landing_table">
                       <thead>
                         <tr>
-                          <th style={{ width: "35px" }}>SL</th>
-                          <th style={{ width: "90px" }}>Quotation No</th>
-                          <th style={{ width: "90px" }}>Quotation Date</th>
-                          <th style={{ width: "90px" }}>Quotation closed Date</th>
+                          <th style={{ width: '35px' }}>SL</th>
+                          <th style={{ width: '90px' }}>Quotation No</th>
+                          <th style={{ width: '90px' }}>Quotation Date</th>
+                          <th style={{ width: '90px' }}>
+                            Quotation closed Date
+                          </th>
                           <th>Sales Organization</th>
                           <th>Channel</th>
                           <th>Party Name</th>
-                          <th style={{ width: "75px" }}>Total Qty</th>
-                          <th style={{ width: "150px" }}>Actions</th>
+                          <th style={{ width: '75px' }}>Total Qty</th>
+                          <th style={{ width: '150px' }}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -251,22 +252,30 @@ export default function SalesContractLanding() {
                               <td className="text-center"> {singleData.sl} </td>
                               <td>
                                 <span className="pl-2">
-                                  {singleData.quotationCode}{" "}
+                                  {singleData.quotationCode}{' '}
                                 </span>
                               </td>
                               <td className="text-center">
-                                {_dateFormatter(singleData.quotationDate || "")}
+                                {_dateFormatter(singleData.quotationDate || '')}
                               </td>
                               <td className="text-center">
-                                {_dateFormatter(singleData.quotationEndDate || "")}
+                                {_dateFormatter(
+                                  singleData.quotationEndDate || ''
+                                )}
                               </td>
-                              <td> {singleData.salesOrganizationName || ""} </td>
-                              <td> {singleData.distributionChannelName || ""} </td>
-                              <td> {singleData.soldToPartnerName || ""} </td>
+                              <td>
+                                {' '}
+                                {singleData.salesOrganizationName || ''}{' '}
+                              </td>
+                              <td>
+                                {' '}
+                                {singleData.distributionChannelName || ''}{' '}
+                              </td>
+                              <td> {singleData.soldToPartnerName || ''} </td>
                               <td className="text-right">
                                 {singleData.totalQuotationQty}
                               </td>
-                              <td style={{ width: "100px" }}>
+                              <td style={{ width: '100px' }}>
                                 <div className="d-flex justify-content-around">
                                   <span className="view">
                                     <IView
@@ -281,7 +290,9 @@ export default function SalesContractLanding() {
                                     <IView
                                       title="View Commercial Invoice"
                                       clickHandler={() => {
-                                        setCommercialId(singleData?.quotationId);
+                                        setCommercialId(
+                                          singleData?.quotationId
+                                        );
                                         setCommercialViewModal(true);
                                       }}
                                     />
@@ -315,7 +326,7 @@ export default function SalesContractLanding() {
                                   </span>
                                   <span className="view">
                                     <ICon
-                                      title={"View Attachment"}
+                                      title={'View Attachment'}
                                       onClick={() => {
                                         if (singleData?.attachmentno) {
                                           dispatch(
@@ -324,11 +335,13 @@ export default function SalesContractLanding() {
                                             )
                                           );
                                         } else {
-                                          toast.warn("Attachment not uploaded!");
+                                          toast.warn(
+                                            'Attachment not uploaded!'
+                                          );
                                         }
                                       }}
                                     >
-                                      <i class="fas fa-file-image"></i>{" "}
+                                      <i class="fas fa-file-image"></i>{' '}
                                     </ICon>
                                   </span>
 
@@ -369,7 +382,7 @@ export default function SalesContractLanding() {
                                         remover={() => {
                                           actionClickHandler(
                                             values,
-                                            "delete",
+                                            'delete',
                                             singleData?.quotationId
                                           );
                                         }}

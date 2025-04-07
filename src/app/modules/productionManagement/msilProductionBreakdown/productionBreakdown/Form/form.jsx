@@ -1,10 +1,10 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { getDifferenceBetweenTime } from "../../../msilProduction/meltingProduction/helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { getDifferenceBetweenTime } from '../../../msilProduction/meltingProduction/helper';
 
 export default function ProductionBreakdownForm({
   initData,
@@ -32,7 +32,6 @@ export default function ProductionBreakdownForm({
     getShopFloorDDL(
       `/mes/MSIL/GetAllMSIL?PartName=ShopFloorDDLByBusinessUnitId&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [selectedBusinessUnit?.value]);
 
   return (
@@ -67,11 +66,11 @@ export default function ProductionBreakdownForm({
                     label="Shop Floor"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("shopFloor", valueOption);
-                        setFieldValue("breakdownType", "");
-                        setFieldValue("machineName", "");
-                        setFieldValue("subMachineName", "");
-                        setFieldValue("partsName", "");
+                        setFieldValue('shopFloor', valueOption);
+                        setFieldValue('breakdownType', '');
+                        setFieldValue('machineName', '');
+                        setFieldValue('subMachineName', '');
+                        setFieldValue('partsName', '');
                         getBreakdownTypeDDL(
                           `/mes/MSIL/GetAllMSIL?PartName=BreakDownTypeDDL&AutoId=${valueOption?.value}`
                         );
@@ -79,11 +78,11 @@ export default function ProductionBreakdownForm({
                           `/mes/MSIL/GetAllMSIL?PartName=BreakDownMachineDDL&AutoId=${valueOption?.value}`
                         );
                       } else {
-                        setFieldValue("shopFloor", "");
-                        setFieldValue("breakdownType", "");
-                        setFieldValue("machineName", "");
-                        setFieldValue("subMachineName", "");
-                        setFieldValue("partsName", "");
+                        setFieldValue('shopFloor', '');
+                        setFieldValue('breakdownType', '');
+                        setFieldValue('machineName', '');
+                        setFieldValue('subMachineName', '');
+                        setFieldValue('partsName', '');
                       }
                     }}
                     errors={errors}
@@ -97,7 +96,7 @@ export default function ProductionBreakdownForm({
                     value={values?.breakdownType}
                     label="Breakdown Type"
                     onChange={(valueOption) => {
-                      setFieldValue("breakdownType", valueOption);
+                      setFieldValue('breakdownType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -111,24 +110,24 @@ export default function ProductionBreakdownForm({
                     label="Machine Name"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("machineName", valueOption);
-                        setFieldValue("subMachineName", "");
-                        setFieldValue("partsName", "");
+                        setFieldValue('machineName', valueOption);
+                        setFieldValue('subMachineName', '');
+                        setFieldValue('partsName', '');
 
                         getSubMachineNameDDL(
                           `/mes/MSIL/GetAllMSIL?PartName=BreakDownMachinePartsDDL&AutoId=${valueOption?.value}`
                         );
                       } else {
-                        setFieldValue("machineName", "");
-                        setFieldValue("subMachineName", "");
-                        setFieldValue("partsName", "");
+                        setFieldValue('machineName', '');
+                        setFieldValue('subMachineName', '');
+                        setFieldValue('partsName', '');
                       }
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                {console.log("subMachineNameDDL", subMachineNameDDL)}
+                {console.log('subMachineNameDDL', subMachineNameDDL)}
                 <div className="col-lg-3">
                   <NewSelect
                     name="subMachineName"
@@ -137,14 +136,14 @@ export default function ProductionBreakdownForm({
                     label="Sub Machine Name"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("subMachineName", valueOption);
-                        setFieldValue("partsName", "");
+                        setFieldValue('subMachineName', valueOption);
+                        setFieldValue('partsName', '');
                         getPartsNameDDL(
                           `/mes/MSIL/GetAllMSIL?PartName=BreakDownPartsDDL&AutoId=${valueOption?.value}`
                         );
                       } else {
-                        setFieldValue("subMachineName", "");
-                        setFieldValue("partsName", "");
+                        setFieldValue('subMachineName', '');
+                        setFieldValue('partsName', '');
                       }
                     }}
                     errors={errors}
@@ -158,7 +157,7 @@ export default function ProductionBreakdownForm({
                     value={values?.partsName}
                     label="Parts Name"
                     onChange={(valueOption) => {
-                      setFieldValue("partsName", valueOption);
+                      setFieldValue('partsName', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -177,14 +176,14 @@ export default function ProductionBreakdownForm({
                   <NewSelect
                     name="shift"
                     options={[
-                      { value: "A", label: "A" },
-                      { value: "B", label: "B" },
-                      { value: "C", label: "C" },
+                      { value: 'A', label: 'A' },
+                      { value: 'B', label: 'B' },
+                      { value: 'C', label: 'C' },
                     ]}
                     value={values?.shift}
                     label="Shift"
                     onChange={(valueOption) => {
-                      setFieldValue("shift", valueOption);
+                      setFieldValue('shift', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -199,15 +198,15 @@ export default function ProductionBreakdownForm({
                     type="time"
                     onChange={(e) => {
                       if (!values?.date)
-                        return toast.warn("Please select Breakdown date");
-                      setFieldValue("startTime", e.target.value);
+                        return toast.warn('Please select Breakdown date');
+                      setFieldValue('startTime', e.target.value);
                       if (values?.date && values?.endTime) {
                         let difference = getDifferenceBetweenTime(
                           values?.date,
                           e.target.value,
                           values?.endTime
                         );
-                        setFieldValue("totalTime", difference);
+                        setFieldValue('totalTime', difference);
                       }
                     }}
                   />
@@ -220,15 +219,15 @@ export default function ProductionBreakdownForm({
                     type="time"
                     onChange={(e) => {
                       if (!values?.date)
-                        return toast.warn("Please select Breakdown date");
-                      setFieldValue("endTime", e.target.value);
+                        return toast.warn('Please select Breakdown date');
+                      setFieldValue('endTime', e.target.value);
                       if (values?.date && values?.startTime) {
                         let difference = getDifferenceBetweenTime(
                           values?.date,
                           values?.startTime,
                           e.target.value
                         );
-                        setFieldValue("totalTime", difference);
+                        setFieldValue('totalTime', difference);
                       }
                     }}
                   />
@@ -255,14 +254,14 @@ export default function ProductionBreakdownForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

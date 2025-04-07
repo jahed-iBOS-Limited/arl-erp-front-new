@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from "react";
-import { Polyline, useMap } from "react-leaflet";
-import L from "leaflet";
-import "leaflet-polylinedecorator";
+import React, { useRef, useEffect } from 'react';
+import { Polyline, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet-polylinedecorator';
 
 const PolylineDecorator = (props) => {
   const polyRef = useRef();
@@ -25,8 +25,6 @@ const PolylineDecorator = (props) => {
         },
       ],
     }).addTo(map);
-
-
   }, [props?.positions]);
   return (
     <>

@@ -1,36 +1,34 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 
 import {
   createSalesForceTaDa,
   getSalesForceTaDaById,
   editSalesForceTaDa,
-} from "../helper";
-import { useParams } from "react-router-dom";
+} from '../helper';
+import { useParams } from 'react-router-dom';
 
-import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import ICustomCard from "../../../../_helper/_customCard";
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
+import ICustomCard from '../../../../_helper/_customCard';
 
 const initData = {
-  employee: "",
-  employeeFullName: "",
-  designationName: "",
-  departmentName: "",
-  monthlyTaAmount: "",
-  monthlyDaAmount: "",
-  additionAmount: "",
-  deductionAmount: "",
+  employee: '',
+  employeeFullName: '',
+  designationName: '',
+  departmentName: '',
+  monthlyTaAmount: '',
+  monthlyDaAmount: '',
+  additionAmount: '',
+  deductionAmount: '',
 };
 
 export default function ViewSalesForceFixedTaDA() {
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
   const params = useParams();
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   const history = useHistory();
 
@@ -48,7 +46,6 @@ export default function ViewSalesForceFixedTaDA() {
     if (params?.id) {
       getSalesForceTaDaById(params?.id, setSingleData);
     }
-
   }, []);
 
   const saveHandler = async (values, cb) => {
@@ -65,7 +62,6 @@ export default function ViewSalesForceFixedTaDA() {
           meetinExpense: +values?.meetinExpense,
           actionBy: profileData.userId,
         };
-
 
         editSalesForceTaDa(payload, setDisabled);
       } else {

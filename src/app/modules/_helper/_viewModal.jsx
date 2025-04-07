@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
-import { ModalProgressBar } from "../../../_metronic/_partials/controls";
-import ISpinner from "./_spinner";
+import React, { useEffect, useState } from 'react';
+import { Modal } from 'react-bootstrap';
+import { ModalProgressBar } from '../../../_metronic/_partials/controls';
+import ISpinner from './_spinner';
 
 export default function IViewModal({
   id,
@@ -31,7 +31,7 @@ export default function IViewModal({
       <Modal
         show={show}
         onHide={onHide}
-        size={modelSize ? modelSize : "xl"}
+        size={modelSize ? modelSize : 'xl'}
         aria-labelledby="example-modal-sizes-title-xl"
         dialogClassName={dialogClassName}
         backdrop={backdrop}
@@ -41,7 +41,7 @@ export default function IViewModal({
           <ISpinner isShow={isShow} />
         ) : (
           <>
-            {" "}
+            {' '}
             <Modal.Header className="bg-custom ">
               <Modal.Title className="text-center">{title}</Modal.Title>
             </Modal.Header>
@@ -57,7 +57,7 @@ export default function IViewModal({
                     onClick={() => onHide()}
                     className="btn btn-light btn-elevate"
                   >
-                    {btnText ? btnText : "Close"}
+                    {btnText ? btnText : 'Close'}
                   </button>
                   {saveBtn && saveBtn}
                   <> </>

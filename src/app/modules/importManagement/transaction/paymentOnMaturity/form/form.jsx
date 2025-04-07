@@ -1,11 +1,11 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import InputField from "../../../../_helper/_inputField";
-import { cleckSent } from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import InputField from '../../../../_helper/_inputField';
+import { cleckSent } from '../helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _todayDate } from '../../../../_helper/_todayDate';
 // import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import "../paymentOnMaturity.css";
+import '../paymentOnMaturity.css';
 import { _formatMoney } from './../../../../_helper/_formatMoney';
 
 export default function FormCmp({
@@ -49,15 +49,15 @@ export default function FormCmp({
           <>
             {/* {console.log("vlaues", values)} */}
             <div className="d-flex justify-content-center align-items-center pt-5">
-              <div style={{ fontWeight: "900" }}>
+              <div style={{ fontWeight: '900' }}>
                 PO : {singleItem?.poNumber}
               </div>
-              <div style={{ fontWeight: "900", marginLeft: "30px" }}>
-                {" "}
+              <div style={{ fontWeight: '900', marginLeft: '30px' }}>
+                {' '}
                 LC : {singleItem?.lcNumber}
               </div>
-              <div style={{ fontWeight: "900", marginLeft: "30px" }}>
-                {" "}
+              <div style={{ fontWeight: '900', marginLeft: '30px' }}>
+                {' '}
                 Shipment No : {singleItem?.shipmentCode}
               </div>
             </div>
@@ -65,41 +65,41 @@ export default function FormCmp({
               <div className="global-form paymentOnMaturity">
                 <div
                   className="loan-scrollable-table"
-                  style={{ maxHeight: "30em" }}
+                  style={{ maxHeight: '30em' }}
                 >
                   <div className="scroll-table _table">
                     <table className="global-table table">
                       <thead>
                         <tr>
-                          <th style={{ minWidth: "40px" }}>SL</th>
-                          <th style={{ minWidth: "100px" }}>
+                          <th style={{ minWidth: '40px' }}>SL</th>
+                          <th style={{ minWidth: '100px' }}>
                             Payment Schedule
                           </th>
-                          <th style={{ minWidth: "50px" }}>Start Date</th>
-                          <th style={{ minWidth: "70px" }}>Payment Date</th>
-                          <th style={{ minWidth: "70px" }}>
+                          <th style={{ minWidth: '50px' }}>Start Date</th>
+                          <th style={{ minWidth: '70px' }}>Payment Date</th>
+                          <th style={{ minWidth: '70px' }}>
                             Invoice Pay Amount
                           </th>
-                          <th style={{ minWidth: "70px" }}>Other Amount</th>
+                          <th style={{ minWidth: '70px' }}>Other Amount</th>
                           {/* <th style={{ minWidth: "70px" }}>PG Status</th> */}
-                          <th style={{ minWidth: "70px" }}>
+                          <th style={{ minWidth: '70px' }}>
                             Net Pay Amount (FC)
                           </th>
-                          <th style={{ minWidth: "70px" }}>Exchange Rate</th>
-                          <th style={{ minWidth: "70px" }}>Libor Rate</th>
-                          <th style={{ minWidth: "70px" }}>Bank Rate</th>
-                          <th style={{ minWidth: "150px" }}>
+                          <th style={{ minWidth: '70px' }}>Exchange Rate</th>
+                          <th style={{ minWidth: '70px' }}>Libor Rate</th>
+                          <th style={{ minWidth: '70px' }}>Bank Rate</th>
+                          <th style={{ minWidth: '150px' }}>
                             Total Amount(BDT)
                           </th>
-                          <th style={{ minWidth: "70px" }}>Action</th>
+                          <th style={{ minWidth: '70px' }}>Action</th>
                         </tr>
                       </thead>
-                      <tbody style={{ overflow: "scroll" }}>
+                      <tbody style={{ overflow: 'scroll' }}>
                         {gridData?.map((item, index) => {
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "30px" }}
+                                style={{ width: '30px' }}
                                 className="text-center"
                               >
                                 {index + 1}
@@ -108,13 +108,13 @@ export default function FormCmp({
                                 {item?.paymentScheduleCode}
                               </td>
                               <td
-                                style={{ width: "80px" }}
+                                style={{ width: '80px' }}
                                 className="text-center"
                               >
                                 {_dateFormatter(item?.dteStartDate)}
                               </td>
                               <td
-                                style={{ width: "80px" }}
+                                style={{ width: '80px' }}
                                 className="text-center"
                               >
                                 <InputField
@@ -122,11 +122,11 @@ export default function FormCmp({
                                   name="paymentDate"
                                   onChange={(e) => {
                                     setFieldValue(
-                                      "paymentDate",
+                                      'paymentDate',
                                       e?.target?.value
                                     );
                                     setRowAmount(
-                                      "paymentDate",
+                                      'paymentDate',
                                       index,
                                       e?.target?.value,
                                       gridData,
@@ -142,10 +142,9 @@ export default function FormCmp({
                               </td>
                               <td className="text-center">
                                 {item?.invoicePayAmount}
-
                               </td>
                               <td className="text-center">
-                                {item?.otherCharge}{" "}
+                                {item?.otherCharge}{' '}
                               </td>
                               {/* <td className="text-center">
                                 {item?.isPG ? "Yes" : "No"}{" "}
@@ -157,11 +156,11 @@ export default function FormCmp({
                                   name="netPayAmount"
                                   onChange={(e) => {
                                     setFieldValue(
-                                      "netPayAmount",
+                                      'netPayAmount',
                                       e?.target?.value
                                     );
                                     setRowAmount(
-                                      "netPayAmount",
+                                      'netPayAmount',
                                       index,
                                       e?.target?.value,
                                       gridData,
@@ -177,15 +176,15 @@ export default function FormCmp({
                               </td>
                               <td className="text-center">
                                 <InputField
-                                  value={item?.exchangeRate ?? ""}
+                                  value={item?.exchangeRate ?? ''}
                                   name="exchangeRate"
                                   onChange={(e) => {
                                     setFieldValue(
-                                      "exchangeRate",
+                                      'exchangeRate',
                                       e?.target?.value
                                     );
                                     setRowAmount(
-                                      "exchangeRate",
+                                      'exchangeRate',
                                       index,
                                       e?.target?.value,
                                       gridData,
@@ -201,17 +200,17 @@ export default function FormCmp({
                               </td>
                               <td className="text-center">
                                 <InputField
-                                  value={item?.liborRate ?? ""}
+                                  value={item?.liborRate ?? ''}
                                   name="liborRate"
                                   // disabled={item?.isFinalPayment === true}
                                   disabled={item?.actualPayAmount > 0}
                                   onChange={(e) => {
                                     setFieldValue(
-                                      "liborRate",
+                                      'liborRate',
                                       e?.target?.value
                                     );
                                     setRowAmount(
-                                      "liborRate",
+                                      'liborRate',
                                       index,
                                       e?.target?.value,
                                       gridData,
@@ -224,14 +223,14 @@ export default function FormCmp({
                               </td>
                               <td className="text-center">
                                 <InputField
-                                  value={item?.bankRate ?? ""}
+                                  value={item?.bankRate ?? ''}
                                   name="bankRate"
                                   // disabled={item?.isFinalPayment === true}
                                   disabled={item?.actualPayAmount > 0}
                                   onChange={(e) => {
-                                    setFieldValue("bankRate", e?.target?.value);
+                                    setFieldValue('bankRate', e?.target?.value);
                                     setRowAmount(
-                                      "bankRate",
+                                      'bankRate',
                                       index,
                                       e?.target?.value,
                                       gridData,
@@ -243,7 +242,8 @@ export default function FormCmp({
                                   min="0"
                                 />
                               </td>
-                              <td className="text-right">{_formatMoney(item?.totalAmount)}
+                              <td className="text-right">
+                                {_formatMoney(item?.totalAmount)}
                                 {/* <OverlayTrigger
                                   overlay={
                                     <Tooltip
@@ -303,16 +303,16 @@ export default function FormCmp({
                                     style={
                                       item?.actualPayAmount > 0
                                         ? {
-                                            padding: "1px 5px",
-                                            fontSize: "11px",
-                                            width: "85px",
-                                            background: "green",
-                                            color: "white",
+                                            padding: '1px 5px',
+                                            fontSize: '11px',
+                                            width: '85px',
+                                            background: 'green',
+                                            color: 'white',
                                           }
                                         : {
-                                            padding: "1px 5px",
-                                            fontSize: "11px",
-                                            width: "85px",
+                                            padding: '1px 5px',
+                                            fontSize: '11px',
+                                            width: '85px',
                                           }
                                     }
                                     className="btn btn-outline-dark mr-1 pointer"
@@ -327,15 +327,16 @@ export default function FormCmp({
                                         businessUnitId,
                                         singleItem,
                                         () => {
-                                          item["isFinalPayment"] = true;
+                                          item['isFinalPayment'] = true;
                                           setGridData([...gridData]);
                                           getGrid();
                                         }
                                       );
                                     }}
                                   >
-
-                                    {item?.actualPayAmount > 0 ? "Sent" : "Save"}
+                                    {item?.actualPayAmount > 0
+                                      ? 'Sent'
+                                      : 'Save'}
                                   </button>
                                 </span>
                               </td>

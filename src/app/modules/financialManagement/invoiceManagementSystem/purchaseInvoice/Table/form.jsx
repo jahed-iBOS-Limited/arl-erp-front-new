@@ -1,21 +1,19 @@
-
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useSelector, shallowEqual } from "react-redux";
-import GridData from "./grid";
-import NewSelect from "./../../../../_helper/_select";
-import { useHistory } from "react-router-dom";
-import { setPurchaseInvoiceLandingAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useSelector, shallowEqual } from 'react-redux';
+import GridData from './grid';
+import NewSelect from './../../../../_helper/_select';
+import { useHistory } from 'react-router-dom';
+import { setPurchaseInvoiceLandingAction } from './../../../../_helper/reduxForLocalStorage/Actions';
+import { useDispatch } from 'react-redux';
 import {
   getPurchaseInvoiceGridData,
   getSBUDDL,
   getPlantDDL,
   getWarehouseDDL,
   getPurchaseOrgDDL,
-} from "../helper";
+} from '../helper';
 
 import {
   ModalProgressBar,
@@ -23,7 +21,7 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
+} from './../../../../../../_metronic/_partials/controls';
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
@@ -98,11 +96,10 @@ export default function HeaderForm() {
   };
 
   useEffect(() => {
-    cb()
+    cb();
   }, []);
 
-
-  let cb = () =>{
+  let cb = () => {
     viewGridData(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -112,7 +109,7 @@ export default function HeaderForm() {
       purchaseInvoiceLanding?.purchaseOrg?.value,
       setGridData
     );
-  }
+  };
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
@@ -144,7 +141,7 @@ export default function HeaderForm() {
             <Form className="form form-label-right">
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Purchase Invoice"}>
+                <CardHeader title={'Purchase Invoice'}>
                   <CardHeaderToolbar>
                     <button
                       className="btn btn-primary"
@@ -175,7 +172,7 @@ export default function HeaderForm() {
                       onClick={() => {
                         history.push({
                           pathname:
-                            "/financial-management/invoicemanagement-system/purchaseinvoice/add",
+                            '/financial-management/invoicemanagement-system/purchaseinvoice/add',
                           state: {
                             selectSBU: values?.sbu,
                             selectpurchaseOrg: values?.purchaseOrg,
@@ -205,8 +202,8 @@ export default function HeaderForm() {
                         value={values?.sbu}
                         label="Select SBU"
                         onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
-                          setFieldValue("purchaseOrg", "");
+                          setFieldValue('sbu', valueOption);
+                          setFieldValue('purchaseOrg', '');
                           getPurchaseOrgDDL(
                             profileData.accountId,
                             selectedBusinessUnit.value,
@@ -226,7 +223,7 @@ export default function HeaderForm() {
                         value={values?.purchaseOrg}
                         label="Select Purchase Organization"
                         onChange={(valueOption) => {
-                          setFieldValue("purchaseOrg", valueOption);
+                          setFieldValue('purchaseOrg', valueOption);
                         }}
                         placeholder="Select Purchase Organization"
                         errors={errors}
@@ -240,8 +237,8 @@ export default function HeaderForm() {
                         value={values?.plant}
                         label="Select Plant"
                         onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
-                          setFieldValue("warehouse", "");
+                          setFieldValue('plant', valueOption);
+                          setFieldValue('warehouse', '');
                           getWarehouseDDL(
                             profileData.userId,
                             profileData.accountId,
@@ -262,7 +259,7 @@ export default function HeaderForm() {
                         value={values?.warehouse}
                         label="Select Warehouse"
                         onChange={(valueOption) => {
-                          setFieldValue("warehouse", valueOption);
+                          setFieldValue('warehouse', valueOption);
                         }}
                         placeholder="Select Warehouse"
                         errors={errors}

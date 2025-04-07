@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 // import { _dateFormatter } from "./../../../_helper/_dateFormate";
 
 export const getSbuDDL = async (accId, BuId, setter) => {
@@ -10,12 +10,10 @@ export const getSbuDDL = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
-export const getPlantDDL = async (userId,accId, buId, setter) => {
+export const getPlantDDL = async (userId, accId, buId, setter) => {
   try {
     const res = await Axios.get(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
@@ -23,9 +21,7 @@ export const getPlantDDL = async (userId,accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getWareHouseDDL = async (accId, BuId, plntId, setter) => {
@@ -36,9 +32,7 @@ export const getWareHouseDDL = async (accId, BuId, plntId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getTransactinGrpDDL = async (setter) => {
@@ -49,9 +43,7 @@ export const getTransactinGrpDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getRefTypeDDL = async (grpId, setter) => {
@@ -62,9 +54,7 @@ export const getRefTypeDDL = async (grpId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getRefNoDDL = async (
@@ -85,9 +75,7 @@ export const getRefNoDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getTransactionTypeDDL = async (invGrpId, refTypeId, setter) => {
@@ -98,9 +86,7 @@ export const getTransactionTypeDDL = async (invGrpId, refTypeId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getInvLocationDDL = async (accId, buId, plntId, whId, setter) => {
@@ -111,9 +97,7 @@ export const getInvLocationDDL = async (accId, buId, plntId, whId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getInvStockTypeDDL = async (setter) => {
@@ -124,11 +108,8 @@ export const getInvStockTypeDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
-
 
 export const getEmployeeDDL = async (accId, buId, setter) => {
   try {
@@ -138,9 +119,7 @@ export const getEmployeeDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getItemDDL = async (accId, buId, plantId, whId, setter) => {
@@ -154,7 +133,6 @@ export const getItemDDL = async (accId, buId, plantId, whId, setter) => {
     }
   } catch (error) {
     // alert("error")
-    
   }
 };
 
@@ -173,9 +151,7 @@ export const getGridData = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const createInvTransaction = async (payload, cb) => {
@@ -185,14 +161,13 @@ export const createInvTransaction = async (payload, cb) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data.message || "Create Successfull");
+      toast.success(res.data.message || 'Create Successfull');
       cb();
 
       // setter(res?.data);
     }
   } catch (error) {
     // toast.success(error.data.message || "error")
-    
   }
 };
 
@@ -204,14 +179,13 @@ export const editInvTransaction = async (payload, cb) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data.message || "update Successfull");
+      toast.success(res.data.message || 'update Successfull');
       cb();
 
       // setter(res?.data);
     }
   } catch (error) {
     // toast.success(error.data.message || "error")
-    
   }
 };
 
@@ -236,30 +210,29 @@ export const getItemsByRefTypeAndNo = async (
       setter(modify, true);
 
       const { objtransfer } = res.data?.[0];
-      
-      formikSetter("plantFrom", {
+
+      formikSetter('plantFrom', {
         value: objtransfer?.fromPlantId,
         label: objtransfer?.fromPlantName,
       });
 
-      formikSetter("wareHouseFrom", {
+      formikSetter('wareHouseFrom', {
         value: objtransfer?.fromWhid,
         label: objtransfer?.fromWhName,
       });
 
-      formikSetter("plantTo", {
+      formikSetter('plantTo', {
         value: objtransfer?.toPlantId,
         label: objtransfer?.toPlantName,
       });
 
-      formikSetter("wareHouseTo", {
+      formikSetter('wareHouseTo', {
         value: objtransfer?.toWhid,
         label: objtransfer?.toWhName,
       });
     }
   } catch (error) {
     // toast.success(error.data.message || "error")
-    
   }
 };
 
@@ -345,6 +318,5 @@ export const getInvTransactionById = async (id, setter, rowDataSetter) => {
     }
   } catch (error) {
     // toast.success(error.data.message || "error")
-    
   }
 };

@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { toast } from "react-toastify";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { toast } from 'react-toastify';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useParams } from 'react-router-dom';
 
-import { getProductionMasterSchedulingPlant, saveItemRequest } from "../helper";
+import { getProductionMasterSchedulingPlant, saveItemRequest } from '../helper';
 
 const initData = {
   id: undefined,
   plant: '',
   year: '',
-  horizon: ''
+  horizon: '',
 };
 
 export default function ProductionMasterSchedulelFrom({
@@ -24,20 +24,20 @@ export default function ProductionMasterSchedulelFrom({
   const [shedulingPlantDDL, setShedulingPlantDDL] = useState([]);
   const [shedulingYearDDL, setShedulingYearDDL] = useState({});
   const [shedulingHorizonDDL, setShedulingHorizonDDL] = useState({});
-  const [plant, setPlant] = useState("");
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
-  const [item, setItem] = useState("");
+  const [plant, setPlant] = useState('');
+  const [year, setYear] = useState('');
+  const [month, setMonth] = useState('');
+  const [item, setItem] = useState('');
   const [itemsDDL, setItemsDDL] = useState([]);
   const [workCenters, setWorkCenters] = useState([]);
   const [boMs, setBoMs] = useState([]);
-  const [productionPlanQty, setProductionPlanQty] = useState("");
-  const [uomId, setUomId] = useState("");
-  const [productionPlanningId, setProductionPlanningId] = useState("");
+  const [productionPlanQty, setProductionPlanQty] = useState('');
+  const [uomId, setUomId] = useState('');
+  const [productionPlanningId, setProductionPlanningId] = useState('');
   const [dateData, setDateData] = useState({});
   const params = useParams();
 
-console.log('productionPlanQty: ', productionPlanQty)
+  console.log('productionPlanQty: ', productionPlanQty);
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -54,16 +54,12 @@ console.log('productionPlanQty: ', productionPlanQty)
   }, shallowEqual);
 
   //Dispatch single data action and empty single data for create
-  useEffect(() => {
-
-  }, [id]);
+  useEffect(() => {}, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
     }
-
-
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
@@ -85,7 +81,7 @@ console.log('productionPlanQty: ', productionPlanQty)
           objRow: rowDto,
         };
         if (rowDto.length === 0) {
-          toast.warning("Please add Item and quantity");
+          toast.warning('Please add Item and quantity');
         } else {
           saveItemRequest(payload);
           cb();
@@ -93,7 +89,6 @@ console.log('productionPlanQty: ', productionPlanQty)
       }
     }
   };
-
 
   //Get Master Sheduling Plant DDL
   useEffect(() => {
@@ -114,10 +109,7 @@ console.log('productionPlanQty: ', productionPlanQty)
   const [objProps, setObjprops] = useState({});
 
   return (
-    <IForm
-      title="Create Production Master Schedule"
-      getProps={setObjprops}
-    >
+    <IForm title="Create Production Master Schedule" getProps={setObjprops}>
       <Form
         {...objProps}
         initData={singleData || initData}

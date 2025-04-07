@@ -1,9 +1,7 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import axios from "axios";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import axios from 'axios';
+import Form from './form';
 import {
   getBSCPerspectiveDDLAction,
   getWeightDDLAction,
@@ -14,30 +12,30 @@ import {
   SetEmployeeBasicInfoEmptyAction,
   getObjectiveDDLAction,
   getDataSourceDDLAction,
-} from "../../../_redux/Actions";
-import { BrowserRouter, Route, useParams } from "react-router-dom";
-import ViewModal from "./detailsView";
-import IForm from "../../../../_helper/_form";
-import { toArray } from "lodash";
-import { getPMSFrequencyDDLAction } from "../../../../_helper/_redux/Actions";
+} from '../../../_redux/Actions';
+import { BrowserRouter, Route, useParams } from 'react-router-dom';
+import ViewModal from './detailsView';
+import IForm from '../../../../_helper/_form';
+import { toArray } from 'lodash';
+import { getPMSFrequencyDDLAction } from '../../../../_helper/_redux/Actions';
 import {
   getStrategicParticularsGridAction,
   setParticullersGridEmpty,
-} from "../../../_redux/Actions";
-import { getDepartmentDDLAction } from "../../../individualKpi/balancedScore/_redux/Actions";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
+} from '../../../_redux/Actions';
+import { getDepartmentDDLAction } from '../../../individualKpi/balancedScore/_redux/Actions';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
 
 const initData = {
-  kpiformat: "",
-  objective: "",
-  bscPerspective: "",
-  kpiname: "",
-  weight: "",
-  dataSource: "",
-  maxiMini: "",
-  department: "",
-  year: "",
-  aggregationType: "",
+  kpiformat: '',
+  objective: '',
+  bscPerspective: '',
+  kpiname: '',
+  weight: '',
+  dataSource: '',
+  maxiMini: '',
+  department: '',
+  year: '',
+  aggregationType: '',
 };
 
 export default function DeapartmentalKpiEntryForm({ isView, data }) {
@@ -125,7 +123,6 @@ export default function DeapartmentalKpiEntryForm({ isView, data }) {
       );
       dispatch(getPMSFrequencyDDLAction());
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const getBscPerspectiveDefaultValue = (id) => {
@@ -143,10 +140,10 @@ export default function DeapartmentalKpiEntryForm({ isView, data }) {
           businessUnitId: selectedBusinessUnit.value,
           sbuid: 0,
           employeeId: 0,
-          employeeName: "",
+          employeeName: '',
           departmentId: objValues.department.value,
           kpiforId: 2,
-          kpifor: "Department",
+          kpifor: 'Department',
           yearId: objValues.year?.value,
           yearName: objValues.year?.label,
           actionBy: profileData.userId,
@@ -187,7 +184,6 @@ export default function DeapartmentalKpiEntryForm({ isView, data }) {
 
   useEffect(() => {
     return () => dispatch(setParticullersGridEmpty());
-
   }, []);
 
   const disableHandler = (cond) => {
@@ -199,7 +195,6 @@ export default function DeapartmentalKpiEntryForm({ isView, data }) {
     if (id) {
       dispatch(getKpiEntryById(+id, 2));
     }
-
   }, [id]);
 
   useEffect(() => {
@@ -207,7 +202,6 @@ export default function DeapartmentalKpiEntryForm({ isView, data }) {
       dispatch(setKpiTargetSingleEmpty());
       dispatch(SetEmployeeBasicInfoEmptyAction());
     };
-
   }, []);
 
   const [report, setReport] = useState({});
@@ -263,8 +257,8 @@ export default function DeapartmentalKpiEntryForm({ isView, data }) {
         <IForm
           title={
             id
-              ? "DEPARTMENTAL KPI TARGET VIEW"
-              : "DEPARTMENTAL KPI TARGET ENTRY"
+              ? 'DEPARTMENTAL KPI TARGET VIEW'
+              : 'DEPARTMENTAL KPI TARGET ENTRY'
           }
           getProps={setObjprops}
           isDisabled={isDisabled}

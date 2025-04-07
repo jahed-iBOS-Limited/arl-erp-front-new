@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
   try {
@@ -14,17 +14,17 @@ export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
       }));
       setter(data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getBusinessUnitDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetBusinessunitDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetBusinessunitDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getSBUDDL = async (accId, buId, setter) => {
@@ -36,7 +36,7 @@ export const getSBUDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getWorkplaceDDL_api = async (accId, buId, setter) => {
@@ -53,67 +53,69 @@ export const getWorkplaceDDL_api = async (accId, buId, setter) => {
       }));
       setter(modfid);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getDepartmentDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetDepartmentDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetDepartmentDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getHRPositionDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetPositionDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetPositionDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getDesignationDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetDesignationDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetDesignationDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getEmployeeGradeDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetEmployeeGradeDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetEmployeeGradeDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getEmpTypeDDL = async (accId, buId, setter) => {
   try {
-    const res = await axios.get(`/hcm/HCMDDL/GetEmploymentTypeWithAccountBusinessUnitDDL?AccountId=${accId}&BusinessUnitId=${buId}`);
+    const res = await axios.get(
+      `/hcm/HCMDDL/GetEmploymentTypeWithAccountBusinessUnitDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
 
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getEmpStatusDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetEmployeeStatusDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetEmployeeStatusDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getLineManagerDDL = async (accId, setter) => {
   try {
@@ -124,7 +126,7 @@ export const getLineManagerDDL = async (accId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 //create EmployeeBasicInformation
@@ -182,7 +184,7 @@ export const employeeBasicInformation_landing_top_api = async (
 ) => {
   setLoading(true);
   try {
-    const searchPath = search ? `searcTerm=${search}&` : "";
+    const searchPath = search ? `searcTerm=${search}&` : '';
     const res = await axios.get(
       `/hcm/EmployeeBasicInformation/EmployeeBasicInfoLandingPasignation?${searchPath}&Accountid=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
@@ -196,7 +198,6 @@ export const employeeBasicInformation_landing_top_api = async (
   }
 };
 
-
 export const getImageFile_api = async (id) => {
   try {
     const res = await axios.get(`/sme/Document/DownlloadFile?id=${id}`);
@@ -204,7 +205,7 @@ export const getImageFile_api = async (id) => {
     if (res.status === 200 && res.data) {
       return res?.config?.url;
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 //sales force info
@@ -251,5 +252,5 @@ export const getEmpGroupDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };

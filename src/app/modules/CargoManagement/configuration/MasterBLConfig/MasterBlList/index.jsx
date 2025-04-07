@@ -12,12 +12,11 @@ export default function MasterBlList() {
 
   React.useEffect(() => {
     commonGetData('', pageNo, pageSize);
-
   }, []);
 
   const commonGetData = (search, pageNo, pageSize) => {
     setMasterBLLandingList(
-      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLConfigurations?viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLConfigurations?viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
   };
   return (
@@ -61,7 +60,7 @@ export default function MasterBlList() {
                         onClick={() => {
                           history.push(
                             `/cargoManagement/configuration/masterbl/edit/${item?.mblConfigId}`,
-                            { data: item },
+                            { data: item }
                           );
                         }}
                       >

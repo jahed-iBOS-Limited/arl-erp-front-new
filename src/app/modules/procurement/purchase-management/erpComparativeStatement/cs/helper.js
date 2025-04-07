@@ -12,7 +12,7 @@ export const deleteHandler = ({ item, deleteRFQById, CB }) => {
         null,
         () => {
           CB();
-        },
+        }
       );
     },
   };
@@ -50,7 +50,7 @@ export const saveHandlerPayload = (
   rfqDetail,
   suppilerStatement,
   placePartnerList,
-  rowData,
+  rowData
 ) => {
   if (values?.csType?.value === 0) {
     const getSinglePort = (portId, data) => {

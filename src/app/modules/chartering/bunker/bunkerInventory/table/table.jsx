@@ -1,20 +1,19 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router";
-import { Formik } from "formik";
-import { getLandingData } from "../helper";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router';
+import { Formik } from 'formik';
+import { getLandingData } from '../helper';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
 
 const headers = [
-  { name: "SL" },
-  { name: "Vessel Name" },
-  { name: "LSMGO Qty" },
-  { name: "LSFO-1 Qty" },
-  { name: "LSFO-2 Qty" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Vessel Name' },
+  { name: 'LSMGO Qty' },
+  { name: 'LSFO-1 Qty' },
+  { name: 'LSFO-2 Qty' },
+  { name: 'Actions' },
 ];
 
 export default function BunkerInventoryTable() {

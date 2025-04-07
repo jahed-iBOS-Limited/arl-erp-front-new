@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from "react";
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import IWarningModal from "../../../../../_helper/_warningModal";
-import { compressfile } from "../../../../../_helper/compressfile";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import { createG2GCustomizeBill, uploadAtt } from "../../helper";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import IWarningModal from '../../../../../_helper/_warningModal';
+import { compressfile } from '../../../../../_helper/compressfile';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import { createG2GCustomizeBill, uploadAtt } from '../../helper';
+import Form from './form';
 
 const initData = {
-  supplier: "",
-  billNo: "",
+  supplier: '',
+  billNo: '',
   billDate: _todayDate(),
   paymentDueDate: new Date(new Date().setDate(new Date().getDate() + 15)),
-  narration: "",
-  billAmount: "",
+  narration: '',
+  billAmount: '',
   toDate: _todayDate(),
   fromDate: _todayDate(),
-  port: "",
-  motherVessel: "",
+  port: '',
+  motherVessel: '',
 };
 
 export default function MotherVesselBill() {
@@ -44,13 +44,12 @@ export default function MotherVesselBill() {
 
   useEffect(() => {
     getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
-
   }, [accId, buId]);
 
   const getData = (values, searchTerm) => {
     const supplierId = values?.supplier?.value
       ? `&SupplierId=${values?.supplier?.value}`
-      : "";
+      : '';
     getGridData(
       `/tms/LigterLoadUnload/GetGTOProgramMotherVessel?MotherVesselId=${values?.motherVessel?.value}${supplierId}&AccountId=${accId}&BusinessUnitId=${buId}`,
       (resData) => {
@@ -71,16 +70,16 @@ export default function MotherVesselBill() {
         ?.filter((item) => item?.isSelected)
         ?.map((item) => {
           return {
-            challanNo: item?.strDeliveryCode || "",
+            challanNo: item?.strDeliveryCode || '',
             deliveryId: item?.intMotherVesselId || 0,
             quantity: +item?.decProgramQnt || 0,
             ammount: +item?.numBillAmount,
             billAmount: +item?.numBillAmount,
-            shipmentCode: item?.strDeliveryCode || "",
+            shipmentCode: item?.strDeliveryCode || '',
           };
         });
       if (modifiedRow.length === 0) {
-        toast.warning("Please select at least one");
+        toast.warning('Please select at least one');
       } else {
         // if (
         //   gridData
@@ -90,7 +89,7 @@ export default function MotherVesselBill() {
         //   return toast.warn("Bill Amount is not valid");
         // }
         if (fileObjects?.length < 1) {
-          return toast.warn("Attachment must be added");
+          return toast.warn('Attachment must be added');
         }
         let images = [];
         setDisabled(true);
@@ -110,7 +109,7 @@ export default function MotherVesselBill() {
           gtogHead: {
             accountId: accId,
             supplierId: values?.supplier?.value || 0,
-            supplierName: values?.supplier?.label || "",
+            supplierName: values?.supplier?.label || '',
             unitId: buId,
             unitName: buName,
             billNo: values?.billNo,

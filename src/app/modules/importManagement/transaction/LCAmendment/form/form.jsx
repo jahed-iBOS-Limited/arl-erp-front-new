@@ -165,7 +165,7 @@ export default function FormCmp({
                         ) {
                           toast.warning(
                             "Total Amount can't be less than VAT Amount",
-                            { toastId: 'totalAmount' },
+                            { toastId: 'totalAmount' }
                           );
                         }
                       }}
@@ -186,7 +186,7 @@ export default function FormCmp({
                         ) {
                           toast.warning(
                             "VAT can't be greater than Total Amount",
-                            { toastId: 'vatAmount' },
+                            { toastId: 'vatAmount' }
                           );
                         }
                       }}
@@ -203,7 +203,7 @@ export default function FormCmp({
                       onChange={(e) => {
                         setFieldValue(
                           'PIAmountBDT',
-                          e.target.value * values?.exchangeRate,
+                          e.target.value * values?.exchangeRate
                         );
                       }}
                     />
@@ -221,7 +221,7 @@ export default function FormCmp({
                         setFieldValue('exchangeRate', e.target.value);
                         setFieldValue(
                           'PIAmountBDT',
-                          +e?.target?.value * PIAmount,
+                          +e?.target?.value * PIAmount
                         );
                       }}
                     />
@@ -239,7 +239,7 @@ export default function FormCmp({
                     <label>PI Amount (BDT)</label>
                     <InputField
                       value={numberWithCommas(
-                        parseFloat(values?.PIAmountBDT).toFixed(2),
+                        parseFloat(values?.PIAmountBDT).toFixed(2)
                       )}
                       placeholder="PI Amount (BDT)"
                       name="PIAmountBDT"
@@ -269,7 +269,7 @@ export default function FormCmp({
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.attachment),
+                            getDownlloadFileView_Action(values?.attachment)
                           );
                         }}
                       >
@@ -339,7 +339,7 @@ export default function FormCmp({
                                           e.target.value,
                                           index,
                                           setFieldValue,
-                                          values,
+                                          values
                                         );
                                       }}
                                       onBlur={(e) => {
@@ -348,7 +348,7 @@ export default function FormCmp({
                                         ) {
                                           toast.warning(
                                             "Order quantity can't be less than shipped quantity",
-                                            { toastId: 'orderQuantityCheck' },
+                                            { toastId: 'orderQuantityCheck' }
                                           );
                                         }
                                       }}
@@ -360,7 +360,7 @@ export default function FormCmp({
                                     className="text-right"
                                     name="price"
                                     value={numberWithCommas(
-                                      (item?.price).toFixed(2),
+                                      (item?.price).toFixed(2)
                                     )}
                                     disabled={true}
                                   />
@@ -430,7 +430,7 @@ export default function FormCmp({
                         getLatestChangesOfDoc(
                           docId,
                           setDisabled,
-                          (resData) => {},
+                          (resData) => {}
                         );
                       }}
                     >
@@ -491,7 +491,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

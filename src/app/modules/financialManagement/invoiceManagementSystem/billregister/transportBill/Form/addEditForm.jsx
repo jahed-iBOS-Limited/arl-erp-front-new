@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 import {
   // savePurchaseInvoice,
   getWarehouseDDL,
@@ -10,28 +10,28 @@ import {
   createTransportBill,
   uploadAtt,
   // empAttachment_action,
-} from "../../helper";
-import "./purchaseInvoice.css";
-import IForm from "./../../../../../_helper/_form";
-import { _todayDate } from "./../../../../../_helper/_todayDate";
-import Loading from "./../../../../../_helper/_loading";
-import { useLocation } from "react-router-dom";
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import IWarningModal from "../../../../../_helper/_warningModal";
-import { toast } from "react-toastify";
-import { compressfile } from "../../../../../_helper/compressfile";
+} from '../../helper';
+import './purchaseInvoice.css';
+import IForm from './../../../../../_helper/_form';
+import { _todayDate } from './../../../../../_helper/_todayDate';
+import Loading from './../../../../../_helper/_loading';
+import { useLocation } from 'react-router-dom';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import IWarningModal from '../../../../../_helper/_warningModal';
+import { toast } from 'react-toastify';
+import { compressfile } from '../../../../../_helper/compressfile';
 
 const initData = {
-  supplier: "",
-  billNo: "",
+  supplier: '',
+  billNo: '',
   billDate: _todayDate(),
   paymentDueDate: new Date(new Date().setDate(new Date().getDate() + 15)),
-  narration: "",
-  billAmount: "",
-  warehouse: { value: 0, label: "All" },
+  narration: '',
+  billAmount: '',
+  warehouse: { value: 0, label: 'All' },
   toDate: _todayDate(),
-  fromDate: _todayDate()
+  fromDate: _todayDate(),
 };
 
 export default function TransportBillForm() {
@@ -86,34 +86,36 @@ export default function TransportBillForm() {
   const saveHandler = async (values, cb) => {
     try {
       const modifiedRow = gridData
-      ?.filter((item) => item?.checked)
-      ?.map((item) => {
-        return {
-          shipmentCode: item?.shipmentCode,
-          challanNo: item?.challanNo,
-          tripId: item?.tripId,
-          ammount: item?.totalCost,
-          billAmount: item?.approvedAmount,
-        };
-      });
+        ?.filter((item) => item?.checked)
+        ?.map((item) => {
+          return {
+            shipmentCode: item?.shipmentCode,
+            challanNo: item?.challanNo,
+            tripId: item?.tripId,
+            ammount: item?.totalCost,
+            billAmount: item?.approvedAmount,
+          };
+        });
       if (modifiedRow.length === 0) {
-        toast.warning("Please select at least one");
+        toast.warning('Please select at least one');
       } else {
         if (
           gridData
             ?.filter((item) => item?.checked)
             ?.some((item) => item.totalCost < item.approvedAmount)
         ) {
-          return toast.warn("Bill Amount must be below from Net Amount");
+          return toast.warn('Bill Amount must be below from Net Amount');
         }
         if (fileObjects?.length < 1) {
-          return toast.warn("Attachment must be added");
+          return toast.warn('Attachment must be added');
         }
         let images = [];
-        setDisabled(true)
-        const compressedFile = await compressfile(fileObjects?.map((f) => f.file));
+        setDisabled(true);
+        const compressedFile = await compressfile(
+          fileObjects?.map((f) => f.file)
+        );
         const uploadedImage = await uploadAtt(compressedFile);
-        setDisabled(false)
+        setDisabled(false);
         if (uploadedImage.data?.length > 0) {
           images = uploadedImage?.data?.map((data) => {
             return {
@@ -121,7 +123,7 @@ export default function TransportBillForm() {
             };
           });
         }
-  
+
         const obj = {
           head: {
             accountId: profileData?.accountId,
@@ -148,9 +150,8 @@ export default function TransportBillForm() {
         createTransportBill(obj, cb, IWarningModal, setDisabled);
       }
     } catch (error) {
-      setDisabled(false)
+      setDisabled(false);
     }
-  
   };
 
   const [objProps, setObjprops] = useState({});
@@ -193,7 +194,6 @@ export default function TransportBillForm() {
           // setUploadImage={setUploadImage}
           warehouseDDL={warehouseDDL}
           setDisabled={setDisabled}
-
         />
       </IForm>
     </div>

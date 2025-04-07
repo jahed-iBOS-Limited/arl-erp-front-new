@@ -1,12 +1,7 @@
-import React from "react";
-import From from "./form";
+import React from 'react';
+import From from './form';
 
-function ExpenseView({
-  gridItem,
-  laingValues,
-  girdDataFunc,
-  setModalShow,
-}) {
+function ExpenseView({ gridItem, laingValues, girdDataFunc, setModalShow }) {
   return (
     <From
       gridItem={gridItem}

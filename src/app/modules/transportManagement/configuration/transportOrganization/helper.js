@@ -6,13 +6,13 @@ export const GetTransportOrganizationPagination = async (
   pageNo,
   pageSize,
   setter,
-  setLoading,
+  setLoading
 ) => {
   try {
     setLoading(true);
     const res = await Axios.get(
       `/tms/TransportOrganization/BusinessUnitTransportOrganizationLanding?AccountId=${accountId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}
-      `,
+      `
     );
     if (res.status === 200 && res?.data?.data) {
       setter(res?.data);
@@ -26,11 +26,11 @@ export const GetTransportOrganizationPagination = async (
 export const getTransportOrganizationView = async (
   TransportOrganizationId,
   setter,
-  setterRow,
+  setterRow
 ) => {
   try {
     const res = await Axios.get(
-      `tms/TransportOrganization/GetBusinessUnitTransportOrganizationById?TransportOrganizationId=${TransportOrganizationId}`,
+      `tms/TransportOrganization/GetBusinessUnitTransportOrganizationById?TransportOrganizationId=${TransportOrganizationId}`
     );
 
     if (res.status === 200 && res?.data) {
@@ -57,7 +57,7 @@ export const saveTransportOrganization = async (data, cb, setDisabled) => {
   try {
     const res = await Axios.post(
       `/tms/TransportOrganization/CreateTransportOrganization`,
-      data,
+      data
     );
     if (res.status === 200) {
       toast.success(res.data?.message || 'Submitted successfully');
@@ -75,7 +75,7 @@ export const ExtendTransportOrganization = async (data, cb, setDisabled) => {
   try {
     const res = await Axios.post(
       `/tms/TransportOrganization/CreateExtendSave`,
-      data,
+      data
     );
     if (res.status === 200) {
       toast.success(res.data?.message || 'Extended successfully');
@@ -92,7 +92,7 @@ export const editTransportOrganization = async (data, cb) => {
   try {
     const res = await Axios.put(
       `/tms/TransportOrganization/EditTransportOrganization`,
-      data,
+      data
     );
     if (res.status === 200) {
       toast.success(res.data?.message || 'Edited successfully');
@@ -105,11 +105,11 @@ export const editTransportOrganization = async (data, cb) => {
 
 export const getTransportOrganizationByAccountId_api = async (
   accountId,
-  setter,
+  setter
 ) => {
   try {
     const res = await Axios.get(
-      `/tms/TransportOrganization/GetTransportOrganizationByAccountId?AccountId=${accountId}`,
+      `/tms/TransportOrganization/GetTransportOrganizationByAccountId?AccountId=${accountId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -120,7 +120,7 @@ export const getTransportOrganizationByAccountId_api = async (
 export const getBusinessUnitDDL_api = async (actionBy, accountId, setter) => {
   try {
     const res = await Axios.get(
-      `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${actionBy}&ClientId=${accountId}`,
+      `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${actionBy}&ClientId=${accountId}`
     );
     if (res.status === 200 && res?.data) {
       const newdata = res?.data.map((itm) => {

@@ -1,32 +1,31 @@
-
-import { Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { getVesselDDL, getVoyageDDLNew } from "../../../helper";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import IEdit from "../../../_chartinghelper/icons/_edit";
-import IView from "../../../_chartinghelper/icons/_view";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import { getBallastPassageLandingData } from "../helper";
+import { Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { getVesselDDL, getVoyageDDLNew } from '../../../helper';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import IEdit from '../../../_chartinghelper/icons/_edit';
+import IView from '../../../_chartinghelper/icons/_view';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
+import { getBallastPassageLandingData } from '../helper';
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
+  vesselName: '',
+  voyageNo: '',
 };
 
 const headers = [
-  { name: "SL" },
-  { name: "Vessel Name" },
-  { name: "Voyage No" },
-  { name: "Ballast Start Date-Time" },
-  { name: "Ballast End Date-Time" },
-  { name: "Duration (DAYS)" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Vessel Name' },
+  { name: 'Voyage No' },
+  { name: 'Ballast Start Date-Time' },
+  { name: 'Ballast End Date-Time' },
+  { name: 'Duration (DAYS)' },
+  { name: 'Actions' },
 ];
 
 export default function BallastPassageLanding() {
@@ -102,10 +101,10 @@ export default function BallastPassageLanding() {
                 <div>
                   <button
                     type="button"
-                    className={"btn btn-primary px-3 py-2"}
+                    className={'btn btn-primary px-3 py-2'}
                     onClick={() =>
                       history.push(
-                        "/chartering/ballastPassage/ballastPassage/create"
+                        '/chartering/ballastPassage/ballastPassage/create'
                       )
                     }
                     disabled={false}
@@ -118,7 +117,7 @@ export default function BallastPassageLanding() {
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -126,8 +125,8 @@ export default function BallastPassageLanding() {
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
-                        setFieldValue("voyageNo", "");
+                        setFieldValue('vesselName', valueOption);
+                        setFieldValue('voyageNo', '');
                         setVoyageNoDDL([]);
                         if (valueOption) {
                           getVoyageDDLNew({
@@ -152,7 +151,7 @@ export default function BallastPassageLanding() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -164,7 +163,7 @@ export default function BallastPassageLanding() {
                           ...values,
                           voyageNo: valueOption,
                         });
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                       }}
                       isDisabled={!values?.vesselName}
                       errors={errors}
@@ -182,12 +181,12 @@ export default function BallastPassageLanding() {
                     <td className="text-center">{item?.voyageNo}</td>
                     <td className="text-center">
                       {moment(item?.ballastStartDate).format(
-                        "YYYY-MM-DD HH:mm A"
+                        'YYYY-MM-DD HH:mm A'
                       )}
                     </td>
                     <td className="text-center">
                       {moment(item?.ballastEndDate).format(
-                        "YYYY-MM-DD HH:mm A"
+                        'YYYY-MM-DD HH:mm A'
                       )}
                     </td>
                     <td className="text-right">{item?.ballastDuration} DAYS</td>

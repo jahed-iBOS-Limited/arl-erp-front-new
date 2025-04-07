@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getOrderVsShipmentVsPending_api = async (
   accId,
@@ -63,7 +63,7 @@ export const CreateTransportScheduleTypeApi = async (data, setLoading, cb) => {
       data
     );
     cb();
-    toast.success(res?.data?.message || "Submitted Successfully!");
+    toast.success(res?.data?.message || 'Submitted Successfully!');
     setLoading(false);
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -85,7 +85,7 @@ export const getTransportScheduleTypeData_api = async (
   providerTypeId
 ) => {
   if (!providerTypeId) {
-    return toast.warn("Please select logistic By");
+    return toast.warn('Please select logistic By');
   }
 
   const url = `/oms/SalesOrganization/VehicleProviderConfirmationInfoPagination?BusinessUnitId=${buId}&ProviderTypeId=${providerTypeId}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=0&PageSize=1000000&ShippointId=${shipPointId}

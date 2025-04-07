@@ -1,13 +1,13 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import IViewModal from "../../../_helper/_viewModal";
-import DeleteModal from "./deleteModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import IViewModal from '../../../_helper/_viewModal';
+import DeleteModal from './deleteModal';
 
 export default function RequisitionApprovalView() {
   const [isDisabled] = useState(false);
@@ -26,7 +26,6 @@ export default function RequisitionApprovalView() {
         setAllData(data);
       }
     );
-
   }, [params?.viewId]);
 
   return (
@@ -42,7 +41,7 @@ export default function RequisitionApprovalView() {
         <Formik
           enableReinitialize={true}
           initialValues={{}}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({
             handleSubmit,
@@ -56,13 +55,18 @@ export default function RequisitionApprovalView() {
             <>
               <Form className="form form-label-right">
                 {false && <Loading />}
-                <div className='text-center'>
-                  <h1 className='text-center'>{location?.state?.strTrainingName}</h1>
-                  <h3 className='text-center'>From: {_dateFormatter(location?.state?.dteFromDate)} To: {_dateFormatter(location?.state?.dteToDate)}</h3>
+                <div className="text-center">
+                  <h1 className="text-center">
+                    {location?.state?.strTrainingName}
+                  </h1>
+                  <h3 className="text-center">
+                    From: {_dateFormatter(location?.state?.dteFromDate)} To:{' '}
+                    {_dateFormatter(location?.state?.dteToDate)}
+                  </h3>
                 </div>
                 {allData?.length ? (
                   <div
-                    style={{ marginRight: "15px", marginTop: "10px" }}
+                    style={{ marginRight: '15px', marginTop: '10px' }}
                     className="text-right"
                   >
                     <div className="">
@@ -72,7 +76,7 @@ export default function RequisitionApprovalView() {
                             !allData.filter((item) => item?.selectCheckbox)
                               ?.length
                           )
-                            return toast.warn("Please select at least one.");
+                            return toast.warn('Please select at least one.');
                           setIsApprove(true);
                           setisShowModal(true);
                         }}
@@ -88,7 +92,7 @@ export default function RequisitionApprovalView() {
                             !allData.filter((item) => item?.selectCheckbox)
                               ?.length
                           )
-                            return toast.warn("Please select at least one.");
+                            return toast.warn('Please select at least one.');
                           setIsApprove(false);
                           setisShowModal(true);
                         }}
@@ -99,7 +103,7 @@ export default function RequisitionApprovalView() {
                     </div>
                   </div>
                 ) : (
-                  ""
+                  ''
                 )}
                 <div className="row">
                   <div className="col-lg-12">
@@ -112,8 +116,8 @@ export default function RequisitionApprovalView() {
                               checked={
                                 allData?.length > 0
                                   ? allData?.every(
-                                    (item) => item?.selectCheckbox
-                                  )
+                                      (item) => item?.selectCheckbox
+                                    )
                                   : false
                               }
                               onChange={(e) => {
@@ -123,14 +127,18 @@ export default function RequisitionApprovalView() {
                                     selectCheckbox: e.target.checked,
                                   }))
                                 );
-                                setFieldValue("allSelected", e.target.checked);
+                                setFieldValue('allSelected', e.target.checked);
                               }}
                               disabled={
-                                allData?.length < 1 || allData?.every((item) => item?.strApprovalStatus === "Approved")
+                                allData?.length < 1 ||
+                                allData?.every(
+                                  (item) =>
+                                    item?.strApprovalStatus === 'Approved'
+                                )
                               }
                             />
                           </th>
-                          <th style={{ width: "100px" }}>Enroll</th>
+                          <th style={{ width: '100px' }}>Enroll</th>
                           <th>Name</th>
                           <th>Training Name</th>
                           <th>Designation</th>
@@ -156,7 +164,9 @@ export default function RequisitionApprovalView() {
                                       e.target.checked;
                                     setAllData([...data]);
                                   }}
-                                  disabled={item?.strApprovalStatus === "Approved"}
+                                  disabled={
+                                    item?.strApprovalStatus === 'Approved'
+                                  }
                                 />
                               </td>
                               <td className="text-center">

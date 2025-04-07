@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { partnerLedgerSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { partnerLedgerSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = partnerLedgerSlice;
 
 export const getEmpDDLAction = (accId, buId) => (dispatch) => {
@@ -43,7 +43,7 @@ export const saveControllingUnit = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
     })
@@ -58,7 +58,7 @@ export const saveEditedControllingUnit = (payload) => () => {
     .then((res) => {
       if (res.status === 200) {
         console.log(res.data);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
       }
     })
     .catch((err) => {
@@ -77,44 +77,34 @@ export const getControllingUnitGridData = (accId, buId) => (dispatch) => {
 };
 
 // action for get grid data
-export const getPartnerLedgerGridData_Action = (
-  accId,
-  buId,
-  partnerId,
-  fromDate,
-  toDate,
-  setLoading
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getPartnerLedgerGridData(accId, buId, partnerId, fromDate, toDate)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetPartnerledgerGridData(res?.data?.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-      //
-    });
-};
+export const getPartnerLedgerGridData_Action =
+  (accId, buId, partnerId, fromDate, toDate, setLoading) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getPartnerLedgerGridData(accId, buId, partnerId, fromDate, toDate)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetPartnerledgerGridData(res?.data?.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+        //
+      });
+  };
 
-export const getBusinessPartnerDetails = (
-  accId,
-  buId,
-  partnerId,
-  setLoading
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getBusinessPartnerDetailsById(accId, buId, partnerId)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetBusinessPartnerDetails(res?.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-    });
-};
+export const getBusinessPartnerDetails =
+  (accId, buId, partnerId, setLoading) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getBusinessPartnerDetailsById(accId, buId, partnerId)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetBusinessPartnerDetails(res?.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
 // action for get data by id single
 export const getControllingUnitById = (id) => (dispatch) => {

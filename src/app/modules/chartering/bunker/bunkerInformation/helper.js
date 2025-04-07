@@ -2,13 +2,12 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { imarineBaseUrl } from '../../../../../App';
 
-
 export const saveBunkerInformation = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/BunkerInformation/CreateBunkerInformation`,
-      data,
+      data
     );
     toast.success(res?.data?.message);
     cb();
@@ -24,7 +23,7 @@ export const editBunkerInformation = async (data, setLoading, cb) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/BunkerInformation/EditBunkerInformation`,
-      data,
+      data
     );
     toast.success(res?.data?.message);
     cb();
@@ -44,13 +43,13 @@ export const getBunkerInformationLandingData = async (
   pageSize,
   searchValue,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   const search = searchValue ? `&search=${searchValue}` : '';
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerInformation/GetBunkerInformation?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`,
+      `${imarineBaseUrl}/domain/BunkerInformation/GetBunkerInformation?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`
     );
     setter(res?.data);
     setLoading(false);
@@ -64,12 +63,12 @@ export const getBunkerInformationLandingData = async (
 export const getBunkerInformationByVoyageId = async (
   voyageId,
   setFieldValue,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Voyage/GetBunkerInformationByVoyage?VoyageId=${voyageId}`,
+      `${imarineBaseUrl}/domain/Voyage/GetBunkerInformationByVoyage?VoyageId=${voyageId}`
     );
     const {
       bodLsfoQty,
@@ -111,12 +110,12 @@ export const getPreBORInformationByVoyageId = async (
   vesselId,
   voyageId,
   setFieldValue,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerInformation/GetBorInformationByVesselIdAndVoyageNo?vesselId=${vesselId}&voyageNoId=${voyageId}&accountId=${accId}&businessUnitId=${buId}`,
+      `${imarineBaseUrl}/domain/BunkerInformation/GetBorInformationByVesselIdAndVoyageNo?vesselId=${vesselId}&voyageNoId=${voyageId}&accountId=${accId}&businessUnitId=${buId}`
     );
     setFieldValue('bodLsmgoQty', res?.data?.borLsmgoQty);
     setFieldValue('bodLsfo1Qty', res?.data?.borLsfo1Qty);
@@ -138,12 +137,12 @@ export const getItemRateByVoyageId = async (
   voyageId,
   setLoading,
   setter,
-  setFieldValue,
+  setFieldValue
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`,
+      `${imarineBaseUrl}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`
     );
     if (setFieldValue) {
       setFieldValue('bunkerSaleLsmgoRate', res?.data?.lsmgoPrice);
@@ -168,12 +167,12 @@ export const GetItemInfoFromPurchase = async (
   vesselId,
   voyageId,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/PurchaseBunker/GetItemInfoFromPurchase?BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}`,
+      `${imarineBaseUrl}/domain/PurchaseBunker/GetItemInfoFromPurchase?BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -200,12 +199,12 @@ export const GetBunkerInformationById = async (
   bunkerId,
   setter,
   setLoading,
-  cb,
+  cb
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerInformation/GetBunkerInformationById?BunkerId=${bunkerId}`,
+      `${imarineBaseUrl}/domain/BunkerInformation/GetBunkerInformationById?BunkerId=${bunkerId}`
     );
     cb(res?.data);
     setter(res?.data);

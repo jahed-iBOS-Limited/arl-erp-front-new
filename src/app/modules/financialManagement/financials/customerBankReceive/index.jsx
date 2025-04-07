@@ -1,8 +1,6 @@
-import React from "react";
-import CustomerBankReceiveTable  from "./Table/table";
+import React from 'react';
+import CustomerBankReceiveTable from './Table/table';
 
 export function CustomerBankReceive({ history }) {
-  return (  
-      <CustomerBankReceiveTable />
-  );
-};
+  return <CustomerBankReceiveTable />;
+}

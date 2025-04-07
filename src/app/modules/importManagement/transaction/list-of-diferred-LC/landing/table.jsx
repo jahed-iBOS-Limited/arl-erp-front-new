@@ -1,33 +1,33 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
-} from "../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../_helper/_loading";
-import ICustomTable from "../../../../_helper/_customTable";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import NewSelect from "../../../../_helper/_select";
+} from '../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../_helper/_loading';
+import ICustomTable from '../../../../_helper/_customTable';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import NewSelect from '../../../../_helper/_select';
 
 const header = [
-  "SL",
-  "Unit",
-  "Bank",
-  "LC No",
-  "LC Date",
-  "LC Type",
-  "Benificiary",
-  "Invoice No",
-  "Inv Date",
-  "Shipment",
-  "Acc Date",
-  "Start Date",
-  "Tenor Days",
-  "Mat. Date",
-  "Bank Rate",
-  "Libor Rate",
-  "Invoice Amount",
-  "Currency",
+  'SL',
+  'Unit',
+  'Bank',
+  'LC No',
+  'LC Date',
+  'LC Type',
+  'Benificiary',
+  'Invoice No',
+  'Inv Date',
+  'Shipment',
+  'Acc Date',
+  'Start Date',
+  'Tenor Days',
+  'Mat. Date',
+  'Bank Rate',
+  'Libor Rate',
+  'Invoice Amount',
+  'Currency',
 ];
 
 const ListOfDiferredLC = () => {
@@ -58,7 +58,7 @@ const ListOfDiferredLC = () => {
 
           <ICustomTable ths={header}>
             <tr>
-              <td style={{ width: "30px" }} className="text-center">
+              <td style={{ width: '30px' }} className="text-center">
                 1
               </td>
               <td>

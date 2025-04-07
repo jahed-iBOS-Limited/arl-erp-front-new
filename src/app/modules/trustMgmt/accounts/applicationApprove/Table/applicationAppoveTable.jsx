@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IViewModal from "../../../../_helper/_viewModal";
-import { ApplicationApproveModal } from "../Modal/applicationApproveModal";
-import { ApplicationRejectModal } from "../Modal/applicationRejectModal";
+import React, { useState } from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IViewModal from '../../../../_helper/_viewModal';
+import { ApplicationApproveModal } from '../Modal/applicationApproveModal';
+import { ApplicationRejectModal } from '../Modal/applicationRejectModal';
 
 export const ApplicationApproveTable = ({
   getData,
@@ -12,25 +12,25 @@ export const ApplicationApproveTable = ({
 }) => {
   const [isShowModal, setisShowModal] = useState(false);
   const [isRejectModal, setisRejectodal] = useState(false);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const header = [
-    "SL",
-    "Application ID",
-    "Application Date",
+    'SL',
+    'Application ID',
+    'Application Date',
     "Applicant's Name",
     "Account Holder's Name",
-    "Hospital/Institutes",
-    "Cause Of Donation/Zakat",
-    "Effective Date",
-    "Expiry Date",
-    "Amount",
-    "Action",
+    'Hospital/Institutes',
+    'Cause Of Donation/Zakat',
+    'Effective Date',
+    'Expiry Date',
+    'Amount',
+    'Action',
   ];
   return (
     <>
       <div className="row">
         <div className="col-lg-12">
-          <h6 style={{ marginBottom: 0, paddingTop: "25px" }}>
+          <h6 style={{ marginBottom: 0, paddingTop: '25px' }}>
             Donation Application For Approval:
           </h6>
           <div>
@@ -62,9 +62,9 @@ export const ApplicationApproveTable = ({
                             setSingleData(item);
                           }}
                           style={{
-                            listStyle: "none",
-                            cursor: "pointer",
-                            color: "#52c726",
+                            listStyle: 'none',
+                            cursor: 'pointer',
+                            color: '#52c726',
                           }}
                         >
                           Approve
@@ -75,9 +75,9 @@ export const ApplicationApproveTable = ({
                             setSingleData(item);
                           }}
                           style={{
-                            listStyle: "none",
-                            cursor: "pointer",
-                            color: "#e11f1f",
+                            listStyle: 'none',
+                            cursor: 'pointer',
+                            color: '#e11f1f',
                           }}
                         >
                           Reject
@@ -90,10 +90,10 @@ export const ApplicationApproveTable = ({
           </div>
           <div>
             <IViewModal
-              title={"Approve Application"}
+              title={'Approve Application'}
               show={isShowModal}
               onHide={() => setisShowModal(false)}
-              modelSize={"lg"}
+              modelSize={'lg'}
             >
               <ApplicationApproveModal
                 singleData={singleData}
@@ -105,10 +105,10 @@ export const ApplicationApproveTable = ({
           </div>
           <div>
             <IViewModal
-              title={"Reject Application"}
+              title={'Reject Application'}
               show={isRejectModal}
               onHide={() => setisRejectodal(false)}
-              modelSize={"lg"}
+              modelSize={'lg'}
             >
               <ApplicationRejectModal
                 singleData={singleData}

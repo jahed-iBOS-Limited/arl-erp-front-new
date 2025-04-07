@@ -1,27 +1,26 @@
-
-import React from "react";
-import * as Yup from "yup";
-import { Formik, Form } from "formik";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
+import React from 'react';
+import * as Yup from 'yup';
+import { Formik, Form } from 'formik';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from './../../../../_helper/_select';
 
 const validationSchema = Yup.object().shape({
   damageType: Yup.object().shape({
-    label: Yup.string().required("Damage Type is required"),
-    value: Yup.string().required("Damage Type is required"),
+    label: Yup.string().required('Damage Type is required'),
+    value: Yup.string().required('Damage Type is required'),
   }),
-  categoryName: Yup.string().required("Category name is required"),
+  categoryName: Yup.string().required('Category name is required'),
 });
 
-function FormCmp({  initData,
+function FormCmp({
+  initData,
   btnRef,
   saveHandler,
   isEdit,
   resetBtnRef,
   damageTypeDDL,
-  view
+  view,
 }) {
-
   return (
     <Formik
       enableReinitialize={true}
@@ -47,14 +46,14 @@ function FormCmp({  initData,
         <>
           <Form className="global-form form form-label-right">
             <div className="form-group row">
-            <div className="col-lg-3">
+              <div className="col-lg-3">
                 <NewSelect
                   name="damageType"
                   options={damageTypeDDL}
                   value={values?.damageType}
                   label="Damage Type"
                   onChange={(valueOption) => {
-                    setFieldValue("damageType", valueOption);
+                    setFieldValue('damageType', valueOption);
                   }}
                   placeholder="Damage Type"
                   errors={errors}
@@ -76,14 +75,14 @@ function FormCmp({  initData,
 
             <button
               type="submit"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={btnRef}
               onSubmit={() => handleSubmit()}
             ></button>
 
             <button
               type="reset"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={resetBtnRef}
               onSubmit={() => resetForm(initData)}
             ></button>

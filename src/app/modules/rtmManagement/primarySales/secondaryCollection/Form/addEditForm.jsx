@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { GetSecondaryCollectionView } from "../helper";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
-import ICard from "../../../../_helper/_card";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { GetSecondaryCollectionView } from '../helper';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
+import ICard from '../../../../_helper/_card';
 
 const initData = {
-  orderAmount: "",
+  orderAmount: '',
 };
 
 export default function SecondaryCollectionForm({
@@ -38,17 +38,15 @@ export default function SecondaryCollectionForm({
   }, shallowEqual);
 
   //SingleData to view
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   useEffect(() => {
     if (params?.id) {
       GetSecondaryCollectionView(params?.id, setSingleData, setRowDto);
     }
-
   }, [params]);
 
   // // Show when in edit mode, rowData
   useEffect(() => {
-
     const newData = singleData?.row?.map((item) => ({
       itemId: item?.productId,
       productName: item?.productName,
@@ -64,7 +62,6 @@ export default function SecondaryCollectionForm({
     } else {
       setRowDto([]);
     }
-
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {
@@ -72,12 +69,12 @@ export default function SecondaryCollectionForm({
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (params?.id) {
         if (rowDto?.length === 0) {
-          toast.warn("Please add transaction");
+          toast.warn('Please add transaction');
         } else {
         }
       } else {
         if (rowDto?.length === 0) {
-          toast.warn("Please add transaction");
+          toast.warn('Please add transaction');
         } else {
         }
       }
@@ -123,7 +120,7 @@ export default function SecondaryCollectionForm({
       isDisabled={isDisabled}
       title="View Secondary Collection"
     >
-      <div className="row" style={{ marginTop: "-45px" }}>
+      <div className="row" style={{ marginTop: '-45px' }}>
         <div className="col-lg-2 offset-10 text-right">
           <button
             onClick={backHandler}

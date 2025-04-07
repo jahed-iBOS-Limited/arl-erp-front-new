@@ -1,6 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 //Get Tax Branch DDL (not nessecary)
 export const getTaxBranchDDL = async (accid, buid, setter) => {
@@ -31,7 +30,7 @@ export const createRouteCostComponent = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -53,12 +52,12 @@ export const getTransportrouteCCPagination = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
     const res = await Axios.get(
       `/tms/CostComponent/GetTransportrouteCCSearchPagination?${searchPath}AccountId=${accId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     if (res.status === 200) {
-      console.log("pagi", res?.data);
+      console.log('pagi', res?.data);
       setter(res?.data);
       setLoading(false);
     }
@@ -103,7 +102,7 @@ export const editRouteCostComponent = async (data, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Edited successfully");
+      toast.success(res?.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {

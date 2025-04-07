@@ -1,58 +1,61 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import { getItemCategoryDDLByTypeId_api } from "../../../../config/material-management/itemBasicInfo/helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import { getItemCategoryDDLByTypeId_api } from '../../../../config/material-management/itemBasicInfo/helper';
 
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import ICard from "../../../../_helper/_card";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ICustomTable from "../../../../_helper/_customTable";
-import Loading from "../../../../_helper/_loading";
-import { getItemTypeListDDL_api, ItemSubCategory_api } from "../../../../_helper/_commonApi";
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import ICard from '../../../../_helper/_card';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ICustomTable from '../../../../_helper/_customTable';
+import Loading from '../../../../_helper/_loading';
+import {
+  getItemTypeListDDL_api,
+  ItemSubCategory_api,
+} from '../../../../_helper/_commonApi';
 
 const reports = [
-  { value: 1, label: "Sales Details Report" },
-  { value: 2, label: "Item Category Base Report" },
-  { value: 3, label: "Item Price Rate Analysis Report" },
-  { value: 4, label: "Item Rate Top Sheet" },
+  { value: 1, label: 'Sales Details Report' },
+  { value: 2, label: 'Item Category Base Report' },
+  { value: 3, label: 'Item Price Rate Analysis Report' },
+  { value: 4, label: 'Item Rate Top Sheet' },
   // { value: 5, label: "Daily Delivery Challan for Consumer Group" },
   // { value: 6, label: "Daily Sales Order for Consumer Group" },
-  { value: 7, label: "Sales Order and Delivery Challan" },
-  { value: 8, label: "Delivery Challan and Sales Order Pending" },
-  { value: 9, label: "Order Vs Challan Duration Gap" },
-  { value: 10, label: "Item Pending" },
-  { value: 11, label: "Market Basket Analysis" },
-  { value: 12, label: "Order vs Delivery vs Collection Date Wise" },
-  { value: 13, label: "Delivery Monitoring Report" },
-  { value: 14, label: "AEL Product Rate Trend" },
-  { value: 15, label: "All Achievement Report" },
-  { value: 16, label: "Shift wise Packer Information" },
+  { value: 7, label: 'Sales Order and Delivery Challan' },
+  { value: 8, label: 'Delivery Challan and Sales Order Pending' },
+  { value: 9, label: 'Order Vs Challan Duration Gap' },
+  { value: 10, label: 'Item Pending' },
+  { value: 11, label: 'Market Basket Analysis' },
+  { value: 12, label: 'Order vs Delivery vs Collection Date Wise' },
+  { value: 13, label: 'Delivery Monitoring Report' },
+  { value: 14, label: 'AEL Product Rate Trend' },
+  { value: 15, label: 'All Achievement Report' },
+  { value: 16, label: 'Shift wise Packer Information' },
 ];
 
 const getTypes = (values) => {
   const reportId = values?.report?.value;
   if (reportId === 2) {
     return [
-      { value: 1, label: "Item Category Base" },
-      { value: 2, label: "Item Base" },
+      { value: 1, label: 'Item Category Base' },
+      { value: 2, label: 'Item Base' },
     ];
   } else if (reportId === 7) {
     return [
-      { value: 1, label: "Top Sheet for Delivery Challan" },
-      { value: 2, label: "Top Sheet for Sales Order" },
-      { value: 3, label: "Delivery Challan Details" },
-      { value: 4, label: "Sales Order Details" },
+      { value: 1, label: 'Top Sheet for Delivery Challan' },
+      { value: 2, label: 'Top Sheet for Sales Order' },
+      { value: 3, label: 'Delivery Challan Details' },
+      { value: 4, label: 'Sales Order Details' },
     ];
   } else if (reportId === 10) {
     return [
-      { value: 1, label: "Summary" },
-      { value: 2, label: "Pending" },
+      { value: 1, label: 'Summary' },
+      { value: 2, label: 'Pending' },
     ];
   } else {
     return [];
@@ -61,51 +64,51 @@ const getTypes = (values) => {
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  fromDate: Yup.date().required("From Date is required"),
+  fromDate: Yup.date().required('From Date is required'),
 
-  toDate: Yup.date().required("To Date is required"),
+  toDate: Yup.date().required('To Date is required'),
 
   reportDDL: Yup.object().shape({
-    label: Yup.string().required("Report Type is required"),
-    value: Yup.string().required("Report Type is required"),
+    label: Yup.string().required('Report Type is required'),
+    value: Yup.string().required('Report Type is required'),
   }),
   shipPoint: Yup.object().shape({
-    label: Yup.string().required("Ship Point is required"),
-    value: Yup.string().required("Ship Point is required"),
+    label: Yup.string().required('Ship Point is required'),
+    value: Yup.string().required('Ship Point is required'),
   }),
 });
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  report: "",
-  shipPoint: "",
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
-  reportType: "",
-  partner: "",
-  productType: "",
-  itemGroup: "",
-  subGroup: "",
-  salesOrg: "",
-  item: "",
-  viewType: "",
+  report: '',
+  shipPoint: '',
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
+  reportType: '',
+  partner: '',
+  productType: '',
+  itemGroup: '',
+  subGroup: '',
+  salesOrg: '',
+  item: '',
+  viewType: '',
 };
 
 const headers = [
-  "SL",
-  "Antecedents",
-  "Consequence",
-  "Antecedent Support",
-  "Consequent Support",
-  "Support",
-  "confidence",
-  "lift",
-  "leverage",
-  "conviction",
-  "Hangs Metric",
+  'SL',
+  'Antecedents',
+  'Consequence',
+  'Antecedent Support',
+  'Consequent Support',
+  'Support',
+  'confidence',
+  'lift',
+  'leverage',
+  'conviction',
+  'Hangs Metric',
 ];
 
 export default function SalesDetailsTable({ saveHandler }) {
@@ -151,7 +154,6 @@ export default function SalesDetailsTable({ saveHandler }) {
     getLoginInfo(
       `/hcm/RemoteAttendance/GetEmployeeLoginInfo?AccountId=${accId}&BusinessUnitId=${buId}&EmployeeId=${employeeId}`
     );
-
   }, [accId, buId]);
 
   const reportId = (values) => {
@@ -186,162 +188,164 @@ export default function SalesDetailsTable({ saveHandler }) {
                                 ? `41d38697-8e3f-453d-bea1-e3d0f0b49ec2`
                                 : id === 16
                                   ? `fe886d74-87ab-42e5-8695-b4be96e51aca`
-                                  : "";
+                                  : '';
   };
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
 
   const parameterValues = (values) => {
     const id = values?.report?.value;
     const paramsForSalesDetails = [
-      { name: "BusinessUnitId", value: `${buId}` },
-      { name: "intChannelid", value: `${values?.channel?.value}` },
-      { name: "ShipPointId", value: `${values?.shipPoint?.value}` },
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
-      { name: "LoginUser", value: `${userId}` },
+      { name: 'BusinessUnitId', value: `${buId}` },
+      { name: 'intChannelid', value: `${values?.channel?.value}` },
+      { name: 'ShipPointId', value: `${values?.shipPoint?.value}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
+      { name: 'LoginUser', value: `${userId}` },
     ];
 
     const paramsForCategoryBaseItem = [
-      { name: "IntBusinessUnitId", value: `${buId}` },
-      { name: "intSoldToPartnerId", value: `${values?.partner?.value}` },
+      { name: 'IntBusinessUnitId', value: `${buId}` },
+      { name: 'intSoldToPartnerId', value: `${values?.partner?.value}` },
       {
-        name: "strProductType",
-        value: `${values?.productType?.value === 0 ? "All" : values?.productType?.value
-          }`,
+        name: 'strProductType',
+        value: `${
+          values?.productType?.value === 0 ? 'All' : values?.productType?.value
+        }`,
       },
       {
-        name: "subGroup",
-        value: `${values?.subGroup?.value === 0 ? "All" : values?.subGroup?.value
-          }`,
+        name: 'subGroup',
+        value: `${
+          values?.subGroup?.value === 0 ? 'All' : values?.subGroup?.value
+        }`,
       },
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
-      { name: "ReportType", value: `${values?.reportType?.value}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
+      { name: 'ReportType', value: `${values?.reportType?.value}` },
     ];
 
     const paramsForPriceRate = [
-      { name: "IntBusinessUnitId", value: `${buId}` },
-      { name: "intSoldToPartnerId", value: `${values?.partner?.value}` },
-      { name: "item", value: `${values?.item?.value}` },
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
+      { name: 'IntBusinessUnitId', value: `${buId}` },
+      { name: 'intSoldToPartnerId', value: `${values?.partner?.value}` },
+      { name: 'item', value: `${values?.item?.value}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
     ];
 
     const fourthParams = [
-      { name: "BusinessUnitId", value: `${buId}` },
-      { name: "intChannelid", value: `${values?.channel?.value}` },
-      { name: "ShipPointId", value: `${values?.shipPoint?.value}` },
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
+      { name: 'BusinessUnitId', value: `${buId}` },
+      { name: 'intChannelid', value: `${values?.channel?.value}` },
+      { name: 'ShipPointId', value: `${values?.shipPoint?.value}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
     ];
 
     const fifthParams = [
-      { name: "BusinessUnitId", value: `${buId}` },
-      { name: "ShipPointId", value: `${values?.shipPoint?.value}` },
-      { name: "Regionid", value: `${values?.region?.value}` },
-      { name: "AreaId", value: `${values?.area?.value}` },
-      { name: "TerritoryId", value: `${values?.territory?.value}` },
-      { name: "intChannelid", value: `${values?.channel?.value}` },
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
+      { name: 'BusinessUnitId', value: `${buId}` },
+      { name: 'ShipPointId', value: `${values?.shipPoint?.value}` },
+      { name: 'Regionid', value: `${values?.region?.value}` },
+      { name: 'AreaId', value: `${values?.area?.value}` },
+      { name: 'TerritoryId', value: `${values?.territory?.value}` },
+      { name: 'intChannelid', value: `${values?.channel?.value}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
     ];
 
     const sixthParams = [
-      { name: "BusinessUnitId", value: `${buId}` },
-      { name: "intShippointId", value: `${values?.shipPoint?.value}` },
-      { name: "Regionid", value: `${values?.region?.value}` },
-      { name: "AreaId", value: `${values?.area?.value}` },
-      { name: "TerritoryId", value: `${values?.territory?.value}` },
-      { name: "intChannelid", value: `${values?.channel?.value}` },
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
+      { name: 'BusinessUnitId', value: `${buId}` },
+      { name: 'intShippointId', value: `${values?.shipPoint?.value}` },
+      { name: 'Regionid', value: `${values?.region?.value}` },
+      { name: 'AreaId', value: `${values?.area?.value}` },
+      { name: 'TerritoryId', value: `${values?.territory?.value}` },
+      { name: 'intChannelid', value: `${values?.channel?.value}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
     ];
 
     const seventhParams = [
-      { name: "BusinessUnitId", value: `${buId}` },
-      { name: "Regionid", value: `${values?.region?.value}` },
-      { name: "AreaId", value: `${values?.area?.value}` },
-      { name: "TerritoryId", value: `${values?.territory?.value}` },
-      { name: "intChannelid", value: `${values?.channel?.value}` },
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
-      { name: "ReportType", value: `${values?.reportType?.value}` },
+      { name: 'BusinessUnitId', value: `${buId}` },
+      { name: 'Regionid', value: `${values?.region?.value}` },
+      { name: 'AreaId', value: `${values?.area?.value}` },
+      { name: 'TerritoryId', value: `${values?.territory?.value}` },
+      { name: 'intChannelid', value: `${values?.channel?.value}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
+      { name: 'ReportType', value: `${values?.reportType?.value}` },
       // { name: "ShipPointId", value: `${values?.shipPoint?.value}` },
     ];
 
     const eightParams = [
-      { name: "intBusinessUnitId", value: `${buId}` },
-      { name: "intShippointId", value: `${values?.shipPoint?.value}` },
-      { name: "intcustomerid", value: `${values?.partner?.value}` },
-      { name: "intDistributionChannelId", value: `${values?.channel?.value}` },
-      { name: "Regionid", value: `${values?.region?.value}` },
-      { name: "AreaId", value: `${values?.area?.value}` },
-      { name: "TerritoryId", value: `${values?.territory?.value}` },
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
+      { name: 'intBusinessUnitId', value: `${buId}` },
+      { name: 'intShippointId', value: `${values?.shipPoint?.value}` },
+      { name: 'intcustomerid', value: `${values?.partner?.value}` },
+      { name: 'intDistributionChannelId', value: `${values?.channel?.value}` },
+      { name: 'Regionid', value: `${values?.region?.value}` },
+      { name: 'AreaId', value: `${values?.area?.value}` },
+      { name: 'TerritoryId', value: `${values?.territory?.value}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
     ];
 
     const nineParams = [
-      { name: "intbusinessunitid", value: `${buId}` },
-      { name: "intshippointid", value: `${values?.shipPoint?.value}` },
-      { name: "intchannelid", value: `${values?.channel?.value}` },
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
-      { name: "intsoldtopartnerid", value: `${values?.partner?.value}` },
+      { name: 'intbusinessunitid', value: `${buId}` },
+      { name: 'intshippointid', value: `${values?.shipPoint?.value}` },
+      { name: 'intchannelid', value: `${values?.channel?.value}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
+      { name: 'intsoldtopartnerid', value: `${values?.partner?.value}` },
     ];
 
     const tenParams = [
-      { name: "intbusinessunitid", value: `${buId}` },
-      { name: "intshippointid", value: `${values?.shipPoint?.value}` },
-      { name: "intDistributionChannelId", value: `${values?.channel?.value}` },
-      { name: "sDate", value: `${values?.fromDate}` },
-      { name: "eDate", value: `${values?.toDate}` },
-      { name: "intsoldtopartnerid", value: `${values?.partner?.value}` },
-      { name: "intshippointid", value: `${values?.shipPoint?.value}` },
-      { name: "intItemId", value: `${values?.item?.value}` },
-      { name: "intpartid", value: `${values?.reportType?.value}` },
+      { name: 'intbusinessunitid', value: `${buId}` },
+      { name: 'intshippointid', value: `${values?.shipPoint?.value}` },
+      { name: 'intDistributionChannelId', value: `${values?.channel?.value}` },
+      { name: 'sDate', value: `${values?.fromDate}` },
+      { name: 'eDate', value: `${values?.toDate}` },
+      { name: 'intsoldtopartnerid', value: `${values?.partner?.value}` },
+      { name: 'intshippointid', value: `${values?.shipPoint?.value}` },
+      { name: 'intItemId', value: `${values?.item?.value}` },
+      { name: 'intpartid', value: `${values?.reportType?.value}` },
     ];
 
     const twelveParams = [
-      { name: "UnitId", value: `${buId}` },
-      { name: "intchannelid", value: `${values?.channel?.value}` },
-      { name: "fromDate", value: `${values?.fromDate}` },
-      { name: "toDate", value: `${values?.toDate}` },
+      { name: 'UnitId', value: `${buId}` },
+      { name: 'intchannelid', value: `${values?.channel?.value}` },
+      { name: 'fromDate', value: `${values?.fromDate}` },
+      { name: 'toDate', value: `${values?.toDate}` },
     ];
 
     const thirteenParams = [
-      { name: "intbusinessunitid", value: `${buId}` },
-      { name: "intsalesorganization", value: `${values?.salesOrg?.value}` },
-      { name: "intCustomer", value: `${values?.partner?.value}` },
-      { name: "intchannelid", value: `${values?.channel?.value}` },
-      { name: "intregion", value: `${values?.region?.value}` },
-      { name: "intarea", value: `${values?.area?.value}` },
-      { name: "intterritory", value: `${values?.territory?.value}` },
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
+      { name: 'intbusinessunitid', value: `${buId}` },
+      { name: 'intsalesorganization', value: `${values?.salesOrg?.value}` },
+      { name: 'intCustomer', value: `${values?.partner?.value}` },
+      { name: 'intchannelid', value: `${values?.channel?.value}` },
+      { name: 'intregion', value: `${values?.region?.value}` },
+      { name: 'intarea', value: `${values?.area?.value}` },
+      { name: 'intterritory', value: `${values?.territory?.value}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
     ];
 
     const fourteenParams = [
-      { name: "UnitId", value: `${buId}` },
-      { name: "fromDate", value: `${values?.fromDate}` },
-      { name: "toDate", value: `${values?.toDate}` },
+      { name: 'UnitId', value: `${buId}` },
+      { name: 'fromDate', value: `${values?.fromDate}` },
+      { name: 'toDate', value: `${values?.toDate}` },
     ];
 
     const fifteenParams = [
-      { name: "intunitid", value: `${buId}` },
-      { name: "intSalesOrganizationId", value: `${values?.salesOrg?.value}` },
-      { name: "intCustomer", value: `${values?.partner?.value}` },
-      { name: "intChannelId", value: `${values?.channel?.value}` },
-      { name: "intRATId", value: `${intRATId || 0}` },
-      { name: "intLevelid", value: `${empLevelId || 0}` },
-      { name: "fromdate", value: `${values?.fromDate}` },
-      { name: "todate", value: `${values?.toDate}` },
+      { name: 'intunitid', value: `${buId}` },
+      { name: 'intSalesOrganizationId', value: `${values?.salesOrg?.value}` },
+      { name: 'intCustomer', value: `${values?.partner?.value}` },
+      { name: 'intChannelId', value: `${values?.channel?.value}` },
+      { name: 'intRATId', value: `${intRATId || 0}` },
+      { name: 'intLevelid', value: `${empLevelId || 0}` },
+      { name: 'fromdate', value: `${values?.fromDate}` },
+      { name: 'todate', value: `${values?.toDate}` },
     ];
 
     const shiftWisePackerInformation = [
-      { name: "fromdate", value: `${values?.fromDate}` },
-      { name: "todate", value: `${values?.toDate}` },
-      { name: "ViewType", value: `${+values?.viewType?.value}` },
+      { name: 'fromdate', value: `${values?.fromDate}` },
+      { name: 'todate', value: `${values?.toDate}` },
+      { name: 'ViewType', value: `${+values?.viewType?.value}` },
     ];
 
     return id === 1
@@ -359,9 +363,12 @@ export default function SalesDetailsTable({ saveHandler }) {
                 : id === 7
                   ? [1, 3].includes(values?.reportType?.value)
                     ? [
-                      ...seventhParams,
-                      { name: "ShipPointId", value: `${values?.shipPoint?.value}` },
-                    ]
+                        ...seventhParams,
+                        {
+                          name: 'ShipPointId',
+                          value: `${values?.shipPoint?.value}`,
+                        },
+                      ]
                     : seventhParams
                   : id === 8
                     ? eightParams
@@ -417,11 +424,11 @@ export default function SalesDetailsTable({ saveHandler }) {
                             label="Report Name"
                             onChange={(valueOption) => {
                               if (valueOption?.value !== 1) {
-                                setFieldValue("shipPoint", "");
-                                setFieldValue("channel", "");
+                                setFieldValue('shipPoint', '');
+                                setFieldValue('channel', '');
                               }
-                              setFieldValue("report", valueOption);
-                              setFieldValue("reportType", "");
+                              setFieldValue('report', valueOption);
+                              setFieldValue('reportType', '');
                               setShowReport(false);
                             }}
                             placeholder="Report Name"
@@ -434,13 +441,13 @@ export default function SalesDetailsTable({ saveHandler }) {
                             <NewSelect
                               name="viewType"
                               options={[
-                                { value: 1, label: "Top Sheet" },
-                                { value: 2, label: "Details" },
+                                { value: 1, label: 'Top Sheet' },
+                                { value: 2, label: 'Details' },
                               ]}
                               value={values?.viewType}
                               label="View Type"
                               onChange={(valueOption) => {
-                                setFieldValue("viewType", valueOption);
+                                setFieldValue('viewType', valueOption);
                                 setShowReport(false);
                               }}
                               placeholder="View Type"
@@ -457,7 +464,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                               value={values?.reportType}
                               label="Report Type"
                               onChange={(valueOption) => {
-                                setFieldValue("reportType", valueOption);
+                                setFieldValue('reportType', valueOption);
                                 setShowReport(false);
                               }}
                               placeholder="Report Type"
@@ -474,13 +481,13 @@ export default function SalesDetailsTable({ saveHandler }) {
                               <NewSelect
                                 name="shipPoint"
                                 options={[
-                                  { value: 0, label: "All" },
+                                  { value: 0, label: 'All' },
                                   ...shippointDDL,
                                 ]}
                                 value={values?.shipPoint}
                                 label="Select ShipPoint"
                                 onChange={(valueOption) => {
-                                  setFieldValue("shipPoint", valueOption);
+                                  setFieldValue('shipPoint', valueOption);
                                   setShowReport(false);
                                 }}
                                 placeholder="Ship Point"
@@ -493,53 +500,53 @@ export default function SalesDetailsTable({ saveHandler }) {
                         {[1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15].includes(
                           values?.report?.value
                         ) && (
-                            <RATForm
-                              obj={{
-                                values,
-                                setFieldValue,
-                                region: [5, 6, 7, 8, 13].includes(
-                                  values?.report?.value
-                                ),
-                                area: [5, 6, 7, 8, 13].includes(
-                                  values?.report?.value
-                                ),
-                                territory: [5, 6, 7, 8, 13].includes(
-                                  values?.report?.value
-                                ),
-                                columnSize: "col-lg-2",
-                                onChange: (allValues, keyName) => {
-                                  setShowReport(false);
-                                  if (keyName === "channel" && buId === 144) {
-                                    getSoldToPartnerDDL(
-                                      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}&channelId=${allValues?.channel?.value}`
-                                    );
-                                  }
-                                },
-                              }}
-                            />
-                          )}
+                          <RATForm
+                            obj={{
+                              values,
+                              setFieldValue,
+                              region: [5, 6, 7, 8, 13].includes(
+                                values?.report?.value
+                              ),
+                              area: [5, 6, 7, 8, 13].includes(
+                                values?.report?.value
+                              ),
+                              territory: [5, 6, 7, 8, 13].includes(
+                                values?.report?.value
+                              ),
+                              columnSize: 'col-lg-2',
+                              onChange: (allValues, keyName) => {
+                                setShowReport(false);
+                                if (keyName === 'channel' && buId === 144) {
+                                  getSoldToPartnerDDL(
+                                    `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}&channelId=${allValues?.channel?.value}`
+                                  );
+                                }
+                              },
+                            }}
+                          />
+                        )}
                         {[2, 3, 8, 9, 10, 13].includes(
                           values?.report?.value
                         ) && (
-                            <div className="col-lg-2">
-                              <NewSelect
-                                name="partner"
-                                options={[
-                                  { value: 0, label: "All" },
-                                  ...soldToPartnerDDL,
-                                ]}
-                                value={values?.partner}
-                                label="Sold to Partner"
-                                onChange={(valueOption) => {
-                                  setFieldValue("partner", valueOption);
-                                  setShowReport(false);
-                                }}
-                                placeholder="Sold to Partner"
-                                errors={errors}
-                                touched={touched}
-                              />
-                            </div>
-                          )}
+                          <div className="col-lg-2">
+                            <NewSelect
+                              name="partner"
+                              options={[
+                                { value: 0, label: 'All' },
+                                ...soldToPartnerDDL,
+                              ]}
+                              value={values?.partner}
+                              label="Sold to Partner"
+                              onChange={(valueOption) => {
+                                setFieldValue('partner', valueOption);
+                                setShowReport(false);
+                              }}
+                              placeholder="Sold to Partner"
+                              errors={errors}
+                              touched={touched}
+                            />
+                          </div>
+                        )}
                         {[2].includes(values?.report?.value) && (
                           <>
                             <div className="col-lg-2">
@@ -549,9 +556,9 @@ export default function SalesDetailsTable({ saveHandler }) {
                                 value={values?.productType}
                                 label="Product Type"
                                 onChange={(valueOption) => {
-                                  setFieldValue("productType", valueOption);
+                                  setFieldValue('productType', valueOption);
                                   valueOption?.value !== 0 &&
-                                    setFieldValue("itemCategory", "");
+                                    setFieldValue('itemCategory', '');
                                   setShowReport(false);
                                   getItemCategoryDDLByTypeId_api(
                                     accId,
@@ -572,8 +579,8 @@ export default function SalesDetailsTable({ saveHandler }) {
                                 value={values?.itemGroup}
                                 label="Item Group"
                                 onChange={(valueOption) => {
-                                  setFieldValue("itemGroup", valueOption);
-                                  setFieldValue("subGroup", "");
+                                  setFieldValue('itemGroup', valueOption);
+                                  setFieldValue('subGroup', '');
                                   ItemSubCategory_api(
                                     accId,
                                     buId,
@@ -594,7 +601,7 @@ export default function SalesDetailsTable({ saveHandler }) {
                                 value={values?.subGroup}
                                 label="Item Sub Group"
                                 onChange={(valueOption) => {
-                                  setFieldValue("subGroup", valueOption);
+                                  setFieldValue('subGroup', valueOption);
                                   setShowReport(false);
                                 }}
                                 placeholder="Item Sub Group"
@@ -608,40 +615,40 @@ export default function SalesDetailsTable({ saveHandler }) {
                         {[3, 10, 11, 13, 15].includes(
                           values?.report?.value
                         ) && (
-                            <>
-                              <div className="col-lg-2">
-                                <NewSelect
-                                  name="salesOrg"
-                                  options={salesOrgs || []}
-                                  value={values?.salesOrg}
-                                  label="Sales Organization"
-                                  onChange={(valueOption) => {
-                                    setFieldValue("salesOrg", valueOption);
-                                    getItems(
-                                      `/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${accId}&BUnitId=${buId}&DistributionChannelId=${values?.channel?.value}&SalesOrgId=${valueOption?.value}`
-                                    );
-                                    setShowReport(false);
-                                  }}
-                                  placeholder="Sales Organization"
-                                  errors={errors}
-                                  touched={touched}
-                                  isDisabled={!values?.channel}
-                                />
-                              </div>
-                            </>
-                          )}
+                          <>
+                            <div className="col-lg-2">
+                              <NewSelect
+                                name="salesOrg"
+                                options={salesOrgs || []}
+                                value={values?.salesOrg}
+                                label="Sales Organization"
+                                onChange={(valueOption) => {
+                                  setFieldValue('salesOrg', valueOption);
+                                  getItems(
+                                    `/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${accId}&BUnitId=${buId}&DistributionChannelId=${values?.channel?.value}&SalesOrgId=${valueOption?.value}`
+                                  );
+                                  setShowReport(false);
+                                }}
+                                placeholder="Sales Organization"
+                                errors={errors}
+                                touched={touched}
+                                isDisabled={!values?.channel}
+                              />
+                            </div>
+                          </>
+                        )}
                         {[3, 10, 11].includes(values?.report?.value) && (
                           <>
                             <div className="col-lg-2">
                               <NewSelect
                                 name="item"
                                 options={
-                                  [{ value: 0, label: "All" }, ...items] || []
+                                  [{ value: 0, label: 'All' }, ...items] || []
                                 }
                                 value={values?.item}
                                 label="Item"
                                 onChange={(valueOption) => {
-                                  setFieldValue("item", valueOption);
+                                  setFieldValue('item', valueOption);
                                   setShowReport(false);
                                 }}
                                 placeholder="Item"
@@ -656,8 +663,8 @@ export default function SalesDetailsTable({ saveHandler }) {
                           <FromDateToDateForm
                             obj={{
                               type: [16].includes(values?.report?.value)
-                                ? "datetime-local"
-                                : "date",
+                                ? 'datetime-local'
+                                : 'date',
                               step: [16].includes(values?.report?.value)
                                 ? 1
                                 : false,
@@ -683,37 +690,40 @@ export default function SalesDetailsTable({ saveHandler }) {
                         />
                       </div>
                     </Form>
-                    {rows?.length > 0 && [11].includes(values?.report?.value) && (
-                      <ICustomTable ths={headers}>
-                        {rows?.map((item, index) => {
-                          return (
-                            <tr>
-                              <td>{index + 1}</td>
+                    {rows?.length > 0 &&
+                      [11].includes(values?.report?.value) && (
+                        <ICustomTable ths={headers}>
+                          {rows?.map((item, index) => {
+                            return (
+                              <tr>
+                                <td>{index + 1}</td>
 
-                              <td>{item?.antecedents}</td>
-                              <td>{item?.consequents}</td>
-                              <td className="text-center">
-                                {item?.antecedent_support}
-                              </td>
-                              <td className="text-center">
-                                {item?.consequent_support}
-                              </td>
-                              <td className="text-center">{item?.support}</td>
-                              <td className="text-center">
-                                {item?.confidence}
-                              </td>
-                              <td className="text-center">{item?.lift}</td>
-                              <td className="text-center">{item?.leverage}</td>
-                              <td className="text-center">
-                                {item?.conviction}
-                              </td>
-                              <td className="text-center">
-                                {item?.zhangs_metric}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                        {/* <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                                <td>{item?.antecedents}</td>
+                                <td>{item?.consequents}</td>
+                                <td className="text-center">
+                                  {item?.antecedent_support}
+                                </td>
+                                <td className="text-center">
+                                  {item?.consequent_support}
+                                </td>
+                                <td className="text-center">{item?.support}</td>
+                                <td className="text-center">
+                                  {item?.confidence}
+                                </td>
+                                <td className="text-center">{item?.lift}</td>
+                                <td className="text-center">
+                                  {item?.leverage}
+                                </td>
+                                <td className="text-center">
+                                  {item?.conviction}
+                                </td>
+                                <td className="text-center">
+                                  {item?.zhangs_metric}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                          {/* <tr style={{ fontWeight: "bold", textAlign: "right" }}>
                         <td colSpan={3}>Total</td>
                         <td>
                           {rows?.reduce((a, b) => (a += +b?.truckToDumpQnt), 0)}
@@ -727,8 +737,8 @@ export default function SalesDetailsTable({ saveHandler }) {
 
                         <td></td>
                       </tr> */}
-                      </ICustomTable>
-                    )}
+                        </ICustomTable>
+                      )}
                     {showReport && (
                       <PowerBIReport
                         reportId={reportId(values)}

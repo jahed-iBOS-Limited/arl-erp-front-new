@@ -1,7 +1,7 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import ExcelReader from "../convertExcel/ExcelReader";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import ExcelReader from '../convertExcel/ExcelReader';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -44,14 +44,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

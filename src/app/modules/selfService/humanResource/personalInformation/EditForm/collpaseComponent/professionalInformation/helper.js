@@ -1,16 +1,14 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const religionDDL_api = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/ReligionDDL");
+    const res = await axios.get('/hcm/HCMDDL/ReligionDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const employeeProfessionalInfo_api = async (
@@ -21,16 +19,15 @@ export const employeeProfessionalInfo_api = async (
   try {
     setDisabled(true);
     const res = await axios.post(
-      "/hcm/EmployeeProfessionalInfo/CreateEmployeeProfessionalInfo",
+      '/hcm/EmployeeProfessionalInfo/CreateEmployeeProfessionalInfo',
       payload
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-    
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
@@ -50,9 +47,7 @@ export const employeeProfessionalInfoId_api = async (id, setter) => {
         setter([]);
       }
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const editEmployeeProfessionalInfo_api = async (
@@ -63,16 +58,15 @@ export const editEmployeeProfessionalInfo_api = async (
   try {
     setDisabled(true);
     const res = await axios.put(
-      "/hcm/EmployeeProfessionalInfo/EditEmployeeProfessionalInfo",
+      '/hcm/EmployeeProfessionalInfo/EditEmployeeProfessionalInfo',
       payload
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-    
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }

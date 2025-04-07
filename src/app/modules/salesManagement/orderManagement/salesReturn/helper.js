@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // export const getSalesReturnGridData = async (
 //   unitId,
@@ -60,7 +60,7 @@ export const getSalesReturns = async (
   setLoading
 ) => {
   setLoading(true);
-  const Status = status ? "&status=" + status : "";
+  const Status = status ? '&status=' + status : '';
   try {
     const res = await axios.get(
       `/oms/SalesReturnAndCancelProcess/GetSalesReturnLandingPagination?accId=${accId}&busuinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc${Status}`
@@ -90,11 +90,11 @@ export const salesReturnApprove_api = async (url, payload, cb, setLoading) => {
       // `/oms/SalesReturnAndCancelProcess/SalesReturnApproval`,
       payload
     );
-    toast.success(res?.data?.Message || res?.data?.message );
+    toast.success(res?.data?.Message || res?.data?.message);
     cb();
     setLoading(false);
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    toast.error(error?.response?.data?.message || 'Something went wrong');
     setLoading(false);
   }
 };

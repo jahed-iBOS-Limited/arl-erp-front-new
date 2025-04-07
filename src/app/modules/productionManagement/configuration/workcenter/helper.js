@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getProductionLineDDL = async (
   shopfloorId,
@@ -83,8 +83,8 @@ export const createWorkCenter = async (data, cb, setDisabled) => {
     const res = await axios.post(`/mes/WorkCenter/CreateWorkCenter`, data);
 
     if (res.status === 200 && res.data) {
-      toast.success(res.data?.message || "Created successfully", {
-        toastId: "createWorkCenter",
+      toast.success(res.data?.message || 'Created successfully', {
+        toastId: 'createWorkCenter',
       });
       cb();
       setDisabled(false);
@@ -106,7 +106,7 @@ export const getWorkCenterLanding = async (
 ) => {
   setLoader(true);
   try {
-    const searchPath = search ? `Searchterm=${search}&` : "";
+    const searchPath = search ? `Searchterm=${search}&` : '';
 
     const res = await axios.get(
       // `/mes/WorkCenter/GetWorkCenterPagination?accountId=${accId}&businessUnitId=${buId}&status=true&PageNo=1&PageSize=100&viewOrder=desc`
@@ -195,19 +195,19 @@ export const getWorkCenterById = async (
 
         workcenterName: workCenterName,
         workcenterCode: workCenterCode,
-        workCenterCapacity: workCenterCapacity > 0 ? workCenterCapacity : "",
-        setupTime: setupTime > 0 ? setupTime : "",
-        machineTime: machineTime > 0 ? machineTime : "",
-        laborQty: laborQty > 0 ? laborQty : "",
-        laborTime: laborTime > 0 ? laborTime : "",
-        laborCost: laborCost > 0 ? laborCost : "",
+        workCenterCapacity: workCenterCapacity > 0 ? workCenterCapacity : '',
+        setupTime: setupTime > 0 ? setupTime : '',
+        machineTime: machineTime > 0 ? machineTime : '',
+        laborQty: laborQty > 0 ? laborQty : '',
+        laborTime: laborTime > 0 ? laborTime : '',
+        laborCost: laborCost > 0 ? laborCost : '',
         assetId: {
-          value: assetId ? assetId : "",
-          label: assetId ? assetId : "",
+          value: assetId ? assetId : '',
+          label: assetId ? assetId : '',
         },
         employeeId: {
-          value: employeeId ? employeeId : "",
-          label: employeeId ? employeeId : "",
+          value: employeeId ? employeeId : '',
+          label: employeeId ? employeeId : '',
         },
         shopFloorId: { value: shopFloorId, label: shopFloorName },
         UomName: { value: uomid, label: uomName },
@@ -224,8 +224,8 @@ export const editWorkCenter = async (data, setDisabled) => {
   try {
     const res = await axios.put(`/mes/WorkCenter/EditWorkCenter`, data);
     if (res.status === 200 && res.data) {
-      toast.success(res.data?.message || "Edited successfully", {
-        toastId: "editWorkCenter",
+      toast.success(res.data?.message || 'Edited successfully', {
+        toastId: 'editWorkCenter',
       });
       setDisabled(false);
     }

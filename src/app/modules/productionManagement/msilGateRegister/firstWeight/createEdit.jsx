@@ -1,39 +1,39 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import SearchAsyncSelect from "./../../../_helper/SearchAsyncSelect";
-import IViewModal from "../../../_helper/_viewModal";
-import QRCodeScanner from "../../../_helper/qrCodeScanner";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import SearchAsyncSelect from './../../../_helper/SearchAsyncSelect';
+import IViewModal from '../../../_helper/_viewModal';
+import QRCodeScanner from '../../../_helper/qrCodeScanner';
 import {
   getShopFloorDDL,
   getWorkCenterNameDDL,
-} from "../../configuration/routing/helper";
+} from '../../configuration/routing/helper';
 
 const initData = {
   firstWeightDate: _todayDate(),
-  vehicaleNumber: "",
-  itemName: "",
-  firstWeight: "",
-  firstWeightRemarks: "",
-  entryCode: "",
-  entryDate: "",
-  customerName: "",
-  clientName: "",
-  challanNo: "",
-  strCardNumber: "",
-  businessUnit: "",
-  plant: "",
-  shopFloorName: "",
-  packerName: "",
+  vehicaleNumber: '',
+  itemName: '',
+  firstWeight: '',
+  firstWeightRemarks: '',
+  entryCode: '',
+  entryDate: '',
+  customerName: '',
+  clientName: '',
+  challanNo: '',
+  strCardNumber: '',
+  businessUnit: '',
+  plant: '',
+  shopFloorName: '',
+  packerName: '',
 };
 export default function FirstWeightCreateEdit({ weight }) {
   const [objProps, setObjprops] = useState({});
@@ -71,16 +71,15 @@ export default function FirstWeightCreateEdit({ weight }) {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
-
   }, [selectedBusinessUnit, accId, userId]);
 
   const saveHandler = async (values, cb) => {
-    if (!values?.entryCode?.value) return toast.warn("প্রবেশের কোড প্রয়োজন");
-    if (!values?.firstWeightDate) return toast.warn("তারিখ প্রয়োজন");
-    if (!values?.vehicaleNumber) return toast.warn("গাড়ির নাম্বার প্রয়োজন");
-    if (!values?.firstWeight) return toast.warn("First Weight is required");
+    if (!values?.entryCode?.value) return toast.warn('প্রবেশের কোড প্রয়োজন');
+    if (!values?.firstWeightDate) return toast.warn('তারিখ প্রয়োজন');
+    if (!values?.vehicaleNumber) return toast.warn('গাড়ির নাম্বার প্রয়োজন');
+    if (!values?.firstWeight) return toast.warn('First Weight is required');
     if (!values?.businessUnit) {
-      return toast.warn("অনুগ্রহ করে বিজনেস ইউনিট নির্বাচন করুন");
+      return toast.warn('অনুগ্রহ করে বিজনেস ইউনিট নির্বাচন করুন');
     }
     saveData(
       `/mes/WeightBridge/WeightBridgeCreateAndEditV2`,
@@ -88,7 +87,7 @@ export default function FirstWeightCreateEdit({ weight }) {
         intGateEntryItemListId: gateEntryItemListId,
         intPartnerId: 0,
         numWeight: +values?.firstWeight,
-        strRemarks: values?.firstWeightRemarks || "",
+        strRemarks: values?.firstWeightRemarks || '',
         intActionBy: userId,
         strPackareName: values?.packerName?.label,
       },
@@ -98,7 +97,7 @@ export default function FirstWeightCreateEdit({ weight }) {
   };
 
   const qurScanHandler = ({ setFieldValue, values }) => {
-    document.getElementById("cardNoInput").disabled = true;
+    document.getElementById('cardNoInput').disabled = true;
     getRegDDL(
       `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumber&BusinessUnitId=${values?.businessUnit?.value}&search=${values?.strCardNumber}`,
       (data) => {
@@ -112,21 +111,21 @@ export default function FirstWeightCreateEdit({ weight }) {
           getRegData(
             `/mes/MSIL/GetAllMSIL?PartName=FirstWeightEntryCodeDDL&BusinessUnitId=${values?.businessUnit?.value}&search=${data[0]?.label}`,
             (data) => {
-              setFieldValue("entryCode", data[0]);
+              setFieldValue('entryCode', data[0]);
               // console.log("FirstWeightEntryCodeDDL", data)
               setGateEntryItemListId(data[0]?.intGateEntryItemListId);
-              setFieldValue("vehicaleNumber", data[0]?.vehicleNo);
-              setFieldValue("itemName", data[0]?.materialName);
-              setFieldValue("entryDay", data[0]?.gateEntryDate?.split("T")[0]);
-              setFieldValue("clientName", data[0]?.strSupplierName);
-              setFieldValue("challanNo", data[0]?.invoiceNo);
+              setFieldValue('vehicaleNumber', data[0]?.vehicleNo);
+              setFieldValue('itemName', data[0]?.materialName);
+              setFieldValue('entryDay', data[0]?.gateEntryDate?.split('T')[0]);
+              setFieldValue('clientName', data[0]?.strSupplierName);
+              setFieldValue('challanNo', data[0]?.invoiceNo);
             }
           );
         } else {
-          toast.warn("কার্ড নাম্বার সঠিক নয়");
-          setFieldValue("strCardNumber", "");
-          document.getElementById("cardNoInput").disabled = false;
-          document.getElementById("cardNoInput").focus();
+          toast.warn('কার্ড নাম্বার সঠিক নয়');
+          setFieldValue('strCardNumber', '');
+          document.getElementById('cardNoInput').disabled = false;
+          document.getElementById('cardNoInput').focus();
         }
       }
     );
@@ -140,8 +139,8 @@ export default function FirstWeightCreateEdit({ weight }) {
           onSubmit={(values, { setSubmitting, resetForm }) => {
             saveHandler(values, () => {
               resetForm(initData);
-              document.getElementById("cardNoInput").disabled = false;
-              document.getElementById("cardNoInput").focus();
+              document.getElementById('cardNoInput').disabled = false;
+              document.getElementById('cardNoInput').focus();
             });
           }}
         >
@@ -167,33 +166,31 @@ export default function FirstWeightCreateEdit({ weight }) {
                         label="বিজনেস ইউনিট"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("businessUnit", valueOption);
-                            setFieldValue("entryCode", "");
-                            setFieldValue("vehicaleNumber", "");
-                            setFieldValue("itemName", "");
-                            setFieldValue("customerName", "");
-                            setFieldValue("clientName", "");
-                            setFieldValue("challanNo", "");
-                            setFieldValue("strCardNumber", "");
+                            setFieldValue('businessUnit', valueOption);
+                            setFieldValue('entryCode', '');
+                            setFieldValue('vehicaleNumber', '');
+                            setFieldValue('itemName', '');
+                            setFieldValue('customerName', '');
+                            setFieldValue('clientName', '');
+                            setFieldValue('challanNo', '');
+                            setFieldValue('strCardNumber', '');
                             setGateEntryItemListId(0);
-                            document.getElementById(
-                              "cardNoInput"
-                            ).disabled = false;
-                            document.getElementById("cardNoInput").focus();
+                            document.getElementById('cardNoInput').disabled =
+                              false;
+                            document.getElementById('cardNoInput').focus();
                           } else {
-                            setFieldValue("businessUnit", "");
-                            setFieldValue("entryCode", "");
-                            setFieldValue("vehicaleNumber", "");
-                            setFieldValue("itemName", "");
-                            setFieldValue("customerName", "");
-                            setFieldValue("clientName", "");
-                            setFieldValue("challanNo", "");
-                            setFieldValue("strCardNumber", "");
+                            setFieldValue('businessUnit', '');
+                            setFieldValue('entryCode', '');
+                            setFieldValue('vehicaleNumber', '');
+                            setFieldValue('itemName', '');
+                            setFieldValue('customerName', '');
+                            setFieldValue('clientName', '');
+                            setFieldValue('challanNo', '');
+                            setFieldValue('strCardNumber', '');
                             setGateEntryItemListId(0);
-                            document.getElementById(
-                              "cardNoInput"
-                            ).disabled = false;
-                            document.getElementById("cardNoInput").focus();
+                            document.getElementById('cardNoInput').disabled =
+                              false;
+                            document.getElementById('cardNoInput').focus();
                           }
                         }}
                       />
@@ -201,17 +198,17 @@ export default function FirstWeightCreateEdit({ weight }) {
                     <div
                       className="col-lg-3 d-flex"
                       style={{
-                        position: "relative",
+                        position: 'relative',
                       }}
                     >
                       <div
                         style={{
-                          position: "absolute",
+                          position: 'absolute',
                           right: 0,
                           top: 0,
-                          cursor: "pointer",
-                          color: "blue",
-                          zIndex: "1",
+                          cursor: 'pointer',
+                          color: 'blue',
+                          zIndex: '1',
                         }}
                         onClick={() => {
                           setQRCodeScannerModal(true);
@@ -220,7 +217,7 @@ export default function FirstWeightCreateEdit({ weight }) {
                         QR Code <i class="fa fa-qrcode" aria-hidden="true"></i>
                       </div>
 
-                      <div style={{ width: "inherit" }}>
+                      <div style={{ width: 'inherit' }}>
                         <InputField
                           id="cardNoInput"
                           autoFocus
@@ -229,10 +226,9 @@ export default function FirstWeightCreateEdit({ weight }) {
                           name="strCardNumber"
                           type="text"
                           onKeyPress={(e) => {
-                            if (e.key === "Enter") {
-                              document.getElementById(
-                                "cardNoInput"
-                              ).disabled = true;
+                            if (e.key === 'Enter') {
+                              document.getElementById('cardNoInput').disabled =
+                                true;
                               getRegDDL(
                                 `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumber&BusinessUnitId=${values?.businessUnit?.value}&search=${values?.strCardNumber}`,
                                 (data) => {
@@ -246,41 +242,41 @@ export default function FirstWeightCreateEdit({ weight }) {
                                     getRegData(
                                       `/mes/MSIL/GetAllMSIL?PartName=FirstWeightEntryCodeDDL&BusinessUnitId=${values?.businessUnit?.value}&search=${data[0]?.label}`,
                                       (data) => {
-                                        setFieldValue("entryCode", data[0]);
+                                        setFieldValue('entryCode', data[0]);
                                         // console.log("FirstWeightEntryCodeDDL", data)
                                         setGateEntryItemListId(
                                           data[0]?.intGateEntryItemListId
                                         );
                                         setFieldValue(
-                                          "vehicaleNumber",
+                                          'vehicaleNumber',
                                           data[0]?.vehicleNo
                                         );
                                         setFieldValue(
-                                          "itemName",
+                                          'itemName',
                                           data[0]?.materialName
                                         );
                                         setFieldValue(
-                                          "entryDay",
-                                          data[0]?.gateEntryDate?.split("T")[0]
+                                          'entryDay',
+                                          data[0]?.gateEntryDate?.split('T')[0]
                                         );
                                         setFieldValue(
-                                          "clientName",
+                                          'clientName',
                                           data[0]?.strSupplierName
                                         );
                                         setFieldValue(
-                                          "challanNo",
+                                          'challanNo',
                                           data[0]?.invoiceNo
                                         );
                                       }
                                     );
                                   } else {
-                                    toast.warn("কার্ড নাম্বার সঠিক নয়");
-                                    setFieldValue("strCardNumber", "");
+                                    toast.warn('কার্ড নাম্বার সঠিক নয়');
+                                    setFieldValue('strCardNumber', '');
                                     document.getElementById(
-                                      "cardNoInput"
+                                      'cardNoInput'
                                     ).disabled = false;
                                     document
-                                      .getElementById("cardNoInput")
+                                      .getElementById('cardNoInput')
                                       .focus();
                                   }
                                 }
@@ -288,31 +284,30 @@ export default function FirstWeightCreateEdit({ weight }) {
                             }
                           }}
                           onChange={(e) => {
-                            setFieldValue("strCardNumber", e.target.value);
+                            setFieldValue('strCardNumber', e.target.value);
                           }}
                         />
                       </div>
                       <span
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          marginLeft: "5px",
-                          cursor: "pointer",
-                          marginTop: "20px",
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginLeft: '5px',
+                          cursor: 'pointer',
+                          marginTop: '20px',
                         }}
                         onClick={() => {
-                          setFieldValue("strCardNumber", "");
-                          document.getElementById(
-                            "cardNoInput"
-                          ).disabled = false;
-                          document.getElementById("cardNoInput").focus();
+                          setFieldValue('strCardNumber', '');
+                          document.getElementById('cardNoInput').disabled =
+                            false;
+                          document.getElementById('cardNoInput').focus();
                           resetForm(initData);
                         }}
                       >
                         <i
                           style={{
-                            color: "blue",
+                            color: 'blue',
                           }}
                           className="fa fa-refresh"
                           aria-hidden="true"
@@ -329,37 +324,36 @@ export default function FirstWeightCreateEdit({ weight }) {
                             setGateEntryItemListId(
                               valueOption?.intGateEntryItemListId
                             );
-                            setFieldValue("entryCode", valueOption);
+                            setFieldValue('entryCode', valueOption);
                             setFieldValue(
-                              "vehicaleNumber",
+                              'vehicaleNumber',
                               valueOption?.vehicleNo
                             );
                             setFieldValue(
-                              "itemName",
+                              'itemName',
                               valueOption?.materialName
                             );
                             setFieldValue(
-                              "entryDay",
-                              valueOption?.gateEntryDate?.split("T")[0]
+                              'entryDay',
+                              valueOption?.gateEntryDate?.split('T')[0]
                             );
                             setFieldValue(
-                              "clientName",
+                              'clientName',
                               valueOption?.strSupplierName
                             );
-                            setFieldValue("challanNo", valueOption?.invoiceNo);
+                            setFieldValue('challanNo', valueOption?.invoiceNo);
                           } else {
                             setGateEntryItemListId(0);
-                            setFieldValue("entryCode", "");
-                            setFieldValue("vehicaleNumber", "");
-                            setFieldValue("itemName", "");
-                            setFieldValue("entryDay", "");
-                            setFieldValue("clientName", "");
-                            setFieldValue("challanNo", "");
-                            setFieldValue("vehicleType", "");
-                            setFieldValue("strCardNumber", "");
-                            document.getElementById(
-                              "cardNoInput"
-                            ).disabled = false;
+                            setFieldValue('entryCode', '');
+                            setFieldValue('vehicaleNumber', '');
+                            setFieldValue('itemName', '');
+                            setFieldValue('entryDay', '');
+                            setFieldValue('clientName', '');
+                            setFieldValue('challanNo', '');
+                            setFieldValue('vehicleType', '');
+                            setFieldValue('strCardNumber', '');
+                            document.getElementById('cardNoInput').disabled =
+                              false;
                             // document.getElementById("cardNoInput").focus();
                           }
                         }}
@@ -434,14 +428,14 @@ export default function FirstWeightCreateEdit({ weight }) {
                         <InputField
                           value={
                             values?.entryCode?.intClientTypeId === 1
-                              ? "সাপ্লায়ার"
+                              ? 'সাপ্লায়ার'
                               : values?.entryCode?.intClientTypeId === 2
-                              ? "কাস্টমার"
-                              : values?.entryCode?.intClientTypeId === 3
-                              ? "Gate Pass"
-                              : values?.entryCode?.intClientTypeId === 4
-                              ? "Without Reference"
-                              : ""
+                                ? 'কাস্টমার'
+                                : values?.entryCode?.intClientTypeId === 3
+                                  ? 'Gate Pass'
+                                  : values?.entryCode?.intClientTypeId === 4
+                                    ? 'Without Reference'
+                                    : ''
                           }
                           label="গাড়ির ধরন"
                           name="vehicleType"
@@ -467,7 +461,7 @@ export default function FirstWeightCreateEdit({ weight }) {
                         label="Plant"
                         options={plantDDL}
                         onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
+                          setFieldValue('plant', valueOption);
                           getShopFloorDDL(
                             accId,
                             selectedBusinessUnit?.value,
@@ -489,7 +483,7 @@ export default function FirstWeightCreateEdit({ weight }) {
                         value={values?.shopFloorName}
                         label="Shop Floor Name"
                         onChange={(valueOption) => {
-                          setFieldValue("shopFloorName", valueOption);
+                          setFieldValue('shopFloorName', valueOption);
 
                           getWorkCenterNameDDL(
                             accId,
@@ -498,7 +492,7 @@ export default function FirstWeightCreateEdit({ weight }) {
                             valueOption?.value,
                             setPackerDDL
                           );
-                          setFieldValue("packerName", "");
+                          setFieldValue('packerName', '');
                         }}
                         placeholder="Shop Floor Name"
                         errors={errors}
@@ -511,7 +505,7 @@ export default function FirstWeightCreateEdit({ weight }) {
                         label="Packer Name"
                         options={packerDDL}
                         onChange={(valueOption) => {
-                          setFieldValue("packerName", valueOption);
+                          setFieldValue('packerName', valueOption);
                         }}
                         value={values.packerName}
                         placeholder="Packer Name"
@@ -535,7 +529,7 @@ export default function FirstWeightCreateEdit({ weight }) {
                       <button
                         onClick={() => {
                           if (weight > 0) {
-                            setFieldValue("firstWeight", parseInt(weight, 10));
+                            setFieldValue('firstWeight', parseInt(weight, 10));
                           }
                         }}
                         disabled={false}
@@ -557,7 +551,7 @@ export default function FirstWeightCreateEdit({ weight }) {
                     >
                       <QRCodeScanner
                         QrCodeScannerCB={(result) => {
-                          setFieldValue("strCardNumber", result);
+                          setFieldValue('strCardNumber', result);
                           setQRCodeScannerModal(false);
                           qurScanHandler({
                             setFieldValue,
@@ -573,7 +567,7 @@ export default function FirstWeightCreateEdit({ weight }) {
                 )}
                 <button
                   type="button"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   // onSubmit={() => handleSubmit()}
                   onClick={() => handleSubmit()}
@@ -581,7 +575,7 @@ export default function FirstWeightCreateEdit({ weight }) {
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

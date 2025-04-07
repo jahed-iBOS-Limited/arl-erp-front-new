@@ -171,7 +171,7 @@ h6 {
 .masterHawbContainer .hawbCurrency {
   width: 305px;
   display: grid;
-  grid-template-columns: 1fr 1fr ;
+  grid-template-columns: 1fr 1fr;
 }
 
 .masterHawbContainer .cargoInfo {
@@ -219,7 +219,10 @@ h6 {
   width: 90px;
 }
 
-.masterHawbContainer .collectInfo .collectChartBox .collectChartBoxValuationCharge {
+.masterHawbContainer
+  .collectInfo
+  .collectChartBox
+  .collectChartBoxValuationCharge {
   width: 160px;
 }
 
@@ -227,11 +230,17 @@ h6 {
   width: 90px;
 }
 
-.masterHawbContainer .collectInfo .collectChartBox .collectChartBoxTotalOtherChargesDueAgent {
+.masterHawbContainer
+  .collectInfo
+  .collectChartBox
+  .collectChartBoxTotalOtherChargesDueAgent {
   width: 250px;
 }
 
-.masterHawbContainer .collectInfo .collectChartBox .collectChartBoxTotalOtherChargesDueCarrier {
+.masterHawbContainer
+  .collectInfo
+  .collectChartBox
+  .collectChartBoxTotalOtherChargesDueCarrier {
   width: 250px;
 }
 
@@ -243,7 +252,6 @@ h6 {
 .masterHawbContainer .collectInfo .collectChartRight {
   min-width: 169px;
   padding-top: 15px;
-
 }
 
 .masterHawbContainer .collectInfo .collectChartBoxItem {
@@ -253,7 +261,7 @@ h6 {
 }
 
 .masterHawbContainer .collectInfo .collectChartBoxItem::after {
-  content: "";
+  content: '';
   position: absolute;
   right: -4px;
   top: -1px;
@@ -265,9 +273,8 @@ h6 {
   border-right: 1px solid #000;
 }
 
-
 .masterHawbContainer .collectInfo .collectChartBoxItem::before {
-  content: "";
+  content: '';
   position: absolute;
   left: -3px;
   top: -1px;
@@ -295,7 +302,6 @@ h6 {
 .masterHawbContainer .collectInfo .totalOtherChargesDueCarrier {
   height: 51px;
 }
-
 
 .masterHawbContainer .collectInfo .collectItemRow {
   display: flex;

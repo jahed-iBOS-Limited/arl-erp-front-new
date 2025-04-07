@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 function PaginationSearch({ placeholder, paginationSearchHandler, values }) {
-  const [fieldValue, setFieldValue] = useState("");
+  const [fieldValue, setFieldValue] = useState('');
   return (
     <div className="paginationSearch">
       <div className="input-group">
@@ -22,15 +22,15 @@ function PaginationSearch({ placeholder, paginationSearchHandler, values }) {
             }
           }}
           style={{
-            paddingLeft: "8px",
-            border: "1px solid rgb(204, 204, 204)",
-            borderRadius: "5px 0px 0px 5px",
+            paddingLeft: '8px',
+            border: '1px solid rgb(204, 204, 204)',
+            borderRadius: '5px 0px 0px 5px',
           }}
         />
         <div className="input-group-append">
           <button
             style={{
-              border: "1px solid rgb(204, 204, 204)",
+              border: '1px solid rgb(204, 204, 204)',
             }}
             className="btn btn-light"
             type="button"

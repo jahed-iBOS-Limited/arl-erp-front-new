@@ -103,7 +103,7 @@ export const createFile = (excel, adviceBlobData, fileName) => {
                   _addedRow.number + (Number(points[0].slice(1)) - 1)
                 }:${points[1][0]}${
                   _addedRow.number + (Number(points[1].slice(1)) - 1)
-                }`,
+                }`
               );
             }
 

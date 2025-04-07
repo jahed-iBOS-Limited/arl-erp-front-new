@@ -1,32 +1,29 @@
-
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getAllPriceSetupInitialDDL,
   savePriceSetup,
   getPriceSetupById,
   setPriceSetupEmpty,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import Loading from "../../../../_helper/_loading";
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import Loading from '../../../../_helper/_loading';
+import { toast } from 'react-toastify';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
   id: undefined,
   appsItemRate: false,
-  conditionType: "",
-  conditionTypeRef: "",
-  startDate: "",
-  endDate: "",
-  item: "",
-  minPrice: "",
-  maxPrice: "",
+  conditionType: '',
+  conditionTypeRef: '',
+  startDate: '',
+  endDate: '',
+  item: '',
+  minPrice: '',
+  maxPrice: '',
   isAllItem: false,
 };
 
@@ -47,7 +44,7 @@ export default function PriceSetupForm({
     salesInformationExcelData,
     getSalesInformationExcelData,
     getSalesInformationExcelDataLoading,
-    setSalesInformationExcelData
+    setSalesInformationExcelData,
   ] = useAxiosGet();
 
   // get user data from store
@@ -62,17 +59,7 @@ export default function PriceSetupForm({
   );
 
   const businessUnitSet = [
-    224,
-    144,
-    171,
-    178,
-    180,
-    181,
-    182,
-    183,
-    212,
-    213,
-    216,
+    224, 144, 171, 178, 180, 181, 182, 183, 212, 213, 216,
   ].includes(selectedBusinessUnit?.value);
 
   // get DDLs from store
@@ -95,7 +82,6 @@ export default function PriceSetupForm({
     } else {
       dispatch(setPriceSetupEmpty());
     }
-
   }, [id]);
 
   //Dispatch Get all initiaal dropdown action
@@ -108,7 +94,6 @@ export default function PriceSetupForm({
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -154,7 +139,7 @@ export default function PriceSetupForm({
               price: +element?.price,
               startDate: values?.startDate,
               endDate: values?.endDate,
-              partnercode: "1234",
+              partnercode: '1234',
               maximumIncrease: +element?.maxPriceAddition,
               minimumDecrease: +element?.minPriceDeduction,
               attachment: element?.attachment,
@@ -194,7 +179,7 @@ export default function PriceSetupForm({
   };
 
   const setter = (payload) => {
-    if (isUniq("itemId", payload.itemId, rowDto)) {
+    if (isUniq('itemId', payload.itemId, rowDto)) {
       setRowDto([...rowDto, payload]);
     }
   };
@@ -212,7 +197,7 @@ export default function PriceSetupForm({
 
   // set apps item rate for all row dto
   const setAppsItemRateAll = (values) => {
-    if (itemByChanneList?.length === 0) return toast.warn("No item found");
+    if (itemByChanneList?.length === 0) return toast.warn('No item found');
     const allDto = itemByChanneList.map((itm) => {
       return {
         ...values,
@@ -233,9 +218,9 @@ export default function PriceSetupForm({
   const setPrice = (sl, value, name, values) => {
     const cloneArr = [...rowDto];
     cloneArr[sl][name] = value;
-    if (name === "price") {
-      cloneArr[sl]["minPriceDeduction"] = +value - +values?.minPrice;
-      cloneArr[sl]["maxPriceAddition"] = +value + +values?.maxPrice;
+    if (name === 'price') {
+      cloneArr[sl]['minPriceDeduction'] = +value - +values?.minPrice;
+      cloneArr[sl]['maxPriceAddition'] = +value + +values?.maxPrice;
     }
     setRowDto([...cloneArr]);
   };

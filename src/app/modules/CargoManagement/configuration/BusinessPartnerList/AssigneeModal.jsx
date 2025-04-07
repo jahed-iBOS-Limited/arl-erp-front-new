@@ -63,7 +63,7 @@ export default function AssigneeModal({
             cb();
           }
         },
-        'save',
+        'save'
       );
     }
 
@@ -78,7 +78,7 @@ export default function AssigneeModal({
             cb();
           }
         },
-        'save',
+        'save'
       );
     }
   };
@@ -97,17 +97,16 @@ export default function AssigneeModal({
             };
           });
         setItemTypeOption(updatedData);
-      },
+      }
     );
     GetParticipantTypeListDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
+      `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`
     );
-
   }, []);
 
   const commonGeParticipantDDL = (actionName, partnerType, cargoType) => {
     actionName(
-      `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?businessPartnerType=${partnerType}&cargoType=${cargoType}`,
+      `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?businessPartnerType=${partnerType}&cargoType=${cargoType}`
     );
   };
 
@@ -119,7 +118,7 @@ export default function AssigneeModal({
     commonGeParticipantDDL(
       getParticipantDDL,
       supplierTypeId,
-      participantTypeId,
+      participantTypeId
     );
   };
 
@@ -141,7 +140,7 @@ export default function AssigneeModal({
     const isExist = addedItem?.find(
       (item) =>
         item?.participantTypeId === obj?.participantTypeId &&
-        item?.participantId === obj?.participantId,
+        item?.participantId === obj?.participantId
     );
     if (isExist) return toast.warning('Duplicate item not allowed');
     setAddedItem((prev) => [...prev, obj]);
@@ -184,7 +183,7 @@ export default function AssigneeModal({
             };
           });
           setAddedItem(addedItems);
-        },
+        }
       );
     }
 
@@ -224,7 +223,7 @@ export default function AssigneeModal({
             };
           });
           setAddedItem(addedItems);
-        },
+        }
       );
     }
   };
@@ -247,7 +246,6 @@ export default function AssigneeModal({
     } else {
       getCommonShipperAndConsigneeDDL(1);
     }
-
   }, [clickRowData]);
 
   // tradeType 1 = Export 2 = Import
@@ -265,13 +263,13 @@ export default function AssigneeModal({
     // tradeTypeId 1 = Export
     if (tradeTypeId === 1) {
       getShipperListDDL(
-        `${imarineBaseUrl}/domain/ShippingService/ImportorExportTypeWisePartnerDDL?typeId=${tradeTypeId}`,
+        `${imarineBaseUrl}/domain/ShippingService/ImportorExportTypeWisePartnerDDL?typeId=${tradeTypeId}`
       );
     }
     // tradeTypeId 2 = Import
     if (tradeTypeId === 2) {
       getConsigneeListDDL(
-        `${imarineBaseUrl}/domain/ShippingService/ImportorExportTypeWisePartnerDDL?typeId=${tradeTypeId}`,
+        `${imarineBaseUrl}/domain/ShippingService/ImportorExportTypeWisePartnerDDL?typeId=${tradeTypeId}`
       );
     }
   };
@@ -549,7 +547,7 @@ export default function AssigneeModal({
                                     onClick={() => {
                                       const prv = [...addedItem];
                                       const filtered = prv.filter(
-                                        (itm, i) => i !== index,
+                                        (itm, i) => i !== index
                                       );
                                       setAddedItem(filtered);
                                     }}

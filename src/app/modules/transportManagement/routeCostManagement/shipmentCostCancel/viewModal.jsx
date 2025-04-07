@@ -1,20 +1,20 @@
-import React, { useRef } from "react";
-import IViewModal from "./../../../_helper/_viewModal";
-import printIcon from "./../../../_helper/images/print-icon.png";
-import ReactToPrint from "react-to-print";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
+import React, { useRef } from 'react';
+import IViewModal from './../../../_helper/_viewModal';
+import printIcon from './../../../_helper/images/print-icon.png';
+import ReactToPrint from 'react-to-print';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
 
 const tableTitles = [
-  "S.L No",
-  "Goods/Service Description(Incases with Brand Name)",
-  "Unit of Supply",
-  "Quantity",
-  "Unit of Value 1 (TAKA)",
-  "Total Value 1 (TAKA)",
-  "Amount Supplementry Duty (TAKA)",
-  "Value Added Tax rate/Specifle Tax",
-  "Value Added Tax rate/Speecific Tax Amount (TAKA)",
-  "Value All Kinds of Duty & Tax",
+  'S.L No',
+  'Goods/Service Description(Incases with Brand Name)',
+  'Unit of Supply',
+  'Quantity',
+  'Unit of Value 1 (TAKA)',
+  'Total Value 1 (TAKA)',
+  'Amount Supplementry Duty (TAKA)',
+  'Value Added Tax rate/Specifle Tax',
+  'Value Added Tax rate/Speecific Tax Amount (TAKA)',
+  'Value All Kinds of Duty & Tax',
 ];
 
 export default function SalesInvoiceModel({
@@ -31,7 +31,7 @@ export default function SalesInvoiceModel({
       <IViewModal
         show={show}
         onHide={onHide}
-        title={"Sales Invoice iBOS"}
+        title={'Sales Invoice iBOS'}
         btnText="Close"
         componentRef={printRef}
       >
@@ -48,7 +48,7 @@ export default function SalesInvoiceModel({
                     className="btn btn-primary sales_invoice_btn"
                   >
                     <img
-                      style={{ width: "25px", paddingRight: "5px" }}
+                      style={{ width: '25px', paddingRight: '5px' }}
                       src={printIcon}
                       alt="print-icon"
                     />
@@ -78,16 +78,16 @@ export default function SalesInvoiceModel({
               <div className="d-flex justify-content-between">
                 <div className="left">
                   <p>
-                    <b>Name of Purchaser: </b>{" "}
+                    <b>Name of Purchaser: </b>{' '}
                     {singleData?.objHeader?.soldtoPartnerName}
                   </p>
                   <p>
-                    <b>BIN of Purchaser: </b>{" "}
+                    <b>BIN of Purchaser: </b>{' '}
                     {singleData?.objHeader?.partnerBin}
                   </p>
                   <p>
-                    <b>Destination of Supply: </b>{" "}
-                    {singleData?.objHeader?.shiptoPartnerAddress}{" "}
+                    <b>Destination of Supply: </b>{' '}
+                    {singleData?.objHeader?.shiptoPartnerAddress}{' '}
                   </p>
                 </div>
                 <div className="right">
@@ -95,11 +95,13 @@ export default function SalesInvoiceModel({
                     <b>Invoice No: </b> {singleData?.objHeader?.taxSalesCode}
                   </p>
                   <p>
-                    <b>Date of Issue: </b>{" "}
-                    {_dateFormatter(singleData?.objHeader?.deliveryDateTime)}{" "}
+                    <b>Date of Issue: </b>{' '}
+                    {_dateFormatter(
+                      singleData?.objHeader?.deliveryDateTime
+                    )}{' '}
                   </p>
                   <p>
-                    <b>Time of Issue: </b>{" "}
+                    <b>Time of Issue: </b>{' '}
                     {singleData?.objHeader?.taxDeliveryDateTime}
                   </p>
                 </div>
@@ -112,15 +114,15 @@ export default function SalesInvoiceModel({
                     {tableTitles?.map((th, index) => {
                       return (
                         <th
-                          style={{ height: "34px", padding: "0 !important" }}
+                          style={{ height: '34px', padding: '0 !important' }}
                           key={index}
                         >
                           <div
                             style={{
-                              height: "100%",
-                              display: "block",
-                              background: "#d6dadd",
-                              padding: "0",
+                              height: '100%',
+                              display: 'block',
+                              background: '#d6dadd',
+                              padding: '0',
                             }}
                           >
                             {th}
@@ -136,7 +138,7 @@ export default function SalesInvoiceModel({
                       <tr key={i}>
                         <td className="text-center"> {i + 1}</td>
                         <td className="text-center">
-                          {" "}
+                          {' '}
                           {itm?.taxItemGroupName}
                         </td>
                         <td className="text-center"> {itm?.uomname}</td>
@@ -158,7 +160,7 @@ export default function SalesInvoiceModel({
             <div className="col-lg-12 p-0">
               <div
                 className="d-flex justify-content-between px-5"
-                style={{ marginTop: "30px" }}
+                style={{ marginTop: '30px' }}
               >
                 <div>
                   <p>Name of organization Officer-in-charge:</p>

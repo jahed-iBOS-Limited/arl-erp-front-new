@@ -1,8 +1,7 @@
-import React from "react";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import React from 'react';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 
-const ClosingLanding = ({ data, closingTotalBookedAmount , total }) => {
-
+const ClosingLanding = ({ data, closingTotalBookedAmount, total }) => {
   const totalCalculation = (itm) => {
     total.TotalBillAmount += itm?.numAdvanceAmount;
     total.TotalActualBill += itm?.numBillAmount;
@@ -29,7 +28,7 @@ const ClosingLanding = ({ data, closingTotalBookedAmount , total }) => {
                 return (
                   <>
                     <tr key={index}>
-                      <td style={{ width: "30px" }} className="text-center">
+                      <td style={{ width: '30px' }} className="text-center">
                         {index + 1}
                       </td>
                       <td>
@@ -48,30 +47,36 @@ const ClosingLanding = ({ data, closingTotalBookedAmount , total }) => {
                   </>
                 );
               })}
-              {
-                <tr>
+            {
+              <tr>
                 <td></td>
                 <td className="text-right">
-                  <b>Total:</b>{" "}
+                  <b>Total:</b>{' '}
                 </td>
-                <td className="text-center" style={{ fontWeight: "700" }}>{numberWithCommas(total?.TotalBillAmount)}</td>
-                <td className="text-center" style={{ fontWeight: "700" }}>{numberWithCommas(total?.TotalActualBill)}</td>
-                <td className="text-center" style={{ fontWeight: "700" }}>{numberWithCommas(total?.TotalVat)}</td>
+                <td className="text-center" style={{ fontWeight: '700' }}>
+                  {numberWithCommas(total?.TotalBillAmount)}
+                </td>
+                <td className="text-center" style={{ fontWeight: '700' }}>
+                  {numberWithCommas(total?.TotalActualBill)}
+                </td>
+                <td className="text-center" style={{ fontWeight: '700' }}>
+                  {numberWithCommas(total?.TotalVat)}
+                </td>
               </tr>
-              }
+            }
           </tbody>
         </table>
         <div className="d-flex align-items-center justify-content-center">
           <span className="mx-4">
-            <span style={{ fontWeight: "900" }}>Total Booked Amount: </span>
+            <span style={{ fontWeight: '900' }}>Total Booked Amount: </span>
             {closingTotalBookedAmount}
           </span>
           <span className="mx-4">
-            <span style={{ fontWeight: "900" }}>Total Actual Bill: </span>
+            <span style={{ fontWeight: '900' }}>Total Actual Bill: </span>
             {total?.TotalActualBill}
           </span>
           <span className="mx-4">
-            <span style={{ fontWeight: "900" }}>Adjustment Amount: </span>
+            <span style={{ fontWeight: '900' }}>Adjustment Amount: </span>
             {closingTotalBookedAmount - total?.TotalActualBill}
           </span>
         </div>

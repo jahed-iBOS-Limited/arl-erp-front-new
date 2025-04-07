@@ -1,11 +1,10 @@
-
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import IForm from "../../../../_helper/_form";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   getPlantNameDDL,
   getProductionOrderDDL,
@@ -13,26 +12,26 @@ import {
   getSingleDataByIdApprove,
   editApprovalProductionEntry,
   getsbuDDL,
-} from "../helper";
-import Form from "./Form";
-import Loading from "./../../../../_helper/_loading";
-import { toast } from "react-toastify";
-import { IssueReturnHandler } from "./helper";
+} from '../helper';
+import Form from './Form';
+import Loading from './../../../../_helper/_loading';
+import { toast } from 'react-toastify';
+import { IssueReturnHandler } from './helper';
 
 let initData = {
   id: undefined,
-  plantName: "",
-  productionOrder: "",
-  orderQty: "",
+  plantName: '',
+  productionOrder: '',
+  orderQty: '',
   dteProductionDate: _todayDate(),
-  shift: "",
-  itemName: "",
-  goodQty: "",
-  goodReceivedQty: "",
-  othersOutputItem: "",
-  othersOutputQty: "",
-  sbu: "",
-  wareHouse: "",
+  shift: '',
+  itemName: '',
+  goodQty: '',
+  goodReceivedQty: '',
+  othersOutputItem: '',
+  othersOutputQty: '',
+  sbu: '',
+  wareHouse: '',
 };
 
 export default function ProductionEntryApprovalForm() {
@@ -48,7 +47,7 @@ export default function ProductionEntryApprovalForm() {
 
   const params = useParams();
 
-  console.log("params", params);
+  console.log('params', params);
 
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -95,11 +94,11 @@ export default function ProductionEntryApprovalForm() {
           editRow: objRowData,
         };
         window.paylaod = payload;
-        if(selectedBusinessUnit?.value !== 8  && !values?.wareHouse?.value){
-          return toast.warn("Please select Warehouse")
+        if (selectedBusinessUnit?.value !== 8 && !values?.wareHouse?.value) {
+          return toast.warn('Please select Warehouse');
         }
         if (!values?.sbu?.value) {
-          toast.warn("Please select a SBU");
+          toast.warn('Please select a SBU');
         } else {
           editApprovalProductionEntry({
             payload,
@@ -111,7 +110,7 @@ export default function ProductionEntryApprovalForm() {
             singleData,
             params,
             profileData,
-            selectedBusinessUnit
+            selectedBusinessUnit,
           });
         }
       }

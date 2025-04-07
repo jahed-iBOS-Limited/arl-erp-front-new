@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import HeaderForm from "./form";
-import { useSelector, shallowEqual } from "react-redux";
-import "../style.css";
-import { getInvoiceClearPasignation_api } from "./../helper";
+import React, { useState } from 'react';
+import HeaderForm from './form';
+import { useSelector, shallowEqual } from 'react-redux';
+import '../style.css';
+import { getInvoiceClearPasignation_api } from './../helper';
 
 export default function ClearSalesInvoiceLanding() {
   const [girdData, setGirdData] = useState([]);

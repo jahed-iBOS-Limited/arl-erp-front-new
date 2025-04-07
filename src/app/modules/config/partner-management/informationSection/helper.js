@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const GetInformationSectionPagination = async (
   accountId,
@@ -19,7 +19,6 @@ export const GetInformationSectionPagination = async (
       setLoading(false);
     }
   } catch (error) {
-    
     setLoading(false);
   }
 };
@@ -39,9 +38,7 @@ export const GetValueAdditionView = async (id, setter) => {
 
       setter(newData);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const saveInformationSection = async (data, cb, setDisabled) => {
@@ -52,12 +49,11 @@ export const saveInformationSection = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-    
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
@@ -71,33 +67,27 @@ export const EditInformationSection = async (data, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {
-    
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
 };
 
-
 // isActive
-export const isActiveByInformationSectionId = async (
-  data
-) => {
-  console.log(data)
+export const isActiveByInformationSectionId = async (data) => {
+  console.log(data);
   try {
     const res = await Axios.put(
       `/partner/PartnerInformation/ActiveInactivePartnerInfoSection`,
       data
     );
-    console.log(res)
+    console.log(res);
 
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
     }
-  } catch (error) {
-   
-  }
+  } catch (error) {}
 };

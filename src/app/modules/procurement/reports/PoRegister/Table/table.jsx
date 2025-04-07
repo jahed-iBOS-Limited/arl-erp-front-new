@@ -1,28 +1,31 @@
-import React, { useEffect, useState } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import { Formik, Form } from "formik";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import { Formik, Form } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPORegisterLanding } from '../helper';
+import ILoader from '../../../../_helper/loader/_loader';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import NewSelect from '../../../../_helper/_select';
+import * as Yup from 'yup';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import { SetReportPoRegisterAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import {
-  getPORegisterLanding,
-} from "../helper";
-import ILoader from "../../../../_helper/loader/_loader";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import NewSelect from "../../../../_helper/_select";
-import * as Yup from "yup";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { SetReportPoRegisterAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { getPlantList, getPurchaseOrganizationDDL, getSBU, getWhList } from "../../../../_helper/_commonApi";
+  getPlantList,
+  getPurchaseOrganizationDDL,
+  getSBU,
+  getWhList,
+} from '../../../../_helper/_commonApi';
 // const statusData = [
 //   { label: 'Approved', value: true },
 //   { label: 'Pending', value: false },
 // ]
 
 const validationSchema = Yup.object().shape({
-  toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
-    if (fromDate) return Schema.required("To date is required");
+  toDate: Yup.string().when('fromDate', (fromDate, Schema) => {
+    if (fromDate) return Schema.required('To date is required');
   }),
 });
 
@@ -30,14 +33,14 @@ const PORegisterTable = () => {
   const { reportPoRegister } = useSelector((state) => state?.localStorage);
 
   const initData = {
-    wh: reportPoRegister?.wh || "",
-    plant: reportPoRegister?.plant || "",
-    po: reportPoRegister?.po || "",
-    sbu: reportPoRegister?.sbu || "",
+    wh: reportPoRegister?.wh || '',
+    plant: reportPoRegister?.plant || '',
+    po: reportPoRegister?.po || '',
+    sbu: reportPoRegister?.sbu || '',
     fromDate: reportPoRegister?.fromDate || _todayDate(),
     toDate: reportPoRegister?.toDate || _todayDate(),
-    type: reportPoRegister?.type || "",
-    typeCode: reportPoRegister?.typeCode || "",
+    type: reportPoRegister?.type || '',
+    typeCode: reportPoRegister?.typeCode || '',
   };
 
   // //paginationState
@@ -45,10 +48,10 @@ const PORegisterTable = () => {
   const [pageSize, setPageSize] = React.useState(20);
 
   // ddl state
-  const [sbuList, setSbuList] = useState("");
-  const [poList, setPoList] = useState("");
-  const [plantList, setPlantList] = useState("");
-  const [whList, setWhList] = useState("");
+  const [sbuList, setSbuList] = useState('');
+  const [poList, setPoList] = useState('');
+  const [plantList, setPlantList] = useState('');
+  const [whList, setWhList] = useState('');
 
   // landing
   const [landing, setLanding] = useState([]);
@@ -87,7 +90,6 @@ const PORegisterTable = () => {
         setPoList
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   // const history = useHistory()
@@ -157,7 +159,7 @@ const PORegisterTable = () => {
           validationSchema={validationSchema}
           initialValues={initData}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({
             handleSubmit,
@@ -172,7 +174,7 @@ const PORegisterTable = () => {
               <Form className="form form-label-left">
                 <div
                   className="row global-form"
-                  style={{ background: " #d6dadd" }}
+                  style={{ background: ' #d6dadd' }}
                 >
                   <div className="col-lg-2">
                     <NewSelect
@@ -181,7 +183,7 @@ const PORegisterTable = () => {
                       value={values?.sbu}
                       label="SBU"
                       onChange={(v) => {
-                        setFieldValue("sbu", v);
+                        setFieldValue('sbu', v);
                         dispatch(
                           SetReportPoRegisterAction({
                             ...values,
@@ -192,7 +194,7 @@ const PORegisterTable = () => {
                       placeholder="SBU"
                       errors={errors}
                       touched={touched}
-                    />{" "}
+                    />{' '}
                   </div>
                   <div className="col-lg-2">
                     <NewSelect
@@ -201,7 +203,7 @@ const PORegisterTable = () => {
                       value={values?.po}
                       label="Purchase Organization"
                       onChange={(v) => {
-                        setFieldValue("po", v);
+                        setFieldValue('po', v);
                         dispatch(
                           SetReportPoRegisterAction({
                             ...values,
@@ -228,13 +230,13 @@ const PORegisterTable = () => {
                           v?.value,
                           setWhList
                         );
-                        setFieldValue("plant", v);
-                        setFieldValue("wh", "");
+                        setFieldValue('plant', v);
+                        setFieldValue('wh', '');
                         dispatch(
                           SetReportPoRegisterAction({
                             ...values,
                             plant: v,
-                            wh: "",
+                            wh: '',
                           })
                         );
                       }}
@@ -250,7 +252,7 @@ const PORegisterTable = () => {
                       value={values?.wh}
                       label="Warehouse"
                       onChange={(v) => {
-                        setFieldValue("wh", v);
+                        setFieldValue('wh', v);
                         dispatch(
                           SetReportPoRegisterAction({
                             ...values,
@@ -281,7 +283,7 @@ const PORegisterTable = () => {
                     <label>From Date</label>
                     <div className="d-flex">
                       <InputField
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                         value={values?.fromDate}
                         name="fromDate"
                         placeholder="From date"
@@ -301,7 +303,7 @@ const PORegisterTable = () => {
                     <label>To Date</label>
                     <div className="d-flex">
                       <InputField
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                         value={values?.toDate}
                         name="toDate"
                         placeholder="To date"
@@ -321,21 +323,21 @@ const PORegisterTable = () => {
                     <NewSelect
                       name="type"
                       options={[
-                        { value: 1, label: "Purchase Request" },
-                        { value: 2, label: "Purchase Order" },
-                        { value: 3, label: "Inventory Transaction" },
-                        { value: 4, label: "Item" },
+                        { value: 1, label: 'Purchase Request' },
+                        { value: 2, label: 'Purchase Order' },
+                        { value: 3, label: 'Inventory Transaction' },
+                        { value: 4, label: 'Item' },
                       ]}
                       value={values?.type}
                       label="Type"
                       onChange={(v) => {
-                        setFieldValue("type", v);
-                        setFieldValue("typeCode", "");
+                        setFieldValue('type', v);
+                        setFieldValue('typeCode', '');
                         dispatch(
                           SetReportPoRegisterAction({
                             ...values,
                             type: v,
-                            typeCode: "",
+                            typeCode: '',
                           })
                         );
                       }}
@@ -347,26 +349,26 @@ const PORegisterTable = () => {
                   <div className="col-lg-2">
                     <label>
                       {values?.type?.value === 1
-                        ? "Purchase Request Code"
+                        ? 'Purchase Request Code'
                         : values?.type?.value === 2
-                          ? "Purchase Order Code"
+                          ? 'Purchase Order Code'
                           : values?.type?.value === 3
-                            ? "Transaction Code"
-                            : "Item"}
+                            ? 'Transaction Code'
+                            : 'Item'}
                     </label>
                     <div className="d-flex">
                       <InputField
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                         value={values?.typeCode}
                         name="typeCode"
                         placeholder={
                           values?.type?.value === 1
-                            ? "Purchase Request Code"
+                            ? 'Purchase Request Code'
                             : values?.type?.value === 2
-                              ? "Purchase Order Code"
+                              ? 'Purchase Order Code'
                               : values?.type?.value === 3
-                                ? "Transaction Code"
-                                : "Item"
+                                ? 'Transaction Code'
+                                : 'Item'
                         }
                         type="text"
                         onChange={(e) => {

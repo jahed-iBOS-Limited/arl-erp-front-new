@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import numberWithCommas from "../../_helper/_numberWithCommas";
+import React, { useEffect, useState } from 'react';
+import numberWithCommas from '../../_helper/_numberWithCommas';
 
 const ProjectedPlannedFundRequirementForAll = ({ rowData }) => {
   const [listData, setListData] = useState({
@@ -15,7 +15,7 @@ const ProjectedPlannedFundRequirementForAll = ({ rowData }) => {
       let tableHeaderList = [];
       if (rowData.length > 0 && data.length > 0) {
         const str = data[0]?.dynamicColumnListForMap;
-        tableHeaderList = str?.length ? str?.split("$") : [];
+        tableHeaderList = str?.length ? str?.split('$') : [];
       }
       return tableHeaderList;
     };
@@ -95,7 +95,7 @@ const ProjectedPlannedFundRequirementForAll = ({ rowData }) => {
           <div className="col-lg-12">
             <div className="loan-scrollable-table employee-overall-status">
               <div
-                style={{ maxHeight: "600px" }}
+                style={{ maxHeight: '600px' }}
                 className="scroll-table _table"
               >
                 <div className="table-responsive">
@@ -107,7 +107,7 @@ const ProjectedPlannedFundRequirementForAll = ({ rowData }) => {
                         {/* Dynamic table col start */}
                         {tableHeader?.length > 0 &&
                           tableHeader.map((title) => (
-                            <th style={{ minWidth: "130px" }}>{title}</th>
+                            <th style={{ minWidth: '130px' }}>{title}</th>
                           ))}
                         {/* Dynamic table col end */}
                       </tr>

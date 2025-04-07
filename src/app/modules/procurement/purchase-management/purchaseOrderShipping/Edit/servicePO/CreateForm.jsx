@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -148,12 +147,12 @@ export default function CreateForm({
     getControllingUnitDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setCuList,
+      setCuList
     );
     getCostCenterDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setCostCenterList,
+      setCostCenterList
     );
   }, [profileData, selectedBusinessUnit]);
 
@@ -169,8 +168,8 @@ export default function CreateForm({
           singleData?.objHeaderDTO?.warehouseId,
           supplierId,
           refType,
-          referenceNo,
-        ),
+          referenceNo
+        )
       );
     } else {
       dispatch(
@@ -184,8 +183,8 @@ export default function CreateForm({
           singleData?.objHeaderDTO?.warehouseId,
           supplierId,
           refType,
-          referenceNo,
-        ),
+          referenceNo
+        )
       );
     }
   };
@@ -250,10 +249,8 @@ export default function CreateForm({
     getItemDDL(
       singleData?.objHeaderDTO?.businessPartnerId,
       singleData?.objHeaderDTO?.referenceTypeId,
-      0,
+      0
     );
-
-
   }, [singleData]);
 
   const {
@@ -303,14 +300,13 @@ export default function CreateForm({
     getCostCenterDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setCostCenterList,
+      setCostCenterList
     );
     getProfitCenterList(
       selectedBusinessUnit?.value,
       setProfitCenterList,
-      setLoading,
+      setLoading
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   // getRefNoDdlBySupplier
@@ -323,7 +319,7 @@ export default function CreateForm({
       singleData?.objHeaderDTO?.plantId,
       singleData?.objHeaderDTO?.warehouseId,
       singleData?.objHeaderDTO?.referenceTypeName,
-      setRefNoDDL,
+      setRefNoDDL
     );
   };
 
@@ -332,7 +328,7 @@ export default function CreateForm({
 
   useEffect(() => {
     getTransferUnitSupplierDDL(
-      `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${transferBusinessUnitId}&SBUId=0`,
+      `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${transferBusinessUnitId}&SBUId=0`
     );
   }, [intTransferUnitPartnerId]);
 
@@ -360,10 +356,10 @@ export default function CreateForm({
 
   useEffect(() => {
     getTransferBu(
-      `/procurement/PurchaseOrder/TransferPoBusinessUnit_reverse?UnitId=${selectedBusinessUnit?.value}`,
+      `/procurement/PurchaseOrder/TransferPoBusinessUnit_reverse?UnitId=${selectedBusinessUnit?.value}`
     );
     getBuTransaction(
-      `/fino/BusinessTransaction/BusinessTransactionList?GroupId=1&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/fino/BusinessTransaction/BusinessTransactionList?GroupId=1&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
   }, [selectedBusinessUnit]);
 
@@ -522,7 +518,7 @@ export default function CreateForm({
                         if (v.length < 3) return [];
                         return axios
                           .get(
-                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${singleData?.objHeaderDTO?.sbuId}`,
+                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${singleData?.objHeaderDTO?.sbuId}`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -578,7 +574,7 @@ export default function CreateForm({
                         setFieldValue('currency', valueOption);
                         setFieldValue(
                           'isTransfer',
-                          valueOption?.value === 141 ? true : false,
+                          valueOption?.value === 141 ? true : false
                         );
                       }}
                       placeholder="Currency"
@@ -739,7 +735,7 @@ export default function CreateForm({
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
                           valueOption?.value,
-                          setCostElementList,
+                          setCostElementList
                         );
                         setFieldValue('costElement', '');
                       }}
@@ -867,10 +863,10 @@ export default function CreateForm({
                             if (valueOption) {
                               setFieldValue(
                                 'transferBusinessUnit',
-                                valueOption,
+                                valueOption
                               );
                               getTransferUnitSupplierDDL(
-                                `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${valueOption?.value}&SBUId=0`,
+                                `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${valueOption?.value}&SBUId=0`
                               );
                             } else {
                               setFieldValue('transferBusinessUnit', '');
@@ -911,7 +907,7 @@ export default function CreateForm({
                           onChange={(valueOption) => {
                             setFieldValue(
                               'transferBusinessUnitSupplier',
-                              valueOption,
+                              valueOption
                             );
                           }}
                           errors={errors}
@@ -943,7 +939,7 @@ export default function CreateForm({
                             getItemDDL(
                               values?.supplierName?.value,
                               singleData?.objHeaderDTO?.referenceTypeId,
-                              valueOption?.value,
+                              valueOption?.value
                             );
                           }
                         }}
@@ -981,7 +977,7 @@ export default function CreateForm({
                                   singleData?.objHeaderDTO?.warehouseId
                                 }&RefTypeId=${
                                   singleData?.objHeaderDTO?.referenceTypeId
-                                }&RefNoId=${0}&searchTerm=${v}`,
+                                }&RefNoId=${0}&searchTerm=${v}`
                               )
                               .then((res) => {
                                 const updateList = res?.data.map((item) => ({

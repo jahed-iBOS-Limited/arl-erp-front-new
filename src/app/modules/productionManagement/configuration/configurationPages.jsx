@@ -1,26 +1,26 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import findIndex from "./../../_helper/_findIndex";
-import CapacityConfigurationCreateEdit from "./OEECapacityConfiguration/capacityConfigurationCreateEdit/capacityConfigurationCreateEdit";
-import OEECapacityConfigurationLanding from "./OEECapacityConfiguration/landing";
-import OEEMachineAndChecklistLanding from "./OEEMachineAndChecklist";
-import OEEMachineAndChecklistLandingCreateEdit from "./OEEMachineAndChecklist/createEdit";
-import CheckListView from "./OEEMachineAndChecklist/view";
-import HorizonForm from "./horizon/form/addEditForm";
-import HorizonLanding from "./horizon/landing/table";
-import ProductionLine from "./productionLine";
-import ProductionLineForm from "./productionLine/Form/AddEditForm";
-import { RoutingForm } from "./routing/form/addEditForm";
-import RoutingLanding from "./routing/landing/landing";
-import { RoutingView } from "./routing/view/addEditView";
-import { ShopFloor } from "./shopFloor";
-import ShopFloorForm from "./shopFloor/form/addEditForm";
-import { WorkCenter } from "./workcenter";
-import WorkCenterForm from "./workcenter/form/addForm";
-import WorkCenterViewForm from "./workcenter/viewForm/addForm";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import findIndex from './../../_helper/_findIndex';
+import CapacityConfigurationCreateEdit from './OEECapacityConfiguration/capacityConfigurationCreateEdit/capacityConfigurationCreateEdit';
+import OEECapacityConfigurationLanding from './OEECapacityConfiguration/landing';
+import OEEMachineAndChecklistLanding from './OEEMachineAndChecklist';
+import OEEMachineAndChecklistLandingCreateEdit from './OEEMachineAndChecklist/createEdit';
+import CheckListView from './OEEMachineAndChecklist/view';
+import HorizonForm from './horizon/form/addEditForm';
+import HorizonLanding from './horizon/landing/table';
+import ProductionLine from './productionLine';
+import ProductionLineForm from './productionLine/Form/AddEditForm';
+import { RoutingForm } from './routing/form/addEditForm';
+import RoutingLanding from './routing/landing/landing';
+import { RoutingView } from './routing/view/addEditView';
+import { ShopFloor } from './shopFloor';
+import ShopFloorForm from './shopFloor/form/addEditForm';
+import { WorkCenter } from './workcenter';
+import WorkCenterForm from './workcenter/form/addForm';
+import WorkCenterViewForm from './workcenter/viewForm/addForm';
 
 export function ConfigurationPages() {
   const userRole = useSelector(
@@ -28,10 +28,10 @@ export function ConfigurationPages() {
     shallowEqual
   );
 
-  const shopFloor = userRole[findIndex(userRole, "Shop Floor")];
-  const productionLine = userRole[findIndex(userRole, "Production Line")];
-  const workCenter = userRole[findIndex(userRole, "Work Center")];
-  const routing = userRole[findIndex(userRole, "Routing")];
+  const shopFloor = userRole[findIndex(userRole, 'Shop Floor')];
+  const productionLine = userRole[findIndex(userRole, 'Production Line')];
+  const workCenter = userRole[findIndex(userRole, 'Work Center')];
+  const routing = userRole[findIndex(userRole, 'Routing')];
 
   return (
     <Switch>

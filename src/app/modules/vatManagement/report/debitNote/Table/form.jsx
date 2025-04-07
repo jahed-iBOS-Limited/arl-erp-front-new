@@ -1,13 +1,11 @@
-
-
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "./../../../../_helper/_inputField";
-import { useSelector } from "react-redux";
-import GridData from "./grid";
-import GridDatatwo from "../../creditNote/Table/grid";
-import { shallowEqual } from "react-redux";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from './../../../../_helper/_inputField';
+import { useSelector } from 'react-redux';
+import GridData from './grid';
+import GridDatatwo from '../../creditNote/Table/grid';
+import { shallowEqual } from 'react-redux';
 
 import {
   ModalProgressBar,
@@ -15,19 +13,19 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
+} from './../../../../../../_metronic/_partials/controls';
 
-import { getDebitNoteReport_api } from "../helper";
-import NewSelect from "../../../../_helper/_select";
-import { getCreditNoteReport_api } from "../../creditNote/helper";
+import { getDebitNoteReport_api } from '../helper';
+import NewSelect from '../../../../_helper/_select';
+import { getCreditNoteReport_api } from '../../creditNote/helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
 const initData = {
   id: undefined,
-  musok: "",
-  type: { value: 1, label: "Ganeral" },
+  musok: '',
+  type: { value: 1, label: 'Ganeral' },
 };
 
 export default function HeaderForm() {
@@ -56,7 +54,7 @@ export default function HeaderForm() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Debit Note"}>
+              <CardHeader title={'Debit Note'}>
                 <CardHeaderToolbar>
                   {/* <button
                     onClick={() => {
@@ -81,8 +79,8 @@ export default function HeaderForm() {
                         placeholder="Musok-6.9 : No"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("musok", e.target.value);
-                          setSingleData([])
+                          setFieldValue('musok', e.target.value);
+                          setSingleData([]);
                         }}
                       />
                     </div>
@@ -90,14 +88,14 @@ export default function HeaderForm() {
                       <NewSelect
                         name="type"
                         options={[
-                          { value: 1, label: "Ganeral" },
-                          { value: 2, label: "Adjustment" },
+                          { value: 1, label: 'Ganeral' },
+                          { value: 2, label: 'Adjustment' },
                         ]}
                         value={values?.type}
                         label="Type"
                         onChange={(valueOption) => {
-                          setFieldValue("type", valueOption);
-                          setSingleData([])
+                          setFieldValue('type', valueOption);
+                          setSingleData([]);
                         }}
                         placeholder="Type"
                         errors={errors}
@@ -109,7 +107,7 @@ export default function HeaderForm() {
                         className="btn btn-primary"
                         type="button"
                         onClick={() => {
-                          setSingleData([])
+                          setSingleData([]);
                           if (values?.type?.value === 1) {
                             getDebitNoteReport_api(
                               profileData?.accountId,
@@ -138,14 +136,14 @@ export default function HeaderForm() {
                       <GridData
                         singleData={singleData}
                         loading={loading}
-                        title={"DEBIT NOTE"}
+                        title={'DEBIT NOTE'}
                         values={values}
                       />
                     ) : (
                       <GridDatatwo
                         singleData={singleData}
                         loading={loading}
-                        title={"DEBIT NOTE"}
+                        title={'DEBIT NOTE'}
                         values={values}
                       />
                     ))}

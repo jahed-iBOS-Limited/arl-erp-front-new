@@ -1,14 +1,14 @@
-import React, { useMemo } from "react";
-import { Formik, Form } from "formik";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import NewSelect from "../../../../_helper/_select";
-import { getBudgetEntryLanding } from "../helper";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { useHistory } from "react-router-dom";
-import { monthDDL } from "../../../../selfService/humanResource/officialInformation/EditForm/collpaseComponent/basicEmployeeInformation/helper";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
+import React, { useMemo } from 'react';
+import { Formik, Form } from 'formik';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import NewSelect from '../../../../_helper/_select';
+import { getBudgetEntryLanding } from '../helper';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { useHistory } from 'react-router-dom';
+import { monthDDL } from '../../../../selfService/humanResource/officialInformation/EditForm/collpaseComponent/basicEmployeeInformation/helper';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
 
 export default function FormCmp({
   initData,
@@ -23,14 +23,14 @@ export default function FormCmp({
   const history = useHistory();
 
   let ths = [
-    "SL",
-    "Month",
-    "From Date",
-    "To Date",
-    "Year",
-    "Financial Year",
-    "Amount",
-    "Action",
+    'SL',
+    'Month',
+    'From Date',
+    'To Date',
+    'Year',
+    'Financial Year',
+    'Amount',
+    'Action',
   ];
 
   const totalAmount = useMemo(
@@ -44,8 +44,8 @@ export default function FormCmp({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          sbu: sbu?.[0] || "",
-          financialYear: finYear?.[0] || "",
+          sbu: sbu?.[0] || '',
+          financialYear: finYear?.[0] || '',
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
@@ -69,7 +69,7 @@ export default function FormCmp({
                     options={sbu}
                     value={values?.sbu}
                     onChange={(valueOption) => {
-                      setFieldValue("sbu", valueOption);
+                      setFieldValue('sbu', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -83,7 +83,7 @@ export default function FormCmp({
                     options={finYear}
                     value={values?.financialYear}
                     onChange={(valueOption) => {
-                      setFieldValue("financialYear", valueOption);
+                      setFieldValue('financialYear', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -91,7 +91,7 @@ export default function FormCmp({
                 </div>
                 <div className="col-md-3">
                   <ButtonStyleOne
-                    style={{ marginTop: "19px" }}
+                    style={{ marginTop: '19px' }}
                     label="View"
                     type="button"
                     disabled={!values?.sbu || !values?.financialYear}
@@ -121,7 +121,7 @@ export default function FormCmp({
                       <td className="text-center">{item?.intYear}</td>
                       <td className="text-center">{item?.strFinancialYear}</td>
                       <td className="text-right">{item?.numAmount}</td>
-                      <td style={{ width: "70px" }}>
+                      <td style={{ width: '70px' }}>
                         <div className="d-flex justify-content-around">
                           <IView
                             clickHandler={(e) => {
@@ -162,14 +162,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

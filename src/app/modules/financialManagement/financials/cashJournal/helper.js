@@ -1,8 +1,7 @@
-import Axios from "axios";
+import Axios from 'axios';
 import { _dateFormatter } from './../../../_helper/_dateFormate';
 
 //getBusinessTransactionDDL_api
-
 
 //getBankAccountDDL_api
 export const getcashJournalSingleData_api = async (
@@ -15,73 +14,98 @@ export const getcashJournalSingleData_api = async (
       `/fino/CashJournal/GetCashJournalById?CashJournalId=${cashJournalId}&AccountingJournalTypeId=${accCashJournalId}`
     );
     if (res.status === 200 && res?.data) {
-
       // Cash Receipts Journal
       if (accCashJournalId === 1) {
         const item = res?.data?.[0];
         const ObjMap = item?.objRow?.map((itm) => ({
-          transaction: itm?.subGLId ? {
-            value: itm?.subGLId,
-            label: itm?.subGLName,
-            code: itm?.subGlCode,
-          } : "",
-          gl: itm?.generalLedgerId ? {
-            value: itm?.generalLedgerId,
-            label: itm?.generalLedgerName,
-            code: itm?.generalLedgerCode,
-          } : "",
+          transaction: itm?.subGLId
+            ? {
+                value: itm?.subGLId,
+                label: itm?.subGLName,
+                code: itm?.subGlCode,
+              }
+            : '',
+          gl: itm?.generalLedgerId
+            ? {
+                value: itm?.generalLedgerId,
+                label: itm?.generalLedgerName,
+                code: itm?.generalLedgerCode,
+              }
+            : '',
           rowId: itm?.rowId,
           amount: Math.abs(itm?.amount),
           narration: itm?.narration,
           headerNarration: itm?.narration,
           bankAccountId: itm?.bankAccountId,
           bankAccNo: itm?.bankAccNo,
-          partner: itm?.businessPartnerId ? {
-            value: itm?.businessPartnerId,
-            label: itm?.businessPartnerName,
-            code: itm?.businessPartnerCode,
-          } : "",
-          partnerType: itm?.subGLTypeId ? {
-            value: itm?.subGLTypeId,
-            label: itm?.subGLTypeName,
-            reffPrtTypeId: itm?.subGLTypeId
-          } : "",
+          partner: itm?.businessPartnerId
+            ? {
+                value: itm?.businessPartnerId,
+                label: itm?.businessPartnerName,
+                code: itm?.businessPartnerCode,
+              }
+            : '',
+          partnerType: itm?.subGLTypeId
+            ? {
+                value: itm?.subGLTypeId,
+                label: itm?.subGLTypeName,
+                reffPrtTypeId: itm?.subGLTypeId,
+              }
+            : '',
         }));
 
         const data = {
           objHeader: {
-            cashGLPlus: item?.objHeader?.generalLedgerId ? {
-              value: item?.objHeader?.generalLedgerId,
-              label: item?.objHeader?.generalLedgerName,
-              generalLedgerCode: item?.objHeader?.generalLedgerCode,
-            } : "",
-            partnerType: item?.objHeader?.businessPartnerTypeId ?  {
-              value: item?.objHeader?.businessPartnerTypeId,
-              label: item?.objHeader?.businessPartnerTypeName,
-            } : "",
-            partner: item?.objHeader?.businessPartnerId ? {
-              value: item?.objHeader?.businessPartnerId,
-              label: item?.objHeader?.businessPartnerName,
-              businessPartnerCode: item?.objHeader?.businessPartnerCode,
-            } : "",
+            cashGLPlus: item?.objHeader?.generalLedgerId
+              ? {
+                  value: item?.objHeader?.generalLedgerId,
+                  label: item?.objHeader?.generalLedgerName,
+                  generalLedgerCode: item?.objHeader?.generalLedgerCode,
+                }
+              : '',
+            partnerType: item?.objHeader?.businessPartnerTypeId
+              ? {
+                  value: item?.objHeader?.businessPartnerTypeId,
+                  label: item?.objHeader?.businessPartnerTypeName,
+                }
+              : '',
+            partner: item?.objHeader?.businessPartnerId
+              ? {
+                  value: item?.objHeader?.businessPartnerId,
+                  label: item?.objHeader?.businessPartnerName,
+                  businessPartnerCode: item?.objHeader?.businessPartnerCode,
+                }
+              : '',
             headerNarration: item?.objHeader?.narration,
             receiveFrom: item?.objHeader?.receiveFrom,
             narration: item?.objHeader?.narration,
-            sbu: "",
-            profitCenter: "",
-            transaction: item?.objHeader?.businessPartnerId ? {value : item?.objHeader?.businessPartnerId, label: item?.objHeader?.businessPartnerName, code : item?.objHeader?.businessPartnerCode} : "",
-            amount: "",
-            paidTo: "",
-            costCenter: "",
-            trasferTo: "",
-            gLBankAc: "",
+            sbu: '',
+            profitCenter: '',
+            transaction: item?.objHeader?.businessPartnerId
+              ? {
+                  value: item?.objHeader?.businessPartnerId,
+                  label: item?.objHeader?.businessPartnerName,
+                  code: item?.objHeader?.businessPartnerCode,
+                }
+              : '',
+            amount: '',
+            paidTo: '',
+            costCenter: '',
+            trasferTo: '',
+            gLBankAc: '',
             cashJournalId: item?.objHeader?.cashJournalId,
             transactionDate: _dateFormatter(item?.objHeader?.journalDate),
-            revenueCenter:{label:item?.objHeader?.costRevenueName,value:item?.objHeader?.costRevenueId},
-            revenueElement:{label:item?.objHeader?.elementName,value:item?.objHeader?.elementId}
+            revenueCenter: {
+              label: item?.objHeader?.costRevenueName,
+              value: item?.objHeader?.costRevenueId,
+            },
+            revenueElement: {
+              label: item?.objHeader?.elementName,
+              value: item?.objHeader?.elementId,
+            },
           },
           objRow: ObjMap,
-          headerRowId: item?.objRow?.[0]?.rowId
+          headerRowId: item?.objRow?.[0]?.rowId,
         };
         setter(data);
       }
@@ -89,70 +113,96 @@ export const getcashJournalSingleData_api = async (
       // Cash Payments Journal
       if (accCashJournalId === 2) {
         const item = res?.data?.[0];
-        
+
         const ObjMap = item?.objRow?.map((itm) => ({
           rowId: itm?.rowId,
-          transaction: itm?.subGLId ? {
-            value: itm?.subGLId,
-            label: itm?.subGLName,
-            code: itm?.subGlCode,
-          } : "",
-          gl: itm?.generalLedgerId ? {
-            value: itm?.generalLedgerId,
-            label: itm?.generalLedgerName,
-            code: itm?.generalLedgerCode,
-          } : "",
+          transaction: itm?.subGLId
+            ? {
+                value: itm?.subGLId,
+                label: itm?.subGLName,
+                code: itm?.subGlCode,
+              }
+            : '',
+          gl: itm?.generalLedgerId
+            ? {
+                value: itm?.generalLedgerId,
+                label: itm?.generalLedgerName,
+                code: itm?.generalLedgerCode,
+              }
+            : '',
           amount: itm?.amount,
           narration: itm?.narration,
           headerNarration: itm?.narration,
           bankAccountId: itm?.bankAccountId,
           bankAccNo: itm?.bankAccNo,
-          partner: itm?.businessPartnerId ? {
-            value: itm?.businessPartnerId,
-            label: itm?.businessPartnerName,
-            code: itm?.businessPartnerCode,
-          } : "",
-          partnerType: itm?.subGLTypeId ? {
-            value: itm?.subGLTypeId,
-            label: itm?.subGLTypeName,
-            reffPrtTypeId: itm?.subGLTypeId
-          } : "",
+          partner: itm?.businessPartnerId
+            ? {
+                value: itm?.businessPartnerId,
+                label: itm?.businessPartnerName,
+                code: itm?.businessPartnerCode,
+              }
+            : '',
+          partnerType: itm?.subGLTypeId
+            ? {
+                value: itm?.subGLTypeId,
+                label: itm?.subGLTypeName,
+                reffPrtTypeId: itm?.subGLTypeId,
+              }
+            : '',
         }));
 
         const data = {
           objHeader: {
-            cashGLPlus: item?.objHeader?.generalLedgerId ? {
-              value: item?.objHeader?.generalLedgerId,
-              label: item?.objHeader?.generalLedgerName,
-              generalLedgerCode: item?.objHeader?.generalLedgerCode,
-            } : "",
-            partnerType: item?.objHeader?.businessPartnerTypeId ? {
-              value: item?.objHeader?.businessPartnerTypeId,
-              label: item?.objHeader?.businessPartnerTypeName,
-            } : "",
-            partner: item?.objHeader?.businessPartnerId ? {
-              value: item?.objHeader?.businessPartnerId,
-              label: item?.objHeader?.businessPartnerName,
-              businessPartnerCode: item?.objHeader?.businessPartnerCode,
-            } : "",
+            cashGLPlus: item?.objHeader?.generalLedgerId
+              ? {
+                  value: item?.objHeader?.generalLedgerId,
+                  label: item?.objHeader?.generalLedgerName,
+                  generalLedgerCode: item?.objHeader?.generalLedgerCode,
+                }
+              : '',
+            partnerType: item?.objHeader?.businessPartnerTypeId
+              ? {
+                  value: item?.objHeader?.businessPartnerTypeId,
+                  label: item?.objHeader?.businessPartnerTypeName,
+                }
+              : '',
+            partner: item?.objHeader?.businessPartnerId
+              ? {
+                  value: item?.objHeader?.businessPartnerId,
+                  label: item?.objHeader?.businessPartnerName,
+                  businessPartnerCode: item?.objHeader?.businessPartnerCode,
+                }
+              : '',
             headerNarration: item?.objHeader?.narration,
             narration: item?.objHeader?.narration,
             receiveFrom: item?.objHeader?.receiveFrom,
-            sbu: "",
-            profitCenter: "",
-            transaction: item?.objHeader?.businessPartnerId ? {value : item?.objHeader?.businessPartnerId, label: item?.objHeader?.businessPartnerName, code : item?.objHeader?.businessPartnerCode} : "",
- 
-            amount: "",
+            sbu: '',
+            profitCenter: '',
+            transaction: item?.objHeader?.businessPartnerId
+              ? {
+                  value: item?.objHeader?.businessPartnerId,
+                  label: item?.objHeader?.businessPartnerName,
+                  code: item?.objHeader?.businessPartnerCode,
+                }
+              : '',
+
+            amount: '',
             paidTo: item?.objHeader?.paidTo,
-            trasferTo: "",
-            gLBankAc: "",
+            trasferTo: '',
+            gLBankAc: '',
             cashJournalId: item?.objHeader?.cashJournalId,
             transactionDate: _dateFormatter(item?.objHeader?.journalDate),
-            costCenter:{label:item?.objHeader?.costRevenueName,value:item?.objHeader?.costRevenueId},
-            costElement:{label:item?.objHeader?.elementName,value:item?.objHeader?.elementId}
+            costCenter: {
+              label: item?.objHeader?.costRevenueName,
+              value: item?.objHeader?.costRevenueId,
+            },
+            costElement: {
+              label: item?.objHeader?.elementName,
+              value: item?.objHeader?.elementId,
+            },
           },
           objRow: ObjMap,
-          headerRowId: item?.objRow?.[0]?.rowId
+          headerRowId: item?.objRow?.[0]?.rowId,
         };
         setter(data);
       }
@@ -160,7 +210,7 @@ export const getcashJournalSingleData_api = async (
       // Cash Transfer Journal
       if (accCashJournalId === 3) {
         const item = res?.data?.[0];
-        
+
         const ObjMap = item?.objRow?.map((itm) => ({
           rowId: itm?.rowId,
           businessTransactionId: itm?.subGLId,
@@ -179,32 +229,38 @@ export const getcashJournalSingleData_api = async (
         const data = {
           objHeader: {
             transactionDate: _dateFormatter(item?.objHeader?.journalDate),
-            cashGLPlus: item?.objHeader?.generalLedgerId ? {
-              value: item?.objHeader?.generalLedgerId,
-              label: item?.objHeader?.generalLedgerName,
-              generalLedgerCode: item?.objHeader?.generalLedgerCode,
-            } : "",
-            partnerType: item?.objHeader?.businessPartnerTypeId ? {
-              value: item?.objHeader?.businessPartnerTypeId,
-              label: item?.objHeader?.businessPartnerTypeName,
-            } : "",
-            partner: item?.objHeader?.businessPartnerId ? {
-              value: item?.objHeader?.businessPartnerId,
-              label: item?.objHeader?.businessPartnerName,
-              businessPartnerCode: item?.objHeader?.businessPartnerCode,
-            } : "",
+            cashGLPlus: item?.objHeader?.generalLedgerId
+              ? {
+                  value: item?.objHeader?.generalLedgerId,
+                  label: item?.objHeader?.generalLedgerName,
+                  generalLedgerCode: item?.objHeader?.generalLedgerCode,
+                }
+              : '',
+            partnerType: item?.objHeader?.businessPartnerTypeId
+              ? {
+                  value: item?.objHeader?.businessPartnerTypeId,
+                  label: item?.objHeader?.businessPartnerTypeName,
+                }
+              : '',
+            partner: item?.objHeader?.businessPartnerId
+              ? {
+                  value: item?.objHeader?.businessPartnerId,
+                  label: item?.objHeader?.businessPartnerName,
+                  businessPartnerCode: item?.objHeader?.businessPartnerCode,
+                }
+              : '',
             headerNarration: item?.objHeader?.narration,
             narration: item?.objHeader?.narration,
             receiveFrom: item?.objHeader?.receiveFrom,
-            sbu: "",
-            profitCenter: "",
-            transaction: "",
+            sbu: '',
+            profitCenter: '',
+            transaction: '',
             amount: item?.objRow?.[0]?.amount,
             paidTo: item?.objHeader?.paidTo,
             trasferTo:
-              item?.objHeader?.transferTo === "Bank"
-                ? { value: 3, label: "Bank" }
-                : { value: 2, label: "Cash" },
+              item?.objHeader?.transferTo === 'Bank'
+                ? { value: 3, label: 'Bank' }
+                : { value: 2, label: 'Cash' },
             // gLBankAc: {
             //   value:
             //     item.objRow[1].bankAccountId || item.objRow[1].generalLedgerId,
@@ -212,42 +268,49 @@ export const getcashJournalSingleData_api = async (
             //     item.objRow[1].bankAccNo || item.objRow[1].generalLedgerName,
             //   businessPartnerCode: item.objRow[1].generalLedgerCode,
             // },
-            gLBankAc: item?.objHeader?.transferTo === "Cash" ? {
-              value: item?.objRow?.[0]?.generalLedgerId,
-              label: item?.objRow?.[0]?.generalLedgerName,
-              generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
-
-
-            }:  {
-              value: item?.objRow?.[0]?.bankAccountId,
-              label: item?.objRow?.[0]?.bankAccNo,
-              generalLedgerId: item?.objRow?.[0]?.generalLedgerId,
-              generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
-              generalLedgerName: item?.objRow?.[0]?.generalLedgerName,
-
-            },
+            gLBankAc:
+              item?.objHeader?.transferTo === 'Cash'
+                ? {
+                    value: item?.objRow?.[0]?.generalLedgerId,
+                    label: item?.objRow?.[0]?.generalLedgerName,
+                    generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
+                  }
+                : {
+                    value: item?.objRow?.[0]?.bankAccountId,
+                    label: item?.objRow?.[0]?.bankAccNo,
+                    generalLedgerId: item?.objRow?.[0]?.generalLedgerId,
+                    generalLedgerCode: item?.objRow?.[0]?.generalLedgerCode,
+                    generalLedgerName: item?.objRow?.[0]?.generalLedgerName,
+                  },
             cashJournalId: item?.objHeader?.cashJournalId,
-            costCenter:{label:item?.objHeader?.costRevenueName,value:item?.objHeader?.costRevenueId},
-            costElement:{label:item?.objHeader?.elementName,value:item?.objHeader?.elementId}
+            costCenter: {
+              label: item?.objHeader?.costRevenueName,
+              value: item?.objHeader?.costRevenueId,
+            },
+            costElement: {
+              label: item?.objHeader?.elementName,
+              value: item?.objHeader?.elementId,
+            },
           },
           objRow: ObjMap,
-          headerRowId: item?.objRow?.[0]?.rowId
+          headerRowId: item?.objRow?.[0]?.rowId,
         };
         setter(data);
       }
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
-
-export const getCostElementDDL = async (unitId, accountId, costCenterId, setter) => {
+export const getCostElementDDL = async (
+  unitId,
+  accountId,
+  costCenterId,
+  setter
+) => {
   try {
     const res = await Axios.get(
       `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accountId}&UnitId=${unitId}&CostCenterId=${costCenterId}`
     );
     setter(res?.data);
-  } catch (error) {
-  }
+  } catch (error) {}
 };

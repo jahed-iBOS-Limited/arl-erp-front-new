@@ -1,20 +1,18 @@
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Formik } from "formik";
-import ReactToPrint from "react-to-print";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import Loading from "../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../_chartinghelper/_customTable";
-import { getExpenseReport } from "./helper";
-import FormikSelect from "../../_chartinghelper/common/formikSelect";
-import { getVesselDDL, getVoyageDDLNew } from "../../helper";
-import customStyles from "../../_chartinghelper/common/selectCustomStyle";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
+import React, { useState, useEffect, useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Formik } from 'formik';
+import ReactToPrint from 'react-to-print';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import Loading from '../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../_chartinghelper/_customTable';
+import { getExpenseReport } from './helper';
+import FormikSelect from '../../_chartinghelper/common/formikSelect';
+import { getVesselDDL, getVoyageDDLNew } from '../../helper';
+import customStyles from '../../_chartinghelper/common/selectCustomStyle';
+import { _fixedPoint } from '../../../_helper/_fixedPoint';
 // import { _fixedPoint } from "../../../_helper/_fixedPoint";
 
-const initData = { vesselName: "", voyageNo: "" };
+const initData = { vesselName: '', voyageNo: '' };
 
 export default function ExpenseReport() {
   const printRef = useRef();
@@ -61,7 +59,7 @@ export default function ExpenseReport() {
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -69,8 +67,8 @@ export default function ExpenseReport() {
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
-                        setFieldValue("voyageNo", "");
+                        setFieldValue('vesselName', valueOption);
+                        setFieldValue('voyageNo', '');
                         setGridData([]);
                         if (valueOption) {
                           getVoyageDDLNew({
@@ -93,7 +91,7 @@ export default function ExpenseReport() {
 
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageDDL || []}
                       styles={customStyles}
@@ -102,7 +100,7 @@ export default function ExpenseReport() {
                       label="Voyage No"
                       onChange={(valueOption) => {
                         setGridData([]);
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                         getGridData({
                           ...values,
                           voyageNo: valueOption,
@@ -125,7 +123,7 @@ export default function ExpenseReport() {
                     />
                     <ReactToPrint
                       pageStyle={
-                        "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                        '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                       }
                       trigger={() => (
                         <button
@@ -150,14 +148,14 @@ export default function ExpenseReport() {
                     <tr key={index}>
                       {item?.map((e, i) => (
                         <td
-                          className={!isNaN(e) ? "text-right" : "text-left"}
+                          className={!isNaN(e) ? 'text-right' : 'text-left'}
                           key={i}
                         >
                           {!isNaN(e)
                             ? i > 3
                               ? e > 0
                                 ? _fixedPoint(e, true)
-                                : ""
+                                : ''
                               : e
                             : e}
                         </td>

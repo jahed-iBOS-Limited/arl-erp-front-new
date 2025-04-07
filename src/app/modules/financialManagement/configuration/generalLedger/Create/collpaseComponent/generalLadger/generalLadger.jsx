@@ -1,32 +1,30 @@
-
-
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import { isUniq } from "../../../../../../_helper/uniqChecker";
+} from '../../../../../../../../_metronic/_partials/controls';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import { isUniq } from '../../../../../../_helper/uniqChecker';
 import {
   getCategoryDDLAction,
   getGeneralLedgerById,
   setGeneralLedgerSingleEmpty,
   editGeneralLedger,
-} from "../../../_redux/Actions";
-import { useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import { getGeneralLedgerPasignation_action } from "./../../../_redux/Actions";
+} from '../../../_redux/Actions';
+import { useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { getGeneralLedgerPasignation_action } from './../../../_redux/Actions';
 const initData = {
-  generalLedgerName: "",
-  generalLedgerCode: "",
-  accountCategoryName: "",
+  generalLedgerName: '',
+  generalLedgerCode: '',
+  accountCategoryName: '',
 };
 
 export default function GeneralLadgerEditForm() {
@@ -68,7 +66,6 @@ export default function GeneralLadgerEditForm() {
       dispatch(getCategoryDDLAction(profileData?.accountId));
       dispatch(getGeneralLedgerPasignation_action(profileData?.accountId));
     }
-
   }, [profileData]);
 
   // delete singleData from row
@@ -79,10 +76,10 @@ export default function GeneralLadgerEditForm() {
       );
       if (res.status === 200) {
         dispatch(getGeneralLedgerPasignation_action(profileData?.accountId));
-        toast.success("Successfully deleted");
+        toast.success('Successfully deleted');
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error('Something went wrong');
     }
   };
 
@@ -111,10 +108,10 @@ export default function GeneralLadgerEditForm() {
         };
         try {
           setDisabled(true);
-          const res = await Axios.post("/costmgmt/GeneralLedger/CreateGL", obj);
+          const res = await Axios.post('/costmgmt/GeneralLedger/CreateGL', obj);
           dispatch(getGeneralLedgerPasignation_action(profileData?.accountId));
           cb(initData);
-          toast.success(res.data?.message || "Submitted successfully", {
+          toast.success(res.data?.message || 'Submitted successfully', {
             toastId: shortid(),
           });
           setDisabled(false);
@@ -152,7 +149,7 @@ export default function GeneralLadgerEditForm() {
   return (
     <Card>
       <ModalProgressBar />
-      <CardHeader title={id ? "Edit General Ledger" : "Create General Ledger"}>
+      <CardHeader title={id ? 'Edit General Ledger' : 'Create General Ledger'}>
         <CardHeaderToolbar>
           <div className="row">
             <div className="offset-lg-2 col-lg-2">

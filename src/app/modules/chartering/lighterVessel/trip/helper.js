@@ -27,7 +27,7 @@ export const getTripLandingData = async ({
 
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterVesselTripLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${lighterIdStr}${statusStr}${fromDateStr}${toDateStr}${vesselTypeStr}`,
+      `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterVesselTripLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${lighterIdStr}${statusStr}${fromDateStr}${toDateStr}${vesselTypeStr}`
     );
     setter(res?.data);
     setLoading(false);
@@ -41,7 +41,7 @@ export const updateOilRateApi = async (payload) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/LighterVessel/EditLighterVesselOilRate`,
-      payload,
+      payload
     );
     toast.success(res?.data?.message, { toastId: 34567890 });
   } catch (err) {
@@ -54,7 +54,7 @@ export const updateOilRateApi = async (payload) => {
 export const getOilRateApi = async ({ values, setFieldValue }) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVessel/GetLighterVesselOilRate`,
+      `${imarineBaseUrl}/domain/LighterVessel/GetLighterVesselOilRate`
     );
 
     setFieldValue('numDieselRate', res?.data[0]?.numOilRate);
@@ -63,15 +63,15 @@ export const getOilRateApi = async ({ values, setFieldValue }) => {
 
     setFieldValue(
       'numDieselCost',
-      (res?.data[0]?.numOilRate * values?.numDieselSupply)?.toFixed(2) || 0,
+      (res?.data[0]?.numOilRate * values?.numDieselSupply)?.toFixed(2) || 0
     );
     setFieldValue(
       'numLubCost',
-      (res?.data[1]?.numOilRate * values?.numLubSupply)?.toFixed(2) || 0,
+      (res?.data[1]?.numOilRate * values?.numLubSupply)?.toFixed(2) || 0
     );
     setFieldValue(
       'numHydrolicCost',
-      (res?.data[2]?.numOilRate * values?.numHydrolicSupply)?.toFixed(2) || 0,
+      (res?.data[2]?.numOilRate * values?.numHydrolicSupply)?.toFixed(2) || 0
     );
 
     setFieldValue('numDiesel', res?.data[0]);
@@ -91,7 +91,7 @@ export const getItemRateForBunker = async ({
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`,
+      `${imarineBaseUrl}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`
     );
     setter('lsfotripRate', data?.lsifoPrice);
     setter('lsmgotripRate', data?.lsmgoPrice);
@@ -107,7 +107,7 @@ export const createTrip = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/LighterVesselTrip/CreateLighterVesselTrip`,
-      data,
+      data
     );
     cb();
     toast.success(res?.data?.message);
@@ -123,7 +123,7 @@ export const editTrip = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/LighterVesselTrip/EditLighterVesselTrip`,
-      data,
+      data
     );
     if (res?.status === 200) {
       toast.success('Updated Successfully', {
@@ -148,7 +148,7 @@ export const getTripDataById = async ({
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVesselTrip/LighterVesselTripGetById?LighterTripId=${id}`,
+      `${imarineBaseUrl}/domain/LighterVesselTrip/LighterVesselTripGetById?LighterTripId=${id}`
     );
 
     const exp = data?.exp;
@@ -241,7 +241,7 @@ export const getTripDataById = async ({
 export const setValue = async (id, setFieldValue) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVesselSurvey/GetLighterVesselSurveyByID?SurveyId=${id}`,
+      `${imarineBaseUrl}/domain/LighterVesselSurvey/GetLighterVesselSurveyByID?SurveyId=${id}`
     );
     if (res?.data) {
       setFieldValue('eta', _dateFormatter(res?.data?.arrivalDate));

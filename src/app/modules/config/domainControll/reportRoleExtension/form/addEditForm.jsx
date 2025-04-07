@@ -1,17 +1,16 @@
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { toast } from "react-toastify";
-import { useLocation, useParams } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
-import { postPermissionForUser } from "../helper";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { toast } from 'react-toastify';
+import { useLocation, useParams } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
+import { postPermissionForUser } from '../helper';
 
 const initData = {
-  employee: "",
-  moduleName: "",
-  featureName: "",
+  employee: '',
+  moduleName: '',
+  featureName: '',
 };
 
 export default function ReportRoleManagerCreateForm({ history }) {
@@ -33,7 +32,7 @@ export default function ReportRoleManagerCreateForm({ history }) {
   }, shallowEqual);
 
   const saveHandler = async (values, cb) => {
-    if (rowDto?.length < 1) return toast.warn("Please add item");
+    if (rowDto?.length < 1) return toast.warn('Please add item');
     postPermissionForUser(rowDto, setDisabled, cb);
   };
 
@@ -43,7 +42,7 @@ export default function ReportRoleManagerCreateForm({ history }) {
     if (
       rowDto?.find((item) => item?.secondLabelId === values?.featureName?.value)
     )
-      return toast.warn("Feature already added");
+      return toast.warn('Feature already added');
     const obj = {
       firstLabelId: values?.moduleName?.value,
       firstLabelName: values?.moduleName?.label,
@@ -79,7 +78,7 @@ export default function ReportRoleManagerCreateForm({ history }) {
     <IForm
       title="Report Role"
       getProps={setObjprops}
-      isHiddenSave={params?.type === "viewType"}
+      isHiddenSave={params?.type === 'viewType'}
       isHiddenReset
       isHiddenBack
     >

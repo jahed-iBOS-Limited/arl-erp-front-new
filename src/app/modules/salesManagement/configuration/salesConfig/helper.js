@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getSalesConfigPagination = async (accountId, buId, setter) => {
   try {
@@ -9,26 +9,24 @@ export const getSalesConfigPagination = async (accountId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
-export const saveSalesConfigItem = async (payload,setDisabled) => {
-  setDisabled(true)
+export const saveSalesConfigItem = async (payload, setDisabled) => {
+  setDisabled(true);
   try {
     const res = await Axios.post(
       `/oms/BusinessUnitSalesOrderTypeConfig/CreateMultipleBUSOTypeConfig`,
       payload.data
     );
     if (res.status === 200) {
-      setDisabled(false)
-      toast.success(res.data?.message || "Submitted successfully");
+      setDisabled(false);
+      toast.success(res.data?.message || 'Submitted successfully');
       payload.cb();
     }
   } catch (error) {
-    setDisabled(false)
-    
+    setDisabled(false);
+
     toast.error(error?.response?.data?.message);
   }
 };

@@ -160,7 +160,7 @@ export function TableRow() {
                             SetReportIncomestatementAction({
                               ...values,
                               fromDate: e?.target?.value,
-                            }),
+                            })
                           );
                         }}
                       />
@@ -177,7 +177,7 @@ export function TableRow() {
                             SetReportIncomestatementAction({
                               ...values,
                               todate: e?.target?.value,
-                            }),
+                            })
                           );
                         }}
                       />
@@ -227,7 +227,7 @@ export function TableRow() {
                             selectedBusinessUnit?.value,
                             values?.SBU?.value,
                             setIncomeStatement,
-                            setIsLoading,
+                            setIsLoading
                           );
                         }}
                         // disabled={!values?.SBU}
@@ -289,20 +289,20 @@ export function TableRow() {
                                     data?.strFSComponentName === 'Sales Revenue'
                                       ? 'font-weight-bold'
                                       : data?.strFSComponentName ===
-                                        'Gross Margin'
-                                      ? 'font-weight-bold'
-                                      : data?.strFSComponentName ===
-                                        'Income From Operation'
-                                      ? 'font-weight-bold'
-                                      : data?.strFSComponentName ===
-                                        'Earning Before Tax'
-                                      ? 'font-weight-bold'
-                                      : data?.strFSComponentName ===
-                                        'Earning Before Tax'
-                                      ? 'font-weight-bold'
-                                      : data?.isAggregate
-                                      ? 'font-weight-bold'
-                                      : ''
+                                          'Gross Margin'
+                                        ? 'font-weight-bold'
+                                        : data?.strFSComponentName ===
+                                            'Income From Operation'
+                                          ? 'font-weight-bold'
+                                          : data?.strFSComponentName ===
+                                              'Earning Before Tax'
+                                            ? 'font-weight-bold'
+                                            : data?.strFSComponentName ===
+                                                'Earning Before Tax'
+                                              ? 'font-weight-bold'
+                                              : data?.isAggregate
+                                                ? 'font-weight-bold'
+                                                : ''
                                   }
                                 >
                                   <td className="text-left">
@@ -318,7 +318,7 @@ export function TableRow() {
                                     {data?.isLabel
                                       ? ''
                                       : _formatMoney(
-                                          data?.monCurrentPeriodAmount,
+                                          data?.monCurrentPeriodAmount
                                         )}
                                   </td>
                                   <td className="text-right">
@@ -326,7 +326,7 @@ export function TableRow() {
                                       ? ''
                                       : _formatMoney(
                                           data?.monLastPeriodAmount -
-                                            data?.monCurrentPeriodAmount,
+                                            data?.monCurrentPeriodAmount
                                         )}
                                   </td>
                                 </tr>

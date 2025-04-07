@@ -1,27 +1,27 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import NewSelect from "./../../../_helper/_select";
-import { useLocation, useParams } from "react-router-dom";
-import { ISelect } from "../../../_helper/_inputDropDown";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { toast } from "react-toastify";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import NewSelect from './../../../_helper/_select';
+import { useLocation, useParams } from 'react-router-dom';
+import { ISelect } from '../../../_helper/_inputDropDown';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { toast } from 'react-toastify';
 
 const initData = {
-  strType: "Without Factory",
-  sbu: "",
-  costCenter: "",
-  costElement: "",
-  profitCenter: "",
-  debitGeneralLedger: "",
-  debitSubGeneralLedger: "",
-  creditGeneralLedger: "",
-  creditSubGeneralLedger: "",
-  salaryComponent: "",
+  strType: 'Without Factory',
+  sbu: '',
+  costCenter: '',
+  costElement: '',
+  profitCenter: '',
+  debitGeneralLedger: '',
+  debitSubGeneralLedger: '',
+  creditGeneralLedger: '',
+  creditSubGeneralLedger: '',
+  salaryComponent: '',
 };
 
 export default function SalaryJvConfigCreateEdit() {
@@ -35,16 +35,10 @@ export default function SalaryJvConfigCreateEdit() {
 
   const [sbuDDL, getSbuDDL, sbuDDLloader] = useAxiosGet();
   const [costCenterDDL, getCostCenterDDL, costCenterDDLloader] = useAxiosGet();
-  const [
-    costElementDDL,
-    getCostElementDDL,
-    CostElementDDLloader,
-  ] = useAxiosGet();
-  const [
-    profitCenterDDl,
-    getProfitCenterDDL,
-    profitCenterDDLloader,
-  ] = useAxiosGet();
+  const [costElementDDL, getCostElementDDL, CostElementDDLloader] =
+    useAxiosGet();
+  const [profitCenterDDl, getProfitCenterDDL, profitCenterDDLloader] =
+    useAxiosGet();
   const [
     debitGeneralLedgerDDL,
     getDebitGeneralLedgerDDL,
@@ -78,7 +72,7 @@ export default function SalaryJvConfigCreateEdit() {
 
   const saveHandler = (values, cb) => {
     if (tableData?.length < 1)
-      return toast.warn("Please add at least one item");
+      return toast.warn('Please add at least one item');
     createSalaryJvConfig(
       `/fino/AdjustmentJournal/CreateNUpdateDebitCreditGlConfig?BusinessUnitId=${selectedBusinessUnit?.value}`,
       tableData,
@@ -104,7 +98,7 @@ export default function SalaryJvConfigCreateEdit() {
       );
     });
     if (isExist) {
-      return toast.warn("Already Exist");
+      return toast.warn('Already Exist');
     } else {
       const rowObj = {
         intAutoId: 0,
@@ -150,7 +144,7 @@ export default function SalaryJvConfigCreateEdit() {
       getOldConfigData(
         `/fino/AdjustmentJournal/GetAllDebitCreditGLConfig?BusinessUnitId=${selectedBusinessUnit?.value}`,
         (data) => {
-          console.log("data", data);
+          console.log('data', data);
           setTableData(data);
         }
       );
@@ -173,7 +167,6 @@ export default function SalaryJvConfigCreateEdit() {
         setSalaryComponentDDL(newData);
       }
     );
-
   }, [selectedBusinessUnit]);
   return (
     <Formik
@@ -208,11 +201,11 @@ export default function SalaryJvConfigCreateEdit() {
           <IForm
             title={
               id
-                ? "Edit Salary JV Configuration"
-                : "Create Salary JV Configuration"
+                ? 'Edit Salary JV Configuration'
+                : 'Create Salary JV Configuration'
             }
             getProps={setObjprops}
-            submitBtnText={location?.state?.isEdit ? "Update" : "Save"}
+            submitBtnText={location?.state?.isEdit ? 'Update' : 'Save'}
           >
             <Form>
               <>
@@ -221,11 +214,11 @@ export default function SalaryJvConfigCreateEdit() {
                     <input
                       type="radio"
                       name="strType"
-                      checked={values?.strType === "Without Factory"}
+                      checked={values?.strType === 'Without Factory'}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(e) => {
-                        setFieldValue("strType", "Without Factory");
+                        setFieldValue('strType', 'Without Factory');
                       }}
                     />
                     Without Factory
@@ -234,11 +227,11 @@ export default function SalaryJvConfigCreateEdit() {
                     <input
                       type="radio"
                       name="strType"
-                      checked={values?.strType === "Factory"}
+                      checked={values?.strType === 'Factory'}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(e) => {
-                        setFieldValue("strType", "Factory");
+                        setFieldValue('strType', 'Factory');
                       }}
                     />
                     Factory
@@ -253,7 +246,7 @@ export default function SalaryJvConfigCreateEdit() {
                     value={values?.sbu}
                     label="Select SBU"
                     onChange={(valueOption) => {
-                      setFieldValue("sbu", valueOption);
+                      setFieldValue('sbu', valueOption);
                       getCostCenterDDL(
                         `/costmgmt/CostCenter/GetCostCenterDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${valueOption?.value}`
                       );
@@ -271,7 +264,7 @@ export default function SalaryJvConfigCreateEdit() {
                     name="costCenter"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("costCenter", valueOption);
+                        setFieldValue('costCenter', valueOption);
                         getCostElementDDL(
                           `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&CostCenterId=${valueOption?.value}`
                         );
@@ -279,8 +272,8 @@ export default function SalaryJvConfigCreateEdit() {
                           `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value}&businessUnitId=${selectedBusinessUnit?.value}`
                         );
                       } else {
-                        setFieldValue("costElement", "");
-                        setFieldValue("profitCenter", "");
+                        setFieldValue('costElement', '');
+                        setFieldValue('profitCenter', '');
                       }
                     }}
                     errors={errors}
@@ -294,7 +287,7 @@ export default function SalaryJvConfigCreateEdit() {
                     value={values?.costElement}
                     label="Select Cost Element"
                     onChange={(valueOption) => {
-                      setFieldValue("costElement", valueOption);
+                      setFieldValue('costElement', valueOption);
                     }}
                     placeholder="Select Cost Element"
                     errors={errors}
@@ -308,7 +301,7 @@ export default function SalaryJvConfigCreateEdit() {
                     value={values?.profitCenter}
                     label="Select Profit Center"
                     onChange={(valueOption) => {
-                      setFieldValue("profitCenter", valueOption);
+                      setFieldValue('profitCenter', valueOption);
                     }}
                     placeholder="Select Profit Center"
                     errors={errors}
@@ -322,7 +315,7 @@ export default function SalaryJvConfigCreateEdit() {
                     value={values?.debitGeneralLedger}
                     label="Debit General Ledger"
                     onChange={(valueOption) => {
-                      setFieldValue("debitGeneralLedger", valueOption);
+                      setFieldValue('debitGeneralLedger', valueOption);
                       getDebitSubGeneralLedgerDDL(
                         `/fino/FinanceCommonDDL/GetBusinessTransactionDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${valueOption?.value}`,
                         (data) => {
@@ -347,7 +340,7 @@ export default function SalaryJvConfigCreateEdit() {
                     value={values?.debitSubGeneralLedger}
                     label="Debit Sub General Ledger"
                     onChange={(valueOption) => {
-                      setFieldValue("debitSubGeneralLedger", valueOption);
+                      setFieldValue('debitSubGeneralLedger', valueOption);
                     }}
                     placeholder="Debit Sub General Ledger"
                     errors={errors}
@@ -361,7 +354,7 @@ export default function SalaryJvConfigCreateEdit() {
                     value={values?.creditGeneralLedger}
                     label="Credit General Ledger"
                     onChange={(valueOption) => {
-                      setFieldValue("creditGeneralLedger", valueOption);
+                      setFieldValue('creditGeneralLedger', valueOption);
                       getCreditSubGeneralLedgerDDL(
                         `/fino/FinanceCommonDDL/GetBusinessTransactionDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${valueOption?.value}`,
                         (data) => {
@@ -386,7 +379,7 @@ export default function SalaryJvConfigCreateEdit() {
                     value={values?.creditSubGeneralLedger}
                     label="Credit Sub General Ledger"
                     onChange={(valueOption) => {
-                      setFieldValue("creditSubGeneralLedger", valueOption);
+                      setFieldValue('creditSubGeneralLedger', valueOption);
                     }}
                     placeholder="Credit Sub General Ledger"
                     errors={errors}
@@ -400,7 +393,7 @@ export default function SalaryJvConfigCreateEdit() {
                     value={values?.salaryComponent}
                     label="Salary Component"
                     onChange={(valueOption) => {
-                      setFieldValue("salaryComponent", valueOption);
+                      setFieldValue('salaryComponent', valueOption);
                     }}
                     placeholder="Salary Component"
                     errors={errors}
@@ -411,7 +404,7 @@ export default function SalaryJvConfigCreateEdit() {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    style={{ marginTop: "17px" }}
+                    style={{ marginTop: '17px' }}
                     onClick={() => addHandler(values)}
                     disabled={
                       !values?.sbu ||
@@ -453,7 +446,7 @@ export default function SalaryJvConfigCreateEdit() {
                         return (
                           <tr key={index}>
                             <td
-                              style={{ width: "30px" }}
+                              style={{ width: '30px' }}
                               className="text-center"
                             >
                               {index + 1}
@@ -468,7 +461,7 @@ export default function SalaryJvConfigCreateEdit() {
                             <td>{item?.strCreditBusinessTransactionName}</td>
                             <td>{item?.strType}</td>
                             <td
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                               className="text-center"
                             >
                               <span
@@ -487,13 +480,13 @@ export default function SalaryJvConfigCreateEdit() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

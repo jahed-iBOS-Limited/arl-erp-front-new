@@ -1,5 +1,4 @@
-import axios from "axios";
-
+import axios from 'axios';
 
 export const getShopfloorDDL = async (accId, buId, plantId, setter) => {
   try {
@@ -9,7 +8,7 @@ export const getShopfloorDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getStockReportData = async (
@@ -23,7 +22,7 @@ export const getStockReportData = async (
 ) => {
   setLoading(true);
   try {
-    const searchPath = search ? `Searchterm=${search}&` : "";
+    const searchPath = search ? `Searchterm=${search}&` : '';
     const res = await axios.get(
       `/mes/MESReport/GetShopFloorStockReport?${searchPath}&AccountId=${accId}&BusinessUnitId=${buId}&plantId=${pId}&ShopFloorId=${sId}`
     );

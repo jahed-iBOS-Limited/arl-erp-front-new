@@ -1,6 +1,6 @@
-import * as requestFromServer from "./Api";
-import { salesQuotationSlice } from "./Slice";
-import { toast } from "react-toastify";
+import * as requestFromServer from './Api';
+import { salesQuotationSlice } from './Slice';
+import { toast } from 'react-toastify';
 const { actions: slice } = salesQuotationSlice;
 
 // action for get data by id single
@@ -33,7 +33,7 @@ export const getSalesQuotationById = (id, setDisabled) => (dispatch) => {
             },
             quotationCode: item.objHeader?.quotationCode,
             isSpecification: false,
-            remark: item?.objHeader?.remark || "",
+            remark: item?.objHeader?.remark || '',
           },
 
           validityDays: item.objHeader?.validityDays || 0,
@@ -45,7 +45,7 @@ export const getSalesQuotationById = (id, setDisabled) => (dispatch) => {
             value: item.objHeader?.creditBackUpTypeId,
             label: item.objHeader?.creditBackUpType,
           },
-          destination: item.objHeader?.finalDestination || "",
+          destination: item.objHeader?.finalDestination || '',
           creditLimitDaysPropose: item.objHeader?.creditLimitDaysPropose || 0,
           creditLimitAmountsPropose:
             item.objHeader?.creditLimitAmountsPropose || 0,
@@ -94,7 +94,7 @@ export const saveSalesquotation = (payload) => () => {
     .then((res) => {
       if (res.status === 200) {
         payload.setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb(res?.data);
       }
     })
@@ -113,7 +113,7 @@ export const saveEditedSalesquotation = (payload, setLoading) => () => {
       if (res.status === 200) {
         // console.log(res.data);
         setLoading(false);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
       }
     })
     .catch((err) => {
@@ -123,63 +123,61 @@ export const saveEditedSalesquotation = (payload, setLoading) => () => {
     });
 };
 // action for get grid data
-export const getSalesquotationGridData = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize,
-  searchValue,
-  status,
-  fromDate,
-  toDate
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(
-      accId,
-      buId,
-      pageNo,
-      pageSize,
-      searchValue,
-      status,
-      fromDate,
-      toDate
-    )
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res?.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-      //
-    });
-};
+export const getSalesquotationGridData =
+  (
+    accId,
+    buId,
+    setLoading,
+    pageNo,
+    pageSize,
+    searchValue,
+    status,
+    fromDate,
+    toDate
+  ) =>
+  (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(
+        accId,
+        buId,
+        pageNo,
+        pageSize,
+        searchValue,
+        status,
+        fromDate,
+        toDate
+      )
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res?.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+        //
+      });
+  };
 
 // set single store empty
 export const setSalesQuotationSingleEmpty = () => async (dispatch) => {
   return dispatch(slice.SetSingleStoreEmpty());
 };
 // action for save edited data
-export const editSalesQuotationStatusAction = (
-  QId,
-  actionBy,
-  setLoading,
-  history
-) => () => {
-  setLoading(true);
-  return requestFromServer
-    .editSalesQuotationStatus(QId, actionBy)
-    .then((res) => {
-      if (res.status === 200) {
+export const editSalesQuotationStatusAction =
+  (QId, actionBy, setLoading, history) => () => {
+    setLoading(true);
+    return requestFromServer
+      .editSalesQuotationStatus(QId, actionBy)
+      .then((res) => {
+        if (res.status === 200) {
+          setLoading(false);
+          toast.success(res.data?.message || 'Submitted successfully');
+          history.push('/sales-management/ordermanagement/salesquotation');
+        }
+      })
+      .catch((err) => {
+        // console.log(err?.response);
         setLoading(false);
-        toast.success(res.data?.message || "Submitted successfully");
-        history.push("/sales-management/ordermanagement/salesquotation");
-      }
-    })
-    .catch((err) => {
-      // console.log(err?.response);
-      setLoading(false);
-      toast.error(err?.response?.data?.message);
-    });
-};
+        toast.error(err?.response?.data?.message);
+      });
+  };

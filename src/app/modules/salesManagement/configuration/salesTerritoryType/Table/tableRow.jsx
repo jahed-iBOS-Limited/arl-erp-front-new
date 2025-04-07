@@ -85,7 +85,7 @@ export function TableRow() {
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
     getGridData(
-      `/oms/TerritoryTypeInfo/GetTerritoryTypeLandingPagination?AccountId=${profileData.accountId}&BUnitId=${selectedBusinessUnit.value}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc`,
+      `/oms/TerritoryTypeInfo/GetTerritoryTypeLandingPagination?AccountId=${profileData.accountId}&BUnitId=${selectedBusinessUnit.value}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc`
     );
   };
   return (
@@ -111,13 +111,13 @@ export function TableRow() {
                     setFieldValue('ddlType', valueOption);
                     if (valueOption?.value === 1) {
                       getGridData(
-                        `/oms/TerritoryTypeInfo/GetTerritoryTypeLandingPagination?AccountId=${profileData.accountId}&BUnitId=${selectedBusinessUnit.value}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc`,
+                        `/oms/TerritoryTypeInfo/GetTerritoryTypeLandingPagination?AccountId=${profileData.accountId}&BUnitId=${selectedBusinessUnit.value}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc`
                       );
                     }
                     if (valueOption?.value === 2) {
                       getFirstLevelEntryData(
                         // levelId 1 will be hardcoded ensure by Monirul Islam vai
-                        `/oms/CustomerProfile/GetTeritory?businessUnitId=${selectedBusinessUnit.value}&levelId=1`,
+                        `/oms/CustomerProfile/GetTeritory?businessUnitId=${selectedBusinessUnit.value}&levelId=1`
                       );
                     }
                   }}
@@ -176,7 +176,7 @@ export function TableRow() {
                         </td>
                         <td className="text-center">
                           {_dateFormatter(
-                            firstLevelEntryData?.lastActionDateTime,
+                            firstLevelEntryData?.lastActionDateTime
                           )}
                         </td>
                       </tr>

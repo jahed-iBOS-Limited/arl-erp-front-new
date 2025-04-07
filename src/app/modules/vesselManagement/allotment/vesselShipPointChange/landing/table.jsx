@@ -1,8 +1,8 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import NewSelect from '../../../../_helper/_select';
 import {
   GetBillingData,
   GetDomesticPortDDL,
@@ -10,15 +10,15 @@ import {
   GetLighterVesselDDL,
   getMotherVesselDDL,
   GetShipPointDDL,
-} from "../helper";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+} from '../helper';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const today = new Date();
 const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 export default function VesselShipPointChange() {
-  const formatDate = (date) => date.toISOString().split("T")[0];
+  const formatDate = (date) => date.toISOString().split('T')[0];
   const initData = {
     fromDate: formatDate(firstDayOfMonth),
     toDate: formatDate(today),
@@ -41,7 +41,6 @@ export default function VesselShipPointChange() {
     GetDomesticPortDDL(setDomesticPortDDL);
     getMotherVesselDDL(accId, buId, 0, setMotherVesselDDL);
     GetShipPointDDL(accId, buId, setShipPointDDL);
-
   }, [accId, buId]);
 
   const setLandingData = (values) => {
@@ -67,22 +66,22 @@ export default function VesselShipPointChange() {
                       [
                         {
                           value: 3,
-                          label: "G2G Billing Info",
+                          label: 'G2G Billing Info',
                         },
                         {
                           value: 1,
-                          label: "View",
+                          label: 'View',
                         },
                         {
                           value: 2,
-                          label: "Update Ship Point",
+                          label: 'Update Ship Point',
                         },
                       ] || []
                     }
                     label="Type"
                     onChange={(valueOption) => {
-                      setFieldValue("type", valueOption);
-                      setFieldValue("shipPoint", "");
+                      setFieldValue('type', valueOption);
+                      setFieldValue('shipPoint', '');
                     }}
                     placeholder="Type"
                   />
@@ -97,7 +96,7 @@ export default function VesselShipPointChange() {
                         name="challanNumber"
                         placeholder="Challan Number"
                         onChange={(e) => {
-                          setFieldValue("challanNumber", e.target.value);
+                          setFieldValue('challanNumber', e.target.value);
                         }}
                         type="text"
                       />
@@ -110,7 +109,7 @@ export default function VesselShipPointChange() {
                           name="fromDate"
                           placeholder="From date"
                           type="date"
-                          style={{ width: "100%" }}
+                          style={{ width: '100%' }}
                         />
                       </div>
                     </div>
@@ -122,7 +121,7 @@ export default function VesselShipPointChange() {
                           name="toDate"
                           placeholder="To date"
                           type="date"
-                          style={{ width: "100%" }}
+                          style={{ width: '100%' }}
                         />
                       </div>
                     </div>
@@ -141,7 +140,7 @@ export default function VesselShipPointChange() {
                           !values?.toDate
                         }
                       >
-                        {"View"}
+                        {'View'}
                       </button>
                     </div>
                   </>
@@ -154,15 +153,15 @@ export default function VesselShipPointChange() {
                         value={values?.domesticPort}
                         label="Domestic Port"
                         onChange={(valueOption) => {
-                          setFieldValue("domesticPort", valueOption);
+                          setFieldValue('domesticPort', valueOption);
                           getMotherVesselDDL(
                             accId,
                             buId,
                             valueOption?.value,
                             setMotherVesselDDL
                           );
-                          setFieldValue("motherVessel", "");
-                          setFieldValue("lighterVessel", "");
+                          setFieldValue('motherVessel', '');
+                          setFieldValue('lighterVessel', '');
                         }}
                         placeholder="Domestic Port"
                       />
@@ -174,13 +173,13 @@ export default function VesselShipPointChange() {
                         value={values?.motherVessel}
                         label="Mother Vessel"
                         onChange={(valueOption) => {
-                          setFieldValue("motherVessel", valueOption);
+                          setFieldValue('motherVessel', valueOption);
                           valueOption &&
                             GetLighterVesselDDL(
                               valueOption?.value,
                               setLighterVessel
                             );
-                          setFieldValue("lighterVessel", "");
+                          setFieldValue('lighterVessel', '');
                         }}
                         placeholder="Mother Vessel"
                       />
@@ -192,7 +191,7 @@ export default function VesselShipPointChange() {
                         label="Lighter Vessel"
                         value={values?.lighterVessel}
                         onChange={(valueOption) => {
-                          setFieldValue("lighterVessel", valueOption);
+                          setFieldValue('lighterVessel', valueOption);
                         }}
                         placeholder="Lighter Vessel"
                       />
@@ -204,7 +203,7 @@ export default function VesselShipPointChange() {
                           options={shipPointDDL || []}
                           label="Ship Point"
                           onChange={(valueOption) => {
-                            setFieldValue("shipPoint", valueOption);
+                            setFieldValue('shipPoint', valueOption);
                           }}
                           placeholder="Ship Point"
                         />
@@ -228,7 +227,7 @@ export default function VesselShipPointChange() {
                             : false
                         }
                       >
-                        {values?.type?.value === 2 ? "Update" : "View"}
+                        {values?.type?.value === 2 ? 'Update' : 'View'}
                       </button>
                     </div>
                   </>
@@ -245,7 +244,7 @@ export default function VesselShipPointChange() {
                       <table className="table table-striped table-bordered global-table">
                         <thead className="bg-secondary">
                           <tr>
-                            <th style={{ width: "40px" }}>SL</th>
+                            <th style={{ width: '40px' }}>SL</th>
                             <th>Delivery Id</th>
                             <th>Delivery Code</th>
                             <th>SUB Name</th>
@@ -333,10 +332,10 @@ export default function VesselShipPointChange() {
                               </td>
                               <td className="text-center">{item?.quantity}</td>
                               <td className="text-center">
-                                {item?.headerActive ? "Active" : "Inactive"}
+                                {item?.headerActive ? 'Active' : 'Inactive'}
                               </td>
                               <td className="text-center">
-                                {item?.rowActive ? "Active" : "Inactive"}
+                                {item?.rowActive ? 'Active' : 'Inactive'}
                               </td>
                               <td className="text-center">{item?.soNumber}</td>
                               <td className="text-center">{item?.vehicleNo}</td>
@@ -366,8 +365,8 @@ export default function VesselShipPointChange() {
                               </td>
                               <td className="text-center">
                                 {item?.supervisorConfirm
-                                  ? "Confirmed"
-                                  : "Not Confirmed"}
+                                  ? 'Confirmed'
+                                  : 'Not Confirmed'}
                               </td>
                               <td className="text-center">
                                 {item?.accountingJournalCode}
@@ -541,7 +540,7 @@ export default function VesselShipPointChange() {
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
-                          <th style={{ width: "40px" }}>SL</th>
+                          <th style={{ width: '40px' }}>SL</th>
                           <th>Mother Vessel</th>
                           <th>Lighter Vessel</th>
                           <th>Ship Point</th>

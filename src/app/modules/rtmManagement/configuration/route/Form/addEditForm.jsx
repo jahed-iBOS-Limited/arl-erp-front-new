@@ -1,24 +1,23 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useParams } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useParams } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
 import {
   GetRouteId,
   saveEditedRoute,
   saveRouteAction,
   getTerritoryTypeDDL,
   getTerritoryDDL,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  routeName: "",
-  territoryType: "",
-  territoryName: "",
-  startOutlateName: "",
-  endOutlateName: "",
+  routeName: '',
+  territoryType: '',
+  territoryName: '',
+  startOutlateName: '',
+  endOutlateName: '',
 };
 
 export default function RouteForm({
@@ -51,7 +50,7 @@ export default function RouteForm({
 
   //SingleData to view
 
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   useEffect(() => {
     if (profileData && selectedBusinessUnit) {
@@ -79,14 +78,12 @@ export default function RouteForm({
     if (params?.id) {
       GetRouteId(params?.id, setSingleData);
     }
-
   }, [params]);
 
   const saveHandler = async (values, cb) => {
     setDisabled(true);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (params?.id) {
-
         const payload = {
           routeId: +id,
           routeName: values?.routeName,
@@ -99,9 +96,8 @@ export default function RouteForm({
         };
         saveEditedRoute(payload, cb, setDisabled);
       } else {
-
         const payload = {
-          routeCode: "string",
+          routeCode: 'string',
           routeName: values?.routeName,
           accountId: profileData?.accountId,
           businessUnitId: selectedBusinessUnit?.value,
@@ -119,7 +115,7 @@ export default function RouteForm({
 
   return (
     <IForm
-      title={id ? "Edit Route" : "Create Route"}
+      title={id ? 'Edit Route' : 'Create Route'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

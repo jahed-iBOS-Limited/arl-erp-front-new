@@ -1,18 +1,19 @@
 export const dateFormatterForInput = (param) => {
   const date = new Date(param);
   const year = date.getFullYear();
-  const month = `${date.getMonth() + 1}`.padStart(2, "0");
-  const day = `${date.getDate()}`.padStart(2, "0");
-  return [year, month, day].join("-") || "";
+  const month = `${date.getMonth() + 1}`.padStart(2, '0');
+  const day = `${date.getDate()}`.padStart(2, '0');
+  return [year, month, day].join('-') || '';
 };
 
 export const convertTimeIntoDecimal = (time) => {
-  let timeArray = time.split(":");
+  let timeArray = time.split(':');
   let hour = timeArray[0];
   let minute = timeArray[1];
   let second = timeArray[2];
 
-  let totalSecond = parseInt(hour) * 60 * 60 + parseInt(minute) * 60 + parseInt(second);
+  let totalSecond =
+    parseInt(hour) * 60 * 60 + parseInt(minute) * 60 + parseInt(second);
   let totalMinute = totalSecond / 60;
   let totalHour = totalMinute / 60;
 
@@ -23,7 +24,13 @@ export const convertDecimalToTime = (decimalHours) => {
   var hours = Math.floor(decimalHours);
   var minutes = Math.floor((decimalHours - hours) * 60);
   var seconds = Math.floor(((decimalHours - hours) * 60 - minutes) * 60);
-  return hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+  return (
+    hours.toString().padStart(2, '0') +
+    ':' +
+    minutes.toString().padStart(2, '0') +
+    ':' +
+    seconds.toString().padStart(2, '0')
+  );
 };
 
 export const getDifferenceBetweenTime = (date, startTime, endTime) => {

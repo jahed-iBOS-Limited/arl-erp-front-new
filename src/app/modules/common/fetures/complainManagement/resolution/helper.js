@@ -1,7 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 export const getComplainStatus = async (buId, setter) => {
   try {
@@ -9,7 +8,7 @@ export const getComplainStatus = async (buId, setter) => {
       `/oms/CustomerPoint/ComplainStatus?businessUnitId=${buId}`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getComplainById = async (
@@ -30,37 +29,37 @@ export const getComplainById = async (
       occurrenceDate: _dateFormatter(res?.data?.requestDateTime),
       respondentType: res?.data?.respondentTypeId
         ? {
-          value: res?.data?.respondentTypeId,
-          label: res?.data?.respondentTypeName,
-        }
-        : "",
+            value: res?.data?.respondentTypeId,
+            label: res?.data?.respondentTypeName,
+          }
+        : '',
       respondentName: res?.data?.respondentId
         ? {
-          value: res?.data?.respondentId,
-          label: res?.data?.respondentName,
-        }
-        : "",
-      respondentContact: res?.data?.contactNo || "",
+            value: res?.data?.respondentId,
+            label: res?.data?.respondentName,
+          }
+        : '',
+      respondentContact: res?.data?.contactNo || '',
       issueType: res?.data?.complainCategoryId
         ? {
-          value: res?.data?.complainCategoryId,
-          label: res?.data?.complainCategoryName,
-        }
-        : "",
-      issueTitle: res?.data?.issueTitle || "",
+            value: res?.data?.complainCategoryId,
+            label: res?.data?.complainCategoryName,
+          }
+        : '',
+      issueTitle: res?.data?.issueTitle || '',
       distributionChannel: res?.data?.distributionChannelId
         ? {
-          value: res?.data?.distributionChannelId,
-          label: res?.data?.distributionChannelName,
-        }
-        : "",
+            value: res?.data?.distributionChannelId,
+            label: res?.data?.distributionChannelName,
+          }
+        : '',
       product: res?.data?.itemId
         ? {
-          value: res?.data?.itemId,
-          label: res?.data?.itemName,
-        }
-        : "",
-      issueDetails: res?.data?.description || "",
+            value: res?.data?.itemId,
+            label: res?.data?.itemName,
+          }
+        : '',
+      issueDetails: res?.data?.description || '',
     });
   } catch (error) {
     setLoaing(false);
@@ -163,14 +162,13 @@ export const saveColseComplainApi = async (payload, setLoading, cb) => {
   }
 };
 
-
 export const getInvestigateComplainbyApi = async (complainId, setter) => {
   try {
     const res = await axios.get(
       `/oms/CustomerPoint/InvestigateComplainbyId?ComplainId=${complainId}`
     );
     setter(res?.data || []);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const complainLandingPasignationByEmployeeId = async (
@@ -192,11 +190,12 @@ export const complainLandingPasignationByEmployeeId = async (
   setLoading(true);
   setter([]);
   try {
-    const _search = search ? `&search=${search}` : "";
-    const _employeeId = employeeId ? `&employeeId=${employeeId}` : "";
+    const _search = search ? `&search=${search}` : '';
+    const _employeeId = employeeId ? `&employeeId=${employeeId}` : '';
     const res = await axios.get(
-      `/oms/CustomerPoint/ComplainLandingPasignationByEmployeeId?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}${_employeeId}&respondentBusinessUnitId=${respondentBusinessUnitId ||
-      0}&issueTypeId=${issueTypeId}`
+      `/oms/CustomerPoint/ComplainLandingPasignationByEmployeeId?accountId=${accId}&businessUnitId=${buId}&respondentTypeId=${respondentTypeId}&statusId=${statusId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}${_search}${_employeeId}&respondentBusinessUnitId=${
+        respondentBusinessUnitId || 0
+      }&issueTypeId=${issueTypeId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -208,19 +207,19 @@ export const complainLandingPasignationByEmployeeId = async (
 export const respondentTypeDDL = [
   {
     value: 1,
-    label: "Employee",
+    label: 'Employee',
   },
   {
     value: 2,
-    label: "Supplier",
+    label: 'Supplier',
   },
   {
     value: 3,
-    label: "Customer",
+    label: 'Customer',
   },
   {
     value: 4,
-    label: "End User",
+    label: 'End User',
   },
 ];
 export const getComplainByIdWidthOutModify = async (

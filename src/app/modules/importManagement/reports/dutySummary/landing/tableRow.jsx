@@ -1,22 +1,21 @@
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import { GetCustomsNameDDL, getDutySummaryReport } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { useRef } from "react";
-import { useEffect } from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { getReportHeaderInfo } from "../../costSummary/helper";
-import { _firstDateofMonth } from "./../../../../_helper/_firstDateOfCurrentMonth";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import { GetCustomsNameDDL, getDutySummaryReport } from '../helper';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { useRef } from 'react';
+import { useEffect } from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { getReportHeaderInfo } from '../../costSummary/helper';
+import { _firstDateofMonth } from './../../../../_helper/_firstDateOfCurrentMonth';
 
 const TableRow = () => {
   const [rowDto, setRowDto] = useState([]);
@@ -31,75 +30,75 @@ const TableRow = () => {
 
   const header = [
     {
-      name: "SL",
+      name: 'SL',
       style: {
-        minWidth: "50px",
+        minWidth: '50px',
       },
     },
     {
-      name: "LC No",
+      name: 'LC No',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Shipment No",
+      name: 'Shipment No',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "BoE No",
+      name: 'BoE No',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "BoE Date",
+      name: 'BoE Date',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Custom Duty",
+      name: 'Custom Duty',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "RD",
+      name: 'RD',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "SD",
+      name: 'SD',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "VAT",
+      name: 'VAT',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "AIT",
+      name: 'AIT',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Others",
+      name: 'Others',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Total",
+      name: 'Total',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
   ];
@@ -107,7 +106,7 @@ const TableRow = () => {
   const initData = {
     fromDate: _firstDateofMonth(),
     toDate: _todayDate(),
-    customs: "",
+    customs: '',
   };
 
   useEffect(() => {
@@ -128,9 +127,9 @@ const TableRow = () => {
       getDutySummaryReport(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        "",
-        "",
-        "",
+        '',
+        '',
+        '',
         setRowDto,
         setLoader
       );
@@ -170,7 +169,7 @@ const TableRow = () => {
               trigger={() => (
                 <button className="btn btn-primary">
                   <img
-                    style={{ width: "25px", paddingRight: "5px" }}
+                    style={{ width: '25px', paddingRight: '5px' }}
                     src={printIcon}
                     alt="print-icon"
                   />
@@ -204,7 +203,7 @@ const TableRow = () => {
                       options={customsDDL || []}
                       value={values?.customs}
                       onChange={(valueOption) => {
-                        setFieldValue("customs", valueOption);
+                        setFieldValue('customs', valueOption);
                         // getDutySummaryReportBySearch(
                         //   valueOption?.value,
                         //   values?.fromDate,
@@ -225,7 +224,7 @@ const TableRow = () => {
                       type="date"
                       max={values?.toDate}
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                         if (values?.customs) {
                           // getDutySummaryReportBySearch(
                           //   values?.customs?.value,
@@ -246,7 +245,7 @@ const TableRow = () => {
                       type="date"
                       min={values?.fromDate}
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                         if (values?.customs) {
                           // getDutySummaryReportBySearch(
                           //   values?.customs?.value,
@@ -258,7 +257,7 @@ const TableRow = () => {
                       // disabled={routeState === "view"}
                     />
                   </div>
-                  <div className="col-lg-2" style={{ marginTop: "18px" }}>
+                  <div className="col-lg-2" style={{ marginTop: '18px' }}>
                     <button
                       type="button"
                       className="btn btn-primary btn-sm"
@@ -276,66 +275,77 @@ const TableRow = () => {
                   </div>
                 </div>
                 {/* Table Start */}
-                {rowDto?.length > 0 && (
-                  <div
-                    style={{ maxHeight: "500px" }}
-                    className="scroll-table-auto"
-                  >
-                    <div ref={printRef}>
-                      {isPrintable && (
-                        <div className="text-center d-none-print">
-                          <h2> {headerInfo?.businessUnitName} </h2>
-                          <h6> {headerInfo?.businessUnitCode} </h6>
-                          <h6> {headerInfo?.businessUnitAddress} </h6>
-                        </div>
-                      )}
-                      <div
-                        className="scroll-table _table"
-                        style={{ maxHeight: "500px" }}
-                      >
-                        <table className="table table-striped table-bordered bj-table bj-table-landing">
-                          <thead>
-                            <tr>
-                              {header?.length > 0 &&
-                                header?.map((item, index) => (
-                                  <th key={index} style={item?.style}>
-                                    {item?.name}
-                                  </th>
-                                ))}
-                            </tr>
-                          </thead>
+                {
+                  rowDto?.length > 0 && (
+                    <div
+                      style={{ maxHeight: '500px' }}
+                      className="scroll-table-auto"
+                    >
+                      <div ref={printRef}>
+                        {isPrintable && (
+                          <div className="text-center d-none-print">
+                            <h2> {headerInfo?.businessUnitName} </h2>
+                            <h6> {headerInfo?.businessUnitCode} </h6>
+                            <h6> {headerInfo?.businessUnitAddress} </h6>
+                          </div>
+                        )}
+                        <div
+                          className="scroll-table _table"
+                          style={{ maxHeight: '500px' }}
+                        >
+                          <table className="table table-striped table-bordered bj-table bj-table-landing">
+                            <thead>
+                              <tr>
+                                {header?.length > 0 &&
+                                  header?.map((item, index) => (
+                                    <th key={index} style={item?.style}>
+                                      {item?.name}
+                                    </th>
+                                  ))}
+                              </tr>
+                            </thead>
 
-                          <tbody>
-                            {rowDto.length >= 0 &&
-                              rowDto.map((data, index) => (
-                                <tr key={index}>
-                                  <td>{index + 1}</td>
-                                  <td>{data?.lcNumber}</td>
-                                  <td>{data?.shipmentCode}</td>
-                                  <td>{data?.boEnumber}</td>
-                                  <td className="text-center">{_dateFormatter(data?.boEdate)}</td>
-                                  <td className="text-right">
-                                    {_formatMoney(data?.customDuty , 4)}
-                                  </td>
-                                  <td className="text-right">{_formatMoney(data?.rd , 4)}</td>
-                                  <td className="text-right">{_formatMoney(data?.sd , 4)}</td>
-                                  <td className="text-right">{_formatMoney(data?.vat , 4)}</td>
-                                  <td className="text-right">{_formatMoney(data?.ait , 4)}</td>
-                                  <td className="text-right">
-                                    {data?.otherCharge}
-                                  </td>
-                                  <td className="text-right">
-                                    {_formatMoney(data?.grandTotal , 4)}
-                                  </td>
-                                </tr>
-                              ))}
-                          </tbody>
-                        </table>
+                            <tbody>
+                              {rowDto.length >= 0 &&
+                                rowDto.map((data, index) => (
+                                  <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{data?.lcNumber}</td>
+                                    <td>{data?.shipmentCode}</td>
+                                    <td>{data?.boEnumber}</td>
+                                    <td className="text-center">
+                                      {_dateFormatter(data?.boEdate)}
+                                    </td>
+                                    <td className="text-right">
+                                      {_formatMoney(data?.customDuty, 4)}
+                                    </td>
+                                    <td className="text-right">
+                                      {_formatMoney(data?.rd, 4)}
+                                    </td>
+                                    <td className="text-right">
+                                      {_formatMoney(data?.sd, 4)}
+                                    </td>
+                                    <td className="text-right">
+                                      {_formatMoney(data?.vat, 4)}
+                                    </td>
+                                    <td className="text-right">
+                                      {_formatMoney(data?.ait, 4)}
+                                    </td>
+                                    <td className="text-right">
+                                      {data?.otherCharge}
+                                    </td>
+                                    <td className="text-right">
+                                      {_formatMoney(data?.grandTotal, 4)}
+                                    </td>
+                                  </tr>
+                                ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )
-                // </div>
+                  )
+                  // </div>
                 }
               </Form>
             </>

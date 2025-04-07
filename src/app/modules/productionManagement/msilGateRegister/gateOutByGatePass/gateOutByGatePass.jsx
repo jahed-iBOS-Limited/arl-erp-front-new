@@ -1,11 +1,11 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import Loading from "../../../_helper/_loading";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import Loading from '../../../_helper/_loading';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
 
 function GateOutDelivary() {
   const [pageNo, setPageNo] = useState(0);
@@ -20,10 +20,9 @@ function GateOutDelivary() {
     getRowData(
       `/mes/MSIL/GetAllGateOutByGatePassLanding?PageNo=${pageNo}&PageSize=${pageSize}&intBusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowData(
       `/mes/MSIL/GetAllGateOutByGatePassLanding?PageNo=${pageNo}&PageSize=${pageSize}&intBusinessUnitId=${selectedBusinessUnit?.value}`
     );
@@ -46,7 +45,7 @@ function GateOutDelivary() {
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: '30px' }}>SL</th>
                         <th>Date</th>
                         <th>Out Time</th>
                         <th>Gate Pass Code</th>
@@ -64,7 +63,7 @@ function GateOutDelivary() {
                               {_dateFormatter(item?.dteDate)}
                             </td>
                             <td className="text-center">
-                              {_timeFormatter(item?.tmOutTime || "")}
+                              {_timeFormatter(item?.tmOutTime || '')}
                             </td>
                             <td className="text-center">
                               {item?.strGatePassCode}

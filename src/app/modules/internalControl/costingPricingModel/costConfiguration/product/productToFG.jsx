@@ -31,16 +31,15 @@ const ProductToFG = () => {
   const { item } = location?.state || {};
   const { selectedBusinessUnit, profileData } = useSelector(
     (state) => state.authData,
-    shallowEqual,
+    shallowEqual
   );
   useEffect(() => {
     getProductInfo(
       `costmgmt/Precosting/ProductGetById?productId=${item?.productId}`,
       (data) => {
         setRowData(data?.finishGoodMappings || []);
-      },
+      }
     );
-
   }, [selectedBusinessUnit?.value, item?.productId]);
 
   const saveHandler = (values) => {
@@ -84,13 +83,13 @@ const ProductToFG = () => {
         if (res.statuscode === 200) {
           history.push('/internal-control/costing/costingconfiguration');
         }
-      },
+      }
     );
   };
 
   const addNewFeatureHandler = (values) => {
     let foundData = rowData?.filter(
-      (item) => item?.fgItemId === values?.finishedGood?.value,
+      (item) => item?.fgItemId === values?.finishedGood?.value
     );
     if (foundData?.length > 0) {
       toast.warning('Finished Good already exist', { toastId: 'Fae' });
@@ -159,7 +158,7 @@ const ProductToFG = () => {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `/costmgmt/Precosting/GetPrecostingItemDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=4&search=${searchValue}`,
+                            `/costmgmt/Precosting/GetPrecostingItemDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=4&search=${searchValue}`
                           )
                           .then((res) => res?.data);
                       }}

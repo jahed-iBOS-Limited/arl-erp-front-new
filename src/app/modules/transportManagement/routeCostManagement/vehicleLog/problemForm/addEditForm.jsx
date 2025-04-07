@@ -1,12 +1,11 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import Form from "./form";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import Form from './form';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const initData = {};
 
@@ -32,11 +31,11 @@ export default function VehicleProblemEntryForm() {
       (resData) => {
         const modifyData = resData?.data?.map((element) => ({
           Id: 0,
-          shipPoint: "",
-          vehicle: "",
+          shipPoint: '',
+          vehicle: '',
           shipPointId: 0,
           vehicleId: 0,
-          vehicleName: "",
+          vehicleName: '',
           problemTypeId: element?.problemTypeId,
           problemTypeName: element?.problemTypeName,
           date: _todayDate(),

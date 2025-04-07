@@ -1,23 +1,23 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   invoiceNumber: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Invoice Number is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Invoice Number is required'),
   comments: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Comments Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Comments Name is required'),
   SBU: Yup.object().shape({
-    label: Yup.string().required("SBU is required"),
-    value: Yup.string().required("SBU is required"),
+    label: Yup.string().required('SBU is required'),
+    value: Yup.string().required('SBU is required'),
   }),
 });
 
@@ -190,7 +190,7 @@ export default function FormCmp({
                     <div className="p-2">
                       <div
                         className="payment-border d-flex justify-content-between"
-                        style={{ marginTop: "10px" }}
+                        style={{ marginTop: '10px' }}
                       >
                         <span>Total GRN Amount</span>
                         <span>
@@ -199,31 +199,31 @@ export default function FormCmp({
                       </div>
                       <div
                         className="payment-border d-flex justify-content-between"
-                        style={{ marginTop: "10px" }}
+                        style={{ marginTop: '10px' }}
                       >
                         <span>Gross Invoice Amount</span>
                         <span>
-                          {" "}
+                          {' '}
                           {singleData?.objHeaderDTO?.grossInvoiceAmount} TK
                         </span>
                       </div>
                       <div
                         className="payment-border d-flex justify-content-between"
-                        style={{ marginTop: "10px" }}
+                        style={{ marginTop: '10px' }}
                       >
                         <span>Deduction Amount</span>
                         <span>
-                          {" "}
+                          {' '}
                           {singleData?.objHeaderDTO?.deductionAmount} TK
                         </span>
                       </div>
                       <div
                         className="payment-border d-flex justify-content-between"
-                        style={{ marginTop: "10px" }}
+                        style={{ marginTop: '10px' }}
                       >
                         <span>Advance Adjustment Amount</span>
                         <span>
-                          {singleData?.objHeaderDTO?.advanceAdjustmentAmount} TK{" "}
+                          {singleData?.objHeaderDTO?.advanceAdjustmentAmount} TK{' '}
                           <span>
                             <IView />
                           </span>
@@ -231,11 +231,11 @@ export default function FormCmp({
                       </div>
                       <div
                         className="payment-border d-flex justify-content-between"
-                        style={{ marginTop: "10px" }}
+                        style={{ marginTop: '10px' }}
                       >
                         <span>Net Payment Amount</span>
                         <span>
-                          {" "}
+                          {' '}
                           {singleData?.objHeaderDTO?.netPaymentAmount} TK
                         </span>
                       </div>
@@ -246,14 +246,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

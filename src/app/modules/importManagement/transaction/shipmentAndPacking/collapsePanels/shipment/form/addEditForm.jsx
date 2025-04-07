@@ -1,13 +1,10 @@
-
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../../../_helper/_dateFormate";
-import Loading from "../../../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../../../_helper/_dateFormate';
+import Loading from '../../../../../../_helper/_loading';
 import {
   EditShipment,
   GetCNFAgencyDDL,
@@ -17,27 +14,27 @@ import {
   getShipmentInfo,
   getShipmentItemDDL,
   getTollarence,
-} from "../helper";
-import Form from "./form";
-import { getShipByDDL } from "../../../../../../_helper/_commonApi";
+} from '../helper';
+import Form from './form';
+import { getShipByDDL } from '../../../../../../_helper/_commonApi';
 
 const initData = {
-  shipBy: "",
-  blAwbTrNo: "",
+  shipBy: '',
+  blAwbTrNo: '',
   blAwbTrDate: _dateFormatter(new Date()),
   dueDate: _dateFormatter(new Date()),
-  currency: "",
-  invoiceNumber: "",
-  invoiceAmount: "",
+  currency: '',
+  invoiceNumber: '',
+  invoiceAmount: '',
   invoiceDate: _dateFormatter(new Date()),
-  docReceiveByBank: "",
-  packingCharge: "",
-  freightCharge: "",
-  cnfProvider: "",
-  vasselName: "",
-  etaDate: "",
-  ataDate: "",
-  numberOfContainer: "",
+  docReceiveByBank: '',
+  packingCharge: '',
+  freightCharge: '',
+  cnfProvider: '',
+  vasselName: '',
+  etaDate: '',
+  ataDate: '',
+  numberOfContainer: '',
 };
 
 export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
@@ -50,8 +47,8 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
   const [currencyDDL, setCurrencyDDL] = useState([]);
   const [cnfAgency, setCnfAgencyDDL] = useState([]);
   const [singleData, setSingleData] = useState([]);
-  const [index, setIndex] = useState("");
-  const [shippedQuantity, setShippedQuantity] = useState("");
+  const [index, setIndex] = useState('');
+  const [shippedQuantity, setShippedQuantity] = useState('');
   // const [poNumber, setPoNumber] = useState("");
   // const [lcNumber, setLcNumber] = useState("");
   const [tollerence, setTollerence] = useState(0);
@@ -71,7 +68,6 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
 
   const location = useLocation();
   const { state } = location;
-
 
   //   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -124,19 +120,19 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
       }
       return itemData;
     } else {
-      return toast.warn("Please add at least one item");
+      return toast.warn('Please add at least one item');
     }
   };
 
   const InitialInvoiceAmountHandler = (data) => {
     const result = data.reduce((acc, item) => {
       return Number(
-        (acc + Number(item["poquantity"]) * Number(item["rate"])).toFixed(2)
+        (acc + Number(item['poquantity']) * Number(item['rate'])).toFixed(2)
       );
     }, 0);
 
     setInitialInvoiceAmount(result);
-  }
+  };
 
   useEffect(() => {
     if (state?.values?.poDDL?.poNumber && state?.values?.poDDL?.lcNumber) {
@@ -157,7 +153,7 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
         );
       }
 
-      if (state?.routeState === "create") {
+      if (state?.routeState === 'create') {
         getShipmentItemDDL(
           profileData.accountId,
           selectedBusinessUnit?.value,
@@ -172,11 +168,10 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
   const getTotalAmount = (data, key) => {
     return data.reduce((acc, item) => {
       return Number(
-        (acc + Number(item[key]) * Number(item["rate"])).toFixed(2)
+        (acc + Number(item[key]) * Number(item['rate'])).toFixed(2)
       );
     }, 0);
   };
-
 
   const getTotalShippedAmount = (data, values, key) => {
     let packingCharge = Number(values?.packingCharge);
@@ -185,7 +180,7 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
     return (
       data.reduce((acc, item) => {
         return Number(
-          (acc + Number(item[key]) * Number(item["rate"])).toFixed(2)
+          (acc + Number(item[key]) * Number(item['rate'])).toFixed(2)
         );
       }, 0) +
       packingCharge +
@@ -208,8 +203,10 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
           invoiceNumber: values?.invoiceNumber,
           invoiceDate: values?.invoiceDate,
           vasselName: values?.vasselName,
-          docReceiveByBank: values?.docReceiveByBank ? values?.docReceiveByBank : "",
-          shipmentDocumentId: uploadImage[0]?.id || "",
+          docReceiveByBank: values?.docReceiveByBank
+            ? values?.docReceiveByBank
+            : '',
+          shipmentDocumentId: uploadImage[0]?.id || '',
           lastActionBy: profileData?.userId,
           dueDate: values?.dueDate,
           cnfPartnerId: values?.cnfProvider?.value,
@@ -258,12 +255,12 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
           vasselName: values?.vasselName,
           docReceiveByBank: values?.docReceiveByBank
             ? values?.docReceiveByBank
-            : "",
+            : '',
           invoiceAmount: values?.invoiceAmount,
           currencyId: state?.values?.poDDL?.currencyId,
           packingCharge: values?.packingCharge || 0,
           freightCharge: values?.freightCharge || 0,
-          shipmentDocumentId: uploadImage[0]?.id || "",
+          shipmentDocumentId: uploadImage[0]?.id || '',
           lastActionBy: profileData?.userId,
           dueDate: values?.dueDate,
           cnFPartnerId: values?.cnfProvider?.value,
@@ -295,8 +292,8 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
       setTotalAddedAmount(addedAmount);
       setTotalShippedAmount(shippedAmount);
       setRowDto(allItem);
-      setIndex("");
-      setShippedQuantity("");
+      setIndex('');
+      setShippedQuantity('');
     }
   };
 
@@ -304,10 +301,10 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
     const filterArr = rowDto.filter((item, ind) => ind !== index);
     const invoiceAmount = filterArr.reduce((acc, item) => {
       return Number(
-        (acc + Number(item["poquantity"]) * Number(item["rate"])).toFixed(2)
+        (acc + Number(item['poquantity']) * Number(item['rate'])).toFixed(2)
       );
     }, 0);
-    setFieldValue("invoiceAmount", invoiceAmount)
+    setFieldValue('invoiceAmount', invoiceAmount);
     setRowDto(filterArr);
   };
 
@@ -322,10 +319,10 @@ export default function InsurancePolicyForm({ type, id, lcNumber, poNumber }) {
             shipmentId || id
               ? singleData
               : {
-                ...initFormData,
-                currency: state?.values?.poDDL?.currencyName,
-                invoiceAmount: initialInvoiceAmount,
-              }
+                  ...initFormData,
+                  currency: state?.values?.poDDL?.currencyName,
+                  invoiceAmount: initialInvoiceAmount,
+                }
           }
           saveHandler={saveHandler}
           profileData={profileData}

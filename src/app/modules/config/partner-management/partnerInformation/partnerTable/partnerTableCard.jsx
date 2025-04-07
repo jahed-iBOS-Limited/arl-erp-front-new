@@ -1,23 +1,22 @@
-import React, { useEffect, useState } from "react";
-import Axios from "axios";
-import { useSelector } from "react-redux";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import { useHistory } from "react-router-dom";
-import IEdit from "./../../../../_helper/_helperIcons/_edit";
+import React, { useEffect, useState } from 'react';
+import Axios from 'axios';
+import { useSelector } from 'react-redux';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
+import { useHistory } from 'react-router-dom';
+import IEdit from './../../../../_helper/_helperIcons/_edit';
 
-import { Form, Formik } from "formik";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import NewSelect from '../../../../_helper/_select';
 
 const initData = {
-  partnerType: "",
+  partnerType: '',
 };
 
 // const partnerTypeDDL = ;
 
 export function PartnerTable({ saveHandler }) {
-
   const [products, setProducts] = useState(null);
   const [loading, setLoading] = useState(false);
   const [partnerTypeDDL, setPartnerTypeDDL] = useState([]);
@@ -26,7 +25,7 @@ export function PartnerTable({ saveHandler }) {
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState('');
 
   const selectedBusinessUnit = useSelector(
     (state) => state.authData.selectedBusinessUnit
@@ -42,7 +41,7 @@ export function PartnerTable({ saveHandler }) {
     search
   ) => {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
     try {
       const res = await Axios.get(
         `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerLandingPagingSearch?${searchPath}accountId=${accId}&businessUnitId=${buId}&PartnertypeId=${partnerTypeId}&status=true&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}`
@@ -50,7 +49,6 @@ export function PartnerTable({ saveHandler }) {
       setProducts(res?.data);
       setLoading(false);
     } catch (error) {
-     
       setLoading(false);
     }
   };
@@ -59,23 +57,23 @@ export function PartnerTable({ saveHandler }) {
     try {
       const res = await Axios.get(
         '/partner/BusinessPartnerBasicInfo/GetBusinessPartnerTypeList'
-      )
+      );
       const list = res?.data.map((item) => {
         return {
           value: item?.businessPartnerTypeId,
           label: item?.businessPartnerTypeName,
-        }
+        };
         // itemTypes.push(items)
-      })
-      setPartnerTypeDDL(list)
+      });
+      setPartnerTypeDDL(list);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
-  useEffect(()=>{
-    getInfoData()
-  },[])
+  useEffect(() => {
+    getInfoData();
+  }, []);
 
   useEffect(() => {
     dispatchProduct(
@@ -142,7 +140,7 @@ export function PartnerTable({ saveHandler }) {
                         pageNo,
                         pageSize
                       );
-                      setFieldValue("partnerType", valueOption);
+                      setFieldValue('partnerType', valueOption);
                     }}
                     placeholder="Partner Type"
                     errors={errors}
@@ -156,53 +154,53 @@ export function PartnerTable({ saveHandler }) {
               paginationSearchHandler={paginationSearchHandler}
               setter={setSearch}
             />
-          <div className="table-responsive">
-          <table className="table table-striped table-bordered global-table">
-              <thead>
-                <tr>
-                  <th style={{ width: "20px" }}>SL</th>
-                  <th style={{ width: "55px" }}>Code</th>
-                  <th style={{ width: "120px" }}>Partner Name</th>
-                  <th style={{ width: "120px" }}>Partner Type</th>
-                  <th style={{ width: "120px" }}>Address</th>
-                  <th style={{ width: "100px" }}>Contact Number</th>
-                  <th style={{ width: "120px" }}>Email</th>
-                  <th style={{ width: "70px" }}>BIN</th>
-                  <th style={{ width: "120px" }}>Licence Number</th>
-                  <th style={{ width: "20px" }}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {loading && <Loading />}
-                {products?.data?.map((tableData, index) => (
-                  <tr key={index}>
-                    <td> {tableData?.sl} </td>
-                    <td> {tableData?.businessPartnerCode} </td>
-                    <td> {tableData?.businessPartnerName} </td>
-                    <td> {tableData?.businessPartnerTypeName} </td>
-                    <td> {tableData?.businessPartnerAddress} </td>
-                    <td> {tableData?.contactNumber} </td>
-                    <td> {tableData?.email} </td>
-                    <td> {tableData?.bin} </td>
-                    <td> {tableData?.licenseNo} </td>
-                    <td>
-                      <button
-                        onClick={() =>
-                          history.push({
-                            pathname: `/config/partner-management/partner-other-info/edit/${tableData?.businessPartnerId}`,
-                            state: tableData,
-                          })
-                        }
-                        style={{ border: "none", background: "none" }}
-                      >
-                        <IEdit />
-                      </button>
-                    </td>
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered global-table">
+                <thead>
+                  <tr>
+                    <th style={{ width: '20px' }}>SL</th>
+                    <th style={{ width: '55px' }}>Code</th>
+                    <th style={{ width: '120px' }}>Partner Name</th>
+                    <th style={{ width: '120px' }}>Partner Type</th>
+                    <th style={{ width: '120px' }}>Address</th>
+                    <th style={{ width: '100px' }}>Contact Number</th>
+                    <th style={{ width: '120px' }}>Email</th>
+                    <th style={{ width: '70px' }}>BIN</th>
+                    <th style={{ width: '120px' }}>Licence Number</th>
+                    <th style={{ width: '20px' }}>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {loading && <Loading />}
+                  {products?.data?.map((tableData, index) => (
+                    <tr key={index}>
+                      <td> {tableData?.sl} </td>
+                      <td> {tableData?.businessPartnerCode} </td>
+                      <td> {tableData?.businessPartnerName} </td>
+                      <td> {tableData?.businessPartnerTypeName} </td>
+                      <td> {tableData?.businessPartnerAddress} </td>
+                      <td> {tableData?.contactNumber} </td>
+                      <td> {tableData?.email} </td>
+                      <td> {tableData?.bin} </td>
+                      <td> {tableData?.licenseNo} </td>
+                      <td>
+                        <button
+                          onClick={() =>
+                            history.push({
+                              pathname: `/config/partner-management/partner-other-info/edit/${tableData?.businessPartnerId}`,
+                              state: tableData,
+                            })
+                          }
+                          style={{ border: 'none', background: 'none' }}
+                        >
+                          <IEdit />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
             {/* Pagination Code */}
             {products?.data?.length > 0 && (

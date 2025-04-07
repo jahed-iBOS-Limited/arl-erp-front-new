@@ -1,97 +1,91 @@
-import * as requestFromServer from "./Api";
-import { performanceMgtSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { performanceMgtSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 
 const { actions: slice } = performanceMgtSlice;
 
-export const getReportAction = (
-  buId,
-  reportTypeRefId,
-  yearId,
-  fromMonth,
-  toMonth,
-  isDashboard,
-  reportType,
-  sectionId
-) => (dispatch) => {
-  return requestFromServer
-    .getReport(
-      buId,
-      reportTypeRefId,
-      yearId,
-      fromMonth,
-      toMonth,
-      isDashboard,
-      reportType,
-      sectionId
-    )
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetReportData(data));
-      }
-    });
-};
+export const getReportAction =
+  (
+    buId,
+    reportTypeRefId,
+    yearId,
+    fromMonth,
+    toMonth,
+    isDashboard,
+    reportType,
+    sectionId
+  ) =>
+  (dispatch) => {
+    return requestFromServer
+      .getReport(
+        buId,
+        reportTypeRefId,
+        yearId,
+        fromMonth,
+        toMonth,
+        isDashboard,
+        reportType,
+        sectionId
+      )
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetReportData(data));
+        }
+      });
+  };
 
 export const setReportEmpty = () => async (dispatch) => {
   return dispatch(slice.SetReportEmpty());
 };
 
-export const getStrategicParticularsGridAction = (
-  accId,
-  buId,
-  yearId,
-  yearRange,
-  frequencyId,
-  loopCount
-) => (dispatch) => {
-  return requestFromServer
-    .getStrategicParticularsGrid(
-      accId,
-      buId,
-      yearId,
-      yearRange,
-      frequencyId,
-      loopCount
-    )
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetStrategicParticularsGrid({ data, frequencyId }));
-      }
-    });
-};
+export const getStrategicParticularsGridAction =
+  (accId, buId, yearId, yearRange, frequencyId, loopCount) => (dispatch) => {
+    return requestFromServer
+      .getStrategicParticularsGrid(
+        accId,
+        buId,
+        yearId,
+        yearRange,
+        frequencyId,
+        loopCount
+      )
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetStrategicParticularsGrid({ data, frequencyId }));
+        }
+      });
+  };
 
 // set single store empty
 export const setParticullersGridEmpty = () => async (dispatch) => {
   return dispatch(slice.SetStrategicParticularsEmpty());
 };
 
-export const getCompetencyListAction = (accId, buId, employeeId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getCompetencyList(accId, buId, employeeId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetCompetencyList(data));
-      }
-    });
-};
-export const getValuesAndCompByEmpIdAction = (employeeId, yearId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getValuesAndCompByEmpId(employeeId, yearId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetValAndCompByEmpId(data[0]));
-      }
-    });
-};
+export const getCompetencyListAction =
+  (accId, buId, employeeId) => (dispatch) => {
+    return requestFromServer
+      .getCompetencyList(accId, buId, employeeId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetCompetencyList(data));
+        }
+      });
+  };
+export const getValuesAndCompByEmpIdAction =
+  (employeeId, yearId) => (dispatch) => {
+    return requestFromServer
+      .getValuesAndCompByEmpId(employeeId, yearId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetValAndCompByEmpId(data[0]));
+        }
+      });
+  };
 // value List
 export const getValueListAction = (accId, buId) => (dispatch) => {
   return requestFromServer
@@ -144,7 +138,7 @@ export const getEmployeeBasicInfoByIdAction = (empId) => (dispatch) => {
         dispatch(slice.SetEmployeeBasicInfoById(data));
       }
     })
-    .catch((err) => dispatch(slice.SetEmployeeBasicInfoById("")));
+    .catch((err) => dispatch(slice.SetEmployeeBasicInfoById('')));
 };
 
 export const getBSCPerspectiveDDLAction = () => (dispatch) => {
@@ -156,18 +150,17 @@ export const getBSCPerspectiveDDLAction = () => (dispatch) => {
   });
 };
 
-export const getObjectiveDDLAction = (accId, buId, typeId, objType, yearId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getObjectiveDDL(accId, buId, typeId, objType, yearId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetObjectiveDDL(data));
-      }
-    });
-};
+export const getObjectiveDDLAction =
+  (accId, buId, typeId, objType, yearId) => (dispatch) => {
+    return requestFromServer
+      .getObjectiveDDL(accId, buId, typeId, objType, yearId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetObjectiveDDL(data));
+        }
+      });
+  };
 
 export const getUnFavDepSbuDDLAction = (buId, type, year) => (dispatch) => {
   return requestFromServer.getUnFavDepSbuDDL(buId, type, year).then((res) => {
@@ -187,18 +180,17 @@ export const getWeightDDLAction = (accId, buId, typeId) => (dispatch) => {
   });
 };
 
-export const getScaleForValueDDLAction = (accId, buId, typeId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getScaleForValueDDL(accId, buId, typeId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetScaleForValueDDL(data));
-      }
-    });
-};
+export const getScaleForValueDDLAction =
+  (accId, buId, typeId) => (dispatch) => {
+    return requestFromServer
+      .getScaleForValueDDL(accId, buId, typeId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetScaleForValueDDL(data));
+        }
+      });
+  };
 
 export const getYearDDLAction = (accId, buId) => (dispatch) => {
   return requestFromServer.getYearDDL(accId, buId).then((res) => {
@@ -241,7 +233,7 @@ export const saveKpiTargetAction = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
     })
@@ -250,53 +242,47 @@ export const saveKpiTargetAction = (payload) => () => {
     });
 };
 
-export const saveCopyKpiTargetAction = (
-  copyFromEmpId,
-  copyToEmpId,
-  copyFromYearId,
-  copyToYearId
-) => () => {
-  return requestFromServer
-    .saveCreateCopyData(
-      copyFromEmpId,
-      copyToEmpId,
-      copyFromYearId,
-      copyToYearId
-    )
-    .then((res) => {
-      if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
-        // copyFromEmpId && copyToEmpId && copyFromYearId.cb();
-      }
-    })
-    .catch((err) => {
-      toast.error(err?.response?.data?.message);
-    });
-};
+export const saveCopyKpiTargetAction =
+  (copyFromEmpId, copyToEmpId, copyFromYearId, copyToYearId) => () => {
+    return requestFromServer
+      .saveCreateCopyData(
+        copyFromEmpId,
+        copyToEmpId,
+        copyFromYearId,
+        copyToYearId
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success(res.data?.message || 'Submitted successfully');
+          // copyFromEmpId && copyToEmpId && copyFromYearId.cb();
+        }
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
+  };
 
-export const EditIndividualKpiTargetAction = (
-  payload,
-  indKpiTartCrPageRedirect
-) => () => {
-  console.log(indKpiTartCrPageRedirect);
-  return requestFromServer
-    .saveEditedIndividualKpiTarget(payload.data)
-    .then((res) => {
-      if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
-        indKpiTartCrPageRedirect && indKpiTartCrPageRedirect();
-      }
-    })
-    .catch((err) => {
-      toast.error(err?.response?.data?.message);
-    });
-};
+export const EditIndividualKpiTargetAction =
+  (payload, indKpiTartCrPageRedirect) => () => {
+    console.log(indKpiTartCrPageRedirect);
+    return requestFromServer
+      .saveEditedIndividualKpiTarget(payload.data)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success(res.data?.message || 'Submitted successfully');
+          indKpiTartCrPageRedirect && indKpiTartCrPageRedirect();
+        }
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
+  };
 export const saveValuesAndCompetencyAction = (payload) => () => {
   return requestFromServer
     .saveValuesAndCompetency(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
     })
@@ -311,7 +297,7 @@ export const updateValAndCompAction = (payload) => () => {
     .then((res) => {
       if (res.status === 200) {
         console.log(res.data);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
     })
@@ -388,11 +374,11 @@ export const getKpiEditedSingleDataAction = (kpiId, type) => (dispatch) => {
             label: item?.objRow?.bscperspectiveName,
           },
           kpiname: {
-            value : item?.objRow?.kpiMasterId,
-            label: item?.objRow?.kpiname
+            value: item?.objRow?.kpiMasterId,
+            label: item?.objRow?.kpiname,
           },
-          url: item?.objRow?.url || "",
-          operator: item?.objRow?.operator || "",
+          url: item?.objRow?.url || '',
+          operator: item?.objRow?.operator || '',
           isDailyEntry: item?.objRow?.isDailyEntry || false,
           kpiformat: {
             value: item?.objRow?.kpiformat,
@@ -448,51 +434,50 @@ export const SetValAndCompByEmpIdEmptyAction = () => async (dispatch) => {
   return dispatch(slice.SetValAndCompByEmpIdEmpty());
 };
 
-export const deleteIndividualKPIByIdAction = (
-  kpiId,
-  getReportAction,
-  values
-) => (dispatch) => {
-  return requestFromServer
-    .deleteIndividualKPIById(kpiId)
-    .then((res) => {
-      if (res.status === 200) {
-        toast.success("Deleted Successfully");
-        // get kpi report after deleted successfully
-        getReportAction(values);
-      }
-    })
-    .catch((err) => {
-      toast.warn("Something went wrong");
-    });
-};
+export const deleteIndividualKPIByIdAction =
+  (kpiId, getReportAction, values) => (dispatch) => {
+    return requestFromServer
+      .deleteIndividualKPIById(kpiId)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success('Deleted Successfully');
+          // get kpi report after deleted successfully
+          getReportAction(values);
+        }
+      })
+      .catch((err) => {
+        toast.warn('Something went wrong');
+      });
+  };
 
-export const getNewKpiReportAction = (
-  buId,
-  reportTypeRefId,
-  yearId,
-  fromMonth,
-  toMonth,
-  isDashboard,
-  reportType
-) => (dispatch) => {
-  return requestFromServer
-    .getNewKpiReport(
-      buId,
-      reportTypeRefId,
-      yearId,
-      fromMonth,
-      toMonth,
-      isDashboard,
-      reportType
-    )
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetNewKpiReport(data));
-      }
-    });
-};
+export const getNewKpiReportAction =
+  (
+    buId,
+    reportTypeRefId,
+    yearId,
+    fromMonth,
+    toMonth,
+    isDashboard,
+    reportType
+  ) =>
+  (dispatch) => {
+    return requestFromServer
+      .getNewKpiReport(
+        buId,
+        reportTypeRefId,
+        yearId,
+        fromMonth,
+        toMonth,
+        isDashboard,
+        reportType
+      )
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetNewKpiReport(data));
+        }
+      });
+  };
 
 // set employee basicinfo  empty
 export const SetNewKpiReportEmptyAction = () => async (dispatch) => {

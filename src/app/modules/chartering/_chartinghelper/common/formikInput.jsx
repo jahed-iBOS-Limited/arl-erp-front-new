@@ -1,18 +1,10 @@
-import { Field } from "formik";
-import React from "react";
-import FormikError from "./formikError";
+import { Field } from 'formik';
+import React from 'react';
+import FormikError from './formikError';
 
 const FormikInput = (props) => {
-  const {
-    placeholder,
-    value,
-    name,
-    type,
-    errors,
-    touched,
-    disabled,
-    label,
-  } = props;
+  const { placeholder, value, name, type, errors, touched, disabled, label } =
+    props;
   return (
     <>
       {label && <label>{label}</label>}
@@ -24,10 +16,10 @@ const FormikInput = (props) => {
         type={type}
         disabled={disabled}
         style={{
-          border: "1px solid hsl(0,0%,80%)",
-          borderRadius: "5px",
-          padding: "3px 8px",
-          width: "100%",
+          border: '1px solid hsl(0,0%,80%)',
+          borderRadius: '5px',
+          padding: '3px 8px',
+          width: '100%',
         }}
       />
       <FormikError errors={errors} touched={touched} name={name} />

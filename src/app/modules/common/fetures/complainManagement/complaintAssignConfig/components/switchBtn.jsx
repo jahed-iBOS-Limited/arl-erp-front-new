@@ -5,13 +5,13 @@ const SwitchBtn = ({ checked, onChange, disabled }) => {
     position: 'relative',
     display: 'inline-block',
     width: '30px',
-    height: '18px'
+    height: '18px',
   };
 
   const inputStyle = {
     opacity: 0,
     width: 0,
-    height: 0
+    height: 0,
   };
 
   const sliderStyle = {
@@ -23,7 +23,7 @@ const SwitchBtn = ({ checked, onChange, disabled }) => {
     bottom: 0,
     backgroundColor: checked ? '#2196F3' : '#ccc',
     transition: '.4s',
-    borderRadius: '9px'
+    borderRadius: '9px',
   };
 
   const sliderBeforeStyle = {
@@ -35,12 +35,18 @@ const SwitchBtn = ({ checked, onChange, disabled }) => {
     bottom: '2px',
     backgroundColor: 'white',
     transition: '.4s',
-    borderRadius: '50%'
+    borderRadius: '50%',
   };
 
   return (
     <label style={switchStyle}>
-      <input  type="checkbox" style={inputStyle} checked={checked} onChange={onChange} disabled={disabled}/>
+      <input
+        type="checkbox"
+        style={inputStyle}
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+      />
       <span style={sliderStyle}>
         <span style={sliderBeforeStyle}></span>
       </span>

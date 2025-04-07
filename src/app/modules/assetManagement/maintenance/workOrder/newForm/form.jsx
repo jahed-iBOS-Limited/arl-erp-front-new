@@ -1,28 +1,30 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import InputField from "../../../../_helper/_inputField";
-import Axios from "axios";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../../_helper/_formikError";
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import InputField from '../../../../_helper/_inputField';
+import Axios from 'axios';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../../_helper/_formikError';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  problem: Yup.string().required("Problem is required"),
-  assetNo: Yup.object().shape({
-    label: Yup.string().required("Asset No is required"),
-    value: Yup.string().required("Asset No is required"),
-  }).nullable(),
+  problem: Yup.string().required('Problem is required'),
+  assetNo: Yup.object()
+    .shape({
+      label: Yup.string().required('Asset No is required'),
+      value: Yup.string().required('Asset No is required'),
+    })
+    .nullable(),
   service: Yup.object().shape({
-    label: Yup.string().required("Service is required"),
-    value: Yup.string().required("Service is required"),
+    label: Yup.string().required('Service is required'),
+    value: Yup.string().required('Service is required'),
   }),
   priority: Yup.object().shape({
-    label: Yup.string().required("Priority is required"),
-    value: Yup.string().required("Priority is required"),
+    label: Yup.string().required('Priority is required'),
+    value: Yup.string().required('Priority is required'),
   }),
-  assetDate: Yup.string().required("Date is required"),
+  assetDate: Yup.string().required('Date is required'),
 });
 
 export default function FormCmp({
@@ -36,7 +38,7 @@ export default function FormCmp({
   plantId,
   setAssetListDDL,
   selectedBusinessUnit,
-  formType = "serviceRequest", // Default to serviceRequest
+  formType = 'serviceRequest', // Default to serviceRequest
 }) {
   const loadAssetList = (v) => {
     if (v?.length < 3) return [];
@@ -47,13 +49,13 @@ export default function FormCmp({
         ...item,
         value: item?.value,
         assetproName: item?.label,
-        label: item?.labelCode
+        label: item?.labelCode,
       }));
       return updateList;
     });
   };
 
-  const isAssetOrder = formType === "assetOrder";
+  const isAssetOrder = formType === 'assetOrder';
 
   return (
     <>
@@ -79,19 +81,19 @@ export default function FormCmp({
           <>
             <Form className="form form-label-right">
               <div className="form-group row global-form">
-                <div className={isAssetOrder ? "col-lg-3" : "col-lg-4"}>
+                <div className={isAssetOrder ? 'col-lg-3' : 'col-lg-4'}>
                   <label>Asset NO.</label>
                   <SearchAsyncSelect
                     selectedValue={values?.assetNo}
                     handleChange={(valueOption) => {
-                      setFieldValue("assetNo", valueOption);
-                      setFieldValue("assetName", valueOption?.assetproName);
+                      setFieldValue('assetNo', valueOption);
+                      setFieldValue('assetName', valueOption?.assetproName);
                       setFieldValue(
-                        "businessUnit",
+                        'businessUnit',
                         valueOption?.businessUnitName
                       );
                     }}
-                    placeholder={"Asset Id and Code"}
+                    placeholder={'Asset Id and Code'}
                     loadOptions={loadAssetList}
                     disabled={true}
                   />
@@ -101,7 +103,7 @@ export default function FormCmp({
                     touched={touched}
                   />
                 </div>
-                <div className={isAssetOrder ? "col-lg-3" : "col-lg-4"}>
+                <div className={isAssetOrder ? 'col-lg-3' : 'col-lg-4'}>
                   <InputField
                     value={values?.assetName}
                     label="Asset Name"
@@ -110,7 +112,7 @@ export default function FormCmp({
                     name="assetName"
                   />
                 </div>
-                <div className={isAssetOrder ? "col-lg-3" : "col-lg-4"}>
+                <div className={isAssetOrder ? 'col-lg-3' : 'col-lg-4'}>
                   <InputField
                     value={values?.businessUnit}
                     label="Business Unit"
@@ -119,7 +121,9 @@ export default function FormCmp({
                     name="businessUnit"
                   />
                 </div>
-                <div className={`${isAssetOrder ? "col-lg-3" : "col-lg-4"} mt-7 d-flex`}>
+                <div
+                  className={`${isAssetOrder ? 'col-lg-3' : 'col-lg-4'} mt-7 d-flex`}
+                >
                   <label className="mr-3">
                     <Field type="radio" name="picked" value="Preventive" />
                     <span className="ml-2">Preventive</span>
@@ -130,12 +134,16 @@ export default function FormCmp({
                   </label>
                   {isAssetOrder && (
                     <label>
-                      <Field type="radio" name="picked" value="OthersInstallation" />
+                      <Field
+                        type="radio"
+                        name="picked"
+                        value="OthersInstallation"
+                      />
                       <span className="ml-2">Others Installation</span>
                     </label>
                   )}
                 </div>
-                <div className={isAssetOrder ? "col-lg-3" : "col-lg-4"}>
+                <div className={isAssetOrder ? 'col-lg-3' : 'col-lg-4'}>
                   <ISelect
                     label="Select Service"
                     options={serviceDDL}
@@ -147,13 +155,13 @@ export default function FormCmp({
                   />
                 </div>
 
-                <div className={isAssetOrder ? "col-lg-3" : "col-lg-4"}>
+                <div className={isAssetOrder ? 'col-lg-3' : 'col-lg-4'}>
                   <ISelect
                     label="Select Priority"
                     options={[
-                      { label: "High", value: 1 },
-                      { label: "Medium", value: 2 },
-                      { label: "Low", value: 3 },
+                      { label: 'High', value: 1 },
+                      { label: 'Medium', value: 2 },
+                      { label: 'Low', value: 3 },
                     ]}
                     value={values?.priority}
                     name="priority"
@@ -162,16 +170,16 @@ export default function FormCmp({
                     touched={touched}
                   />
                 </div>
-                <div className={isAssetOrder ? "col-lg-3" : "col-lg-4"}>
+                <div className={isAssetOrder ? 'col-lg-3' : 'col-lg-4'}>
                   <InputField
                     value={values?.assetDate}
-                    type={isAssetOrder ? "datetime-local" : "date"}
+                    type={isAssetOrder ? 'datetime-local' : 'date'}
                     label="Date"
                     placeholder="Date"
                     name="assetDate"
                   />
                 </div>
-                <div className={isAssetOrder ? "col-lg-3" : "col-lg-4"}>
+                <div className={isAssetOrder ? 'col-lg-3' : 'col-lg-4'}>
                   <InputField
                     value={values?.problem}
                     label="Problem"
@@ -182,14 +190,14 @@ export default function FormCmp({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

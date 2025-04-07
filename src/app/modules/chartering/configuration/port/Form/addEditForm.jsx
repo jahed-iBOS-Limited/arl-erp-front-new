@@ -1,17 +1,16 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { useLocation } from "react-router-dom";
-import { GetCountryDDL } from "../../../helper";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { createPort, updatePort } from "../helper";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import { GetCountryDDL } from '../../../helper';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { createPort, updatePort } from '../helper';
+import Form from './form';
 
 const initData = {
-  portName: "",
-  portCountry: "",
-  portAddress: "",
+  portName: '',
+  portCountry: '',
+  portAddress: '',
 };
 
 export default function PortForm() {
@@ -61,11 +60,11 @@ export default function PortForm() {
       {loading && <Loading />}
       <Form
         title={
-          type === "edit"
-            ? "Edit Port"
-            : type === "view"
-            ? "View Port"
-            : "Create Port"
+          type === 'edit'
+            ? 'Edit Port'
+            : type === 'view'
+              ? 'View Port'
+              : 'Create Port'
         }
         initData={
           id

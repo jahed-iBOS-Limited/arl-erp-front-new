@@ -1,13 +1,13 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import { BillBySupplier } from "./billbysupplier";
-import { PRReport } from "./indentStatement/index";
-import { PORegisterReport } from "./PoRegister";
-import { POReport } from "./PoStatement";
-import POPRGRNTable from "./PrPOGrn/Table/table";
-import { PartnerLedger } from "./partnerLedger/index";
-import ProcureToPayReportTable  from "./procureToPay/index";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import { BillBySupplier } from './billbysupplier';
+import { PRReport } from './indentStatement/index';
+import { PORegisterReport } from './PoRegister';
+import { POReport } from './PoStatement';
+import POPRGRNTable from './PrPOGrn/Table/table';
+import { PartnerLedger } from './partnerLedger/index';
+import ProcureToPayReportTable from './procureToPay/index';
 import { PurchaseInfoLanding } from './purchaseInfo/Table/tableHeader';
 
 export function ReportsPages() {

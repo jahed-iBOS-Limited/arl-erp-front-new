@@ -1,33 +1,32 @@
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import { Formik } from "formik";
-import GridView from "./table";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
+} from '../../../../../../_metronic/_partials/controls';
+import { Formik } from 'formik';
+import GridView from './table';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
 import {
   monthDDL,
   yearsDDL,
-} from "../../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm";
-import { getRegionAreaTerritory } from "../../../../salesManagement/report/customerSalesTargetReport/helper";
-import { useEffect } from "react";
-import { getDistributionChannelDDL_api } from "../../../../transportManagement/report/transportSupplierUpdate/helper";
+} from '../../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm';
+import { getRegionAreaTerritory } from '../../../../salesManagement/report/customerSalesTargetReport/helper';
+import { useEffect } from 'react';
+import { getDistributionChannelDDL_api } from '../../../../transportManagement/report/transportSupplierUpdate/helper';
 
 const initData = {
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
-  month: "",
-  year: "",
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
+  month: '',
+  year: '',
 };
 
 const MarketShareReport = () => {
@@ -55,8 +54,8 @@ const MarketShareReport = () => {
     const ratId = values?.territory
       ? values?.territory?.value
       : values?.area
-      ? values?.area?.value
-      : values?.region?.value;
+        ? values?.area?.value
+        : values?.region?.value;
     const url = `/oms/SalesInformation/GetMarketShareAnalysis?intunitid=${buId}&intMonthId=${values?.month?.value}&intYearId=${values?.year?.value}&intEmployeeid=${empId}&RATId=${ratId}&LevelId=${levelId}`;
 
     getRowData(url);
@@ -64,41 +63,41 @@ const MarketShareReport = () => {
 
   const onChangeHandler = (fieldName, values, currentValue, setFieldValue) => {
     switch (fieldName) {
-      case "channel":
-        setFieldValue("channel", currentValue);
-        setFieldValue("region", "");
-        setFieldValue("area", "");
-        setFieldValue("territory", "");
+      case 'channel':
+        setFieldValue('channel', currentValue);
+        setFieldValue('region', '');
+        setFieldValue('area', '');
+        setFieldValue('territory', '');
         if (currentValue) {
           getRegionAreaTerritory({
             channelId: currentValue?.value,
             setter: setRegionList,
             setLoading: setLoading,
-            value: "regionId",
-            label: "regionName",
+            value: 'regionId',
+            label: 'regionName',
           });
         }
         break;
 
-      case "region":
-        setFieldValue("region", currentValue);
-        setFieldValue("area", "");
-        setFieldValue("territory", "");
+      case 'region':
+        setFieldValue('region', currentValue);
+        setFieldValue('area', '');
+        setFieldValue('territory', '');
         if (currentValue) {
           getRegionAreaTerritory({
             channelId: values?.channel?.value,
             regionId: currentValue?.value,
             setter: setAreaList,
             setLoading: setLoading,
-            value: "areaId",
-            label: "areaName",
+            value: 'areaId',
+            label: 'areaName',
           });
         }
         break;
 
-      case "area":
-        setFieldValue("area", currentValue);
-        setFieldValue("territory", "");
+      case 'area':
+        setFieldValue('area', currentValue);
+        setFieldValue('territory', '');
         if (currentValue) {
           getRegionAreaTerritory({
             channelId: values?.channel?.value,
@@ -106,8 +105,8 @@ const MarketShareReport = () => {
             areaId: currentValue?.value,
             setter: setTerritoryList,
             setLoading: setLoading,
-            value: "territoryId",
-            label: "territoryName",
+            value: 'territoryId',
+            label: 'territoryName',
           });
         }
         break;
@@ -141,7 +140,7 @@ const MarketShareReport = () => {
                             label="Distribution Channel"
                             onChange={(e) => {
                               onChangeHandler(
-                                "channel",
+                                'channel',
                                 values,
                                 e,
                                 setFieldValue
@@ -160,7 +159,7 @@ const MarketShareReport = () => {
                             label="Region"
                             onChange={(e) => {
                               onChangeHandler(
-                                "region",
+                                'region',
                                 values,
                                 e,
                                 setFieldValue
@@ -179,7 +178,7 @@ const MarketShareReport = () => {
                             value={values?.area}
                             label="Area"
                             onChange={(e) => {
-                              onChangeHandler("area", values, e, setFieldValue);
+                              onChangeHandler('area', values, e, setFieldValue);
                             }}
                             placeholder="Area"
                             errors={errors}
@@ -194,7 +193,7 @@ const MarketShareReport = () => {
                             value={values?.territory}
                             label="Territory"
                             onChange={(valueOption) => {
-                              setFieldValue("territory", valueOption);
+                              setFieldValue('territory', valueOption);
                             }}
                             placeholder="Territory"
                             errors={errors}
@@ -210,7 +209,7 @@ const MarketShareReport = () => {
                           value={values?.month}
                           label="Month"
                           onChange={(valueOption) => {
-                            setFieldValue("month", valueOption);
+                            setFieldValue('month', valueOption);
                           }}
                           placeholder="Month"
                         />
@@ -222,7 +221,7 @@ const MarketShareReport = () => {
                           value={values?.year}
                           label="Year"
                           onChange={(valueOption) => {
-                            setFieldValue("year", valueOption);
+                            setFieldValue('year', valueOption);
                           }}
                           placeholder="Year"
                         />

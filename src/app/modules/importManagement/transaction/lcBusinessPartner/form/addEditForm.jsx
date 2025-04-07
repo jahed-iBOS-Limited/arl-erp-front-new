@@ -1,11 +1,8 @@
-
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import Loading from "../../../../_helper/_loading";
-import { useHistory } from "react-router";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import Loading from '../../../../_helper/_loading';
+import { useHistory } from 'react-router';
 import {
   BusinessPartnerTypeDDL,
   CreateBusinessPartner,
@@ -13,51 +10,51 @@ import {
   GetBankListDDL,
   CreateBusinessPartnerForCnF,
   GetBusinessPartnerDetails,
-} from "../helper";
-import { useLocation, useParams } from "react-router-dom";
-import percentageToDecemal from "../../../../_helper/_percentageToDecemal";
-import { CreateBusinessPartnerForBank } from "./../helper";
-import { isUniq } from "./../../../../_helper/uniqChecker";
-import { toast } from "react-toastify";
+} from '../helper';
+import { useLocation, useParams } from 'react-router-dom';
+import percentageToDecemal from '../../../../_helper/_percentageToDecemal';
+import { CreateBusinessPartnerForBank } from './../helper';
+import { isUniq } from './../../../../_helper/uniqChecker';
+import { toast } from 'react-toastify';
 
 const initData = {
-  shippingAgent: "",
-  supplier: "",
-  bank: "",
-  provider: "",
-  type: "",
-  coverNotePrefix: "",
-  policyPrefix: "",
-  commissionPercentage: "",
-  commissionAdjustWithBill: "",
-  insuredAmount: "",
-  premiumRate: "",
-  vatRate: "",
-  discountRate: "",
-  airStampFixed: "",
-  airStampCharges: "",
-  landStampFixed: "",
-  landStampCharges: "",
-  seaStampFixed: "",
-  seaStampCharges: "",
-  atsightCommissionQ1: "",
-  atsightCommissionQ2: "",
-  upasCommissionQ1: "",
-  upasCommissionQ2: "",
-  swiftCharge: "",
-  stampCharge: "",
-  stationaryCharge: "",
-  otherCharge: "",
-  isToleranceIncluded: "",
-  isMinChargeIncluded: "",
-  minCharge: "",
-  ddCommissionRate: "",
-  ddCommissionMinimum: "",
-  ttCommissionRate: "",
-  ttCommisionMinimum: "",
+  shippingAgent: '',
+  supplier: '',
+  bank: '',
+  provider: '',
+  type: '',
+  coverNotePrefix: '',
+  policyPrefix: '',
+  commissionPercentage: '',
+  commissionAdjustWithBill: '',
+  insuredAmount: '',
+  premiumRate: '',
+  vatRate: '',
+  discountRate: '',
+  airStampFixed: '',
+  airStampCharges: '',
+  landStampFixed: '',
+  landStampCharges: '',
+  seaStampFixed: '',
+  seaStampCharges: '',
+  atsightCommissionQ1: '',
+  atsightCommissionQ2: '',
+  upasCommissionQ1: '',
+  upasCommissionQ2: '',
+  swiftCharge: '',
+  stampCharge: '',
+  stationaryCharge: '',
+  otherCharge: '',
+  isToleranceIncluded: '',
+  isMinChargeIncluded: '',
+  minCharge: '',
+  ddCommissionRate: '',
+  ddCommissionMinimum: '',
+  ttCommissionRate: '',
+  ttCommisionMinimum: '',
   from: 0,
-  to: "",
-  rate: "",
+  to: '',
+  rate: '',
 };
 
 export default function LCBusinessPartnerForm() {
@@ -68,17 +65,21 @@ export default function LCBusinessPartnerForm() {
   const [supplierListDDL, setSupplierListDDL] = useState([]);
   const [bankListDDL, setBankListDDL] = useState([]);
   const [businessPartnerTypeDDL, setBusinessPartnerTypeDDL] = useState([]);
-  const [singleData, setSingleData] = useState([])
-  const [cnfRowDto, setCnfRow] = useState([])
+  const [singleData, setSingleData] = useState([]);
+  const [cnfRowDto, setCnfRow] = useState([]);
 
   const setterForCnfAgency = (values) => {
-      const obj =  {...values,numFromAmount:values?.from,numToAmount:values.to,numRate:values.rate}
-      const data = [...cnfRowDto]
-      data.push(obj)
-      if(Array.isArray(data)){
-        setCnfRow(data);
-      }
-
+    const obj = {
+      ...values,
+      numFromAmount: values?.from,
+      numToAmount: values.to,
+      numRate: values.rate,
+    };
+    const data = [...cnfRowDto];
+    data.push(obj);
+    if (Array.isArray(data)) {
+      setCnfRow(data);
+    }
   };
 
   const { type, businessID, businessPartnerTypeId } = useParams();
@@ -94,13 +95,12 @@ export default function LCBusinessPartnerForm() {
   }, shallowEqual);
   const { state } = useLocation();
   useEffect(() => {
-
     BusinessPartnerTypeDDL(setBusinessPartnerTypeDDL);
     GetBankListDDL(setBankListDDL);
   }, []);
 
   useEffect(() => {
-    if (type === "view") {
+    if (type === 'view') {
       GetBusinessPartnerDetails(
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -113,13 +113,12 @@ export default function LCBusinessPartnerForm() {
   }, []);
 
   const saveHandler = async (values, cb) => {
-
     if (
-      values?.type?.label === "Bank" &&
+      values?.type?.label === 'Bank' &&
       values?.supplier?.label.trim().toLowerCase() !==
         values?.bank?.label.trim().toLowerCase()
     ) {
-      return toast.warn("Create Bank as a Supplier");
+      return toast.warn('Create Bank as a Supplier');
     }
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       const payload = {
@@ -188,9 +187,7 @@ export default function LCBusinessPartnerForm() {
         };
       });
 
-
-
-      if (values?.type?.label === "Insurance Company") {
+      if (values?.type?.label === 'Insurance Company') {
         CreateInsuranceCompany(
           setDisabled,
           values,
@@ -199,9 +196,9 @@ export default function LCBusinessPartnerForm() {
           profileData?.userId,
           cb
         );
-      } else if (values?.type?.label === "Bank") {
+      } else if (values?.type?.label === 'Bank') {
         CreateBusinessPartnerForBank(payloadForBank, cb);
-      } else if (values?.type?.label === "CnF Agency") {
+      } else if (values?.type?.label === 'CnF Agency') {
         CreateBusinessPartnerForCnF(payloadForCNF, cb);
       } else {
         CreateBusinessPartner(payload, cb);
@@ -224,7 +221,7 @@ export default function LCBusinessPartnerForm() {
       <div className="mt-0">
         <Form
           {...objProps}
-          initData={type === "view" ? singleData : initData}
+          initData={type === 'view' ? singleData : initData}
           saveHandler={saveHandler}
           profileData={profileData}
           accountId={profileData?.accountId}

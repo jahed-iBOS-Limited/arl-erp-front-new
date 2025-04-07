@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getTerritoryTypeDDL = async (accId, buId, setter) => {
   try {
@@ -86,7 +86,7 @@ export const saveRouteAction = async (data, cb, setDisabled) => {
   try {
     const res = await Axios.post(`/rtm/Route/CreateRoute`, data);
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -102,7 +102,7 @@ export const saveEditedRoute = async (data, cb, setDisabled) => {
     const res = await Axios.put(`/rtm/Route/EditRoute`, data);
     if (res.status === 200) {
       cb();
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {

@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const Thead = ({ headerName }) => {
   return (
@@ -35,7 +35,6 @@ export default function CompetencyTable({
         ..._data.competency,
       });
     }
-
   }, [_data]);
 
   return (
@@ -56,12 +55,12 @@ export default function CompetencyTable({
                       <tr key={index}>
                         <td>
                           <div className="text-left pl-1">
-                          {itm?.valuesOrComName}
+                            {itm?.valuesOrComName}
                           </div>
                         </td>
                         <td className="text-center">
-                          {" "}
-                          {itm?.numDesiredValue}{" "}
+                          {' '}
+                          {itm?.numDesiredValue}{' '}
                         </td>
                         {!isEmployee && (
                           <td> {itm?.measureNameBySupervisor} </td>
@@ -70,16 +69,17 @@ export default function CompetencyTable({
                           <button
                             type="button"
                             style={{
-                              cursor: "text",
-                              minHeight: "20px",
-                              minWidth: "90%",
+                              cursor: 'text',
+                              minHeight: '20px',
+                              minWidth: '90%',
                             }}
                             className="btn p-0 border text-left border-primary"
                             placeholder="scale"
                             onClick={() => {
                               history.push({
-                                pathname: `${viewModalPath}/?id=${index +
-                                  1}&type=competency`,
+                                pathname: `${viewModalPath}/?id=${
+                                  index + 1
+                                }&type=competency`,
                                 valuesOrComId: itm?.valuesOrComId,
                                 typeId: 3,
                                 name: itm?.valuesOrComName,
@@ -93,7 +93,12 @@ export default function CompetencyTable({
                         {isEmployee && (
                           <td> {itm?.measureNameBySupervisor} </td>
                         )}
-                        <td className="text-center">{(itm?.numMeasureValueBySupervisor || 0) - (competencyData[index + 1]?.measureValue  || itm?.numMeasureValueByEmployee || 0)}</td>
+                        <td className="text-center">
+                          {(itm?.numMeasureValueBySupervisor || 0) -
+                            (competencyData[index + 1]?.measureValue ||
+                              itm?.numMeasureValueByEmployee ||
+                              0)}
+                        </td>
                       </tr>
                     )
                 )
@@ -101,7 +106,9 @@ export default function CompetencyTable({
                 data.map((itm, index) => (
                   <tr key={index}>
                     <td>
-                      <div className="text-left pl-1">{itm?.competencyName}</div>
+                      <div className="text-left pl-1">
+                        {itm?.competencyName}
+                      </div>
                     </td>
                     <td className="text-center"> {itm?.numDesiredValue} </td>
                     {!isEmployee && <td> {itm?.measureNameBySupervisor} </td>}
@@ -109,16 +116,17 @@ export default function CompetencyTable({
                       <button
                         type="button"
                         style={{
-                          cursor: "text",
-                          minHeight: "20px",
-                          minWidth: "90%",
+                          cursor: 'text',
+                          minHeight: '20px',
+                          minWidth: '90%',
                         }}
                         className="btn p-0 border text-left border-primary"
                         placeholder="scale"
                         onClick={() => {
                           history.push({
-                            pathname: `${viewModalPath}/?id=${index +
-                              1}&type=competency`,
+                            pathname: `${viewModalPath}/?id=${
+                              index + 1
+                            }&type=competency`,
                             modalData: itm,
                             typeId: 3,
                           });
@@ -128,7 +136,12 @@ export default function CompetencyTable({
                       </button>
                     </td>
                     {isEmployee && <td> {itm?.measureNameBySupervisor} </td>}
-                    <td className="text-center">{(itm?.numMeasureValueBySupervisor || 0) - (competencyData[index + 1]?.measureValue  || itm?.numMeasureValueByEmployee || 0)}</td>
+                    <td className="text-center">
+                      {(itm?.numMeasureValueBySupervisor || 0) -
+                        (competencyData[index + 1]?.measureValue ||
+                          itm?.numMeasureValueByEmployee ||
+                          0)}
+                    </td>
                   </tr>
                 ))
               ) : (

@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { postDataEdit } from "../helper";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { postDataEdit } from '../helper';
+import Form from './form';
 
 const initData = {
-  itemType: "",
-  item: "",
-  bustingBagQnt: "",
-  othersBagQnt: "",
-  cnfbagQnt: "",
-  shipPoint: "",
-  motherVesselId: "",
-  motherVesselName: "",
-  lighterVesselId: "",
-  lighterVesselName: "",
-  dteDate: "",
+  itemType: '',
+  item: '',
+  bustingBagQnt: '',
+  othersBagQnt: '',
+  cnfbagQnt: '',
+  shipPoint: '',
+  motherVesselId: '',
+  motherVesselName: '',
+  lighterVesselId: '',
+  lighterVesselName: '',
+  dteDate: '',
 };
 
 export default function G2GItemInfoCreateForm() {
@@ -39,13 +39,13 @@ export default function G2GItemInfoCreateForm() {
   const saveHandler = async (values, cb, rowDto, id) => {
     if (!id) {
       const payload = rowDto.map((itm) => ({
-        itemName: itm?.itemName || "",
-        itemId: itm?.itemId || "",
+        itemName: itm?.itemName || '',
+        itemId: itm?.itemId || '',
         bustingBagQnt: itm?.bustingBagQnt || 0,
         othersBagQnt: itm?.othersBagQnt || 0,
         cnfbagQnt: itm?.cnfbagQnt || 0,
         insertby: userId,
-        shippingPointId: itm?.shippingPointId || "",
+        shippingPointId: itm?.shippingPointId || '',
         businessUnitId: buId,
         dteDate: itm?.dteDate || _todayDate(),
       }));
@@ -60,23 +60,23 @@ export default function G2GItemInfoCreateForm() {
     } else {
       const payload = {
         intId: +id,
-        itemName: values?.item?.label || "",
-        itemId: values?.item?.value || "",
+        itemName: values?.item?.label || '',
+        itemId: values?.item?.value || '',
         bustingBagQnt: +values?.bustingBagQnt || 0,
         othersBagQnt: +values?.othersBagQnt || 0,
         cnfbagQnt: +values?.cnfbagQnt || 0,
         shippingPointId: values?.shipPoint?.value,
         dteDate: values?.date || _todayDate(),
       };
-      const url = "/tms/LigterLoadUnload/EditG2GItemInfo";
-      postDataEdit(url, payload,() => {
+      const url = '/tms/LigterLoadUnload/EditG2GItemInfo';
+      postDataEdit(url, payload, () => {
         cb();
-      },);
+      });
     }
   };
 
   const title = `${
-    type === "edit" ? "Edit" : type === "view" ? "View" : "Create"
+    type === 'edit' ? 'Edit' : type === 'view' ? 'View' : 'Create'
   } Empty Bag Info`;
 
   return (

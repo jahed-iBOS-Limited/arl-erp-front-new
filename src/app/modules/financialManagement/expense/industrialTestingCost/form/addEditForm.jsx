@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 // import { useParams } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Form from "./form";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Form from './form';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
   testDate: _todayDate(),
-  testType: "",
-  projectType: "",
-  projectLocation: "",
-  testPerformPlace: "",
-  quantity: "",
-  rate: "",
-  amount: "",
-  remark: "",
-  supervisorAmount: "",
+  testType: '',
+  projectType: '',
+  projectLocation: '',
+  testPerformPlace: '',
+  quantity: '',
+  rate: '',
+  amount: '',
+  remark: '',
+  supervisorAmount: '',
   //   costCenter: "",
   //   profitCenter: "",
   //   costElement: "",
@@ -43,7 +43,6 @@ export default function IndustrialTestingCostEntryForm() {
     getPerformPlaces(
       `/oms/ShipPoint/GetDDLByTypeNUnit?TypeId=1&UnitId=${buId}`
     );
-
   }, [buId]);
 
   const saveHandler = async (values, cb) => {
@@ -52,7 +51,7 @@ export default function IndustrialTestingCostEntryForm() {
         autoId: 0,
         testDate: values?.testDate,
         businessTransactionId: 0,
-        businessTransactionName: "",
+        businessTransactionName: '',
         businessUnitId: buId,
         testTypeId: values?.testType?.value,
         testTypeName: values?.testType?.label,
@@ -65,20 +64,20 @@ export default function IndustrialTestingCostEntryForm() {
         rate: values?.rate,
         amount: values?.amount,
         comments: values?.remark,
-        attachmentLink: uploadedImage[0]?.id ? uploadedImage[0]?.id : "",
+        attachmentLink: uploadedImage[0]?.id ? uploadedImage[0]?.id : '',
         actionBy: userId,
         supervisorAmount: 0,
         updateBySuperUser: 0,
         costCenterId: 0,
-        costCenterName: "",
+        costCenterName: '',
         profitCenterId: 0,
-        profitCenterName: "",
+        profitCenterName: '',
         costElementId: 0,
-        costElementName: "",
+        costElementName: '',
       },
     ];
 
-    const URL = "/oms/IndustrialTestExpense/CreateIndustrialTestExpense";
+    const URL = '/oms/IndustrialTestExpense/CreateIndustrialTestExpense';
 
     postData(
       URL,

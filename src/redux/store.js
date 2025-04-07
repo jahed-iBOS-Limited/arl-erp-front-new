@@ -11,7 +11,7 @@ const encrypt = createTransform(
     if (!inboundState) return inboundState;
     const cryptedText = CryptoJS.AES.encrypt(
       JSON.stringify(inboundState),
-      '7061737323313233',
+      '7061737323313233'
     );
     return cryptedText.toString();
   },
@@ -20,7 +20,7 @@ const encrypt = createTransform(
     const bytes = CryptoJS.AES.decrypt(outboundState, '7061737323313233');
     const decrypted = bytes.toString(CryptoJS.enc.Utf8);
     return JSON.parse(decrypted);
-  },
+  }
 );
 
 const persistConfig = {

@@ -67,7 +67,7 @@ const NegotiationCreateRowDtoTable = ({
                   </th>
                   <th style={{ fontSize: '10px' }}>Item Name</th>
                   {negotiationItemList?.objSupplierRow[0]?.intItemCategoryId ===
-                    624 ? (
+                  624 ? (
                     <>
                       <th style={{ fontSize: '10px' }}>Part No</th>
                       <th style={{ fontSize: '10px' }}>Drawing No</th>
@@ -102,9 +102,9 @@ const NegotiationCreateRowDtoTable = ({
                     <>
                       {(index === 0 ||
                         item.strShippingItemSubHead !==
-                        negotiationItemList?.objSupplierRow[index - 1]
-                          .strShippingItemSubHead) &&
-                        item?.strShippingItemSubHead ? (
+                          negotiationItemList?.objSupplierRow[index - 1]
+                            .strShippingItemSubHead) &&
+                      item?.strShippingItemSubHead ? (
                         <tr
                           style={{
                             background: '#ADD8E6',
@@ -195,7 +195,7 @@ const NegotiationCreateRowDtoTable = ({
                               rowDtoHandler(
                                 'strRemarks',
                                 index,
-                                e.target.value,
+                                e.target.value
                               );
                             }}
                           />
@@ -216,16 +216,13 @@ const NegotiationCreateRowDtoTable = ({
                                 onChange={(e) => {
                                   // e.stopPropagation();
                                   if (e.target.files?.[0]) {
-                                    attachmentUpload(
-                                      e.target.files,
-                                      setLoading,
-                                    )
+                                    attachmentUpload(e.target.files, setLoading)
                                       .then((data) => {
                                         setAttachmentFile(data?.[0]?.id);
                                         rowDtoHandler(
                                           'strAttachment',
                                           myIndex,
-                                          data?.[0]?.id,
+                                          data?.[0]?.id
                                         );
                                       })
                                       .catch((error) => {
@@ -257,8 +254,8 @@ const NegotiationCreateRowDtoTable = ({
                                 clickHandler={() => {
                                   dispatch(
                                     getDownlloadFileView_Action(
-                                      item?.strAttachment,
-                                    ),
+                                      item?.strAttachment
+                                    )
                                   );
                                 }}
                               />
@@ -313,7 +310,7 @@ const NegotiationCreateRowDtoTable = ({
                     {`${getDiscount(
                       getSubTotal,
                       discountPercentage,
-                      negotiationItemList?.objSupplierRow,
+                      negotiationItemList?.objSupplierRow
                     ).toFixed(2)} (${discountPercentage || 0}%)`}
                   </td>
                   <td></td>
@@ -341,7 +338,7 @@ const NegotiationCreateRowDtoTable = ({
                       (getDiscount(
                         getSubTotal,
                         discountPercentage,
-                        negotiationItemList?.objSupplierRow,
+                        negotiationItemList?.objSupplierRow
                       ) || 0)
                     ).toFixed(2)}
                   </td>
@@ -414,7 +411,7 @@ const NegotiationCreateRowDtoTable = ({
                       (getDiscount(
                         getSubTotal,
                         discountPercentage,
-                        negotiationItemList?.objSupplierRow,
+                        negotiationItemList?.objSupplierRow
                       ) || 0) +
                       (+transportCost || 0) +
                       (+othersCost || 0)

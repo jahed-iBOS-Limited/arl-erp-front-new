@@ -36,17 +36,15 @@ export default function ServiceSalesLanding() {
 
   useEffect(() => {
     getCustomerList(
-      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
+      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
     getItemDDL(
-      `/oms/SalesOrder/GetgetServiceItemList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
+      `/oms/SalesOrder/GetgetServiceItemList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     getData();
-
   }, []);
 
   const saveHandler = (values, cb) => {};
@@ -56,9 +54,11 @@ export default function ServiceSalesLanding() {
     getScheduleList(
       `/oms/ServiceSales/GetServiceSalesLanding?accountId=${
         profileData?.accountId
-      }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${values
-        ?.customer?.value || 0}&itemId=${values?.item?.value ||
-        0}&pageNo=${pageNo}&pageSize=${pageSize}`,
+      }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${
+        values?.customer?.value || 0
+      }&itemId=${
+        values?.item?.value || 0
+      }&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   };
 
@@ -101,7 +101,7 @@ export default function ServiceSalesLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        '/sales-management/servicesales/servsalesorder/create',
+                        '/sales-management/servicesales/servsalesorder/create'
                       );
                     }}
                   >
@@ -185,7 +185,7 @@ export default function ServiceSalesLanding() {
                                         : 'N/A';
 
                                     return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
-                                  },
+                                  }
                                 );
 
                                 return itemStrings?.join(' / ');
@@ -218,7 +218,7 @@ export default function ServiceSalesLanding() {
                               {' '}
                               <div className="d-flex">
                                 {!['Re-Curring'].includes(
-                                  item?.strPaymentType,
+                                  item?.strPaymentType
                                 ) &&
                                   ['Running']?.includes(item?.strStatus) && (
                                     <span
@@ -247,7 +247,7 @@ export default function ServiceSalesLanding() {
                                     </span>
                                   )}
                                 {!['Closed', 'Discontinued']?.includes(
-                                  item?.strStatus,
+                                  item?.strStatus
                                 ) && (
                                   <span
                                     className="mx-2"
@@ -257,7 +257,7 @@ export default function ServiceSalesLanding() {
                                         (data) => {
                                           setSingleData(data);
                                           setEdit(true);
-                                        },
+                                        }
                                       );
                                     }}
                                   >
@@ -272,7 +272,7 @@ export default function ServiceSalesLanding() {
                                         (data) => {
                                           setSingleData(data);
                                           setView(true);
-                                        },
+                                        }
                                       );
                                     }}
                                   />

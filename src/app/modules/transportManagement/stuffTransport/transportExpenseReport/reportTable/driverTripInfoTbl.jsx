@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import IView from "../../../../_helper/_helperIcons/_view";
-import NewIcon from "../../../../_helper/_helperIcons/newIcon";
-import IViewModal from "../../../../_helper/_viewModal";
-import MapView from "../mapView";
-import AttachmentViewModal from "./attachmentViewModal";
+import React, { useState } from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import IView from '../../../../_helper/_helperIcons/_view';
+import NewIcon from '../../../../_helper/_helperIcons/newIcon';
+import IViewModal from '../../../../_helper/_viewModal';
+import MapView from '../mapView';
+import AttachmentViewModal from './attachmentViewModal';
 
 export default function DriverTripInfoTbl({ rowData }) {
   const [isShowModal, setIsShowModal] = useState(false);
-  const [singleData, setSingleData] = useState({})
-  const [showAttachmentModal, setShowAttachmentModal] = useState(false)
+  const [singleData, setSingleData] = useState({});
+  const [showAttachmentModal, setShowAttachmentModal] = useState(false);
   const totalKM = rowData?.reduce((acc, curr) => acc + curr?.tripKM, 0);
   const totalTollAmount = rowData?.reduce(
     (acc, curr) => acc + curr?.numTollAmount,
@@ -95,8 +95,7 @@ export default function DriverTripInfoTbl({ rowData }) {
                     {item?.numTollAmount +
                       item?.numFoodAmount +
                       item?.numOthersAmount +
-                      item?.numRepairingAmount
-                    }
+                      item?.numRepairingAmount}
                   </td>
                   <td className="text-right">{item?.cng}</td>
                   <td className="text-right">{item?.lpeg}</td>
@@ -106,20 +105,26 @@ export default function DriverTripInfoTbl({ rowData }) {
                     {item?.cng + item?.lpeg + item?.diesel + item?.octane}
                   </td>
                   <td className="text-center">
-                    <div style={{ display: "flex", gap: "4px", padding: "0px 8px" }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        gap: '4px',
+                        padding: '0px 8px',
+                      }}
+                    >
                       <span
                         onClick={() => {
                           setSingleData(item);
                           setIsShowModal(true);
                         }}
                       >
-                        <IView styles={{ fontSize: "15px" }} />
+                        <IView styles={{ fontSize: '15px' }} />
                       </span>
                       <NewIcon
-                        customStyles={{ cursor: "pointer", fontSize: "15px" }}
+                        customStyles={{ cursor: 'pointer', fontSize: '15px' }}
                         title="View All Attachment"
                         clickHandler={() => {
-                          setShowAttachmentModal(true)
+                          setShowAttachmentModal(true);
                           setSingleData(item);
                         }}
                         iconName="fa fa-file-image-o"
@@ -129,7 +134,7 @@ export default function DriverTripInfoTbl({ rowData }) {
                 </tr>
               ))}
             {rowData?.length > 0 && (
-              <tr style={{ fontWeight: "bold" }}>
+              <tr style={{ fontWeight: 'bold' }}>
                 <td colSpan={6}>Total</td>
                 <td className="text-right"> {totalKM} </td>
                 <td colSpan={3}></td>

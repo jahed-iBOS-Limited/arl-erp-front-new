@@ -1,22 +1,22 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import ItemOverallCost from "./ItemOverallCost";
-import BomReportLanding from "./bomReport/landing/landing";
-import CostSheetReportLanding from "./costSheetReport/landing/landing";
-import HealthSummary from "./healthSummary";
-import HealthCheckCondition from "./healthcheckCondition";
-import OeeProductionSummary from "./oeeProductionSummary";
-import OeeReport from "./oeeReport";
-import PoStatusReportLanding from "./poStatusReport/landing/landing";
-import ProductionReportLanding from "./productionReport/landing/landing";
-import ProductionWiseRMConjunctionReport from "./productionWiseRMConjunctionReport";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import ItemOverallCost from './ItemOverallCost';
+import BomReportLanding from './bomReport/landing/landing';
+import CostSheetReportLanding from './costSheetReport/landing/landing';
+import HealthSummary from './healthSummary';
+import HealthCheckCondition from './healthcheckCondition';
+import OeeProductionSummary from './oeeProductionSummary';
+import OeeReport from './oeeReport';
+import PoStatusReportLanding from './poStatusReport/landing/landing';
+import ProductionReportLanding from './productionReport/landing/landing';
+import ProductionWiseRMConjunctionReport from './productionWiseRMConjunctionReport';
 import ShopFloorIssueReportLanding from './shopFloorIssueReport/landing/landing';
-import StockReportLanding from "./stockReport/landing/landing";
-import TransferedItemReportLanding from "./transferedItemReport/landing/landing";
-import YeildReport from "./yeildReport";
-import Yeildreport from "./yeildReportNew";
-import ProductionDataLanding from "./productionData/landing/landing";
+import StockReportLanding from './stockReport/landing/landing';
+import TransferedItemReportLanding from './transferedItemReport/landing/landing';
+import YeildReport from './yeildReport';
+import Yeildreport from './yeildReportNew';
+import ProductionDataLanding from './productionData/landing/landing';
 
 export function MesReportPages() {
   return (
@@ -56,15 +56,13 @@ export function MesReportPages() {
       />
       <ContentRoute
         path="/production-management/report/yeildreport"
-        component={
-          Yeildreport
-        }
+        component={Yeildreport}
       />
       <ContentRoute
         path="/production-management/report/HealthcheckCondition"
         component={HealthCheckCondition}
       />
-       <ContentRoute
+      <ContentRoute
         path="/production-management/report/HealthSummary"
         component={HealthSummary}
       />
@@ -72,9 +70,7 @@ export function MesReportPages() {
       {/* OEE Report (BI) */}
       <ContentRoute
         path="/production-management/report/OEEReport"
-        component={
-          OeeReport
-        }
+        component={OeeReport}
       />
 
       {/* BOM Report */}
@@ -107,7 +103,7 @@ export function MesReportPages() {
         path="/production-management/report/OEEProductionSummary"
         component={OeeProductionSummary}
       />
-        <ContentRoute
+      <ContentRoute
         path="/production-management/report/ProductionData"
         component={ProductionDataLanding}
       />

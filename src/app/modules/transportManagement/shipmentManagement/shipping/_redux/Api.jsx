@@ -1,5 +1,5 @@
-import axios from "axios";
-import { _todayDate } from "./../../../../_helper/_todayDate";
+import axios from 'axios';
+import { _todayDate } from './../../../../_helper/_todayDate';
 
 //Call GetSalesOfficeDDLbyId APi
 export function GetSalesOfficeDDLbyId(accId, buId, SalesOrgId) {
@@ -113,7 +113,7 @@ export function getGridData(
   pageNo,
   pageSize
 ) {
-  const searchTerm = search ? `&SearchTerm=${search}` : "";
+  const searchTerm = search ? `&SearchTerm=${search}` : '';
   return axios.get(
     `/oms/Shipment/GetShipmentPasignation?AccountId=${accId}&BUnitId=${buId}&ShipmentId=${ShipmentId}&ReportType=${reportTypeId}&FromDate=${fromDate}&Todate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchTerm}`
   );
@@ -128,7 +128,7 @@ export function getIncompleteGridData(
   pageNo,
   pageSize
 ) {
-  const searchTerm = search ? `&SearchTerm=${search}` : "";
+  const searchTerm = search ? `&SearchTerm=${search}` : '';
   return axios.get(
     `/tms/Shipment/ShipmentLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${ShipmentId}&date=${tillDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchTerm}`
   );

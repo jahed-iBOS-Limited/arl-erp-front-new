@@ -124,7 +124,7 @@ export default function FormCmp({
                               dependencyFunc={(
                                 value,
                                 valuess,
-                                setFieldValue,
+                                setFieldValue
                               ) => {
                                 dispatch(
                                   getReportAction(
@@ -134,15 +134,15 @@ export default function FormCmp({
                                     values.from.value,
                                     values.to.value,
                                     true,
-                                    2,
-                                  ),
+                                    2
+                                  )
                                 );
                                 dispatch(
                                   getUnFavDepSbuDDLAction(
                                     selectedBusinessUnit?.value,
                                     value,
-                                    values.year?.value,
-                                  ),
+                                    values.year?.value
+                                  )
                                 );
                                 setFieldValue('unpavorite', '');
                               }}
@@ -161,7 +161,7 @@ export default function FormCmp({
                               dependencyFunc={(
                                 value,
                                 valuess,
-                                setFieldValue,
+                                setFieldValue
                               ) => {
                                 dispatch(
                                   getReportAction(
@@ -171,8 +171,8 @@ export default function FormCmp({
                                     values.from.value,
                                     values.to.value,
                                     true,
-                                    2,
-                                  ),
+                                    2
+                                  )
                                 );
                                 setFieldValue('unpavorite', '');
                               }}
@@ -191,7 +191,7 @@ export default function FormCmp({
                               dependencyFunc={(
                                 value,
                                 valuess,
-                                setFieldValue,
+                                setFieldValue
                               ) => {
                                 dispatch(
                                   getReportAction(
@@ -201,8 +201,8 @@ export default function FormCmp({
                                     value,
                                     values.to.value,
                                     true,
-                                    2,
-                                  ),
+                                    2
+                                  )
                                 );
                               }}
                               setFieldValue={setFieldValue}
@@ -222,7 +222,7 @@ export default function FormCmp({
                               dependencyFunc={(
                                 value,
                                 values,
-                                setFieldValue,
+                                setFieldValue
                               ) => {
                                 dispatch(
                                   getReportAction(
@@ -232,8 +232,8 @@ export default function FormCmp({
                                     values.from.value,
                                     value,
                                     true,
-                                    2,
-                                  ),
+                                    2
+                                  )
                                 );
                               }}
                               setFieldValue={setFieldValue}
@@ -255,7 +255,7 @@ export default function FormCmp({
                               dependencyFunc={(
                                 value,
                                 valuess,
-                                setFieldValue,
+                                setFieldValue
                               ) => {
                                 setFieldValue('unpavorite', '');
                                 dispatch(
@@ -268,17 +268,17 @@ export default function FormCmp({
                                         values.from?.value,
                                         values.to?.value,
                                         true,
-                                        2,
-                                      ),
+                                        2
+                                      )
                                     );
                                     dispatch(
                                       getUnFavDepSbuDDLAction(
                                         selectedBusinessUnit?.value,
                                         2,
-                                        values?.year?.value,
-                                      ),
+                                        values?.year?.value
+                                      )
                                     );
-                                  }),
+                                  })
                                 );
                               }}
                             />

@@ -1,15 +1,14 @@
-
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "./../../../../_helper/_select";
-import { getItemDDL } from "./../../helper";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { IInput } from "./../../../../_helper/_input";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from './../../../../_helper/_select';
+import { getItemDDL } from './../../helper';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { IInput } from './../../../../_helper/_input';
 // import PaginationSearch from './../../../../_helper/_search';
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
+import PaginationTable from './../../../../_helper/_tablePagination';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
 // import InputField from '../../../../_helper/_inputField';
 
 const validationSchema = Yup.object().shape({
@@ -19,7 +18,8 @@ const validationSchema = Yup.object().shape({
   //   .required("Holiday group name is required"),
 });
 
-function FormCmp({  initData,
+function FormCmp({
+  initData,
   btnRef,
   saveHandler,
   resetBtnRef,
@@ -54,7 +54,7 @@ function FormCmp({  initData,
       pageSize,
       setRowDto,
       setTotalCount,
-      values?.item?.label  || ""
+      values?.item?.label || ''
     );
   };
 
@@ -81,16 +81,16 @@ function FormCmp({  initData,
       accountId,
       bussinessUnitId,
       values?.whName?.value,
-      values?.fromDate || "",
-      values?.toDate || "",
-      values?.salesRate || "",
-      values?.mrp || "",
-      values?.expiredDate || "",
+      values?.fromDate || '',
+      values?.toDate || '',
+      values?.salesRate || '',
+      values?.mrp || '',
+      values?.expiredDate || '',
       pageNo,
       pageSize,
       setRowDto,
       setTotalCount,
-      values?.item?.label || ""
+      values?.item?.label || ''
     );
   };
 
@@ -123,7 +123,7 @@ function FormCmp({  initData,
                     options={whNameDDL}
                     value={values?.whName}
                     onChange={(valueOption) => {
-                      setFieldValue("whName", valueOption);
+                      setFieldValue('whName', valueOption);
                     }}
                     placeholder="Outlet Name"
                     errors={errors}
@@ -137,7 +137,7 @@ function FormCmp({  initData,
                     name="fromDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e?.target?.value);
+                      setFieldValue('fromDate', e?.target?.value);
                     }}
                   />
                 </div>
@@ -148,7 +148,7 @@ function FormCmp({  initData,
                     name="toDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e?.target?.value);
+                      setFieldValue('toDate', e?.target?.value);
                     }}
                   />
                 </div>
@@ -158,21 +158,21 @@ function FormCmp({  initData,
                     name="salesRate"
                     options={[
                       {
-                        value: "0---10000",
-                        label: "Assign",
+                        value: '0---10000',
+                        label: 'Assign',
                         min: 0,
                         max: 100000,
                       },
                       {
-                        value: "-1000 - 0",
-                        label: "Not Assign",
+                        value: '-1000 - 0',
+                        label: 'Not Assign',
                         min: -1000,
                         max: 0,
                       },
                     ]}
                     value={values?.salesRate}
                     onChange={(valueOption) => {
-                      setFieldValue("salesRate", valueOption);
+                      setFieldValue('salesRate', valueOption);
                     }}
                     placeholder="Sales Rate"
                     errors={errors}
@@ -184,21 +184,21 @@ function FormCmp({  initData,
                     name="mrp"
                     options={[
                       {
-                        value: "0---10000",
-                        label: "Assign",
+                        value: '0---10000',
+                        label: 'Assign',
                         min: 0,
                         max: 100000,
                       },
                       {
-                        value: "-1000 - 0",
-                        label: "Not Assign",
+                        value: '-1000 - 0',
+                        label: 'Not Assign',
                         min: -1000,
                         max: 0,
                       },
                     ]}
                     value={values?.mrp}
                     onChange={(valueOption) => {
-                      setFieldValue("mrp", valueOption);
+                      setFieldValue('mrp', valueOption);
                     }}
                     placeholder="MRP"
                     errors={errors}
@@ -211,16 +211,16 @@ function FormCmp({  initData,
                     options={[
                       {
                         value: true,
-                        label: "Assign",
+                        label: 'Assign',
                       },
                       {
                         value: false,
-                        label: "Not Assign",
+                        label: 'Not Assign',
                       },
                     ]}
                     value={values?.expiredDate}
                     onChange={(valueOption) => {
-                      setFieldValue("expiredDate", valueOption);
+                      setFieldValue('expiredDate', valueOption);
                     }}
                     placeholder="Expired Date"
                     errors={errors}
@@ -233,7 +233,7 @@ function FormCmp({  initData,
                     selectedValue={values?.item}
                     name="item"
                     handleChange={(valueOption) => {
-                      setFieldValue("item",valueOption);
+                      setFieldValue('item', valueOption);
                     }}
                     placeholder="Search Item/Scan Item"
                     loadOptions={(v) => {
@@ -285,10 +285,10 @@ function FormCmp({  initData,
                       <th>Purchase Date</th>
                       <th>Purchase Qty</th>
                       <th>Purchase Rate</th>
-                      <th style={{ width: "80px" }}>Sales Rate</th>
-                      <th style={{ width: "80px" }}>M.R.P</th>
-                      <th style={{ width: "100px" }}>Expiry Date</th>
-                      <th style={{ width: "100px" }}>Bar Code</th>
+                      <th style={{ width: '80px' }}>Sales Rate</th>
+                      <th style={{ width: '80px' }}>M.R.P</th>
+                      <th style={{ width: '100px' }}>Expiry Date</th>
+                      <th style={{ width: '100px' }}>Bar Code</th>
                     </tr>
                   </thead>
                   <tbody className="itemList">
@@ -304,7 +304,7 @@ function FormCmp({  initData,
                           <td>{item?.cogs}</td>
                           <td className="text-center">
                             <input
-                              style={{ width: "80px", borderRadius: "5px" }}
+                              style={{ width: '80px', borderRadius: '5px' }}
                               name="rate"
                               value={item?.salesRate}
                               onChange={(e) => {
@@ -315,7 +315,7 @@ function FormCmp({  initData,
                           </td>
                           <td className="text-center">
                             <input
-                              style={{ width: "80px", borderRadius: "5px" }}
+                              style={{ width: '80px', borderRadius: '5px' }}
                               name="itemMrp"
                               value={item?.mrp}
                               onChange={(e) => {
@@ -326,7 +326,7 @@ function FormCmp({  initData,
                           </td>
                           <td className="text-center">
                             <input
-                              style={{ width: "110px", borderRadius: "5px" }}
+                              style={{ width: '110px', borderRadius: '5px' }}
                               type="date"
                               name="expiredDate"
                               defaultValue={_dateFormatter(item?.expiredDate)}
@@ -337,7 +337,7 @@ function FormCmp({  initData,
                           </td>
                           <td className="text-center">
                             <input
-                              style={{ width: "100px", borderRadius: "5px" }}
+                              style={{ width: '100px', borderRadius: '5px' }}
                               type="text"
                               name="barCode"
                               defaultValue={item?.barCode}
@@ -368,14 +368,14 @@ function FormCmp({  initData,
             </div>
             <button
               type="submit"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={btnRef}
               onSubmit={() => handleSubmit()}
             ></button>
 
             <button
               type="reset"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={resetBtnRef}
               onSubmit={() => resetForm(initData)}
             ></button>

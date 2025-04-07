@@ -1,6 +1,6 @@
-import React from "react";
-import ICard from "../_card";
-import err from "./err.png";
+import React from 'react';
+import ICard from '../_card';
+import err from './err.png';
 
 export default function NotPermittedPage() {
   return (
@@ -10,7 +10,7 @@ export default function NotPermittedPage() {
           <div className="not_permitted_left">
             <img
               className="img"
-              style={{ width: "360px", height: "250px" }}
+              style={{ width: '360px', height: '250px' }}
               src={err}
               alt="Not permitted"
             ></img>

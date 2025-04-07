@@ -1,25 +1,23 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import moment from "moment";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useParams, useLocation } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import moment from 'moment';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useParams, useLocation } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
 import {
   GetRoutePlanById,
   saveEditedRoutePlanMonthlyApproveAction,
   saveRoutePlanWeekWiseAction,
   saveRoutePlanMonthlyWiseAction,
-} from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
+} from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 const initData = {
   routeDate: _todayDate(),
-  employeeName: "",
-  routeCategory: "",
-  routeLocation: "",
+  employeeName: '',
+  routeCategory: '',
+  routeLocation: '',
 };
 
 export default function RouteSetupApproveForm({
@@ -63,29 +61,26 @@ export default function RouteSetupApproveForm({
         setWeeklyRowDto
       );
     }
-
   }, [params]);
 
   //  all day
   const endDay = Number(
-    moment(location?.state?.tourDate)
-      .endOf("month")
-      .format("D")
+    moment(location?.state?.tourDate).endOf('month').format('D')
   );
 
-  const mm = moment(location?.state?.tourDate).format("M");
-  const yy = moment(location?.state?.tourDate).format("YYYY");
+  const mm = moment(location?.state?.tourDate).format('M');
+  const yy = moment(location?.state?.tourDate).format('YYYY');
 
   let AllDaysInMonth = [];
   for (let i = 1; i <= endDay; i++) {
-    let dayWeekName = moment(`${yy}/${mm}/${i}`).format("dddd");
+    let dayWeekName = moment(`${yy}/${mm}/${i}`).format('dddd');
     AllDaysInMonth.push({
       sl: i,
       dteTourDate: `${yy}/${mm}/${i}`,
       strDayName: `${dayWeekName}`,
       routeCategory: {
         value: 1,
-        label: "Market Visit",
+        label: 'Market Visit',
       },
       routeLocation: territoryNameDDL[0],
     });
@@ -98,58 +93,58 @@ export default function RouteSetupApproveForm({
   useEffect(() => {
     setWeeklyRowDto([
       {
-        strDayName: "Saturday",
+        strDayName: 'Saturday',
         routeCategory: {
           value: 1,
-          label: "Market Visit",
+          label: 'Market Visit',
         },
         routeLocation: territoryNameDDL[0],
       },
       {
-        strDayName: "Sunday",
+        strDayName: 'Sunday',
         routeCategory: {
           value: 1,
-          label: "Market Visit",
+          label: 'Market Visit',
         },
         routeLocation: territoryNameDDL[0],
       },
       {
-        strDayName: "Monday",
+        strDayName: 'Monday',
         routeCategory: {
           value: 1,
-          label: "Market Visit",
+          label: 'Market Visit',
         },
         routeLocation: territoryNameDDL[0],
       },
       {
-        strDayName: "Tuesday",
+        strDayName: 'Tuesday',
         routeCategory: {
           value: 1,
-          label: "Market Visit",
+          label: 'Market Visit',
         },
         routeLocation: territoryNameDDL[0],
       },
       {
-        strDayName: "Wednesday",
+        strDayName: 'Wednesday',
         routeCategory: {
           value: 1,
-          label: "Market Visit",
+          label: 'Market Visit',
         },
         routeLocation: territoryNameDDL[0],
       },
       {
-        strDayName: "Thursday",
+        strDayName: 'Thursday',
         routeCategory: {
           value: 1,
-          label: "Market Visit",
+          label: 'Market Visit',
         },
         routeLocation: territoryNameDDL[0],
       },
       {
-        strDayName: "Friday",
+        strDayName: 'Friday',
         routeCategory: {
           value: 1,
-          label: "Market Visit",
+          label: 'Market Visit',
         },
         routeLocation: territoryNameDDL[0],
       },
@@ -200,9 +195,9 @@ export default function RouteSetupApproveForm({
               day: itm?.dayName,
               intTerritoryId: itm?.routeLocation?.value,
               strTerritoryName: itm?.routeLocation?.label,
-              dteAttendanceTime: "2021-01-12T06:31:45.948Z",
+              dteAttendanceTime: '2021-01-12T06:31:45.948Z',
               intAttendanceLocationId: 0,
-              strAttendanceLocationName: "string",
+              strAttendanceLocationName: 'string',
             };
           });
           const payload = {
@@ -232,7 +227,7 @@ export default function RouteSetupApproveForm({
               strTerritoryName: itm?.routeLocation?.label,
               dteAttendanceTime: _todayDate(),
               intAttendanceLocationId: 0,
-              strAttendanceLocationName: "string",
+              strAttendanceLocationName: 'string',
             };
           });
           const payload = {
@@ -263,7 +258,7 @@ export default function RouteSetupApproveForm({
 
   return (
     <IForm
-      title={tourId ? "Approve Market Visit Program" : ""}
+      title={tourId ? 'Approve Market Visit Program' : ''}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

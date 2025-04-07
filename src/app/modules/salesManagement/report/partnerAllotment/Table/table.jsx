@@ -1,38 +1,38 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import ICustomTable from "../../../../_helper/_customTable";
-import { Formik, Form } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
+import React, { useEffect, useState, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import ICustomTable from '../../../../_helper/_customTable';
+import { Formik, Form } from 'formik';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import NewSelect from '../../../../_helper/_select';
+import Loading from '../../../../_helper/_loading';
+import InputField from '../../../../_helper/_inputField';
 import {
   GetPartnerAllotmentLanding,
   GetSecondaryDeliveryLanding_api,
-} from "../helper";
-import CompleteTable from "./../../../orderManagement/partnerAllotmentChallan/Table/completeTable";
+} from '../helper';
+import CompleteTable from './../../../orderManagement/partnerAllotmentChallan/Table/completeTable';
 
 const headers = [
-  "SL",
-  "Dealer Name",
-  "Upozila Name",
-  "Item Name",
-  "UoM Name",
-  "Total Order Qty",
-  "Total Pending Qty",
-  "Alloted Qnt",
-  "Item Rate",
-  "Total Amount",
-  "Remarks",
+  'SL',
+  'Dealer Name',
+  'Upozila Name',
+  'Item Name',
+  'UoM Name',
+  'Total Order Qty',
+  'Total Pending Qty',
+  'Alloted Qnt',
+  'Item Rate',
+  'Total Amount',
+  'Remarks',
 ];
 const initData = {
   date: _todayDate(),
-  reportType: { value: 0, label: "All" },
+  reportType: { value: 0, label: 'All' },
 };
 
 export default function PartnerAllotmentReport() {
-  const [deliveryId, setDeliveryId] = useState("");
+  const [deliveryId, setDeliveryId] = useState('');
   const printRef = useRef();
   const [rowDto, setRowDto] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -61,7 +61,6 @@ export default function PartnerAllotmentReport() {
         setRowDto
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const getGridDataChallenInfo = (values, pageNo, pageSize) => {
@@ -116,16 +115,16 @@ export default function PartnerAllotmentReport() {
                           <NewSelect
                             name="reportType"
                             options={[
-                              { value: 0, label: "All" },
-                              { value: 1, label: "Payment Complete" },
-                              { value: 2, label: "Pending" },
-                              { value: 3, label: "Challan Info" },
+                              { value: 0, label: 'All' },
+                              { value: 1, label: 'Payment Complete' },
+                              { value: 2, label: 'Pending' },
+                              { value: 3, label: 'Challan Info' },
                             ]}
                             value={values?.reportType}
                             label="Report Type"
                             onChange={(valueOption) => {
                               setRowDto([]);
-                              setFieldValue("reportType", valueOption);
+                              setFieldValue('reportType', valueOption);
                             }}
                             placeholder="Report Type"
                             errors={errors}
@@ -139,7 +138,7 @@ export default function PartnerAllotmentReport() {
                             name="date"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("date", e?.target?.value);
+                              setFieldValue('date', e?.target?.value);
                             }}
                           />
                         </div>
@@ -148,7 +147,7 @@ export default function PartnerAllotmentReport() {
                             className="btn btn-primary"
                             disabled={!values?.reportType}
                             onClick={() => {
-                              setDeliveryId("")
+                              setDeliveryId('');
                               setRowDto([]);
                               getGridData(values);
                             }}
@@ -161,7 +160,7 @@ export default function PartnerAllotmentReport() {
                     {loading && <Loading />}
                     {values?.reportType?.value === 3 ? (
                       <>
-                        {" "}
+                        {' '}
                         <CompleteTable
                           setChallanPrintModalShow={setChallanPrintModalShow}
                           rowDto={rowDto}
@@ -181,7 +180,7 @@ export default function PartnerAllotmentReport() {
                       </>
                     ) : (
                       <>
-                        {" "}
+                        {' '}
                         {rowDto?.length > 0 && (
                           <ICustomTable ths={headers}>
                             {rowDto?.map((item, index) => {
@@ -189,7 +188,7 @@ export default function PartnerAllotmentReport() {
                                 <>
                                   <tr key={index}>
                                     <td
-                                      style={{ width: "30px" }}
+                                      style={{ width: '30px' }}
                                       className="text-center"
                                     >
                                       {index + 1}

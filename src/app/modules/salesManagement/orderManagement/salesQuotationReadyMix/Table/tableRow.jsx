@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { getSalesquotationGridData } from "../_redux/Actions";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { useHistory } from "react-router-dom";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { useState } from "react";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { setSalesQuotationLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import React, { useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { getSalesquotationGridData } from '../_redux/Actions';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { useHistory } from 'react-router-dom';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { useState } from 'react';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { setSalesQuotationLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 
 export function TableRow() {
   const dispatch = useDispatch();
@@ -64,7 +64,6 @@ export function TableRow() {
     if (selectedBusinessUnit && profileData) {
       setPositionHandler(pageNo, pageSize, null, salesQuotationLanding);
     }
-
   }, [selectedBusinessUnit, profileData, salesQuotationLanding]);
   return (
     <>
@@ -91,13 +90,13 @@ export function TableRow() {
                   <NewSelect
                     name="status"
                     options={[
-                      { value: false, label: "Quotation Open" },
-                      { value: true, label: "Quotation Closed" },
+                      { value: false, label: 'Quotation Open' },
+                      { value: true, label: 'Quotation Closed' },
                     ]}
                     value={values?.status}
                     label="Quotation Status"
                     onChange={(valueOption) => {
-                      setFieldValue("status", valueOption);
+                      setFieldValue('status', valueOption);
                       dispatch(
                         getSalesquotationGridData(
                           profileData.accountId,
@@ -169,75 +168,75 @@ export function TableRow() {
 
                 <div className="col-lg-12">
                   {gridData?.data?.length >= 0 && (
-                   <div className="table-responsive">
-                     <table className="table table-striped table-bordered global-table sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th style={{ width: "35px" }}>SL</th>
-                          <th style={{ width: "90px" }}>Quotation No</th>
-                          <th style={{ width: "90px" }}>Quotation Date</th>
-                          <th style={{ width: "90px" }}>
-                            Quotation closed Date
-                          </th>
-                          <th>Sales Organization</th>
-                          <th>Channel</th>
-                          <th>Party Name</th>
-                          <th style={{ width: "75px" }}>Total Qty</th>
-                          <th style={{ width: "60px" }}>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gridData?.data?.map((td, index) => (
-                          <tr key={index}>
-                            <td className="text-center"> {td.sl} </td>
-                            <td>
-                              <div className="pl-2">{td.quotationCode} </div>
-                            </td>
-                            <td className="text-center">
-                              {_dateFormatter(td.quotationDate)}
-                            </td>
-                            <td className="text-center">
-                              {_dateFormatter(td.quotationEndDate)}
-                            </td>
-                            <td> {td.salesOrganizationName} </td>
-                            <td> {td.distributionChannelName} </td>
-                            <td> {td.soldToPartnerName} </td>
-                            <td className="text-right">
-                              {" "}
-                              {td.totalQuotationQty}{" "}
-                            </td>
-                            <td>
-                              <div className="d-flex justify-content-around">
-                                <span className="view">
-                                  <IView
-                                    clickHandler={() => {
-                                      history.push({
-                                        pathname: `/sales-management/ordermanagement/salesquotation/view/${td.quotationId}`,
-                                        state: td,
-                                      });
-                                    }}
-                                  />
-                                </span>
-                                {!values?.status?.value && (
-                                  <span
-                                    className="edit"
-                                    onClick={() => {
-                                      history.push({
-                                        pathname: `/sales-management/ordermanagement/salesquotation/edit/${td.quotationId}`,
-                                        state: td,
-                                      });
-                                    }}
-                                  >
-                                    <IEdit />
-                                  </span>
-                                )}
-                              </div>
-                            </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table sales_order_landing_table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: '35px' }}>SL</th>
+                            <th style={{ width: '90px' }}>Quotation No</th>
+                            <th style={{ width: '90px' }}>Quotation Date</th>
+                            <th style={{ width: '90px' }}>
+                              Quotation closed Date
+                            </th>
+                            <th>Sales Organization</th>
+                            <th>Channel</th>
+                            <th>Party Name</th>
+                            <th style={{ width: '75px' }}>Total Qty</th>
+                            <th style={{ width: '60px' }}>Actions</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                   </div>
+                        </thead>
+                        <tbody>
+                          {gridData?.data?.map((td, index) => (
+                            <tr key={index}>
+                              <td className="text-center"> {td.sl} </td>
+                              <td>
+                                <div className="pl-2">{td.quotationCode} </div>
+                              </td>
+                              <td className="text-center">
+                                {_dateFormatter(td.quotationDate)}
+                              </td>
+                              <td className="text-center">
+                                {_dateFormatter(td.quotationEndDate)}
+                              </td>
+                              <td> {td.salesOrganizationName} </td>
+                              <td> {td.distributionChannelName} </td>
+                              <td> {td.soldToPartnerName} </td>
+                              <td className="text-right">
+                                {' '}
+                                {td.totalQuotationQty}{' '}
+                              </td>
+                              <td>
+                                <div className="d-flex justify-content-around">
+                                  <span className="view">
+                                    <IView
+                                      clickHandler={() => {
+                                        history.push({
+                                          pathname: `/sales-management/ordermanagement/salesquotation/view/${td.quotationId}`,
+                                          state: td,
+                                        });
+                                      }}
+                                    />
+                                  </span>
+                                  {!values?.status?.value && (
+                                    <span
+                                      className="edit"
+                                      onClick={() => {
+                                        history.push({
+                                          pathname: `/sales-management/ordermanagement/salesquotation/edit/${td.quotationId}`,
+                                          state: td,
+                                        });
+                                      }}
+                                    >
+                                      <IEdit />
+                                    </span>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
                 </div>
                 {gridData?.data?.length > 0 && (

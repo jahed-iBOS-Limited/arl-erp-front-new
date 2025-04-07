@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 export const getAssetReceiveReportData = async (
   accId,
   buId,
@@ -10,10 +10,12 @@ export const getAssetReceiveReportData = async (
   pageSize,
   search
 ) => {
-  const searchPath = search ? `searchTearm=${search}&` : "";
+  const searchPath = search ? `searchTearm=${search}&` : '';
   setLoading(true);
   try {
-    const res = await Axios.get(`/asset/Asset/GetAssetReportForEmployee?AccountId=${accId}&UnitId=${buId}&ActionBy=${userId}&Type=${value}&${searchPath}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`)
+    const res = await Axios.get(
+      `/asset/Asset/GetAssetReportForEmployee?AccountId=${accId}&UnitId=${buId}&ActionBy=${userId}&Type=${value}&${searchPath}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
+    );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
       setLoading(false);
@@ -29,9 +31,8 @@ export const getPlantList = async (userId, accId, buId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
-
 
 export const getIssueStatementLanding = async (
   accId,
@@ -52,11 +53,13 @@ export const getIssueStatementLanding = async (
   search
 ) => {
   setLoading(true);
-  const searchPath = search ? `&Search=${search.trim()}` : "";
-  const itemTypeId = itemType ? `&itemTypeId=${itemType}` : ""
-  const itemCategoryId = itemCategory ? `&itemCategoryId=${itemCategory}` : ""
-  const itemSubCategoryId = itemSubCategory ? `&itemSubCategoryId=${itemSubCategory}` : ""
-  const costCenterIdQuery = costCenterId ? `&costCenterId=${costCenterId}` : ""
+  const searchPath = search ? `&Search=${search.trim()}` : '';
+  const itemTypeId = itemType ? `&itemTypeId=${itemType}` : '';
+  const itemCategoryId = itemCategory ? `&itemCategoryId=${itemCategory}` : '';
+  const itemSubCategoryId = itemSubCategory
+    ? `&itemSubCategoryId=${itemSubCategory}`
+    : '';
+  const costCenterIdQuery = costCenterId ? `&costCenterId=${costCenterId}` : '';
   try {
     const res = await Axios.get(
       // `/wms/InventoryTransaction/IssueStatement?${searchPath}InventoryTransectionGroupId=2&accountId=${accId}&fromDate=${fromDate}&toDate=${toDate}&businessUnitId=${buId}&sbuId=${sbu}&plantId=${plantId}&warehouse=${whId}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
@@ -71,14 +74,15 @@ export const getIssueStatementLanding = async (
   }
 };
 
-
-
-export const getItemRequestDepartmentList = async (businessUnitId, warehouseId, setter) => {
+export const getItemRequestDepartmentList = async (
+  businessUnitId,
+  warehouseId,
+  setter
+) => {
   try {
     const res = await Axios.get(
       `/wms/ItemRequest/GetItemRequestDepartmentList?businessUnitId=${businessUnitId}&warehouseId=${warehouseId}`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
-

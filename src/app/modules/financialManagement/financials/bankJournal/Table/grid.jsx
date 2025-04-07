@@ -1,27 +1,30 @@
-import React, { useCallback, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { withRouter } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { _formatMoney } from "./../../../../_helper/_formatMoney";
-import IApproval from "./../../../../_helper/_helperIcons/_approval";
-import IDelete from "./../../../../_helper/_helperIcons/_delete";
-import Loading from "./../../../../_helper/_loading";
+import React, { useCallback, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { _formatMoney } from './../../../../_helper/_formatMoney';
+import IApproval from './../../../../_helper/_helperIcons/_approval';
+import IDelete from './../../../../_helper/_helperIcons/_delete';
+import Loading from './../../../../_helper/_loading';
 // import PaginationTable from "./../../../../_helper/_tablePagination";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import ChequeModal from "../ChequeModal/chequeModal";
-import ChequePrintModal from "../chequePrintModal/chequePrintModal";
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import ChequeModal from '../ChequeModal/chequeModal';
+import ChequePrintModal from '../chequePrintModal/chequePrintModal';
 // import IConfirmModal from "./../../../../_helper/_confirmModal";
-import { Modal } from "react-bootstrap";
-import { toast } from "react-toastify";
-import { checkTwoFactorApproval, chequeGeneretor } from "../../../../_helper/_commonApi";
-import findIndex from "../../../../_helper/_findIndex";
-import IHistory from "../../../../_helper/_helperIcons/_history";
-import IViewModal from "../../../../_helper/_viewModal";
-import { dynamicSerial } from "../../utils";
-import HistoryModal from "../bankJournalHistory";
-import { BankJournalViewTableRow } from "../report/tableRow";
+import { Modal } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import {
+  checkTwoFactorApproval,
+  chequeGeneretor,
+} from '../../../../_helper/_commonApi';
+import findIndex from '../../../../_helper/_findIndex';
+import IHistory from '../../../../_helper/_helperIcons/_history';
+import IViewModal from '../../../../_helper/_viewModal';
+import { dynamicSerial } from '../../utils';
+import HistoryModal from '../bankJournalHistory';
+import { BankJournalViewTableRow } from '../report/tableRow';
 // import { set } from "object-path";
 
 const GridData = ({
@@ -61,7 +64,7 @@ const GridData = ({
   });
   const [chequeModalData, setChequeModalData] = useState({});
   const [chequePrintModalData, setChequePrintModalData] = useState({});
-  const [currentCheckNo] = useState("");
+  const [currentCheckNo] = useState('');
 
   const [chequePrintModalShow, setChequePrintModalShow] = useState(false);
   const [disabledModalButton, setDisabledModalButton] = useState(false);
@@ -71,14 +74,13 @@ const GridData = ({
     { shallowEqual }
   );
 
-  const userPermission = userRole[findIndex(userRole, "Bank Journal")];
+  const userPermission = userRole[findIndex(userRole, 'Bank Journal')];
 
   const canCreate = userPermission?.isCreate;
-  const canEdit = userPermission?.isEdit
+  const canEdit = userPermission?.isEdit;
 
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentRowData, setCurrentRowData] = useState("");
-
+  const [currentRowData, setCurrentRowData] = useState('');
 
   const totalAmount = useCallback(
     rowDto.reduce((acc, item) => acc + +item.amount, 0)
@@ -92,8 +94,7 @@ const GridData = ({
   };
 
   const [isHistoryModal, setIsHistoryModal] = useState(false);
-  const [historyItem, setHistoryItem] = useState("");
-
+  const [historyItem, setHistoryItem] = useState('');
 
   return (
     <>
@@ -104,8 +105,8 @@ const GridData = ({
             <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
               <thead>
                 <tr>
-                  {type === "notComplated" ? (
-                    <th style={{ width: "23px" }}>
+                  {type === 'notComplated' ? (
+                    <th style={{ width: '23px' }}>
                       <input
                         type="checkbox"
                         id="parent"
@@ -115,32 +116,34 @@ const GridData = ({
                       />
                     </th>
                   ) : null}
-                  <th style={{ minWidth: "30px" }} className="positionSticky">SL</th>
-                  <th style={{ width: "80px", textAlign: "center" }}>
+                  <th style={{ minWidth: '30px' }} className="positionSticky">
+                    SL
+                  </th>
+                  <th style={{ width: '80px', textAlign: 'center' }}>
                     Journal Date
                   </th>
-                  <th style={{ width: "120px" }}>Journal Code</th>
-                  <th style={{ width: "100px" }}>Complete Date</th>
-                  <th style={{ width: "100px" }}>Instrument Date</th>
+                  <th style={{ width: '120px' }}>Journal Code</th>
+                  <th style={{ width: '100px' }}>Complete Date</th>
+                  <th style={{ width: '100px' }}>Instrument Date</th>
                   <th>Instrument No</th>
-                  <th style={{ width: "200px" }}>
+                  <th style={{ width: '200px' }}>
                     {journalTypeValue === 4
-                      ? "Receive From"
+                      ? 'Receive From'
                       : journalTypeValue === 5
-                        ? "Pay To"
-                        : "Transfer To"}
+                        ? 'Pay To'
+                        : 'Transfer To'}
                   </th>
-                  <th style={{ width: "100px" }}>Amount</th>
+                  <th style={{ width: '100px' }}>Amount</th>
                   <th>Bank Name</th>
 
-                  <th style={{ width: "160px" }}>Actions</th>
+                  <th style={{ width: '160px' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {landing && <Loading />}
                 {rowDto?.map((item, index) => (
                   <tr>
-                    {type === "notComplated" ? (
+                    {type === 'notComplated' ? (
                       <td>
                         <input
                           id="itemCheck"
@@ -156,7 +159,9 @@ const GridData = ({
                       </td>
                     ) : null}
 
-                    <td className="text-center positionSticky">{dynamicSerial(pageNo, pageSize, index)}</td>
+                    <td className="text-center positionSticky">
+                      {dynamicSerial(pageNo, pageSize, index)}
+                    </td>
                     <td>
                       <div className="pl-2 text-center">
                         {_dateFormatter(item?.journalDate)}
@@ -167,14 +172,14 @@ const GridData = ({
                     </td>
                     <td>
                       <div className="pl-2 text-center">
-                        {type === "notComplated"
-                          ? "N/A"
+                        {type === 'notComplated'
+                          ? 'N/A'
                           : _dateFormatter(item?.completeDate)}
                       </div>
                     </td>
                     <td>
                       <div className="pl-2 text-center">
-                        {" "}
+                        {' '}
                         {_dateFormatter(item?.instrumentDate)}
                       </div>
                     </td>
@@ -196,7 +201,7 @@ const GridData = ({
                         <span className="view mr-2">
                           <IHistory
                             clickHandler={() => {
-                              console.log("item", item);
+                              console.log('item', item);
                               setHistoryItem(item);
                               setIsHistoryModal(true);
                             }}
@@ -206,12 +211,15 @@ const GridData = ({
                         <span className="view">
                           <IView
                             clickHandler={() => {
-                              setCurrentRowData({ ...item, accountingJournalTypeId: journalTypeValue });
+                              setCurrentRowData({
+                                ...item,
+                                accountingJournalTypeId: journalTypeValue,
+                              });
                               setIsShowModal(true);
                             }}
                           />
                         </span>
-                        {type === "notComplated" ? (
+                        {type === 'notComplated' ? (
                           <>
                             {canEdit && (
                               <span
@@ -223,7 +231,8 @@ const GridData = ({
                                       selectedJournal:
                                         formValues.accountingJournalTypeId,
                                       selectedSbu: formValues.sbu,
-                                      transactionDate: formValues.transactionDate,
+                                      transactionDate:
+                                        formValues.transactionDate,
                                     },
                                   })
                                 }
@@ -234,88 +243,97 @@ const GridData = ({
 
                             {(item?.instrumentType === 2 ||
                               item?.instrumentType === 3) && (
-                                <>
-                                  <OverlayTrigger
-                                    overlay={
-                                      <Tooltip id="cs-icon">
-                                        {"Change Cheque No"}
-                                      </Tooltip>
+                              <>
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">
+                                      {'Change Cheque No'}
+                                    </Tooltip>
+                                  }
+                                >
+                                  <span
+                                    className={
+                                      item?.instrumentType === 2 ||
+                                      item?.instrumentType === 3
+                                        ? `iconActive ml-3`
+                                        : `iconInActive ml-3`
                                     }
-                                  >
-                                    <span
-                                      className={
+                                    onClick={() => {
+                                      if (
                                         item?.instrumentType === 2 ||
-                                          item?.instrumentType === 3
-                                          ? `iconActive ml-3`
-                                          : `iconInActive ml-3`
+                                        item?.instrumentType === 3
+                                      ) {
+                                        setChangeModalShowState({
+                                          isShow: true,
+                                          data: item,
+                                          index,
+                                          otp: '',
+                                        });
                                       }
-                                      onClick={() => {
-                                        if (
-                                          item?.instrumentType === 2 ||
-                                          item?.instrumentType === 3
-                                        ) {
-                                          setChangeModalShowState({
-                                            isShow: true,
-                                            data: item,
-                                            index,
-                                            otp: "",
-                                          });
-                                        }
-                                      }}
-                                    >
-                                      <i
-                                        className={`fa pointer fa-credit-card`}
-                                        aria-hidden="true"
-                                      ></i>
-                                    </span>
-                                  </OverlayTrigger>
-                                  <OverlayTrigger
-                                    overlay={
-                                      <Tooltip id="cs-icon">
-                                        {"Cheque Print"}
-                                      </Tooltip>
+                                    }}
+                                  >
+                                    <i
+                                      className={`fa pointer fa-credit-card`}
+                                      aria-hidden="true"
+                                    ></i>
+                                  </span>
+                                </OverlayTrigger>
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">
+                                      {'Cheque Print'}
+                                    </Tooltip>
+                                  }
+                                >
+                                  <span
+                                    className={
+                                      item?.instrumentType === 2 ||
+                                      item?.instrumentType === 3
+                                        ? `iconActive ml-3`
+                                        : `iconInActive ml-3`
                                     }
-                                  >
-                                    <span
-                                      className={
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => {
+                                      if (
                                         item?.instrumentType === 2 ||
-                                          item?.instrumentType === 3
-                                          ? `iconActive ml-3`
-                                          : `iconInActive ml-3`
+                                        item?.instrumentType === 3
+                                      ) {
+                                        setChequePrintModalShow(true);
+                                        setChequePrintModalData(item);
                                       }
-                                      style={{ cursor: "pointer" }}
-                                      onClick={() => {
-                                        if (
-                                          item?.instrumentType === 2 ||
-                                          item?.instrumentType === 3
-                                        ) {
-                                          setChequePrintModalShow(true);
-                                          setChequePrintModalData(item);
-                                        }
-                                      }}
-                                    >
-                                      <i class="fas fa-print"></i>
-                                    </span>
-                                  </OverlayTrigger>
-                                </>
-                              )}
-
-                            {(canCreate && item?.isApproved && item?.isManual) && (
-                              <span
-                                className="approval ml-3"
-                                onClick={() => {
-                                  if (
-                                    completeDate < _dateFormatter(item?.journalDate) && values?.accountingJournalTypeId?.label?.trim() !== "Bank Receipts"
-                                  )
-                                    return toast.warn(
-                                      "Complete date should be greater than or equal to journal date"
-                                    );
-                                  singleApprovalndler(index, completeDate, journalTypeValue);
-                                }}
-                              >
-                                <IApproval />
-                              </span>
+                                    }}
+                                  >
+                                    <i class="fas fa-print"></i>
+                                  </span>
+                                </OverlayTrigger>
+                              </>
                             )}
+
+                            {canCreate &&
+                              item?.isApproved &&
+                              item?.isManual && (
+                                <span
+                                  className="approval ml-3"
+                                  onClick={() => {
+                                    if (
+                                      completeDate <
+                                        _dateFormatter(item?.journalDate) &&
+                                      values?.accountingJournalTypeId?.label?.trim() !==
+                                        'Bank Receipts'
+                                    )
+                                      return toast.warn(
+                                        'Complete date should be greater than or equal to journal date'
+                                      );
+                                    singleApprovalndler(
+                                      index,
+                                      completeDate,
+                                      journalTypeValue
+                                    );
+                                  }}
+                                >
+                                  <IApproval />
+                                </span>
+                              )}
                             {canCreate && (
                               <span
                                 className="delete ml-3"
@@ -326,9 +344,11 @@ const GridData = ({
                             )}
                           </>
                         ) : null}
-                        {type === "complated" && (
+                        {type === 'complated' && (
                           <OverlayTrigger
-                            overlay={<Tooltip id="cs-icon">{"Reverse"}</Tooltip>}
+                            overlay={
+                              <Tooltip id="cs-icon">{'Reverse'}</Tooltip>
+                            }
                           >
                             <span
                               className={`iconActive ml-2`}
@@ -337,7 +357,7 @@ const GridData = ({
                                   isShow: true,
                                   data: item,
                                   index,
-                                  otp: "",
+                                  otp: '',
                                 });
                               }}
                             >
@@ -354,7 +374,7 @@ const GridData = ({
                 ))}
                 {rowDto.length > 0 && (
                   <tr>
-                    {type === "notComplated" && <td></td>}
+                    {type === 'notComplated' && <td></td>}
                     <td></td>
                     <td></td>
                     <td></td>
@@ -365,7 +385,9 @@ const GridData = ({
                       <b className="pl-2">Total</b>
                     </td>
                     <td className="text-right">
-                      <div className="pr-2">{(totalAmount || 0).toFixed(2)}</div>
+                      <div className="pr-2">
+                        {(totalAmount || 0).toFixed(2)}
+                      </div>
                     </td>
                     <td></td>
                     <td></td>
@@ -374,7 +396,6 @@ const GridData = ({
               </tbody>
             </table>
           </div>
-
 
           <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
             <BankJournalViewTableRow
@@ -460,7 +481,7 @@ const GridData = ({
                   checkTwoFactorApproval(
                     2,
                     selectedBusinessUnit?.value,
-                    "Journal",
+                    'Journal',
                     reverseModalShowState?.data?.journalId,
                     reverseModalShowState?.data?.code,
                     formValues.accountingJournalTypeId?.value,
@@ -483,18 +504,18 @@ const GridData = ({
                   checkTwoFactorApproval(
                     1,
                     selectedBusinessUnit?.value,
-                    "Journal",
+                    'Journal',
                     reverseModalShowState?.data?.journalId,
                     reverseModalShowState?.data?.code,
                     formValues.accountingJournalTypeId?.value,
                     profileData?.userId,
-                    "",
+                    '',
                     1,
                     setDisabledModalButton,
                     () => {
                       setReverseModalShowState({
                         ...reverseModalShowState,
-                        otp: "",
+                        otp: '',
                         isOtpGenerate: true,
                       });
                     }
@@ -510,17 +531,17 @@ const GridData = ({
             >
               {/* {reverseModalShowState?.isOtpGenerate ? "Send" : "Yes"} */}
               {disabledModalButton
-                ? "Processing"
+                ? 'Processing'
                 : reverseModalShowState?.isOtpGenerate
-                  ? "Send"
-                  : "Yes"}
+                  ? 'Send'
+                  : 'Yes'}
             </button>
             <button
               className="btn btn-secondary"
               onClick={handleClose}
-            // disabled={disabledModalButton}
+              // disabled={disabledModalButton}
             >
-              {reverseModalShowState?.isOtpGenerate ? "Cancel" : "No"}
+              {reverseModalShowState?.isOtpGenerate ? 'Cancel' : 'No'}
             </button>
           </div>
         </Modal.Body>
@@ -578,7 +599,7 @@ const GridData = ({
                   checkTwoFactorApproval(
                     2,
                     selectedBusinessUnit?.value,
-                    "ChangeCheque",
+                    'ChangeCheque',
                     changeModalShowState?.data?.journalId,
                     changeModalShowState?.data?.code,
                     formValues.accountingJournalTypeId?.value,
@@ -598,8 +619,9 @@ const GridData = ({
                           changeModalShowState?.data?.instrumentType,
                           changeModalShowState?.data?.journalId,
                           (obj) => {
-                            rowDto[changeModalShowState?.index]["instrumentNo"] =
-                              obj?.currentChequeNo;
+                            rowDto[changeModalShowState?.index][
+                              'instrumentNo'
+                            ] = obj?.currentChequeNo;
                             setRowDto([...rowDto]);
                             setChangeModalShowState({
                               isShow: false,
@@ -616,18 +638,18 @@ const GridData = ({
                   checkTwoFactorApproval(
                     1,
                     selectedBusinessUnit?.value,
-                    "ChangeCheque",
+                    'ChangeCheque',
                     changeModalShowState?.data?.journalId,
                     changeModalShowState?.data?.code,
                     formValues.accountingJournalTypeId?.value,
                     profileData?.userId,
-                    "",
+                    '',
                     1,
                     setDisabledModalButton,
                     () => {
                       setChangeModalShowState({
                         ...changeModalShowState,
-                        otp: "",
+                        otp: '',
                         isOtpGenerate: true,
                       });
                       setDisabledModalButton(false);
@@ -644,10 +666,10 @@ const GridData = ({
             >
               {/* {reverseModalShowState?.isOtpGenerate ? "Send" : "Yes"} */}
               {disabledModalButton
-                ? "Processing"
+                ? 'Processing'
                 : changeModalShowState?.isOtpGenerate
-                  ? "Send"
-                  : "Yes"}
+                  ? 'Send'
+                  : 'Yes'}
             </button>
             <button
               className="btn btn-secondary"
@@ -658,18 +680,20 @@ const GridData = ({
                 });
                 setDisabledModalButton(false);
               }}
-            // disabled={disabledModalButton}
+              // disabled={disabledModalButton}
             >
-              {changeModalShowState?.isOtpGenerate ? "Cancel" : "No"}
+              {changeModalShowState?.isOtpGenerate ? 'Cancel' : 'No'}
             </button>
           </div>
         </Modal.Body>
       </Modal>
 
       <IViewModal show={isHistoryModal} onHide={() => setIsHistoryModal(false)}>
-        <HistoryModal journalId={historyItem?.journalId} journalTypeId={historyItem?.intAccountingJournalTypeId} />
+        <HistoryModal
+          journalId={historyItem?.journalId}
+          journalTypeId={historyItem?.intAccountingJournalTypeId}
+        />
       </IViewModal>
-
     </>
   );
 };

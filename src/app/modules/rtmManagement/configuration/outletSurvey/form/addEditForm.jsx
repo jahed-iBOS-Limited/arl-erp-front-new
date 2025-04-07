@@ -1,15 +1,14 @@
-
-import React, { useEffect, useState } from "react";
-import Form from "./form";
-import { useParams } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
-import IForm from "./../../../../_helper/_form";
-import { useSelector, shallowEqual } from "react-redux";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getSurveyById, saveSurvey } from "../helper";
+import React, { useEffect, useState } from 'react';
+import Form from './form';
+import { useParams } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
+import IForm from './../../../../_helper/_form';
+import { useSelector, shallowEqual } from 'react-redux';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getSurveyById, saveSurvey } from '../helper';
 
 const initData = {
-  surveyName: "",
+  surveyName: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
   isContinue: true,
@@ -18,13 +17,13 @@ const initData = {
 const OutletSurveyForm = () => {
   const { viewId } = useParams();
   const [isDisabled, setDisabled] = useState(false);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   /* State for Question Data */
   const [questionRowData, setQuestionRowData] = useState([
     {
-      questionName: "",
-      questionFieldType: "",
+      questionName: '',
+      questionFieldType: '',
       multipleQuestionOptionList: [],
       questionList: [],
     },
@@ -32,17 +31,17 @@ const OutletSurveyForm = () => {
 
   // Hardcode!! But In Future It will be change i guess
   const MultipleQuestionFieldTypeDDL = [
-    { value: 1, label: "Text" },
-    { value: 2, label: "Number" },
-    { value: 3, label: "Multiple Option" },
-    { value: 4, label: "List" },
+    { value: 1, label: 'Text' },
+    { value: 2, label: 'Number' },
+    { value: 3, label: 'Multiple Option' },
+    { value: 4, label: 'List' },
   ];
 
   useEffect(() => {
     if (MultipleQuestionFieldTypeDDL) {
       setQuestionRowData([
         {
-          questionName: "",
+          questionName: '',
           questionFieldType: MultipleQuestionFieldTypeDDL[0],
           questionFiledTypeId: MultipleQuestionFieldTypeDDL[0]?.value,
           questionFieldTypeName: MultipleQuestionFieldTypeDDL[0]?.label,
@@ -118,7 +117,7 @@ const OutletSurveyForm = () => {
   return (
     <>
       <IForm
-        title={!viewId ? "Survey Create" : "Survey View"}
+        title={!viewId ? 'Survey Create' : 'Survey View'}
         getProps={setObjprops}
         isDisabled={isDisabled}
         isHiddenReset={viewId}

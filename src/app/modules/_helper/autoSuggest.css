@@ -60,7 +60,8 @@ input.react-autosuggest__input {
   height: 22px;
 }
 
-.react-autosuggest__input:disabled, .react-autosuggest__input[readonly] {
-  background-color: #F3F6F9;
+.react-autosuggest__input:disabled,
+.react-autosuggest__input[readonly] {
+  background-color: #f3f6f9;
   opacity: 1;
 }

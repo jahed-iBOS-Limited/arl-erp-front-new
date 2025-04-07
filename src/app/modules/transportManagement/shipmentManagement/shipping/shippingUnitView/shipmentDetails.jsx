@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
+import React, { useState } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
 
 const ShipmentDetailsInfo = ({ rowDto }) => {
   const [open, setOpen] = useState(false);
-  const [slabRates, ] = useState([]);
+  const [slabRates] = useState([]);
   return (
     <div className="table-responsive">
       <table className="table table-striped global-table ">
@@ -24,7 +24,7 @@ const ShipmentDetailsInfo = ({ rowDto }) => {
             <th>From</th>
             <th>To</th>
             <th>7 Ton</th>
-            <th>20 Ton</th> 
+            <th>20 Ton</th>
           </tr>
         </thead>
         <tbody>
@@ -63,33 +63,33 @@ const ShipmentDetailsInfo = ({ rowDto }) => {
         </tbody>
       </table>
       <IViewModal
-        modelSize={"md"}
+        modelSize={'md'}
         show={open}
         onHide={() => setOpen(false)}
-        title={"Slab Programs"}
+        title={'Slab Programs'}
       >
-       <div className="table-responsive">
-       <table className="table table-striped global-table ">
-          <thead>
-            <tr>
-              <th>SL</th>
-              <th>Slab Range</th>
-              <th>Slab Rate</th>
-            </tr>
-          </thead>
-          <tbody>
-            {slabRates?.map((itm, i) => {
-              return (
-                <tr key={i}>
-                  <td className="text-center"> {i + 1}</td>
-                  <td> {itm?.slabRange}</td>
-                  <td className="text-right"> {itm?.slabRate}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-       </div>
+        <div className="table-responsive">
+          <table className="table table-striped global-table ">
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th>Slab Range</th>
+                <th>Slab Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              {slabRates?.map((itm, i) => {
+                return (
+                  <tr key={i}>
+                    <td className="text-center"> {i + 1}</td>
+                    <td> {itm?.slabRange}</td>
+                    <td className="text-right"> {itm?.slabRate}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </IViewModal>
     </div>
   );

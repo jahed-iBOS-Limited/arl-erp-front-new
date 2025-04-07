@@ -113,7 +113,7 @@ const PerformanceDialogTable = ({ rowDto }) => {
               className="btn btn-primary mb-3"
               onClick={(e) =>
                 pdfExport(
-                  singleData?.employeeName + '-' + singleData?.reportTypename,
+                  singleData?.employeeName + '-' + singleData?.reportTypename
                 )
               }
             >

@@ -1,39 +1,39 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 import {
   GetTransportSheduleNUnshedule_api,
   getTerritoryList,
   getDistributionChannelDDL_api,
-} from "../helper";
-import { Formik } from "formik";
-import { Form } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import ReactToPrint from "react-to-print";
-import { generateJsonToExcel } from "./../../../../_helper/excel/jsonToExcel";
-import InputField from "./../../../../_helper/_inputField";
-import Table from "./table";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+} from '../helper';
+import { Formik } from 'formik';
+import { Form } from 'formik';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import ReactToPrint from 'react-to-print';
+import { generateJsonToExcel } from './../../../../_helper/excel/jsonToExcel';
+import InputField from './../../../../_helper/_inputField';
+import Table from './table';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
+} from './../../../../../../_metronic/_partials/controls';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  fromTime: "00:00",
-  toTime: "23:59",
-  shipPoint: "",
-  territory: "",
-  reportType: { value: 1, label: "Top Sheet" },
-  distributionChannel: "",
+  fromTime: '00:00',
+  toTime: '23:59',
+  shipPoint: '',
+  territory: '',
+  reportType: { value: 1, label: 'Top Sheet' },
+  distributionChannel: '',
 };
 
 function SheduleNUnshedule() {
@@ -76,106 +76,106 @@ function SheduleNUnshedule() {
   const generateExcel = (row) => {
     const header = [
       {
-        text: "SL",
-        textFormat: "number",
-        alignment: "center:middle",
-        key: "sl",
+        text: 'SL',
+        textFormat: 'number',
+        alignment: 'center:middle',
+        key: 'sl',
       },
       {
-        text: "Request No",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "strRequestNo",
+        text: 'Request No',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'strRequestNo',
       },
       {
-        text: "Item Name",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "strItemName",
+        text: 'Item Name',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'strItemName',
       },
       {
-        text: "Party Name",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "strPartyName",
+        text: 'Party Name',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'strPartyName',
       },
       {
-        text: "Picking Point Name",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "strPickingPointName",
+        text: 'Picking Point Name',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'strPickingPointName',
       },
       {
-        text: "Sold To Partner Name",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "strSoldToPartnerName",
+        text: 'Sold To Partner Name',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'strSoldToPartnerName',
       },
       {
-        text: "Vehicle Provider Type",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "strVehicleProviderType",
+        text: 'Vehicle Provider Type',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'strVehicleProviderType',
       },
       {
-        text: "Vehicle Type	",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "strVehicleType",
+        text: 'Vehicle Type	',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'strVehicleType',
       },
       {
-        text: "Delivery Mode",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "strDeliveryMode",
+        text: 'Delivery Mode',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'strDeliveryMode',
       },
       {
-        text: "Car Type",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "strCarType",
+        text: 'Car Type',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'strCarType',
       },
       {
-        text: "Bag Type",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "strBagType",
+        text: 'Bag Type',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'strBagType',
       },
       {
-        text: "Proceed Day",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "ProceedDay",
+        text: 'Proceed Day',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'ProceedDay',
       },
       {
-        text: "Remaing Time",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "RemaingTime",
+        text: 'Remaing Time',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'RemaingTime',
       },
       {
-        text: "Date Sheduled",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "dteSheduledDate",
+        text: 'Date Sheduled',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'dteSheduledDate',
       },
       {
-        text: "Region",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "nl5",
+        text: 'Region',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'nl5',
       },
       {
-        text: "Area",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "nl6",
+        text: 'Area',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'nl6',
       },
       {
-        text: "Total Qty",
-        textFormat: "money",
-        alignment: "center:middle",
-        key: "decTotalQty",
+        text: 'Total Qty',
+        textFormat: 'money',
+        alignment: 'center:middle',
+        key: 'decTotalQty',
       },
     ];
     const _data = row.map((item, index) => {
@@ -185,7 +185,7 @@ function SheduleNUnshedule() {
         dteSheduledDate: _dateFormatter(item?.dteSheduledDate),
       };
     });
-    generateJsonToExcel(header, _data, "sheduleNUnshedule");
+    generateJsonToExcel(header, _data, 'sheduleNUnshedule');
   };
 
   useEffect(() => {
@@ -202,19 +202,19 @@ function SheduleNUnshedule() {
     <>
       <Card>
         {true && <ModalProgressBar />}
-        <CardHeader title={"Schedule N UnSchedule"}>
+        <CardHeader title={'Schedule N UnSchedule'}>
           <CardHeaderToolbar>
             <ReactToPrint
               trigger={() => (
                 <button
                   type="button"
                   className="btn btn-primary"
-                  style={{ padding: "2px 5px" }}
+                  style={{ padding: '2px 5px' }}
                 >
                   <img
                     style={{
-                      width: "25px",
-                      paddingRight: "5px",
+                      width: '25px',
+                      paddingRight: '5px',
                     }}
                     src={printIcon}
                     alt="print-icon"
@@ -224,14 +224,14 @@ function SheduleNUnshedule() {
               )}
               content={() => printRef.current}
               pageStyle={
-                "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}"
+                '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}'
               }
             />
             <button
               className="btn btn-primary ml-2"
               type="button"
               onClick={(e) => generateExcel(gridData)}
-              style={{ padding: "6px 5px" }}
+              style={{ padding: '6px 5px' }}
               disabled={gridData?.length === 0}
             >
               Export Excel
@@ -249,14 +249,14 @@ function SheduleNUnshedule() {
                       <NewSelect
                         name="distributionChannel"
                         options={[
-                          { value: 0, label: "All" },
+                          { value: 0, label: 'All' },
                           ...distributionChannelDDL,
                         ]}
                         value={values?.distributionChannel}
                         label="Distribution Channel"
                         onChange={(valueOption) => {
-                          setFieldValue("distributionChannel", valueOption);
-                          setFieldValue("territory", "");
+                          setFieldValue('distributionChannel', valueOption);
+                          setFieldValue('territory', '');
 
                           setGridData([]);
                           getTerritoryList(
@@ -276,12 +276,12 @@ function SheduleNUnshedule() {
                       <NewSelect
                         name="territory"
                         options={
-                          [{ value: 0, label: "All" }, ...territoryDDL] || []
+                          [{ value: 0, label: 'All' }, ...territoryDDL] || []
                         }
                         value={values?.territory}
                         label="Territory"
                         onChange={(valueOption) => {
-                          setFieldValue("territory", valueOption);
+                          setFieldValue('territory', valueOption);
                           setGridData([]);
                         }}
                         placeholder="Territory"
@@ -293,12 +293,12 @@ function SheduleNUnshedule() {
                       <NewSelect
                         name="shipPoint"
                         options={
-                          [{ value: 0, label: "All" }, ...shipPointDDL] || []
+                          [{ value: 0, label: 'All' }, ...shipPointDDL] || []
                         }
                         value={values?.shipPoint}
                         label="Shippoint"
                         onChange={(valueOption) => {
-                          setFieldValue("shipPoint", valueOption);
+                          setFieldValue('shipPoint', valueOption);
                           setGridData([]);
                         }}
                         placeholder="Shippoint"
@@ -316,7 +316,7 @@ function SheduleNUnshedule() {
                           type="date"
                           onChange={(e) => {
                             setGridData([]);
-                            setFieldValue("fromDate", e.target.value);
+                            setFieldValue('fromDate', e.target.value);
                           }}
                         />
                         <InputField
@@ -326,7 +326,7 @@ function SheduleNUnshedule() {
                           type="time"
                           onChange={(e) => {
                             setGridData([]);
-                            setFieldValue("fromTime", e.target.value);
+                            setFieldValue('fromTime', e.target.value);
                           }}
                         />
                       </span>
@@ -342,7 +342,7 @@ function SheduleNUnshedule() {
                           type="date"
                           onChange={(e) => {
                             setGridData([]);
-                            setFieldValue("toDate", e.target.value);
+                            setFieldValue('toDate', e.target.value);
                           }}
                         />
                         <InputField
@@ -352,7 +352,7 @@ function SheduleNUnshedule() {
                           type="time"
                           onChange={(e) => {
                             setGridData([]);
-                            setFieldValue("toTime", e.target.value);
+                            setFieldValue('toTime', e.target.value);
                           }}
                         />
                       </span>
@@ -364,14 +364,14 @@ function SheduleNUnshedule() {
                       <NewSelect
                         name="reportType"
                         options={[
-                          { value: 1, label: "Top Sheet" },
-                          { value: 2, label: "Company" },
-                          { value: 3, label: "Supplier" },
+                          { value: 1, label: 'Top Sheet' },
+                          { value: 2, label: 'Company' },
+                          { value: 3, label: 'Supplier' },
                         ]}
                         value={values?.reportType}
                         label="Report Type"
                         onChange={(valueOption) => {
-                          setFieldValue("reportType", valueOption);
+                          setFieldValue('reportType', valueOption);
                           setGridData([]);
                         }}
                         placeholder="Report Type"

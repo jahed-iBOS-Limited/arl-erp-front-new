@@ -15,7 +15,7 @@ function ReactSpeechRecognition() {
 
   if (!browserSupportsSpeechRecognition) {
     alert(
-      'Your browser does not support speech recognition software! Try Chrome desktop, maybe?',
+      'Your browser does not support speech recognition software! Try Chrome desktop, maybe?'
     );
     return null;
   }

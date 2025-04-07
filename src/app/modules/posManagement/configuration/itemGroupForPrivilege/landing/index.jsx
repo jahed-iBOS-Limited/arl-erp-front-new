@@ -1,22 +1,22 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   GetItemGroupLanding_api,
   getWareHouseDDL,
   updateItemGroupById_api,
-} from "../helper";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import ICustomCard from "./../../../../_helper/_customCard";
-import Loading from "./../../../../_helper/_loading";
-import NewSelect from "./../../../../_helper/_select";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import GridTable from "./table";
+} from '../helper';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import ICustomCard from './../../../../_helper/_customCard';
+import Loading from './../../../../_helper/_loading';
+import NewSelect from './../../../../_helper/_select';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import GridTable from './table';
 
 const initData = {
-  outletName: "",
-  status: { value: true, label: "Active " },
+  outletName: '',
+  status: { value: true, label: 'Active ' },
 };
 
 function ItemGroupForPrivilege() {
@@ -60,7 +60,6 @@ function ItemGroupForPrivilege() {
         setWareHouseDDL
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -73,8 +72,9 @@ function ItemGroupForPrivilege() {
   const acitveOnclickFunc = (values) => {
     const status = values?.status?.value ? false : true;
     let confirmObject = {
-      title: `Are you sure "${values?.status?.value ? "Active" : "In-Active"
-        }"?`,
+      title: `Are you sure "${
+        values?.status?.value ? 'Active' : 'In-Active'
+      }"?`,
       yesAlertFunc: () => {
         updateItemGroupById_api(
           values?.id,
@@ -84,7 +84,7 @@ function ItemGroupForPrivilege() {
           values
         );
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
@@ -93,7 +93,7 @@ function ItemGroupForPrivilege() {
       title="Item Group For Privilege"
       createHandler={() => {
         history.push(
-          "/pos-management/configuration/itemGroupForPrivilege/create"
+          '/pos-management/configuration/itemGroupForPrivilege/create'
         );
       }}
     >
@@ -102,7 +102,7 @@ function ItemGroupForPrivilege() {
         <Formik
           enableReinitialize={true}
           initialValues={initData}
-        // onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          // onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({
             handleSubmit,
@@ -124,7 +124,7 @@ function ItemGroupForPrivilege() {
                       value={values?.outletName}
                       label="Outlet Name"
                       onChange={(valueOption) => {
-                        setFieldValue("outletName", valueOption);
+                        setFieldValue('outletName', valueOption);
                         setRowDto([]);
                       }}
                       placeholder="Outlet Name"
@@ -136,13 +136,13 @@ function ItemGroupForPrivilege() {
                     <NewSelect
                       name="status"
                       options={[
-                        { value: true, label: "Active " },
-                        { value: false, label: "In-Active " },
+                        { value: true, label: 'Active ' },
+                        { value: false, label: 'In-Active ' },
                       ]}
                       value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
-                        setFieldValue("status", valueOption);
+                        setFieldValue('status', valueOption);
                         setRowDto([]);
                       }}
                       placeholder="Status"

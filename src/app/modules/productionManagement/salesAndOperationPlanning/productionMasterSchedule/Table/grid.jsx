@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
-import { toast } from "react-toastify";
-import Loading from "./../../../../_helper/_loading";
-import IEdit from "./../../../../_helper/_helperIcons/_edit";
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import { useSelector, shallowEqual } from 'react-redux';
+import { toast } from 'react-toastify';
+import Loading from './../../../../_helper/_loading';
+import IEdit from './../../../../_helper/_helperIcons/_edit';
 import {
   getMasterSchedulingLandingPageData,
   updateMasterScheduling,
-} from "../helper";
+} from '../helper';
 
 const GridData = ({ gridData, loading, plant, year, horizon, setGridData }) => {
   const [isEditable, setIsEditable] = useState(false);
-  const [rowIndex, setRowIndex] = useState("");
-  const [itemQuantity, setItemQuantity] = useState("");
+  const [rowIndex, setRowIndex] = useState('');
+  const [itemQuantity, setItemQuantity] = useState('');
   const [rowDto, setRowDto] = useState([]);
 
   // get user profile data from store
@@ -39,8 +39,8 @@ const GridData = ({ gridData, loading, plant, year, horizon, setGridData }) => {
           gridData[rowIndex - 1].productionMasterScheduleRowId,
         itemQTY: itemQuantity,
       });
-      setRowIndex("");
-      setItemQuantity("");
+      setRowIndex('');
+      setItemQuantity('');
     }
     setRowDto(updateData);
   };
@@ -57,7 +57,7 @@ const GridData = ({ gridData, loading, plant, year, horizon, setGridData }) => {
         });
       }
       if (rowDto?.length === 0) {
-        toast.warning("Please add Item and quantity");
+        toast.warning('Please add Item and quantity');
       } else {
         updateMasterScheduling(rowDto, () => {
           getMasterSchedulingLandingPageData(
@@ -82,13 +82,13 @@ const GridData = ({ gridData, loading, plant, year, horizon, setGridData }) => {
             <table className="global-table table">
               <thead>
                 <tr>
-                  <th style={{ width: "20px" }}>SL</th>
-                  <th style={{ width: "150px" }}>Schedule Horizon</th>
-                  <th style={{ width: "150px" }}>Item Name</th>
-                  <th style={{ width: "150px" }}>UoM Name</th>
-                  <th style={{ width: "150px" }}>Work Center</th>
-                  <th style={{ width: "150px" }}>Schedule Qty</th>
-                  <th style={{ width: "70px" }}>Action</th>
+                  <th style={{ width: '20px' }}>SL</th>
+                  <th style={{ width: '150px' }}>Schedule Horizon</th>
+                  <th style={{ width: '150px' }}>Item Name</th>
+                  <th style={{ width: '150px' }}>UoM Name</th>
+                  <th style={{ width: '150px' }}>Work Center</th>
+                  <th style={{ width: '150px' }}>Schedule Qty</th>
+                  <th style={{ width: '70px' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -111,7 +111,7 @@ const GridData = ({ gridData, loading, plant, year, horizon, setGridData }) => {
                             setItemQuantity(e.target.value);
                             setRowIndex(index + 1);
                           }}
-                          style={{ width: "80px", textAlign: "center" }}
+                          style={{ width: '80px', textAlign: 'center' }}
                           onClick={() => updateItemQuantity(index)}
                         />
                       </td>
@@ -121,7 +121,7 @@ const GridData = ({ gridData, loading, plant, year, horizon, setGridData }) => {
                     <td className="text-center">
                       <span onClick={() => editFieldHandle(index)}>
                         <IEdit />
-                      </span>{" "}
+                      </span>{' '}
                     </td>
                   </tr>
                 ))}
@@ -137,12 +137,12 @@ const GridData = ({ gridData, loading, plant, year, horizon, setGridData }) => {
                 setIsEditable(!isEditable);
               }}
               className="btn btn-primary"
-              style={{ float: "right", marginTop: 10 }}
+              style={{ float: 'right', marginTop: 10 }}
             >
               Update
             </button>
           ) : (
-            ""
+            ''
           )}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 export const SecondaryCollectionLanding = async (
   accountId,
@@ -17,11 +17,10 @@ export const SecondaryCollectionLanding = async (
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
-      console.log(res?.data, "api");
+      console.log(res?.data, 'api');
       setLoading(false);
     }
   } catch (error) {
-    
     setLoading(false);
   }
 };
@@ -34,9 +33,7 @@ export const getrouteNameDDL_api = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const GetSecondaryCollectionView = async (OrderId, setter) => {
@@ -52,7 +49,5 @@ export const GetSecondaryCollectionView = async (OrderId, setter) => {
     };
     setter(obj);
     console.log(obj);
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

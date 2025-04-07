@@ -6,7 +6,12 @@ import AttachmentUploaderNew from '../../_helper/attachmentUploaderNew';
 import useAxiosPost from '../../_helper/customHooks/useAxiosPost';
 import { marineBaseUrlPythonAPI } from '../../../../App';
 import { shallowEqual, useSelector } from 'react-redux';
-import { emailTemplateStyles, generateFileUrl, initialStateOfEmailData, initialStateOfError } from './helper';
+import {
+  emailTemplateStyles,
+  generateFileUrl,
+  initialStateOfEmailData,
+  initialStateOfError,
+} from './helper';
 
 const EmailEditorForPublicRoutes = ({
   featureName,
@@ -23,7 +28,6 @@ const EmailEditorForPublicRoutes = ({
   const [errors, setErrors] = useState(initialStateOfError);
 
   const [, onSendEmail, loader] = useAxiosPost();
-
 
   // Function to remove prefixes and convert camelCase to space-separated words
   const cleanKey = (key) => {
@@ -68,8 +72,6 @@ const EmailEditorForPublicRoutes = ({
           : '',
       emailBody: convertPayloadToHtml(),
     }));
-
-
   }, [payloadInfo]);
 
   // Regular expression to validate a single email address
@@ -156,14 +158,14 @@ const EmailEditorForPublicRoutes = ({
           `${marineBaseUrlPythonAPI}/automation/pre_stowage_mail_sent_for_master`,
           payload,
           cb,
-          true,
+          true
         );
       } else {
         onSendEmail(
           `${marineBaseUrlPythonAPI}/automation/common_mail_sender`,
           payload,
           cb,
-          true,
+          true
         );
       }
     }
@@ -185,7 +187,9 @@ const EmailEditorForPublicRoutes = ({
               style={emailTemplateStyles.input}
             />
           </div>
-          {errors.to && <div style={emailTemplateStyles.error}>{errors.to}</div>}
+          {errors.to && (
+            <div style={emailTemplateStyles.error}>{errors.to}</div>
+          )}
 
           <div style={emailTemplateStyles.field}>
             <label style={emailTemplateStyles.label}>Cc:</label>
@@ -198,7 +202,9 @@ const EmailEditorForPublicRoutes = ({
               style={emailTemplateStyles.input}
             />
           </div>
-          {errors.cc && <div style={emailTemplateStyles.error}>{errors.cc}</div>}
+          {errors.cc && (
+            <div style={emailTemplateStyles.error}>{errors.cc}</div>
+          )}
 
           <div style={emailTemplateStyles.field}>
             <label style={emailTemplateStyles.label}>Subject:</label>
@@ -211,7 +217,9 @@ const EmailEditorForPublicRoutes = ({
               style={emailTemplateStyles.input}
             />
           </div>
-          {errors.subject && <div style={emailTemplateStyles.error}>{errors.subject}</div>}
+          {errors.subject && (
+            <div style={emailTemplateStyles.error}>{errors.subject}</div>
+          )}
         </div>
 
         <div className="text-right mb-5">
@@ -237,18 +245,21 @@ const EmailEditorForPublicRoutes = ({
             placeholder="Write here..."
           />
         </div>
-        {errors.body && <div style={emailTemplateStyles.bodyError}>{errors.body}</div>}
+        {errors.body && (
+          <div style={emailTemplateStyles.bodyError}>{errors.body}</div>
+        )}
 
         <div className="" style={emailTemplateStyles.footer}>
           <button
             className="btn btn-primary"
             onClick={handleSend}
             onMouseOver={(e) =>
-            (e.target.style.backgroundColor =
-              emailTemplateStyles.buttonHover.backgroundColor)
+              (e.target.style.backgroundColor =
+                emailTemplateStyles.buttonHover.backgroundColor)
             }
             onMouseOut={(e) =>
-              (e.target.style.backgroundColor = emailTemplateStyles.button.backgroundColor)
+              (e.target.style.backgroundColor =
+                emailTemplateStyles.button.backgroundColor)
             }
           >
             Send

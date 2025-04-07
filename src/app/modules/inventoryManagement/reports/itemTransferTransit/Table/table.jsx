@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   getItemTransferTransitReport,
   getPlantDDL,
   getWarehouseDDL,
-} from "../helper";
-import { TransferTransitDetail } from "../modal/transferTransitDetail";
-import ICustomCard from "../../../../_helper/_customCard";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../../_helper/_viewModal";
+} from '../helper';
+import { TransferTransitDetail } from '../modal/transferTransitDetail';
+import ICustomCard from '../../../../_helper/_customCard';
+import NewSelect from '../../../../_helper/_select';
+import Loading from '../../../../_helper/_loading';
+import { _dateFormatterTwo } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../../_helper/_viewModal';
 
 const initData = {
-  warehouse: "",
-  expireType: "",
-  plant: "",
+  warehouse: '',
+  expireType: '',
+  plant: '',
 };
 
 export function ItemTransferTransit() {
@@ -30,7 +30,7 @@ export function ItemTransferTransit() {
 
   const [gridData, setGridData] = useState([]);
   const [warehouseDDL, setWarehouseDDL] = useState([]);
-  const [currentItem, setCurrentItem] = useState("");
+  const [currentItem, setCurrentItem] = useState('');
   const [isShowRowItemModal, setIsShowRowItemModal] = useState(false);
   const [plantList, setPlantList] = useState([]);
 
@@ -50,9 +50,9 @@ export function ItemTransferTransit() {
   }, [accId, buId, userId]);
 
   const receiveStatusDDL = [
-    { value: 0, label: "All" },
-    { value: 1, label: "Pending" },
-    { value: 2, label: "Partial Receive" },
+    { value: 0, label: 'All' },
+    { value: 1, label: 'Pending' },
+    { value: 2, label: 'Partial Receive' },
   ];
 
   let totalTransfer = 0;
@@ -78,8 +78,8 @@ export function ItemTransferTransit() {
                       value={values?.plant}
                       options={plantList || []}
                       onChange={(v) => {
-                        setFieldValue("plant", v);
-                        setFieldValue("warehouse", "");
+                        setFieldValue('plant', v);
+                        setFieldValue('warehouse', '');
                         if (v?.value) {
                           getWarehouseDDL(
                             accId,
@@ -102,7 +102,7 @@ export function ItemTransferTransit() {
                       options={warehouseDDL || []}
                       isDisabled={!values?.plant}
                       onChange={(v) => {
-                        setFieldValue("warehouse", v);
+                        setFieldValue('warehouse', v);
                         setGridData([]);
                       }}
                     />
@@ -115,7 +115,7 @@ export function ItemTransferTransit() {
                       label="Receive Status"
                       placeholder="Receive Status"
                       onChange={(v) => {
-                        setFieldValue("expireType", v);
+                        setFieldValue('expireType', v);
                         setGridData([]);
                       }}
                     />
@@ -159,7 +159,7 @@ export function ItemTransferTransit() {
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "30px" }}
+                                style={{ width: '30px' }}
                                 className="text-center"
                               >
                                 {index + 1}
@@ -189,7 +189,7 @@ export function ItemTransferTransit() {
                         })}
                         {gridData?.length > 0 && (
                           <tr
-                            style={{ textAlign: "right", fontWeight: "bold" }}
+                            style={{ textAlign: 'right', fontWeight: 'bold' }}
                           >
                             <td colSpan={6} className="text-right">
                               Total

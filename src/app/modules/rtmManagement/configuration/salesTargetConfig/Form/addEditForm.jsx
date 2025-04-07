@@ -1,20 +1,18 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
 import {
   createSalesTargetConfig,
   getSingleSalesTargetConfig,
   editSalesTargetConfig,
-} from "../helper";
-import { useParams } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
+} from '../helper';
+import { useParams } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  entryDay: "",
-  editedDay: "",
+  entryDay: '',
+  editedDay: '',
   approvalStatus: false,
 };
 
@@ -22,19 +20,18 @@ export default function SalesTargetConfigForm() {
   const params = useParams();
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   // get user profile data from store
-   const { profileData, selectedBusinessUnit } = useSelector(
-      (state) => state?.authData,
-      shallowEqual
-    );
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   useEffect(() => {
     if (params?.id) {
       getSingleSalesTargetConfig(params?.id, setSingleData);
     }
-
   }, []);
 
   const saveHandler = async (values, cb) => {
@@ -50,7 +47,6 @@ export default function SalesTargetConfigForm() {
           actionBy: profileData?.userId,
           // isActive: true,
         };
-
 
         editSalesTargetConfig(payload, setDisabled);
       } else {

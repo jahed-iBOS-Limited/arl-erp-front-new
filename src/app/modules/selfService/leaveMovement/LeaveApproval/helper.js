@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getWorkplaceGroupDDL = async (accId, setter) => {
   try {
@@ -7,7 +7,7 @@ export const getWorkplaceGroupDDL = async (accId, setter) => {
       `/hcm/HCMDDL/GetWorkPlaceGroupByAccountIdDDL?AccountId=${accId}`
     );
     const data = [...res?.data];
-    data.unshift({ value: 0, label: "All" });
+    data.unshift({ value: 0, label: 'All' });
     setter(data);
   } catch (error) {
     setter([]);
@@ -19,7 +19,7 @@ export const getLeaveTypeDDL = async (checkId, accId, setter) => {
     const res = await axios.get(
       `/hcm/HCMDDL/GetLeaveTypeDDL?check=${checkId}&accountId=${accId}`
     );
-    const data = [{ value: 0, label: "All" }, ...res?.data];
+    const data = [{ value: 0, label: 'All' }, ...res?.data];
     setter(data);
   } catch (error) {
     setter([]);
@@ -39,7 +39,7 @@ export const getNewApplicationData = (
 ) => {
   setLoader(true);
 
-  let isForPLChange = plChangeStatus ? `&isForPLChange=true` : "";
+  let isForPLChange = plChangeStatus ? `&isForPLChange=true` : '';
 
   let API = `/hcm/HCMLeaveApplication/GetLeaveApplicationListForApprove?businessUnitId=${buId}&WorkPlaceGroupId=${workPlaceIdpId}&adminTypeId=${adminTypeId}&viewTypeId=${viewTypeId}&employeeId=${employeeId}&leaveTypeId=${leaveTypeId}${isForPLChange}`;
 
@@ -84,10 +84,10 @@ export const approveLeavePLForchangeReq = async (payload, setLoader, cb) => {
       payload
     );
     cb();
-    toast.success(res.data?.message || "Approved successfully");
+    toast.success(res.data?.message || 'Approved successfully');
     setLoader(false);
   } catch (error) {
-    toast.warn(error?.response?.data?.message || "Please try again");
+    toast.warn(error?.response?.data?.message || 'Please try again');
     setLoader(false);
   }
 };

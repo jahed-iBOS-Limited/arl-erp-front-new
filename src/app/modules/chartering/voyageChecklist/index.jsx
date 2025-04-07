@@ -1,23 +1,27 @@
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import FormikSelect from '../_chartinghelper/common/formikSelect';
+import customStyles from '../_chartinghelper/common/selectCustomStyle';
+import Loading from '../_chartinghelper/loading/_loading';
+import ICustomTable from '../_chartinghelper/_customTable';
+import { getVoyageDDLNew, getVesselDDL } from '../helper';
+import { getVoyageChecklistPasignation } from './helper';
+import PaginationTable from '../_chartinghelper/_tablePagination';
+import { _dateFormatter } from '../../_helper/_dateFormate';
 
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import FormikSelect from "../_chartinghelper/common/formikSelect";
-import customStyles from "../_chartinghelper/common/selectCustomStyle";
-import Loading from "../_chartinghelper/loading/_loading";
-import ICustomTable from "../_chartinghelper/_customTable";
-import { getVoyageDDLNew, getVesselDDL } from "../helper";
-import { getVoyageChecklistPasignation } from "./helper";
-import PaginationTable from "../_chartinghelper/_tablePagination";
-import { _dateFormatter } from "../../_helper/_dateFormate";
-
-const headers = [{ name: "SL" }, { name: "Vessel" }, { name: "Charter Type" }, { name: "Voyage No" }, { name: "Completed Voyage" }];
+const headers = [
+  { name: 'SL' },
+  { name: 'Vessel' },
+  { name: 'Charter Type' },
+  { name: 'Voyage No' },
+  { name: 'Completed Voyage' },
+];
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
+  vesselName: '',
+  voyageNo: '',
 };
 
 export function VoyageChecklist() {
@@ -32,14 +36,25 @@ export function VoyageChecklist() {
   const [pageSize, setPageSize] = React.useState(15);
   const history = useHistory();
   useEffect(() => {
-    getVesselDDL(profileData?.accountId, selectedBusinessUnit?.value, setVesselDDL, "");
-    getVoyageChecklistPasignation("asc", pageNo, pageSize, setRowDto, setLoading);
+    getVesselDDL(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      setVesselDDL,
+      ''
+    );
+    getVoyageChecklistPasignation(
+      'asc',
+      pageNo,
+      pageSize,
+      setRowDto,
+      setLoading
+    );
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize) => {
     getVoyageChecklistPasignation(
       16,
-      "asc",
+      'asc',
       pageNo,
       pageSize,
       setRowDto,
@@ -48,8 +63,19 @@ export function VoyageChecklist() {
   };
   return (
     <>
-      <Formik enableReinitialize={true} initialValues={initData} onSubmit={(values, { setSubmitting, resetForm }) => {}}>
-        {({ values, errors, touched, setFieldValue, handleSubmit, resetForm }) => (
+      <Formik
+        enableReinitialize={true}
+        initialValues={initData}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          setFieldValue,
+          handleSubmit,
+          resetForm,
+        }) => (
           <>
             {loading && <Loading />}
             <form className="marine-form-card">
@@ -60,7 +86,7 @@ export function VoyageChecklist() {
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -68,8 +94,8 @@ export function VoyageChecklist() {
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
-                        setFieldValue("voyageNo", "");
+                        setFieldValue('vesselName', valueOption);
+                        setFieldValue('voyageNo', '');
                         if (valueOption) {
                           getVoyageDDLNew({
                             accId: profileData?.accountId,
@@ -89,7 +115,7 @@ export function VoyageChecklist() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -97,7 +123,7 @@ export function VoyageChecklist() {
                       placeholder="Voyage No"
                       label="Voyage No"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                       }}
                       isDisabled={false}
                       errors={errors}
@@ -107,8 +133,8 @@ export function VoyageChecklist() {
                   <div>
                     <button
                       type="button"
-                      style={{ marginTop: "14px" }}
-                      className={"btn btn-primary"}
+                      style={{ marginTop: '14px' }}
+                      className={'btn btn-primary'}
                       onClick={() => {
                         history.push({
                           pathname: `/chartering/voyageChecklist/voyageChecklist/details`,

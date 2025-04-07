@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import moment from 'moment';
 import { toast } from 'react-toastify';
@@ -47,7 +46,7 @@ export const saveLayTime = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/LayTimeInfo/CreateLayTimeInfo`,
-      data,
+      data
     );
     cb();
     toast.success(res?.data?.message, { toastId: 2345 });
@@ -65,7 +64,7 @@ export const editLayTime = async (data, setLoading, cb) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/LayTimeInfo/EditLayTimeInfo`,
-      data,
+      data
     );
     cb();
     toast.success(res?.data?.message, { toastId: 2345 });
@@ -88,12 +87,12 @@ export const getLayTime = async (
   setLoading,
   setSingleData,
   setRowData,
-  setId,
+  setId
 ) => {
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/LayTimeInfo/GetLayTimeByVesselVoyage?VesselId=${vesselId}&VoyageId=${voyageId}&TypeId=${layTimeTypeId}&CargoId=${cargoId}&BusinessPartnerType=${partnerTypeId}&BusinessPartnerId=${partnerId}`,
+      `${imarineBaseUrl}/domain/LayTimeInfo/GetLayTimeByVesselVoyage?VesselId=${vesselId}&VoyageId=${voyageId}&TypeId=${layTimeTypeId}&CargoId=${cargoId}&BusinessPartnerType=${partnerTypeId}&BusinessPartnerId=${partnerId}`
     );
 
     if (!data?.objHeader?.layTimeId) {
@@ -108,7 +107,7 @@ export const getLayTime = async (
         data?.objHeader,
         data?.objRow,
         setSingleData,
-        setRowData,
+        setRowData
       );
       setLoading(false);
     }

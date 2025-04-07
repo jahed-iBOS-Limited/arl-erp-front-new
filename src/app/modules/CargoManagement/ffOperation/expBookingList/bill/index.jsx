@@ -32,7 +32,7 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
   const [activeTab, setActiveTab] = useState('billGenerate');
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const [billingDataFilterData, setBillingDataFilterData] = React.useState([]);
 
@@ -52,7 +52,6 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
       : rowClickData?.modeOfTransportId;
     formikRef.current.setFieldValue('billingType', modeOfTransportId);
     commonGetByIdHandler(modeOfTransportId, false);
-
   }, [bookingRequestId]);
 
   const commonGetByIdHandler = (modeOfTransportId, isAdvanced) => {
@@ -73,15 +72,16 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
 
     if (bookingRequestId) {
       getMasterBLWiseBilling(
-        `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${masterBlId}&sAdvanced=${isAdvanced}&modeOfTransportId=${modeOfTransportId}&isAirOperation=${isAirOperation ||
-        false}`,
+        `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${masterBlId}&sAdvanced=${isAdvanced}&modeOfTransportId=${modeOfTransportId}&isAirOperation=${
+          isAirOperation || false
+        }`,
         (resData) => {
           const billingDataList = resData
             ?.filter(
               (i) =>
                 i?.paymentPartyId &&
                 !i?.billRegisterCode &&
-                (i?.isAirOperation || false) === (isAirOperation || false),
+                (i?.isAirOperation || false) === (isAirOperation || false)
             )
             ?.map((item) => {
               return {
@@ -92,12 +92,12 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
             });
           const unique = [
             ...new Map(
-              billingDataList.map((item) => [item['paymentPartyId'], item]),
+              billingDataList.map((item) => [item['paymentPartyId'], item])
             ).values(),
           ];
           setUniqueBookingRequestList(resData?.[0]?.bookingDatas || []);
           setPaymentPartyListDDL(unique || []);
-        },
+        }
       );
     }
   };
@@ -134,7 +134,7 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
         netPaymentAmount:
           billingDataFilterData?.reduce(
             (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
-            0,
+            0
           ) || 0,
         paymentDueDate: new Date(),
         remarks: values?.narration || '',
@@ -173,7 +173,7 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
       (data) => {
         CB();
       },
-      true,
+      true
     );
   };
 
@@ -396,7 +396,7 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects?.filter(
-                    (item) => item?.file?.name !== deleteFileObj?.file?.name,
+                    (item) => item?.file?.name !== deleteFileObj?.file?.name
                   );
                   setFileObjects(newData);
                 }}
@@ -407,7 +407,7 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
                     (data) => {
                       const documentFileId = data?.[0]?.id;
                       setFieldValue('documentFileId', documentFileId || '');
-                    },
+                    }
                   );
                 }}
                 showPreviews={true}
@@ -531,7 +531,7 @@ const BillGenerateCmp = ({
               <td style={{ textAlign: 'right' }}>
                 {billingDataFilterData?.reduce(
                   (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
-                  0,
+                  0
                 )}
               </td>
             </tr>

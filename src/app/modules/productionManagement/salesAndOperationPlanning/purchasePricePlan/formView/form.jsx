@@ -1,27 +1,27 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { ExcelRenderer } from "react-excel-renderer";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { getItemListSalesPlanDDL } from "../helper";
-import { getHorizonDDL, getYearDDL } from "../../../../_helper/_commonApi";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { ExcelRenderer } from 'react-excel-renderer';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { getItemListSalesPlanDDL } from '../helper';
+import { getHorizonDDL, getYearDDL } from '../../../../_helper/_commonApi';
 
 // Validation schema
 export const salesAndOperationPlaningValidationSchema = Yup.object().shape({
   plant: Yup.object().shape({
-    value: Yup.string().required("Plant Name is required"),
-    label: Yup.string().required("Plant Name is required"),
+    value: Yup.string().required('Plant Name is required'),
+    label: Yup.string().required('Plant Name is required'),
   }),
   year: Yup.object().shape({
-    value: Yup.string().required("Year is required"),
-    label: Yup.string().required("Year is required"),
+    value: Yup.string().required('Year is required'),
+    label: Yup.string().required('Year is required'),
   }),
   horizon: Yup.object().shape({
-    value: Yup.string().required("Planning Horizon is required"),
-    label: Yup.string().required("Planning Horizon is required"),
+    value: Yup.string().required('Planning Horizon is required'),
+    label: Yup.string().required('Planning Horizon is required'),
   }),
 });
 
@@ -46,7 +46,7 @@ export default function FormCmp({
   dataHandler,
   removeItem,
 }) {
-  const [fileObject, setFileObject] = useState("");
+  const [fileObject, setFileObject] = useState('');
 
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
@@ -78,12 +78,10 @@ export default function FormCmp({
         }
       });
     }
-
   }, [fileObject]);
 
   useEffect(() => {
     setRowDto(itemNameDDL.data);
-
   }, [itemNameDDL]);
 
   //setPositionHandler
@@ -132,8 +130,8 @@ export default function FormCmp({
                       placeholder="Plant"
                       onChange={async (valueOption) => {
                         await setRowDto([]);
-                        setFileObject("");
-                        setFieldValue("plant", valueOption);
+                        setFileObject('');
+                        setFieldValue('plant', valueOption);
                         setPlant(valueOption);
                         getItemListSalesPlanDDL(
                           profileData?.accountId,
@@ -172,9 +170,9 @@ export default function FormCmp({
                       label="Year"
                       placeholder="Year"
                       onChange={(valueOption) => {
-                        setFieldValue("year", valueOption);
-                        setFileObject("");
-                        setFieldValue("horizon", "");
+                        setFieldValue('year', valueOption);
+                        setFileObject('');
+                        setFieldValue('horizon', '');
                         getHorizonDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -196,13 +194,13 @@ export default function FormCmp({
                       label="Planning Horizon"
                       placeholder="Planning Horizon"
                       onChange={(valueOption) => {
-                        setFieldValue("horizon", valueOption);
+                        setFieldValue('horizon', valueOption);
                         setFieldValue(
-                          "startDate",
+                          'startDate',
                           _dateFormatter(valueOption?.startdatetime)
                         );
                         setFieldValue(
-                          "endDate",
+                          'endDate',
                           _dateFormatter(valueOption?.enddatetime)
                         );
                       }}
@@ -240,8 +238,8 @@ export default function FormCmp({
                       <th>Item Name</th>
                       <th>BOM</th>
                       <th>UoM Name</th>
-                      <th style={{ width: "150px" }}>Plan Quantity</th>
-                      <th style={{ width: "150px" }}>Rate</th>
+                      <th style={{ width: '150px' }}>Plan Quantity</th>
+                      <th style={{ width: '150px' }}>Rate</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -258,7 +256,7 @@ export default function FormCmp({
                             value={item?.itemPlanQty}
                             onChange={(e) => {
                               dataHandler(
-                                "itemPlanQty",
+                                'itemPlanQty',
                                 item,
                                 +e.target.value,
                                 setRowDto,
@@ -277,7 +275,7 @@ export default function FormCmp({
                             value={item?.rate}
                             onChange={(e) => {
                               dataHandler(
-                                "rate",
+                                'rate',
                                 item,
                                 e.target.value,
                                 setRowDto,
@@ -309,14 +307,14 @@ export default function FormCmp({
               )}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

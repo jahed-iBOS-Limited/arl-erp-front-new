@@ -1,12 +1,11 @@
-
-import React, { useEffect, useState } from "react";
-import { radioStyle } from "./helper";
-import NewSelect from "../../_helper/_select";
+import React, { useEffect, useState } from 'react';
+import { radioStyle } from './helper';
+import NewSelect from '../../_helper/_select';
 import {
   GetDomesticPortDDL,
   getMotherVesselDDL,
-} from "../allotment/confirmBySupervisor/helper";
-import { shallowEqual, useSelector } from "react-redux";
+} from '../allotment/confirmBySupervisor/helper';
+import { shallowEqual, useSelector } from 'react-redux';
 
 export const BADCBCICForm = ({
   values,
@@ -16,7 +15,7 @@ export const BADCBCICForm = ({
   colSize,
 }) => {
   return (
-    <div className={`${colSize ? colSize : "col-12"}  mt-3 d-flex`}>
+    <div className={`${colSize ? colSize : 'col-12'}  mt-3 d-flex`}>
       <div className="d-flex align-items-center mr-5">
         <input
           style={radioStyle}
@@ -24,10 +23,10 @@ export const BADCBCICForm = ({
           name="type"
           id="badc"
           value={values?.type}
-          checked={values?.type === "badc"}
+          checked={values?.type === 'badc'}
           onChange={() => {
-            setFieldValue("type", "badc");
-            onChange && onChange("type", values, "badc", setFieldValue);
+            setFieldValue('type', 'badc');
+            onChange && onChange('type', values, 'badc', setFieldValue);
           }}
           disabled={disabled || false}
         />
@@ -42,10 +41,10 @@ export const BADCBCICForm = ({
           name="type"
           id="bcic"
           value={values?.type}
-          checked={values?.type === "bcic"}
+          checked={values?.type === 'bcic'}
           onChange={() => {
-            setFieldValue("type", "bcic");
-            onChange && onChange("type", values, "bcic", setFieldValue);
+            setFieldValue('type', 'bcic');
+            onChange && onChange('type', values, 'bcic', setFieldValue);
           }}
           disabled={disabled || false}
         />
@@ -85,17 +84,17 @@ export const PortAndMotherVessel = ({ obj }) => {
   }, [accId, buId]);
 
   const portList =
-    allElement !== false ? [{ value: 0, label: "All" }, ...portDDL] : portDDL;
+    allElement !== false ? [{ value: 0, label: 'All' }, ...portDDL] : portDDL;
 
   const motherVesselList =
     allElement !== false
-      ? [{ value: 0, label: "All" }, ...motherVesselDDL]
+      ? [{ value: 0, label: 'All' }, ...motherVesselDDL]
       : motherVesselDDL;
 
   return (
     <>
       {port !== false && (
-        <div className={colSize || "col-lg-3"}>
+        <div className={colSize || 'col-lg-3'}>
           <NewSelect
             name="port"
             options={portList}
@@ -103,17 +102,17 @@ export const PortAndMotherVessel = ({ obj }) => {
             label="Port"
             placeholder="Port"
             onChange={(e) => {
-              setFieldValue("port", e);
-              setFieldValue("motherVessel", "");
+              setFieldValue('port', e);
+              setFieldValue('motherVessel', '');
               getMotherVesselDDL(accId, buId, e?.value, setMotherVesselDDL);
-              onChange && onChange("port", { ...values, port: e });
+              onChange && onChange('port', { ...values, port: e });
             }}
             isDisabled={disabled?.port}
           />
         </div>
       )}
       {motherVessel !== false && (
-        <div className={colSize || "col-lg-3"}>
+        <div className={colSize || 'col-lg-3'}>
           <NewSelect
             name="motherVessel"
             options={motherVesselList || []}
@@ -121,9 +120,9 @@ export const PortAndMotherVessel = ({ obj }) => {
             label="Mother Vessel"
             placeholder="Mother Vessel"
             onChange={(e) => {
-              setFieldValue("motherVessel", e);
+              setFieldValue('motherVessel', e);
               onChange &&
-                onChange("motherVessel", { ...values, motherVessel: e });
+                onChange('motherVessel', { ...values, motherVessel: e });
             }}
             isDisabled={
               disabled?.motherVessel || (port !== false && !values?.port)

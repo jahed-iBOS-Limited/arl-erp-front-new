@@ -1,4 +1,4 @@
-import imageCompression from "browser-image-compression";
+import imageCompression from 'browser-image-compression';
 
 export const compressfile = (
   files,
@@ -13,7 +13,7 @@ export const compressfile = (
       try {
         const compressedFiles = [];
         for (let i = 0; i < files.length; i++) {
-          if (files[i]?.type?.startsWith("image/")) {
+          if (files[i]?.type?.startsWith('image/')) {
             compressedFiles.push(await imageCompression(files[i], options));
           } else {
             compressedFiles.push(files[i]);

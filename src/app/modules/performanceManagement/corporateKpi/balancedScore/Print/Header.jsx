@@ -17,7 +17,7 @@ export default function CorporateBSCPrint() {
         selectedBusinessUnit: state.authData.selectedBusinessUnit,
       };
     },
-    { shallowEqual },
+    { shallowEqual }
   );
   let { selectedBusinessUnit } = storeData;
 
@@ -33,10 +33,9 @@ export default function CorporateBSCPrint() {
         state?.from?.value,
         state?.to?.value,
         false,
-        3,
+        3
       );
     }
-
   }, [selectedBusinessUnit, state]);
 
   return (

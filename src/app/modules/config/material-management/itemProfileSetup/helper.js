@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 export const GetProfileControlerTypeDDL_api = async (setter) => {
   try {
     const res = await axios.get(
@@ -11,37 +11,37 @@ export const GetProfileControlerTypeDDL_api = async (setter) => {
   } catch (error) {}
 };
 
-export const CreateItemProfileConfig_api = async (payload,cb, setDisabled) => {
-  setDisabled(true)
+export const CreateItemProfileConfig_api = async (payload, cb, setDisabled) => {
+  setDisabled(true);
   try {
     const res = await axios.post(
       `/item/ItemProfileSetup/CreateItemProfileConfig`,
       payload
     );
     if (res.status === 200) {
-      cb()
-      toast.success(" Create Submitted successfully");
-      setDisabled(false)
+      cb();
+      toast.success(' Create Submitted successfully');
+      setDisabled(false);
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);
-    setDisabled(false)
+    setDisabled(false);
   }
 };
 export const EditItemProfileConfig_api = async (payload, setDisabled) => {
-  setDisabled(true)
+  setDisabled(true);
   try {
     const res = await axios.put(
       `/item/ItemProfileSetup/EditItemProfileConfig`,
       payload
     );
     if (res.status === 200) {
-      toast.success("Edit Submitted successfully");
-      setDisabled(false)
+      toast.success('Edit Submitted successfully');
+      setDisabled(false);
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);
-    setDisabled(false)
+    setDisabled(false);
   }
 };
 
@@ -55,7 +55,7 @@ export const GetItemProfileConfigPagination_api = async (
   setLoading
 ) => {
   setLoading(true);
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
   try {
     const res = await axios.get(
       `/item/ItemProfileSetup/GetItemProfileConfigPagination?${searchPath}&AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`

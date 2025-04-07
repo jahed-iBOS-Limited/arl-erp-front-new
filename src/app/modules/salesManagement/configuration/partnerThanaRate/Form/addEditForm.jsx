@@ -1,24 +1,23 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
 import {
   saveEditedPartnerTransportZoneAction,
   savePartnerTransportZoneAction,
   GetPartnerTransportZoneById,
-} from "../helper";
+} from '../helper';
 
 const initData = {
   id: undefined,
-  shippoint: "",
-  soldToPartner: "",
-  shipToPartner: "",
-  transportZone: "",
-  rate: "",
-  distanceKm: "",
-  vehicleCapacity: "",
+  shippoint: '',
+  soldToPartner: '',
+  shipToPartner: '',
+  transportZone: '',
+  rate: '',
+  distanceKm: '',
+  vehicleCapacity: '',
 };
 
 export default function PartnerThanaRateForm({
@@ -28,7 +27,7 @@ export default function PartnerThanaRateForm({
   },
 }) {
   const [isDisabled, setDisabled] = useState(false);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -45,7 +44,6 @@ export default function PartnerThanaRateForm({
     if (id) {
       GetPartnerTransportZoneById(id, setSingleData);
     }
-
   }, [id]);
 
   const saveHandler = async (values, cb) => {
@@ -56,7 +54,7 @@ export default function PartnerThanaRateForm({
           thanaId: 0,
           perBagPrice: values?.rate,
           vehicleCapacityId: values?.vehicleCapacity?.value || 0,
-          vehicleCapacityName: values?.vehicleCapacity?.label || "",
+          vehicleCapacityName: values?.vehicleCapacity?.label || '',
           actionBy: profileData?.userId,
         };
         saveEditedPartnerTransportZoneAction(payload, setDisabled);
@@ -69,7 +67,7 @@ export default function PartnerThanaRateForm({
           // shiptoPartnerId: values?.shipToPartner?.value,
           transportZoneId: values?.transportZone?.value,
           vehicleCapacityId: values?.vehicleCapacity?.value || 0,
-          vehicleCapacityName: values?.vehicleCapacity?.label || "",
+          vehicleCapacityName: values?.vehicleCapacity?.label || '',
           perBagPrice: values?.rate,
           distanceKm: values?.distanceKm,
           actionBy: profileData.userId,

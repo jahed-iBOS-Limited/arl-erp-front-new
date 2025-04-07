@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useLocation, useParams } from "react-router-dom";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useLocation, useParams } from 'react-router-dom';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   // getVatAdjustmentById,
   editVatAdjustment,
@@ -12,23 +12,23 @@ import {
   GetToBranchDDL_api,
   getInventoryTransferDDL,
   GetDistributionChannelDDL,
-} from "../helper";
-import Loading from "../../../../_helper/_loading";
+} from '../helper';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  taxBranchAddress: "",
-  deliveryNo: "",
-  deliveryAddress: "",
-  vehicleNo: "",
+  taxBranchAddress: '',
+  deliveryNo: '',
+  deliveryAddress: '',
+  vehicleNo: '',
   deliveryDate: _todayDate(),
-  transferTo: "",
-  distributionChannel: "",
+  transferTo: '',
+  distributionChannel: '',
 };
 
 export default function TransferOutIbosCreateForm() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [objProps, setObjprops] = useState({});
   const { state: landingData } = useLocation();
   const params = useParams();
@@ -108,16 +108,16 @@ export default function TransferOutIbosCreateForm() {
           businessUnitId: +selectedBusinessUnit?.value,
           businessUnitName: profileData?.businessUnitName,
           taxBranchId: +landingData?.selectedTaxBranchDDL?.value || 0,
-          taxBranchName: landingData?.selectedTaxBranchDDL?.label || "",
-          taxBranchAddress: values?.selectedTaxBranchDDL?.branchAddress || "",
+          taxBranchName: landingData?.selectedTaxBranchDDL?.label || '',
+          taxBranchAddress: values?.selectedTaxBranchDDL?.branchAddress || '',
           deliveryNo: values?.deliveryNo?.value,
-          deliveryAddress: values?.deliveryAddress || "",
-          vehicleNo: values?.vehicleNo || "",
-          deliveryDate: values?.deliveryDate || "",
+          deliveryAddress: values?.deliveryAddress || '',
+          vehicleNo: values?.vehicleNo || '',
+          deliveryDate: values?.deliveryDate || '',
           actionBy: +profileData?.userId,
           otherTaxBranchId: values?.transferTo?.value || 0,
-          otherTaxBranchName: values?.transferTo?.label || "",
-          otherTaxBranchAddress: values?.transferTo?.name || "",
+          otherTaxBranchName: values?.transferTo?.label || '',
+          otherTaxBranchAddress: values?.transferTo?.name || '',
           distributionChanelId: values?.distributionChannel?.value,
         };
 
@@ -136,7 +136,7 @@ export default function TransferOutIbosCreateForm() {
 
   return (
     <IForm
-      title={"Create Transfer-out For iBOS"}
+      title={'Create Transfer-out For iBOS'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const SalesTargetLanding = async (
   accountId,
@@ -24,7 +24,7 @@ export const SalesTargetLanding = async (
       if (res?.data?.data?.length > 0) {
         setter(res?.data);
       } else {
-        toast.warn("Data not found");
+        toast.warn('Data not found');
         setter(res?.data);
       }
     }
@@ -107,7 +107,7 @@ export const GetSalesTargetView = async (
           targetYearName: data?.objCreateHeader?.targetYearName,
           territoryName: data?.objCreateHeader?.territoryName,
           actionBy: 0,
-          currentDate: "0001-01-01T00:00:00",
+          currentDate: '0001-01-01T00:00:00',
           fromDate: data?.objHeader?.fromDate,
           toDate: data?.objHeader?.toDate,
           // accountId: 0,
@@ -137,8 +137,8 @@ export const GetSalesTargetView = async (
       }));
       setRowDto(newRowDto);
       setter(newData);
-      console.log(newData, "call data");
-      console.log(data, "helper");
+      console.log(newData, 'call data');
+      console.log(data, 'helper');
     }
   } catch (error) {}
 };
@@ -148,7 +148,7 @@ export const saveSalesTarget = async (data, cb, setDisabled) => {
   try {
     const res = await Axios.post(`/rtm/SalesTarget/CreateSalesTarget`, data);
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -163,7 +163,7 @@ export const editSalesTarget = async (data, setDisabled) => {
     setDisabled(true);
     const res = await Axios.put(`/rtm/SalesTarget/EditSalesTarget`, data);
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {
@@ -221,9 +221,9 @@ export const getRate_api = async (accId, buId, PartnerId, ItemId, setter) => {
       `/rtm/RTMDDL/GetItemRateByPartnerItemId?AccountId=${accId}&BusinessUnitId=${buId}&PartnerId=${PartnerId}&ItemId=${ItemId}`
     );
     if (res.status === 200) {
-      setter("rate", res?.data);
+      setter('rate', res?.data);
     }
-    console.log(res?.data, "data", setter, "setter");
+    console.log(res?.data, 'data', setter, 'setter');
   } catch (error) {}
 };
 

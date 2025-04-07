@@ -41,26 +41,14 @@ export default function POAutoProcess() {
   const [autoPOData, getAutoPOData, loading, setAutoPOData] = useAxiosGet();
   const [, onCreatePOHandler, loader] = useAxiosPost();
   const [itemTypeList, getitemTypeList, , setItemTypeList] = useAxiosGet();
-  const [
-    itemCategoryList,
-    getCategoryData,
-    ,
-    setItemCategoryList,
-  ] = useAxiosGet();
-  const [
-    itemSubCategoryList,
-    getSubCategoryData,
-    ,
-    setItemSubCategoryList,
-  ] = useAxiosGet();
+  const [itemCategoryList, getCategoryData, , setItemCategoryList] =
+    useAxiosGet();
+  const [itemSubCategoryList, getSubCategoryData, , setItemSubCategoryList] =
+    useAxiosGet();
 
   const [plantDDL, getPlantDDL, plantLoader, setPlantDDL] = useAxiosGet();
-  const [
-    warehouseDDL,
-    getWarehouseDDL,
-    warehouseLoader,
-    setWarehouseDDL,
-  ] = useAxiosGet();
+  const [warehouseDDL, getWarehouseDDL, warehouseLoader, setWarehouseDDL] =
+    useAxiosGet();
   const [allSelect, setAllSelect] = useState(false);
   // get selected business unit from store
   const { profileData, businessUnitList } = useSelector((state) => {
@@ -78,7 +66,6 @@ export default function POAutoProcess() {
       });
       setItemTypeList(modData);
     });
-
   }, []);
 
   const categoryApiCaller = async (typeId, values) => {
@@ -93,7 +80,7 @@ export default function POAutoProcess() {
           };
         });
         setItemCategoryList(modData);
-      },
+      }
     );
   };
 
@@ -109,7 +96,7 @@ export default function POAutoProcess() {
           };
         });
         setItemSubCategoryList(modData);
-      },
+      }
     );
   };
 
@@ -126,7 +113,6 @@ export default function POAutoProcess() {
       };
     });
     setAutoPOData(poauto);
-
   }, [allSelect]);
 
   const payloadMapping = (data) => {
@@ -206,7 +192,7 @@ export default function POAutoProcess() {
                             () => {
                               getData(values);
                             },
-                            true,
+                            true
                           );
                         },
                         noAlertFunc: () => {},
@@ -233,7 +219,7 @@ export default function POAutoProcess() {
                           setFieldValue('businessUnit', valueOption || '');
                           setAutoPOData([]);
                           getPlantDDL(
-                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}&OrgUnitTypeId=7`,
+                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}&OrgUnitTypeId=7`
                           );
                         } else {
                           setFieldValue('businessUnit', '');
@@ -258,7 +244,7 @@ export default function POAutoProcess() {
                           setFieldValue('plant', valueOption || '');
                           setAutoPOData([]);
                           getWarehouseDDL(
-                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`,
+                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
                           );
                         } else {
                           setFieldValue('plant', '');
@@ -439,7 +425,7 @@ export default function POAutoProcess() {
                                     onChange={(e) => {
                                       singleCheckBoxHandler(
                                         e.target.checked,
-                                        index,
+                                        index
                                       );
                                     }}
                                   />

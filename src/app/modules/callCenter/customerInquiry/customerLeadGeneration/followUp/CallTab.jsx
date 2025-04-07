@@ -70,14 +70,14 @@ export default function CallTab({ data }) {
           cb();
         }
       },
-      'save',
+      'save'
     );
   };
   const loadCallByDDL = (v) => {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&search=${v}`,
+        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&search=${v}`
       )
       .then((res) => {
         return res?.data;
@@ -86,7 +86,6 @@ export default function CallTab({ data }) {
   // get all ddl
   React.useEffect(() => {
     getScheduleTypeDDL(`/oms/SalesQuotation/GetFollowUpActivityTypeDDL`);
-
   }, []);
   return (
     <ICustomCard
@@ -220,7 +219,7 @@ export default function CallTab({ data }) {
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.documentFileId),
+                            getDownlloadFileView_Action(values?.documentFileId)
                           );
                         }}
                       >
@@ -244,7 +243,7 @@ export default function CallTab({ data }) {
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}

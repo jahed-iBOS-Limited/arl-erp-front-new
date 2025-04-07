@@ -1,23 +1,22 @@
-import React, { useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { Formik, Form } from "formik";
-import { toast } from "react-toastify";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { approvePrimaryCollection, getSecondaryOrderLanding } from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import InputField from "./../../../../_helper/_inputField";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import IApproval from "./../../../../_helper/_helperIcons/_approval";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { Formik, Form } from 'formik';
+import { toast } from 'react-toastify';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { approvePrimaryCollection, getSecondaryOrderLanding } from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import InputField from './../../../../_helper/_inputField';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import IApproval from './../../../../_helper/_helperIcons/_approval';
 
 const initValue = {};
 
 export function TableRow({ saveHandler }) {
-
   const dispatch = useDispatch();
-  const [loading,] = useState(false);
+  const [loading] = useState(false);
   const history = useHistory();
 
   //paginationState
@@ -95,7 +94,7 @@ export function TableRow({ saveHandler }) {
 
     if (modifyFilterRowDto?.length > 0) {
       let confirmObject = {
-        title: "Are you sure?",
+        title: 'Are you sure?',
         message: `Do you want to approve the selected Primary Collectiuon?`,
         yesAlertFunc: () => {
           const payloadObj = modifyFilterRowDto.map((itm) => ({
@@ -130,7 +129,7 @@ export function TableRow({ saveHandler }) {
       };
       IConfirmModal(confirmObject);
     } else {
-      toast.warn("There is no unapprove partner name");
+      toast.warn('There is no unapprove partner name');
     }
   };
 
@@ -138,7 +137,7 @@ export function TableRow({ saveHandler }) {
   const singleApprovalndler = (index) => {
     const singleData = [rowDto?.[index]];
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to approve the selected Primary Collectiuon?`,
       yesAlertFunc: () => {
         const payloadObj = singleData.map((itm) => ({
@@ -259,7 +258,7 @@ export function TableRow({ saveHandler }) {
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "23px" }}>
+                          <th style={{ width: '23px' }}>
                             <input
                               type="checkbox"
                               id="parent"
@@ -319,7 +318,7 @@ export function TableRow({ saveHandler }) {
                             </td>
                             <td>
                               <div className="pl-2">
-                                {item?.isApproved === true ? "Yes" : "No"}
+                                {item?.isApproved === true ? 'Yes' : 'No'}
                               </div>
                             </td>
                             <td>

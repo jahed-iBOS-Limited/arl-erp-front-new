@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
+import React, { useEffect } from 'react';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
 
 export function ApprovalModal({
   currentRowData,
@@ -13,7 +13,6 @@ export function ApprovalModal({
     getViewData(
       `/procurement/RequestForQuotation/GetRequestForQuotationById?RequestForQuotationId=${currentRowData?.transectionId}`
     );
-
   }, [currentRowData]);
   return (
     <div>
@@ -37,7 +36,7 @@ export function ApprovalModal({
                       })
                     }
                     disabled={
-                      currentRowData?.csType !== "Item Wise CS" &&
+                      currentRowData?.csType !== 'Item Wise CS' &&
                       !viewData?.supplierRow?.some((item) => item?.isSelect)
                     }
                   >
@@ -53,7 +52,7 @@ export function ApprovalModal({
                       })
                     }
                     disabled={
-                      currentRowData?.csType !== "Item Wise CS" &&
+                      currentRowData?.csType !== 'Item Wise CS' &&
                       !viewData?.supplierRow?.some((item) => item?.isSelect)
                     }
                   >
@@ -69,8 +68,8 @@ export function ApprovalModal({
         <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
-              {currentRowData?.csType !== "Item Wise CS" ? (
-                <th style={{ width: "20px" }}>
+              {currentRowData?.csType !== 'Item Wise CS' ? (
+                <th style={{ width: '20px' }}>
                   <input
                     type="checkbox"
                     id="parent"
@@ -100,7 +99,7 @@ export function ApprovalModal({
             {viewData?.supplierRow?.length > 0 &&
               viewData?.supplierRow?.map((item, i) => (
                 <tr>
-                  {currentRowData?.csType !== "Item Wise CS" ? (
+                  {currentRowData?.csType !== 'Item Wise CS' ? (
                     <td>
                       <input
                         id="isSelect"
@@ -118,7 +117,6 @@ export function ApprovalModal({
                           });
                           setViewData({ ...viewData, supplierRow: modifyData });
                         }}
-
                       />
                     </td>
                   ) : null}

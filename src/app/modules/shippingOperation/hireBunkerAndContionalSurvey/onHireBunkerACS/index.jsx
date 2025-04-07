@@ -35,7 +35,6 @@ export default function OnHireBunkerAndContionalSurvey() {
 
   useEffect(() => {
     getLandingData({}, pageNo, pageSize);
-
   }, []);
 
   const getLandingData = (values, pageNo, pageSize) => {
@@ -56,7 +55,7 @@ export default function OnHireBunkerAndContionalSurvey() {
         values?.fromDate || _previousDate()
       }&ToDate=${
         values?.toDate || _todayDate()
-      }&pageNumber=${pageNo}&pageSize=${pageSize}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`,
+      }&pageNumber=${pageNo}&pageSize=${pageSize}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
     );
   };
 
@@ -66,7 +65,6 @@ export default function OnHireBunkerAndContionalSurvey() {
 
   useEffect(() => {
     getLandingData(initData, pageNo, pageSize);
-
   }, [selectedBusinessUnit]);
 
   const getVoyageDDL = (values) => {
@@ -134,7 +132,7 @@ export default function OnHireBunkerAndContionalSurvey() {
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
                           setVesselDDL,
-                          valueOption?.value === 2 ? 2 : '',
+                          valueOption?.value === 2 ? 2 : ''
                         );
                       } else {
                         getLandingData({}, pageNo, pageSize);
@@ -269,8 +267,8 @@ export default function OnHireBunkerAndContionalSurvey() {
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item?.strAttachment,
-                                      ),
+                                        item?.strAttachment
+                                      )
                                     );
                                   }}
                                   className="mt-2 ml-2"

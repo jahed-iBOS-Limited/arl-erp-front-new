@@ -1,4 +1,3 @@
-
 import Axios from 'axios';
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
@@ -61,7 +60,7 @@ const CustomDutyLanding = () => {
       pageSize,
       pageNo,
       setGridData,
-      setLoading,
+      setLoading
     );
   };
   useEffect(() => {
@@ -77,7 +76,7 @@ const CustomDutyLanding = () => {
       pageSize,
       pageNo,
       setGridData,
-      setLoading,
+      setLoading
     );
   };
 
@@ -85,7 +84,7 @@ const CustomDutyLanding = () => {
   const polcList = (v) => {
     if (v?.length < 3) return [];
     return Axios.get(
-      `/imp/ImportCommonDDL/GetPoNoForAllCharge?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${v}`,
+      `/imp/ImportCommonDDL/GetPoNoForAllCharge?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${v}`
     ).then((res) => res?.data);
   };
 
@@ -116,13 +115,13 @@ const CustomDutyLanding = () => {
                     onClick={() => {
                       gridData?.data?.length > 0
                         ? toast.warn(
-                            'Customs Duty for this Shipment is Already Created',
+                            'Customs Duty for this Shipment is Already Created'
                           )
                         : docReleaseStatusCheck(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
                             values?.poLc?.poId,
-                            values?.shipment?.value,
+                            values?.shipment?.value
                           ).then((res) => {
                             if (res?.data?.docReleaseStatus) {
                               return history.push({
@@ -151,7 +150,7 @@ const CustomDutyLanding = () => {
                               });
                             } else {
                               return toast.warn(
-                                'Please Create Document Release for this Shipment',
+                                'Please Create Document Release for this Shipment'
                               );
                             }
                           });
@@ -180,12 +179,12 @@ const CustomDutyLanding = () => {
                             profileData.accountId,
                             selectedBusinessUnit.value,
                             valueOption?.label,
-                            setShipmentDDL,
+                            setShipmentDDL
                           );
                           setFieldValue('shipment', '');
                           getGrid(
                             valueOption?.label,
-                            valueOption ? values?.shipment?.value : '',
+                            valueOption ? values?.shipment?.value : ''
                           );
                         }}
                         loadOptions={polcList || []}

@@ -1,30 +1,29 @@
-
-import { Form, Formik } from "formik";
-import React, { useRef, useState } from "react";
-import { useHistory } from "react-router";
-import * as Yup from "yup";
+import { Form, Formik } from 'formik';
+import React, { useRef, useState } from 'react';
+import { useHistory } from 'react-router';
+import * as Yup from 'yup';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import { empAttachment_action } from "../../../_helper/attachmentUpload";
-import placeholderImg from "../../../_helper/images/placeholderImg.png";
-import "./style.css";
+} from '../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import { empAttachment_action } from '../../../_helper/attachmentUpload';
+import placeholderImg from '../../../_helper/images/placeholderImg.png';
+import './style.css';
 
 const validationSchema = Yup.object().shape({
   warehouse: Yup.object().shape({
-    label: Yup.string().required("Warehouse is required"),
-    value: Yup.string().required("Warehouse is required"),
+    label: Yup.string().required('Warehouse is required'),
+    value: Yup.string().required('Warehouse is required'),
   }),
-  voucherNo: Yup.string().required("Voucher No is required"),
-  dteDate: Yup.string().required("Date is required"),
-  numAmount: Yup.number().required("Amount is required"),
+  voucherNo: Yup.string().required('Voucher No is required'),
+  dteDate: Yup.string().required('Date is required'),
+  numAmount: Yup.number().required('Amount is required'),
 });
 
 export default function FormCmp({
@@ -35,7 +34,7 @@ export default function FormCmp({
   resetBtnRef,
   setRowDto,
   attachmentFile,
-  setAttachmentFile
+  setAttachmentFile,
 }) {
   // const saveBtnRef = useRef();
   // const resetBtnRef = useRef();
@@ -63,7 +62,7 @@ export default function FormCmp({
           saveHandler(values, () => {
             resetForm(initData);
             setRowDto([]);
-            setAttachmentFile("");
+            setAttachmentFile('');
           });
         }}
       >
@@ -80,35 +79,33 @@ export default function FormCmp({
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader
-                title="Create Voucher"
-              >
+              <CardHeader title="Create Voucher">
                 <CardHeaderToolbar>
                   <>
                     <button
-                      type='reset'
+                      type="reset"
                       onClick={backHandler}
                       ref={resetBtnRef}
-                      className='btn btn-light ml-2'
+                      className="btn btn-light ml-2"
                     >
-                      <i className='fa fa-arrow-left'></i>
+                      <i className="fa fa-arrow-left"></i>
                       Back
                     </button>
                     <button
-                      type='reset'
+                      type="reset"
                       onClick={resetForm}
                       ref={resetBtnRef}
-                      className='btn btn-light ml-2'
+                      className="btn btn-light ml-2"
                     >
-                      <i className='fa fa-redo'></i>
+                      <i className="fa fa-redo"></i>
                       Reset
                     </button>
                     <button
-                      type='submit'
-                      className='btn btn-primary ml-2'
+                      type="submit"
+                      className="btn btn-primary ml-2"
                       onClick={handleSubmit}
-                    // ref={saveBtnRef}
-                    // disabled={!isAvailable}
+                      // ref={saveBtnRef}
+                      // disabled={!isAvailable}
                     >
                       Save
                     </button>
@@ -116,15 +113,15 @@ export default function FormCmp({
                 </CardHeaderToolbar>
               </CardHeader>
               <CardBody>
-                <Form className='form form-label-right voucher-create-wrapper'>
-                  <div className='row'>
-                    <div className='col-lg-6 d-flex align-items-center'>
-                      <span className='d-flex align-items-center mr-2'>
+                <Form className="form form-label-right voucher-create-wrapper">
+                  <div className="row">
+                    <div className="col-lg-6 d-flex align-items-center">
+                      <span className="d-flex align-items-center mr-2">
                         {/* <span className="ml-2">Enlisted Supplier</span> */}
                       </span>
                     </div>
-                    <div className='col-lg-12'>
-                      <div className='row global-form'>
+                    <div className="col-lg-12">
+                      <div className="row global-form">
                         <>
                           <div className="col-lg-3">
                             <NewSelect
@@ -132,7 +129,7 @@ export default function FormCmp({
                               options={whName}
                               value={values?.warehouse}
                               onChange={(valueOption) => {
-                                setFieldValue("warehouse", valueOption);
+                                setFieldValue('warehouse', valueOption);
                               }}
                               placeholder="Warehouse Name"
                               errors={errors}
@@ -174,16 +171,15 @@ export default function FormCmp({
                             <div
                               className={
                                 attachmentFile
-                                  ? "image-upload-box with-img"
-                                  : "image-upload-box"
+                                  ? 'image-upload-box with-img'
+                                  : 'image-upload-box'
                               }
                               style={{
-                                cursor: "pointer",
-                                position: "relative",
-                                height: "35px",
+                                cursor: 'pointer',
+                                position: 'relative',
+                                height: '35px',
                               }}
                               onClick={onButtonAttachmentClick}
-
                             >
                               <input
                                 onChange={(e) => {
@@ -193,19 +189,19 @@ export default function FormCmp({
                                         setAttachmentFile(data?.[0]?.id);
                                       })
                                       .catch((error) => {
-                                        setAttachmentFile("");
+                                        setAttachmentFile('');
                                       });
                                   }
                                 }}
                                 type="file"
                                 ref={inputAttachFile}
                                 id="file"
-                                style={{ display: "none" }}
+                                style={{ display: 'none' }}
                               />
                               <div>
                                 {!attachmentFile && (
                                   <img
-                                    style={{ maxWidth: "65px" }}
+                                    style={{ maxWidth: '65px' }}
                                     src={placeholderImg}
                                     className="img-fluid"
                                     alt="Upload or drag documents"
@@ -216,11 +212,11 @@ export default function FormCmp({
                                 <div className="d-flex align-items-center">
                                   <p
                                     style={{
-                                      fontSize: "12px",
-                                      color: "#0072E5",
-                                      fontWeight: "500",
-                                      cursor: "pointer",
-                                      margin: "0px",
+                                      fontSize: '12px',
+                                      color: '#0072E5',
+                                      fontWeight: '500',
+                                      cursor: 'pointer',
+                                      margin: '0px',
                                     }}
                                   >
                                     {attachmentFile}
@@ -234,16 +230,16 @@ export default function FormCmp({
                     </div>
                   </div>
                   <button
-                    type='submit'
-                    style={{ display: "none" }}
+                    type="submit"
+                    style={{ display: 'none' }}
                     ref={btnRef}
                     onSubmit={() => handleSubmit()}
                   ></button>
                   <button
-                    type='reset'
-                    style={{ display: "none" }}
+                    type="reset"
+                    style={{ display: 'none' }}
                     ref={resetBtnRef}
-                  // onSubmit={() => resetForm(initData)}
+                    // onSubmit={() => resetForm(initData)}
                   ></button>
                 </Form>
               </CardBody>

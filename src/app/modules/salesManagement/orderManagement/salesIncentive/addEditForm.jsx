@@ -27,12 +27,8 @@ export default function SalesIncentiveForm() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const [
-    incentiveData,
-    getIncentiveData,
-    loadIncentiveData,
-    setIncentiveData,
-  ] = useAxiosGet();
+  const [incentiveData, getIncentiveData, loadIncentiveData, setIncentiveData] =
+    useAxiosGet();
   const [, incentiveSave, loadIncentiveSave] = useAxiosPost();
   const [salesOrganizationList, getSalesOrganizationList] = useAxiosGet();
 
@@ -69,7 +65,7 @@ export default function SalesIncentiveForm() {
       `/oms/IncentiveConfig/SaveIncentiveConfig?intActionBy=${actionBy}`,
       payload,
       () => {},
-      true,
+      true
     );
   };
 
@@ -84,13 +80,12 @@ export default function SalesIncentiveForm() {
           };
         });
         setChannelDDL(ddl);
-      },
+      }
     );
 
     getSalesOrganizationList(
-      `/oms/BusinessUnitSalesOrganization/GetPartnerGroupFromSalesOrgDDL?AccountId=${accId}&BUnitId=${buId}`,
+      `/oms/BusinessUnitSalesOrganization/GetPartnerGroupFromSalesOrgDDL?AccountId=${accId}&BUnitId=${buId}`
     );
-
   }, [accId, buId]);
   return (
     <Formik
@@ -207,11 +202,11 @@ export default function SalesIncentiveForm() {
                       if (buId === 144) {
                         console.log('scope');
                         getEssentialLandingData(essentialRowDataApi, (data) =>
-                          console.log({ dataaa: data }),
+                          console.log({ dataaa: data })
                         );
                       } else {
                         getIncentiveData(api, (data) =>
-                          console.log({ api: data }),
+                          console.log({ api: data })
                         );
                       }
                     }}
@@ -323,8 +318,8 @@ export default function SalesIncentiveForm() {
                                   onChange={(e) => {
                                     if (+e.target.value < 0) return;
                                     const data = [...incentiveData];
-                                    data[index]['numIncentiveAmount'] = +e
-                                      .target.value;
+                                    data[index]['numIncentiveAmount'] =
+                                      +e.target.value;
                                     setIncentiveData(data);
                                   }}
                                 />

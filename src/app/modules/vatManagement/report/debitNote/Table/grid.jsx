@@ -1,9 +1,9 @@
-import moment from "moment";
-import React, { useRef } from "react";
-import { withRouter } from "react-router-dom";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import moment from 'moment';
+import React, { useRef } from 'react';
+import { withRouter } from 'react-router-dom';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 const GridData = ({ singleData, title, profileData, values }) => {
   const claculator = (arr, key) => {
     const total = arr?.reduce((acc, cur) => (acc += cur?.[key]), 0);
@@ -20,12 +20,12 @@ const GridData = ({ singleData, title, profileData, values }) => {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  style={{ padding: "2px 5px" }}
+                  style={{ padding: '2px 5px' }}
                 >
                   <img
                     style={{
-                      width: "25px",
-                      paddingRight: "5px",
+                      width: '25px',
+                      paddingRight: '5px',
                     }}
                     src={printIcon}
                     alt="print-icon"
@@ -82,8 +82,9 @@ const GridData = ({ singleData, title, profileData, values }) => {
             <div className="createNoteReportRight">
               <p className="p-0 m-0">
                 <strong>
-                  {title === "CREDIT NOTE" ? "Credit Note" : "Debit Note"} No:{" "}
-                </strong>{" "}
+                  {title === 'CREDIT NOTE' ? 'Credit Note' : 'Debit Note'}{' '}
+                  No:{' '}
+                </strong>{' '}
                 {values?.musok}
               </p>
               <p className="p-0 m-0">
@@ -95,8 +96,8 @@ const GridData = ({ singleData, title, profileData, values }) => {
               </p>
               <p className="p-0 m-0">
                 <b>
-                  Time of Issue:{" "}
-                  {moment(singleData?.objHeader?.taxPurchaseDate).format("LTS")}
+                  Time of Issue:{' '}
+                  {moment(singleData?.objHeader?.taxPurchaseDate).format('LTS')}
                 </b>
               </p>
             </div>
@@ -106,34 +107,34 @@ const GridData = ({ singleData, title, profileData, values }) => {
             <table className="table table-striped table-bordered mt-3">
               <thead>
                 <tr>
-                  <th style={{ width: "20px" }} rowspan="2">
+                  <th style={{ width: '20px' }} rowspan="2">
                     S/N
                   </th>
-                  <th style={{ width: "100px" }} rowspan="2">
+                  <th style={{ width: '100px' }} rowspan="2">
                     Orginal Tax Invoice No & Date
                   </th>
 
-                  <th style={{ width: "150px" }} rowspan="2">
+                  <th style={{ width: '150px' }} rowspan="2">
                     Details Of Supply
                   </th>
-                  <th style={{ width: "150px" }} colspan="4">
+                  <th style={{ width: '150px' }} colspan="4">
                     Mentioned Original Mushak-6.3
                   </th>
-                  <th style={{ width: "150px" }} rowspan="2">
+                  <th style={{ width: '150px' }} rowspan="2">
                     Total Price
                   </th>
-                  <th style={{ width: "150px" }} colspan="3">
+                  <th style={{ width: '150px' }} colspan="3">
                     Decreased Amount
                   </th>
                 </tr>
                 <tr>
-                  <th style={{ width: "150px" }}>Total Price</th>
-                  <th style={{ width: "150px" }}>Quantity</th>
-                  <th style={{ width: "150px" }}>Vat Amount</th>
-                  <th style={{ width: "150px" }}>SD Amount</th>
-                  <th style={{ width: "150px" }}>Quantity</th>
-                  <th style={{ width: "150px" }}>VAT Amount</th>
-                  <th style={{ width: "150px" }}>SD Amount</th>
+                  <th style={{ width: '150px' }}>Total Price</th>
+                  <th style={{ width: '150px' }}>Quantity</th>
+                  <th style={{ width: '150px' }}>Vat Amount</th>
+                  <th style={{ width: '150px' }}>SD Amount</th>
+                  <th style={{ width: '150px' }}>Quantity</th>
+                  <th style={{ width: '150px' }}>VAT Amount</th>
+                  <th style={{ width: '150px' }}>SD Amount</th>
                 </tr>
               </thead>
               <tbody>
@@ -157,13 +158,13 @@ const GridData = ({ singleData, title, profileData, values }) => {
                   );
                 })}
                 <tr>
-                  <td colspan="3" style={{ textAlign: "left !important" }}>
+                  <td colspan="3" style={{ textAlign: 'left !important' }}>
                     Total Amount:
                   </td>
-                  <td>{claculator(singleData?.objRow, "iGrandTotal")}</td>
-                  <td> {claculator(singleData?.objRow, "iQuantity")} </td>
-                  <td> {claculator(singleData?.objRow, "iVat")} </td>
-                  <td> {claculator(singleData?.objRow, "isd")} </td>
+                  <td>{claculator(singleData?.objRow, 'iGrandTotal')}</td>
+                  <td> {claculator(singleData?.objRow, 'iQuantity')} </td>
+                  <td> {claculator(singleData?.objRow, 'iVat')} </td>
+                  <td> {claculator(singleData?.objRow, 'isd')} </td>
                   <td>
                     {singleData?.objRow?.reduce(
                       (acc, cur) =>
@@ -171,9 +172,9 @@ const GridData = ({ singleData, title, profileData, values }) => {
                       0
                     )}
                   </td>
-                  <td> {claculator(singleData?.objRow, "dQuantity")} </td>
-                  <td> {claculator(singleData?.objRow, "dVat")} </td>
-                  <td> {claculator(singleData?.objRow, "dsd")} </td>
+                  <td> {claculator(singleData?.objRow, 'dQuantity')} </td>
+                  <td> {claculator(singleData?.objRow, 'dVat')} </td>
+                  <td> {claculator(singleData?.objRow, 'dsd')} </td>
                 </tr>
               </tbody>
               <tfoot>

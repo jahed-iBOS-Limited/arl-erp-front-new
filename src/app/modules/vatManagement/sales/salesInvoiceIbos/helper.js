@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
-import { toast } from "react-toastify";
-import shortid from "shortid";
+import Axios from 'axios';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 //getTaxBranchDDL_api
 export const getTaxBranchDDL_api = async (userId, accid, buid, setter) => {
   try {
@@ -12,7 +12,7 @@ export const getTaxBranchDDL_api = async (userId, accid, buid, setter) => {
       const modify = res?.data;
       const all = {
         value: 0,
-        label: "All",
+        label: 'All',
       };
       modify.unshift(all);
       setter(modify);
@@ -65,10 +65,10 @@ export const getDeliveryInfoByDeliveryNum_api = async (
       `/vat/TaxSalesInvoiceIbos/GetDeliveryInfoByDeliveryNum?AccountId=${accId}&BusinessUnitId=${buId}&DeliveryCode=${deliveryCode}`
     );
     if (res.status === 200 && res?.data) {
-      setFieldValue("shiptoPartnerAddress", res?.data[0]?.shipToPartnerAddress);
-      setFieldValue("vehicleNo", res?.data[0]?.deliveryCode);
+      setFieldValue('shiptoPartnerAddress', res?.data[0]?.shipToPartnerAddress);
+      setFieldValue('vehicleNo', res?.data[0]?.deliveryCode);
       setFieldValue(
-        "actualDeliveryDate",
+        'actualDeliveryDate',
         _dateFormatter(res?.data[0]?.deliveryDate)
       );
     }
@@ -99,7 +99,7 @@ export const createSalesInvoiceIbos_api = async (
       data
     );
     if (res.status === 200) {
-      toast.success("Submitted Successfully", {
+      toast.success('Submitted Successfully', {
         toastId: shortid(),
       });
       cb();
@@ -110,21 +110,21 @@ export const createSalesInvoiceIbos_api = async (
     toast.error(error?.response?.data?.message);
   }
 };
-export const AutoTaxCompleteApi = async (deliveryId, buid,setLoading, cb) => {
+export const AutoTaxCompleteApi = async (deliveryId, buid, setLoading, cb) => {
   try {
-    setLoading(true)
+    setLoading(true);
     const res = await Axios.put(
       `/vat/SalesInformationReport/AutoTaxComplete?deliveryId=${deliveryId}&BusinessUnitId=${buid}`
     );
     if (res.status === 200) {
-      setLoading(false)
-      toast.success("Submitted Successfully", {
+      setLoading(false);
+      toast.success('Submitted Successfully', {
         toastId: shortid(),
       });
       cb();
     }
   } catch (error) {
-    setLoading(false)
+    setLoading(false);
     toast.error(error?.response?.data?.message);
   }
 };
@@ -138,24 +138,24 @@ export const createSalesInvoiceIbosPrint_api = async (
   setRowDto,
   setLoading
 ) => {
-  setRowDto &&setLoading(true);
+  setRowDto && setLoading(true);
   try {
     const res = await Axios.post(
       `/vat/TaxSalesInvoiceIbos/CreateSalesInvoiceIbos`,
       data
     );
-    setRowDto &&setLoading(false);
+    setRowDto && setLoading(false);
     if (res.status === 200) {
-      toast.success("Submitted Successfully", {
+      toast.success('Submitted Successfully', {
         toastId: shortid(),
       });
       GetTaxSalesInvoiceById(res?.data?.key, setTaxSalesInvoiceById);
       setModelShow(true);
       setRowDto(updateRowDto);
     }
-    setRowDto &&setLoading(false);
+    setRowDto && setLoading(false);
   } catch (error) {
-    setRowDto &&setLoading(false);
+    setRowDto && setLoading(false);
     toast.error(error?.response?.data?.message);
   }
 };
@@ -175,7 +175,7 @@ export const getSalesInvoiceIbosPagination_api = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
 
     const res = await Axios.get(
       `/vat/TaxSalesInvoiceIbos/GetSalesInvoiceIbosSearchPagination?${searchPath}accountId=${accId}&businessUnitId=${buId}&taxBranchId=${taxBranchId}&status=true&fromdate=${fromDate}&todate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
@@ -197,16 +197,15 @@ export const GetTaxSalesInvoiceListApi = async (
   fromDate,
   toDate,
   setter,
-  setLoading,
+  setLoading
 ) => {
   try {
     setLoading(true);
     const res = await Axios.get(
       `/vat/TaxSalesInvoice/GetTaxSalesInvoiceList?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}`
     );
-      setter(res?.data);
-      setLoading(false);
-    
+    setter(res?.data);
+    setLoading(false);
   } catch (error) {
     setter([]);
     setLoading(false);
@@ -225,7 +224,7 @@ export const getSalesInvoiceIbosSearchPaginationShippointId = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
 
     const res = await Axios.get(
       `/vat/TaxSalesInvoiceIbos/GetSalesInvoiceIbosSearchPaginationShippointId?${searchPath}accountId=${accId}&businessUnitId=${buId}&shippointId=${shippointId}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
@@ -252,7 +251,7 @@ export const getDetailTaxPendingDeliveryList = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = search ? `search=${search}&` : "";
+    const searchPath = search ? `search=${search}&` : '';
 
     const res = await Axios.get(
       `/vat/TaxDDL/GetDetailTaxPendingDeliveryList?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&ShippointId=${shippointId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`

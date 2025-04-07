@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getOutletAttributeLanding = async (
   accountId,
@@ -20,7 +20,6 @@ export const getOutletAttributeLanding = async (
     }
   } catch (error) {
     setLoading(false);
-
   }
 };
 
@@ -32,12 +31,11 @@ export const saveOutletAttribute = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
@@ -51,11 +49,10 @@ export const editOutletAttribute = async (data, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {
-
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
@@ -68,7 +65,6 @@ export const getOutletAttributeSigleData = async (ProfileId, setter) => {
     );
 
     let {
-
       outletAttributeId,
       outletAttributeName,
 
@@ -86,13 +82,11 @@ export const getOutletAttributeSigleData = async (ProfileId, setter) => {
 
     let obj = {
       profileTypeName: outletAttributeName,
-      controlName: {label:uicontrolType ,value:uicontrolType} || "" ,
-      isMandatory:isMandatory,
+      controlName: { label: uicontrolType, value: uicontrolType } || '',
+      isMandatory: isMandatory,
       row,
     };
     setter(obj);
     console.log(obj);
-  } catch (error) {
-
-  }
+  } catch (error) {}
 };

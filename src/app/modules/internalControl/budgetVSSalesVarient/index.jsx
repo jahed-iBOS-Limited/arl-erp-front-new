@@ -1,22 +1,22 @@
-import { Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import InputField from "../../_helper/_inputField";
-import Loading from "../../_helper/_loading";
-import NewSelect from "../../_helper/_select";
+} from '../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../_helper/customHooks/useAxiosGet';
+import InputField from '../../_helper/_inputField';
+import Loading from '../../_helper/_loading';
+import NewSelect from '../../_helper/_select';
 
 const initData = {
-  month: "",
-  monthId: "",
-  yearId: "",
-  currentBusinessUnit: "",
+  month: '',
+  monthId: '',
+  yearId: '',
+  currentBusinessUnit: '',
 };
 const BudgetVsSalesVarient = () => {
   const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
@@ -25,8 +25,8 @@ const BudgetVsSalesVarient = () => {
   }, shallowEqual);
 
   const getMonth = (monthNumber) => {
-    return new Date(2021, monthNumber, 0).toLocaleString("default", {
-      month: "long",
+    return new Date(2021, monthNumber, 0).toLocaleString('default', {
+      month: 'long',
     });
   };
 
@@ -54,7 +54,7 @@ const BudgetVsSalesVarient = () => {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Budget vs Sales Variance"}></CardHeader>
+              <CardHeader title={'Budget vs Sales Variance'}></CardHeader>
               <CardBody>
                 {lodar && <Loading />}
                 <div className="form-group  global-form">
@@ -67,13 +67,13 @@ const BudgetVsSalesVarient = () => {
                         label="Business Unit"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("currentBusinessUnit", valueOption);
+                            setFieldValue('currentBusinessUnit', valueOption);
                             setRowData([]);
                           } else {
-                            setFieldValue("currentBusinessUnit", "");
-                            setFieldValue("yearId", "");
-                            setFieldValue("monthId", "");
-                            setFieldValue("month", "");
+                            setFieldValue('currentBusinessUnit', '');
+                            setFieldValue('yearId', '');
+                            setFieldValue('monthId', '');
+                            setFieldValue('month', '');
                             setRowData([]);
                           }
                         }}
@@ -92,20 +92,14 @@ const BudgetVsSalesVarient = () => {
                         value={values?.month}
                         onChange={(e) => {
                           setFieldValue(
-                            "monthId",
-                            +e.target.value
-                              .split("")
-                              .slice(-2)
-                              .join("")
+                            'monthId',
+                            +e.target.value.split('').slice(-2).join('')
                           );
                           setFieldValue(
-                            "yearId",
-                            +e.target.value
-                              .split("")
-                              .slice(0, 4)
-                              .join("")
+                            'yearId',
+                            +e.target.value.split('').slice(0, 4).join('')
                           );
-                          setFieldValue("month", e.target.value);
+                          setFieldValue('month', e.target.value);
                           setRowData([]);
                         }}
                         errors={errors}
@@ -114,7 +108,7 @@ const BudgetVsSalesVarient = () => {
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "20px" }}
+                        style={{ marginTop: '20px' }}
                         className="btn btn-primary ml-2"
                         disabled={
                           !values?.currentBusinessUnit || !values?.month
@@ -136,7 +130,7 @@ const BudgetVsSalesVarient = () => {
                       <div className="text-center">
                         <h2>{values?.currentBusinessUnit?.label}</h2>
                         <h5>
-                          Budget vs Sales Variance For{" "}
+                          Budget vs Sales Variance For{' '}
                           {getMonth(values?.monthId)}-{values?.yearId}
                         </h5>
                       </div>
@@ -144,7 +138,7 @@ const BudgetVsSalesVarient = () => {
                         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                           <thead>
                             <tr>
-                              <th rowSpan={2} style={{ width: "30px" }}>
+                              <th rowSpan={2} style={{ width: '30px' }}>
                                 SL
                               </th>
                               <th rowSpan={2}>Item Code</th>

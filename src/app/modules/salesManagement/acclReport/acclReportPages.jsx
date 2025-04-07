@@ -1,10 +1,10 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
 // import { shallowEqual, useSelector } from "react-redux";
-import { ContentRoute } from "../../../../_metronic/layout";
-import CustomerChallanFromGhat from "./customerChallanFromGhat/Table/table";
-import ProductPrice from "./productPrice/Table/table";
-import { TransferChallan } from "./transferChallan/Table/table";
+import { ContentRoute } from '../../../../_metronic/layout';
+import CustomerChallanFromGhat from './customerChallanFromGhat/Table/table';
+import ProductPrice from './productPrice/Table/table';
+import { TransferChallan } from './transferChallan/Table/table';
 // import findIndex from "../../_helper/_findIndex";
 
 export function AcclReportPages() {

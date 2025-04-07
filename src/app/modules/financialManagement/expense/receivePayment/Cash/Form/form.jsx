@@ -1,45 +1,45 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Select from "react-select";
-import customStyles from "../../../../../selectCustomStyle";
-import { IInput } from "../../../../../_helper/_input";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Select from 'react-select';
+import customStyles from '../../../../../selectCustomStyle';
+import { IInput } from '../../../../../_helper/_input';
 
-import FormikError from "../../../../../_helper/_formikError";
+import FormikError from '../../../../../_helper/_formikError';
 
 const transferJournal = Yup.object().shape({
   headerNarration: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .max(10000000000000000000, "Maximum 10000000000000000000 symbols")
-    .required("Narration required"),
+    .min(1, 'Minimum 1 symbols')
+    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols')
+    .required('Narration required'),
 
   narration: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .max(10000000000000000000, "Maximum 10000000000000000000 symbols")
-    .required("Narration required"),
+    .min(1, 'Minimum 1 symbols')
+    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols')
+    .required('Narration required'),
 
   amount: Yup.number()
-    .min(1, "Minimum 1 Number")
-    .max(10000000000000000000, "Maximum 10000000000000000000 Numbers")
-    .required("Amount required"),
+    .min(1, 'Minimum 1 Number')
+    .max(10000000000000000000, 'Maximum 10000000000000000000 Numbers')
+    .required('Amount required'),
 
   SBU: Yup.object().shape({
-    label: Yup.string().required("SBU is required"),
-    value: Yup.string().required("SBU is required"),
+    label: Yup.string().required('SBU is required'),
+    value: Yup.string().required('SBU is required'),
   }),
 
   cashGLPlus: Yup.object().shape({
-    label: Yup.string().required("Cash GL is required"),
-    value: Yup.string().required("Cash GL is required"),
+    label: Yup.string().required('Cash GL is required'),
+    value: Yup.string().required('Cash GL is required'),
   }),
 
   profitCenter: Yup.object().shape({
-    label: Yup.string().required("Profit Center is required"),
-    value: Yup.string().required("Profit Center is required"),
+    label: Yup.string().required('Profit Center is required'),
+    value: Yup.string().required('Profit Center is required'),
   }),
   transaction: Yup.object().shape({
-    label: Yup.string().required("Transaction is required"),
-    value: Yup.string().required("Transaction is required"),
+    label: Yup.string().required('Transaction is required'),
+    value: Yup.string().required('Transaction is required'),
   }),
 });
 
@@ -125,7 +125,7 @@ export default function FormCmp({
                         styles={customStyles}
                         placeholder="Select SBU"
                         onChange={(valueOption) => {
-                          setFieldValue("SBU", valueOption);
+                          setFieldValue('SBU', valueOption);
                         }}
                       />
                       <FormikError
@@ -148,7 +148,7 @@ export default function FormCmp({
                         styles={customStyles}
                         placeholder="Select Cash GL"
                         onChange={(valueOption) => {
-                          setFieldValue("cashGLPlus", valueOption);
+                          setFieldValue('cashGLPlus', valueOption);
                         }}
                       />
                       <FormikError
@@ -178,7 +178,7 @@ export default function FormCmp({
                         styles={customStyles}
                         placeholder="Select Profit Center"
                         onChange={(valueOption) => {
-                          setFieldValue("profitCenter", valueOption);
+                          setFieldValue('profitCenter', valueOption);
                         }}
                       />
                       <FormikError
@@ -201,9 +201,9 @@ export default function FormCmp({
                         styles={customStyles}
                         placeholder="Select Transaction"
                         onChange={(valueOption) => {
-                          setFieldValue("transaction", valueOption);
+                          setFieldValue('transaction', valueOption);
                           setFieldValue(
-                            "GLInfo",
+                            'GLInfo',
                             `${valueOption?.generalLedgerCode}, ${valueOption?.generalLedgerName} `
                           );
                         }}
@@ -248,25 +248,25 @@ export default function FormCmp({
                 <div className="col-lg-3">
                   <div
                     className="receivepayment_Info"
-                    style={{ background: "#dde3e8" }}
+                    style={{ background: '#dde3e8' }}
                   >
                     <ul
                       style={{
-                        listStyle: "none",
-                        padding: "15px 0 15px 20px",
+                        listStyle: 'none',
+                        padding: '15px 0 15px 20px',
                         margin: 0,
-                        fontSize: "12px",
+                        fontSize: '12px',
                       }}
                     >
                       {headerData?.values?.transactionType?.value === 2 ? (
                         <li className="pb-1">
-                          <b>Employee Info:</b>{" "}
+                          <b>Employee Info:</b>{' '}
                           {headerData?.values?.employeeEnroll?.label}
                         </li>
                       ) : (
                         <>
                           <li className="pb-1">
-                            <b>Employee Info:</b>{" "}
+                            <b>Employee Info:</b>{' '}
                             {referenceTypeName?.employeeName}
                           </li>
                           <li className="pb-1">
@@ -274,7 +274,7 @@ export default function FormCmp({
                             {referenceTypeName?.advancedAmount}
                           </li>
                           <li className="pb-1">
-                            <b>Previous Adjusted: </b>{" "}
+                            <b>Previous Adjusted: </b>{' '}
                             {referenceTypeName?.adjustedAmount}
                           </li>
                           <li className="pb-1">
@@ -291,14 +291,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

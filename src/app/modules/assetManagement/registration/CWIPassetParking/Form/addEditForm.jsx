@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import IForm from "../../../../_helper/_form";
-import "../assetParking.css";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
+import '../assetParking.css';
 import {
-  getAssignToDDL, getDepartmenttDDL, getItemAttributeforCreate, getItemDDLforCreate, getresponsiblePersonDDL, getSingleDataForEdit, getSupplierDDLforCreate, saveAssetForData
-} from "../helper";
-import Form from "./form";
+  getAssignToDDL,
+  getDepartmenttDDL,
+  getItemAttributeforCreate,
+  getItemDDLforCreate,
+  getresponsiblePersonDDL,
+  getSingleDataForEdit,
+  getSupplierDDLforCreate,
+  saveAssetForData,
+} from '../helper';
+import Form from './form';
 
-export default function AssetListForm({ currentRowData ,setIsShowModal }) {
+export default function AssetListForm({ currentRowData, setIsShowModal }) {
   const location = useLocation();
   const [isDisabled, setDisabled] = useState(false);
 
@@ -30,7 +37,7 @@ export default function AssetListForm({ currentRowData ,setIsShowModal }) {
   const [supplierList, setSupplierList] = useState([]);
   const [itemAttribute, setItemAttribute] = useState([]);
 
-  console.log(currentRowData, 'currentRowData')
+  console.log(currentRowData, 'currentRowData');
 
   useEffect(() => {
     getSingleDataForEdit(
@@ -75,7 +82,6 @@ export default function AssetListForm({ currentRowData ,setIsShowModal }) {
       selectedBusinessUnit?.value,
       setItemAttribute
     );
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const onChangeForItem = (item) => {
@@ -92,54 +98,58 @@ export default function AssetListForm({ currentRowData ,setIsShowModal }) {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       const payload = {
         assetId: currentRowData?.intAssetId || 0,
-        assetDescription: values?.assetDes || "",
+        assetDescription: values?.assetDes || '',
         accountId: profileData?.accountId || 0,
         plantId: currentRowData?.intPlantId || 0,
-        plantName: currentRowData?.strPlantName || "",
+        plantName: currentRowData?.strPlantName || '',
         businessUnitId: selectedBusinessUnit?.value || 0,
-        businessUnitName: selectedBusinessUnit?.label || "",
+        businessUnitName: selectedBusinessUnit?.label || '',
         sbuId: currentRowData?.intSbuId || 0,
-        sbuName: currentRowData?.strSbuName || "",
+        sbuName: currentRowData?.strSbuName || '',
         warehouseId: currentRowData?.intWarehouseId || 0,
-        warehouseName: currentRowData?.strWarehouseName || "",
+        warehouseName: currentRowData?.strWarehouseName || '',
         itemId: values?.itemName?.value || 0,
-        itemCode: values?.itemName?.code || "",
-        itemName: values?.itemName?.label || "",
-        nameManufacturer: values?.manuName || "",
-        inventoryTransectionId:0,
-        countryOrigin: values?.countryOrigin || "",
+        itemCode: values?.itemName?.code || '',
+        itemName: values?.itemName?.label || '',
+        nameManufacturer: values?.manuName || '',
+        inventoryTransectionId: 0,
+        countryOrigin: values?.countryOrigin || '',
         supplierId: values?.businessPartnerName?.value || 0,
-        supplierName: values?.businessPartnerName?.label || "",
+        supplierName: values?.businessPartnerName?.label || '',
         poId: 0,
-        poNo: values?.referenceCode || "",
+        poNo: values?.referenceCode || '',
         acquisitionDate: values?.transactionDate,
         numInvoiceValue: +values?.transactionValue || 0,
         numOtherCost: 0,
         numAcquisitionValue: +values?.acquisitionValue || 0,
         numBookValue: 0,
         numTotalDepValue: +values?.depriValue || 0,
-        depRunDate: values?.depriRunDate || "",
-        warrentyEndDate: values?.warrentyEnd || "",
-        location: values?.location || "",
+        depRunDate: values?.depriRunDate || '',
+        warrentyEndDate: values?.warrentyEnd || '',
+        location: values?.location || '',
         useTypeId: values?.usageType?.value || 0,
-        useTypeName: values?.usageType?.label || "",
+        useTypeName: values?.usageType?.label || '',
         useStatusId: 0,
         usingEmployeeId: values?.assignTo?.value || 0,
-        usingEmployeName: values?.assignTo?.label || "",
+        usingEmployeName: values?.assignTo?.label || '',
         usingDepartmentId: values?.departnemt?.value || 0,
-        departmentName: values?.departnemt?.label || "",
+        departmentName: values?.departnemt?.label || '',
         responsibleEmployeeId: values?.resPerson?.value || 0,
-        responsibleEmpName: values?.resPerson?.label || "",
+        responsibleEmpName: values?.resPerson?.label || '',
         actionBy: profileData?.userId,
-        assetTypeName: currentRowData?.strAssetTypeName || "",
+        assetTypeName: currentRowData?.strAssetTypeName || '',
         depRate: currentRowData?.numDepRate || 0,
         serialNo: values?.strManufacturerSerialNo,
-        brtaVehicelTypeId: currentRowData?.intBrtaVehicelTypeId || 0
+        brtaVehicelTypeId: currentRowData?.intBrtaVehicelTypeId || 0,
       };
-      saveAssetForData(payload, ()=>{
-        setItemAttribute([]);
-        setIsShowModal(false);
-      } , setDisabled);
+      saveAssetForData(
+        payload,
+        () => {
+          setItemAttribute([]);
+          setIsShowModal(false);
+        },
+        setDisabled
+      );
     } else {
       setDisabled(false);
     }

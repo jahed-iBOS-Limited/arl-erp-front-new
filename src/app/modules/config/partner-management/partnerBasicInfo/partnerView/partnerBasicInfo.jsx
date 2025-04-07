@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function PartnerBasicInfo({ basicInfo }) {
   return (
@@ -7,76 +7,66 @@ export default function PartnerBasicInfo({ basicInfo }) {
       <hr />
       <div class="row mt-6">
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }} >
-            Business Partner Name
-          </label>
+          <label style={{ fontWeight: 'bold' }}>Business Partner Name</label>
           <div>{basicInfo?.businessPartnerName}</div>
         </div>
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }} >
-            Partner Type
-          </label>
+          <label style={{ fontWeight: 'bold' }}>Partner Type</label>
           <div>{basicInfo?.businessPartnerTypeName}</div>
         </div>
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }} >Partner Address</label>
+          <label style={{ fontWeight: 'bold' }}>Partner Address</label>
           <div>{basicInfo?.businessPartnerAddress}</div>
         </div>
       </div>
       <div class="row mt-6">
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }} >
-          Proprietor Name
-          </label>
+          <label style={{ fontWeight: 'bold' }}>Proprietor Name</label>
           <div>{basicInfo?.propitor}</div>
         </div>
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }} >
-          Contact Number (Propretor)
+          <label style={{ fontWeight: 'bold' }}>
+            Contact Number (Propretor)
           </label>
           <div>{basicInfo?.contactNumber}</div>
         </div>
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }} >Contact (Person)</label>
+          <label style={{ fontWeight: 'bold' }}>Contact (Person)</label>
           <div>{basicInfo?.contactPerson}</div>
         </div>
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }} >Contact Number(Person)</label>
+          <label style={{ fontWeight: 'bold' }}>Contact Number(Person)</label>
           <div>{basicInfo?.contactNumber2}</div>
         </div>
       </div>
       <div class="row mt-6">
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }} >
-          Bin (Optional)
-          </label>
+          <label style={{ fontWeight: 'bold' }}>Bin (Optional)</label>
           <div>{basicInfo?.bin}</div>
         </div>
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }} >
-          Email
-          </label>
+          <label style={{ fontWeight: 'bold' }}>Email</label>
           <div>{basicInfo?.email}</div>
         </div>
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }} >license Number</label>
+          <label style={{ fontWeight: 'bold' }}>license Number</label>
           <div>{basicInfo?.licenseNo}</div>
         </div>
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }} >State Division (Optional)</label>
+          <label style={{ fontWeight: 'bold' }}>
+            State Division (Optional)
+          </label>
           <div>{basicInfo?.divisionName}</div>
         </div>
       </div>
       <div class="row mt-6">
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }} >
-          City District(Optional)
-          </label>
+          <label style={{ fontWeight: 'bold' }}>City District(Optional)</label>
           <div>{basicInfo?.districtName}</div>
         </div>
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }} >
-          Police Station (Optional)
+          <label style={{ fontWeight: 'bold' }}>
+            Police Station (Optional)
           </label>
           <div>{basicInfo?.upazilaName}</div>
         </div>

@@ -65,20 +65,18 @@ export default function FormCmp({
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setDisabled,
-      setPortDDL,
+      setPortDDL
     );
     GetBankDDL(setBankDDL, profileData?.accountId, selectedBusinessUnit?.value);
     currencyTypeDDLAction(setCurrencyDDL);
-
   }, []);
 
   useEffect(() => {
     if (location?.state?.bankId) {
       getAccountDDL(
-        `/imp/ImportCommonDDL/GetBankAccountIdNameDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BankId=${location?.state?.bankId}`,
+        `/imp/ImportCommonDDL/GetBankAccountIdNameDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BankId=${location?.state?.bankId}`
       );
     }
-
   }, [location?.state?.bankId]);
 
   return (
@@ -214,7 +212,7 @@ export default function FormCmp({
                         if (valueOption) {
                           setFieldValue('bankName', valueOption);
                           getAccountDDL(
-                            `/imp/ImportCommonDDL/GetBankAccountIdNameDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BankId=${valueOption?.value}`,
+                            `/imp/ImportCommonDDL/GetBankAccountIdNameDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BankId=${valueOption?.value}`
                           );
                         } else {
                           setFieldValue('bankName', '');
@@ -317,7 +315,7 @@ export default function FormCmp({
                         setFieldValue('currency', valueOption);
                         setFieldValue(
                           'exchangeRate',
-                          valueOption?.label === 'Taka' ? 1 : '',
+                          valueOption?.label === 'Taka' ? 1 : ''
                         );
                         setFieldValue('PIAmountFC', '');
                         setFieldValue('PIAmountBDT', '');
@@ -326,7 +324,7 @@ export default function FormCmp({
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
-                    // isDisabled={viewType === "view" || forDisable?.currencyId}
+                      // isDisabled={viewType === "view" || forDisable?.currencyId}
                     />
                     {/* <label>Currency</label>
                     <InputField
@@ -351,8 +349,8 @@ export default function FormCmp({
                           'PIAmountBDT',
                           values?.PIAmountFC
                             ? (+valueOption.target.value ||
-                              +initData?.PIAmountFC) * +values?.exchangeRate
-                            : '',
+                                +initData?.PIAmountFC) * +values?.exchangeRate
+                            : ''
                         );
                       }}
                       disabled={
@@ -372,17 +370,16 @@ export default function FormCmp({
                       onChange={(e) => {
                         setFieldValue(
                           'exchangeRate',
-                          e?.target.value ? Number(e.target.value) : '',
+                          e?.target.value ? Number(e.target.value) : ''
                         );
                         setFieldValue(
                           'PIAmountBDT',
                           e?.target.value
                             ? values?.PIAmountFC *
-                            (Number(e?.target?.value) ||
-                              initData?.exchangeRate)
-                            : '',
+                                (Number(e?.target?.value) ||
+                                  initData?.exchangeRate)
+                            : ''
                         );
-
                       }}
                       disabled={
                         viewType === 'view' ||
@@ -395,7 +392,6 @@ export default function FormCmp({
                     <label>PI Amount (BDT)</label>
                     <InputField
                       value={values?.PIAmountBDT}
-
                       name="PIAmountBDT"
                       placeholder="PI Amount (BDT)"
                       type="number"
@@ -491,7 +487,7 @@ export default function FormCmp({
                       value={values?.lcMarginValue}
                       name="lcMarginValue"
                       type="number"
-                    // disabled
+                      // disabled
                     />
                   </div>
                   <div className="col-lg-3">
@@ -533,7 +529,7 @@ export default function FormCmp({
                   <div
                     className="col-auto"
                     style={{ marginTop: '26px' }}
-                  // marginLeft: "20px"
+                    // marginLeft: "20px"
                   >
                     <button
                       className="btn btn-primary"
@@ -544,7 +540,7 @@ export default function FormCmp({
                           selectedBusinessUnit?.value,
                           values,
                           setCalculationFormData,
-                          setLoading,
+                          setLoading
                         );
                       }}
                       disabled={
@@ -572,14 +568,14 @@ export default function FormCmp({
                     <div
                       className="col-lg-2"
                       style={{ marginTop: '26px' }}
-                    // marginLeft: "20px"
+                      // marginLeft: "20px"
                     >
                       <button
                         className="btn btn-primary d-flex"
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.attachment),
+                            getDownlloadFileView_Action(values?.attachment)
                           );
                         }}
                       >
@@ -621,7 +617,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

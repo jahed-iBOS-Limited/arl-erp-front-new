@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { getSBUDDL, getPlantDDL, getWareDDL, transGrupDDL } from "../helper";
-import { useHistory } from "react-router-dom";
-import { getGridDataAction } from "../_redux/Actions";
-import Loading from "../../../../_helper/_loading";
-import GridData from "./grid";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import InputField from "../../../../_helper/_inputField";
-import { setInvTransactionAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { getSBUDDL, getPlantDDL, getWareDDL, transGrupDDL } from '../helper';
+import { useHistory } from 'react-router-dom';
+import { getGridDataAction } from '../_redux/Actions';
+import Loading from '../../../../_helper/_loading';
+import GridData from './grid';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import InputField from '../../../../_helper/_inputField';
+import { setInvTransactionAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 // import { values } from "lodash";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
 const initData = {
-  sbu: "",
-  plant: "",
-  warehouse: "",
-  transGrup: "",
+  sbu: '',
+  plant: '',
+  warehouse: '',
+  transGrup: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-}
+};
 
 export default function HeaderForm() {
   let [controlls, setControlls] = useState([]);
@@ -97,7 +97,6 @@ export default function HeaderForm() {
         getWarehouseDDL(invTransaction?.plant?.value);
       }
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   // Get warehouse ddl on plant ddl onChange
@@ -154,32 +153,31 @@ export default function HeaderForm() {
   useEffect(() => {
     setControlls([
       {
-        label: "SBU",
-        name: "sbu",
+        label: 'SBU',
+        name: 'sbu',
         options: sbuDDL,
       },
       {
-        label: "Plant",
-        name: "plant",
+        label: 'Plant',
+        name: 'plant',
         options: plantDDL,
         dependencyFunc: (payload, allvalues, setter) => {
           getWarehouseDDL(payload);
-          setter("warehouse", "");
+          setter('warehouse', '');
         },
       },
       {
-        label: "Warehouse",
-        name: "warehouse",
+        label: 'Warehouse',
+        name: 'warehouse',
         options: wareHouseDDL,
-        isDisabled: ["plant"],
+        isDisabled: ['plant'],
       },
       {
-        label: "Transaction Group",
-        name: "transGrup",
+        label: 'Transaction Group',
+        name: 'transGrup',
         options: transGroupDDL,
       },
     ]);
-
   }, [sbuDDL, plantDDL, wareHouseDDL, transGroupDDL]);
 
   const paginationSearchHandler = (searchValue, values) => {
@@ -191,7 +189,7 @@ export default function HeaderForm() {
       {loading && <Loading />}
       <Formik
         enableReinitialize={true}
-        initialValues={{...initData, ...invTransaction}}
+        initialValues={{ ...initData, ...invTransaction }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
@@ -199,7 +197,7 @@ export default function HeaderForm() {
           <>
             <Form className="form form-label-right">
               <div
-                style={{ marginTop: "-65px", paddingBottom: "38px" }}
+                style={{ marginTop: '-65px', paddingBottom: '38px' }}
                 className="text-right"
               >
                 {/* <button
@@ -231,7 +229,7 @@ export default function HeaderForm() {
                     //!values?.toDate
                   }
                   type="button"
-                  style={{ transform: "translateY(24px)" }}
+                  style={{ transform: 'translateY(24px)' }}
                   className="btn btn-primary ml-3"
                   onClick={() => {
                     history.push({
@@ -315,7 +313,12 @@ export default function HeaderForm() {
                 paginationSearchHandler={paginationSearchHandler}
                 values={values}
               />
-              <GridData setLoading={setLoading} viewGridData={viewGridData} values={values} setPositionHandler={setPositionHandler} />
+              <GridData
+                setLoading={setLoading}
+                viewGridData={viewGridData}
+                values={values}
+                setPositionHandler={setPositionHandler}
+              />
               {/* Pagination Code */}
               {gridData?.data?.length > 0 && (
                 <PaginationTable

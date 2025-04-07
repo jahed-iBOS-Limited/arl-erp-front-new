@@ -31,7 +31,6 @@ const FormCmp = ({
     getIssueDDL(`/wms/CustomerDeliveryInquery/GetIssueTypeDDL`, (data) => {
       console.log('data', data);
     });
-
   }, []);
   return (
     <>
@@ -224,7 +223,7 @@ const FormCmp = ({
                         challanVerificationFunc({
                           ...values,
                           challanNo: e.target.value,
-                        }),
+                        })
                       );
                     }}
                   />
@@ -243,7 +242,7 @@ const FormCmp = ({
                         challanVerificationFunc({
                           ...values,
                           challanVerification: e.target.value,
-                        }),
+                        })
                       );
                     }}
                   />

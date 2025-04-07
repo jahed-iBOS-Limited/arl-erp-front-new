@@ -1,24 +1,23 @@
-
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import RentalVehicleViewForm from "../extranalModalView/addEditForm";
-import { approveItems, getExternalData, getInternalData } from "../helper";
-import ShipmentCostAuditApproveViewForm from "../intranalModalView/addEditForm";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import RentalVehicleViewForm from '../extranalModalView/addEditForm';
+import { approveItems, getExternalData, getInternalData } from '../helper';
+import ShipmentCostAuditApproveViewForm from '../intranalModalView/addEditForm';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  isBillSubmit: "",
+  isBillSubmit: '',
 };
 
 function ShipmentCostEntryLanding() {
@@ -95,7 +94,7 @@ function ShipmentCostEntryLanding() {
 
   const saveHandler = (cb) => {
     const checkedItems = gridData?.data?.filter((item) => item?.itemCheck);
-    if (!checkedItems?.length) return toast.warning("Select at least 1 item");
+    if (!checkedItems?.length) return toast.warning('Select at least 1 item');
 
     const payload = checkedItems?.map((item) => ({
       shipmentCostId: item?.shipmentCostId,
@@ -119,7 +118,7 @@ function ShipmentCostEntryLanding() {
                   <button
                     onClick={() =>
                       saveHandler(() => {
-                        if (values?.type?.label === "External") {
+                        if (values?.type?.label === 'External') {
                           getExternalData_action();
                         } else {
                           getInternalData_action();
@@ -141,14 +140,14 @@ function ShipmentCostEntryLanding() {
                       <NewSelect
                         name="type"
                         options={[
-                          { label: "Internal", value: 1 },
-                          { label: "External", value: 2 },
+                          { label: 'Internal', value: 1 },
+                          { label: 'External', value: 2 },
                         ]}
                         value={values?.supplier}
                         label="Report Type"
                         onChange={(valueOption) => {
-                          setFieldValue("type", valueOption);
-                          if (valueOption?.label === "External") {
+                          setFieldValue('type', valueOption);
+                          if (valueOption?.label === 'External') {
                             getExternalData_action();
                           } else {
                             getInternalData_action();
@@ -191,12 +190,12 @@ function ShipmentCostEntryLanding() {
                             <td> {index + 1}</td>
                             <td>
                               <div className="pl-2">
-                                {item?.partyName || "-"}
+                                {item?.partyName || '-'}
                               </div>
                             </td>
                             <td>
                               <div className="pl-2">
-                                {" "}
+                                {' '}
                                 {_dateFormatter(item?.shipmentDate)}
                               </div>
                             </td>

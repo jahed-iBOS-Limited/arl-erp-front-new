@@ -1,9 +1,8 @@
-
-import React, { useEffect } from "react";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
 
 const Table = ({ obj }) => {
   const {
@@ -24,12 +23,8 @@ const Table = ({ obj }) => {
 
   const [costCenterDDL, getCostCenterDDL] = useAxiosGet();
   const [costElementDDL, getCostElementDDL] = useAxiosGet();
-  const [
-    profitCenterDDL,
-    getProfitCenterDDL,
-    ,
-    setProfitCenterDDL,
-  ] = useAxiosGet();
+  const [profitCenterDDL, getProfitCenterDDL, , setProfitCenterDDL] =
+    useAxiosGet();
 
   useEffect(() => {
     getCostCenterDDL(
@@ -53,12 +48,12 @@ const Table = ({ obj }) => {
   return (
     <>
       <div className="react-bootstrap-table table-responsive">
-        <table className={"table table-striped table-bordered global-table "}>
+        <table className={'table table-striped table-bordered global-table '}>
           <thead>
             <tr>
               <th
                 onClick={() => allSelect(!selectedAll())}
-                style={{ minWidth: "30px" }}
+                style={{ minWidth: '30px' }}
               >
                 <input
                   type="checkbox"
@@ -67,7 +62,7 @@ const Table = ({ obj }) => {
                   onChange={() => {}}
                 />
               </th>
-              <th style={{ minWidth: "30px" }}>SL</th>
+              <th style={{ minWidth: '30px' }}>SL</th>
               <th>Cost Element</th>
               <th>Rate (BDT)</th>
               <th>Cost Center</th>
@@ -80,9 +75,9 @@ const Table = ({ obj }) => {
               return (
                 <tr>
                   <td
-                    style={{ width: "40px" }}
+                    style={{ width: '40px' }}
                     onClick={() => {
-                      rowDataHandler("isSelected", i, !item.isSelected);
+                      rowDataHandler('isSelected', i, !item.isSelected);
                     }}
                     className="text-center"
                   >
@@ -93,18 +88,18 @@ const Table = ({ obj }) => {
                       onChange={() => {}}
                     />
                   </td>
-                  <td style={{ width: "40px" }} className="text-center">
+                  <td style={{ width: '40px' }} className="text-center">
                     {i + 1}
                   </td>
-                  <td style={{ width: "260px" }}>{item?.element}</td>
-                  <td style={{ width: "130px" }}>
+                  <td style={{ width: '260px' }}>{item?.element}</td>
+                  <td style={{ width: '130px' }}>
                     <InputField
                       type="number"
                       name="rate"
                       value={item?.rate}
                       onChange={(e) => {
                         if (+e.target.value < 0) return;
-                        rowDataHandler("rate", i, e?.target?.value);
+                        rowDataHandler('rate', i, e?.target?.value);
                       }}
                     />
                   </td>
@@ -114,7 +109,7 @@ const Table = ({ obj }) => {
                       options={costCenterDDL || []}
                       value={item?.costCenter}
                       onChange={(e) => {
-                        rowDataHandler("costCenter", i, e);
+                        rowDataHandler('costCenter', i, e);
                         getCostElementDDL(
                           `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accId}&UnitId=${buId}&CostCenterId=${e?.value}`
                         );
@@ -127,7 +122,7 @@ const Table = ({ obj }) => {
                       options={costElementDDL || []}
                       value={item?.costElement}
                       onChange={(e) => {
-                        rowDataHandler("costElement", i, e);
+                        rowDataHandler('costElement', i, e);
                       }}
                     />
                   </td>
@@ -137,7 +132,7 @@ const Table = ({ obj }) => {
                       options={profitCenterDDL || []}
                       value={item?.profitCenter}
                       onChange={(e) => {
-                        rowDataHandler("profitCenter", i, e);
+                        rowDataHandler('profitCenter', i, e);
                       }}
                     />
                   </td>

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -26,7 +25,7 @@ export function BusinessUnitTable() {
     setLoading(true);
     try {
       const res = await Axios.get(
-        `/domain/BusinessUnitDomain/GetBusinessunitDomainInfobyAccountId?AccountId=${accountId}&status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+        `/domain/BusinessUnitDomain/GetBusinessunitDomainInfobyAccountId?AccountId=${accountId}&status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
       );
       setProducts(res.data);
       setLoading(false);

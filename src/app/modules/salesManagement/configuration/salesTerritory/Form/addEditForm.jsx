@@ -1,12 +1,11 @@
-
 /*
  * Change: Last change assign by Ikbal Hossain
  * Des: Remove Country, District, Division, Thana from create, edit, view
  */
 
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveSalesTerritory,
   setControllingUnitSingleEmpty,
@@ -18,23 +17,23 @@ import {
   getThanaDDLAction,
   getSalesTerritoryById,
   saveEditedSalesTerritory,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { getParentTerritoryTypeDDL } from "../helper";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { getParentTerritoryTypeDDL } from '../helper';
 
 const initData = {
   id: undefined,
-  territoryTypeName: "",
-  territoryName: "",
-  territoryCode: "",
-  parentTerritoryName: "",
-  address: "",
-  countryName: "",
-  divisionName: "",
-  distirctName: "",
-  thanaName: "",
-  parentTerritoryTypeName: "",
+  territoryTypeName: '',
+  territoryName: '',
+  territoryCode: '',
+  parentTerritoryName: '',
+  address: '',
+  countryName: '',
+  divisionName: '',
+  distirctName: '',
+  thanaName: '',
+  parentTerritoryTypeName: '',
 };
 
 export default function SalesTerritoryForm({
@@ -101,7 +100,6 @@ export default function SalesTerritoryForm({
     } else {
       dispatch(setControllingUnitSingleEmpty());
     }
-
   }, [id]);
 
   useEffect(() => {
@@ -128,7 +126,6 @@ export default function SalesTerritoryForm({
       // );
       dispatch(getCountryDDLLAction());
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -153,7 +150,6 @@ export default function SalesTerritoryForm({
         );
       }
     }
-
   }, [id, singleData]);
 
   const saveHandler = async (values, cb) => {
@@ -235,7 +231,7 @@ export default function SalesTerritoryForm({
 
   return (
     <IForm
-      title={id ? "Edit Sales Territory" : "Create Sales Territory"}
+      title={id ? 'Edit Sales Territory' : 'Create Sales Territory'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

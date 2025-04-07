@@ -1,36 +1,33 @@
-
-import React, { useEffect, useState } from "react";
-import moment from "moment";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import moment from 'moment';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
 import {
   ModalProgressBar,
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "./../../../../../../_metronic/_partials/controls";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import NewSelect from "../../../../_helper/_select";
-import { Formik, Form } from "formik";
+} from './../../../../../../_metronic/_partials/controls';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import NewSelect from '../../../../_helper/_select';
+import { Formik, Form } from 'formik';
 import {
   getHorizonSearchData,
   getHorizonPlantDDL,
   getHorizonLandingYearDDL,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  year: "",
-  plant: "",
+  year: '',
+  plant: '',
 };
 
 const HorizonLanding = () => {
   const history = useHistory();
 
-
   const [gridData, setGridData] = useState([]);
-
 
   const [isloading, setIsLoading] = useState(false);
 
@@ -108,7 +105,7 @@ const HorizonLanding = () => {
                 <button
                   onClick={() =>
                     history.push(
-                      "/production-management/configuration/horizon/create"
+                      '/production-management/configuration/horizon/create'
                     )
                   }
                   className="btn btn-primary"
@@ -128,7 +125,7 @@ const HorizonLanding = () => {
                       options={plantNameDDL}
                       label="Plant Name"
                       onChange={(valueOption) => {
-                        setFieldValue("plant", valueOption);
+                        setFieldValue('plant', valueOption);
                         setPlant(valueOption);
                         getHorizonLandingYearDDL(
                           profileData?.accountId,
@@ -136,7 +133,7 @@ const HorizonLanding = () => {
                           valueOption?.value,
                           setHorizonYearDDL
                         );
-                        setFieldValue("year", "");
+                        setFieldValue('year', '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -149,7 +146,7 @@ const HorizonLanding = () => {
                       value={values?.year}
                       label="Year"
                       onChange={(valueOption) => {
-                        setFieldValue("year", valueOption);
+                        setFieldValue('year', valueOption);
                         setYear(valueOption);
                       }}
                       errors={errors}
@@ -185,7 +182,7 @@ const HorizonLanding = () => {
                         return (
                           <tr key={index}>
                             <td
-                              style={{ width: "30px" }}
+                              style={{ width: '30px' }}
                               className="text-center"
                             >
                               {index + 1}
@@ -203,14 +200,14 @@ const HorizonLanding = () => {
                             <td>
                               <span className="pl-2">
                                 {moment(item?.dteStartDateTime).format(
-                                  "YYYY-MM-DD"
+                                  'YYYY-MM-DD'
                                 )}
                               </span>
                             </td>
                             <td>
                               <span className="pl-2">
                                 {moment(item?.dteEndDateTime).format(
-                                  "YYYY-MM-DD"
+                                  'YYYY-MM-DD'
                                 )}
                               </span>
                             </td>

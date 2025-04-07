@@ -1,41 +1,40 @@
-
-import React from "react";
+import React from 'react';
 
 const headersOne = [
-  "SL",
-  "Mother Vessel",
-  "Lighter Vessel",
-  "Program",
-  "Ghat Name",
-  "Item Name",
-  "Alloted Qty",
-  "Loaded Qty",
-  "Load Remaining Qty",
-  "Challan Qty",
-  "Challan Remaining",
+  'SL',
+  'Mother Vessel',
+  'Lighter Vessel',
+  'Program',
+  'Ghat Name',
+  'Item Name',
+  'Alloted Qty',
+  'Loaded Qty',
+  'Load Remaining Qty',
+  'Challan Qty',
+  'Challan Remaining',
 ];
 
 const headersTwo = [
-  "SL",
-  "Truck No",
-  "Driver Name",
-  "Mobile No",
-  "Name of BADC Godown",
-  "Delivery in MT",
-  "Empty bag",
-  "C&F Challan No",
-  "Shipping Challan No",
-  "Loading Point",
+  'SL',
+  'Truck No',
+  'Driver Name',
+  'Mobile No',
+  'Name of BADC Godown',
+  'Delivery in MT',
+  'Empty bag',
+  'C&F Challan No',
+  'Shipping Challan No',
+  'Loading Point',
 ];
 
 const headersThree = [
-  "SL",
-  "Name of BADC Godown",
-  "Allotment",
-  "Last 24 hrs Delivery",
-  "Previous Delivery",
-  "Total Delivery",
-  "Balance",
+  'SL',
+  'Name of BADC Godown',
+  'Allotment',
+  'Last 24 hrs Delivery',
+  'Previous Delivery',
+  'Total Delivery',
+  'Balance',
 ];
 
 const GridView = ({ rowData, values }) => {
@@ -47,7 +46,7 @@ const GridView = ({ rowData, values }) => {
             <table
               id="table-to-xlsx"
               className={
-                "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
               }
             >
               <thead>
@@ -61,7 +60,7 @@ const GridView = ({ rowData, values }) => {
                 {rowData?.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td style={{ width: "40px" }} className="text-center">
+                      <td style={{ width: '40px' }} className="text-center">
                         {index + 1}
                       </td>
                       <td>{item?.strMotherVesselName}</td>
@@ -87,7 +86,7 @@ const GridView = ({ rowData, values }) => {
             <table
               id="table-to-xlsx"
               className={
-                "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
               }
             >
               <thead>
@@ -101,7 +100,7 @@ const GridView = ({ rowData, values }) => {
                 {rowData?.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td style={{ width: "40px" }} className="text-center">
+                      <td style={{ width: '40px' }} className="text-center">
                         {index + 1}
                       </td>
                       <td>{item?.strTruchNumber}</td>
@@ -124,7 +123,7 @@ const GridView = ({ rowData, values }) => {
             <table
               id="table-to-xlsx"
               className={
-                "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
               }
             >
               <thead>
@@ -138,7 +137,7 @@ const GridView = ({ rowData, values }) => {
                 {rowData?.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td style={{ width: "40px" }} className="text-center">
+                      <td style={{ width: '40px' }} className="text-center">
                         {index + 1}
                       </td>
                       <td>{item?.strNameofBADCGoDown}</td>

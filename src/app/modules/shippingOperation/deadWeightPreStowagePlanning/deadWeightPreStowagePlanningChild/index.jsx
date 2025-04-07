@@ -31,7 +31,6 @@ export default function DeadWeightAndPreStowagePlaning() {
 
   useEffect(() => {
     getLandingData({}, pageNo, pageSize, '');
-
   }, []);
 
   const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
@@ -54,7 +53,7 @@ export default function DeadWeightAndPreStowagePlaning() {
         pageNo || 1
       }&pageSize=${
         pageSize || 600
-      }${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`,
+      }${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
     );
   };
 
@@ -63,7 +62,6 @@ export default function DeadWeightAndPreStowagePlaning() {
   };
   useEffect(() => {
     getLandingData();
-
   }, [selectedBusinessUnit]);
 
   const getVoyageDDL = (values) => {
@@ -132,7 +130,7 @@ export default function DeadWeightAndPreStowagePlaning() {
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
                           setVesselDDL,
-                          valueOption?.value === 2 ? 2 : '',
+                          valueOption?.value === 2 ? 2 : ''
                         );
                       } else {
                         getLandingData({}, pageNo, pageSize, '');
@@ -310,8 +308,8 @@ export default function DeadWeightAndPreStowagePlaning() {
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item?.strPrestowagePlanDoc,
-                                      ),
+                                        item?.strPrestowagePlanDoc
+                                      )
                                     );
                                   }}
                                   className="mt-2 ml-2"

@@ -18,9 +18,9 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
   useEffect(() => {
     getGridData(
       `/mes/MSIL/GetFuelConsumptionMonthEnd?MonthId=${moment(
-        values?.fromDate,
+        values?.fromDate
       )?.format('M')}&YearId=${moment(values?.toDate).format(
-        'YYYY',
+        'YYYY'
       )}&BusinessUnitId=${buId}`,
       (data) => {
         const modifyData = [
@@ -33,16 +33,15 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
           },
         ];
         setGridData(modifyData);
-      },
+      }
     );
-
   }, []);
 
   const grandTotalValue = useMemo(() => {
     if (gridData?.length > 0) {
       return gridData?.reduce(
         (accumulator, item) => accumulator + (item?.totalValue || 0),
-        0,
+        0
       );
     }
   }, [gridData]);
@@ -51,7 +50,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
     if (gridData?.length > 0) {
       return gridData?.reduce(
         (accumulator, item) => accumulator + (item?.totalFuelQuantity || 0),
-        0,
+        0
       );
     }
   }, [gridData]);
@@ -99,7 +98,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
       () => {
         setShowJVModal(false);
       },
-      true,
+      true
     );
   };
 

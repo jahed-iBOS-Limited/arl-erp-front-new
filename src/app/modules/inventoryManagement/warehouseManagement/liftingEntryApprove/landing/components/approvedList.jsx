@@ -1,7 +1,7 @@
-import moment from "moment";
-import React from "react";
-import TextArea from "../../../../../_helper/TextArea";
-import InputField from "../../../../../_helper/_inputField";
+import moment from 'moment';
+import React from 'react';
+import TextArea from '../../../../../_helper/TextArea';
+import InputField from '../../../../../_helper/_inputField';
 
 export function ApprovedList(props) {
   return (
@@ -13,7 +13,7 @@ export function ApprovedList(props) {
               onClick={() => props.allSelect(!props.selectedAll())}
               className="text-center cursor-pointer"
               style={{
-                width: "40px",
+                width: '40px',
               }}
             >
               <input
@@ -25,14 +25,14 @@ export function ApprovedList(props) {
             </th>
             <th
               style={{
-                width: "30px",
+                width: '30px',
               }}
             >
               SL
             </th>
             <th
               style={{
-                width: "100px",
+                width: '100px',
               }}
             >
               Area
@@ -41,14 +41,14 @@ export function ApprovedList(props) {
             <th>Average Target</th>
             <th
               style={{
-                width: "150px",
+                width: '150px',
               }}
             >
               Lifting Qty
             </th>
             <th
               style={{
-                width: "500px",
+                width: '500px',
               }}
             >
               Remarks
@@ -60,7 +60,7 @@ export function ApprovedList(props) {
             <tr key={index}>
               <td
                 onClick={() => {
-                  props.dataChangeHandler(index, "isSelected", !td.isSelected);
+                  props.dataChangeHandler(index, 'isSelected', !td.isSelected);
                 }}
                 className="text-center"
               >
@@ -76,7 +76,7 @@ export function ApprovedList(props) {
                 <div className="pl-1">{td?.areaName}</div>
               </td>
               <td>
-                <div className="pl-2">{moment(td?.date).format("LL")}</div>
+                <div className="pl-2">{moment(td?.date).format('LL')}</div>
               </td>
               <td className="text-right">
                 <div className="pl-2">
@@ -92,14 +92,14 @@ export function ApprovedList(props) {
                   onChange={(e) => {
                     props.dataChangeHandler(
                       index,
-                      "liftingQty",
+                      'liftingQty',
                       e?.target?.value
                     );
 
                     if (e?.target?.value > 0 && !td?.isSelected) {
-                      props.dataChangeHandler(index, "isSelected", true);
+                      props.dataChangeHandler(index, 'isSelected', true);
                     } else if (td?.isSelected && e?.target?.value <= 0) {
-                      props.dataChangeHandler(index, "isSelected", false);
+                      props.dataChangeHandler(index, 'isSelected', false);
                     }
                   }}
                 />
@@ -111,7 +111,7 @@ export function ApprovedList(props) {
                   placeholder="Remarks"
                   type="text"
                   onChange={(e) => {
-                    props.dataChangeHandler(index, "remarks", e?.target?.value);
+                    props.dataChangeHandler(index, 'remarks', e?.target?.value);
                   }}
                 />
               </td>

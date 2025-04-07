@@ -1,12 +1,12 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { withRouter } from "react-router-dom";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 //import IEdit from "./../../../../_helper/_helperIcons/_edit";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import Loading from "./../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IView from './../../../../_helper/_helperIcons/_view';
+import Loading from './../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 // import IClose from "../../../../_helper/_helperIcons/_close";
 // import IConfirmModal from "./../../../../_helper/_confirmModal";
 // import { postCancelInvoiceAction } from "../helper";
@@ -55,16 +55,16 @@ const GridData = ({
             <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
               <thead>
                 <tr>
-                  <th style={{ width: "30px" }}>SL</th>
-                  <th style={{ width: "30px" }}>Invoice Code</th>
-                  <th style={{ width: "30px" }}>Invoice Date</th>
-                  <th style={{ width: "30px" }}>Bill No</th>
-                  <th style={{ width: "30px" }}>Bill Date</th>
-                  <th style={{ width: "30px" }}>Invoice Amount</th>
-                  <th style={{ width: "30px" }}>Payment Due Date</th>
-                  <th style={{ width: "30px" }}>PO No</th>
-                  <th style={{ width: "30px" }}>Supplier</th>
-                  <th style={{ width: "30px" }}>Actions</th>
+                  <th style={{ width: '30px' }}>SL</th>
+                  <th style={{ width: '30px' }}>Invoice Code</th>
+                  <th style={{ width: '30px' }}>Invoice Date</th>
+                  <th style={{ width: '30px' }}>Bill No</th>
+                  <th style={{ width: '30px' }}>Bill Date</th>
+                  <th style={{ width: '30px' }}>Invoice Amount</th>
+                  <th style={{ width: '30px' }}>Payment Due Date</th>
+                  <th style={{ width: '30px' }}>PO No</th>
+                  <th style={{ width: '30px' }}>Supplier</th>
+                  <th style={{ width: '30px' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -80,29 +80,29 @@ const GridData = ({
                         <div className="text-right pr-2">
                           {item?.transactionDate
                             ? _dateFormatter(item?.transactionDate)
-                            : "N/A"}
+                            : 'N/A'}
                         </div>
                       </td>
                       <td>
                         <div className="pl-2">{item?.billNumber}</div>
                       </td>
                       <td>
-                        {" "}
+                        {' '}
                         <div className="text-right pr-2">
                           {item?.billDate
                             ? _dateFormatter(item?.billDate)
-                            : "N/A"}
+                            : 'N/A'}
                         </div>
                       </td>
                       <td>
                         <div className="pl-2">{item.grossInvoiceAmount}</div>
                       </td>
                       <td>
-                        {" "}
+                        {' '}
                         <div className="text-right pr-2">
                           {item?.paymentDueDate
                             ? _dateFormatter(item?.paymentDueDate)
-                            : "N/A"}
+                            : 'N/A'}
                         </div>
                       </td>
                       <td>
@@ -112,7 +112,7 @@ const GridData = ({
                         <div className="pl-2">{item.businessPartneName}</div>
                       </td>
                       <td className="text-center">
-                        {" "}
+                        {' '}
                         <div className="d-flex justify-content-center">
                           {/* <span
                         onClick={() =>

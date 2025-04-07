@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call Empddl APi
 export function getEmpDDL(accId, buId) {
@@ -38,7 +38,7 @@ export function getPOReferenceNoDDL(RefTypeId) {
 
 //Call getPOItemDDL  APi
 export function getPOItemDDL(refId, refNo) {
-  console.log("Calling");
+  console.log('Calling');
   return axios.get(
     `/procurement/PurchaseOrder/GetPOReferenceNoWiseItemDDL?RefTypeId=${refId}&RefNoId=${refNo}`
   );
@@ -70,7 +70,7 @@ export function getGridData(
   pageNo,
   pageSize
 ) {
-  const searchPath = search ? `search=${search}&` : "";
+  const searchPath = search ? `search=${search}&` : '';
   return axios.get(
     `/oms/Invoiceing/GetDeliverHeaderNotBillPostedInDateRage?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&BAId=${sbuId}&Billtypeid=${Billtypeid}&FromDeliveryDte=${fromDate}&ToDeliveryDte=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
   );

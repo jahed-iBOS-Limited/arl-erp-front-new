@@ -1,48 +1,46 @@
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 // import { toast } from "react-toastify";
-import { _todayDate } from "../../../_chartinghelper/_todayDate";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { createTrip, editTrip, getTripDataById } from "../helper";
-import { calculateTotalExpense } from "../utils";
-import Form from "./_form";
+import { _todayDate } from '../../../_chartinghelper/_todayDate';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { createTrip, editTrip, getTripDataById } from '../helper';
+import { calculateTotalExpense } from '../utils';
+import Form from './_form';
 
 const initData = {
   // vessel type add for new requirement order by Iqbal vai
   /* Header State */
-  lighterVessel: "", // DDL
-  vesselType: "",
-  loadPort: "", // DDL
-  dischargePort: "", // DDL
-  dteTripCommencedDate: "",
-  dteTripCompletionDate: "",
-  numTotalTripDuration: "",
+  lighterVessel: '', // DDL
+  vesselType: '',
+  loadPort: '', // DDL
+  dischargePort: '', // DDL
+  dteTripCommencedDate: '',
+  dteTripCompletionDate: '',
+  numTotalTripDuration: '',
   isComplete: false,
-  receiveDate: "",
-  dischargeStartDate: "",
-  dischargeComplDate: "",
+  receiveDate: '',
+  dischargeStartDate: '',
+  dischargeComplDate: '',
 
-  tripNo: "",
-  arrivalAtCtg: "",
-  loadingCommenceAtCtg: "",
-  loadingCompleteAtCtg: "",
-  departureAtCtg: "",
-  lcNo: "",
-  shipmentNo: "",
+  tripNo: '',
+  arrivalAtCtg: '',
+  loadingCommenceAtCtg: '',
+  loadingCompleteAtCtg: '',
+  departureAtCtg: '',
+  lcNo: '',
+  shipmentNo: '',
 
   /* Row State */
-  motherVessel: "", // DDL
-  voyageNo: "",
-  srnumber: "",
-  eta: "",
+  motherVessel: '', // DDL
+  voyageNo: '',
+  srnumber: '',
+  eta: '',
   numBlqty: 0,
-  consigneeParty: "", // DDL
-  lcnumber: "",
-  shipment: "",
-  cargo: "", // DDL
+  consigneeParty: '', // DDL
+  lcnumber: '',
+  shipment: '',
+  cargo: '', // DDL
   numEstimatedCargoQty: 0,
   numFreight: 0,
   numActualCargoQty: 0,
@@ -198,11 +196,11 @@ export default function TripForm() {
   };
 
   const title =
-    type === "view"
-      ? "View Lighter Vessel Trip"
-      : type === "edit"
-      ? "Edit Lighter Vessel Trip"
-      : "Create Lighter Vessel Trip";
+    type === 'view'
+      ? 'View Lighter Vessel Trip'
+      : type === 'edit'
+        ? 'Edit Lighter Vessel Trip'
+        : 'Create Lighter Vessel Trip';
 
   return (
     <>

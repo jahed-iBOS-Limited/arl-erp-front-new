@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 import {
   // Redirect,
   Switch,
-} from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import ComplainAndSolutionForm from "./complainAndSolution/form/addEditForm";
-import ComplainAndSolutionTable from "./complainAndSolution/landing/table";
-import CustomerLeadGeneration from "./customerLeadGeneration";
-import CreateCustomerLeadGeneration from "./customerLeadGeneration/createPage";
-import DeliveryInquiryLanding from "./deliveryInquiry/table/table";
-import FollowUp from "./customerLeadGeneration/followUp";
+} from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import ComplainAndSolutionForm from './complainAndSolution/form/addEditForm';
+import ComplainAndSolutionTable from './complainAndSolution/landing/table';
+import CustomerLeadGeneration from './customerLeadGeneration';
+import CreateCustomerLeadGeneration from './customerLeadGeneration/createPage';
+import DeliveryInquiryLanding from './deliveryInquiry/table/table';
+import FollowUp from './customerLeadGeneration/followUp';
 
 export default function CustomerInquiryPages() {
   return (

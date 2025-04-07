@@ -1,10 +1,10 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import CreateAssetRentForm from "./assetRent/form/addEditForm";
-import AssetRentLanding from "./assetRent/landing";
-import AssetRentInvoiceForm from "./assetRentInvoice/form/addEditForm";
-import AssetRentInvoiceLanding from "./assetRentInvoice/landing";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import CreateAssetRentForm from './assetRent/form/addEditForm';
+import AssetRentLanding from './assetRent/landing';
+import AssetRentInvoiceForm from './assetRentInvoice/form/addEditForm';
+import AssetRentInvoiceLanding from './assetRentInvoice/landing';
 
 export function AssetRentManagementPages() {
   return (

@@ -1,9 +1,9 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import { CustomerCollectionLanding } from "./customerCollection/Table/tableHeader";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import { CustomerCollectionLanding } from './customerCollection/Table/tableHeader';
 // import { RouteSetupLanding } from "./routeSetup";
-import OutletBillProcessLanding from "./outletBillProcess/landing/table";
+import OutletBillProcessLanding from './outletBillProcess/landing/table';
 
 export function AccountReceivablePages() {
   return (

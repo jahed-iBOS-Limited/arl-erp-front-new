@@ -1,123 +1,126 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import { shallowEqual, useSelector } from "react-redux";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import PaginationTable from "../../../_helper/_tablePagination";
-
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import { shallowEqual, useSelector } from 'react-redux';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import PaginationTable from '../../../_helper/_tablePagination';
 
 const initData = {
-    shipPoint: ''
+  shipPoint: '',
 };
 
-
 export default function PumpInformation() {
-    const [pageNo, setPageNo] = useState(0);
-    const [pageSize, setPageSize] = useState(15);
-    const { profileData: { accountId }, selectedBusinessUnit: { value: buUnId } } = useSelector(state => state.authData, shallowEqual)
-    const history = useHistory();
-    const [shipPoint, getShipPoint] = useAxiosGet()
-    const [rowData, getRowData, loading] = useAxiosGet()
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
+  const {
+    profileData: { accountId },
+    selectedBusinessUnit: { value: buUnId },
+  } = useSelector((state) => state.authData, shallowEqual);
+  const history = useHistory();
+  const [shipPoint, getShipPoint] = useAxiosGet();
+  const [rowData, getRowData, loading] = useAxiosGet();
 
-    const setTableData = (_pageNo, _pageSize, values) => {
-        const businessUnitId = buUnId;
-        const shipPointId = values?.shipPoint.value
-        const pageNo = _pageNo || 0
-        const pageSize = _pageSize || 15
-        const url = `/tms/VehicleAllocation/GetPumpPagination?businessUnitId=${businessUnitId}&shipPointId=${shipPointId}&pageNo=${pageNo}&pageSize=${pageSize}`
-        getRowData(url)
-    }
+  const setTableData = (_pageNo, _pageSize, values) => {
+    const businessUnitId = buUnId;
+    const shipPointId = values?.shipPoint.value;
+    const pageNo = _pageNo || 0;
+    const pageSize = _pageSize || 15;
+    const url = `/tms/VehicleAllocation/GetPumpPagination?businessUnitId=${businessUnitId}&shipPointId=${shipPointId}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    getRowData(url);
+  };
 
-    useEffect(() => {
-        getShipPoint(`/wms/ShipPoint/GetShipPointDDL?accountId=${accountId}&businessUnitId=${buUnId}`)
-        setTableData()
+  useEffect(() => {
+    getShipPoint(
+      `/wms/ShipPoint/GetShipPointDDL?accountId=${accountId}&businessUnitId=${buUnId}`
+    );
+    setTableData();
+  }, []);
 
-    }, [])
-
-    const saveHandler = (values, cb) => { };
-    return (
-        <Formik
-            enableReinitialize={true}
-            initialValues={initData}
-            // validationSchema={{}}
-            onSubmit={(values, { setSubmitting, resetForm }) => {
-                saveHandler(values, () => {
-                    resetForm(initData);
-                });
+  const saveHandler = (values, cb) => {};
+  return (
+    <Formik
+      enableReinitialize={true}
+      initialValues={initData}
+      // validationSchema={{}}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        saveHandler(values, () => {
+          resetForm(initData);
+        });
+      }}
+    >
+      {({
+        handleSubmit,
+        resetForm,
+        values,
+        setFieldValue,
+        isValid,
+        errors,
+        touched,
+      }) => (
+        <>
+          {false && <Loading />}
+          <IForm
+            title="Pump Information"
+            isHiddenReset
+            isHiddenBack
+            isHiddenSave
+            renderProps={() => {
+              return (
+                <div>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      history.push(
+                        '/transport-management/configuration/pumpinformation/create'
+                      );
+                    }}
+                  >
+                    Create
+                  </button>
+                </div>
+              );
             }}
-        >
-            {({
-                handleSubmit,
-                resetForm,
-                values,
-                setFieldValue,
-                isValid,
-                errors,
-                touched,
-            }) => (
-                <>
-                    {false && <Loading />}
-                    <IForm
-                        title="Pump Information"
-                        isHiddenReset
-                        isHiddenBack
-                        isHiddenSave
-                        renderProps={() => {
-                            return (
-                                <div>
-                                    <button
-                                        type="button"
-                                        className="btn btn-primary"
-                                        onClick={() => {
-                                            history.push("/transport-management/configuration/pumpinformation/create");
-                                        }}
-                                    >
-                                        Create
-                                    </button>
-                                </div>
-                            );
-                        }}
-                    >
-                        <Form>
-                            <div className="row global-form">
-                                <div className="col-lg-3">
-                                    <NewSelect
-                                        name="shipPoint"
-                                        options={shipPoint}
-                                        value={values?.shipPoint}
-                                        label="Ship Point"
-                                        onChange={(valueOption) => {
-                                            setFieldValue("shipPoint", valueOption);
-                                        }}
-                                        errors={errors}
-                                        touched={touched}
-                                    />
-                                </div>
-                                <div className="col-lg-3">
-                                    <button
-                                        className="btn btn-primary mt-5"
-                                        type="button"
-                                        onClick={() => {
-                                            setTableData(pageNo, pageSize, values)
-                                        }}
-                                    >
-                                        View
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="row cash_journal">
-                {(loading ) && <Loading />}
+          >
+            <Form>
+              <div className="row global-form">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="shipPoint"
+                    options={shipPoint}
+                    value={values?.shipPoint}
+                    label="Ship Point"
+                    onChange={(valueOption) => {
+                      setFieldValue('shipPoint', valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <button
+                    className="btn btn-primary mt-5"
+                    type="button"
+                    onClick={() => {
+                      setTableData(pageNo, pageSize, values);
+                    }}
+                  >
+                    View
+                  </button>
+                </div>
+              </div>
+              <div className="row cash_journal">
+                {loading && <Loading />}
                 <div className="col-lg-12">
                   <div className="table-responsive">
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
-                          <th style={{ width: "40px" }}>SL</th>
+                          <th style={{ width: '40px' }}>SL</th>
                           <th>Pump Model Name</th>
                           <th>Pump Group Head Name</th>
                           <th>Ship Point Name</th>
@@ -169,10 +172,10 @@ export default function PumpInformation() {
                   />
                 )}
               </div>
-                        </Form>
-                    </IForm>
-                </>
-            )}
-        </Formik>
-    );
+            </Form>
+          </IForm>
+        </>
+      )}
+    </Formik>
+  );
 }

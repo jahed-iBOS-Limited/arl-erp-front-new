@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 export const deleteMotherVesselVoyageInfo = async (id, setLoading, cb) => {
   setLoading && setLoading(true);
@@ -34,28 +34,28 @@ export const editMotherVesselVoyageInfo = async (payload, setLoading) => {
 
 // Validation schema
 export const validationSchema = Yup.object().shape({
-  voyageCode: Yup.string().required("Voyage Code is required"),
+  voyageCode: Yup.string().required('Voyage Code is required'),
   motherVessel: Yup.object().shape({
-    label: Yup.string().required("Mother Vessel is required"),
-    value: Yup.string().required("Mother Vessel is required"),
+    label: Yup.string().required('Mother Vessel is required'),
+    value: Yup.string().required('Mother Vessel is required'),
   }),
-  lcNumber: Yup.string().required("LC Number is required"),
-  blQty: Yup.string().required("BL Qty is required"),
-  eta: Yup.string().required("ETA is required"),
+  lcNumber: Yup.string().required('LC Number is required'),
+  blQty: Yup.string().required('BL Qty is required'),
+  eta: Yup.string().required('ETA is required'),
   loadingPort: Yup.object().shape({
-    label: Yup.string().required("Loading Port is required"),
-    value: Yup.string().required("Loading Port is required"),
+    label: Yup.string().required('Loading Port is required'),
+    value: Yup.string().required('Loading Port is required'),
   }),
   dischargingPort: Yup.object().shape({
-    label: Yup.string().required("Discharging Port is required"),
-    value: Yup.string().required("Discharging Port is required"),
+    label: Yup.string().required('Discharging Port is required'),
+    value: Yup.string().required('Discharging Port is required'),
   }),
   cnf: Yup.object().shape({
-    label: Yup.string().required("CNF is required"),
-    value: Yup.string().required("CNF is required"),
+    label: Yup.string().required('CNF is required'),
+    value: Yup.string().required('CNF is required'),
   }),
   stevedore: Yup.object().shape({
-    label: Yup.string().required("Steve Dore is required"),
-    value: Yup.string().required("Steve Dore is required"),
+    label: Yup.string().required('Steve Dore is required'),
+    value: Yup.string().required('Steve Dore is required'),
   }),
 });

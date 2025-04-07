@@ -1,11 +1,11 @@
-import React, {useEffect} from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../_helper/_inputDropDown";
-import MeasuringScale from "../../_helper/_measuringScale";
-import ValuesTable from "../Table/_valuesTable";
-import CompetencyTable from "../Table/_competencyTable";
-import { useDispatch, useSelector, shallowEqual} from "react-redux";
+import React, { useEffect } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../_helper/_inputDropDown';
+import MeasuringScale from '../../_helper/_measuringScale';
+import ValuesTable from '../Table/_valuesTable';
+import CompetencyTable from '../Table/_competencyTable';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
   getEmployeeBasicInfoByIdAction,
   SetCompetencyEmptyAction,
@@ -13,13 +13,13 @@ import {
   SetValAndCompByEmpIdEmptyAction,
   SetValuesListEmptyAction,
   getMeasuringScaleAction,
-  getMeasuringScaleBottomAction
-} from "../../_redux/Actions";
+  getMeasuringScaleBottomAction,
+} from '../../_redux/Actions';
 // Validation schema
 const validationSchema = Yup.object().shape({
   year: Yup.object().shape({
-    label: Yup.string().required("Year is required"),
-    value: Yup.string().required("Year is required"),
+    label: Yup.string().required('Year is required'),
+    value: Yup.string().required('Year is required'),
   }),
   // quarter: Yup.object().shape({
   //   label: Yup.string().required("Quarter is required"),
@@ -75,9 +75,7 @@ export default function FormCmp({
           selectedBusinessUnit.value
         )
       );
-
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   // VALUES calculation
@@ -114,7 +112,7 @@ export default function FormCmp({
   );
 
   const employeeEntry = userRole?.filter(
-    (item) => item?.strFeatureName === "Employee Entry Public"
+    (item) => item?.strFeatureName === 'Employee Entry Public'
   );
 
   return (
@@ -161,14 +159,14 @@ export default function FormCmp({
                           <input
                             type="radio"
                             name="type"
-                            checked={values.type === "private"}
+                            checked={values.type === 'private'}
                             className="mr-2 pointer"
                             onChange={(e) => {
-                              setFieldValue("searchEmployee", {
+                              setFieldValue('searchEmployee', {
                                 value: profileData.userId,
                                 label: profileData.userName,
                               });
-                              setFieldValue("type", "private");
+                              setFieldValue('type', 'private');
                               dispatch(
                                 getValuesAndCompByEmpIdAction(
                                   profileData?.userId,
@@ -189,28 +187,29 @@ export default function FormCmp({
                     </label>
                     {employeeEntry[0]?.isCreate === true ? (
                       <label>
-                      <Field
-                        component={() => (
-                          <input
-                            type="radio"
-                            name="type"
-                            checked={values?.type === "public"}
-                            className="mr-2 pointer"
-                            onChange={(e) => {
-                              setFieldValue("type", "public");
-                              setFieldValue("searchEmployee", "");
-                              dispatch(SetValAndCompByEmpIdEmptyAction());
-                              dispatch(SetEmployeeBasicInfoEmptyAction());
-                              dispatch(SetValuesListEmptyAction());
-                              dispatch(SetCompetencyEmptyAction());
-                            }}
-                          />
-                        )}
-                      />
-                      Public
-                    </label>
-                    ) : ''
-                  }
+                        <Field
+                          component={() => (
+                            <input
+                              type="radio"
+                              name="type"
+                              checked={values?.type === 'public'}
+                              className="mr-2 pointer"
+                              onChange={(e) => {
+                                setFieldValue('type', 'public');
+                                setFieldValue('searchEmployee', '');
+                                dispatch(SetValAndCompByEmpIdEmptyAction());
+                                dispatch(SetEmployeeBasicInfoEmptyAction());
+                                dispatch(SetValuesListEmptyAction());
+                                dispatch(SetCompetencyEmptyAction());
+                              }}
+                            />
+                          )}
+                        />
+                        Public
+                      </label>
+                    ) : (
+                      ''
+                    )}
                   </div>
                 </div>
               </div>
@@ -240,7 +239,7 @@ export default function FormCmp({
                         getValueAndCompList(currentValue);
                       }
                     }}
-                    isDisabled={values.type === "private"}
+                    isDisabled={values.type === 'private'}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -285,10 +284,10 @@ export default function FormCmp({
                 </div> */}
                 {employeeBasicInfo && (
                   <p className="pl-3 mt-3 employee_info">
-                    <b>Designation</b>: {employeeBasicInfo?.designationName},{" "}
-                    <b>Department</b>: {employeeBasicInfo?.departmentName},{" "}
-                    <b>Supervisor</b>: {employeeBasicInfo?.supervisorName},{" "}
-                    <b>Sbu</b>: {employeeBasicInfo?.sbuName},{" "}
+                    <b>Designation</b>: {employeeBasicInfo?.designationName},{' '}
+                    <b>Department</b>: {employeeBasicInfo?.departmentName},{' '}
+                    <b>Supervisor</b>: {employeeBasicInfo?.supervisorName},{' '}
+                    <b>Sbu</b>: {employeeBasicInfo?.sbuName},{' '}
                     <b>Business Unit</b>: {employeeBasicInfo?.businessUnitName}
                   </p>
                 )}
@@ -298,7 +297,7 @@ export default function FormCmp({
                 <h5 className="mb-1">VALUES</h5>
                 <hr className="mt-0 p-0" />
                 <div className="d-flex justify-content-between">
-                  <div style={{ width: "50%" }}>
+                  <div style={{ width: '50%' }}>
                     <ValuesTable
                       headerName="Values Name"
                       isEmployee={true}
@@ -324,7 +323,7 @@ export default function FormCmp({
                 <h5 className="mb-1">COMPETENCIES</h5>
                 <hr className="mt-0 p-0" />
                 <div className="d-flex justify-content-between">
-                  <div style={{ width: "50%" }}>
+                  <div style={{ width: '50%' }}>
                     <CompetencyTable
                       headerName="Competency Name"
                       isEmployee={true}
@@ -348,14 +347,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

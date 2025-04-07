@@ -40,11 +40,10 @@ export function TableRow() {
           selectedBusinessUnit.value,
           setLoading,
           pageNo,
-          pageSize,
-        ),
+          pageSize
+        )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -56,8 +55,8 @@ export function TableRow() {
         setLoading,
         pageNo,
         pageSize,
-        searchValue,
-      ),
+        searchValue
+      )
     );
   };
   const paginationSearchHandler = (searchValue) => {

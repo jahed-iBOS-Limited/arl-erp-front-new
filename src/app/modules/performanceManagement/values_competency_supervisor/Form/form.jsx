@@ -1,26 +1,26 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../_helper/_inputDropDown";
-import MeasuringScale from "../../_helper/_measuringScale";
-import ValuesTable from "./_valuesTable";
-import CompetencyTable from "./_competencyTable";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../_helper/_inputDropDown';
+import MeasuringScale from '../../_helper/_measuringScale';
+import ValuesTable from './_valuesTable';
+import CompetencyTable from './_competencyTable';
 import {
   getEmployeeBasicInfoByIdAction,
   getValuesAndCompByEmpIdAction,
   getMeasuringScaleAction,
   getMeasuringScaleBottomAction,
-} from "../../_redux/Actions";
+} from '../../_redux/Actions';
 // Validation schema
 const validationSchema = Yup.object().shape({
   searchEmployee: Yup.object().shape({
-    label: Yup.string().required("Employee is required"),
-    value: Yup.string().required("Employee is required"),
+    label: Yup.string().required('Employee is required'),
+    value: Yup.string().required('Employee is required'),
   }),
   year: Yup.object().shape({
-    label: Yup.string().required("Year is required"),
-    value: Yup.string().required("Year is required"),
+    label: Yup.string().required('Year is required'),
+    value: Yup.string().required('Year is required'),
   }),
 });
 
@@ -75,7 +75,6 @@ export default function FormCmp({
         )
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   // VALUES calculation
@@ -221,10 +220,10 @@ export default function FormCmp({
                 })} */}
                 {employeeBasicInfo && (
                   <p className="pl-3 mt-3 employee_info">
-                    <b>Designation</b>: {employeeBasicInfo?.designationName},{" "}
-                    <b>Department</b>: {employeeBasicInfo?.departmentName},{" "}
-                    <b>Supervisor</b>: {employeeBasicInfo?.supervisorName},{" "}
-                    <b>Sbu</b>: {employeeBasicInfo?.sbuName},{" "}
+                    <b>Designation</b>: {employeeBasicInfo?.designationName},{' '}
+                    <b>Department</b>: {employeeBasicInfo?.departmentName},{' '}
+                    <b>Supervisor</b>: {employeeBasicInfo?.supervisorName},{' '}
+                    <b>Sbu</b>: {employeeBasicInfo?.sbuName},{' '}
                     <b>Business Unit</b>: {employeeBasicInfo?.businessUnitName}
                   </p>
                 )}
@@ -234,7 +233,7 @@ export default function FormCmp({
                 <h5 className="mb-1 text-uppercase">Values</h5>
                 <hr className="mt-0 p-0" />
                 <div className="d-flex justify-content-between">
-                  <div style={{ width: "50%" }}>
+                  <div style={{ width: '50%' }}>
                     <ValuesTable
                       headerName="Values Name"
                       data={valueList}
@@ -256,7 +255,7 @@ export default function FormCmp({
                 <h5 className="mb-1 text-uppercase">Competency</h5>
                 <hr className="mt-0 p-0" />
                 <div className="d-flex justify-content-between">
-                  <div style={{ width: "50%" }}>
+                  <div style={{ width: '50%' }}>
                     <CompetencyTable
                       headerName="Competency Name"
                       data={competencyList}
@@ -277,14 +276,14 @@ export default function FormCmp({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

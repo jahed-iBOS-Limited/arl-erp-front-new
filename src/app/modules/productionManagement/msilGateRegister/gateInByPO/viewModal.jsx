@@ -1,25 +1,25 @@
-import { Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { validateDigit } from "../../../_helper/validateDigit";
-import { _currentTime } from "../../../_helper/_currentTime";
-import { IInput } from "../../../_helper/_input";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { validateDigit } from '../../../_helper/validateDigit';
+import { _currentTime } from '../../../_helper/_currentTime';
+import { IInput } from '../../../_helper/_input';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {
-  driverName: "",
-  driverMobileNo: "",
-  vehicleNo: "",
+  driverName: '',
+  driverMobileNo: '',
+  vehicleNo: '',
 };
 
 function GateInByPoModal({
@@ -62,7 +62,7 @@ function GateInByPoModal({
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Gate In By PO"}>
+              <CardHeader title={'Gate In By PO'}>
                 <CardHeaderToolbar>
                   {/* <button
                     onClick={() => {
@@ -108,7 +108,7 @@ function GateInByPoModal({
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         className="btn btn-primary ml-2"
                         disabled={
                           !item?.row?.length ||
@@ -126,15 +126,15 @@ function GateInByPoModal({
                               strPocode: item?.strPurchaseOrderNo,
                               intSupplierId: item?.intBusinessPartnerId,
                               strSupplierName: item?.strBusinessPartnerName,
-                              strDriverName: values?.driverName || "",
-                              strDriverMobileNo: values?.driverMobileNo || "",
-                              strVehicleNo: values?.vehicleNo || "",
+                              strDriverName: values?.driverName || '',
+                              strDriverMobileNo: values?.driverMobileNo || '',
+                              strVehicleNo: values?.vehicleNo || '',
                               tmInTime: _currentTime(),
                               intBusinessUnitId: selectedBusinessUnit?.value,
                               isActive: true,
                               intActionBy: profileData?.userId,
                               dteInsertDate: _todayDate(),
-                              strRemarks: "",
+                              strRemarks: '',
                               row: item?.row?.map((data) => ({
                                 intRowId: 0,
                                 intGateInByPoid: 0,
@@ -170,11 +170,11 @@ function GateInByPoModal({
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>Item Name</th>
                             <th>PO Quantity</th>
                             <th>Total Receive Qty</th>
-                            <th style={{ width: "150px" }}>Receive Qty</th>
+                            <th style={{ width: '150px' }}>Receive Qty</th>
                             <th>Uom</th>
                           </tr>
                         </thead>
@@ -199,7 +199,7 @@ function GateInByPoModal({
                                         e.target.value
                                       );
                                       rowDtoHandler(
-                                        "receiveQuantity",
+                                        'receiveQuantity',
                                         validNum,
                                         index,
                                         item,

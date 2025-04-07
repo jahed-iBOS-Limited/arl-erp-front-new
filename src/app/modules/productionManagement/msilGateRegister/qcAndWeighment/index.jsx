@@ -1,19 +1,19 @@
-import React from "react";
-import { useMemo } from "react";
-import { Tab, Tabs } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
+import React from 'react';
+import { useMemo } from 'react';
+import { Tab, Tabs } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import FirstWeight from "../firstWeight";
-import QualityCheck from "../qualityCheck";
-import SecondWeight from "../secondWeight";
-import AdministrationForWeighment from "./administrationForWeighment";
-import WeightmentReport from "./report";
+} from '../../../../../_metronic/_partials/controls';
+import FirstWeight from '../firstWeight';
+import QualityCheck from '../qualityCheck';
+import SecondWeight from '../secondWeight';
+import AdministrationForWeighment from './administrationForWeighment';
+import WeightmentReport from './report';
 
 function QcAndWeighment() {
   const { userRole, selectedBusinessUnit } = useSelector(
@@ -28,7 +28,7 @@ function QcAndWeighment() {
     <>
       <Card>
         {true && <ModalProgressBar />}
-        <CardHeader title={"QC & Weighment"}>
+        <CardHeader title={'QC & Weighment'}>
           <CardHeaderToolbar></CardHeaderToolbar>
         </CardHeader>
         <CardBody>

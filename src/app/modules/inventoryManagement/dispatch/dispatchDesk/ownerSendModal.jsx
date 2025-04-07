@@ -1,15 +1,15 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  receiverName: "",
-  remarks: "",
+  receiverName: '',
+  remarks: '',
 };
 
 export default function OwnerSendModal({ handleGetRowData, propsObj }) {
@@ -40,7 +40,7 @@ export default function OwnerSendModal({ handleGetRowData, propsObj }) {
       //   validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         if (!values?.receiverName)
-          return toast.warn("Receiver name is required");
+          return toast.warn('Receiver name is required');
         saveHandler(values, () => {
           resetForm(initData);
         });
@@ -72,7 +72,7 @@ export default function OwnerSendModal({ handleGetRowData, propsObj }) {
                     name="receiverName"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("receiverName", e.target.value);
+                      setFieldValue('receiverName', e.target.value);
                     }}
                   />
                 </div>
@@ -83,7 +83,7 @@ export default function OwnerSendModal({ handleGetRowData, propsObj }) {
                     name="remarks"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("remarks", e.target.value);
+                      setFieldValue('remarks', e.target.value);
                     }}
                   />
                 </div>
@@ -91,14 +91,14 @@ export default function OwnerSendModal({ handleGetRowData, propsObj }) {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

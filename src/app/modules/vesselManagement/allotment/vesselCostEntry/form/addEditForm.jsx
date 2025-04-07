@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
-import { GetGeneralInfoById, rateUpdateAPI } from "../helper";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
+import { GetGeneralInfoById, rateUpdateAPI } from '../helper';
+import Form from './form';
 
 export default function VesselCostEntryForm() {
   const { id, type } = useParams();
@@ -22,7 +22,7 @@ export default function VesselCostEntryForm() {
   const commonGetByIdFunc = (status) => {
     GetGeneralInfoById({
       id,
-      status: type === "update" ? 1 : status === 0 ? 0 : status || 0,
+      status: type === 'update' ? 1 : status === 0 ? 0 : status || 0,
       setter: setSingleData,
       setRowDto,
       setDisabled,
@@ -32,14 +32,13 @@ export default function VesselCostEntryForm() {
     if (id) {
       commonGetByIdFunc();
     }
-
   }, [accId, buId]);
 
   const saveHandler = async (values) => {
     const selectedItems = rowDto?.filter((item) => item?.isSelected);
     console.log(selectedItems);
     if (selectedItems?.length === 0)
-      return toast.warn("Please select at least one item");
+      return toast.warn('Please select at least one item');
     const payload = selectedItems?.map((item) => ({
       motherVesselId: +id,
       shipToPartnerId: +item?.goDownId || 0,
@@ -61,7 +60,7 @@ export default function VesselCostEntryForm() {
     if (id) {
       let _data = [...rowDto];
       _data[index][name] = value;
-      if (name !== "isSelected") {
+      if (name !== 'isSelected') {
         // _data[index].localRateTaka = value;
         // _data[index].localTotalAmountTaka = value * _data[index]?.surveyQty;
         // _data[index].localTotalAmountDoller = value * _data[index]?.surveyQty;
@@ -94,7 +93,7 @@ export default function VesselCostEntryForm() {
       : false;
   };
 
-  const title = `${type === "view" ? "View " : "Update"} Vessel Cost Entry`;
+  const title = `${type === 'view' ? 'View ' : 'Update'} Vessel Cost Entry`;
 
   return (
     <>

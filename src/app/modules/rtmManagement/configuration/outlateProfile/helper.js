@@ -1,7 +1,7 @@
 // For Communication with external API's , for example ... get data, post data etc
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getGridData = async (
   accId,
@@ -100,7 +100,7 @@ export const getOutletProfileById = async (id, setter, setOutlet) => {
         ownerNid: headerData?.ownerNIDNo,
         tradeLicense: headerData?.tradeLicenseNo,
         isComplete: headerData?.isProfileComplete,
-        outlateName: "",
+        outlateName: '',
         dateOfBirth: _dateFormatter(headerData.dateOfBirth),
         marriageDate: _dateFormatter(headerData.marriageDate),
         lattitude: headerData.latitude,
@@ -116,23 +116,23 @@ export const getOutletProfileById = async (id, setter, setOutlet) => {
 
       const rowDto = res.data.attibuteDeatils;
       rowDto.forEach((item) => {
-        if (item.outletAttributeUIType === "DDL") {
+        if (item.outletAttributeUIType === 'DDL') {
           attrData[item.outletAttributeName] = {
             value: item.attributeValueId,
             label: item.outletAttributeValueName,
           };
         }
 
-        if (item.outletAttributeUIType === "Date") {
+        if (item.outletAttributeUIType === 'Date') {
           attrData[item.outletAttributeName] = _dateFormatter(
             item.outletAttributeValueName
           );
         }
 
-        if (item.outletAttributeUIType === "TextBox") {
+        if (item.outletAttributeUIType === 'TextBox') {
           attrData[item.outletAttributeName] = item.outletAttributeValueName;
         }
-        if (item.outletAttributeUIType === "Number") {
+        if (item.outletAttributeUIType === 'Number') {
           attrData[item.outletAttributeName] = item.outletAttributeValueName;
         }
       });
@@ -151,7 +151,7 @@ export const createOutlateProfile = async (payload, cb, setLoading) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setLoading(false);
     }
@@ -169,14 +169,14 @@ export const editOutlateProfile = async (payload, setLoading) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
 
       setLoading(false);
       // cb();
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);
-    toast.error("Please fill up necessary fields");
+    toast.error('Please fill up necessary fields');
     setLoading(false);
   }
 };
@@ -236,7 +236,7 @@ export const editFileInfo = async (outletfId, imageDTO, settter) => {
         (data) => data.outletFileId !== outletfId
       );
       settter(imageNewData);
-      toast.success(res?.data?.message || "Deleted successfully");
+      toast.success(res?.data?.message || 'Deleted successfully');
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -246,12 +246,12 @@ export const editFileInfo = async (outletfId, imageDTO, settter) => {
 export const Attachment_action = async (attachment, setImageDTO, outletId) => {
   let formData = new FormData();
   attachment.forEach((file) => {
-    formData.append("files", file?.file);
+    formData.append('files', file?.file);
   });
   try {
-    let res = await Axios.post("/domain/Document/UploadFile", formData, {
+    let res = await Axios.post('/domain/Document/UploadFile', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
 
@@ -280,7 +280,7 @@ export const Attachment_action = async (attachment, setImageDTO, outletId) => {
       }
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Document not upload");
+    toast.error(error?.response?.data?.message || 'Document not upload');
   }
 };
 
@@ -296,9 +296,8 @@ export const getFileListDDL = async (outletId, setter) => {
 };
 
 export const commonCollerCompanyDDL = [
-  { value: 1, label: "AFBL" },
-  { value: 2, label: "PEPSI" },
-  { value: 3, label: "COCA-COLA" },
-  { value: 4, label: "OTHERS" },
+  { value: 1, label: 'AFBL' },
+  { value: 2, label: 'PEPSI' },
+  { value: 3, label: 'COCA-COLA' },
+  { value: 4, label: 'OTHERS' },
 ];
-

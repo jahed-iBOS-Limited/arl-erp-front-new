@@ -1,22 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ReactToPrint from "react-to-print";
-import { _currentTime } from "../../../../_helper/_currentTime";
-import ICustomCard from "../../../../_helper/_customCard";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { setShipmentCostLadingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { billSubmitApi, getGridData } from "../helper";
-import ShipmentCostViewForm from "../view/addEditForm";
-import SalesInvoiceModel from "../viewModal";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import { SearchForm } from "./form";
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ReactToPrint from 'react-to-print';
+import { _currentTime } from '../../../../_helper/_currentTime';
+import ICustomCard from '../../../../_helper/_customCard';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { setShipmentCostLadingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { billSubmitApi, getGridData } from '../helper';
+import ShipmentCostViewForm from '../view/addEditForm';
+import SalesInvoiceModel from '../viewModal';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import { SearchForm } from './form';
 
 export function TableRow() {
   const [gridData, setGridData] = useState([]);
@@ -26,7 +26,7 @@ export function TableRow() {
   const [singleData, setSingleData] = useState({});
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
   // Modal State
-  const [id, setId] = useState("");
+  const [id, setId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [modelShow, setModelShow] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -50,7 +50,6 @@ export function TableRow() {
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   // Initially Load Grid Data
@@ -86,7 +85,6 @@ export function TableRow() {
         setIsBillSubmit(false);
       }
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const paginationSearchHandler = (searchValue, values) => {
@@ -108,7 +106,7 @@ export function TableRow() {
   // Bill Submited Handler
   const billSubmit = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       yesAlertFunc: () => {
         const filterSelectedData = gridData?.filter((item) => item?.isSelect);
         const payload = filterSelectedData?.map((item) => {
@@ -226,12 +224,12 @@ export function TableRow() {
                             <button
                               type="button"
                               className="btn btn-primary"
-                              style={{ padding: "2px 5px" }}
+                              style={{ padding: '2px 5px' }}
                             >
                               <img
                                 style={{
-                                  width: "25px",
-                                  paddingRight: "5px",
+                                  width: '25px',
+                                  paddingRight: '5px',
                                 }}
                                 src={printIcon}
                                 alt="print-icon"
@@ -255,7 +253,7 @@ export function TableRow() {
                       <thead>
                         <tr>
                           {isBillSubmit && (
-                            <th style={{ width: "20px" }}>
+                            <th style={{ width: '20px' }}>
                               <input
                                 type="checkbox"
                                 id="parent"

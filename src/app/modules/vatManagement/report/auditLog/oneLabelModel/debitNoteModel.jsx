@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import IViewModal from "./../../../../_helper/_viewModal";
-import DebitNoteView from "././../../../operation/purchase/debitNote/Table/grid";
+import React, { useState } from 'react';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
+import IView from './../../../../_helper/_helperIcons/_view';
+import IViewModal from './../../../../_helper/_viewModal';
+import DebitNoteView from '././../../../operation/purchase/debitNote/Table/grid';
 // import document from "./document.svg";
 // import { OverlayTrigger, Tooltip } from "react-bootstrap";
 const DebitNoteModel = ({ rowDto, parentRowClickData }) => {
@@ -36,8 +36,8 @@ const DebitNoteModel = ({ rowDto, parentRowClickData }) => {
             <table className="table table-striped table-bordered mt-3">
               <thead>
                 <tr>
-                  <th style={{ width: "35px" }}>S/N</th>
-                  <th style={{ width: "150px" }}>Purchase Invoice</th>
+                  <th style={{ width: '35px' }}>S/N</th>
+                  <th style={{ width: '150px' }}>Purchase Invoice</th>
                   <th>Transaction Date</th>
                   <th>SD Total</th>
                   <th>VAT Total</th>
@@ -56,16 +56,16 @@ const DebitNoteModel = ({ rowDto, parentRowClickData }) => {
                       <td> {tableData?.purchaseCode} </td>
                       <td> {_dateFormatter(tableData?.purchaseDate)} </td>
                       <td className="text-right">
-                        {" "}
-                        {_fixedPoint(tableData?.sdTotal)}{" "}
+                        {' '}
+                        {_fixedPoint(tableData?.sdTotal)}{' '}
                       </td>
                       <td className="text-right">
-                        {" "}
-                        {_fixedPoint(tableData?.vatTotal)}{" "}
+                        {' '}
+                        {_fixedPoint(tableData?.vatTotal)}{' '}
                       </td>
                       <td className="text-right">
-                        {" "}
-                        {_fixedPoint(tableData?.grandTotal)}{" "}
+                        {' '}
+                        {_fixedPoint(tableData?.grandTotal)}{' '}
                       </td>
                       <td> {tableData?.createdBy} </td>
                       <td> {tableData?.activity} </td>
@@ -99,7 +99,7 @@ const DebitNoteModel = ({ rowDto, parentRowClickData }) => {
         >
           <DebitNoteView
             redirectAuditLogPage={viewClick}
-            title={"DEBIT NOTE"}
+            title={'DEBIT NOTE'}
           />
         </IViewModal>
         <IViewModal
@@ -109,9 +109,7 @@ const DebitNoteModel = ({ rowDto, parentRowClickData }) => {
           }}
           title={'View "Purchase Log (Details All)"'}
           btnText="Close"
-        >
-
-        </IViewModal>
+        ></IViewModal>
       </div>
     </>
   );

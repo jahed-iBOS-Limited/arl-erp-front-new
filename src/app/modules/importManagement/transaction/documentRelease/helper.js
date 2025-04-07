@@ -1,13 +1,13 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _todayDate } from "../../../_helper/_todayDate";
-import moment from "moment";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from '../../../_helper/_todayDate';
+import moment from 'moment';
 
 export const getDays = (fromDate, toDate) => {
   let start = moment(fromDate);
   let end = moment(toDate);
-  return end.diff(start, "days");
+  return end.diff(start, 'days');
 };
 export const getCnfDDL = async (accId, businessUnit, setter) => {
   try {
@@ -102,28 +102,28 @@ export const documentReleaseGetByShipmentId = async (
         invoiceNo: invoiceNumber,
         invoiceDate: _dateFormatter(invoiceDate),
         invoiceAmount: invoiceAmount,
-        docReleaseByBankDate: "",
+        docReleaseByBankDate: '',
         paymentDate: _dateFormatter(paymentDate) || _todayDate(),
         startDate: _dateFormatter(startDate) || _todayDate(),
         dueDate: _dateFormatter(dueDate) || _todayDate(),
-        vatOnDocRelease: "",
-        docReleaseCharge: "",
+        vatOnDocRelease: '',
+        docReleaseCharge: '',
         pgAmount: pgAmount,
         tenorDays: getDays(
           _dateFormatter(startDate) || _todayDate(),
           _dateFormatter(dueDate) || _todayDate()
         ),
-        vatOnDocReleaseAtSight: "",
-        docReleaseChargeAtSight: "",
+        vatOnDocReleaseAtSight: '',
+        docReleaseChargeAtSight: '',
         documentForwardDate: documentForwardDate || _todayDate(),
         // totalAmount: "",
         cnfDDL: { label: cnfPartnerName, value: cnfPartnerId },
-        tenorDaysForRowDto: tenorDays
+        tenorDaysForRowDto: tenorDays,
       };
       setShipmentData({
         ...newPayload,
-        exchangeRate: currencyId === 141 ? 1 : "",
-        totalCharge: currencyId === 141 ? invoiceAmount * 1 : "",
+        exchangeRate: currencyId === 141 ? 1 : '',
+        totalCharge: currencyId === 141 ? invoiceAmount * 1 : '',
       });
       setDisabled(false);
     }
@@ -232,9 +232,9 @@ export const getDocumentReleaseById = async (
             dueDate: _dateFormatter(item?.matureDate),
             tenorDays: item?.tenorDay,
             pgOtherAmount: item?.pgandOtherAdjustment,
-            otherAmount:item?.otherCharge,
-            netAmountFc:item?.netPayAmount,
-            pgStatus:item?.isPG ? "Yes" : "No"
+            otherAmount: item?.otherCharge,
+            netAmountFc: item?.netPayAmount,
+            pgStatus: item?.isPG ? 'Yes' : 'No',
           };
         });
         setRowDto(data);
@@ -279,7 +279,7 @@ export const documentReleaseCreate = async (
       ponumber: values?.poNumber,
       lcnumber: values?.lcNumber,
       lcTypeId: values?.lcType?.value,
-      subPonumber: "",
+      subPonumber: '',
       shipmentId: shipmentId,
       shipByNumber: values?.BlAwbTRNumber,
       dteShipByDate: values?.BlAwbTrDate,
@@ -290,11 +290,13 @@ export const documentReleaseCreate = async (
       numExchangeRate: values?.exchangeRate,
       numDocReleaseAmount: +values?.docReleaseCharge,
       // numTotalBdt: values?.totalPayment,
-      dteDocReceiveDateByBank: values?.docReleaseByBankDate ? values?.docReleaseByBankDate : null,
+      dteDocReceiveDateByBank: values?.docReleaseByBankDate
+        ? values?.docReleaseByBankDate
+        : null,
       dtePaymentDate: values?.paymentDate,
       numVatamount: values?.vatOnDocRelease,
       numTotalAmount: values?.totalCharge,
-      strDocReleaseDocumentId: "",
+      strDocReleaseDocumentId: '',
       actionBy: userId,
       poId: poID,
       lcId: lcID,
@@ -324,31 +326,31 @@ export const documentReleaseCreate = async (
       plantId: +item?.plantId,
       poId: poID,
       lcId: lcID,
-      invoicePayAmount:+item?.paymentAmount,
+      invoicePayAmount: +item?.paymentAmount,
       netPayAmount: +(item?.netPayAmount).toFixed(6),
-      otherCharge:+item?.otherAmount,
-      isPG:item?.isPG
+      otherCharge: +item?.otherAmount,
+      isPG: item?.isPG,
     })),
   };
   // console.log('withoutAtSightpayload', withoutAtSightpayload)
   // console.log("values", values);
   try {
-    if (values?.lcType?.label === "At Sight") {
+    if (values?.lcType?.label === 'At Sight') {
       let res = await axios.post(
         `/imp/DocumentRelease/CreateDocumentRelease`,
         obj
       );
       // console.log("res", res)
-      toast.success(res?.data?.message || "create successfully");
+      toast.success(res?.data?.message || 'create successfully');
     } else {
       if (rowDto?.length > 0) {
         let response = await axios.post(
           `/imp/DocumentRelease/CreateDocumentReleaseSchedule`,
           withoutAtSightpayload
         );
-        toast.success(response?.data?.message || "create successfully");
+        toast.success(response?.data?.message || 'create successfully');
       } else {
-        toast.warn("Please add at least add one row");
+        toast.warn('Please add at least add one row');
       }
     }
 
@@ -381,7 +383,7 @@ const atSightDocumentReleaseCreatePayloadChange = (
     ponumber: values?.poNumber,
     lcnumber: values?.lcNumber,
     lcTypeId: values?.lcType?.value,
-    subPonumber: "",
+    subPonumber: '',
     shipmentId: shipmentId,
     shipByNumber: values?.BlAwbTRNumber,
     dteShipByDate: values?.BlAwbTrDate,
@@ -390,8 +392,10 @@ const atSightDocumentReleaseCreatePayloadChange = (
     currencyId: values?.currencyId,
     numExchangeRate: values?.exchangeRate,
     // numOtherCharge: +values?.otherCharges || 0,
-    strDocReleaseDocumentId: "",
-    dteDocReceiveDateByBank: values?.docReleaseByBankDate ? values?.docReleaseByBankDate : null,
+    strDocReleaseDocumentId: '',
+    dteDocReceiveDateByBank: values?.docReleaseByBankDate
+      ? values?.docReleaseByBankDate
+      : null,
     dtePaymentDate: values?.paymentDate,
     actionBy: userId,
     numInvoiceAmountFC: values?.invoiceAmount,
@@ -402,7 +406,7 @@ const atSightDocumentReleaseCreatePayloadChange = (
     cnFLCPartnerId: values?.cnfDDL.value,
     cnFLCPartnerName: values?.cnfDDL.label,
     documentForwardDate: _dateFormatter(values?.documentForwardDate),
-    isLtr: values?.isLtr
+    isLtr: values?.isLtr,
   };
   return payload;
 };
@@ -480,29 +484,29 @@ export const paymentSchedulegetApi = async (
 };
 
 export const initData = {
-  lcType: "",
-  BlAwbTRNumber: "",
-  BlAwbTrDate: "",
-  invoiceNo: "",
-  invoiceDate: "",
-  invoiceAmount: "",
+  lcType: '',
+  BlAwbTRNumber: '',
+  BlAwbTrDate: '',
+  invoiceNo: '',
+  invoiceDate: '',
+  invoiceAmount: '',
   // otherCharges: "",
-  total: "",
-  exchangeRate: "",
-  docReleaseCharge: "",
-  vatOnDocRelease: "",
-  docReleaseByBankDate: "",
+  total: '',
+  exchangeRate: '',
+  docReleaseCharge: '',
+  vatOnDocRelease: '',
+  docReleaseByBankDate: '',
   paymentDate: _todayDate(),
-  paymentAmount: "",
-  pgAmount: "",
-  otherAdjustment: "",
+  paymentAmount: '',
+  pgAmount: '',
+  otherAdjustment: '',
   startDate: _todayDate(),
   dueDate: _todayDate(),
-  tenorDays: "",
+  tenorDays: '',
   // grandTotalInfoAtSight: "",
-  vatOnDocReleaseAtSight: "",
-  docReleaseChargeAtSight: "",
-  cnfDDL: "",
+  vatOnDocReleaseAtSight: '',
+  docReleaseChargeAtSight: '',
+  cnfDDL: '',
   documentForwardDate: _todayDate(),
   //for at sight
   // totalAmount: "",

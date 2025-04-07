@@ -1,31 +1,30 @@
-
-import React, { useState, useEffect, useContext } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router";
-import { Formik } from "formik";
-import { getVesselDDL, getVoyageDDLNew } from "../../../helper";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import IView from "../../../_chartinghelper/icons/_view";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import { getBunkerInformationLandingData } from "../helper";
-import IEdit from "../../../_chartinghelper/icons/_edit";
-import { CharteringContext } from "../../../charteringContext";
+import React, { useState, useEffect, useContext } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router';
+import { Formik } from 'formik';
+import { getVesselDDL, getVoyageDDLNew } from '../../../helper';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import IView from '../../../_chartinghelper/icons/_view';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
+import { getBunkerInformationLandingData } from '../helper';
+import IEdit from '../../../_chartinghelper/icons/_edit';
+import { CharteringContext } from '../../../charteringContext';
 
 const headers = [
-  { name: "SL" },
-  { name: "Vessel Name" },
-  { name: "Voyage No" },
-  { name: "Voyage Type" },
-  { name: "BOD LSMGO QTY" },
-  { name: "BOD LSFO-1 QTY" },
-  { name: "BOD LSFO-2 QTY" },
-  { name: "BOR LSMGO QTY" },
-  { name: "BOR LSFO-1 QTY" },
-  { name: "BOR LSFO-2 QTY" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Vessel Name' },
+  { name: 'Voyage No' },
+  { name: 'Voyage Type' },
+  { name: 'BOD LSMGO QTY' },
+  { name: 'BOD LSFO-1 QTY' },
+  { name: 'BOD LSFO-2 QTY' },
+  { name: 'BOR LSMGO QTY' },
+  { name: 'BOR LSFO-1 QTY' },
+  { name: 'BOR LSFO-2 QTY' },
+  { name: 'Actions' },
 ];
 
 export default function BunkerInfoTable() {
@@ -60,7 +59,7 @@ export default function BunkerInfoTable() {
       values?.voyageNo?.value || 0,
       PageNo || pageNo,
       PageSize || pageSize,
-      "",
+      '',
       setGridData,
       setLoading
     );
@@ -110,11 +109,11 @@ export default function BunkerInfoTable() {
                 <div className="d-flex">
                   <button
                     type="button"
-                    className={"btn btn-primary px-3 py-2"}
+                    className={'btn btn-primary px-3 py-2'}
                     onClick={() => {
                       updateCharteringState(values);
                       history.push(
-                        "/chartering/bunker/bunkerInformation/create"
+                        '/chartering/bunker/bunkerInformation/create'
                       );
                     }}
                     disabled={false}
@@ -127,7 +126,7 @@ export default function BunkerInfoTable() {
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -135,11 +134,11 @@ export default function BunkerInfoTable() {
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
+                        setFieldValue('vesselName', valueOption);
 
                         setVoyageNoDDL([]);
                         updateCharteringState({
-                          voyageNo: "",
+                          voyageNo: '',
                           vesselName: valueOption,
                         });
                         if (valueOption) {
@@ -153,7 +152,7 @@ export default function BunkerInfoTable() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -161,7 +160,7 @@ export default function BunkerInfoTable() {
                       placeholder="Voyage No"
                       label="Voyage No"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                         updateCharteringState({
                           ...values,
                           voyageNo: valueOption,

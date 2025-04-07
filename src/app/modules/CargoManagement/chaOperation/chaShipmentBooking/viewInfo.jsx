@@ -15,10 +15,9 @@ function ViewInfo({ clickRowDto }) {
   useEffect(() => {
     if (clickRowDto?.chabookingId) {
       getSingleChaShipmentBooking(
-        `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${clickRowDto?.chabookingId}`,
+        `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${clickRowDto?.chabookingId}`
       );
     }
-
   }, [clickRowDto]);
 
   if (singleChaShipmentBookingLoading) {

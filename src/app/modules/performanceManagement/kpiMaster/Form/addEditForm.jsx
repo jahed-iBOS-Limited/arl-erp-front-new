@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import Form from "./form";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import Form from './form';
 
 let initData = {
-  bscPerspective: "",
-  kpi: "",
-  status: "",
+  bscPerspective: '',
+  kpi: '',
+  status: '',
 };
 
 export function KpiMasterForm() {
@@ -30,7 +30,7 @@ export function KpiMasterForm() {
           ? location?.state?.item?.intKpiMasterId
           : 0,
         strKpiMasterName: values?.kpi,
-        strKpiMasterCode: "",
+        strKpiMasterCode: '',
         intBscPerspectiveId: values?.bscPerspective?.value,
         strBscPerspectiveName: values?.bscPerspective?.label,
         intAccountId: profileData?.accountId,
@@ -53,8 +53,8 @@ export function KpiMasterForm() {
     <IForm
       title={
         location?.state?.item?.intKpiMasterId
-          ? "Edit KPI Master Data"
-          : "Create KPI Master Data"
+          ? 'Edit KPI Master Data'
+          : 'Create KPI Master Data'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

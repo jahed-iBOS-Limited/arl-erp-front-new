@@ -1,20 +1,18 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
 import {
   createRouteSetupConfig,
   getRouteConfigById,
   editRoutePlanConfig,
-} from "../helper";
-import { useParams } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
+} from '../helper';
+import { useParams } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  entryDay: "",
-  editedDay: "",
+  entryDay: '',
+  editedDay: '',
   approvalStatus: false,
 };
 
@@ -22,7 +20,7 @@ export default function RouteSetupConfigForm() {
   const params = useParams();
   const [objProps, setObjprops] = useState({});
   const [isDisabled, setDisabled] = useState(false);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
@@ -33,7 +31,6 @@ export default function RouteSetupConfigForm() {
     if (params?.id) {
       getRouteConfigById(params?.id, setSingleData);
     }
-
   }, []);
 
   const saveHandler = async (values, cb) => {

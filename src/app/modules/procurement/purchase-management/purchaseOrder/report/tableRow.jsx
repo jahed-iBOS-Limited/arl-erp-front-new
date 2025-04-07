@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { Formik, Form as FormikForm } from 'formik';
@@ -59,13 +56,13 @@ export function PurchaseOrderViewTableRow({
       poId,
       purchaseOrderTypeId ? purchaseOrderTypeId : orId,
       selectedBusinessUnit?.value,
-      setPurchaseOrderReport,
+      setPurchaseOrderReport
     );
   }, [poId, orId]);
 
   let totalSum = purchaseOrderReport?.objRowListDTO?.reduce(
     (acc, sum) => sum?.totalValue + acc,
-    0,
+    0
   );
 
   const printRef = useRef();
@@ -141,7 +138,7 @@ export function PurchaseOrderViewTableRow({
               className="btn btn-primary ml-2"
               onClick={(e) =>
                 pdfExport(
-                  `${purchaseOrderReport?.objHeaderDTO?.purchaseOrderNo}`,
+                  `${purchaseOrderReport?.objHeaderDTO?.purchaseOrderNo}`
                 )
               }
             >
@@ -245,7 +242,7 @@ export function PurchaseOrderViewTableRow({
                         <span className="mr-2">
                           {_dateFormatter(
                             purchaseOrderReport?.objHeaderDTO
-                              ?.purchaseOrderDateTime,
+                              ?.purchaseOrderDateTime
                           )}
                         </span>
                         <b>Status: </b>
@@ -298,7 +295,9 @@ export function PurchaseOrderViewTableRow({
                             </p>
                             <p>
                               Client Bin No.{' '}
-                              {purchaseOrderReport?.objHeaderDTO?.companyBinNo}{' '}
+                              {
+                                purchaseOrderReport?.objHeaderDTO?.companyBinNo
+                              }{' '}
                             </p>
                             <p>
                               {' '}
@@ -410,7 +409,7 @@ export function PurchaseOrderViewTableRow({
                                     {data?.totalValue}
                                   </td>
                                 </tr>
-                              ),
+                              )
                             )}
                             <tr>
                               {/* <td></td>
@@ -490,7 +489,7 @@ export function PurchaseOrderViewTableRow({
                                 <td>
                                   {_dateFormatter(
                                     purchaseOrderReport?.objHeaderDTO
-                                      ?.lastShipmentDate,
+                                      ?.lastShipmentDate
                                   )}
                                 </td>
                                 <td>

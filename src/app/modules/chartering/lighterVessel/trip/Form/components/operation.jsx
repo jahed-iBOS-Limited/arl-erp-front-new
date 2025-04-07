@@ -62,7 +62,7 @@ export function OperationSection(props) {
       .get(
         `/imp/ImportCommonDDL/GetLCDDL?accountId=${
           profileData?.accountId
-        }&businessUnitId=${0}&searchByLc=${v}`,
+        }&businessUnitId=${0}&searchByLc=${v}`
       )
       .then((res) => res?.data);
   };
@@ -74,7 +74,7 @@ export function OperationSection(props) {
         ...item,
         value: item?.boeNumber,
         label: item?.boeNumber,
-      })),
+      }))
     );
   };
 
@@ -106,7 +106,7 @@ export function OperationSection(props) {
                   getShipmentDDL(
                     `/imp/ImportCommonDDL/GetInfoFromPoLcDDL?accId=${
                       profileData?.accountId
-                    }&buId=${0}&searchTerm=${valueOption?.lcNumber}`,
+                    }&buId=${0}&searchTerm=${valueOption?.lcNumber}`
                   );
                 }}
               />
@@ -126,7 +126,7 @@ export function OperationSection(props) {
                   getShipmentDDL(
                     `/imp/ImportCommonDDL/GetInfoFromPoLcDDL?accId=${
                       profileData?.accountId
-                    }&buId=${0}&searchTerm=${valueOption?.label}`,
+                    }&buId=${0}&searchTerm=${valueOption?.label}`
                   );
                 }}
               />
@@ -272,7 +272,7 @@ export function OperationSection(props) {
                   if (v?.length < 3) return [];
                   return axios
                     .get(
-                      `${imarineBaseUrl}/domain/LighterVesselSurvey/GetLighterVesselSRDDL?BusinessUnitId=${selectedBusinessUnit?.value}&SearchSRNumber=${v}`,
+                      `${imarineBaseUrl}/domain/LighterVesselSurvey/GetLighterVesselSRDDL?BusinessUnitId=${selectedBusinessUnit?.value}&SearchSRNumber=${v}`
                     )
                     .then((res) => res?.data);
                 }}
@@ -303,7 +303,7 @@ export function OperationSection(props) {
                   setFieldValue('cargo', valueOption);
                   setFieldValue(
                     'numEstimatedCargoQty',
-                    valueOption?.shippedQuantity,
+                    valueOption?.shippedQuantity
                   );
                   setFieldValue('numBlqty', valueOption?.shippedQuantity);
                 }}
@@ -344,7 +344,7 @@ export function OperationSection(props) {
                 onChange={(e) => {
                   setFieldValue(
                     'numTotalFreight',
-                    +e.target.value * values?.numActualCargoQty || 0,
+                    +e.target.value * values?.numActualCargoQty || 0
                   );
                   setFieldValue('numFreight', e.target.value);
                 }}
@@ -363,7 +363,7 @@ export function OperationSection(props) {
                 onChange={(e) => {
                   setFieldValue(
                     'numTotalFreight',
-                    +e.target.value * values?.numFreight || 0,
+                    +e.target.value * values?.numFreight || 0
                   );
                   setFieldValue('numActualCargoQty', e.target.value);
                 }}
@@ -422,7 +422,7 @@ export function OperationSection(props) {
                         setErrors,
                         setFieldValue,
                         editMode,
-                        setEditMode,
+                        setEditMode
                       );
                     }}
                   >
@@ -455,7 +455,7 @@ export function OperationSection(props) {
                       setRowData,
                       setTouched,
                       setErrors,
-                      setFieldValue,
+                      setFieldValue
                     );
                   }}
                 >
@@ -521,13 +521,13 @@ export function OperationSection(props) {
                             values,
                             setValues,
                             setEditMode,
-                            index,
+                            index
                           );
                           getInfoByShipmentId(item?.intShipmentId);
                           getShipmentDDL(
                             `/imp/ImportCommonDDL/GetInfoFromPoLcDDL?accId=${
                               profileData?.accountId
-                            }&buId=${0}&searchTerm=${item?.lcnumber}`,
+                            }&buId=${0}&searchTerm=${item?.lcnumber}`
                           );
                         }}
                         className="mr-2"
@@ -558,7 +558,7 @@ export function OperationSection(props) {
           getMotherVesselDDL(
             profileData?.accountId,
             selectedBusinessUnit?.value,
-            setMotherVesselDDL,
+            setMotherVesselDDL
           );
         }}
         size="md"
@@ -574,7 +574,7 @@ export function OperationSection(props) {
           GetLighterConsigneeDDL(
             profileData?.accountId,
             selectedBusinessUnit?.value,
-            setConsigneePartyDDL,
+            setConsigneePartyDDL
           );
         }}
       >

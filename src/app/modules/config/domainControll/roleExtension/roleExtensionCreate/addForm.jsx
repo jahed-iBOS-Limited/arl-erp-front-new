@@ -1,27 +1,26 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { isObject } from "lodash";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "../common/formadd";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import { setBuList } from "../../../../Auth/_redux/Auth_Actions";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { isObject } from 'lodash';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from '../common/formadd';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import { setBuList } from '../../../../Auth/_redux/Auth_Actions';
+import Loading from '../../../../_helper/_loading';
 
 const initProduct = {
   id: undefined,
-  businessunit: "",
-  employee: "",
-  orgtype: "",
-  orgname: "",
+  businessunit: '',
+  employee: '',
+  orgtype: '',
+  orgname: '',
 };
 export function RoleAddForm({
   initData,
@@ -70,11 +69,11 @@ export function RoleAddForm({
         try {
           setDisabled(true);
           const res = await Axios.post(
-            "/domain/RoleExtension/CreateRoleExtension",
+            '/domain/RoleExtension/CreateRoleExtension',
             businessData
           );
           cb(initProduct);
-          toast.success(res.data?.message || "Submitted successfully", {
+          toast.success(res.data?.message || 'Submitted successfully', {
             toastId: shortid(),
           });
           setDisabled(false);
@@ -84,9 +83,8 @@ export function RoleAddForm({
           setDisabled(false);
         }
         // setDisabled(false);
-
       } else {
-        toast.warn("Please add atleast one entity!", { toastId: shortid() });
+        toast.warn('Please add atleast one entity!', { toastId: shortid() });
       }
     }
   };
@@ -146,7 +144,7 @@ export function RoleAddForm({
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
-        {isDisabled && <Loading/>}
+        {isDisabled && <Loading />}
         <div className="mt-0">
           <Form
             // actionsLoading={actionsLoading}

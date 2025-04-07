@@ -1,20 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   generalLedgerDDL: [],
-  controllingUnitSelectedId: "",
+  controllingUnitSelectedId: '',
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const costElementSlice = createSlice({
-  name: "costElement",
+  name: 'costElement',
   initialState: initState,
   reducers: {
-
     SetgeneralLedgerDDL: (state, action) => {
       const { payload } = action;
       state.generalLedgerDDL = payload;
@@ -29,10 +28,8 @@ export const costElementSlice = createSlice({
       const { payload } = action;
       state.singleData = payload;
     },
-    SetSingleStoreEmpty: state => {
-      state.singleData = "";
+    SetSingleStoreEmpty: (state) => {
+      state.singleData = '';
     },
-
-  }
+  },
 });
-

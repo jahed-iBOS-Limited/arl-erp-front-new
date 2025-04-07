@@ -1,44 +1,43 @@
-
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import ICard from "../../../../_helper/_card";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { getMonth } from "../../customerSalesTarget/utils";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import YearMonthForm from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import ICard from '../../../../_helper/_card';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IApproval from '../../../../_helper/_helperIcons/_approval';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { getMonth } from '../../customerSalesTarget/utils';
 import {
   deletedTarget,
   editSalesTarget,
   getManpowerSalesTargetLandingData,
-} from "../helper";
-import SubsidyTable from "./subsidyTable";
+} from '../helper';
+import SubsidyTable from './subsidyTable';
 
 const headerOne = [
-  "SL",
-  "Distribution Channel",
-  "Employee Name",
-  "Enroll",
-  "Region",
-  "Area",
-  "Territory",
-  "Zone",
-  "Month",
-  "Year",
-  "Target Qty",
-  "Action",
+  'SL',
+  'Distribution Channel',
+  'Employee Name',
+  'Enroll',
+  'Region',
+  'Area',
+  'Territory',
+  'Zone',
+  'Month',
+  'Year',
+  'Target Qty',
+  'Action',
 ];
-const headerTwo = ["SL", "Month", "Year", "ShipPoint", "Target Qty", "Action"];
+const headerTwo = ['SL', 'Month', 'Year', 'ShipPoint', 'Target Qty', 'Action'];
 
 const getHeaders = (values) => {
   const typeId = values?.type?.value;
@@ -46,17 +45,17 @@ const getHeaders = (values) => {
 };
 
 const initData = {
-  type: "",
-  month: "",
-  year: "",
+  type: '',
+  month: '',
+  year: '',
 };
 
 const types = [
-  { value: 1, label: "Sales Target" },
-  { value: 2, label: "Customer Open Target" },
-  { value: 3, label: "Retailer Open Target" },
-  { value: 4, label: "ShipPoint Target" },
-  { value: 5, label: "Government Subsidy" },
+  { value: 1, label: 'Sales Target' },
+  { value: 2, label: 'Customer Open Target' },
+  { value: 3, label: 'Retailer Open Target' },
+  { value: 4, label: 'ShipPoint Target' },
+  { value: 5, label: 'Government Subsidy' },
 ];
 
 const ManpowerSalesTargetTable = () => {
@@ -135,7 +134,7 @@ const ManpowerSalesTargetTable = () => {
       payload,
       () => {
         getData(values, pageNo, pageSize);
-        rowDataHandler("isEdit", index, false);
+        rowDataHandler('isEdit', index, false);
       },
       setLoading
     );
@@ -157,7 +156,7 @@ const ManpowerSalesTargetTable = () => {
               isCreteBtn={true}
               createHandler={() => {
                 history.push(
-                  "/sales-management/report/manpowersalestarget/create"
+                  '/sales-management/report/manpowersalestarget/create'
                 );
               }}
             >
@@ -172,7 +171,7 @@ const ManpowerSalesTargetTable = () => {
                         value={values?.type}
                         label="Type"
                         onChange={(valueOption) => {
-                          setFieldValue("type", valueOption);
+                          setFieldValue('type', valueOption);
                           setRowData([]);
                         }}
                         placeholder="Select Type"
@@ -202,7 +201,7 @@ const ManpowerSalesTargetTable = () => {
                   [1, 4].includes(values?.type?.value) && (
                     <table
                       className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                       }
                     >
                       <thead>
@@ -235,7 +234,7 @@ const ManpowerSalesTargetTable = () => {
                             )}
                             <td
                               className="text-right"
-                              style={{ width: "130px" }}
+                              style={{ width: '130px' }}
                             >
                               {item?.isEdit ? (
                                 <InputField
@@ -244,7 +243,7 @@ const ManpowerSalesTargetTable = () => {
                                   type="number"
                                   onChange={(e) => {
                                     rowDataHandler(
-                                      "targeQnt",
+                                      'targeQnt',
                                       index,
                                       e?.target?.value
                                     );
@@ -256,14 +255,14 @@ const ManpowerSalesTargetTable = () => {
                             </td>
                             <td
                               className="text-center"
-                              style={{ width: "80px" }}
+                              style={{ width: '80px' }}
                             >
                               <div className="d-flex justify-content-around">
                                 {!item?.isEdit ? (
                                   <span
                                     className="cursor-pointer"
                                     onClick={() => {
-                                      rowDataHandler("isEdit", index, true);
+                                      rowDataHandler('isEdit', index, true);
                                     }}
                                   >
                                     <IEdit />
@@ -273,9 +272,9 @@ const ManpowerSalesTargetTable = () => {
                                     <span
                                       className="cursor-pointer mr-2"
                                       onClick={() => {
-                                        rowDataHandler("isEdit", index, false);
+                                        rowDataHandler('isEdit', index, false);
                                         rowDataHandler(
-                                          "targeQnt",
+                                          'targeQnt',
                                           index,
                                           item?.tempTargetQuantity
                                         );

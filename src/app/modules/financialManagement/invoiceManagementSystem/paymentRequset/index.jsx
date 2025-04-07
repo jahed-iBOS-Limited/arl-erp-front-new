@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "./../../../_helper/_select";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from './../../../_helper/_select';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../_metronic/_partials/controls";
+} from './../../../../../_metronic/_partials/controls';
 import {
   getPlantDDL,
   GetApproveExpensesApi,
   CreatePaymentRequest_api,
   GetApproveAdvancesApi,
   paymentRequestSearchLandingApi,
-} from "./helper";
-import ClearExpenseGrid from "./clearExpense/clearExpense";
-import { _todayDate } from "./../../../_helper/_todayDate";
-import Loading from "./../../../_helper/_loading";
-import AdvancesForIntGrid from "./advancesForInt/advancesForInt";
-import ClearInvoiceGrid from "./clearInvoice/clearInvoice";
+} from './helper';
+import ClearExpenseGrid from './clearExpense/clearExpense';
+import { _todayDate } from './../../../_helper/_todayDate';
+import Loading from './../../../_helper/_loading';
+import AdvancesForIntGrid from './advancesForInt/advancesForInt';
+import ClearInvoiceGrid from './clearInvoice/clearInvoice';
 
 const initData = {
   id: undefined,
-  requestType: "",
-  plant: "",
+  requestType: '',
+  plant: '',
 };
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -106,7 +106,7 @@ function PaymentrequsetLanding() {
   const clearAndAdvanceSaveDataSet = (values, arr) => {
     const paymentRequestsRow = arr?.map((itm) => ({
       paymentRequestId: 0,
-      paymentRequestCode: "",
+      paymentRequestCode: '',
       paymentRequestDate: _todayDate(),
       accountId: profileData?.accountId,
       businessUnitId: selectedBusinessUnit?.value,
@@ -119,7 +119,7 @@ function PaymentrequsetLanding() {
       vdsamount: 0,
       remarks: itm?.comments,
       journalCreated: true,
-      journalCode: "",
+      journalCode: '',
       journalPosted: true,
       journalPostBy: 0,
       journalPostingTime: _todayDate(),
@@ -177,7 +177,7 @@ function PaymentrequsetLanding() {
           <div className="">
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Payment Request"}>
+              <CardHeader title={'Payment Request'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -191,7 +191,7 @@ function PaymentrequsetLanding() {
                         value={values?.plant}
                         label="Select Plant"
                         onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
+                          setFieldValue('plant', valueOption);
                           setClearExpenseGridData([]);
                           setAdvancesForIntGridData([]);
                         }}
@@ -205,30 +205,30 @@ function PaymentrequsetLanding() {
                         name="requestType"
                         options={[
                           {
-                            value: "Supplier Invoice",
-                            label: "Clear Invoice",
+                            value: 'Supplier Invoice',
+                            label: 'Clear Invoice',
                             id: 1,
                           },
                           {
-                            value: "Supplier Advance",
-                            label: "Supplier Advance",
+                            value: 'Supplier Advance',
+                            label: 'Supplier Advance',
                             id: 2,
                           },
                           {
-                            value: "Internal Expense",
-                            label: "Clear Expense",
+                            value: 'Internal Expense',
+                            label: 'Clear Expense',
                             id: 3,
                           },
                           {
-                            value: "Internal Advance",
-                            label: "Advance For Internal Expense",
+                            value: 'Internal Advance',
+                            label: 'Advance For Internal Expense',
                             id: 4,
                           },
                         ]}
                         value={values?.requestType}
                         label="Request Type"
                         onChange={(valueOption) => {
-                          setFieldValue("requestType", valueOption);
+                          setFieldValue('requestType', valueOption);
                           setClearExpenseGridData([]);
                           setAdvancesForIntGridData([]);
                         }}

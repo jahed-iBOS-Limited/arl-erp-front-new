@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getAssetPlantDDL = async (userId, accId, buId, setter) => {
   try {
@@ -61,7 +61,7 @@ export const getGridData = async (
   search
 ) => {
   try {
-    const searchPath = search ? `searchTearm=${search}&` : "";
+    const searchPath = search ? `searchTearm=${search}&` : '';
     setLoading(true);
     const res = await Axios.get(
       `/asset/LandingView/GetAssetReceiveListForRegistration?Accountid=${accId}&BusinessUnitId=${buId}&PlantId=${plId}&WhId=${whId}&${searchPath}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
@@ -94,7 +94,7 @@ export const getAssetReceiveDDL = async (Id, itemId, setter, initData) => {
         itemCode: row.itemCode,
         objLast: res.data.objLast,
         itemCategoryName: row?.itemCategoryName,
-        brtaType: "",
+        brtaType: '',
       };
       // update category in initData
       initData.category = {
@@ -103,7 +103,7 @@ export const getAssetReceiveDDL = async (Id, itemId, setter, initData) => {
       };
 
       setter(newData);
-      console.log("initData", initData);
+      console.log('initData', initData);
     }
   } catch (error) {}
 };
@@ -141,12 +141,12 @@ export const saveAssetData = async (
     setDisabled(true);
     const res = await Axios.post(`/asset/Asset/CreateAsset`, data);
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
       setDisabled(false);
       setIsShowModal(false);
       cb();
       const obj = {
-        title: "Asset Code",
+        title: 'Asset Code',
         message: res?.data?.message,
         noAlertFunc: () => {},
       };
@@ -170,13 +170,13 @@ export const saveAssetForData = async (
     setDisabled(true);
     const res = await Axios.post(`/asset/Asset/CreateAsset`, data);
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
       cb();
       setter([]);
       setDisabled(false);
       setIsShowModal(false);
       const obj = {
-        title: "Asset Code",
+        title: 'Asset Code',
         message: res?.data?.message,
         noAlertFunc: () => {},
       };
@@ -284,7 +284,7 @@ export const getUOMList = async (
       };
     });
     setter(newData);
-    setFieldValue("uomName", {
+    setFieldValue('uomName', {
       value: res?.data?.value,
       label: res?.data?.label,
     });

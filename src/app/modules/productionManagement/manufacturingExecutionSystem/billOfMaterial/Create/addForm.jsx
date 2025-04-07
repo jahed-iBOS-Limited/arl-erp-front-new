@@ -1,6 +1,3 @@
-
-
-
 import React, { useEffect, useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import Form from './form';
@@ -107,7 +104,7 @@ export default function BillofMaretialCreateForm() {
         setSingleData,
         setRowDto,
         setCostElementRowData,
-        setDisabled,
+        setDisabled
       );
     }
   }, [params]);
@@ -118,22 +115,22 @@ export default function BillofMaretialCreateForm() {
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setPlant,
+        setPlant
       );
       getPreviousBomName(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setCopyfrombomname,
+        setCopyfrombomname
       );
       getCostElementDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setCostElementDDL,
+        setCostElementDDL
       );
       getCostCenterDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setCostCenterDDL,
+        setCostCenterDDL
       );
       getCostTypeDDL(setCostTypeDDL);
     }
@@ -146,22 +143,21 @@ export default function BillofMaretialCreateForm() {
         profileData?.accountId,
         selectedBusinessUnit?.value,
         singleData?.plant?.value,
-        setShopFloor,
+        setShopFloor
       );
       getProductDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         singleData?.plant?.value,
-        setProduct,
+        setProduct
       );
       getMaterialDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         singleData?.plant?.value,
-        setMaterial,
+        setMaterial
       );
     }
-
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {
@@ -244,7 +240,7 @@ export default function BillofMaretialCreateForm() {
     // Set Material Row Data
     if (type === 'M') {
       const foundData = rowDto?.some(
-        (item) => item?.material?.value === payload?.material?.value,
+        (item) => item?.material?.value === payload?.material?.value
       );
       if (foundData) {
         toast.warn('Duplicate Data Not Allowed');
@@ -260,7 +256,7 @@ export default function BillofMaretialCreateForm() {
       const foundData = costElementRowData?.some(
         (item) =>
           item?.costElementId === payload?.costElementId &&
-          item?.costCenterId === payload?.costCenterId,
+          item?.costCenterId === payload?.costCenterId
       );
       if (foundData) {
         toast.warn('Duplicate Data Not Allowed');

@@ -1,22 +1,22 @@
-import { Form, Formik } from "formik";
-import React, { useState, useEffect } from "react";
-import Axios from "axios";
-import { useSelector, shallowEqual } from "react-redux";
-import SearchAsyncSelect from "./../../../_helper/SearchAsyncSelect";
-import FormikError from "./../../../_helper/_formikError";
-import NewSelect from "./../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useState, useEffect } from 'react';
+import Axios from 'axios';
+import { useSelector, shallowEqual } from 'react-redux';
+import SearchAsyncSelect from './../../../_helper/SearchAsyncSelect';
+import FormikError from './../../../_helper/_formikError';
+import NewSelect from './../../../_helper/_select';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../_metronic/_partials/controls";
+} from '../../../../../_metronic/_partials/controls';
 import {
   GetVehicleDDL,
   GetVehicleNUserInformation_api,
   UpdateVehicleTaggingEntry_api,
-} from "./helper";
-import Loading from "./../../../_helper/_loading";
+} from './helper';
+import Loading from './../../../_helper/_loading';
 
 export default function VehicleUserTaggingUpdate({ clickRowData, CB }) {
   const { profileData, selectedBusinessUnit } = useSelector(
@@ -85,26 +85,26 @@ export default function VehicleUserTaggingUpdate({ clickRowData, CB }) {
                 value: clickRowData?.intVehicleID,
                 label: clickRowData?.strVehicleNo,
               }
-            : "",
+            : '',
           employeeName: clickRowData?.intEmployeeID
             ? {
                 value: clickRowData?.intEmployeeID,
                 label: clickRowData?.strEmployeeFullName,
               }
-            : "",
+            : '',
           driver: clickRowData?.intDriverEnrol
-          ? {
-              value: clickRowData?.intDriverEnrol,
-              label: clickRowData?.strDriverName,
-            }
-          : "",
+            ? {
+                value: clickRowData?.intDriverEnrol,
+                label: clickRowData?.strDriverName,
+              }
+            : '',
         }}
         onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             CB();
             resetForm({
-              vehicle: "",
-              employeeName: "",
+              vehicle: '',
+              employeeName: '',
             });
           });
         }}
@@ -121,11 +121,11 @@ export default function VehicleUserTaggingUpdate({ clickRowData, CB }) {
           <>
             <Form className="form form-label-right">
               <Card>
-                <CardHeader title={"Vehicle User Tagging"}>
+                <CardHeader title={'Vehicle User Tagging'}>
                   <CardHeaderToolbar>
                     <button
                       type="submit"
-                      className={"btn btn-primary ml-2"}
+                      className={'btn btn-primary ml-2'}
                       onClick={handleSubmit}
                       disabled={
                         loading ||
@@ -134,8 +134,7 @@ export default function VehicleUserTaggingUpdate({ clickRowData, CB }) {
                         !values?.driver
                       }
                     >
-                      {clickRowData?.intID ? "Update" : "Save"}
-                      
+                      {clickRowData?.intID ? 'Update' : 'Save'}
                     </button>
                   </CardHeaderToolbar>
                 </CardHeader>
@@ -148,7 +147,7 @@ export default function VehicleUserTaggingUpdate({ clickRowData, CB }) {
                         <SearchAsyncSelect
                           selectedValue={values?.employeeName}
                           handleChange={(valueOption) => {
-                            setFieldValue("employeeName", valueOption);
+                            setFieldValue('employeeName', valueOption);
                           }}
                           loadOptions={loadEmployeeInfo}
                           isDisabled={clickRowData?.intID}
@@ -166,7 +165,7 @@ export default function VehicleUserTaggingUpdate({ clickRowData, CB }) {
                           value={values?.vehicle}
                           label="Vehicle"
                           onChange={(valueOption) => {
-                            setFieldValue("vehicle", valueOption);
+                            setFieldValue('vehicle', valueOption);
                           }}
                           placeholder="Select Vehicle"
                           errors={errors}
@@ -185,7 +184,7 @@ export default function VehicleUserTaggingUpdate({ clickRowData, CB }) {
                           value={values?.driver}
                           label="Driver"
                           onChange={(valueOption) => {
-                            setFieldValue("driver", valueOption);
+                            setFieldValue('driver', valueOption);
                           }}
                           placeholder="Select Driver"
                           errors={errors}

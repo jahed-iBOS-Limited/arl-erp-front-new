@@ -1,23 +1,25 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { Formik, Form as FormikForm } from 'formik';
+import ReactToPrint from 'react-to-print';
+import Loading from './../../../../_helper/loader/_loader';
+import { getTaxAccountingJournal } from './helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { useSelector, shallowEqual } from 'react-redux';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../../_helper/_viewModal';
+import Attachments from './Attachments';
 
-
-import React, { useState, useRef, useEffect } from "react";
-import { Formik, Form as FormikForm } from "formik";
-import ReactToPrint from "react-to-print";
-import Loading from "./../../../../_helper/loader/_loader";
-import { getTaxAccountingJournal } from "./helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { useSelector, shallowEqual } from "react-redux";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../../_helper/_viewModal";
-import Attachments from "./Attachments";
-
-export function CashJournalReportView({ journalCode, headerData, clickRowData }) {
+export function CashJournalReportView({
+  journalCode,
+  headerData,
+  clickRowData,
+}) {
   const [loading, setLoading] = useState(false);
   const [cashJournalReport, setCashJournalReport] = useState([]);
-  const [isModal, setIsModal] = useState(false)
+  const [isModal, setIsModal] = useState(false);
 
   useEffect(() => {
     getTaxAccountingJournal(journalCode, setCashJournalReport, setLoading);
@@ -74,13 +76,15 @@ export function CashJournalReportView({ journalCode, headerData, clickRowData })
                         {/* <div></div> */}
                       </div>
                       <div className="my-3 d-flex justify-content-between">
-                        <div style={{transform: "translateY(21px)"}}>
+                        <div style={{ transform: 'translateY(21px)' }}>
                           <span className="font-weight-bold mr-2">
-                          Reference :  <IView
-                                            title="View Attachment"
-                                            clickHandler={() => {
-                                              setIsModal(true)
-                                            }} />
+                            Reference :{' '}
+                            <IView
+                              title="View Attachment"
+                              clickHandler={() => {
+                                setIsModal(true);
+                              }}
+                            />
                           </span>
                         </div>
                         <div>
@@ -93,9 +97,11 @@ export function CashJournalReportView({ journalCode, headerData, clickRowData })
                           <div>
                             Voucher Date :
                             <sapn className="font-weight-bold ml-1">
-                              {cashJournalReport ? _dateFormatter(
-                                cashJournalReport?.[0]?.transactionDate
-                              ) : ""}
+                              {cashJournalReport
+                                ? _dateFormatter(
+                                    cashJournalReport?.[0]?.transactionDate
+                                  )
+                                : ''}
                             </sapn>
                           </div>
                         </div>
@@ -125,14 +131,14 @@ export function CashJournalReportView({ journalCode, headerData, clickRowData })
                                   <div className="text-right pr-2">
                                     {data.debit
                                       ? _formatMoney(Math.abs(data?.debit))
-                                      : ""}
+                                      : ''}
                                   </div>
                                 </td>
                                 <td>
                                   <div className="text-right pr-2">
                                     {data.credit
                                       ? _formatMoney(Math.abs(data?.credit))
-                                      : ""}
+                                      : ''}
                                   </div>
                                 </td>
                               </tr>
@@ -196,10 +202,7 @@ export function CashJournalReportView({ journalCode, headerData, clickRowData })
           )}
         </Formik>
       </ICustomCard>
-      <IViewModal
-        show={isModal}
-        onHide={() => setIsModal(false)}
-      >
+      <IViewModal show={isModal} onHide={() => setIsModal(false)}>
         <Attachments clickRowData={clickRowData} />
       </IViewModal>
     </>

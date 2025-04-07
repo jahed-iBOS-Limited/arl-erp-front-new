@@ -1,21 +1,21 @@
-import { Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router";
-import * as Yup from "yup";
-import { getVoyageDDLForPurchaseBunker } from "../../../helper";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import ICustomTable from "../../../_chartinghelper/_customTable";
+import { Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router';
+import * as Yup from 'yup';
+import { getVoyageDDLForPurchaseBunker } from '../../../helper';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import ICustomTable from '../../../_chartinghelper/_customTable';
 
 export const validationSchema = Yup.object().shape({
   vesselName: Yup.object().shape({
-    label: Yup.string().required("Vessel name is required"),
-    value: Yup.string().required("Vessel name is required"),
+    label: Yup.string().required('Vessel name is required'),
+    value: Yup.string().required('Vessel name is required'),
   }),
   voyageNo: Yup.object().shape({
-    label: Yup.string().required("Voyage No is required"),
-    value: Yup.string().required("Voyage No is required"),
+    label: Yup.string().required('Voyage No is required'),
+    value: Yup.string().required('Voyage No is required'),
   }),
   // purchaseFrom: Yup.object().shape({
   //   label: Yup.string().required("Purchase From is required"),
@@ -23,20 +23,20 @@ export const validationSchema = Yup.object().shape({
   // }),
 
   item: Yup.object().shape({
-    label: Yup.string().required("Item is required"),
-    value: Yup.string().required("Item is required"),
+    label: Yup.string().required('Item is required'),
+    value: Yup.string().required('Item is required'),
   }),
-  itemQty: Yup.string().required("Item Qty is required"),
-  itemRate: Yup.string().required("Item Rate is required"),
+  itemQty: Yup.string().required('Item Qty is required'),
+  itemRate: Yup.string().required('Item Rate is required'),
 });
 
 /* Row Data Headers */
 const headers = [
-  { name: "SL" },
-  { name: "Item Name" },
-  { name: "Item Rate" },
-  { name: "Item Qty" },
-  { name: "Item Value" },
+  { name: 'SL' },
+  { name: 'Item Name' },
+  { name: 'Item Rate' },
+  { name: 'Item Qty' },
+  { name: 'Item Value' },
 ];
 
 export default function FormCmp({
@@ -79,31 +79,31 @@ export default function FormCmp({
           <>
             <form className="marine-form-card">
               <div className="marine-form-card-heading">
-                <p>{`Purchase Bunker ${viewType || "Create"}`}</p>
+                <p>{`Purchase Bunker ${viewType || 'Create'}`}</p>
                 <div>
                   <button
                     type="button"
                     onClick={() => {
                       history.goBack();
                     }}
-                    className={"btn btn-secondary px-3 py-2"}
+                    className={'btn btn-secondary px-3 py-2'}
                   >
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
                   </button>
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
                   )}
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="submit"
-                      className={"btn btn-primary ml-2 px-3 py-2"}
+                      className={'btn btn-primary ml-2 px-3 py-2'}
                       onClick={handleSubmit}
                       disabled={false}
                     >
@@ -116,7 +116,7 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -124,8 +124,8 @@ export default function FormCmp({
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
-                        setFieldValue("voyageNo", "");
+                        setFieldValue('vesselName', valueOption);
+                        setFieldValue('voyageNo', '');
                         setVoyageNoDDL([]);
                         getVoyageDDLForPurchaseBunker(
                           valueOption?.value,
@@ -140,7 +140,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -148,7 +148,7 @@ export default function FormCmp({
                       placeholder="Voyage No"
                       label="Voyage No"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                       }}
                       isDisabled={
                         viewType || rowData?.length || !values?.vesselName
@@ -192,7 +192,7 @@ export default function FormCmp({
                         placeholder="Supplier Name"
                         label="Supplier Name"
                         onChange={(valueOption) => {
-                          setFieldValue("supplierName", valueOption);
+                          setFieldValue('supplierName', valueOption);
                           // setFieldValue("supplierPort", valueOption?.portName);
                         }}
                         isDisabled={viewType || rowData?.length}
@@ -210,7 +210,7 @@ export default function FormCmp({
                         placeholder="Supplier Port"
                         label="Supplier Port"
                         onChange={(valueOption) => {
-                          setFieldValue("supplierPort", valueOption);
+                          setFieldValue('supplierPort', valueOption);
                         }}
                         isDisabled={viewType || rowData?.length}
                         errors={errors}
@@ -277,19 +277,19 @@ export default function FormCmp({
                       value={values?.item}
                       isSearchable={true}
                       options={[
-                        { value: 1, label: "LSMGO" },
-                        { value: 2, label: "LSFO-1" },
-                        { value: 3, label: "LSFO-2" },
+                        { value: 1, label: 'LSMGO' },
+                        { value: 2, label: 'LSFO-1' },
+                        { value: 3, label: 'LSFO-2' },
                       ]}
                       styles={customStyles}
                       name="item"
                       placeholder="Item"
                       label="Item"
                       onChange={(valueOption) => {
-                        setFieldValue("item", valueOption);
+                        setFieldValue('item', valueOption);
                       }}
                       isDisabled={
-                        viewType === "view" ||
+                        viewType === 'view' ||
                         !values?.supplierName ||
                         !values?.supplierPort
                       }
@@ -331,15 +331,15 @@ export default function FormCmp({
                       placeholder="Item Quantity"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("itemQty", e.target.value);
+                        setFieldValue('itemQty', e.target.value);
                         setFieldValue(
-                          "itemValue",
+                          'itemValue',
                           Number(e.target.value) * values?.itemRate || 0
                         );
                       }}
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -350,15 +350,15 @@ export default function FormCmp({
                       placeholder="Item Rate"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("itemRate", e.target.value);
+                        setFieldValue('itemRate', e.target.value);
                         setFieldValue(
-                          "itemValue",
+                          'itemValue',
                           Number(e.target.value) * values?.itemQty || 0
                         );
                       }}
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">

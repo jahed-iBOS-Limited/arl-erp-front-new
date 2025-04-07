@@ -10,12 +10,12 @@ export const getSalesInvoiceLanding = async (
   pageNo,
   pageSize,
   setLoading,
-  setter,
+  setter
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `/wms/CommercialInvoice/GetCommercialInvoiceLanding?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&Todate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc`,
+      `/wms/CommercialInvoice/GetCommercialInvoiceLanding?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&Todate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc`
     );
     setLoading(false);
     setter(res?.data);
@@ -29,12 +29,12 @@ export const getSalesInvoiceLanding = async (
 export const getDeliveryInformationByDeliveryId = async (
   deliveryId,
   setLoading,
-  setRowDto,
+  setRowDto
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `/wms/CommercialInvoice/GetDeliveryInformationByDeliveryId?DeliveryId=${deliveryId}`,
+      `/wms/CommercialInvoice/GetDeliveryInformationByDeliveryId?DeliveryId=${deliveryId}`
     );
     setLoading(false);
     if (res?.data?.length > 0) {
@@ -51,12 +51,12 @@ export const getDeliveryInformationByDeliveryId = async (
 export const getCommercialInvoiceById = async (
   invoiceId,
   setLoading,
-  setter,
+  setter
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `/wms/CommercialInvoice/GetCommercialInvoiceById?InvoiceId=${invoiceId}`,
+      `/wms/CommercialInvoice/GetCommercialInvoiceById?InvoiceId=${invoiceId}`
     );
     setLoading(false);
     setter(res?.data);
@@ -71,11 +71,11 @@ export const getDeliveryDDLFromOrder = async (
   buId,
   salesOrderId,
   v,
-  setter,
+  setter
 ) => {
   try {
     const res = await axios.get(
-      `/wms/CommercialInvoice/GetDeliveryInfoDDL?AccountId=${accId}&BusinessUnitId=${buId}&SalesOrderId=${salesOrderId}&Search=${v}`,
+      `/wms/CommercialInvoice/GetDeliveryInfoDDL?AccountId=${accId}&BusinessUnitId=${buId}&SalesOrderId=${salesOrderId}&Search=${v}`
     );
     setter(res?.data);
   } catch (error) {
@@ -86,7 +86,7 @@ export const getDeliveryDDLFromOrder = async (
 export const getCustomerDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`,
+      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
     );
     setter(res?.data);
   } catch (error) {
@@ -97,7 +97,7 @@ export const getCustomerDDL = async (accId, buId, setter) => {
 export const getOrderDDL = async (accId, buId, search, partnerId, setter) => {
   try {
     const res = await axios.get(
-      `/wms/CommercialInvoice/GetOrderInfoDDL?AccountId=${accId}&BusinessUnitId=${buId}&PartnerId=${partnerId}&Search=${search}`,
+      `/wms/CommercialInvoice/GetOrderInfoDDL?AccountId=${accId}&BusinessUnitId=${buId}&PartnerId=${partnerId}&Search=${search}`
     );
     setter(res?.data);
   } catch (error) {
@@ -108,7 +108,7 @@ export const getOrderDDL = async (accId, buId, search, partnerId, setter) => {
 export const getPartnerInfoByOrder = async (orderId, setter) => {
   try {
     const res = await axios.get(
-      `/wms/CommercialInvoice/GetPartnerInfoByOrder?OrderId=${orderId}`,
+      `/wms/CommercialInvoice/GetPartnerInfoByOrder?OrderId=${orderId}`
     );
     setter(res?.data);
   } catch (error) {
@@ -119,7 +119,7 @@ export const getPartnerInfoByOrder = async (orderId, setter) => {
 export const getBankAccountDDL = async (accountId, businssUnitId, setter) => {
   try {
     const res = await axios.get(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accountId}&BusinssUnitId=${businssUnitId}`,
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accountId}&BusinssUnitId=${businssUnitId}`
     );
     setter(res?.data);
   } catch (error) {
@@ -130,7 +130,7 @@ export const getBankAccountDDL = async (accountId, businssUnitId, setter) => {
 export const getSBUListDDL = async (accountId, businssUnitId, setter) => {
   try {
     const res = await axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accountId}&BusinessUnitId=${businssUnitId}&Status=true`,
+      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accountId}&BusinessUnitId=${businssUnitId}&Status=true`
     );
     setter(res?.data);
   } catch (error) {
@@ -142,11 +142,11 @@ export const getOrganizationalUnitUserPermission = async (
   userId,
   accountId,
   businssUnitId,
-  setter,
+  setter
 ) => {
   try {
     const res = await axios.get(
-      `${APIUrl}/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${businssUnitId}&OrgUnitTypeId=7`,
+      `${APIUrl}/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${businssUnitId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
   } catch (error) {
@@ -171,7 +171,7 @@ export const othersBillEntries = async (payload, setLoading, cb) => {
   try {
     const res = await axios.post(
       `/fino/OthersBillEntry/OthersBillEntries`,
-      payload,
+      payload
     );
     setLoading(false);
     cb();
@@ -186,14 +186,14 @@ export const othersBillEntries = async (payload, setLoading, cb) => {
 export const getBankDDL = async (setter) => {
   try {
     const res = await axios.get(
-      `${APIUrl}/partner/BusinessPartnerBankInfo/GetBankInfo`,
+      `${APIUrl}/partner/BusinessPartnerBankInfo/GetBankInfo`
     );
     setter(
       res?.data?.map((item) => ({
         ...item,
         label: item?.bankName,
         value: item?.bankId,
-      })),
+      }))
     );
   } catch (error) {
     console.log(error);
@@ -202,14 +202,14 @@ export const getBankDDL = async (setter) => {
 export const getBranchDDL = async (bankId, setter) => {
   try {
     const res = await axios.get(
-      `${APIUrl}/partner/BusinessPartnerBankInfo/GetBranchDDLInfo?BankId=${bankId}`,
+      `${APIUrl}/partner/BusinessPartnerBankInfo/GetBranchDDLInfo?BankId=${bankId}`
     );
     setter(
       res?.data?.map((item) => ({
         ...item,
         label: item?.bankBranchName,
         value: item?.bankBranchId,
-      })),
+      }))
     );
   } catch (error) {
     console.log(error);
@@ -218,18 +218,18 @@ export const getBranchDDL = async (bankId, setter) => {
 
 export const getExpenseBusinessTransactionList = async (
   businessUnitId,
-  setter,
+  setter
 ) => {
   try {
     const res = await axios.get(
-      `/fino/Expense/GetExpenseBusinessTransactionList?BusinessUnitId=${businessUnitId}`,
+      `/fino/Expense/GetExpenseBusinessTransactionList?BusinessUnitId=${businessUnitId}`
     );
     setter(
       res?.data?.map((item) => ({
         ...item,
         value: item?.businessTransactionId,
         label: item?.businessTransactionName,
-      })),
+      }))
     );
   } catch (err) {}
 };
@@ -238,7 +238,7 @@ export const billApproved = async (actionById, data, setDisabled, cb) => {
     setDisabled(true);
     const res = await axios.post(
       `/fino/BillRegister/BillApproved?ActionById=${actionById}`,
-      data,
+      data
     );
 
     toast.success(res?.data?.message || 'Submitted successfully', {
@@ -258,7 +258,7 @@ export const othersBillEntriesGetById = async (id, setter, setDisabled) => {
   try {
     setDisabled(true);
     const res = await axios.get(
-      `/fino/OthersBillEntry/OthersBillEntriesGetById?billId=${id}`,
+      `/fino/OthersBillEntry/OthersBillEntriesGetById?billId=${id}`
     );
     setter(res?.data);
     setDisabled(false);

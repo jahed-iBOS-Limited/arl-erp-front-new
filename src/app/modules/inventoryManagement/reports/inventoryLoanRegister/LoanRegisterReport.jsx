@@ -1,38 +1,35 @@
-import { Formik, Form } from "formik";
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
-import ICustomTable from "../../../_helper/_customTable";
-import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
-import Loading from "../../../_helper/_loading";
-import IViewModal from "../../../_helper/_viewModal";
+import { Formik, Form } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
+import ICustomTable from '../../../_helper/_customTable';
+import InfoCircle from '../../../_helper/_helperIcons/_infoCircle';
+import Loading from '../../../_helper/_loading';
+import IViewModal from '../../../_helper/_viewModal';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../_metronic/_partials/controls";
-import NewSelect from "../../../_helper/_select";
-import {
-  getRegisterReportAction,
-  getSbuDDLAction,
-} from "./helper";
-import RegisterDetailsModal from "./RegisterDetailsModal";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InputField from "../../../_helper/_inputField";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { _firstDateofMonth } from "../../../_helper/_firstDateOfCurrentMonth";
+} from '../../../../../_metronic/_partials/controls';
+import NewSelect from '../../../_helper/_select';
+import { getRegisterReportAction, getSbuDDLAction } from './helper';
+import RegisterDetailsModal from './RegisterDetailsModal';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InputField from '../../../_helper/_inputField';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { _firstDateofMonth } from '../../../_helper/_firstDateOfCurrentMonth';
 // import { useHistory } from "react-router-dom";
-import { setRegisterReportAction } from "../../../_helper/reduxForLocalStorage/Actions";
+import { setRegisterReportAction } from '../../../_helper/reduxForLocalStorage/Actions';
 
 const initData = {
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
-  sbu: "",
-  registerType: "",
-  generalLedger: "",
+  sbu: '',
+  registerType: '',
+  generalLedger: '',
 };
 export function LoanRegisterReport() {
   const { profileData, selectedBusinessUnit } = useSelector(
@@ -49,7 +46,7 @@ export function LoanRegisterReport() {
   const [rowDto, setRowDto] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
-  const [tableItem, setTableItem] = useState("");
+  const [tableItem, setTableItem] = useState('');
 
   useEffect(() => {
     getSbuDDLAction(
@@ -67,21 +64,20 @@ export function LoanRegisterReport() {
         setLoading
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   let totalAmount = 0;
 
   const getThRow = (values) => {
     return [
-      "SL",
-      "Partner Code",
-      "Partner Name",
-      "Opening",
-      "Debit",
-      "Credit",
-      "Ledger Balance",
-      "Action",
+      'SL',
+      'Partner Code',
+      'Partner Name',
+      'Opening',
+      'Debit',
+      'Credit',
+      'Ledger Balance',
+      'Action',
     ];
   };
 
@@ -110,7 +106,7 @@ export function LoanRegisterReport() {
                         value={values?.sbu}
                         label="SBU"
                         onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
+                          setFieldValue('sbu', valueOption);
                         }}
                         placeholder="SBU"
                         errors={errors}
@@ -145,11 +141,11 @@ export function LoanRegisterReport() {
                         name="fromDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e?.target?.value);
+                          setFieldValue('fromDate', e?.target?.value);
                           setRowDto([]);
                         }}
                         resetFieldValue={() => {
-                          setFieldValue("fromDate", "");
+                          setFieldValue('fromDate', '');
                         }}
                       />
                     </div>
@@ -161,7 +157,7 @@ export function LoanRegisterReport() {
                         name="toDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e?.target?.value);
+                          setFieldValue('toDate', e?.target?.value);
                           setRowDto([]);
                         }}
                       />
@@ -172,7 +168,7 @@ export function LoanRegisterReport() {
                         label="View"
                         onClick={() => {
                           if (!values?.sbu?.value)
-                            return toast.warn("Please select SBU");
+                            return toast.warn('Please select SBU');
                           // if (
                           //   values?.registerType?.value === 5 &&
                           //   !values?.generalLedger?.value
@@ -188,7 +184,7 @@ export function LoanRegisterReport() {
                           );
                           dispatch(setRegisterReportAction(values));
                         }}
-                        style={{ marginTop: "19px" }}
+                        style={{ marginTop: '19px' }}
                       />
                     </div>
                   </div>

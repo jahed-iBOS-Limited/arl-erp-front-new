@@ -1,46 +1,45 @@
-import * as requestFromServer from "./Api";
-import { strategicParticularsTwoSlice } from "./Slice";
-import { toast } from "react-toastify";
+import * as requestFromServer from './Api';
+import { strategicParticularsTwoSlice } from './Slice';
+import { toast } from 'react-toastify';
 const { actions: slice } = strategicParticularsTwoSlice;
 
 // Action for get Department DDL
-export const getDepartmentDDLAction = (accId, buId, setDepDDL) => (dispatch) => {
-  return requestFromServer.getDepartmentDDL(accId, buId).then((res) => {
-    const { status, data } = res;
-    if (status === 200 && data) {
-      dispatch(slice.SetDepartmentDDL(data));
-      setDepDDL && setDepDDL(data)
-    }
-  });
-};
+export const getDepartmentDDLAction =
+  (accId, buId, setDepDDL) => (dispatch) => {
+    return requestFromServer.getDepartmentDDL(accId, buId).then((res) => {
+      const { status, data } = res;
+      if (status === 200 && data) {
+        dispatch(slice.SetDepartmentDDL(data));
+        setDepDDL && setDepDDL(data);
+      }
+    });
+  };
 
 // Action for get StrategicObjectiveType DDL
-export const getStrategicObjectiveTypeDDLAction = (accId, buId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getStrategicObjectiveTypeDDL(accId, buId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetStrategicObjectiveTypeDDLAction(data));
-      }
-    });
-};
+export const getStrategicObjectiveTypeDDLAction =
+  (accId, buId) => (dispatch) => {
+    return requestFromServer
+      .getStrategicObjectiveTypeDDL(accId, buId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetStrategicObjectiveTypeDDLAction(data));
+        }
+      });
+  };
 
 //Action for get StrategicParticularsType DDL
-export const getStrategicParticularsTypeDDLAction = (accId, buId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getStrategicParticularsTypeDDL(accId, buId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetStrategicParticularsTypeDDL(data));
-      }
-    });
-};
+export const getStrategicParticularsTypeDDLAction =
+  (accId, buId) => (dispatch) => {
+    return requestFromServer
+      .getStrategicParticularsTypeDDL(accId, buId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetStrategicParticularsTypeDDL(data));
+        }
+      });
+  };
 
 export const getStrObjListAction = (strTypeId, strId) => (dispatch) => {
   return requestFromServer.getStrObjList(strTypeId, strId).then((res) => {
@@ -61,41 +60,38 @@ export const getStrTargetAction = (year, strId) => (dispatch) => {
 };
 
 // str create page quarterly or yearly or monthly grid
-export const getStrategicParticularsGridActions = (
-  accId,
-  buId,
-  yearId,
-  yearRange,
-  frequencyId,
-  loopCount,
-  values
-) => (dispatch) => {
-  return requestFromServer
-    .getStrategicParticularsGrid(
-      accId,
-      buId,
-      yearId,
-      yearRange,
-      frequencyId,
-      loopCount
-    )
-    .then((res) => {
-      let data = [];
-      const {label} = values?.strategicParticularType;
-      if(label === "Initiatives" || label === "Program" || label === "Project" || label === "Milestone"){
-        data.push(res?.data?.[0])
-      }else{
-        data = [...res?.data];
-      }
-      dispatch(slice.SetStrategicParticularsGrid({ data, frequencyId }));
-    });
-};
+export const getStrategicParticularsGridActions =
+  (accId, buId, yearId, yearRange, frequencyId, loopCount, values) =>
+  (dispatch) => {
+    return requestFromServer
+      .getStrategicParticularsGrid(
+        accId,
+        buId,
+        yearId,
+        yearRange,
+        frequencyId,
+        loopCount
+      )
+      .then((res) => {
+        let data = [];
+        const { label } = values?.strategicParticularType;
+        if (
+          label === 'Initiatives' ||
+          label === 'Program' ||
+          label === 'Project' ||
+          label === 'Milestone'
+        ) {
+          data.push(res?.data?.[0]);
+        } else {
+          data = [...res?.data];
+        }
+        dispatch(slice.SetStrategicParticularsGrid({ data, frequencyId }));
+      });
+  };
 
 export const SetStrategicParticularsGridEmpty = () => (dispatch) => {
-  dispatch(slice.SetStrategicParticularsGrid(""));
+  dispatch(slice.SetStrategicParticularsGrid(''));
 };
-
-
 
 // action for save created data
 export const saveStrategicParticulars = (payload) => () => {
@@ -103,12 +99,11 @@ export const saveStrategicParticulars = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
     });
 };
@@ -119,7 +114,7 @@ export const saveEditedStrategicParticulars = (payload) => () => {
     .saveEditData(payload?.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
       }
     })
     .catch((err) => {
@@ -129,21 +124,42 @@ export const saveEditedStrategicParticulars = (payload) => () => {
 };
 
 // action for get grid data
-export const StrategicParticularsgetPaginationAction = (accId, buId, refId, type, categoryId, isActive, setLoading, pageNo, pageSize, yearId) => (
-  dispatch
-) => {
-  setLoading(true)
-  return requestFromServer
-    .getGridData(accId, buId, refId, type, categoryId, isActive, pageNo, pageSize, yearId)
-    .then((res) => {
-      setLoading(false)
-      return dispatch(slice.SetGridData(res?.data));
-    })
-    .catch((err) => {
-      setLoading(false)
-      toast.error("Something went wrong")
-    });
-};
+export const StrategicParticularsgetPaginationAction =
+  (
+    accId,
+    buId,
+    refId,
+    type,
+    categoryId,
+    isActive,
+    setLoading,
+    pageNo,
+    pageSize,
+    yearId
+  ) =>
+  (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(
+        accId,
+        buId,
+        refId,
+        type,
+        categoryId,
+        isActive,
+        pageNo,
+        pageSize,
+        yearId
+      )
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res?.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+        toast.error('Something went wrong');
+      });
+  };
 
 // set single store empty
 export const setParticullersGridEmpty = () => async (dispatch) => {
@@ -177,7 +193,7 @@ export const getStrategicParticularsById = (id) => (dispatch) => {
           yearId,
           yearName,
           planTypeId,
-          planTypeName
+          planTypeName,
         } = item?.objHeader;
         const data = {
           objHeader: {
@@ -186,7 +202,7 @@ export const getStrategicParticularsById = (id) => (dispatch) => {
               value: sbuid,
               label: sbuName,
             },
-            planType: {value : planTypeId, label : planTypeName},
+            planType: { value: planTypeId, label: planTypeName },
             department: {
               value: departmentId,
               label: departmentName,
@@ -212,7 +228,7 @@ export const getStrategicParticularsById = (id) => (dispatch) => {
               label: priorityName,
             },
             maxi_mini: {
-              value: maxiMini === "Minimization" ? 1 : 2,
+              value: maxiMini === 'Minimization' ? 1 : 2,
               label: maxiMini,
             },
             aggregationType: {
@@ -233,9 +249,7 @@ export const getStrategicParticularsById = (id) => (dispatch) => {
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 // set single store empty
 export const getStrategicParticularsSingleEmpty = () => async (dispatch) => {

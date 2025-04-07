@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Form from './form';
@@ -47,12 +45,12 @@ export default function SalesforceTerrioryInfo() {
     getDistributionChannelDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setDistributionChannelDDL,
+      setDistributionChannelDDL
     );
     getTerritoryTypeDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setTerritoryTypeDDL,
+      setTerritoryTypeDDL
     );
   }, [profileData, selectedBusinessUnit]);
 
@@ -66,10 +64,9 @@ export default function SalesforceTerrioryInfo() {
         profileData?.accountId,
         selectedBusinessUnit?.value,
         headerData?.employeeId,
-        setSingleData,
+        setSingleData
       );
     }
-
   }, [profileData, selectedBusinessUnit, headerData]);
 
   useEffect(() => {
@@ -109,7 +106,7 @@ export default function SalesforceTerrioryInfo() {
             profileData?.accountId,
             selectedBusinessUnit?.value,
             headerData?.employeeId,
-            setSingleData,
+            setSingleData
           );
         });
       }

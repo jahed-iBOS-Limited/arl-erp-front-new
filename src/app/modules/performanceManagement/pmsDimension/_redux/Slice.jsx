@@ -1,16 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   gridData: [],
-  singleData: "",
+  singleData: '',
   dimensionType: [],
 };
 
 export const pmsDimensionTwoSlice = createSlice({
-  name: "pmsDimensionTwo",
+  name: 'pmsDimensionTwo',
   initialState: initState,
   reducers: {
     SetGridData: (state, action) => {
@@ -28,7 +28,7 @@ export const pmsDimensionTwoSlice = createSlice({
       state.singleData = payload;
     },
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
   },
 });

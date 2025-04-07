@@ -1,15 +1,19 @@
-import React, { useRef , useState} from "react";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
+import React, { useRef, useState } from 'react';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
 import IViewModal from '../../../../_helper/_viewModal';
 import CommonView from '../../commonView';
 import {
   Card,
   CardBody,
-} from "./../../../../../../_metronic/_partials/controls";
+} from './../../../../../../_metronic/_partials/controls';
 
-export default function InputTaxDetailsModal({ show, onHide, inputTaxDetailsData }) {
-  const [viewClick, setViewClick] = useState("");
+export default function InputTaxDetailsModal({
+  show,
+  onHide,
+  inputTaxDetailsData,
+}) {
+  const [viewClick, setViewClick] = useState('');
   const [modelShow, setModelShow] = useState(false);
   const printRef = useRef();
   return (
@@ -19,7 +23,7 @@ export default function InputTaxDetailsModal({ show, onHide, inputTaxDetailsData
         onHide={() => {
           onHide();
         }}
-        title={"Supply InputTax"}
+        title={'Supply InputTax'}
         btnText="Close"
       >
         <Card>
@@ -32,7 +36,7 @@ export default function InputTaxDetailsModal({ show, onHide, inputTaxDetailsData
                     className="btn btn-primary px-1 py-1 my-0"
                   >
                     <img
-                      style={{ width: "25px", paddingRight: "5px" }}
+                      style={{ width: '25px', paddingRight: '5px' }}
                       src={printIcon}
                       alt="print-icon"
                     />
@@ -49,7 +53,7 @@ export default function InputTaxDetailsModal({ show, onHide, inputTaxDetailsData
                 <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                   <thead>
                     <tr>
-                      <th style={{ width: "30px" }}>SL</th>
+                      <th style={{ width: '30px' }}>SL</th>
                       <th>Challan No</th>
                       <th>Branch Name</th>
                       <th>Item Group</th>
@@ -67,51 +71,42 @@ export default function InputTaxDetailsModal({ show, onHide, inputTaxDetailsData
                         <tr>
                           <td> {index + 1}</td>
                           <td>
-                            <div className="pl-2">
-                              {item?.challanNo}
-                            </div>
+                            <div className="pl-2">{item?.challanNo}</div>
                           </td>
                           <td>
-                            <div className="pl-2">
-                              {item?.branchName}
-                            </div>
+                            <div className="pl-2">{item?.branchName}</div>
                           </td>
                           <td>
-                            <div className="pl-2">
-                              {item?.itemGroupName}
-                            </div>
+                            <div className="pl-2">{item?.itemGroupName}</div>
                           </td>
                           <td>
-                            <div className="pl-2">
-                              {item?.uoM}
-                            </div>
+                            <div className="pl-2">{item?.uoM}</div>
                           </td>
                           <td>
-                            <div className="pl-2">
-                              {item?.quantity}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-right pr-2">{item?.tradeTypeName}</div>
-                          </td>
-                          <td>
-                            {" "}
-                            <div className="text-right pr-2">{item?.transactionName}</div>
+                            <div className="pl-2">{item?.quantity}</div>
                           </td>
                           <td>
                             <div className="text-right pr-2">
-                              {item.hScode}
+                              {item?.tradeTypeName}
                             </div>
+                          </td>
+                          <td>
+                            {' '}
+                            <div className="text-right pr-2">
+                              {item?.transactionName}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="text-right pr-2">{item.hScode}</div>
                           </td>
                           <td className="text-center">
                             <button
                               className="btn btn-primary"
-                              style={{padding:'3px 10px 5px 10px'}}
+                              style={{ padding: '3px 10px 5px 10px' }}
                               type="button"
                               onClick={() => {
                                 setViewClick({
                                   ...item,
-                            
                                 });
                                 setModelShow(true);
                               }}

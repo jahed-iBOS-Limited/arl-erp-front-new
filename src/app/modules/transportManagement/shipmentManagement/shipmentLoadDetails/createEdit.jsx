@@ -1,11 +1,11 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import {
   createInitData,
   generateEditInitData,
@@ -13,8 +13,8 @@ import {
   notEmptyState,
   shiftDDL,
   validationSchema,
-} from "./helper";
-import ShipPointShipMentDDL, { CommonDDLFieldComponent } from "./shipPointMent";
+} from './helper';
+import ShipPointShipMentDDL, { CommonDDLFieldComponent } from './shipPointMent';
 
 export default function ShipmentLoadDetailsCreateEditPage() {
   //redux
@@ -28,11 +28,8 @@ export default function ShipmentLoadDetailsCreateEditPage() {
   // state
   const [objProps, setObjprops] = useState({});
 
-  const [
-    ,
-    saveShipmentLoadDetails,
-    saveShipmentLoadDetailsLoading,
-  ] = useAxiosPost();
+  const [, saveShipmentLoadDetails, saveShipmentLoadDetailsLoading] =
+    useAxiosPost();
 
   // use effect for edit
   useEffect(() => {
@@ -44,7 +41,6 @@ export default function ShipmentLoadDetailsCreateEditPage() {
         formikRef.current.setValues(generateEditInitData(location));
       }
     }
-
   }, []);
 
   // save handler
@@ -55,7 +51,7 @@ export default function ShipmentLoadDetailsCreateEditPage() {
     const payload = {
       autoId: isEditingMode(params) ? +params?.id : 0, // if editing mode than provide it's id otherwise 0
       shipmentId: shipment?.value || 0,
-      shiftName: shift?.label || "",
+      shiftName: shift?.label || '',
       quantity: +quantity || 0,
       actionBy: profileData?.userId,
       loadingDate: loadingDate,
@@ -141,9 +137,9 @@ export default function ShipmentLoadDetailsCreateEditPage() {
 
                 <CommonDDLFieldComponent
                   obj={{
-                    name: "shift",
+                    name: 'shift',
                     ddl: shiftDDL,
-                    label: "Shift",
+                    label: 'Shift',
                     values,
                     errors,
                     touched,
@@ -158,7 +154,7 @@ export default function ShipmentLoadDetailsCreateEditPage() {
                     name="quantity"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("quantity", e.target.value);
+                      setFieldValue('quantity', e.target.value);
                     }}
                   />
                 </div>
@@ -170,7 +166,7 @@ export default function ShipmentLoadDetailsCreateEditPage() {
                     type="date"
                     name="loadingDate"
                     onChange={(e) => {
-                      setFieldValue("loadingDate", e.target.value);
+                      setFieldValue('loadingDate', e.target.value);
                     }}
                   />
                 </div>
@@ -178,14 +174,14 @@ export default function ShipmentLoadDetailsCreateEditPage() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(createInitData)}
               ></button>

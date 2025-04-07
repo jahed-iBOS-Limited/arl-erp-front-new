@@ -64,7 +64,7 @@ p {
   padding-top: 2px;
 }
 .poly_fibre_quotation_print .signature_wrapper .signature p::before {
-  content: "";
+  content: '';
   position: absolute;
   height: 1px;
   width: calc(100% + 30px);

@@ -1,6 +1,6 @@
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InputField from '../../../../_helper/_inputField';
 
 export default function CommissionRevenueCostTable({
   rowData,
@@ -23,7 +23,7 @@ export default function CommissionRevenueCostTable({
                   <tr>
                     <th
                       onClick={() => allSelect(!selectedAll())}
-                      style={{ width: "30px" }}
+                      style={{ width: '30px' }}
                     >
                       <input
                         type="checkbox"
@@ -33,7 +33,7 @@ export default function CommissionRevenueCostTable({
                       />
                     </th>
 
-                    <th style={{ width: "40px" }}>SL</th>
+                    <th style={{ width: '40px' }}>SL</th>
                     <th>Mother Vessel</th>
                     <th>Quantity</th>
                     {[2, 3].includes(values?.status?.value) && (
@@ -66,7 +66,7 @@ export default function CommissionRevenueCostTable({
                         <td
                           onClick={() => {
                             rowDataHandler(
-                              "isSelected",
+                              'isSelected',
                               index,
                               !item.isSelected
                             );
@@ -75,10 +75,10 @@ export default function CommissionRevenueCostTable({
                           style={
                             item?.isSelected
                               ? {
-                                  backgroundColor: "#aacae3",
-                                  width: "30px",
+                                  backgroundColor: '#aacae3',
+                                  width: '30px',
                                 }
-                              : { width: "30px" }
+                              : { width: '30px' }
                           }
                         >
                           <input
@@ -88,7 +88,7 @@ export default function CommissionRevenueCostTable({
                             onChange={() => {}}
                           />
                         </td>
-                        <td className="text-center"> {index + 1}</td>{" "}
+                        <td className="text-center"> {index + 1}</td>{' '}
                         <td>{item?.motherVesselName}</td>
                         <td className="text-right">
                           {_fixedPoint(item?.quantity, true, 0)}
@@ -120,11 +120,11 @@ export default function CommissionRevenueCostTable({
                           <td className="text-right">
                             <InputField
                               name="billAmount"
-                              value={item?.commissionRate || ""}
+                              value={item?.commissionRate || ''}
                               onChange={(e) => {
                                 if (+e.target.value < 0) return;
                                 rowDataHandler(
-                                  "commissionRate",
+                                  'commissionRate',
                                   index,
                                   e?.target?.value
                                 );
@@ -141,7 +141,7 @@ export default function CommissionRevenueCostTable({
                     );
                   })}
                   {rowData?.length > 0 && (
-                    <tr style={{ fontWeight: "bold" }}>
+                    <tr style={{ fontWeight: 'bold' }}>
                       <td className="text-right" colSpan={3}>
                         Total
                       </td>

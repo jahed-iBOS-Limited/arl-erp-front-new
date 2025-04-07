@@ -1,20 +1,20 @@
-import { getRowTotal } from "../helper";
+import { getRowTotal } from '../helper';
 
 // all salary report
 export const budgetEntryCostExcelColumn = {
-  sl: "SL",
-  costRevCenterName: "Cost Revenue Center Name",
-  strElementCode: "Code",
-  strElementName: "Description",
-  numBudgetQty: "Plan/Target Qty.",
-  numBudgetValue: "Plan/Target Amount",
+  sl: 'SL',
+  costRevCenterName: 'Cost Revenue Center Name',
+  strElementCode: 'Code',
+  strElementName: 'Description',
+  numBudgetQty: 'Plan/Target Qty.',
+  numBudgetValue: 'Plan/Target Amount',
 };
 export const budgetEntryExcelColumn = {
-  sl: "SL",
-  strElementCode: "Code",
-  strElementName: "Description",
-  numBudgetQty: "Plan/Target Qty.",
-  numBudgetValue: "Plan/Target Amount",
+  sl: 'SL',
+  strElementCode: 'Code',
+  strElementName: 'Description',
+  numBudgetQty: 'Plan/Target Qty.',
+  numBudgetValue: 'Plan/Target Amount',
 };
 
 export const budgetExcelData = (arr) => {
@@ -22,10 +22,10 @@ export const budgetExcelData = (arr) => {
   newArr = arr.map((itm, index) => {
     return {
       sl: index + 1,
-      strElementCode: itm?.strElementCode || " ",
-      strElementName: itm?.strElementName || " ",
-      numBudgetQty: itm?.numBudgetQty || " ",
-      numBudgetValue: itm?.numBudgetValue || " ",
+      strElementCode: itm?.strElementCode || ' ',
+      strElementName: itm?.strElementName || ' ',
+      numBudgetQty: itm?.numBudgetQty || ' ',
+      numBudgetValue: itm?.numBudgetValue || ' ',
     };
   });
 
@@ -37,11 +37,11 @@ export const budgetExcelCostData = (arr) => {
   newArr = arr.map((itm, index) => {
     return {
       sl: index + 1,
-      costRevCenterName: itm?.costRevCenterName || " ",
-      strElementCode: itm?.strElementCode || " ",
-      strElementName: itm?.strElementName || " ",
-      numBudgetQty: itm?.numBudgetQty || " ",
-      numBudgetValue: itm?.numBudgetValue || " ",
+      costRevCenterName: itm?.costRevCenterName || ' ',
+      strElementCode: itm?.strElementCode || ' ',
+      strElementName: itm?.strElementName || ' ',
+      numBudgetQty: itm?.numBudgetQty || ' ',
+      numBudgetValue: itm?.numBudgetValue || ' ',
     };
   });
 
@@ -50,51 +50,51 @@ export const budgetExcelCostData = (arr) => {
 
 const allSalaryExcelWorkSheet = (worksheet, rowIndex) => {
   worksheet.getCell(`D${6 + rowIndex}`).alignment = {
-    horizontal: "right",
+    horizontal: 'right',
     wrapText: true,
   };
   worksheet.getCell(`E${6 + rowIndex}`).alignment = {
-    horizontal: "right",
+    horizontal: 'right',
     wrapText: true,
   };
 };
 const allSalaryCostExcelWorkSheet = (worksheet, rowIndex) => {
   worksheet.getCell(`E${6 + rowIndex}`).alignment = {
-    horizontal: "right",
+    horizontal: 'right',
     wrapText: true,
   };
   worksheet.getCell(`F${6 + rowIndex}`).alignment = {
-    horizontal: "right",
+    horizontal: 'right',
     wrapText: true,
   };
 };
 
 const allSalaryExcelWorkSheetTotal = (worksheet, excelTableData, rowDto) => {
   let total = worksheet.addRow([
-    " ",
-    " ",
-    "Total",
-    getRowTotal(rowDto, "numBudgetQty"),
-    getRowTotal(rowDto, "numBudgetValue"),
+    ' ',
+    ' ',
+    'Total',
+    getRowTotal(rowDto, 'numBudgetQty'),
+    getRowTotal(rowDto, 'numBudgetValue'),
   ]);
   total.eachCell((cell) => {
-    cell.alignment = { horizontal: "left" };
+    cell.alignment = { horizontal: 'left' };
     cell.font = { bold: true };
     cell.border = {
-      top: { style: "thin", color: { argb: "00000000" } },
-      left: { style: "thin", color: { argb: "00000000" } },
-      bottom: { style: "thin", color: { argb: "00000000" } },
-      right: { style: "thin", color: { argb: "00000000" } },
+      top: { style: 'thin', color: { argb: '00000000' } },
+      left: { style: 'thin', color: { argb: '00000000' } },
+      bottom: { style: 'thin', color: { argb: '00000000' } },
+      right: { style: 'thin', color: { argb: '00000000' } },
     };
   });
   worksheet.getCell(`C${excelTableData?.length + 6}`).alignment = {
-    horizontal: "right",
+    horizontal: 'right',
   };
   worksheet.getCell(`D${excelTableData?.length + 6}`).alignment = {
-    horizontal: "right",
+    horizontal: 'right',
   };
   worksheet.getCell(`E${excelTableData?.length + 6}`).alignment = {
-    horizontal: "right",
+    horizontal: 'right',
   };
 
   return worksheet;
@@ -105,31 +105,31 @@ const allSalaryExcelWorkSheetCostTotal = (
   rowDto
 ) => {
   let total = worksheet.addRow([
-    " ",
-    " ",
-    " ",
-    "Total",
-    getRowTotal(rowDto, "numBudgetQty"),
-    getRowTotal(rowDto, "numBudgetValue"),
+    ' ',
+    ' ',
+    ' ',
+    'Total',
+    getRowTotal(rowDto, 'numBudgetQty'),
+    getRowTotal(rowDto, 'numBudgetValue'),
   ]);
   total.eachCell((cell) => {
-    cell.alignment = { horizontal: "left" };
+    cell.alignment = { horizontal: 'left' };
     cell.font = { bold: true };
     cell.border = {
-      top: { style: "thin", color: { argb: "00000000" } },
-      left: { style: "thin", color: { argb: "00000000" } },
-      bottom: { style: "thin", color: { argb: "00000000" } },
-      right: { style: "thin", color: { argb: "00000000" } },
+      top: { style: 'thin', color: { argb: '00000000' } },
+      left: { style: 'thin', color: { argb: '00000000' } },
+      bottom: { style: 'thin', color: { argb: '00000000' } },
+      right: { style: 'thin', color: { argb: '00000000' } },
     };
   });
   worksheet.getCell(`D${excelTableData?.length + 6}`).alignment = {
-    horizontal: "right",
+    horizontal: 'right',
   };
   worksheet.getCell(`E${excelTableData?.length + 6}`).alignment = {
-    horizontal: "right",
+    horizontal: 'right',
   };
   worksheet.getCell(`F${excelTableData?.length + 6}`).alignment = {
-    horizontal: "right",
+    horizontal: 'right',
   };
 
   return worksheet;

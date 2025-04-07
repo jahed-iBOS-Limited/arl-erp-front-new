@@ -1,21 +1,20 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+} from '../../../../../../../_metronic/_partials/controls';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 
 const initData = {
-  vehicleCity: "",
-  vehicleRegistrationLetter: "",
-  vehicleRegistrationNumber: "",
-  vehicleManualNo: "",
-  vehicleManualFinalNo: "",
+  vehicleCity: '',
+  vehicleRegistrationLetter: '',
+  vehicleRegistrationNumber: '',
+  vehicleManualNo: '',
+  vehicleManualFinalNo: '',
 };
 
 export default function VehicleNoAddForm({
@@ -42,8 +41,8 @@ export default function VehicleNoAddForm({
       let vehicleManualNo = `${values?.vehicleCity?.label} ${values?.vehicleRegistrationLetter?.label} ${values?.vehicleRegistrationNumber?.label}-${values?.vehicleManualNo}`;
       setPrevValues({
         ...prevValues,
-        vehicleNo: vehicleManualNo
-      })
+        vehicleNo: vehicleManualNo,
+      });
     }
   };
 

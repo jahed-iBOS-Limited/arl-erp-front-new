@@ -1,10 +1,10 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import Loading from "../../../../_helper/_loading";
-import IForm from "../../../../_helper/_form";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import Loading from '../../../../_helper/_loading';
+import IForm from '../../../../_helper/_form';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 const initData = {};
 export default function StatisticalDetails({ formValues }) {
   const { businessUnit, fromDate, todate, profitCenter } = formValues;
@@ -20,7 +20,6 @@ export default function StatisticalDetails({ formValues }) {
       );
       // intType=1 as per ziaul bhai's suggestion
     }
-
   }, []);
   const saveHandler = (values, cb) => {};
 
@@ -63,7 +62,7 @@ export default function StatisticalDetails({ formValues }) {
                         <th>SL</th>
                         <th
                           style={{
-                            width: "120px",
+                            width: '120px',
                           }}
                         >
                           General Ledger Code
@@ -72,7 +71,7 @@ export default function StatisticalDetails({ formValues }) {
                         <th>Type</th>
                         <th
                           style={{
-                            width: "120px",
+                            width: '120px',
                           }}
                         >
                           Amount

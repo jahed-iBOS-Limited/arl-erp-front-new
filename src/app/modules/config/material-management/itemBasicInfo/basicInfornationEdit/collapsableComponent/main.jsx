@@ -76,7 +76,6 @@ export default function MainCollapsePanel() {
     } else if (state?.checkBox === 'itemWareHouseCostStatus') {
       setExpanded(6);
     }
-
   }, [state]);
 
   const components = [
@@ -131,7 +130,7 @@ export default function MainCollapsePanel() {
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setProfileConfigList,
-        setLoading,
+        setLoading
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -143,7 +142,7 @@ export default function MainCollapsePanel() {
       id,
       itemProfileId,
       setItemProfileInfoByItemID,
-      setLoadingTwo,
+      setLoadingTwo
     );
   };
   const handleChangeTow = (panel, itm) => (event, isExpanded) => {

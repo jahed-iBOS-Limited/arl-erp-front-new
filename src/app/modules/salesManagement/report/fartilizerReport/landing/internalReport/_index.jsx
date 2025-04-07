@@ -1,36 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { Form, Formik } from "formik";
-import { IInput } from "../../../../../_helper/_input";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { Form, Formik } from 'formik';
+import { IInput } from '../../../../../_helper/_input';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   getItemDDLFertilizerReport,
   internalReport1Landing,
   internalReport2Landing,
-} from "../../helper";
-import UnderGovSubsidyTable from "./underGovtSubsidy";
+} from '../../helper';
+import UnderGovSubsidyTable from './underGovtSubsidy';
 // import OutsideGovSubsidyTable from "./outsideGovtSubsidy";
-import NewSelect from "../../../../../_helper/_select";
-import * as Yup from "yup";
-import OutsideGovSubsidyTable from "./outsideGovtSubsidy";
+import NewSelect from '../../../../../_helper/_select';
+import * as Yup from 'yup';
+import OutsideGovSubsidyTable from './outsideGovtSubsidy';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  item: "",
+  item: '',
   type: 1,
-  typeWise: { value: 1, label: "All" },
+  typeWise: { value: 1, label: 'All' },
 };
 
 export const validationSchema = Yup.object().shape({
   item: Yup.object().shape({
-    label: Yup.string().required("Item Name is required"),
-    value: Yup.string().required("Item Name is required"),
+    label: Yup.string().required('Item Name is required'),
+    value: Yup.string().required('Item Name is required'),
   }),
 });
 
 export function InternalReport({ printRef, setLoading }) {
-  const [gridData, setGridData] = useState("");
+  const [gridData, setGridData] = useState('');
   const [itemDDL, setItemDDL] = useState([]);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -43,7 +43,6 @@ export function InternalReport({ printRef, setLoading }) {
       selectedBusinessUnit?.value,
       setItemDDL
     );
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const viewHandler = async (values, setter) => {
@@ -93,8 +92,8 @@ export function InternalReport({ printRef, setLoading }) {
                       value={values?.type}
                       checked={values?.type === 1}
                       onChange={() => {
-                        setGridData("");
-                        setFieldValue("type", 1);
+                        setGridData('');
+                        setFieldValue('type', 1);
                       }}
                     />
                     <label className="mx-2">Under Govt. Subsidy</label>
@@ -107,8 +106,8 @@ export function InternalReport({ printRef, setLoading }) {
                       value={values?.type}
                       checked={values?.type === 2}
                       onChange={() => {
-                        setGridData("");
-                        setFieldValue("type", 2);
+                        setGridData('');
+                        setFieldValue('type', 2);
                       }}
                     />
                     <label className="mx-2">
@@ -125,8 +124,8 @@ export function InternalReport({ printRef, setLoading }) {
                   name="fromDate"
                   type="date"
                   onChange={(e) => {
-                    setFieldValue("fromDate", e?.target?.value);
-                    setGridData("");
+                    setFieldValue('fromDate', e?.target?.value);
+                    setGridData('');
                   }}
                 />
               </div>
@@ -138,8 +137,8 @@ export function InternalReport({ printRef, setLoading }) {
                   name="toDate"
                   type="date"
                   onChange={(e) => {
-                    setFieldValue("toDate", e?.target?.value);
-                    setGridData("");
+                    setFieldValue('toDate', e?.target?.value);
+                    setGridData('');
                   }}
                 />
               </div>
@@ -151,8 +150,8 @@ export function InternalReport({ printRef, setLoading }) {
                   value={values?.item}
                   label="Item Name"
                   onChange={(valueOption) => {
-                    setGridData("");
-                    setFieldValue("item", valueOption);
+                    setGridData('');
+                    setFieldValue('item', valueOption);
                   }}
                   placeholder="Item Name"
                   errors={errors}
@@ -165,14 +164,14 @@ export function InternalReport({ printRef, setLoading }) {
                   <NewSelect
                     name="typeWise"
                     options={[
-                      { value: 1, label: "All" },
-                      { value: 2, label: "District Wise" },
+                      { value: 1, label: 'All' },
+                      { value: 2, label: 'District Wise' },
                     ]}
                     value={values?.typeWise}
                     label="Type"
                     onChange={(valueOption) => {
-                      setFieldValue("typeWise", valueOption);
-                      setGridData("");
+                      setFieldValue('typeWise', valueOption);
+                      setGridData('');
                     }}
                     placeholder="Type"
                     errors={errors}

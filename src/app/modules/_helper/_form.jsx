@@ -1,14 +1,14 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from 'react';
 
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from 'react-router-dom';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../_metronic/_partials/controls";
-import IViewModal from "./_viewModal";
+} from '../../../_metronic/_partials/controls';
+import IViewModal from './_viewModal';
 
 export default function IForm({
   children,
@@ -62,12 +62,11 @@ export default function IForm({
       btnRef: saveBtnRef,
       supportButtonRefs: supportButtonRefs,
     };
-    if (typeof getProps === 'function'){
+    if (typeof getProps === 'function') {
       getProps(propsObj);
     }
-
   }, []);
-  const _title = title?.split(" ");
+  const _title = title?.split(' ');
   _title && _title.splice(0, 1);
   return (
     <div className={`${classes} global-card-header`}>
@@ -75,11 +74,11 @@ export default function IForm({
         {true && <ModalProgressBar />}
         <CardHeader
           title={
-            customTitle ? customTitle : id ? `Edit ${_title.join(" ")}` : title
+            customTitle ? customTitle : id ? `Edit ${_title.join(' ')}` : title
           }
         >
           <CardHeaderToolbar>
-          {(renderProps && !isPositionRight) && renderProps()}
+            {renderProps && !isPositionRight && renderProps()}
             {supportButtons?.length > 0 &&
               supportButtons?.map((item, index) => {
                 return (
@@ -109,7 +108,7 @@ export default function IForm({
             <button
               type="button"
               onClick={backHandler}
-              className={isHiddenBack ? "d-none" : "btn btn-light"}
+              className={isHiddenBack ? 'd-none' : 'btn btn-light'}
             >
               <i className="fa fa-arrow-left"></i>
               Back
@@ -120,7 +119,7 @@ export default function IForm({
               type="reset"
               onClick={ResetProductClick}
               ref={resetBtnRef}
-              className={isHiddenReset ? "d-none" : "btn btn-light ml-2"}
+              className={isHiddenReset ? 'd-none' : 'btn btn-light ml-2'}
             >
               <i className="fa fa-redo"></i>
               Reset
@@ -128,22 +127,22 @@ export default function IForm({
             {`  `}
             <button
               type="submit"
-              className={isHiddenSave ? "d-none" : "btn btn-primary ml-2"}
+              className={isHiddenSave ? 'd-none' : 'btn btn-primary ml-2'}
               onClick={saveBtnClicker}
               ref={saveBtnRef}
               disabled={isDisabled}
             >
-              {submitBtnText ? submitBtnText : "Save"}
+              {submitBtnText ? submitBtnText : 'Save'}
             </button>
             <button
               type="button"
-              className={isShow ? "btn btn-primary ml-2" : "d-none"}
+              className={isShow ? 'btn btn-primary ml-2' : 'd-none'}
               onClick={emailHandler}
               disabled={isDisabled}
             >
               Send
             </button>
-            {(renderProps && isPositionRight) && renderProps()}
+            {renderProps && isPositionRight && renderProps()}
           </CardHeaderToolbar>
         </CardHeader>
         <CardBody>

@@ -1,48 +1,48 @@
-import { Form, Formik } from "formik";
-import React, { useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import IButton from "../../../../_helper/iButton";
+import { Form, Formik } from 'formik';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import IButton from '../../../../_helper/iButton';
 import {
   getChallanHistory,
   getCustomerDDL,
   getSalesOrderDDL,
   getSalesOrderHistoryLanding,
-} from "../helper";
-import Table from "./table";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import CommonTable from "./detailsTable";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
+} from '../helper';
+import Table from './table';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import CommonTable from './detailsTable';
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
 
 const initData = {
   date: _todayDate(),
-  channel: "",
-  customer: "",
-  salesOrder: "",
-  challanCode: "",
-  isSlabBase: "",
-  shipPointFP: "",
-  dbChannelFP: "",
-  customerFP: "",
-  salesOrderFP: "",
-  reasonFP: "",
-  salesOrderCodeInput: "",
+  channel: '',
+  customer: '',
+  salesOrder: '',
+  challanCode: '',
+  isSlabBase: '',
+  shipPointFP: '',
+  dbChannelFP: '',
+  customerFP: '',
+  salesOrderFP: '',
+  reasonFP: '',
+  salesOrderCodeInput: '',
   fromDate: _monthFirstDate(),
   toDate: _todayDate(),
 };
 
 const reportNameList = [
-  { value: 1, label: "Sales order history" },
-  { value: 2, label: "Challan History" },
-  { value: 3, label: "All sales order status" },
-  { value: 4, label: "Un delivery qnt status" },
-  { value: 5, label: "Sales order qnt negative" },
-  { value: 6, label: "Pending qnt update" },
+  { value: 1, label: 'Sales order history' },
+  { value: 2, label: 'Challan History' },
+  { value: 3, label: 'All sales order status' },
+  { value: 4, label: 'Un delivery qnt status' },
+  { value: 5, label: 'Sales order qnt negative' },
+  { value: 6, label: 'Pending qnt update' },
   // { value: 7, label: "Transport/Shipment Quantity (not completed)" },
 ];
 
@@ -54,12 +54,8 @@ export default function SalesOrderHistoryLanding() {
 
   const [customerDDL, setCustomerDDL] = useState([]);
   const [salesOrderDDL, setSalesOrderDDL] = useState([]);
-  const [
-    salesOrderData,
-    getSalesOrderData,
-    loadingLan,
-    setSalesOrderData,
-  ] = useAxiosGet();
+  const [salesOrderData, getSalesOrderData, loadingLan, setSalesOrderData] =
+    useAxiosGet();
 
   // get user profile data from store
   const {
@@ -97,10 +93,11 @@ export default function SalesOrderHistoryLanding() {
       );
     } else if ([3, 4, 5, 6].includes(typeId)) {
       getSalesOrderData(
-        `/oms/SalesInformation/GetSalesOrderPendingInformation?intsoldtopartnerid=${values
-          ?.customer?.value ||
-          0}&intbusinessunitid=${buId}&SalesOrderCode=${values?.salesOrderCodeInput ||
-          "'"}&intpartid=${typeId}&intChanneld=${
+        `/oms/SalesInformation/GetSalesOrderPendingInformation?intsoldtopartnerid=${
+          values?.customer?.value || 0
+        }&intbusinessunitid=${buId}&SalesOrderCode=${
+          values?.salesOrderCodeInput || "'"
+        }&intpartid=${typeId}&intChanneld=${
           values?.channel?.value
         }&intShippointid=${values?.shippoint?.value}&dteFromDate=${
           values?.fromDate
@@ -108,8 +105,9 @@ export default function SalesOrderHistoryLanding() {
       );
     } else if (typeId === 7) {
       getSalesOrderData(
-        `/oms/OManagementReport/ShipmentNotCompletedInfo?accountId=${accId}&businessUnitId=${buId}&businessPartnerId=${values
-          ?.customer?.value || 0}`
+        `/oms/OManagementReport/ShipmentNotCompletedInfo?accountId=${accId}&businessUnitId=${buId}&businessPartnerId=${
+          values?.customer?.value || 0
+        }`
       );
     }
   };
@@ -147,7 +145,7 @@ export default function SalesOrderHistoryLanding() {
                       value={values?.reportName}
                       label="Report Name"
                       onChange={(valueOption) => {
-                        setFieldValue("reportName", valueOption);
+                        setFieldValue('reportName', valueOption);
                         setRowDto([]);
                         setSalesOrderData([]);
                       }}
@@ -162,13 +160,13 @@ export default function SalesOrderHistoryLanding() {
                         <NewSelect
                           name="isSlabBase"
                           options={[
-                            { value: true, label: "Yes" },
-                            { value: false, label: "No" },
+                            { value: true, label: 'Yes' },
+                            { value: false, label: 'No' },
                           ]}
                           value={values?.isSlabBase}
                           label="Is Slab Base"
                           onChange={(valueOption) => {
-                            setFieldValue("isSlabBase", valueOption);
+                            setFieldValue('isSlabBase', valueOption);
                             setRowDto([]);
                           }}
                           placeholder="Is Slab Base"
@@ -185,7 +183,7 @@ export default function SalesOrderHistoryLanding() {
                           name="date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("date", e?.target?.value);
+                            setFieldValue('date', e?.target?.value);
                             if (values?.customer?.value) {
                               getSalesOrderDDL(
                                 accId,
@@ -196,7 +194,7 @@ export default function SalesOrderHistoryLanding() {
                               );
                             }
 
-                            setFieldValue("salesOrder", "");
+                            setFieldValue('salesOrder', '');
                             setRowDto([]);
                           }}
                         />
@@ -224,7 +222,7 @@ export default function SalesOrderHistoryLanding() {
                             values?.channel?.value,
                             setCustomerDDL
                           );
-                          setFieldValue("customer", "");
+                          setFieldValue('customer', '');
                           setRowDto([]);
                         },
                         region: false,
@@ -235,11 +233,11 @@ export default function SalesOrderHistoryLanding() {
                     <div className="col-lg-3">
                       <NewSelect
                         name="customer"
-                        options={[{ value: 0, label: "All" }, ...customerDDL]}
+                        options={[{ value: 0, label: 'All' }, ...customerDDL]}
                         value={values?.customer}
                         label="Customer"
                         onChange={(valueOption) => {
-                          setFieldValue("customer", valueOption);
+                          setFieldValue('customer', valueOption);
                           getSalesOrderDDL(
                             accId,
                             buId,
@@ -260,13 +258,13 @@ export default function SalesOrderHistoryLanding() {
                           <NewSelect
                             name="shippoint"
                             options={[
-                              { value: 0, label: "All" },
+                              { value: 0, label: 'All' },
                               ...shippointDDL,
                             ]}
                             value={values?.shippoint}
                             label="Ship Point"
                             onChange={(valueOption) => {
-                              setFieldValue("shippoint", valueOption);
+                              setFieldValue('shippoint', valueOption);
                               setRowDto([]);
                             }}
                             placeholder="Ship Point"
@@ -308,13 +306,13 @@ export default function SalesOrderHistoryLanding() {
                         <NewSelect
                           name="salesOrder"
                           options={[
-                            { value: 0, label: "All" },
+                            { value: 0, label: 'All' },
                             ...salesOrderDDL,
                           ]}
                           value={values?.salesOrder}
                           label="Sales Order"
                           onChange={(valueOption) => {
-                            setFieldValue("salesOrder", valueOption);
+                            setFieldValue('salesOrder', valueOption);
                             setRowDto([]);
                           }}
                           placeholder="Sales Order"

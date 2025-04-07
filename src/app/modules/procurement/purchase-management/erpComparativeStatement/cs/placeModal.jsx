@@ -114,7 +114,7 @@ function PlaceModal({ modalType, CB, dataList }) {
                               onChange={() => {
                                 setFieldValue(
                                   'firstSelectedId',
-                                  item?.businessPartnerId || 0,
+                                  item?.businessPartnerId || 0
                                 );
                                 if (modalType?.firstPlaceModal) {
                                   setfirstSelectedItem(item);

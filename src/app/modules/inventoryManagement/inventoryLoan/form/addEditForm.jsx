@@ -1,43 +1,41 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { getLoanSingleData, saveInventoryLoanCreate } from "../helper";
-import Loading from "./../../../_helper/_loading";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { getLoanSingleData, saveInventoryLoanCreate } from '../helper';
+import Loading from './../../../_helper/_loading';
+import Form from './form';
 
 const initData = {
-  sbu: "",
-  narration: "",
+  sbu: '',
+  narration: '',
   createType: 1,
-  issueFrom: "",
-  partner: "",
+  issueFrom: '',
+  partner: '',
 
   /* If Issue Form is warehouse then */
-  shipPoint: "",
-  lcNo: "",
+  shipPoint: '',
+  lcNo: '',
 
   /* If warehouse */
-  warehouse: "",
+  warehouse: '',
 
-  lighterVessel: "",
-  motherVessel: "",
+  lighterVessel: '',
+  motherVessel: '',
   date: _todayDate(),
-  surveyReportNo: "",
-  item: "",
-  quantity: "",
-  rate: "",
+  surveyReportNo: '',
+  item: '',
+  quantity: '',
+  rate: '',
 };
 
 export default function CreateInventoryLoanForm() {
-
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [loanSingleData, setLoanSingleData] = useState("");
-  const [modifySingleData, setModifySingleData] = useState("");
+  const [loanSingleData, setLoanSingleData] = useState('');
+  const [modifySingleData, setModifySingleData] = useState('');
 
   const params = useParams();
   // get user profile data from store
@@ -63,8 +61,8 @@ export default function CreateInventoryLoanForm() {
         narration: loanSingleData?.narration,
         createType: loanSingleData?.transTypeId,
         issueFrom: loanSingleData?.wareHouseId
-          ? { value: 1, label: "Warehouse" }
-          : { value: 2, label: "Shipment" },
+          ? { value: 1, label: 'Warehouse' }
+          : { value: 2, label: 'Shipment' },
         partner: {
           value: loanSingleData?.businessPartnerId,
           label: loanSingleData?.businessPartnerName,
@@ -90,7 +88,6 @@ export default function CreateInventoryLoanForm() {
       };
       setModifySingleData(newRowData);
     }
-
   }, [loanSingleData]);
 
   const saveHandler = async (values, cb) => {
@@ -100,29 +97,29 @@ export default function CreateInventoryLoanForm() {
         accountId: profileData?.accountId,
         businessUnitId: selectedBusinessUnit?.value,
         businessPartnerId: +values?.partner?.value || 0,
-        businessPartnerName: values?.partner?.label || " ",
+        businessPartnerName: values?.partner?.label || ' ',
         transTypeId: values?.createType,
-        transTypeName: values?.createType === 1 ? "Issue" : "Receive",
+        transTypeName: values?.createType === 1 ? 'Issue' : 'Receive',
         wareHouseId: +values?.warehouse?.value || 0,
-        wareHouseName: values?.warehouse?.label || " ",
+        wareHouseName: values?.warehouse?.label || ' ',
         shipmentId: +values?.shipPoint?.value || 0,
-        shipmentName: values?.shipPoint?.label || " ",
+        shipmentName: values?.shipPoint?.label || ' ',
         lcid: +values?.lcNo?.lcId || 0,
-        lcnumber: +values?.lcNo?.label || " ",
-        surveyReportNo: values?.surveyReportNo || " ",
+        lcnumber: +values?.lcNo?.label || ' ',
+        surveyReportNo: values?.surveyReportNo || ' ',
         lighterVesselId: 0,
-        lighterVesselName: values?.lighterVessel || " ",
+        lighterVesselName: values?.lighterVessel || ' ',
         motherVesselId: 0,
-        motherVesselName: values?.motherVessel || " ",
+        motherVesselName: values?.motherVessel || ' ',
         transDate: values?.date || _todayDate(),
         itemId: +values?.item?.value || 0,
-        itemName: values?.item?.label || " ",
+        itemName: values?.item?.label || ' ',
         itemQty: +values?.quantity || 0,
         itemRate: +values?.rate || 0,
         narration: values?.narration,
         actionBy: profileData?.userId,
       };
-      console.log("Save Inventory ", payload);
+      console.log('Save Inventory ', payload);
       saveInventoryLoanCreate(payload, setDisabled, cb);
     }
   };
@@ -132,12 +129,12 @@ export default function CreateInventoryLoanForm() {
   return (
     <IForm
       title={
-        loanSingleData?.loanId ? "Inventory Loan View" : "Inventory Loan Create"
+        loanSingleData?.loanId ? 'Inventory Loan View' : 'Inventory Loan Create'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}
-      isHiddenSave={params?.type === "viewType" || loanSingleData?.loanId}
-      isHiddenReset={params?.type === "viewType" || loanSingleData?.loanId}
+      isHiddenSave={params?.type === 'viewType' || loanSingleData?.loanId}
+      isHiddenReset={params?.type === 'viewType' || loanSingleData?.loanId}
     >
       {isDisabled && <Loading />}
       <Form

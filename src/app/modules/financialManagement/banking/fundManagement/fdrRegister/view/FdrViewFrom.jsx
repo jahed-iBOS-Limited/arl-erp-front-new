@@ -1,16 +1,16 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import * as Yup from "yup";
-import NewSelect from "../../../../../_helper/_select";
-import IInput from "../../../../../_helper/_inputField";
-import { useEffect } from "react";
-import { getBankDDL } from "../../helper";
-import { useHistory } from "react-router-dom";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import * as Yup from 'yup';
+import NewSelect from '../../../../../_helper/_select';
+import IInput from '../../../../../_helper/_inputField';
+import { useEffect } from 'react';
+import { getBankDDL } from '../../helper';
+import { useHistory } from 'react-router-dom';
 
 const fdrRegister = Yup.object().shape({
   bank: Yup.object().shape({
-    label: Yup.string().required("Bank is required"),
-    value: Yup.string().required("Bank is required"),
+    label: Yup.string().required('Bank is required'),
+    value: Yup.string().required('Bank is required'),
   }),
 });
 
@@ -27,7 +27,6 @@ export default function FdrViewForm({
 
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
-
   }, []);
 
   return (
@@ -39,7 +38,7 @@ export default function FdrViewForm({
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
-            history.push("/financial-management/banking/fdr-register");
+            history.push('/financial-management/banking/fdr-register');
           });
         }}
       >
@@ -54,7 +53,7 @@ export default function FdrViewForm({
         }) => (
           <>
             <Form className="form form-label-right">
-              {console.log("values", values)}
+              {console.log('values', values)}
 
               <div className="row global-form h-100">
                 <div className="col-lg-3">
@@ -63,7 +62,7 @@ export default function FdrViewForm({
                     options={bankDDL}
                     value={values?.bank}
                     onChange={(valueOption) => {
-                      setFieldValue("bank", valueOption);
+                      setFieldValue('bank', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -78,7 +77,7 @@ export default function FdrViewForm({
                     options={[]}
                     value={values?.bankBranch}
                     onChange={(valueOption) => {
-                      setFieldValue("bankBranch", valueOption);
+                      setFieldValue('bankBranch', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -94,7 +93,7 @@ export default function FdrViewForm({
                     name="loanAccNo"
                     placeholder="FDR No"
                     onChange={(e) => {
-                      setFieldValue("fdrNo", e.target.value);
+                      setFieldValue('fdrNo', e.target.value);
                     }}
                     type="string"
                     disabled={isEdit}
@@ -118,9 +117,9 @@ export default function FdrViewForm({
                     placeholder="Term (Days)"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("termDays", e.target.value);
+                        setFieldValue('termDays', e.target.value);
                       } else {
-                        setFieldValue("termDays", "");
+                        setFieldValue('termDays', '');
                       }
                     }}
                     type="number"
@@ -138,9 +137,9 @@ export default function FdrViewForm({
                     placeholder="Principal"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("principle", e.target.value);
+                        setFieldValue('principle', e.target.value);
                       } else {
-                        setFieldValue("principle", "");
+                        setFieldValue('principle', '');
                       }
                     }}
                     type="number"
@@ -157,9 +156,9 @@ export default function FdrViewForm({
                     placeholder="Interest Rate"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("interestRate", e.target.value);
+                        setFieldValue('interestRate', e.target.value);
                       } else {
-                        setFieldValue("interestRate", "");
+                        setFieldValue('interestRate', '');
                       }
                     }}
                     type="number"
@@ -175,7 +174,7 @@ export default function FdrViewForm({
                     name="leanTo"
                     placeholder="Lean To"
                     onChange={(e) => {
-                      setFieldValue("leanTo", e.target.value);
+                      setFieldValue('leanTo', e.target.value);
                     }}
                     type="string"
                     disabled={isEdit}
@@ -185,14 +184,14 @@ export default function FdrViewForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

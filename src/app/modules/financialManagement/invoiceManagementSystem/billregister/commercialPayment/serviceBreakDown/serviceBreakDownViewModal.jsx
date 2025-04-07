@@ -1,4 +1,3 @@
-
 import {
   Accordion,
   AccordionDetails,
@@ -13,9 +12,7 @@ import { Modal } from 'react-bootstrap';
 import { shallowEqual, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 
-import {
-  getCommercialBreakdownForAdvanceAndBill,
-} from '../helper';
+import { getCommercialBreakdownForAdvanceAndBill } from '../helper';
 import AddAdvance from './addAdvance';
 import AddBill from './addBill';
 import { getCommercialCostingServiceBreakdown } from '../../../../../_helper/_commonApi';
@@ -219,14 +216,14 @@ const ServiceBreakDownViewModal = ({
                                       setExpanded1('panel1');
                                       setSupplierName(item?.supplierName);
                                       updateClickStatus(
-                                        item?.serviceBreakdownId,
+                                        item?.serviceBreakdownId
                                       );
                                       setData(item);
                                       getCommercialBreakdownForAdvanceAndBill(
                                         referenceId,
                                         item?.supplierId,
                                         setAdvanceBill,
-                                        setBill,
+                                        setBill
                                       );
                                     }}
                                   >

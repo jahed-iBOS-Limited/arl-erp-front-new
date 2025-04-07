@@ -1,7 +1,7 @@
-import React from "react";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import moment from "moment";
+import React from 'react';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
+import moment from 'moment';
 
 export default function HistoryTab({ id }) {
   // =6
@@ -13,7 +13,6 @@ export default function HistoryTab({ id }) {
         `/oms/SalesQuotation/GetCustomerFollowUpActivity?CustomerAcquisitionId=${id}`
       );
     }
-
   }, [id]);
   return (
     <React.Fragment>
@@ -43,7 +42,7 @@ export default function HistoryTab({ id }) {
                 <td>
                   {moment(item?.activityDateTime).isValid() &&
                     moment(item?.activityDateTime).format(
-                      "DDD MMM YYYY hh:mm A"
+                      'DDD MMM YYYY hh:mm A'
                     )}
                 </td>
                 <td>{item?.calledbyName}</td>
@@ -53,7 +52,7 @@ export default function HistoryTab({ id }) {
                 <td>{item?.stageName}</td>
                 <td>
                   {moment(item?.followUpDate).isValid() &&
-                    moment(item?.followUpDate).format("DDD MMM YYYY hh:mm A")}
+                    moment(item?.followUpDate).format('DDD MMM YYYY hh:mm A')}
                 </td>
                 <td>{item?.description}</td>
                 <td>{item?.outcome}</td>

@@ -9,14 +9,16 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from '../../../../../../_metronic/_partials/controls';
-import { _dateFormatter, _dateTimeFormatter } from '../../../../_helper/_dateFormate';
+import {
+  _dateFormatter,
+  _dateTimeFormatter,
+} from '../../../../_helper/_dateFormate';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import PaginationTable from '../../../../_helper/_tablePagination';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import { getBusinessUnitDDL, getLoanRegisterLogs } from '../helper';
-
 
 const SCFRegisterAutoJournalLog = () => {
   const history = useHistory();
@@ -52,7 +54,6 @@ const SCFRegisterAutoJournalLog = () => {
 
   useEffect(() => {
     getBusinessUnitDDL(profileData?.accountId, setBusinessUnitDDL);
-
   }, []);
 
   useEffect(() => {
@@ -63,9 +64,8 @@ const SCFRegisterAutoJournalLog = () => {
       setLoanRegisterLogData,
       setLoading,
       initData.fromDate,
-      initData.toDate,
+      initData.toDate
     );
-
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -74,7 +74,7 @@ const SCFRegisterAutoJournalLog = () => {
       pageNo,
       pageSize,
       setLoanRegisterLogData,
-      setLoading,
+      setLoading
     );
   };
 
@@ -174,7 +174,7 @@ const SCFRegisterAutoJournalLog = () => {
                             setLoanRegisterLogData,
                             setLoading,
                             values?.fromDate,
-                            values?.toDate,
+                            values?.toDate
                           );
                         }}
                       >

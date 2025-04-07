@@ -1,34 +1,33 @@
-
-import { default as Axios, default as axios } from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import IView from "../../../../_helper/_helperIcons/_view";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { setBusinessPartnerAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import CopyPartnerFromOtherUnit from "../copyPartnerFromOtherUnit/copyPartnerFromOtherUnit";
+import { default as Axios, default as axios } from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import IView from '../../../../_helper/_helperIcons/_view';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { setBusinessPartnerAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import CopyPartnerFromOtherUnit from '../copyPartnerFromOtherUnit/copyPartnerFromOtherUnit';
 import {
   AGUnitSetup,
   SalesOrderApproveCheck_api,
   partnerApproveApi,
-} from "../helper";
-import IEdit from "./../../../../_helper/_helperIcons/_edit";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+} from '../helper';
+import IEdit from './../../../../_helper/_helperIcons/_edit';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
 export function PartnerTable({ saveHandler }) {
   const initData = {
-    partnerType: "",
-    distributionChannel: { value: 0, label: "All" },
-    approveStatus: { value: 1, label: "Approve" },
-    agUnit: "",
+    partnerType: '',
+    distributionChannel: { value: 0, label: 'All' },
+    approveStatus: { value: 1, label: 'Approve' },
+    agUnit: '',
   };
 
   const [products, setProducts] = useState(null);
@@ -42,7 +41,7 @@ export function PartnerTable({ saveHandler }) {
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [showCopyComponent, setShowCopyComponent] = useState(false);
   const [show, setShow] = useState(false);
   const [concernUnitDDL, getConcernUnitDDL] = useAxiosGet();
@@ -67,7 +66,7 @@ export function PartnerTable({ saveHandler }) {
     approveType
   ) => {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
     try {
       const res = await Axios.get(
         `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerLandingPagingSearch?${searchPath}accountId=${accId}&businessUnitId=${buId}&PartnertypeId=${partnerTypeId}&ChannleId=${channelId}&status=true&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}&approveType=${approveType}`
@@ -82,7 +81,7 @@ export function PartnerTable({ saveHandler }) {
   const getInfoData = async () => {
     try {
       const res = await Axios.get(
-        "/partner/BusinessPartnerBasicInfo/GetBusinessPartnerTypeList"
+        '/partner/BusinessPartnerBasicInfo/GetBusinessPartnerTypeList'
       );
       const list = res?.data.map((item) => {
         return {
@@ -149,21 +148,21 @@ export function PartnerTable({ saveHandler }) {
     const url = `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerExcelExport?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PartnertypeId=${PartnertypeId}&ChannleId=${channelId}&status=true&viewOrder=desc`;
     axios({
       url: url,
-      method: "GET",
-      responseType: "blob", // important
+      method: 'GET',
+      responseType: 'blob', // important
     })
       .then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
+        const link = document.createElement('a');
         link.href = url;
-        link.setAttribute("download", `partner-basic-info.xls`);
+        link.setAttribute('download', `partner-basic-info.xls`);
         document.body.appendChild(link);
         link.click();
         setLoading(false);
       })
       .catch((err) => {
         setLoading(false);
-        toast.error(err?.response?.data?.message, "Something went wrong");
+        toast.error(err?.response?.data?.message, 'Something went wrong');
       });
   };
   // one item select
@@ -196,7 +195,7 @@ export function PartnerTable({ saveHandler }) {
   }, [products]);
   const approveHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure to approve?",
+      title: 'Are you sure to approve?',
       closeOnClickOutside: false,
       yesAlertFunc: () => {
         const payload = rowDto
@@ -258,13 +257,13 @@ export function PartnerTable({ saveHandler }) {
                     value={values?.partnerType}
                     label="Partner Type"
                     onChange={(valueOption) => {
-                      setFieldValue("partnerType", valueOption);
-                      setFieldValue("distributionChannel", "");
+                      setFieldValue('partnerType', valueOption);
+                      setFieldValue('distributionChannel', '');
                       setProducts([]);
                       const curentValues = {
                         ...values,
-                        partnerType: valueOption || "",
-                        distributionChannel: "",
+                        partnerType: valueOption || '',
+                        distributionChannel: '',
                       };
                       commonGridFunc(curentValues, pageNo, pageSize);
                     }}
@@ -273,12 +272,12 @@ export function PartnerTable({ saveHandler }) {
                     touched={touched}
                   />
                 </div>
-                {values?.partnerType?.label === "Customer" && (
+                {values?.partnerType?.label === 'Customer' && (
                   <div className="col-lg-3">
                     <NewSelect
                       name="distributionChannel"
                       options={[
-                        { value: 0, label: "All" },
+                        { value: 0, label: 'All' },
                         ...distributionChannelDDL,
                       ]}
                       value={values?.distributionChannel}
@@ -287,10 +286,10 @@ export function PartnerTable({ saveHandler }) {
                         setProducts([]);
                         const curentValues = {
                           ...values,
-                          distributionChannel: valueOption || "",
+                          distributionChannel: valueOption || '',
                         };
                         commonGridFunc(curentValues, pageNo, pageSize);
-                        setFieldValue("distributionChannel", valueOption);
+                        setFieldValue('distributionChannel', valueOption);
                       }}
                       placeholder="Distribution Channel"
                       errors={errors}
@@ -303,17 +302,17 @@ export function PartnerTable({ saveHandler }) {
                   <NewSelect
                     name="approveStatus"
                     options={[
-                      { value: 1, label: "Approve" },
-                      { value: 0, label: "Unapprove" },
+                      { value: 1, label: 'Approve' },
+                      { value: 0, label: 'Unapprove' },
                     ]}
                     value={values?.approveStatus}
                     label="Status"
                     onChange={(valueOption) => {
-                      setFieldValue("approveStatus", valueOption);
+                      setFieldValue('approveStatus', valueOption);
                       setProducts([]);
                       const curentValues = {
                         ...values,
-                        approveStatus: valueOption || "",
+                        approveStatus: valueOption || '',
                       };
                       commonGridFunc(curentValues, pageNo, pageSize);
                     }}
@@ -323,7 +322,7 @@ export function PartnerTable({ saveHandler }) {
                     isClearable={false}
                   />
                 </div>
-                {values?.partnerType?.label === "Customer" && (
+                {values?.partnerType?.label === 'Customer' && (
                   <div className="col-lg-12"></div>
                 )}
                 <div className="col mt-3 d-flex justify-content-end align-items-center">
@@ -376,7 +375,7 @@ export function PartnerTable({ saveHandler }) {
                   type="button"
                   disabled={!isSelectCheck}
                   style={{
-                    padding: "4px 8px",
+                    padding: '4px 8px',
                   }}
                 >
                   Approve
@@ -391,7 +390,7 @@ export function PartnerTable({ saveHandler }) {
                 <thead>
                   <tr>
                     {values?.approveStatus?.value === 0 && (
-                      <th style={{ width: "25px" }}>
+                      <th style={{ width: '25px' }}>
                         <input
                           type="checkbox"
                           id="parent"
@@ -402,19 +401,19 @@ export function PartnerTable({ saveHandler }) {
                       </th>
                     )}
 
-                    <th style={{ width: "20px" }}>SL</th>
-                    <th style={{ width: "55px" }}>Code</th>
-                    <th style={{ width: "120px" }}>Partner Name</th>
-                    <th style={{ width: "120px" }}>Bank Format Code</th>
-                    <th style={{ width: "120px" }}>Bank Format Prefix</th>
-                    <th style={{ width: "120px" }}>Partner Type</th>
-                    <th style={{ width: "120px" }}>Address</th>
-                    <th style={{ width: "100px" }}>Contact Number</th>
-                    <th style={{ width: "120px" }}>Email</th>
-                    <th style={{ width: "70px" }}>BIN</th>
-                    <th style={{ width: "120px" }}>Licence Number</th>
-                    <th style={{ width: "80px" }}>Status</th>
-                    <th style={{ width: "20px" }}>Actions</th>
+                    <th style={{ width: '20px' }}>SL</th>
+                    <th style={{ width: '55px' }}>Code</th>
+                    <th style={{ width: '120px' }}>Partner Name</th>
+                    <th style={{ width: '120px' }}>Bank Format Code</th>
+                    <th style={{ width: '120px' }}>Bank Format Prefix</th>
+                    <th style={{ width: '120px' }}>Partner Type</th>
+                    <th style={{ width: '120px' }}>Address</th>
+                    <th style={{ width: '100px' }}>Contact Number</th>
+                    <th style={{ width: '120px' }}>Email</th>
+                    <th style={{ width: '70px' }}>BIN</th>
+                    <th style={{ width: '120px' }}>Licence Number</th>
+                    <th style={{ width: '80px' }}>Status</th>
+                    <th style={{ width: '20px' }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -455,7 +454,7 @@ export function PartnerTable({ saveHandler }) {
                             <OverlayTrigger
                               overlay={
                                 <Tooltip id="cs-icon">
-                                  {"Partner Basic Information"}
+                                  {'Partner Basic Information'}
                                 </Tooltip>
                               }
                             >
@@ -469,7 +468,7 @@ export function PartnerTable({ saveHandler }) {
                                     pathname: `/config/partner-management/partner-basic-info/edit/${tableData?.businessPartnerId}`,
                                     state: {
                                       ...tableData,
-                                      checkBox: "BasicInformation",
+                                      checkBox: 'BasicInformation',
                                     },
                                   })
                                 }
@@ -512,7 +511,7 @@ export function PartnerTable({ saveHandler }) {
                             <OverlayTrigger
                               overlay={
                                 <Tooltip id="cs-icon">
-                                  {"Partner Bank Information"}
+                                  {'Partner Bank Information'}
                                 </Tooltip>
                               }
                             >
@@ -528,7 +527,7 @@ export function PartnerTable({ saveHandler }) {
                                     pathname: `/config/partner-management/partner-basic-info/edit/${tableData?.businessPartnerId}`,
                                     state: {
                                       ...tableData,
-                                      checkBox: "BankInformation",
+                                      checkBox: 'BankInformation',
                                     },
                                   })
                                 }
@@ -536,12 +535,12 @@ export function PartnerTable({ saveHandler }) {
                             </OverlayTrigger>
                           </div>
                           {tableData?.businessPartnerTypeName ===
-                            "Supplier" && (
+                            'Supplier' && (
                             <div class="order-md-3 p-1">
                               <OverlayTrigger
                                 overlay={
                                   <Tooltip id="cs-icon">
-                                    {"Partner Purchase Information"}
+                                    {'Partner Purchase Information'}
                                   </Tooltip>
                                 }
                               >
@@ -557,7 +556,7 @@ export function PartnerTable({ saveHandler }) {
                                       pathname: `/config/partner-management/partner-basic-info/edit/${tableData?.businessPartnerId}`,
                                       state: {
                                         ...tableData,
-                                        checkBox: "PurchaseInformation",
+                                        checkBox: 'PurchaseInformation',
                                       },
                                     })
                                   }
@@ -565,16 +564,16 @@ export function PartnerTable({ saveHandler }) {
                               </OverlayTrigger>
                             </div>
                           )}
-                          {(tableData?.businessPartnerTypeName === "Customer" ||
+                          {(tableData?.businessPartnerTypeName === 'Customer' ||
                             tableData?.businessPartnerTypeName ===
                               "Customer's Ship To Party" ||
                             tableData?.businessPartnerTypeName ===
-                              "Employee") && (
+                              'Employee') && (
                             <div class="order-md-4 p-1">
                               <OverlayTrigger
                                 overlay={
                                   <Tooltip id="cs-icon">
-                                    {"Partner Sales Information"}
+                                    {'Partner Sales Information'}
                                   </Tooltip>
                                 }
                               >
@@ -590,7 +589,7 @@ export function PartnerTable({ saveHandler }) {
                                       pathname: `/config/partner-management/partner-basic-info/edit/${tableData?.businessPartnerId}`,
                                       state: {
                                         ...tableData,
-                                        checkBox: "SalesInformation",
+                                        checkBox: 'SalesInformation',
                                       },
                                     })
                                   }
@@ -620,7 +619,7 @@ export function PartnerTable({ saveHandler }) {
                               });
                               dispatch(setBusinessPartnerAction(values));
                             }}
-                            style={{ border: "none", background: "none" }}
+                            style={{ border: 'none', background: 'none' }}
                           >
                             <IEdit />
                           </button>
@@ -646,7 +645,7 @@ export function PartnerTable({ saveHandler }) {
             <IViewModal
               show={show}
               onHide={() => setShow(false)}
-              modelSize={"md"}
+              modelSize={'md'}
             >
               {loading && <Loading />}
               <div className="row global-form">
@@ -668,7 +667,7 @@ export function PartnerTable({ saveHandler }) {
                     value={values?.agUnit}
                     label="AG Concern Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("agUnit", valueOption);
+                      setFieldValue('agUnit', valueOption);
                     }}
                     placeholder="AG Concern Unit"
                     errors={errors}

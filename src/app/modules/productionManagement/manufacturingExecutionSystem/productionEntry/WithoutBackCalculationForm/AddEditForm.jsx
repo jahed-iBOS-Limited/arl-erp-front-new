@@ -1,43 +1,41 @@
-
-
 /*
 
 Dont Touch Any Code without permission by Mamun Ahmed (Backend)
 
 */
 
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams, useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   createProductionEntry,
   editProductionEntry,
   getPlantNameDDL,
   getShiftDDL,
   getSingleDataById,
-} from "../helper";
-import Form from "./WithoutBackCalculationForm";
+} from '../helper';
+import Form from './WithoutBackCalculationForm';
 
 let initData = {
   id: undefined,
-  plantName: "",
-  shopFloor: "",
-  productionOrder: "",
-  orderQty: "",
+  plantName: '',
+  shopFloor: '',
+  productionOrder: '',
+  orderQty: '',
   dteProductionDate: _todayDate(),
-  shift: "",
-  itemName: "",
-  workcenterName: "",
-  goodQty: "",
-  materialCost: "",
-  overheadCost: "",
-  goodReceivedQty: "",
-  othersOutputItem: "",
-  othersOutputQty: "",
+  shift: '',
+  itemName: '',
+  workcenterName: '',
+  goodQty: '',
+  materialCost: '',
+  overheadCost: '',
+  goodReceivedQty: '',
+  othersOutputItem: '',
+  othersOutputQty: '',
   checkOutputItem: false,
   isLastProduction: false,
 };
@@ -50,7 +48,7 @@ export default function WithOutBackCalculationForm() {
   const [rowData, setRowData] = useState([]);
   const [singleData, setSingleData] = useState({});
   const [rowDataForAddConsumption, setRowDataForAddConsumption] = useState([]);
-  console.log("rowDataForAddConsumption", rowDataForAddConsumption);
+  console.log('rowDataForAddConsumption', rowDataForAddConsumption);
   const params = useParams();
   const location = useLocation();
   const profileData = useSelector((state) => {
@@ -138,7 +136,7 @@ export default function WithOutBackCalculationForm() {
           objHeader: {
             dteProductionDate: values?.dteProductionDate,
             intShiftId: values?.shift?.value,
-            productionCode: "string",
+            productionCode: 'string',
             intAccountId: profileData?.accountId,
             intBusinessUnitId: selectedBusinessUnit?.value,
             intPlantId: values?.plantName?.value,
@@ -202,12 +200,12 @@ export default function WithOutBackCalculationForm() {
             isBackCalculationValue === 2 && rowDataForAddConsumption?.length > 0
               ? rowDataForAddConsumption?.map((item) => ({
                   itemId: item?.itemId || 0,
-                  itemCode: item?.itemCode || "",
-                  itemName: item?.itemName || "",
+                  itemCode: item?.itemCode || '',
+                  itemName: item?.itemName || '',
                   numQuantity: +item?.requiredQuantity || 0,
                   numIssueQty: +item?.numIssueQuantity || 0,
                   numRate: +item?.numStockRateByDate || 0,
-                  isLastProdcution:values?.isLastProduction || false,
+                  isLastProdcution: values?.isLastProduction || false,
                 }))
               : [],
         };
@@ -220,10 +218,10 @@ export default function WithOutBackCalculationForm() {
             !values?.shift ||
             !values?.goodQty
           ) {
-            return toast.warn("All Field Required");
+            return toast.warn('All Field Required');
           }
           if (isBackCalculationValue === 2 && !values?.materialCost) {
-            return toast.warn("Please add consumption first!");
+            return toast.warn('Please add consumption first!');
           }
           createProductionEntry(
             payload,

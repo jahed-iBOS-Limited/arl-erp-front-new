@@ -53,7 +53,7 @@ import MasterItemView from './masterItemInfo/itemMasterInfoView';
 export function MaterialPages() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
-    shallowEqual,
+    shallowEqual
   );
 
   const itemProfilePermission = userRole[findIndex(userRole, 'Item Profile')];

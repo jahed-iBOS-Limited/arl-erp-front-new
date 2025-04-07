@@ -1,30 +1,29 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import Loading from "../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { editPartnerCheque } from "../../helper";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import Loading from '../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import { editPartnerCheque } from '../../helper';
+import Form from './form';
 
 const initData = {
-  billNo: "",
-  channel: "",
-  partner: "",
-  billAmount: "",
+  billNo: '',
+  channel: '',
+  partner: '',
+  billAmount: '',
   billSubmitDate: _todayDate(),
   chequeDate: _todayDate(),
-  chequeNo: "",
-  chequeAmount: "",
-  deductedAit: "",
-  receivedAit: "",
-  aitChallanNo: "",
+  chequeNo: '',
+  chequeAmount: '',
+  deductedAit: '',
+  receivedAit: '',
+  aitChallanNo: '',
   aitDate: _todayDate(),
-  comments: "",
+  comments: '',
 };
 
 export default function PartnerCheckSubmitForCement() {
@@ -88,7 +87,7 @@ export default function PartnerCheckSubmitForCement() {
       (item) => item?.chequeNo === values?.chequeNo
     );
     if (isExist) {
-      return toast.warn("Duplicate cheque no not allowed!");
+      return toast.warn('Duplicate cheque no not allowed!');
     }
     try {
       const newRow = {
@@ -151,7 +150,7 @@ export default function PartnerCheckSubmitForCement() {
     }
   };
 
-  const title = `${id ? "Edit" : "Enter"} Partner Cheque${id ? "" : "s"}`;
+  const title = `${id ? 'Edit' : 'Enter'} Partner Cheque${id ? '' : 's'}`;
 
   return (
     <>

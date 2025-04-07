@@ -1,24 +1,23 @@
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../_helper/_card";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../_helper/_loading";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../_helper/_card';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../_helper/_loading';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  reportType: "",
-  businessUnit: "",
+  reportType: '',
+  businessUnit: '',
 };
 
 function PayableReport() {
   const {
-
     authData: { profileData },
   } = useSelector((store) => store, shallowEqual);
   const [buDDL, getBuDDL] = useAxiosGet();
@@ -26,7 +25,6 @@ function PayableReport() {
 
   useEffect(() => {
     getBuDDL(`/hcm/HCMDDL/GetBusinessunitDDL`);
-
   }, []);
 
   return (
@@ -40,15 +38,15 @@ function PayableReport() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="businessUnit"
-                    options={[{ value: 0, label: "All" }, ...buDDL] || []}
+                    options={[{ value: 0, label: 'All' }, ...buDDL] || []}
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("businessUnit", valueOption);
+                        setFieldValue('businessUnit', valueOption);
                         setRowDto([]);
                       } else {
-                        setFieldValue("businessUnit", "");
+                        setFieldValue('businessUnit', '');
                         setRowDto([]);
                       }
                     }}
@@ -76,7 +74,7 @@ function PayableReport() {
                     type="date"
                     name="toDate"
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                       setRowDto([]);
                     }}
                   />
@@ -85,13 +83,13 @@ function PayableReport() {
                   <NewSelect
                     name="reportType"
                     options={[
-                      { value: 0, label: "Summary" },
-                      { value: 1, label: "Details" },
+                      { value: 0, label: 'Summary' },
+                      { value: 1, label: 'Details' },
                     ]}
                     value={values?.reportType}
                     label="Report Type"
                     onChange={(valueOption) => {
-                      setFieldValue("reportType", valueOption);
+                      setFieldValue('reportType', valueOption);
                       setRowDto([]);
                     }}
                     errors={errors}
@@ -127,7 +125,7 @@ function PayableReport() {
                       <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
                         <thead>
                           <tr>
-                            <th style={{ width: "50px" }}>SL</th>
+                            <th style={{ width: '50px' }}>SL</th>
                             <th>Transaction</th>
                             <th>Code</th>
                             <th>Openning</th>
@@ -149,22 +147,22 @@ function PayableReport() {
                               <td className="text-right">
                                 {item?.numOppening
                                   ? _formatMoney(item?.numOppening)
-                                  : ""}
+                                  : ''}
                               </td>
                               <td className="text-right">
                                 {item?.numDebit
                                   ? _formatMoney(item?.numDebit)
-                                  : ""}
+                                  : ''}
                               </td>
                               <td className="text-right">
                                 {item?.numCredit
                                   ? _formatMoney(item?.numCredit)
-                                  : ""}
+                                  : ''}
                               </td>
                               <td className="text-right">
                                 {item?.numAmount
                                   ? _formatMoney(item?.numAmount)
-                                  : ""}
+                                  : ''}
                               </td>
                             </tr>
                           ))}
@@ -176,7 +174,7 @@ function PayableReport() {
                       <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
                         <thead>
                           <tr>
-                            <th style={{ width: "50px" }}>SL</th>
+                            <th style={{ width: '50px' }}>SL</th>
                             <th>Transaction</th>
                             {/* <th>Openning</th>
                                     <th>Debit</th>
@@ -205,17 +203,17 @@ function PayableReport() {
                               <td className="text-right">
                                 {item?.standerdValue
                                   ? _formatMoney(item?.standerdValue)
-                                  : ""}
+                                  : ''}
                               </td>
                               <td className="text-right">
                                 {item?.actualValue
                                   ? _formatMoney(item?.actualValue)
-                                  : ""}
+                                  : ''}
                               </td>
                               <td className="text-right">
                                 {item?.variance
                                   ? _formatMoney(item?.variance)
-                                  : ""}
+                                  : ''}
                               </td>
                             </tr>
                           ))}

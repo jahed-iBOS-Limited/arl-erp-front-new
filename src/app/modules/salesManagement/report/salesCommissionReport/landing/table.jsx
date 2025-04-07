@@ -1,29 +1,29 @@
-import React, { useState, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import Loading from '../../../../_helper/_loading';
 import {
   // getShipPointDDL,
   getSalesCommissionReportData,
-} from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+} from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  fromDate: Yup.date().required("Date is required"),
-  toDate: Yup.date().required("Date is required"),
+  fromDate: Yup.date().required('Date is required'),
+  toDate: Yup.date().required('Date is required'),
   shipPoint: Yup.object().shape({
-    label: Yup.string().required("Ship Point is required"),
-    value: Yup.string().required("Ship Point is required"),
+    label: Yup.string().required('Ship Point is required'),
+    value: Yup.string().required('Ship Point is required'),
   }),
   type: Yup.object().shape({
-    label: Yup.string().required("Report Type is required"),
-    value: Yup.string().required("Report Type is required"),
+    label: Yup.string().required('Report Type is required'),
+    value: Yup.string().required('Report Type is required'),
   }),
 });
 
@@ -33,7 +33,7 @@ const initData = {
   // shipPoint: { value: 0, label: "All" },
   type: {
     value: 0,
-    label: "Pending",
+    label: 'Pending',
   },
 };
 
@@ -63,7 +63,7 @@ export default function SalesCommissionReportLanding() {
   // }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const viewHandler = async (values) => {
-    console.log("Called");
+    console.log('Called');
     getSalesCommissionReportData(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -109,7 +109,7 @@ export default function SalesCommissionReportLanding() {
                             name="fromDate"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("fromDate", e?.target?.value);
+                              setFieldValue('fromDate', e?.target?.value);
                               setRowDto([]);
                             }}
                           />
@@ -121,7 +121,7 @@ export default function SalesCommissionReportLanding() {
                             name="toDate"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("toDate", e?.target?.value);
+                              setFieldValue('toDate', e?.target?.value);
                               setRowDto([]);
                             }}
                           />
@@ -150,13 +150,13 @@ export default function SalesCommissionReportLanding() {
                           <NewSelect
                             name="type"
                             options={[
-                              { value: 0, label: "Pending" },
-                              { value: 1, label: "Complete" },
+                              { value: 0, label: 'Pending' },
+                              { value: 1, label: 'Complete' },
                             ]}
                             value={values?.type}
                             label="Report Type"
                             onChange={(valueOption) => {
-                              setFieldValue("type", valueOption);
+                              setFieldValue('type', valueOption);
                               setRowDto([]);
                             }}
                             placeholder="Report Type"

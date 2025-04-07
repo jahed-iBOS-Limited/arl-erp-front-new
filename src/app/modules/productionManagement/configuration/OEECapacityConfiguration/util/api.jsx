@@ -30,10 +30,11 @@ export const getLandingData = (
   shopId,
   machineId,
   pageNo,
-  pageSize,
+  pageSize
 ) => {
-  return `/mes/OeeProductWaste/GetCapacityConfigurationPagination?businessUnitId=${buId}&plantId=${plantId}&shopFloorId=${shopId ||
-    0}&machineId=${machineId}&pageNo=${pageNo}&pageSize=${pageSize}`;
+  return `/mes/OeeProductWaste/GetCapacityConfigurationPagination?businessUnitId=${buId}&plantId=${plantId}&shopFloorId=${
+    shopId || 0
+  }&machineId=${machineId}&pageNo=${pageNo}&pageSize=${pageSize}`;
 };
 
 // class CapacityConfigurationAPIs {

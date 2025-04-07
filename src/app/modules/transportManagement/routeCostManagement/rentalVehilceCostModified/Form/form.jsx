@@ -1,7 +1,7 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { IInput } from "../../../../_helper/_input";
-import { editTripInfo } from "../helper";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { IInput } from '../../../../_helper/_input';
+import { editTripInfo } from '../helper';
 
 export default function FormCmp({
   initData,
@@ -9,9 +9,8 @@ export default function FormCmp({
   saveHandler,
   resetBtnRef,
   updateRowDto,
-  tripInfoData
+  tripInfoData,
 }) {
-
   return (
     <>
       <Formik
@@ -30,10 +29,7 @@ export default function FormCmp({
           });
         }}
       >
-        {({
-          handleSubmit,
-          resetForm,
-        }) => (
+        {({ handleSubmit, resetForm }) => (
           <>
             <Form className="form form-label-right">
               <div className="col-md-12 table-responsive">
@@ -43,12 +39,12 @@ export default function FormCmp({
                       <th>SL</th>
                       <th>Route Name</th>
                       <th>Transport Zone Name</th>
-                      <th style={{ width: "150px" }}>Sales Order Code</th>
-                      <th style={{ width: "150px" }}>Delivery Code</th>
-                      <th style={{ width: "150px" }}>Shipment Code</th>
-                      <th style={{ width: "150px" }}>Quantity</th>
-                      <th style={{ width: "150px" }}>Total Cost</th>
-                      <th style={{ width: "100px" }}>Action</th>
+                      <th style={{ width: '150px' }}>Sales Order Code</th>
+                      <th style={{ width: '150px' }}>Delivery Code</th>
+                      <th style={{ width: '150px' }}>Shipment Code</th>
+                      <th style={{ width: '150px' }}>Quantity</th>
+                      <th style={{ width: '150px' }}>Total Cost</th>
+                      <th style={{ width: '100px' }}>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -56,34 +52,22 @@ export default function FormCmp({
                       <tr key={index}>
                         <td> {index + 1}</td>
                         <td>
-                          <div className="pl-2">
-                            {item?.routeName}
-                          </div>
+                          <div className="pl-2">{item?.routeName}</div>
                         </td>
                         <td>
-                          <div className="pl-2">
-                            {item?.transportZoneName}
-                          </div>
+                          <div className="pl-2">{item?.transportZoneName}</div>
                         </td>
                         <td>
-                          <div className="pl-2">
-                            {item?.salesOrderCode}
-                          </div>
+                          <div className="pl-2">{item?.salesOrderCode}</div>
                         </td>
                         <td>
-                          <div className="pl-2">
-                            {item?.deliveryCode}
-                          </div>
+                          <div className="pl-2">{item?.deliveryCode}</div>
                         </td>
                         <td>
-                          <div className="pl-2">
-                            {item?.shipmentCode}
-                          </div>
+                          <div className="pl-2">{item?.shipmentCode}</div>
                         </td>
                         <td>
-                          <div className="pl-2">
-                            {item?.quantity}
-                          </div>
+                          <div className="pl-2">{item?.quantity}</div>
                         </td>
 
                         <td>
@@ -103,12 +87,10 @@ export default function FormCmp({
                             <button
                               type="button"
                               onClick={() => {
-                                editTripInfo(
-                                  {
-                                    "tripId": item?.tripId,
-                                    "totalCost": item?.totalCost
-                                  }
-                                );
+                                editTripInfo({
+                                  tripId: item?.tripId,
+                                  totalCost: item?.totalCost,
+                                });
                               }}
                               className="btn btn-primary"
                             >
@@ -123,14 +105,14 @@ export default function FormCmp({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

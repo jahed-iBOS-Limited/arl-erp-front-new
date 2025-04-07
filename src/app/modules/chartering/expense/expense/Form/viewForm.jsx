@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 // import {
 //   calculateNetValue,
@@ -8,15 +7,15 @@ import React, { useEffect, useState } from "react";
 //   updateCalculatedValueForPriceStructureModal,
 // } from "../helper";
 
-import { useLocation } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 import {
   calculateNetValue,
   updateCalculatedValueForPriceStructureModal,
-} from "../../../../procurement/purchase-management/purchaseOrder/helper";
-import ICustomTable from "../../../../_helper/_customTable";
-import { IInput } from "../../../../_helper/_input";
+} from '../../../../procurement/purchase-management/purchaseOrder/helper';
+import ICustomTable from '../../../../_helper/_customTable';
+import { IInput } from '../../../../_helper/_input';
 
-const ths = ["SL", "Component", "Value Type", "Value", "Amount", "is Manual"];
+const ths = ['SL', 'Component', 'Value Type', 'Value', 'Amount', 'is Manual'];
 
 export default function ViewForm({
   currentRowData,
@@ -29,7 +28,7 @@ export default function ViewForm({
   const [data, setData] = useState([]);
   const [calculatedData, setCalculatedData] = useState([]);
   const location = useLocation();
-  let isViewPage = location?.pathname?.includes("/view/");
+  let isViewPage = location?.pathname?.includes('/view/');
 
   // input fields data handler dynamically, user will give input
   const dataHandler = (name, value, sl) => {
@@ -86,8 +85,8 @@ export default function ViewForm({
           index === 0
             ? currentRowData?.orderQty * currentRowData?.basicPrice
             : item?.baseComponentId >= 1
-            ? item?.amount * item?.factor
-            : item?.amount,
+              ? item?.amount * item?.factor
+              : item?.amount,
       };
       return obj;
     });
@@ -124,11 +123,11 @@ export default function ViewForm({
             Item name : {currentRowData?.item?.label}
           </div>
           <div className="col-lg">
-            Quantity : {currentRowData?.orderQty || 0}{" "}
+            Quantity : {currentRowData?.orderQty || 0}{' '}
           </div>
           <div className="col-lg">
-            Order total :{" "}
-            {calculatedData[calculatedData?.length - 1]?.value || 0}{" "}
+            Order total :{' '}
+            {calculatedData[calculatedData?.length - 1]?.value || 0}{' '}
           </div>
           <div className="col-lg">Description : {currentRowData?.desc}</div>
         </div>
@@ -154,7 +153,7 @@ export default function ViewForm({
                     // disabled={!item?.mannual}
                     disabled={isViewPage ? true : !item?.mannual}
                     onChange={(e) => {
-                      dataHandler("value", e.target.value, index);
+                      dataHandler('value', e.target.value, index);
                     }}
                   />
                 </td>

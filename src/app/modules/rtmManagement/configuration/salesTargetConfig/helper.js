@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 // Real
 
@@ -12,12 +12,11 @@ export const createSalesTargetConfig = async (payload, cb, setDisabled) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Created successfully");
+      toast.success(res.data?.message || 'Created successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-    
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
@@ -26,18 +25,16 @@ export const createSalesTargetConfig = async (payload, cb, setDisabled) => {
 export const editSalesTargetConfig = async (payload, setDisabled) => {
   setDisabled(true);
   try {
-   
     const res = await Axios.put(
       `/rtm/SalesTargetConfiguration/EditSalesTargetConfiguration`,
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       // cb();
       setDisabled(false);
     }
   } catch (error) {
-    
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
@@ -56,23 +53,27 @@ export const getSingleSalesTargetConfig = async (id, setter) => {
       };
       setter(data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
-export const getGridData = async (accId, buId, setter,setLoading,pageNo,pageSize) => {
-  setLoading(true)
+export const getGridData = async (
+  accId,
+  buId,
+  setter,
+  setLoading,
+  pageNo,
+  pageSize
+) => {
+  setLoading(true);
   try {
     const res = await Axios.get(
       `/rtm/SalesTargetConfiguration/SalesTargetConfigLandingPasignation?accountId=${accId}&businessUnitid=${buId}&PageNo=${pageNo}&PageSize=${pageSize}&vieworder=100`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
-      setLoading(false)
+      setLoading(false);
     }
   } catch (error) {
-    
-    setLoading(false)
+    setLoading(false);
   }
 };

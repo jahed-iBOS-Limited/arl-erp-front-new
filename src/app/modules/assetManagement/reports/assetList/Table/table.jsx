@@ -1,25 +1,24 @@
+import React, { useEffect, useRef, useState } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
 
-import React, { useEffect, useRef, useState } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-
-import { Formik, Form } from "formik";
-import { useSelector } from "react-redux";
-import { getAssetCategoryDDL, getAssetList } from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import NewSelect from "../../../../_helper/_select";
-import * as Yup from "yup";
-import ReactToPrint from "react-to-print";
-import "../style.css";
-import { downloadFile } from "../../../../_helper/downloadFile";
-import Loading from "../../../../_helper/_loading";
+import { Formik, Form } from 'formik';
+import { useSelector } from 'react-redux';
+import { getAssetCategoryDDL, getAssetList } from '../helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import NewSelect from '../../../../_helper/_select';
+import * as Yup from 'yup';
+import ReactToPrint from 'react-to-print';
+import '../style.css';
+import { downloadFile } from '../../../../_helper/downloadFile';
+import Loading from '../../../../_helper/_loading';
 const validationSchema = Yup.object().shape({
-  toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
-    if (fromDate) return Schema.required("To date is required");
+  toDate: Yup.string().when('fromDate', (fromDate, Schema) => {
+    if (fromDate) return Schema.required('To date is required');
   }),
 });
 
 const AssetListTable = () => {
-  const [assetCategoryDDL, setAssetCategoryDDL] = useState("");
+  const [assetCategoryDDL, setAssetCategoryDDL] = useState('');
 
   // landing
   const [landing, setLanding] = useState([]);
@@ -42,7 +41,6 @@ const AssetListTable = () => {
         setAssetCategoryDDL
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   //  const history = useHistory()
@@ -64,7 +62,7 @@ const AssetListTable = () => {
           enableReinitialize={true}
           validationSchema={validationSchema}
           initialValues={{
-            assetCategory: "",
+            assetCategory: '',
           }}
           //validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {}}
@@ -84,11 +82,13 @@ const AssetListTable = () => {
                   <div className="col-lg-2">
                     <NewSelect
                       name="assetCategory"
-                      options={[{ value: 0, label: "All" }, ...assetCategoryDDL] || []}
+                      options={
+                        [{ value: 0, label: 'All' }, ...assetCategoryDDL] || []
+                      }
                       value={values?.assetCategory}
                       label="Asset Category"
                       onChange={(v) => {
-                        setFieldValue("assetCategory", v);
+                        setFieldValue('assetCategory', v);
                       }}
                       placeholder="Asset Category"
                       errors={errors}
@@ -113,8 +113,8 @@ const AssetListTable = () => {
                       onClick={() => {
                         downloadFile(
                           `/asset/Asset/AssetListXMLDownload?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&itemCategoryId=${values?.assetCategory?.value}`,
-                          "Asset List",
-                          "xlsx",
+                          'Asset List',
+                          'xlsx',
                           setLoading
                         );
                       }}

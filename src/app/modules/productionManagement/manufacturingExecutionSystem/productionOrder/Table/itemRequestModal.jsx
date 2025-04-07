@@ -1,33 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import IViewModal from "./../../../../_helper/_viewModal";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import IViewModal from './../../../../_helper/_viewModal';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../_helper/_loading";
-import { createItemRequestNew } from "./../helper";
-import { getSBUDDL_api } from "../../receiveFromShopFloor/helper";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import NewSelect from "../../../../_helper/_select";
-import { confirmAlert } from "react-confirm-alert";
+} from './../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../_helper/_loading';
+import { createItemRequestNew } from './../helper';
+import { getSBUDDL_api } from '../../receiveFromShopFloor/helper';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import NewSelect from '../../../../_helper/_select';
+import { confirmAlert } from 'react-confirm-alert';
 
 const initData = {
-  sbu: "",
-  plant: "",
-  warehouse: "",
+  sbu: '',
+  plant: '',
+  warehouse: '',
 };
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   sbu: Yup.object().shape({
-    value: Yup.string().required("SBU is required"),
-    label: Yup.string().required("SBU is required"),
+    value: Yup.string().required('SBU is required'),
+    label: Yup.string().required('SBU is required'),
   }),
 });
 
@@ -56,8 +56,8 @@ export default function ItemRequestModal({
   // business unit 171 "Magnum Steel Industries Limited"
   const requestQtyType =
     selectedBusinessUnit?.value === 171 || selectedBusinessUnit?.value === 224
-      ? "reqQty"
-      : "requestQty";
+      ? 'reqQty'
+      : 'requestQty';
 
   const IConfirmModal = (props) => {
     const { title, message, noAlertFunc } = props;
@@ -66,7 +66,7 @@ export default function ItemRequestModal({
       message: message,
       buttons: [
         {
-          label: "Ok",
+          label: 'Ok',
           onClick: () => noAlertFunc(),
         },
       ],
@@ -126,7 +126,7 @@ export default function ItemRequestModal({
 
   return (
     <div>
-      <IViewModal show={show} onHide={onHide} title={""} btnText="Close">
+      <IViewModal show={show} onHide={onHide} title={''} btnText="Close">
         {loading && <Loading />}
         <>
           <Formik
@@ -154,7 +154,7 @@ export default function ItemRequestModal({
               <div className="">
                 <Card>
                   {true && <ModalProgressBar />}
-                  <CardHeader title={"Create Item Request"}>
+                  <CardHeader title={'Create Item Request'}>
                     <CardHeaderToolbar>
                       <button
                         onClick={handleSubmit}
@@ -173,7 +173,7 @@ export default function ItemRequestModal({
                           options={sbuDDL}
                           value={values?.sbu}
                           onChange={(valueOption) => {
-                            setFieldValue("sbu", valueOption);
+                            setFieldValue('sbu', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
@@ -207,7 +207,7 @@ export default function ItemRequestModal({
                               options={warehouseDDL}
                               value={values?.warehouse}
                               onChange={(valueOption) => {
-                                setFieldValue("warehouse", valueOption);
+                                setFieldValue('warehouse', valueOption);
                               }}
                               errors={errors}
                               touched={touched}

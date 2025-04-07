@@ -1,8 +1,8 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 
 export default function WastageProductionForm({
   initData,
@@ -60,15 +60,15 @@ export default function WastageProductionForm({
                     <NewSelect
                       name="shift"
                       options={[
-                        { value: "A", label: "A" },
-                        { value: "B", label: "B" },
-                        { value: "C", label: "C" },
-                        { value: "General", label: "General" },
+                        { value: 'A', label: 'A' },
+                        { value: 'B', label: 'B' },
+                        { value: 'C', label: 'C' },
+                        { value: 'General', label: 'General' },
                       ]}
                       value={values?.shift}
                       label="Shift"
                       onChange={(valueOption) => {
-                        setFieldValue("shift", valueOption);
+                        setFieldValue('shift', valueOption);
                       }}
                       isDisabled={false}
                       errors={errors}
@@ -82,7 +82,7 @@ export default function WastageProductionForm({
                       value={values?.productName}
                       label="Product Name"
                       onChange={(valueOption) => {
-                        setFieldValue("productName", valueOption);
+                        setFieldValue('productName', valueOption);
                         setProductList([]);
                       }}
                       isDisabled={false}
@@ -99,12 +99,12 @@ export default function WastageProductionForm({
                       onChange={(e) => {
                         if (+e.target.value > 24) return;
                         if (+e.target.value === 24) {
-                          setFieldValue("millRunningHour", 23);
-                          setFieldValue("millRunningMinute", 59);
+                          setFieldValue('millRunningHour', 23);
+                          setFieldValue('millRunningMinute', 59);
                           return;
                         }
-                        setFieldValue("millRunningHour", e.target.value);
-                        setFieldValue("millRunningMinute", "");
+                        setFieldValue('millRunningHour', e.target.value);
+                        setFieldValue('millRunningMinute', '');
                       }}
                     />
                   </div>
@@ -120,7 +120,7 @@ export default function WastageProductionForm({
                       }
                       onChange={(e) => {
                         if (+e.target.value > 59) return;
-                        setFieldValue("millRunningMinute", e.target.value);
+                        setFieldValue('millRunningMinute', e.target.value);
                       }}
                     />
                   </div>
@@ -133,12 +133,12 @@ export default function WastageProductionForm({
                       onChange={(e) => {
                         if (+e.target.value > 24) return;
                         if (+e.target.value === 24) {
-                          setFieldValue("actualProductionHour", 23);
-                          setFieldValue("actualProductionMinute", 59);
+                          setFieldValue('actualProductionHour', 23);
+                          setFieldValue('actualProductionMinute', 59);
                           return;
                         }
-                        setFieldValue("actualProductionHour", e.target.value);
-                        setFieldValue("actualProductionMinute", "");
+                        setFieldValue('actualProductionHour', e.target.value);
+                        setFieldValue('actualProductionMinute', '');
                       }}
                     />
                   </div>
@@ -154,12 +154,12 @@ export default function WastageProductionForm({
                       }
                       onChange={(e) => {
                         if (+e.target.value > 59) return;
-                        setFieldValue("actualProductionMinute", e.target.value);
+                        setFieldValue('actualProductionMinute', e.target.value);
                       }}
                     />
                   </div>
                 </div>
-                <h5 style={{ marginTop: "23px" }}>Add Others Product</h5>
+                <h5 style={{ marginTop: '23px' }}>Add Others Product</h5>
                 <div className="row">
                   <div className="col-lg-3">
                     <NewSelect
@@ -168,7 +168,7 @@ export default function WastageProductionForm({
                       value={values?.othersProductName}
                       label="Others Product Name"
                       onChange={(valueOption) => {
-                        setFieldValue("othersProductName", valueOption);
+                        setFieldValue('othersProductName', valueOption);
                       }}
                       isDisabled={false}
                       errors={errors}
@@ -193,7 +193,7 @@ export default function WastageProductionForm({
                       type="number"
                     />
                   </div>
-                  <div style={{ marginTop: "17px" }}>
+                  <div style={{ marginTop: '17px' }}>
                     <button
                       onClick={() => {
                         addHandler(values, setFieldValue);
@@ -212,11 +212,11 @@ export default function WastageProductionForm({
                   <table className="table table-striped table-bordered global-table">
                     <thead>
                       <tr>
-                        <th style={{ width: "50px" }}>SL</th>
+                        <th style={{ width: '50px' }}>SL</th>
                         <th>Name</th>
                         <th>Quantity</th>
                         <th>Avg Weight</th>
-                        <th style={{ width: "50px" }}>Action</th>
+                        <th style={{ width: '50px' }}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -230,7 +230,7 @@ export default function WastageProductionForm({
                             <td className="text-center">
                               <OverlayTrigger
                                 overlay={
-                                  <Tooltip id="cs-icon">{"Remove"}</Tooltip>
+                                  <Tooltip id="cs-icon">{'Remove'}</Tooltip>
                                 }
                               >
                                 <span>
@@ -252,14 +252,14 @@ export default function WastageProductionForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

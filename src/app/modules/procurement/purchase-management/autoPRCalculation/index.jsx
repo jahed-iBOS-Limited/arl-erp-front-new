@@ -16,12 +16,8 @@ export default function AutoPRCalculation() {
   const [, setObjprops] = useState({});
   const saveHandler = (values, cb) => {};
   const [, , loader] = useAxiosPost();
-  const [
-    ,
-    getItemTypeList,
-    itemTypeListLoader,
-    setItemTypeList,
-  ] = useAxiosGet();
+  const [, getItemTypeList, itemTypeListLoader, setItemTypeList] =
+    useAxiosGet();
 
   useEffect(() => {
     getItemTypeList('/item/ItemCategory/GetItemTypeListDDL', (data) => {
@@ -34,7 +30,6 @@ export default function AutoPRCalculation() {
       });
       setItemTypeList(modData);
     });
-
   }, []);
 
   return (

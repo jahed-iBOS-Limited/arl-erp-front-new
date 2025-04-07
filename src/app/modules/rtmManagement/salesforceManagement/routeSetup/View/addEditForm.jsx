@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams } from "react-router-dom";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { GetRoutePlanById } from "../helper";
-import ICustomCard from "../../../../_helper/_customCard";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { GetRoutePlanById } from '../helper';
+import ICustomCard from '../../../../_helper/_customCard';
 
 export default function RouteSetupViewForm({
   history,
@@ -40,7 +40,6 @@ export default function RouteSetupViewForm({
         setWeeklyRowDto
       );
     }
-
   }, [params]);
 
   const backHandler = () => {
@@ -52,7 +51,7 @@ export default function RouteSetupViewForm({
       <table className="table table-striped table-bordered global-table">
         <thead>
           <tr>
-            <th style={{ width: "30px" }}>SL</th>
+            <th style={{ width: '30px' }}>SL</th>
             <th>Date</th>
             <th>Day Name</th>
             <th>Category</th>

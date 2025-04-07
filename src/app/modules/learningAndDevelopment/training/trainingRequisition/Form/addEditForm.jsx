@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { toast } from "react-toastify";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { toast } from 'react-toastify';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 const initData = {
-  trainingSchedule: "",
-  employee: "",
-  resourcePerson: "",
-  designation: "",
-  jobType: "",
-  email: "",
-  phone: "",
-  gender: "",
-  supervisor: "",
+  trainingSchedule: '',
+  employee: '',
+  resourcePerson: '',
+  designation: '',
+  jobType: '',
+  email: '',
+  phone: '',
+  gender: '',
+  supervisor: '',
 };
 export default function TrainingRequisitionCreateForm() {
   const [isDisabled, setDisabled] = useState(false);
@@ -30,7 +30,7 @@ export default function TrainingRequisitionCreateForm() {
 
   const saveHandler = async (values, cb) => {
     if (!requisitionList?.length)
-      return toast.warn("Please add at least one Requisition");
+      return toast.warn('Please add at least one Requisition');
     const payload = requisitionList?.map((item) => ({
       intRequisitionId: 0,
       scheduleName: item?.trainingSchedule?.name,
@@ -52,8 +52,8 @@ export default function TrainingRequisitionCreateForm() {
       dteActionDate: _todayDate(),
       intActionBy: profileData?.userId,
       isActive: true,
-      strApprovalStatus: "Pending",
-      strComments: "",
+      strApprovalStatus: 'Pending',
+      strComments: '',
       isFromRequisition: true,
     }));
     saveRequisition(

@@ -80,7 +80,7 @@ const CreateProjectAccounting = ({
   // get account data
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state.authData,
-    shallowEqual,
+    shallowEqual
   );
   const [generalLedger, setGeneralLedger] = useState([]);
   const [businessTransaction, setBusinessTransaction] = useState([]);
@@ -114,15 +114,13 @@ const CreateProjectAccounting = ({
       (res) => {
         // console.log('first',res)
         setGeneralLedger(res);
-      },
+      }
     );
   }, []);
 
   // general ledgerddl
   useEffect(() => {
     isEdit && setIsDisable(false);
-
-
   }, [isEdit]);
 
   return (
@@ -145,10 +143,10 @@ const CreateProjectAccounting = ({
                 value: projectDescription?.intSubGlId,
               },
               dteStartDate: moment(projectDescription?.dteStartDate).format(
-                'YYYY-MM-DD',
+                'YYYY-MM-DD'
               ),
               dteEndDate: moment(projectDescription?.dteEndDate).format(
-                'YYYY-MM-DD',
+                'YYYY-MM-DD'
               ),
             }
           : initData
@@ -162,7 +160,7 @@ const CreateProjectAccounting = ({
           profileData,
           postData,
           setProject,
-          initPayload,
+          initPayload
         );
         // console.log(values)
         !isEdit && resetForm();
@@ -224,7 +222,7 @@ const CreateProjectAccounting = ({
                           if (value?.length < 2) return [];
                           return axios
                             .get(
-                              `/fino/ProjectAccounting/EmployeeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${value}`,
+                              `/fino/ProjectAccounting/EmployeeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${value}`
                             )
                             .then((response) => {
                               return response.data;
@@ -262,7 +260,7 @@ const CreateProjectAccounting = ({
                                 ...item,
                               }));
                               setBusinessTransaction(modifiedData);
-                            },
+                            }
                           );
                         setFieldValue('intGlId', valueOption);
                       }}

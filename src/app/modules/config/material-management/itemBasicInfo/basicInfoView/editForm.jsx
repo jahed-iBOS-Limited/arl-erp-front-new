@@ -1,23 +1,22 @@
-
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
 // import Form from "../common/form";
-import Axios from "axios";
-import { useParams } from "react-router-dom";
-import { isObject } from "lodash";
-import { useSelector, shallowEqual } from "react-redux";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
-import Form from "./itemBasicForm";
+import Axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { isObject } from 'lodash';
+import { useSelector, shallowEqual } from 'react-redux';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
+import Form from './itemBasicForm';
 
 export default function EditForm({ history, isViewPage }) {
   const [isDisabled, setDisabled] = useState(false);
-  const [data, setData] = useState("");
+  const [data, setData] = useState('');
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -80,15 +79,15 @@ export default function EditForm({ history, isViewPage }) {
 
       try {
         setDisabled(true);
-        const res = await Axios.put("/item/ItemBasic/EditItemBasic", editData);
+        const res = await Axios.put('/item/ItemBasic/EditItemBasic', editData);
         cb(data);
         getDataById(id);
         setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: 2,
         });
       } catch (error) {
-        toast.error("Sorry! please try again", { toastId: 2 });
+        toast.error('Sorry! please try again', { toastId: 2 });
 
         setDisabled(false);
       }
@@ -103,7 +102,7 @@ export default function EditForm({ history, isViewPage }) {
     <Card>
       {true && <ModalProgressBar />}
       <CardHeader
-        title={isViewPage ? "Item Basic Info" : "Edit Item Basic Info"}
+        title={isViewPage ? 'Item Basic Info' : 'Edit Item Basic Info'}
       ></CardHeader>
       <CardBody>
         {isDisabled && <Loading />}

@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getEisenhowerMatrixValue = async (
   employeeId,
@@ -17,7 +17,6 @@ export const getEisenhowerMatrixValue = async (
 
     if (res?.data) {
       setRowDto && setRowDto(res?.data);
-      
     }
   } catch (error) {
     setLoading && setLoading(false);
@@ -38,7 +37,7 @@ export const getYearDDL = async (accId, setYearDDl) => {
 
 // create
 export const addWorkPlan = async (payload, cb, setDisabled) => {
-  console.log("line 7", payload);
+  console.log('line 7', payload);
   try {
     setDisabled && setDisabled(true);
     const res = await axios.post(
@@ -47,7 +46,7 @@ export const addWorkPlan = async (payload, cb, setDisabled) => {
     );
     setDisabled && setDisabled(false);
     if (res.status === 200) {
-      toast.success("Created successfully");
+      toast.success('Created successfully');
       cb();
     }
   } catch (error) {
@@ -71,17 +70,15 @@ export const workPlan_landing_api = async (
     );
 
     if (res.status === 200 && res.data) {
-      const modifiedData = res?.data?.row?.map(
-        (item)=>{
-          return {
-            ...item,
-            isDisabled: true,
-          }
-        }
-      );
+      const modifiedData = res?.data?.row?.map((item) => {
+        return {
+          ...item,
+          isDisabled: true,
+        };
+      });
       setter({
         ...res.data,
-        row: modifiedData
+        row: modifiedData,
       });
       setLoading(false);
     }

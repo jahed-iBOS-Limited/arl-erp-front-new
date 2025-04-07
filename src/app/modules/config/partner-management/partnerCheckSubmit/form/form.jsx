@@ -1,20 +1,19 @@
-
-import React from "react";
-import { Formik, Form } from "formik";
-import { useHistory } from "react-router";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import TextArea from "../../../../_helper/TextArea";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
+} from '../../../../../../_metronic/_partials/controls';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import TextArea from '../../../../_helper/TextArea';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
 
 export default function FormCmp({
   buId,
@@ -70,7 +69,7 @@ export default function FormCmp({
                       <i className="fa fa-arrow-left"></i>
                       Back
                     </button>
-                    {viewType !== "view" && (
+                    {viewType !== 'view' && (
                       <button
                         type="reset"
                         onClick={() => {
@@ -78,7 +77,7 @@ export default function FormCmp({
                           resetForm(initData);
                         }}
                         className="btn btn-light ml-2"
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       >
                         <i className="fa fa-redo"></i>
                         Reset
@@ -109,11 +108,11 @@ export default function FormCmp({
                       <div className="col-lg-3">
                         <NewSelect
                           name="channel"
-                          options={[{ value: 0, label: "All" }, ...channelList]}
+                          options={[{ value: 0, label: 'All' }, ...channelList]}
                           value={values?.channel}
                           label="Distribution Channel"
                           onChange={(valueOption) => {
-                            setFieldValue("channel", valueOption);
+                            setFieldValue('channel', valueOption);
                           }}
                           placeholder="Distribution Channel"
                           errors={errors}
@@ -126,7 +125,7 @@ export default function FormCmp({
                         <SearchAsyncSelect
                           selectedValue={values?.customer}
                           handleChange={(valueOption) => {
-                            setFieldValue("customer", valueOption);
+                            setFieldValue('customer', valueOption);
                             if (valueOption) {
                             }
                           }}
@@ -152,7 +151,7 @@ export default function FormCmp({
                           value={values?.companyBankName}
                           label="Company Bank Name"
                           onChange={(valueOption) => {
-                            setFieldValue("companyBankName", valueOption);
+                            setFieldValue('companyBankName', valueOption);
                           }}
                           placeholder="Company Bank Name"
                           errors={errors}
@@ -166,8 +165,8 @@ export default function FormCmp({
                           value={values?.bankName}
                           label="Bank Name (customer bank)"
                           onChange={(valueOption) => {
-                            setFieldValue("bankName", valueOption);
-                            setFieldValue("branchName", "");
+                            setFieldValue('bankName', valueOption);
+                            setFieldValue('branchName', '');
                             if (valueOption) {
                               getBranchList(
                                 `/partner/BusinessPartnerBankInfo/GetBranchDDLInfo?BankId=${valueOption?.value}`
@@ -187,12 +186,12 @@ export default function FormCmp({
                           value={values?.branchName}
                           label="Branch Name"
                           onChange={(valueOption) => {
-                            setFieldValue("branchName", valueOption);
+                            setFieldValue('branchName', valueOption);
                           }}
                           placeholder="Branch Name"
                           errors={errors}
                           touched={touched}
-                          isDisabled={viewType === "view" || !values?.bankName}
+                          isDisabled={viewType === 'view' || !values?.bankName}
                         />
                       </div>
 
@@ -214,7 +213,7 @@ export default function FormCmp({
                           value={values?.chequeBearer}
                           label="Cheque Bearer"
                           onChange={(valueOption) => {
-                            setFieldValue("chequeBearer", valueOption);
+                            setFieldValue('chequeBearer', valueOption);
                           }}
                           placeholder="Cheque Bearer"
                           errors={errors}
@@ -242,13 +241,13 @@ export default function FormCmp({
                           errors={errors}
                           touched={touched}
                           onChange={(e) => {
-                            setFieldValue("amount", e?.target?.value);
+                            setFieldValue('amount', e?.target?.value);
                             setFieldValue(
-                              "advance",
+                              'advance',
                               (+e?.target?.value / 100) * 70
                             );
                             setFieldValue(
-                              "previous",
+                              'previous',
                               (+e?.target?.value / 100) * 30
                             );
                           }}
@@ -287,7 +286,7 @@ export default function FormCmp({
                           name="remarks"
                           placeholder="Remarks"
                           type="text"
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
 
@@ -299,15 +298,15 @@ export default function FormCmp({
                               className="btn btn-primary"
                               onClick={() => {
                                 addRow(values, () => {
-                                  setFieldValue("checkDate", "");
-                                  setFieldValue("amount", "");
-                                  setFieldValue("advance", "");
-                                  setFieldValue("previous", "");
-                                  setFieldValue("bankName", "");
-                                  setFieldValue("branchName", "");
-                                  setFieldValue("remarks", "");
-                                  setFieldValue("chequeNo", "");
-                                  setFieldValue("chequeBearer", "");
+                                  setFieldValue('checkDate', '');
+                                  setFieldValue('amount', '');
+                                  setFieldValue('advance', '');
+                                  setFieldValue('previous', '');
+                                  setFieldValue('bankName', '');
+                                  setFieldValue('branchName', '');
+                                  setFieldValue('remarks', '');
+                                  setFieldValue('chequeNo', '');
+                                  setFieldValue('chequeBearer', '');
                                 });
                               }}
                               disabled={
@@ -327,44 +326,47 @@ export default function FormCmp({
                   {rowData?.length > 0 && (
                     <div className="table-responsive">
                       <table
-                      className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                      }
-                    >
-                      <thead>
-                        <tr className="cursor-pointer">
-                          <th>SL</th>
-                          <th>Customer Name</th>
-                          <th>Cheque No</th>
-                          <th>Cheque Bearer</th>
-                          <th>Amount</th>
-                          <th>Bank Name</th>
-                          <th>Branch Name</th>
-                          {viewType !== "view" && <th>Action</th>}
-                        </tr>
-                      </thead>
-                      {rowData.map((row, index) => (
-                        <tr key={index}>
-                          <td className="text-center" style={{ width: "40px" }}>
-                            {index + 1}
-                          </td>
-                          <td>{row?.businessPartnerName}</td>
-                          <td>{row?.chequeNo}</td>
-                          <td>{row?.chequeBearerName}</td>
-                          <td className="text-right">{row?.mrramount}</td>
-                          <td>{row?.bankName}</td>
-                          <td>{row?.branchName}</td>
-                          {viewType !== "view" && (
+                        className={
+                          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
+                        }
+                      >
+                        <thead>
+                          <tr className="cursor-pointer">
+                            <th>SL</th>
+                            <th>Customer Name</th>
+                            <th>Cheque No</th>
+                            <th>Cheque Bearer</th>
+                            <th>Amount</th>
+                            <th>Bank Name</th>
+                            <th>Branch Name</th>
+                            {viewType !== 'view' && <th>Action</th>}
+                          </tr>
+                        </thead>
+                        {rowData.map((row, index) => (
+                          <tr key={index}>
                             <td
                               className="text-center"
-                              style={{ width: "60px" }}
+                              style={{ width: '40px' }}
                             >
-                              <IDelete remover={deleteRow} id={index} />
+                              {index + 1}
                             </td>
-                          )}
-                        </tr>
-                      ))}
-                    </table>
+                            <td>{row?.businessPartnerName}</td>
+                            <td>{row?.chequeNo}</td>
+                            <td>{row?.chequeBearerName}</td>
+                            <td className="text-right">{row?.mrramount}</td>
+                            <td>{row?.bankName}</td>
+                            <td>{row?.branchName}</td>
+                            {viewType !== 'view' && (
+                              <td
+                                className="text-center"
+                                style={{ width: '60px' }}
+                              >
+                                <IDelete remover={deleteRow} id={index} />
+                              </td>
+                            )}
+                          </tr>
+                        ))}
+                      </table>
                     </div>
                   )}
                 </Form>

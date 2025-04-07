@@ -1,7 +1,7 @@
 // audit report index
 
-import { _firstDateOfMonth, _todayDate } from "../../../_helper/_todayDate";
-import * as Yup from "yup";
+import { _firstDateOfMonth, _todayDate } from '../../../_helper/_todayDate';
+import * as Yup from 'yup';
 
 // save url
 export const auditReportURLS = {
@@ -16,8 +16,8 @@ export const initData = {
 
 // validation
 export const validation = Yup.object({
-  fromDate: Yup.date().required("From date is requried"),
-  toDate: Yup.date().required("To date is requried"),
+  fromDate: Yup.date().required('From date is requried'),
+  toDate: Yup.date().required('To date is requried'),
 });
 
 // get audit report data handler
@@ -69,7 +69,7 @@ export const handleSubmitConfAuditWithAttachement = (objProps) => {
       );
     },
     true,
-    "Successfully Updated",
-    "Update Failed"
+    'Successfully Updated',
+    'Update Failed'
   );
 };

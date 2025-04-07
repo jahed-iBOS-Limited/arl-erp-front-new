@@ -1,27 +1,27 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import DetailsViewModal from "./detailsViewModal";
-import { exportInvoiceWisePayment } from "./helper";
-import ReceiveEntryModal from "./receiveEntryModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import DetailsViewModal from './detailsViewModal';
+import { exportInvoiceWisePayment } from './helper';
+import ReceiveEntryModal from './receiveEntryModal';
 
 const initData = {
-  businessUnit: "",
-  customer: "",
+  businessUnit: '',
+  customer: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  status: "",
+  status: '',
 };
 const InvoiceWisePaymentLanding = () => {
   const { location } = useHistory();
@@ -38,7 +38,7 @@ const InvoiceWisePaymentLanding = () => {
   const saveHandler = (values, cb) => {};
   const [tableData, getTableData, tableDataLoader] = useAxiosGet();
 
-  const [clickedItem, setClickedItem] = useState("");
+  const [clickedItem, setClickedItem] = useState('');
   const [viewModal, setViewModal] = useState(false);
   const [receiveModal, setReceiveModal] = useState(false);
 
@@ -55,11 +55,11 @@ const InvoiceWisePaymentLanding = () => {
   };
 
   useEffect(() => {
-    const businessUnitId = location?.state?.values?.businessUnit?.value || "";
+    const businessUnitId = location?.state?.values?.businessUnit?.value || '';
     const customerId = location?.state?.rowData?.customerId;
-    const fromDate = location?.state?.values?.fromDate || "";
-    const toDate = location?.state?.values?.toDate || "";
-    const status = location?.state?.values?.status?.value || "";
+    const fromDate = location?.state?.values?.fromDate || '';
+    const toDate = location?.state?.values?.toDate || '';
+    const status = location?.state?.values?.status?.value || '';
     const territoryId = location?.state?.values?.teritory?.value || 0;
 
     // Checking if customerId is defined before making the API call
@@ -68,7 +68,6 @@ const InvoiceWisePaymentLanding = () => {
 
       getTableData(url);
     }
-
   }, [location?.state?.rowData?.customerId, location]);
 
   return (
@@ -177,12 +176,12 @@ const InvoiceWisePaymentLanding = () => {
                       Show
                     </button> */}
                     <button
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       type="button"
                       className="btn btn-primary ml-2"
                       onClick={(e) => {
                         if (!tableData?.length) {
-                          return toast.warn("No data found for export excel");
+                          return toast.warn('No data found for export excel');
                         } else {
                           exportInvoiceWisePayment(tableData);
                         }
@@ -206,7 +205,7 @@ const InvoiceWisePaymentLanding = () => {
                           </th>
                           <th
                             style={{
-                              minWidth: "70px",
+                              minWidth: '70px',
                             }}
                           >
                             Shipment <br /> Date
@@ -216,14 +215,14 @@ const InvoiceWisePaymentLanding = () => {
                           </th>
                           <th
                             style={{
-                              minWidth: "70px",
+                              minWidth: '70px',
                             }}
                           >
                             Due <br /> Date
                           </th>
                           <th
                             style={{
-                              minWidth: "70px",
+                              minWidth: '70px',
                             }}
                           >
                             Overdue <br /> Days
@@ -231,7 +230,7 @@ const InvoiceWisePaymentLanding = () => {
                           {/* delivery part start */}
                           <th
                             style={{
-                              background: "#AFEEEE",
+                              background: '#AFEEEE',
                             }}
                           >
                             Delivery <br /> Amount
@@ -244,7 +243,7 @@ const InvoiceWisePaymentLanding = () => {
                           </th>
                           <th
                             style={{
-                              background: "#F6F1E8",
+                              background: '#F6F1E8',
                             }}
                           >
                             Vat <br /> Amount
@@ -271,7 +270,7 @@ const InvoiceWisePaymentLanding = () => {
                           ) : null}
                           <th
                             style={{
-                              width: "80px",
+                              width: '80px',
                             }}
                           >
                             Action
@@ -300,7 +299,7 @@ const InvoiceWisePaymentLanding = () => {
                               <td
                                 className="text-right"
                                 style={{
-                                  background: "rgb(233 255 255)",
+                                  background: 'rgb(233 255 255)',
                                 }}
                               >
                                 {_formatMoney(item?.numDeliveryAmount)}
@@ -314,7 +313,7 @@ const InvoiceWisePaymentLanding = () => {
                               <td
                                 className="text-right"
                                 style={{
-                                  background: "rgb(255 220 220)",
+                                  background: 'rgb(255 220 220)',
                                 }}
                               >
                                 {_formatMoney(item?.numVatAmount)}
@@ -329,7 +328,7 @@ const InvoiceWisePaymentLanding = () => {
                                 <td
                                   className="text-right"
                                   style={{
-                                    background: "rgb(232 224 255)",
+                                    background: 'rgb(232 224 255)',
                                   }}
                                 >
                                   {_formatMoney(item?.numTaxAmount)}
@@ -354,7 +353,7 @@ const InvoiceWisePaymentLanding = () => {
                                 </span>
                                 <span
                                   style={{
-                                    cursor: "pointer",
+                                    cursor: 'pointer',
                                   }}
                                 >
                                   <OverlayTrigger
@@ -384,7 +383,7 @@ const InvoiceWisePaymentLanding = () => {
                             <td
                               className="text-right"
                               style={{
-                                background: "rgb(233 255 255)",
+                                background: 'rgb(233 255 255)',
                               }}
                             >
                               {_formatMoney(
@@ -415,7 +414,7 @@ const InvoiceWisePaymentLanding = () => {
                             <td
                               className="text-right"
                               style={{
-                                background: "rgb(255 220 220)",
+                                background: 'rgb(255 220 220)',
                               }}
                             >
                               {_formatMoney(
@@ -446,7 +445,7 @@ const InvoiceWisePaymentLanding = () => {
                               <td
                                 className="text-right"
                                 style={{
-                                  background: "rgb(232 224 255)",
+                                  background: 'rgb(232 224 255)',
                                 }}
                               >
                                 {_formatMoney(
@@ -491,7 +490,7 @@ const InvoiceWisePaymentLanding = () => {
                 show={viewModal}
                 onHide={() => {
                   setViewModal(false);
-                  setClickedItem("");
+                  setClickedItem('');
                 }}
               >
                 <DetailsViewModal
@@ -504,7 +503,7 @@ const InvoiceWisePaymentLanding = () => {
                 show={receiveModal}
                 onHide={() => {
                   setReceiveModal(false);
-                  setClickedItem("");
+                  setClickedItem('');
                 }}
               >
                 <ReceiveEntryModal

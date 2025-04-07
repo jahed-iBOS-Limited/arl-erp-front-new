@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _todayDate } from "./../../../chartering/_chartinghelper/_todayDate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _todayDate } from './../../../chartering/_chartinghelper/_todayDate';
 
 export const getTargetVSSaelsAchievement_api = async ({
   accId,

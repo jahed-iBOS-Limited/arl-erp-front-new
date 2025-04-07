@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const debitCreditStatus = async (
   accId,
@@ -17,10 +17,10 @@ export const debitCreditStatus = async (
     );
     setter(res?.data);
 
-    console.log("res", res);
+    console.log('res', res);
     setLoading(false);
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Error occured");
+    toast.error(error?.response?.data?.message || 'Error occured');
     setLoading(false);
   }
 };

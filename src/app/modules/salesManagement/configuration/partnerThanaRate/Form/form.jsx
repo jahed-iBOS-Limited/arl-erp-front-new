@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 import {
   getShippointDDL,
   // getSoldToPartnerDDL,
   // getShipToPartnerDDL,
   getransportZoneDDL,
   getVehicleCapacityDDL,
-} from "../helper";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { _numberValidation } from "./../../../../_helper/_numberValidation";
+} from '../helper';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { _numberValidation } from './../../../../_helper/_numberValidation';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   shippoint: Yup.object().shape({
-    label: Yup.string().required("Shippoint is required"),
-    value: Yup.string().required("Shippoint is required"),
+    label: Yup.string().required('Shippoint is required'),
+    value: Yup.string().required('Shippoint is required'),
   }),
   // soldToPartner: Yup.object().shape({
   //   label: Yup.string().required("Sold to Partner is required"),
@@ -27,21 +27,21 @@ const validationSchema = Yup.object().shape({
   //   value: Yup.string().required("Ship to Partner is required"),
   // }),
   transportZone: Yup.object().shape({
-    label: Yup.string().required("Transport Zone is required"),
-    value: Yup.string().required("Transport Zone is required"),
+    label: Yup.string().required('Transport Zone is required'),
+    value: Yup.string().required('Transport Zone is required'),
   }),
   vehicleCapacity: Yup.object().shape({
-    label: Yup.string().required("Vehicle Capacity is required"),
-    value: Yup.string().required("Vehicle Capacity is required"),
+    label: Yup.string().required('Vehicle Capacity is required'),
+    value: Yup.string().required('Vehicle Capacity is required'),
   }),
   rate: Yup.number()
-    .min(0, "Minimum 0 range")
-    .max(10000000000000, "Maximum 10000000000000 range")
-    .required("Rate is required"),
+    .min(0, 'Minimum 0 range')
+    .max(10000000000000, 'Maximum 10000000000000 range')
+    .required('Rate is required'),
   distanceKm: Yup.number()
-    .min(0, "Minimum 0 range")
-    .max(10000000000000, "Maximum 10000000000000 range")
-    .required("Distance KM is required"),
+    .min(0, 'Minimum 0 range')
+    .max(10000000000000, 'Maximum 10000000000000 range')
+    .required('Distance KM is required'),
 });
 
 export default function FormCmp({
@@ -118,7 +118,7 @@ export default function FormCmp({
                     value={values?.shippoint}
                     name="shippoint"
                     onChange={(valueOption) => {
-                      setFieldValue("shippoint", valueOption);
+                      setFieldValue('shippoint', valueOption);
                     }}
                     placeholder="Ship Point"
                     errors={errors}
@@ -169,7 +169,7 @@ export default function FormCmp({
                     value={values?.transportZone}
                     label="Select Transport Zone"
                     onChange={(valueOption) => {
-                      setFieldValue("transportZone", valueOption);
+                      setFieldValue('transportZone', valueOption);
                     }}
                     placeholder="Select Transport Zone"
                     errors={errors}
@@ -177,7 +177,7 @@ export default function FormCmp({
                     isDisabled={isEdit}
                   />
                 </div>
-                {console.log("Values", values)}
+                {console.log('Values', values)}
                 <div className="col-lg-3">
                   <NewSelect
                     name="vehicleCapacity"
@@ -185,7 +185,7 @@ export default function FormCmp({
                     value={values?.vehicleCapacity}
                     label="Vehicle Capacity"
                     onChange={(valueOption) => {
-                      setFieldValue("vehicleCapacity", valueOption);
+                      setFieldValue('vehicleCapacity', valueOption);
                     }}
                     placeholder="Vehicle Capacity"
                     errors={errors}
@@ -204,7 +204,7 @@ export default function FormCmp({
                     disabled={isEdit}
                     min="0"
                     onChange={(e) => {
-                      setFieldValue("distanceKm", _numberValidation(e));
+                      setFieldValue('distanceKm', _numberValidation(e));
                     }}
                   />
                 </div>
@@ -218,7 +218,7 @@ export default function FormCmp({
                     name="rate"
                     min="0"
                     onChange={(e) => {
-                      setFieldValue("rate", _numberValidation(e));
+                      setFieldValue('rate', _numberValidation(e));
                     }}
                   />
                 </div>
@@ -226,14 +226,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

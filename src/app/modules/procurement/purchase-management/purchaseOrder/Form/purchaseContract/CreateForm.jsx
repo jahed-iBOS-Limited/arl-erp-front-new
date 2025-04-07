@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import {
@@ -66,7 +65,7 @@ export default function CreateForm({
       arr = rowDto?.filter(
         (item) =>
           item.referenceNo?.value === values?.referenceNo?.value &&
-          item?.item?.value === values?.item?.value,
+          item?.item?.value === values?.item?.value
       );
     } else {
       arr = rowDto?.filter((item) => item?.item?.value === values?.item?.value);
@@ -148,8 +147,8 @@ export default function CreateForm({
         location?.state?.warehouse?.value,
         supplierId,
         refType,
-        referenceNo,
-      ),
+        referenceNo
+      )
     );
   };
 
@@ -169,7 +168,7 @@ export default function CreateForm({
       location?.state?.plant?.value,
       location?.state?.warehouse?.value,
       location?.state?.refType?.label,
-      setRefNoDDL,
+      setRefNoDDL
     );
   };
 
@@ -215,7 +214,7 @@ export default function CreateForm({
                         if (v.length < 3) return [];
                         return axios
                           .get(
-                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${location?.state?.sbu?.value}`,
+                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${location?.state?.sbu?.value}`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -432,7 +431,7 @@ export default function CreateForm({
                           getItemDDL(
                             values?.supplierName?.value,
                             location?.state?.refType?.value,
-                            valueOption?.value,
+                            valueOption?.value
                           );
                         }
                       }}
@@ -471,7 +470,7 @@ export default function CreateForm({
                                 location?.state?.warehouse?.value
                               }&RefTypeId=${
                                 location?.state?.refType?.value
-                              }&RefNoId=${0}&searchTerm=${v}`,
+                              }&RefNoId=${0}&searchTerm=${v}`
                             )
                             .then((res) => {
                               const updateList = res?.data.map((item) => ({

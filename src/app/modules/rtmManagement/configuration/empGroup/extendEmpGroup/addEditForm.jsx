@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import IForm from "../../../../_helper/_form";
-import Form from "./form";
-import { useSelector, shallowEqual } from "react-redux";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
+import Form from './form';
+import { useSelector, shallowEqual } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   getBuDDL,
   getEmployeeGroupNameById,
   saveEmpGroupExtend,
-} from "../helper";
+} from '../helper';
 
 let initData = {
-  employeeGroupName: "",
-  businessUnit: "",
+  employeeGroupName: '',
+  businessUnit: '',
   allBusinessUnitCheck: false,
-  businessUnitId: "",
-  intExtendId: "",
+  businessUnitId: '',
+  intExtendId: '',
 };
 
 export default function EmpGroupExtendCreateForm() {
@@ -58,7 +58,7 @@ export default function EmpGroupExtendCreateForm() {
         if (rowDto.length > 0) {
           saveEmpGroupExtend(payload, cb);
         } else {
-          toast.warning("You must have to add atleast one item");
+          toast.warning('You must have to add atleast one item');
         }
       } else {
         console.log(data);
@@ -75,7 +75,7 @@ export default function EmpGroupExtendCreateForm() {
       (item) => values?.businessUnit?.value === item?.businessUnitId
     );
     if (foundData) {
-      toast.warn("Business Unit already added");
+      toast.warn('Business Unit already added');
     } else {
       if (values.allBusinessUnitCheck) {
         // set rowDto if select all by checkbox

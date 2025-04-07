@@ -1,58 +1,57 @@
-
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import FormikError from "../../../../_helper/_formikError";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { StockInToInventoryApproval } from "../../challanEntry/helper";
-import { CreateLighterDumpBill, updateUnloadingQtyAndRates } from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import FormikError from '../../../../_helper/_formikError';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { StockInToInventoryApproval } from '../../challanEntry/helper';
+import { CreateLighterDumpBill, updateUnloadingQtyAndRates } from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 const initData = {
-  supplier: "",
-  unloadedQty: "",
-  dumpDeliveryRate: "",
-  directRate: "",
-  bolgateToDamRate: "",
-  damToTruckRate: "",
-  lighterToBolgateRate: "",
-  truckToDamRate: "",
-  othersCostRate: "",
-  decTruckToDamOutSideRate: "",
-  decBiwtarate: "",
-  decShipSweepingRate: "",
-  decScaleRate: "",
-  decDailyLaboureRate: "",
+  supplier: '',
+  unloadedQty: '',
+  dumpDeliveryRate: '',
+  directRate: '',
+  bolgateToDamRate: '',
+  damToTruckRate: '',
+  lighterToBolgateRate: '',
+  truckToDamRate: '',
+  othersCostRate: '',
+  decTruckToDamOutSideRate: '',
+  decBiwtarate: '',
+  decShipSweepingRate: '',
+  decScaleRate: '',
+  decDailyLaboureRate: '',
 
-  dumpDeliveryQty: "",
-  directQty: "",
-  bolgateToDamQty: "",
-  damToTruckQty: "",
-  lighterToBolgateQty: "",
-  truckToDamQty: "",
-  othersCostQty: "",
-  decTruckToDamOutSideQty: "",
-  decBiwtaQty: "",
-  decShipSweepingQty: "",
-  decScaleQty: "",
-  decDailyLaboureQty: "",
+  dumpDeliveryQty: '',
+  directQty: '',
+  bolgateToDamQty: '',
+  damToTruckQty: '',
+  lighterToBolgateQty: '',
+  truckToDamQty: '',
+  othersCostQty: '',
+  decTruckToDamOutSideQty: '',
+  decBiwtaQty: '',
+  decShipSweepingQty: '',
+  decScaleQty: '',
+  decDailyLaboureQty: '',
   othersLabourPerson: 0,
   othersLabourPersonRate: 0,
   dailyLabourAmount: 0,
-  totalBillAmount: "",
-  remainingDumpQnt: "",
+  totalBillAmount: '',
+  remainingDumpQnt: '',
   date: _todayDate(),
 };
 
@@ -96,13 +95,13 @@ export default function WarehouseApproveFrom({
     const URLThree = `/tms/LigterLoadUnload/GetLighterLoadUnloadBillDetails?voyageId=${singleItem?.voyageNo}&lighterVesselId=${singleItem?.lighterVesselId}&shipPointId=${singleItem?.shipPointId}`;
 
     const URL =
-      levelOfApprove === "first"
+      levelOfApprove === 'first'
         ? URLOne
-        : levelOfApprove === "second"
-        ? URLTwo
-        : levelOfApprove === "third"
-        ? URLThree
-        : "";
+        : levelOfApprove === 'second'
+          ? URLTwo
+          : levelOfApprove === 'third'
+            ? URLThree
+            : '';
 
     getRates(URL, (resData) => {});
     getIsTruckToDampDayByDay(
@@ -221,12 +220,12 @@ export default function WarehouseApproveFrom({
       transactionDate: values?.date,
     };
 
-    if (levelOfApprove === "second") {
+    if (levelOfApprove === 'second') {
       updateUnloadingQtyAndRates(payloadTwo, () => {
         setShow(false);
         getData(preValues, pageNo, pageSize);
       });
-    } else if (levelOfApprove === "third") {
+    } else if (levelOfApprove === 'third') {
       CreateLighterDumpBill(payloadThree, () => {
         setShow(false);
         getData(preValues, pageNo, pageSize);
@@ -270,7 +269,7 @@ export default function WarehouseApproveFrom({
       dailyLaborAmount +
       otherCostAmount;
     // const totalAmount = +values?.unloadedQty * +totalRate;
-    setFieldValue("totalBillAmount", totalAmount);
+    setFieldValue('totalBillAmount', totalAmount);
   };
 
   const getInitData = () => {
@@ -370,13 +369,13 @@ export default function WarehouseApproveFrom({
       remainingDumpQnt: +rates?.remainingDumpQnt,
     };
 
-    return levelOfApprove === "first"
+    return levelOfApprove === 'first'
       ? dataSetOne
-      : levelOfApprove === "second"
-      ? dataSetTwo
-      : levelOfApprove === "third"
-      ? dataSetThree
-      : "";
+      : levelOfApprove === 'second'
+        ? dataSetTwo
+        : levelOfApprove === 'third'
+          ? dataSetThree
+          : '';
   };
 
   const billAmountValue = (values) => {
@@ -389,13 +388,13 @@ export default function WarehouseApproveFrom({
   };
 
   const firstPartOfTitle =
-    levelOfApprove === "first"
-      ? "Warehouse Approve (Unloading Information)"
-      : levelOfApprove === "second"
-      ? "Supervisor Approve (Unloading Information)"
-      : levelOfApprove === "third"
-      ? "Dam Delivery Approve"
-      : "";
+    levelOfApprove === 'first'
+      ? 'Warehouse Approve (Unloading Information)'
+      : levelOfApprove === 'second'
+        ? 'Supervisor Approve (Unloading Information)'
+        : levelOfApprove === 'third'
+          ? 'Dam Delivery Approve'
+          : '';
 
   const title = `${firstPartOfTitle} > ${singleItem?.shipPointName} -- ${singleItem?.lighterVesselName}`;
 
@@ -436,7 +435,7 @@ export default function WarehouseApproveFrom({
                         <SearchAsyncSelect
                           selectedValue={values?.supplier}
                           handleChange={(valueOption) => {
-                            setFieldValue("supplier", valueOption);
+                            setFieldValue('supplier', valueOption);
                           }}
                           loadOptions={loadOptions}
                           // isDisabled={levelOfApprove === "third" ? true : false}
@@ -466,7 +465,7 @@ export default function WarehouseApproveFrom({
                           name="dumpDeliveryRate"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("dumpDeliveryRate", e?.target?.value);
+                            setFieldValue('dumpDeliveryRate', e?.target?.value);
                             setTotals(
                               {
                                 ...values,
@@ -475,7 +474,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
-                          disabled={levelOfApprove === "third" ? true : false}
+                          disabled={levelOfApprove === 'third' ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -486,7 +485,7 @@ export default function WarehouseApproveFrom({
                           name="dumpDeliveryQty"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("dumpDeliveryQty", e?.target?.value);
+                            setFieldValue('dumpDeliveryQty', e?.target?.value);
                             setTotals(
                               {
                                 ...values,
@@ -495,7 +494,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
-                          disabled={levelOfApprove === "third" ? true : false}
+                          disabled={levelOfApprove === 'third' ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -517,7 +516,7 @@ export default function WarehouseApproveFrom({
                           name="directRate"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("directRate", e?.target?.value);
+                            setFieldValue('directRate', e?.target?.value);
                             setTotals(
                               {
                                 ...values,
@@ -526,7 +525,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
-                          disabled={levelOfApprove === "third" ? true : false}
+                          disabled={levelOfApprove === 'third' ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -537,7 +536,7 @@ export default function WarehouseApproveFrom({
                           name="directQty"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("directQty", e?.target?.value);
+                            setFieldValue('directQty', e?.target?.value);
                             setTotals(
                               {
                                 ...values,
@@ -546,7 +545,7 @@ export default function WarehouseApproveFrom({
                               setFieldValue
                             );
                           }}
-                          disabled={levelOfApprove === "third" ? true : false}
+                          disabled={levelOfApprove === 'third' ? true : false}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -557,7 +556,7 @@ export default function WarehouseApproveFrom({
                           name="date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("date", e?.target?.value);
+                            setFieldValue('date', e?.target?.value);
                           }}
                         />
                       </div>
@@ -569,7 +568,7 @@ export default function WarehouseApproveFrom({
                           name="damToTruckRate"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("damToTruckRate", e?.target?.value);
+                            setFieldValue('damToTruckRate', e?.target?.value);
                             setTotals(
                               {
                                 ...values,
@@ -588,7 +587,7 @@ export default function WarehouseApproveFrom({
                           name="damToTruckQty"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("damToTruckQty", e?.target?.value);
+                            setFieldValue('damToTruckQty', e?.target?.value);
                             setTotals(
                               {
                                 ...values,
@@ -600,7 +599,7 @@ export default function WarehouseApproveFrom({
                         />
                       </div>
 
-                      {levelOfApprove !== "third" && (
+                      {levelOfApprove !== 'third' && (
                         <>
                           <div className="col-lg-3">
                             <InputField
@@ -611,7 +610,7 @@ export default function WarehouseApproveFrom({
                               type="number"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "bolgateToDamRate",
+                                  'bolgateToDamRate',
                                   e?.target?.value
                                 );
                                 setTotals(
@@ -623,7 +622,7 @@ export default function WarehouseApproveFrom({
                                 );
                               }}
                               disabled={
-                                levelOfApprove === "third" ? true : false
+                                levelOfApprove === 'third' ? true : false
                               }
                             />
                           </div>
@@ -636,7 +635,7 @@ export default function WarehouseApproveFrom({
                               type="number"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "bolgateToDamQty",
+                                  'bolgateToDamQty',
                                   e?.target?.value
                                 );
                                 setTotals(
@@ -648,7 +647,7 @@ export default function WarehouseApproveFrom({
                                 );
                               }}
                               disabled={
-                                levelOfApprove === "third" ? true : false
+                                levelOfApprove === 'third' ? true : false
                               }
                             />
                           </div>
@@ -661,7 +660,7 @@ export default function WarehouseApproveFrom({
                               type="number"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "lighterToBolgateRate",
+                                  'lighterToBolgateRate',
                                   e?.target?.value
                                 );
                                 setTotals(
@@ -673,7 +672,7 @@ export default function WarehouseApproveFrom({
                                 );
                               }}
                               disabled={
-                                levelOfApprove === "third" ? true : false
+                                levelOfApprove === 'third' ? true : false
                               }
                             />
                           </div>
@@ -686,7 +685,7 @@ export default function WarehouseApproveFrom({
                               type="number"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "lighterToBolgateQty",
+                                  'lighterToBolgateQty',
                                   e?.target?.value
                                 );
                                 setTotals(
@@ -698,7 +697,7 @@ export default function WarehouseApproveFrom({
                                 );
                               }}
                               disabled={
-                                levelOfApprove === "third" ? true : false
+                                levelOfApprove === 'third' ? true : false
                               }
                             />
                           </div>
@@ -711,7 +710,7 @@ export default function WarehouseApproveFrom({
                               type="number"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "truckToDamRate",
+                                  'truckToDamRate',
                                   e?.target?.value
                                 );
                                 setTotals(
@@ -723,7 +722,7 @@ export default function WarehouseApproveFrom({
                                 );
                               }}
                               disabled={
-                                levelOfApprove === "third" ||
+                                levelOfApprove === 'third' ||
                                 isTruckToDampDayByDay
                                   ? true
                                   : false
@@ -739,7 +738,7 @@ export default function WarehouseApproveFrom({
                               type="number"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "truckToDamQty",
+                                  'truckToDamQty',
                                   e?.target?.value
                                 );
                                 setTotals(
@@ -751,7 +750,7 @@ export default function WarehouseApproveFrom({
                                 );
                               }}
                               disabled={
-                                levelOfApprove === "third" ||
+                                levelOfApprove === 'third' ||
                                 isTruckToDampDayByDay
                                   ? true
                                   : false
@@ -767,7 +766,7 @@ export default function WarehouseApproveFrom({
                               type="number"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "decTruckToDamOutSideRate",
+                                  'decTruckToDamOutSideRate',
                                   e.target.value
                                 );
                                 setTotals(
@@ -779,7 +778,7 @@ export default function WarehouseApproveFrom({
                                 );
                               }}
                               disabled={
-                                levelOfApprove === "third" ? true : false
+                                levelOfApprove === 'third' ? true : false
                               }
                             />
                           </div>
@@ -792,7 +791,7 @@ export default function WarehouseApproveFrom({
                               type="number"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "decTruckToDamOutSideQty",
+                                  'decTruckToDamOutSideQty',
                                   e.target.value
                                 );
                                 setTotals(
@@ -804,7 +803,7 @@ export default function WarehouseApproveFrom({
                                 );
                               }}
                               disabled={
-                                levelOfApprove === "third" ? true : false
+                                levelOfApprove === 'third' ? true : false
                               }
                             />
                           </div>
@@ -816,7 +815,7 @@ export default function WarehouseApproveFrom({
                               name="decBiwtarate"
                               type="number"
                               onChange={(e) => {
-                                setFieldValue("decBiwtarate", e.target.value);
+                                setFieldValue('decBiwtarate', e.target.value);
                                 setTotals(
                                   {
                                     ...values,
@@ -826,7 +825,7 @@ export default function WarehouseApproveFrom({
                                 );
                               }}
                               disabled={
-                                levelOfApprove === "third" ? true : false
+                                levelOfApprove === 'third' ? true : false
                               }
                             />
                           </div>
@@ -840,7 +839,7 @@ export default function WarehouseApproveFrom({
                               type="number"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "decShipSweepingRate",
+                                  'decShipSweepingRate',
                                   e.target.value
                                 );
                                 setTotals(
@@ -852,7 +851,7 @@ export default function WarehouseApproveFrom({
                                 );
                               }}
                               disabled={
-                                levelOfApprove === "third" ? true : false
+                                levelOfApprove === 'third' ? true : false
                               }
                             />
                           </div>
@@ -865,7 +864,7 @@ export default function WarehouseApproveFrom({
                               name="decScaleRate"
                               type="number"
                               onChange={(e) => {
-                                setFieldValue("decScaleRate", e.target.value);
+                                setFieldValue('decScaleRate', e.target.value);
                                 setTotals(
                                   {
                                     ...values,
@@ -875,7 +874,7 @@ export default function WarehouseApproveFrom({
                                 );
                               }}
                               disabled={
-                                levelOfApprove === "third" ? true : false
+                                levelOfApprove === 'third' ? true : false
                               }
                             />
                           </div>
@@ -890,9 +889,9 @@ export default function WarehouseApproveFrom({
                           name="othersLabourPerson"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("othersLabourPerson", e.target.value);
+                            setFieldValue('othersLabourPerson', e.target.value);
                             setFieldValue(
-                              "decDailyLaboureRate",
+                              'decDailyLaboureRate',
                               Number(e.target.value) *
                                 Number(values.othersLabourPersonRate)
                             );
@@ -917,11 +916,11 @@ export default function WarehouseApproveFrom({
                           type="number"
                           onChange={(e) => {
                             setFieldValue(
-                              "othersLabourPersonRate",
+                              'othersLabourPersonRate',
                               e.target.value
                             );
                             setFieldValue(
-                              "decDailyLaboureRate",
+                              'decDailyLaboureRate',
                               Number(e.target.value) *
                                 Number(values.othersLabourPerson)
                             );
@@ -979,7 +978,7 @@ export default function WarehouseApproveFrom({
                           name="othersCostRate"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("othersCostRate", e?.target?.value);
+                            setFieldValue('othersCostRate', e?.target?.value);
                             setTotals(
                               {
                                 ...values,
@@ -991,7 +990,7 @@ export default function WarehouseApproveFrom({
                           // disabled={levelOfApprove === "third" ? true : false}
                         />
                       </div>
-                      {levelOfApprove === "third" ? (
+                      {levelOfApprove === 'third' ? (
                         <div className="col-lg-3">
                           <InputField
                             label="Bill Amount"

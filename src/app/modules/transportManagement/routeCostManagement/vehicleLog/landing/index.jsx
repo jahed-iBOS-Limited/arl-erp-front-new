@@ -1,34 +1,34 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   checkUpdateDeletePermission,
   deleteTheVehicleLog,
   getOwnVehicleNo,
   getVehicleLogBookLanding,
-} from "../helper";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import VehicleLogTable from "./vehicleLogTable";
-import VehicleLogLandingForm from "./form";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import IViewModal from "../../../../_helper/_viewModal";
-import VehicleLogBook from "../view/addEditForm";
-import VehicleEditForm from "../Form/formForEdit";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import VehicleProblemTable from "./vehicleProblemTable";
-import VehicleTripTargetTable from "./tripTargetTable";
+} from '../helper';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import VehicleLogTable from './vehicleLogTable';
+import VehicleLogLandingForm from './form';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IViewModal from '../../../../_helper/_viewModal';
+import VehicleLogBook from '../view/addEditForm';
+import VehicleEditForm from '../Form/formForEdit';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import VehicleProblemTable from './vehicleProblemTable';
+import VehicleTripTargetTable from './tripTargetTable';
 
 const initData = {
-  vehicleNo: "",
-  shipPoint: "",
+  vehicleNo: '',
+  shipPoint: '',
   travelDateFrom: _todayDate(),
   travelDateTo: _todayDate(),
-  entryBy: "own",
+  entryBy: 'own',
 };
 
 const VehicleLogLanding = () => {
@@ -45,7 +45,7 @@ const VehicleLogLanding = () => {
 
   // Modal State
   const [showModal, setShowModal] = useState(false);
-  const [id, setId] = useState("");
+  const [id, setId] = useState('');
   const [open, setOpen] = useState(false);
   const [singleItem, setSingleItem] = useState({});
   const [permitted, setPermitted] = useState(false);
@@ -65,9 +65,11 @@ const VehicleLogLanding = () => {
   const getGridData = (values, pageNo, pageSize) => {
     const typeId = values?.type?.value;
 
-    const vehicleProblemUrl = `/tms/Vehicle/GetVechicleProblemInfo?businessUnitId=${buId}&shipPointId=${values
-      ?.shipPoint?.value || 0}&vehicleId=${values?.vehicleNo?.value ||
-      0}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    const vehicleProblemUrl = `/tms/Vehicle/GetVechicleProblemInfo?businessUnitId=${buId}&shipPointId=${
+      values?.shipPoint?.value || 0
+    }&vehicleId=${
+      values?.vehicleNo?.value || 0
+    }&pageNo=${pageNo}&pageSize=${pageSize}`;
 
     const tripTargetUrl = `/tms/Vehicle/GetVehicleTripTarget?businessUnitId=${buId}&shipPointId=${
       values?.shipPoint?.value
@@ -76,7 +78,7 @@ const VehicleLogLanding = () => {
     }&monthId=${values?.month?.value}&pageNo=${pageNo}&pageSize=${pageSize}`;
 
     const URL =
-      typeId === 2 ? vehicleProblemUrl : typeId === 3 ? tripTargetUrl : "";
+      typeId === 2 ? vehicleProblemUrl : typeId === 3 ? tripTargetUrl : '';
 
     if (typeId === 1) {
       getVehicleLogBookLanding(
@@ -93,7 +95,7 @@ const VehicleLogLanding = () => {
     } else if ([2, 3].includes(typeId)) {
       getRowData(URL, (resData) => {
         if (!resData?.data?.length) {
-          toast.warn("Data not found");
+          toast.warn('Data not found');
           setRowData({});
         } else {
           setRowData(resData);
@@ -118,8 +120,8 @@ const VehicleLogLanding = () => {
     ];
 
     const confirmationObj = {
-      title: "Delete Vehicle Log",
-      message: "Are you sure you want to delete this vehicle log?",
+      title: 'Delete Vehicle Log',
+      message: 'Are you sure you want to delete this vehicle log?',
       yesAlertFunc: () => {
         deleteTheVehicleLog(payload, setLoading, () => {
           getGridData(values, pageNo, pageSize);
@@ -148,12 +150,12 @@ const VehicleLogLanding = () => {
                 if (values?.type?.value === 2) {
                   history.push({
                     pathname:
-                      "/transport-management/routecostmanagement/routestandardcost/vehicleProblem",
+                      '/transport-management/routecostmanagement/routestandardcost/vehicleProblem',
                   });
                 } else if (values?.type?.value === 3) {
                   history.push({
                     pathname:
-                      "/transport-management/routecostmanagement/routestandardcost/tripTargetEntry",
+                      '/transport-management/routecostmanagement/routestandardcost/tripTargetEntry',
                     state: {
                       values,
                     },
@@ -161,16 +163,16 @@ const VehicleLogLanding = () => {
                 } else if (values?.vehicleNo?.value) {
                   history.push({
                     pathname:
-                      "/transport-management/routecostmanagement/routestandardcost/create",
+                      '/transport-management/routecostmanagement/routestandardcost/create',
                     state: {
                       values,
                     },
                   });
                 } else {
-                  toast.warn("Please select vehicle no");
+                  toast.warn('Please select vehicle no');
                 }
               } else {
-                toast.warn("Please Select a Type");
+                toast.warn('Please Select a Type');
               }
             }}
           >

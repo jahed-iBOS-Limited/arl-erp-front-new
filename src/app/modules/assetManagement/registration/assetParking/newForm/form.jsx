@@ -1,12 +1,12 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import InputField from "../../../../_helper/_inputField";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import Axios from "axios";
-import FormikError from "../../../../_helper/_formikError";
-import { getUOMList } from "../helper";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import InputField from '../../../../_helper/_inputField';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import Axios from 'axios';
+import FormikError from '../../../../_helper/_formikError';
+import { getUOMList } from '../helper';
 // import IDelete from "../../../../_helper/_helperIcons/_delete";
 // import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
@@ -16,26 +16,26 @@ const validationSchema = Yup.object().shape({
   // countryOrigin: Yup.string().required("Country Origin is required"),
   // location: Yup.string().required("Location is required"),
   itemName: Yup.object().shape({
-    label: Yup.string().required("Item is required"),
-    value: Yup.string().required("Item is required"),
+    label: Yup.string().required('Item is required'),
+    value: Yup.string().required('Item is required'),
   }),
   category: Yup.object().shape({
-    label: Yup.string().required("Category is required"),
-    value: Yup.string().required("Category is required"),
+    label: Yup.string().required('Category is required'),
+    value: Yup.string().required('Category is required'),
   }),
-  assetName: Yup.string().required("Asset Name is required"),
+  assetName: Yup.string().required('Asset Name is required'),
   // referenceCode: Yup.string().required("PO Number is required"),
   // businessPartnerName: Yup.object().shape({
   //   label: Yup.string().required("Supplier Name is required"),
   //   value: Yup.string().required("Supplier Name is required"),
   // }),
   assetType: Yup.object().shape({
-    label: Yup.string().required("Asset Type is required"),
-    value: Yup.string().required("Asset Type is required"),
+    label: Yup.string().required('Asset Type is required'),
+    value: Yup.string().required('Asset Type is required'),
   }),
   profitCenter: Yup.object().shape({
-    label: Yup.string().required("Profit Center is required"),
-    value: Yup.string().required("Profit Center is required"),
+    label: Yup.string().required('Profit Center is required'),
+    value: Yup.string().required('Profit Center is required'),
   }),
   // manuSerialNumber: Yup.string().required("Manufacturer Serial Number is required"),
 });
@@ -62,7 +62,7 @@ export default function FormCmp({
   profileData,
   brtaList,
   categoryDDL,
-  profitCenterDDL
+  profitCenterDDL,
 }) {
   const loadUserList = (v) => {
     if (v?.length < 3) return [];
@@ -88,7 +88,7 @@ export default function FormCmp({
       }));
       return updateList;
     });
-  }
+  };
   return (
     <>
       <Formik
@@ -114,13 +114,13 @@ export default function FormCmp({
             {/* {disableHandler(!isValid)} */}
 
             <Form className="form form-label-right">
-                <div className="form-group row global-form">
+              <div className="form-group row global-form">
                 <div className="col-lg-3">
                   <ISelect
                     label="Asset Type"
                     options={[
-                      { value: 0, label: "Administrative" },
-                      { value: 1, label: "Manufacturing" },
+                      { value: 0, label: 'Administrative' },
+                      { value: 1, label: 'Manufacturing' },
                     ]}
                     name="assetType"
                     value={values?.assetType}
@@ -130,32 +130,35 @@ export default function FormCmp({
                   />
                 </div>
                 <div className="col-lg-3">
-                <ISelect
-                  name="category"
-                  options={categoryDDL||[]}
-                  value={values?.category}
-                  label="Category"
-                  // setFieldValue={setFieldValue}
-                  onChange={(valueOption)=>{
-                    setFieldValue("brtaType","")
-                    setFieldValue("category", valueOption)
-                  }}
-                  errors={errors}
-                  touched={touched}
-                  placeholder="Category"
-                />
+                  <ISelect
+                    name="category"
+                    options={categoryDDL || []}
+                    value={values?.category}
+                    label="Category"
+                    // setFieldValue={setFieldValue}
+                    onChange={(valueOption) => {
+                      setFieldValue('brtaType', '');
+                      setFieldValue('category', valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                    placeholder="Category"
+                  />
                 </div>
                 <div className="col-lg-3">
                   <label>Item Name</label>
                   <SearchAsyncSelect
                     selectedValue={values?.itemName}
                     handleChange={(valueOption) => {
-                      setFieldValue("itemName", valueOption);
-                      if(valueOption){
+                      setFieldValue('itemName', valueOption);
+                      if (valueOption) {
                         onChangeForItem(valueOption);
-                        setFieldValue("uomName", "");
-                        setFieldValue("assetName", valueOption?.label);
-                        setFieldValue("itemCategory", { value: valueOption?.itemCategoryId, label: valueOption?.itemCategoryName });
+                        setFieldValue('uomName', '');
+                        setFieldValue('assetName', valueOption?.label);
+                        setFieldValue('itemCategory', {
+                          value: valueOption?.itemCategoryId,
+                          label: valueOption?.itemCategoryName,
+                        });
                         getUOMList(
                           valueOption?.value,
                           selectedBusinessUnit?.value,
@@ -204,7 +207,7 @@ export default function FormCmp({
                     value={values?.uomName}
                     label="UoM Name"
                     onChange={(valueOption) => {
-                      setFieldValue("uomName", valueOption);
+                      setFieldValue('uomName', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -219,7 +222,7 @@ export default function FormCmp({
                       value={values?.brtaType}
                       label="BRTA Vehicle Type"
                       onChange={(valueOption) => {
-                        setFieldValue("brtaType", valueOption);
+                        setFieldValue('brtaType', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -352,8 +355,8 @@ export default function FormCmp({
                   <ISelect
                     label="Usage Type"
                     options={[
-                      { label: "Individual", value: 1 },
-                      { label: "Company", value: 2 },
+                      { label: 'Individual', value: 1 },
+                      { label: 'Company', value: 2 },
                     ]}
                     value={values?.usageType}
                     name="usageType"
@@ -367,7 +370,7 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.assignTo}
                     handleChange={(valueOption) => {
-                      setFieldValue("assignTo", valueOption);
+                      setFieldValue('assignTo', valueOption);
                     }}
                     loadOptions={loadUserList}
                   />
@@ -389,7 +392,7 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.resPerson}
                     handleChange={(valueOption) => {
-                      setFieldValue("resPerson", valueOption);
+                      setFieldValue('resPerson', valueOption);
                     }}
                     loadOptions={loadUserList}
                   />
@@ -421,10 +424,10 @@ export default function FormCmp({
                     name="lifeTimeYear"
                     min="0"
                     onChange={(e) => {
-                      if(e.target.value < 0){
-                        return setFieldValue("lifeTimeYear", "");
-                      }else{
-                        setFieldValue("lifeTimeYear", e.target.value);
+                      if (e.target.value < 0) {
+                        return setFieldValue('lifeTimeYear', '');
+                      } else {
+                        setFieldValue('lifeTimeYear', e.target.value);
                       }
                     }}
                   />
@@ -438,10 +441,10 @@ export default function FormCmp({
                     name="depRunRate"
                     min="0"
                     onChange={(e) => {
-                      if(e.target.value < 0){
-                        return setFieldValue("depRunRate", "");
-                      }else{
-                        setFieldValue("depRunRate", e.target.value);
+                      if (e.target.value < 0) {
+                        return setFieldValue('depRunRate', '');
+                      } else {
+                        setFieldValue('depRunRate', e.target.value);
                       }
                     }}
                   />
@@ -457,8 +460,6 @@ export default function FormCmp({
                     touched={touched}
                   />
                 </div>
-
-
               </div>
               <div className="form-group row">
                 <div className="col-lg-12">
@@ -507,14 +508,14 @@ export default function FormCmp({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

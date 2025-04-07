@@ -1,20 +1,20 @@
-import React from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import React from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 const TopSheetTable = ({ rowData, excelRef }) => {
   const headers = [
-    "SL",
-    "Customer Name",
-    "Customer Code",
-    "Distribution Channel",
-    "Region",
-    "Area",
-    "Territory",
-    "Quantity (Challan)",
-    "Quantity (Ton)",
-    "Amount",
+    'SL',
+    'Customer Name',
+    'Customer Code',
+    'Distribution Channel',
+    'Region',
+    'Area',
+    'Territory',
+    'Quantity (Challan)',
+    'Quantity (Ton)',
+    'Amount',
   ];
   return (
     <div>
@@ -22,7 +22,7 @@ const TopSheetTable = ({ rowData, excelRef }) => {
         ref={excelRef}
         id="test-table-xls-button-att-reports"
         className="d-none"
-        table={"table-to-xlsx"}
+        table={'table-to-xlsx'}
         filename="Customer Statement (Top Sheet)"
         sheet="Customer Statement (Top Sheet)"
         buttonText="Export Excel"
@@ -49,7 +49,7 @@ const TopSheetTable = ({ rowData, excelRef }) => {
               </tr>
             );
           })}
-          <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+          <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
             <td className="text-right" colSpan={7}>
               Total
             </td>

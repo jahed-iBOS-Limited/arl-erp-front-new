@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import HeaderForm from "./form";
-import { useSelector, shallowEqual } from "react-redux";
-import { employeEnroll_Api } from "../helper";
+import React, { useEffect, useState } from 'react';
+import HeaderForm from './form';
+import { useSelector, shallowEqual } from 'react-redux';
+import { employeEnroll_Api } from '../helper';
 export default function RecivePaymentLanding() {
   const [employeeDDL, SetEmployeeDDL] = useState([]);
   const [referanceNo, SetReferanceNo] = useState([]);
   const [girdData, setGirdData] = useState([]);
   const [loading, setLoading] = useState(false);
-
 
   let cashJournal = useSelector(
     (state) => {
@@ -27,7 +26,6 @@ export default function RecivePaymentLanding() {
       selectedBusinessUnit?.value,
       SetEmployeeDDL
     );
-
   }, []);
 
   return (

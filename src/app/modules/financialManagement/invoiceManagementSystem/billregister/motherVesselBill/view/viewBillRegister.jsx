@@ -1,36 +1,35 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import * as Yup from "yup";
+import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import * as Yup from 'yup';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../../_metronic/_partials/controls";
-import printIcon from "../../../../../_helper/images/print-icon.png";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
-import InputField from "../../../../../_helper/_inputField";
-import Loading from "../../../../../_helper/_loading";
-import { getMultipleFileView_Action } from "../../../../../_helper/_redux/Actions";
-import { BillApproved_api } from "../../../approvebillregister/helper";
-import { getG2GCarrierBillById } from "../../helper";
+} from '../../../../../../../_metronic/_partials/controls';
+import printIcon from '../../../../../_helper/images/print-icon.png';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../../_helper/_fixedPoint';
+import InputField from '../../../../../_helper/_inputField';
+import Loading from '../../../../../_helper/_loading';
+import { getMultipleFileView_Action } from '../../../../../_helper/_redux/Actions';
+import { BillApproved_api } from '../../../approvebillregister/helper';
+import { getG2GCarrierBillById } from '../../helper';
 
 const initData = {
-  approveAmount: "",
-  approveAmountMax: "",
-  remarks: "",
+  approveAmount: '',
+  approveAmountMax: '',
+  remarks: '',
 };
 
 const validationSchema = Yup.object().shape({
   approveAmount: Yup.number()
-    .min(0, "Minimum 0 number")
-    .required("Approve amount required")
-    .test("approveAmount", "Max Net Payable Amount", function(value) {
+    .min(0, 'Minimum 0 number')
+    .required('Approve amount required')
+    .test('approveAmount', 'Max Net Payable Amount', function (value) {
       return this.parent.approveAmountMax >= value;
     }),
 });
@@ -41,7 +40,7 @@ function ViewMotherVesselBill({
   setDataFunc,
   setModalShow,
 }) {
-  console.log(gridItem, "gridItem");
+  console.log(gridItem, 'gridItem');
   // get profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
@@ -69,7 +68,7 @@ function ViewMotherVesselBill({
       unitId: selectedBusinessUnit?.value,
       billTypeId: gridItem?.billType,
       approvedAmount: +values?.approveAmount,
-      remarks: values?.remarks || "",
+      remarks: values?.remarks || '',
     };
     const payload = {
       bill: [modifyGridData],
@@ -153,17 +152,17 @@ function ViewMotherVesselBill({
                   <div className="col-lg-12 ">
                     <div
                       className="text-center "
-                      style={{ position: "relative" }}
+                      style={{ position: 'relative' }}
                     >
                       <h2>{selectedBusinessUnit?.label}</h2>
                       <h5>{selectedBusinessUnit?.address} </h5>
                       <h3>Mother Vessel Bill</h3>
                       <button
                         style={{
-                          padding: "4px 4px",
-                          position: "absolute",
-                          top: "2px",
-                          right: "70px",
+                          padding: '4px 4px',
+                          position: 'absolute',
+                          top: '2px',
+                          right: '70px',
                         }}
                         onClick={() => {
                           dispatch(
@@ -177,23 +176,23 @@ function ViewMotherVesselBill({
                       </button>
                       <ReactToPrint
                         pageStyle={
-                          "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}"
+                          '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}'
                         }
                         trigger={() => (
                           <button
                             type="button"
                             className="btn btn-primary printSectionNone"
                             style={{
-                              padding: "2px 5px",
-                              position: "absolute",
-                              top: "0",
-                              right: "0",
+                              padding: '2px 5px',
+                              position: 'absolute',
+                              top: '0',
+                              right: '0',
                             }}
                           >
                             <img
                               style={{
-                                width: "25px",
-                                paddingRight: "5px",
+                                width: '25px',
+                                paddingRight: '5px',
                               }}
                               src={printIcon}
                               alt="print-icon"
@@ -229,7 +228,7 @@ function ViewMotherVesselBill({
                               <>
                                 <tr key={index}>
                                   <td
-                                    style={{ width: "30px" }}
+                                    style={{ width: '30px' }}
                                     className="text-center"
                                   >
                                     {index + 1}

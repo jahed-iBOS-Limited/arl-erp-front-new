@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 export const getissuerList = async (buId, orId, setter) => {
   try {
@@ -6,7 +6,7 @@ export const getissuerList = async (buId, orId, setter) => {
       `/procurement/PurchaseOrder/GetPoIssuer?BusinessUnitId=${buId}&OrganizationId=${orId}`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getsupplierList = async (userId, accId, buId, plantId, setter) => {
@@ -15,9 +15,8 @@ export const getsupplierList = async (userId, accId, buId, plantId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
-
 
 export const getbillbysupplierLanding = async (
   accId,
@@ -35,8 +34,8 @@ export const getbillbysupplierLanding = async (
   warehouseId
 ) => {
   setLoading(true);
-  const PartnerId = partnerId ? `PartnerId=${partnerId}` : "";
-  const PoIssuer = issuerId ? `PoIssuer=${issuerId}` : "";
+  const PartnerId = partnerId ? `PartnerId=${partnerId}` : '';
+  const PoIssuer = issuerId ? `PoIssuer=${issuerId}` : '';
   try {
     const res = await Axios.get(
       // `/procurement/SupplierInvoice/GetBillBySupplier?AccountId=${accId}&BusinessUnitId=${buId}&OrganizationType=${poId}&${PartnerId}${PoIssuer}fromDate=${fromDate}&toDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -48,4 +47,3 @@ export const getbillbysupplierLanding = async (
     setLoading(false);
   }
 };
-

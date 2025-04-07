@@ -1,21 +1,20 @@
-
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { getMonth } from "../../../../salesManagement/report/customerSalesTarget/utils";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { getEmpInfoByIdAction } from "../helper";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { getMonth } from '../../../../salesManagement/report/customerSalesTarget/utils';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { getEmpInfoByIdAction } from '../helper';
 
 const initData = {
-  employee: "",
-  permissionMenu: "",
+  employee: '',
+  permissionMenu: '',
 };
 
 const CreatePermissionForm = ({ setShow, getData, formType, singleItem }) => {
@@ -39,7 +38,7 @@ const CreatePermissionForm = ({ setShow, getData, formType, singleItem }) => {
   }, [accId, buId]);
 
   const getInitData = () => {
-    if (formType === "edit") {
+    if (formType === 'edit') {
       return {
         soldToPartner: {
           value: singleItem?.soldToPartnerId,
@@ -130,7 +129,7 @@ const CreatePermissionForm = ({ setShow, getData, formType, singleItem }) => {
       businessUnitId: values?.businessUnit?.value,
       permissionMenu: `ysn${values?.permissionMenu?.label}`,
     };
-    if (formType === "edit") {
+    if (formType === 'edit') {
     } else {
       postData(
         `/wms/FertilizerOperation/CreatePermissionForModification`,
@@ -172,7 +171,7 @@ const CreatePermissionForm = ({ setShow, getData, formType, singleItem }) => {
                       name="employee"
                       selectedValue={values?.employee}
                       handleChange={(valueOption) => {
-                        setFieldValue("employee", valueOption);
+                        setFieldValue('employee', valueOption);
                         getEmpInfoByIdAction(valueOption, setInfo);
                         // getEmpPermissionList(
                         //   valueOption,
@@ -207,7 +206,7 @@ const CreatePermissionForm = ({ setShow, getData, formType, singleItem }) => {
                       value={values?.businessUnit}
                       label="Business Unit"
                       onChange={(valueOption) => {
-                        setFieldValue("businessUnit", valueOption);
+                        setFieldValue('businessUnit', valueOption);
                       }}
                       placeholder="Select Business Unit"
                       errors={errors}
@@ -222,7 +221,7 @@ const CreatePermissionForm = ({ setShow, getData, formType, singleItem }) => {
                       value={values?.permissionMenu}
                       label="Permission Menu"
                       onChange={(valueOption) => {
-                        setFieldValue("permissionMenu", valueOption);
+                        setFieldValue('permissionMenu', valueOption);
                       }}
                       placeholder="Select Permission Menu"
                       errors={errors}
@@ -236,11 +235,11 @@ const CreatePermissionForm = ({ setShow, getData, formType, singleItem }) => {
                         <InputField
                           label="Code"
                           placeholder="Code"
-                          value={info?.strEmployeeCode || ""}
+                          value={info?.strEmployeeCode || ''}
                           name="code"
                           type="text"
                           onChange={(e) => {
-                            setFieldValue("code", e.target.value);
+                            setFieldValue('code', e.target.value);
                           }}
                           disabled={true}
                         />
@@ -249,11 +248,11 @@ const CreatePermissionForm = ({ setShow, getData, formType, singleItem }) => {
                         <InputField
                           label="Designation"
                           placeholder="Designation"
-                          value={info?.strDesignationName || ""}
+                          value={info?.strDesignationName || ''}
                           name="designation"
                           type="text"
                           onChange={(e) => {
-                            setFieldValue("designation", e.target.value);
+                            setFieldValue('designation', e.target.value);
                           }}
                           disabled={true}
                         />

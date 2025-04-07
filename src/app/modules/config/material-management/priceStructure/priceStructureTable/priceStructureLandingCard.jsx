@@ -1,12 +1,12 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { PriceStructureTableCard } from "./PriceStructureTableCard";
+} from '../../../../../../_metronic/_partials/controls';
+import { PriceStructureTableCard } from './PriceStructureTableCard';
 
 export function PriceStructureLandingCard() {
   let history = useHistory();
@@ -18,7 +18,7 @@ export function PriceStructureLandingCard() {
             type="button"
             className="btn btn-primary"
             onClick={() =>
-              history.push("/config/material-management/price-structure/add")
+              history.push('/config/material-management/price-structure/add')
             }
           >
             Create New

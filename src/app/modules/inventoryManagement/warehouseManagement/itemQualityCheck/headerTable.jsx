@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
-import IAdd from "../../../_helper/_helperIcons/_add";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import NewIcon from "../../../_helper/_helperIcons/newIcon";
-import CommonTable from "../../../_helper/commonTable";
-import { parentTableHeader } from "./helper";
-import ItemTable from "./itemTable";
-import { QcManagementContext } from "./qcManagementContext";
+import React, { useContext, useState } from 'react';
+import IAdd from '../../../_helper/_helperIcons/_add';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import NewIcon from '../../../_helper/_helperIcons/newIcon';
+import CommonTable from '../../../_helper/commonTable';
+import { parentTableHeader } from './helper';
+import ItemTable from './itemTable';
+import { QcManagementContext } from './qcManagementContext';
 
 export default function HeaderTable({ parentData, grandParentIndex }) {
   return (
@@ -40,12 +40,12 @@ function TableTbody({ parentItem, parentIndex, grandParentIndex }) {
         <td className="text-center">
           {isOpen ? (
             <span
-              style={{ fontSize: "16px" }}
+              style={{ fontSize: '16px' }}
               onClick={() => {
                 setIsOpen(false);
               }}
             >
-              <NewIcon iconName={"fa fa-minus-square"} title={""} />
+              <NewIcon iconName={'fa fa-minus-square'} title={''} />
             </span>
           ) : (
             <span
@@ -67,7 +67,7 @@ function TableTbody({ parentItem, parentIndex, grandParentIndex }) {
         <td>{parentItem?.uomName}</td>
         <td>
           <input
-            value={parentItem?.qcQuantityBag || ""}
+            value={parentItem?.qcQuantityBag || ''}
             name="qcQuantityBag"
             type="number"
             // style={{ maxWidth: "60px" }}
@@ -78,7 +78,7 @@ function TableTbody({ parentItem, parentIndex, grandParentIndex }) {
         </td>
         <td>
           <input
-            value={parentItem?.qcQuantity || ""}
+            value={parentItem?.qcQuantity || ''}
             name="qcQuantity"
             type="number"
             disabled={true}
@@ -92,7 +92,7 @@ function TableTbody({ parentItem, parentIndex, grandParentIndex }) {
         <td>{parentItem?.deductionQuantity}</td>
         <td>
           <input
-            value={parentItem?.unloadedDeductionQuantity||""}
+            value={parentItem?.unloadedDeductionQuantity || ''}
             name="unloadedDeductionQuantity"
             type="number"
             // style={{ maxWidth: "50px" }}
@@ -104,7 +104,7 @@ function TableTbody({ parentItem, parentIndex, grandParentIndex }) {
         <td>{parentItem?.actualQuantity}</td>
         <td>
           <input
-            value={parentItem?.remarks || ""}
+            value={parentItem?.remarks || ''}
             name="remarks"
             type="text"
             // style={{ maxWidth: "50px" }}

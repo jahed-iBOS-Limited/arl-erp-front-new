@@ -17,11 +17,8 @@ const CommonItemDetailsModal = ({ objProp }) => {
   const [setObjprops] = useState({});
 
   // api action
-  const [
-    commonItemData,
-    getCommonItemData,
-    getCommonItemDataLoading,
-  ] = useAxiosGet();
+  const [commonItemData, getCommonItemData, getCommonItemDataLoading] =
+    useAxiosGet();
 
   // use effect
   useEffect(() => {
@@ -31,7 +28,6 @@ const CommonItemDetailsModal = ({ objProp }) => {
       commonItemDetailsDispatch,
       values,
     });
-
   }, []);
 
   // console.log("Common", commonItemDetailsState);
@@ -98,7 +94,7 @@ const CommonItemDetailsModal = ({ objProp }) => {
                         <td className="text-right">
                           {commonItemData.reduce(
                             (sum, item) => sum + item.numQTY,
-                            0,
+                            0
                           ) || 0}
                         </td>
                       </tr>

@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getDistributionChannelDDL_api = async (accId, buId, setter) => {
   try {
@@ -30,17 +30,17 @@ export const DeliveryChallanInformation_api = async (
       `/oms/SalesInformation/GetDeliveryChallanInformation?PartID=${reportType}&UnitID=${buId}&Delivercode=${code}&TransferToDate=${date}&UpdateBy=${userId}&Customerid=${customerid}`
     );
     if (isUpdateMassage) {
-      toast.success("Submitted successfully");
+      toast.success('Submitted successfully');
       setter([]);
       setLoading(false);
       resetForm();
       return false;
     }
-    if (res?.data?.length === 0) toast.warning("Data Not Found");
+    if (res?.data?.length === 0) toast.warning('Data Not Found');
     setter(res?.data);
     setLoading(false);
   } catch (err) {
-    toast.warn(err?.response?.data?.message || "Something went wrong");
+    toast.warn(err?.response?.data?.message || 'Something went wrong');
     setLoading(false);
     setter([]);
   }
@@ -60,12 +60,12 @@ export const GetInfoForChalalnCancell_api = async (
     let res = await Axios.get(
       `/oms/SalesInformation/GetInformationForChalalnCancell?Delivercode=${code}&UnitID=${buId}&PartID=3&Narration=${remarks}&InactiveBy=${userId}&Customerid=${customerid}`
     );
-    toast.success(res?.message || "Submitted successfully");
+    toast.success(res?.message || 'Submitted successfully');
     setter([]);
     setLoading(false);
     resetForm();
   } catch (err) {
-    toast.warn(err?.response?.data?.message || "Something went wrong");
+    toast.warn(err?.response?.data?.message || 'Something went wrong');
     setLoading(false);
     setter([]);
   }
@@ -84,10 +84,10 @@ export const EditVehicleAndSupplierInfo_api = async (
     );
     cb();
     setLoading(false);
-    toast.success(res?.data?.message || "Successfully");
+    toast.success(res?.data?.message || 'Successfully');
   } catch (error) {
     setLoading(false);
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    toast.error(error?.response?.data?.message || 'Something went wrong');
   }
 };
 

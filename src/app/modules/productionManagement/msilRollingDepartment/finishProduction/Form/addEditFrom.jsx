@@ -1,40 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import * as Yup from "yup";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import FinishProductionForm from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import FinishProductionForm from './form';
 
 const initData = {
-  date: "",
-  shift: "",
-  productName: "",
-  productionKgs: "",
-  rodQuantityKgs: "",
+  date: '',
+  shift: '',
+  productName: '',
+  productionKgs: '',
+  rodQuantityKgs: '',
 };
 
 const validationSchema = Yup.object().shape({
-  date: Yup.string().required("Date is required"),
-  productionKgs: Yup.number().required("Production is required"),
-  rodQuantityKgs: Yup.number().required("Quantity is required"),
+  date: Yup.string().required('Date is required'),
+  productionKgs: Yup.number().required('Production is required'),
+  rodQuantityKgs: Yup.number().required('Quantity is required'),
   shift: Yup.object()
     .shape({
-      label: Yup.string().required("Shift is required"),
-      value: Yup.string().required("Shift is required"),
+      label: Yup.string().required('Shift is required'),
+      value: Yup.string().required('Shift is required'),
     })
-    .typeError("Shift is required"),
+    .typeError('Shift is required'),
 
   productName: Yup.object()
     .shape({
-      label: Yup.string().required("Product name is required"),
-      value: Yup.string().required("Product name is required"),
+      label: Yup.string().required('Product name is required'),
+      value: Yup.string().required('Product name is required'),
     })
-    .typeError("Product name is required"),
+    .typeError('Product name is required'),
 });
 
 export default function FinishProductionCreate() {
@@ -42,7 +42,7 @@ export default function FinishProductionCreate() {
   const [objProps, setObjprops] = useState({});
   const [, saveData] = useAxiosPost();
   const [productDDL, getProductDDL] = useAxiosGet();
-  const [modifyData, setModifyData] = useState("");
+  const [modifyData, setModifyData] = useState('');
   const params = useParams();
   const location = useLocation();
 
@@ -55,8 +55,9 @@ export default function FinishProductionCreate() {
   }, shallowEqual);
 
   useEffect(() => {
-    getProductDDL(`/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`);
-
+    getProductDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`
+    );
   }, []);
 
   useEffect(() => {
@@ -75,7 +76,6 @@ export default function FinishProductionCreate() {
         rodQuantityKgs: location?.state?.numOddCutRodQtyKgs,
       });
     }
-
   }, [params?.id]);
 
   const saveHandler = async (values, cb) => {
@@ -106,7 +106,7 @@ export default function FinishProductionCreate() {
 
   return (
     <IForm
-      title={params?.id ? "Edit Finish Production" : "Create Finish Production"}
+      title={params?.id ? 'Edit Finish Production' : 'Create Finish Production'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenReset={true}

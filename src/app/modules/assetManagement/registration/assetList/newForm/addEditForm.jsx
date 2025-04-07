@@ -1,16 +1,13 @@
-
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { getItemAttributeforCreate, getSingleDataForEdit } from "../helper";
-import IForm from "../../../../_helper/_form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { useLocation } from "react-router-dom";
-import "../assetList.css";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { getMaintenanceReport } from "../helper"
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { getItemAttributeforCreate, getSingleDataForEdit } from '../helper';
+import IForm from '../../../../_helper/_form';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { useLocation } from 'react-router-dom';
+import '../assetList.css';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { getMaintenanceReport } from '../helper';
 
 export default function AssetListCreateForm({ currentRowData }) {
   const location = useLocation();
@@ -26,18 +23,24 @@ export default function AssetListCreateForm({ currentRowData }) {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const [singleData, setSingleData] = useState([])
+  const [singleData, setSingleData] = useState([]);
   const [itemAttribute, setItemAttribute] = useState([]);
   const [maintenanceRowDto, setMaintenanceRowDto] = useState([]);
   const [assignRowDto, setAssignRowDto] = useState([]);
   useEffect(() => {
-    getSingleDataForEdit(profileData?.accountId,
-      selectedBusinessUnit?.value, currentRowData.assetId, setSingleData)
-    getItemAttributeforCreate(currentRowData.itemId, profileData?.accountId,
-      selectedBusinessUnit?.value, setItemAttribute)
-
-  }, [profileData?.accountId,
-  selectedBusinessUnit?.value]);
+    getSingleDataForEdit(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      currentRowData.assetId,
+      setSingleData
+    );
+    getItemAttributeforCreate(
+      currentRowData.itemId,
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      setItemAttribute
+    );
+  }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const disableHandler = (cond) => {
     setDisabled(cond);
@@ -52,23 +55,20 @@ export default function AssetListCreateForm({ currentRowData }) {
         selectedBusinessUnit?.value,
         currentRowData?.plantId,
         2,
-        _dateFormatter(new Date(new Date().setFullYear(new Date().getFullYear() - 1))),
+        _dateFormatter(
+          new Date(new Date().setFullYear(new Date().getFullYear() - 1))
+        ),
         _todayDate(),
         currentRowData?.assetId || 0,
         setMaintenanceRowDto,
         setDisabled
       );
     }
-
-  }, [currentRowData])
+  }, [currentRowData]);
 
   return (
     <div className="AssetListView">
-      <IForm
-        title="View Asset"
-        getProps={setObjprops}
-        isDisabled={isDisabled}
-      >
+      <IForm title="View Asset" getProps={setObjprops} isDisabled={isDisabled}>
         <Form
           {...objProps}
           initData={singleData}

@@ -1,7 +1,6 @@
-import React from "react";
-import CustomerStatementModifiedReportTable from "./Table/table";
-
+import React from 'react';
+import CustomerStatementModifiedReportTable from './Table/table';
 
 export function CustomerStatementModifiedReport() {
-  return <CustomerStatementModifiedReportTable/>;
+  return <CustomerStatementModifiedReportTable />;
 }

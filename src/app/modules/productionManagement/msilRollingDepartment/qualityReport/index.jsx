@@ -1,18 +1,17 @@
-
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import PaginationTable from "../../../chartering/_chartinghelper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import numberWithCommas from "../../../_helper/_numberWithCommas";
-import NewSelect from "../../../_helper/_select";
-import { ITable } from "../../../_helper/_table";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { _timeFormatter } from "./../../../chartering/_chartinghelper/_timeFormatter";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import PaginationTable from '../../../chartering/_chartinghelper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import numberWithCommas from '../../../_helper/_numberWithCommas';
+import NewSelect from '../../../_helper/_select';
+import { ITable } from '../../../_helper/_table';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { _timeFormatter } from './../../../chartering/_chartinghelper/_timeFormatter';
 
 const initData = {
   fromDate: _todayDate(),
@@ -64,7 +63,7 @@ export default function QualityReport() {
                     />
                   </div>
 
-                  <div style={{ marginTop: "15px" }} className="col-lg-1">
+                  <div style={{ marginTop: '15px' }} className="col-lg-1">
                     <button
                       type="button"
                       onClick={() => {
@@ -81,7 +80,7 @@ export default function QualityReport() {
                 </div>
 
                 <div
-                  style={{ marginTop: "15px" }}
+                  style={{ marginTop: '15px' }}
                   className="loan-scrollable-table"
                 >
                   <div className="scroll-table _table">
@@ -89,59 +88,59 @@ export default function QualityReport() {
                       <table className="table table-striped table-bordered bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ minWidth: "50px" }}>SL</th>
-                            <th style={{ minWidth: "70px" }}>Heat No</th>
-                            <th style={{ minWidth: "110px" }}>
+                            <th style={{ minWidth: '50px' }}>SL</th>
+                            <th style={{ minWidth: '70px' }}>Heat No</th>
+                            <th style={{ minWidth: '110px' }}>
                               Date of Physical test
                             </th>
-                            <th style={{ minWidth: "110px" }}>
+                            <th style={{ minWidth: '110px' }}>
                               Physical test time
                             </th>
-                            <th style={{ minWidth: "150px" }}>Grade</th>
-                            <th style={{ minWidth: "90px" }}>Actual Area</th>
-                            <th style={{ minWidth: "90px" }}>Nominal dia mm</th>
-                            <th style={{ minWidth: "90px" }}>Actual Dia mm</th>
-                            <th style={{ minWidth: "90px" }}>
+                            <th style={{ minWidth: '150px' }}>Grade</th>
+                            <th style={{ minWidth: '90px' }}>Actual Area</th>
+                            <th style={{ minWidth: '90px' }}>Nominal dia mm</th>
+                            <th style={{ minWidth: '90px' }}>Actual Dia mm</th>
+                            <th style={{ minWidth: '90px' }}>
                               Actual unit Wt Kg
                             </th>
-                            <th style={{ minWidth: "90px" }}>
+                            <th style={{ minWidth: '90px' }}>
                               Elongation After fracture %
                             </th>
-                            <th style={{ minWidth: "90px" }}>Yield Load Kn</th>
-                            <th style={{ minWidth: "90px" }}>
+                            <th style={{ minWidth: '90px' }}>Yield Load Kn</th>
+                            <th style={{ minWidth: '90px' }}>
                               Yield strength MPa
                             </th>
-                            <th style={{ minWidth: "90px" }}>
+                            <th style={{ minWidth: '90px' }}>
                               Maximum force Kn
                             </th>
-                            <th style={{ minWidth: "90px" }}>
+                            <th style={{ minWidth: '90px' }}>
                               Tensile Strength MPa
                             </th>
-                            <th style={{ minWidth: "90px" }}>Rupture Load</th>
-                            <th style={{ minWidth: "90px" }}>TS/YS Ratio</th>
-                            <th style={{ minWidth: "90px" }}>Bend Test</th>
-                            <th style={{ minWidth: "90px" }}>
+                            <th style={{ minWidth: '90px' }}>Rupture Load</th>
+                            <th style={{ minWidth: '90px' }}>TS/YS Ratio</th>
+                            <th style={{ minWidth: '90px' }}>Bend Test</th>
+                            <th style={{ minWidth: '90px' }}>
                               Production by nature of billet
                             </th>
-                            <th style={{ minWidth: "90px" }}>
+                            <th style={{ minWidth: '90px' }}>
                               Billet Tempreture C
                             </th>
-                            <th style={{ minWidth: "90px" }}>
+                            <th style={{ minWidth: '90px' }}>
                               Furnace Tempreture C
                             </th>
-                            <th style={{ minWidth: "90px" }}>
+                            <th style={{ minWidth: '90px' }}>
                               TMT Water Tempreture C
                             </th>
-                            <th style={{ minWidth: "90px" }}>
+                            <th style={{ minWidth: '90px' }}>
                               Bar entry Tempreture C
                             </th>
-                            <th style={{ minWidth: "90px" }}>
+                            <th style={{ minWidth: '90px' }}>
                               Bar exite Tempreture C
                             </th>
-                            <th style={{ minWidth: "90px" }}>Water flow</th>
-                            <th style={{ minWidth: "90px" }}>Water Pressure</th>
+                            <th style={{ minWidth: '90px' }}>Water flow</th>
+                            <th style={{ minWidth: '90px' }}>Water Pressure</th>
                             <th>Remarks</th>
-                            <th style={{ minWidth: "50px" }}>Action</th>
+                            <th style={{ minWidth: '50px' }}>Action</th>
                           </tr>
                         </thead>
                         <tbody>

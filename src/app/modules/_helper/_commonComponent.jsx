@@ -1,6 +1,6 @@
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IDelete from "./_helperIcons/_delete";
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import IDelete from './_helperIcons/_delete';
 
 const ReceiveAndPaymentsTable = ({
   jorunalType,
@@ -13,16 +13,16 @@ const ReceiveAndPaymentsTable = ({
 }) => {
   return (
     <div className="table-responsive">
-      <table className={jorunalType === 6 ? "d-none" : "table mt-1 bj-table"}>
-        <thead className={rowDto?.length < 1 && "d-none"}>
+      <table className={jorunalType === 6 ? 'd-none' : 'table mt-1 bj-table'}>
+        <thead className={rowDto?.length < 1 && 'd-none'}>
           <tr>
-            <th style={{ width: "20px" }}>SL</th>
-            <th style={{ width: "160px" }}>General Ledger</th>
-            <th style={{ width: "160px" }}>Transaction</th>
-            <th style={{ width: "100px" }}>Debit</th>
-            <th style={{ width: "100px" }}>Credit</th>
-            <th style={{ width: "100px" }}>Elements</th>
-            <th style={{ width: "50px" }}>Actions</th>
+            <th style={{ width: '20px' }}>SL</th>
+            <th style={{ width: '160px' }}>General Ledger</th>
+            <th style={{ width: '160px' }}>Transaction</th>
+            <th style={{ width: '100px' }}>Debit</th>
+            <th style={{ width: '100px' }}>Credit</th>
+            <th style={{ width: '100px' }}>Elements</th>
+            <th style={{ width: '50px' }}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -68,7 +68,7 @@ const ReceiveAndPaymentsTable = ({
                     <input
                       value={item.amount}
                       onChange={(e) =>
-                        rowDtoHandler(index, "amount", e.target.value)
+                        rowDtoHandler(index, 'amount', e.target.value)
                       }
                     />
                   </div>
@@ -80,7 +80,7 @@ const ReceiveAndPaymentsTable = ({
                     <input
                       value={item.amount}
                       onChange={(e) =>
-                        rowDtoHandler(index, "amount", e.target.value)
+                        rowDtoHandler(index, 'amount', e.target.value)
                       }
                     />
                   </div>
@@ -90,29 +90,31 @@ const ReceiveAndPaymentsTable = ({
                 <OverlayTrigger
                   overlay={
                     <Tooltip className="mytooltip" id="info-tooltip">
-                      {" "}
+                      {' '}
                       {item?.profitCenter?.label && item?.profitCenter?.label}
                       {(item?.revenueElement?.label ||
                         item?.costElement?.label) &&
                         `, `}
-                      {item?.revenueElement?.label || item?.costElement?.label}{" "}
+                      {item?.revenueElement?.label ||
+                        item?.costElement?.label}{' '}
                     </Tooltip>
                   }
                 >
                   <div
                     className="text-left pl-2"
                     style={{
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      width: "100px",
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      width: '100px',
                     }}
                   >
                     {item?.profitCenter?.label && item?.profitCenter?.label}
                     {(item?.revenueElement?.label ||
                       item?.costElement?.label) &&
                       `, `}
-                    {item?.revenueElement?.label || item?.costElement?.label}{" "}
+                    {item?.revenueElement?.label ||
+                      item?.costElement?.label}{' '}
                   </div>
                 </OverlayTrigger>
               </td>

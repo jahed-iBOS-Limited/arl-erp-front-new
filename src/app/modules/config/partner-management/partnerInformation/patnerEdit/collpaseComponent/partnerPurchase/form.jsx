@@ -1,39 +1,38 @@
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import Select from "react-select";
-import * as Yup from "yup";
-import Axios from "axios";
-import { ISelect } from "../../../../../../_helper/_inputDropDown";
-import customStyles from "../../../../../../selectCustomStyle";
-import NewSelect from "./../../../../../../_helper/_select";
-import InputField from "../../../../../../_helper/_inputField";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import Select from 'react-select';
+import * as Yup from 'yup';
+import Axios from 'axios';
+import { ISelect } from '../../../../../../_helper/_inputDropDown';
+import customStyles from '../../../../../../selectCustomStyle';
+import NewSelect from './../../../../../../_helper/_select';
+import InputField from '../../../../../../_helper/_inputField';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
   sbu: Yup.object().shape({
-    label: Yup.string().required("SBU is required"),
-    value: Yup.string().required("SBU is required"),
+    label: Yup.string().required('SBU is required'),
+    value: Yup.string().required('SBU is required'),
   }),
   generalLedgerName: Yup.object().shape({
-    label: Yup.string().required("General ledger is required"),
-    value: Yup.string().required("General ledger is required"),
+    label: Yup.string().required('General ledger is required'),
+    value: Yup.string().required('General ledger is required'),
   }),
   accuredGeneralLedgerName: Yup.object().shape({
-    label: Yup.string().required("Accured General ledger is required"),
-    value: Yup.string().required("Accured General ledger is required"),
+    label: Yup.string().required('Accured General ledger is required'),
+    value: Yup.string().required('Accured General ledger is required'),
   }),
   advancedGeneralLedgerName: Yup.object().shape({
-    label: Yup.string().required("Advanced General ledger is required"),
-    value: Yup.string().required("Advanced General ledger is required"),
+    label: Yup.string().required('Advanced General ledger is required'),
+    value: Yup.string().required('Advanced General ledger is required'),
   }),
   purchaseOrganization: Yup.object().shape({
-    label: Yup.string().required("Purchase organization is required"),
-    value: Yup.string().required("Purchase organization is required"),
+    label: Yup.string().required('Purchase organization is required'),
+    value: Yup.string().required('Purchase organization is required'),
   }),
   priceStructure: Yup.object().shape({
-    label: Yup.string().required("Price structure is required"),
-    value: Yup.string().required("Price structure is required"),
+    label: Yup.string().required('Price structure is required'),
+    value: Yup.string().required('Price structure is required'),
   }),
 });
 
@@ -67,10 +66,8 @@ export default function FormCmp({
   //   []
   // );
 
-  const [
-    advancedGeneralLedgerOption,
-    setAdvancedGeneralLedgerOption,
-  ] = useState([]);
+  const [advancedGeneralLedgerOption, setAdvancedGeneralLedgerOption] =
+    useState([]);
   const [sbuDDL, setSbuDDL] = useState([]);
   // rowDtos ddl
   const [itemCategory, setItemCategory] = useState([]);
@@ -85,7 +82,7 @@ export default function FormCmp({
   }, [selectedBusinessUnit, accountId]);
 
   useEffect(() => {
-    if(profileData?.accountId && selectedBusinessUnit?.value ) {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
       getAccountPayableGL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -107,16 +104,16 @@ export default function FormCmp({
   // }, [profileData,selectedBusinessUnit]);
 
   useEffect(() => {
-    if(profileData?.accountId && selectedBusinessUnit?.value) {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
       setTimeout(() => {
         getAdvancePayableGL(
           profileData?.accountId,
           selectedBusinessUnit?.value,
           setAdvancedGeneralLedgerList
         );
-      },1000)
+      }, 1000);
     }
-  }, [profileData,selectedBusinessUnit]);
+  }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     getItemCategory(accountId, selectedBusinessUnit.value);
@@ -128,9 +125,7 @@ export default function FormCmp({
         `/item/PriceStructure/GetPriceStructureDDLByPriceStructureType?accountId=${accId}&businessUnitId=${buId}`
       );
       setPriceDDL(res.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   const getPurchaseOrganizationData = async (accountId, buId) => {
@@ -139,11 +134,8 @@ export default function FormCmp({
         `/item/ItemPurchaseInfo/GetPurchaseOrganizationDDL?AccountId=${accountId}&BusinessUnitId=${buId}`
       );
       setPurchaseOrgList(res.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
-
 
   const getAccountPayableGL = async (accountId, buId, setter) => {
     try {
@@ -151,9 +143,7 @@ export default function FormCmp({
         `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accountId}&BusinessUnitId=${buId}&AccountGroupId=7`
       );
       setter(res?.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
   // const getAccruedPayableGL = async (accountId, buId, setter) => {
   //   try {
@@ -171,9 +161,7 @@ export default function FormCmp({
         `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accountId}&BusinessUnitId=${buId}&AccountGroupId=5`
       );
       setter(res?.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   const getItemCategory = async (accountId, buId) => {
@@ -182,9 +170,7 @@ export default function FormCmp({
         `/wms/ItemPlantWarehouse/ItemCategoryForpartnerprofileDDL?accountId=${accountId}&businessUnitId=${buId}`
       );
       setItemCategory(res.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   const getItemName = async (CategoryId) => {
@@ -193,9 +179,7 @@ export default function FormCmp({
         `wms/ItemPlantWarehouse/ItemByCategoryDDL?CategoryId=${CategoryId}`
       );
       setItemName(res.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   const getSbuDDL = async (accId, buId) => {
@@ -204,9 +188,7 @@ export default function FormCmp({
         `/domain/BusinessUnitDomain/GetBusinessAreaDDL?AccountId=${accId}&BusinessUnitId=${buId}`
       );
       setSbuDDL(res?.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -289,7 +271,7 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("sbu", valueOption);
+                      setFieldValue('sbu', valueOption);
                     }}
                   />
                 </div>
@@ -302,7 +284,7 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("purchaseOrganization", valueOption);
+                      setFieldValue('purchaseOrganization', valueOption);
                     }}
                   />
                 </div>
@@ -315,7 +297,7 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("priceStructure", valueOption);
+                      setFieldValue('priceStructure', valueOption);
                     }}
                   />
                 </div>
@@ -328,7 +310,7 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("generalLedgerName", valueOption);
+                      setFieldValue('generalLedgerName', valueOption);
                     }}
                   />
                 </div>
@@ -341,7 +323,7 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("accuredGeneralLedgerName", valueOption);
+                      setFieldValue('accuredGeneralLedgerName', valueOption);
                     }}
                   />
                 </div>
@@ -354,7 +336,7 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("advancedGeneralLedgerName", valueOption);
+                      setFieldValue('advancedGeneralLedgerName', valueOption);
                     }}
                   />
                 </div>
@@ -363,7 +345,7 @@ export default function FormCmp({
 
               {/* rowDtos */}
 
-              <h3 style={{ fontSize: "1.275rem" }}>Supplier Item Assignment</h3>
+              <h3 style={{ fontSize: '1.275rem' }}>Supplier Item Assignment</h3>
               <div className="row global-form">
                 <div className="col-lg-4">
                   <label>Item Category</label>
@@ -377,8 +359,8 @@ export default function FormCmp({
                         value={values?.itemCategory}
                         onChange={(valueOption) => {
                           getItemName(valueOption?.value);
-                          setFieldValue("itemName", "");
-                          setFieldValue("itemCategory", valueOption);
+                          setFieldValue('itemName', '');
+                          setFieldValue('itemCategory', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -410,7 +392,7 @@ export default function FormCmp({
                       };
                       setter(obj);
                     }}
-                    style={{ marginTop: "15px" }}
+                    style={{ marginTop: '15px' }}
                     className="btn btn-primary ml-2"
                     disabled={!values?.itemCategory || !values?.itemName?.value}
                     type="button"
@@ -424,41 +406,41 @@ export default function FormCmp({
                 {rowDto.length ? (
                   <div className="table-responsive">
                     <table className="table table-striped table-bordered">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Item Name</th>
-                        <th>Code</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowDto.map((itm, idx) => (
-                        <tr key={idx}>
-                          <td>{idx + 1}</td>
-                          <td>{itm.itemName}</td>
-                          <td>{itm.itemCode}</td>
-                          <td className="text-center">
-                            <span>
-                              <i
-                                onClick={() => remover(itm.itemId)}
-                                className="fa fa-trash deleteBtn"
-                                aria-hidden="true"
-                              ></i>
-                            </span>
-                          </td>
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Item Name</th>
+                          <th>Code</th>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {rowDto.map((itm, idx) => (
+                          <tr key={idx}>
+                            <td>{idx + 1}</td>
+                            <td>{itm.itemName}</td>
+                            <td>{itm.itemCode}</td>
+                            <td className="text-center">
+                              <span>
+                                <i
+                                  onClick={() => remover(itm.itemId)}
+                                  className="fa fa-trash deleteBtn"
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
 
               {/* shipPointRowDto */}
-              <h3 style={{ fontSize: "1.275rem" }}>Supplier Shippoint</h3>
+              <h3 style={{ fontSize: '1.275rem' }}>Supplier Shippoint</h3>
               <div className="row global-form">
                 <div className="col-lg-4 mb-2">
                   <InputField
@@ -478,7 +460,7 @@ export default function FormCmp({
                       };
                       shipPointSetter(obj);
                     }}
-                    style={{ marginTop: "15px" }}
+                    style={{ marginTop: '15px' }}
                     className="btn btn-primary ml-2"
                     disabled={!values?.shipPointName}
                     type="button"
@@ -489,52 +471,55 @@ export default function FormCmp({
               </div>
               <div>
                 {shipPointRowDto.length ? (
-                <div className="table-responsive">
+                  <div className="table-responsive">
                     <table className="table table-striped table-bordered">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Shippoint Name</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {shipPointRowDto.map((itm, idx) => (
-                        <tr key={idx}>
-                          <td>{idx + 1}</td>
-                          <td>
-                            <div className="pl-2">{itm.shipPointName}</div>
-                          </td>
-                          <td className="text-center">
-                            <button
-                              type="button"
-                              disabled={itm?.id === 0 ? false : true}
-                              onClick={() => shipPointRemover(idx)}
-                              style={{ border: "0", background: "transparent" }}
-                            >
-                              <i className="fa fa-trash deleteBtn"></i>
-                            </button>
-                          </td>
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Shippoint Name</th>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {shipPointRowDto.map((itm, idx) => (
+                          <tr key={idx}>
+                            <td>{idx + 1}</td>
+                            <td>
+                              <div className="pl-2">{itm.shipPointName}</div>
+                            </td>
+                            <td className="text-center">
+                              <button
+                                type="button"
+                                disabled={itm?.id === 0 ? false : true}
+                                onClick={() => shipPointRemover(idx)}
+                                style={{
+                                  border: '0',
+                                  background: 'transparent',
+                                }}
+                              >
+                                <i className="fa fa-trash deleteBtn"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(product)}
               ></button>

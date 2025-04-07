@@ -1,12 +1,12 @@
-import { createCustomSelectStyles } from "../../../selectCustomStyle";
+import { createCustomSelectStyles } from '../../../selectCustomStyle';
 
 const customStyles = {
   ...createCustomSelectStyles({
     isOptionPaddingRight: false,
     placeholder: (provided, state) => ({
       ...provided,
-      fontSize: 11.5
-    })
+      fontSize: 11.5,
+    }),
   }),
 };
 

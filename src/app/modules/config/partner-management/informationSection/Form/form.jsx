@@ -1,13 +1,13 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   partnerSectionName: Yup.string()
-    .required("Information Section Name is required")
-    .matches(/^[A-Z a-z][A-Z a-z 0-9]*$/i, "Is not in correct format"),
+    .required('Information Section Name is required')
+    .matches(/^[A-Z a-z][A-Z a-z 0-9]*$/i, 'Is not in correct format'),
   // .matches(
   //   /^([A-Za-z])$/,
   //   "Must Contain  One Uppercase, One Lowercase, One Number  Character"
@@ -51,14 +51,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

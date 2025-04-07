@@ -1,7 +1,6 @@
-import React from 'react'
-import { ITableTwo } from '../../../_helper/_tableTwo'
-import HeaderForm from './landing/form'
-
+import React from 'react';
+import { ITableTwo } from '../../../_helper/_tableTwo';
+import HeaderForm from './landing/form';
 
 export default function MRRCancel() {
   return (
@@ -13,5 +12,5 @@ export default function MRRCancel() {
         isHidden={true}
       ></ITableTwo>
     </div>
-  )
+  );
 }

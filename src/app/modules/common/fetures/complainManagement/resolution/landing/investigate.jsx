@@ -12,14 +12,14 @@ import FormikError from '../../../../../_helper/_formikError';
 import InputField from '../../../../../_helper/_inputField';
 import Loading from '../../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
-import { attachment_action } from "../../../../../_helper/attachmentUpload";
+import { attachment_action } from '../../../../../_helper/attachmentUpload';
 import {
   getComplainByIdWidthOutModify,
   investigateComplainApi,
 } from '../helper';
 export const validationSchema = Yup.object().shape({
   investigationDateTime: Yup.string().required(
-    'Investigation Date is required',
+    'Investigation Date is required'
   ),
 });
 const initData = {
@@ -54,7 +54,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
       correctiveAction: values?.correctiveAction || '',
       attachment: values?.attachment || '',
       investigationDateTime: moment(values?.investigationDateTime).format(
-        'YYYY-MM-DDTHH:mm',
+        'YYYY-MM-DDTHH:mm'
       ),
       tokenData: { token },
     };
@@ -71,7 +71,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
       getComplainByIdWidthOutModify(id, accId, buId, setLoading, (resData) => {
         setSingleData(resData);
         const matchEmployee = resData?.investigationInfo?.find(
-          (itm) => itm?.investigatorId === employeeId,
+          (itm) => itm?.investigatorId === employeeId
         );
 
         if (formikRef.current) {
@@ -79,44 +79,43 @@ function InvestigateForm({ clickRowData, landingCB }) {
             'investigationPerson',
             matchEmployee
               ? {
-                value: matchEmployee?.investigatorId,
-                label: matchEmployee?.investigatorName,
-              }
-              : ""
+                  value: matchEmployee?.investigatorId,
+                  label: matchEmployee?.investigatorName,
+                }
+              : ''
           );
           formikRef.current.setFieldValue(
             'investigationDueDate',
-            _dateFormatter(matchEmployee?.investigationDueDate),
+            _dateFormatter(matchEmployee?.investigationDueDate)
           );
 
           formikRef.current.setFieldValue(
             'attachment',
-            matchEmployee?.attachment || '',
+            matchEmployee?.attachment || ''
           );
           formikRef.current.setFieldValue(
             'autoId',
-            matchEmployee?.autoId || '',
+            matchEmployee?.autoId || ''
           );
           formikRef.current.setFieldValue(
             'rootCause',
-            matchEmployee?.rootCause || '',
+            matchEmployee?.rootCause || ''
           );
           formikRef.current.setFieldValue(
             'correctiveAction',
-            matchEmployee?.correctiveAction || '',
+            matchEmployee?.correctiveAction || ''
           );
           formikRef.current.setFieldValue(
             'investigationDateTime',
             matchEmployee?.investigationDateTime
               ? moment(matchEmployee?.investigationDateTime).format(
-                "YYYY-MM-DDTHH:mm"
-              )
-              : ""
+                  'YYYY-MM-DDTHH:mm'
+                )
+              : ''
           );
         }
       });
     }
-
   }, [clickRowData]);
 
   return (
@@ -162,7 +161,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
                   <b>Issue Id:</b> {singleData?.complainNo}
                 </p>
                 <p>
-                  <b>Issue Type:</b> {singleData?.complainCategoryName || ""}
+                  <b>Issue Type:</b> {singleData?.complainCategoryName || ''}
                 </p>
                 <p>
                   <b>Sub Issue Type:</b> {singleData?.complainSubCategoryName}
@@ -171,11 +170,11 @@ function InvestigateForm({ clickRowData, landingCB }) {
                   <b>Occurrence Date Time: </b>{' '}
                   {singleData?.requestDateTime &&
                     moment(singleData?.requestDateTime).format(
-                      'YYYY-MM-DD',
+                      'YYYY-MM-DD'
                     )}{' '}
                   {singleData?.occurrenceTime &&
                     moment(singleData?.occurrenceTime, 'HH:mm:ss').format(
-                      'hh:mm A',
+                      'hh:mm A'
                     )}
                 </p>
 
@@ -183,7 +182,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
                   <b>Issue Details:</b> {singleData?.description}
                 </p>
                 <p>
-                  <b>Respondent Type:</b> {singleData?.respondentTypeName || ""}
+                  <b>Respondent Type:</b> {singleData?.respondentTypeName || ''}
                 </p>
                 <p>
                   <b>Respondent Name:</b> {singleData?.respondentType}
@@ -198,14 +197,13 @@ function InvestigateForm({ clickRowData, landingCB }) {
                 <p>
                   <b>Create By: </b> {singleData?.actionByName}
                 </p>
-
               </div>
               <div>
                 <p>
-                  <b>Create Date: </b>{" "}
+                  <b>Create Date: </b>{' '}
                   {singleData?.lastActionDateTime &&
                     moment(singleData?.lastActionDateTime).format(
-                      'YYYY-MM-DD hh:mm A',
+                      'YYYY-MM-DD hh:mm A'
                     )}
                 </p>
                 <p>
@@ -219,18 +217,18 @@ function InvestigateForm({ clickRowData, landingCB }) {
                   <b>Delegate Date Time:</b>{' '}
                   {moment(singleData?.delegateDateTime).isValid() &&
                     moment(singleData?.delegateDateTime).format(
-                      'YYYY-MM-DD, HH:mm A',
+                      'YYYY-MM-DD, HH:mm A'
                     )}
                 </p>
                 <p>
-                  <b>Delegate To:</b> {singleData?.delegateToName || ""}
+                  <b>Delegate To:</b> {singleData?.delegateToName || ''}
                 </p>
                 <p>
-                  <b> Remarks:</b> {singleData?.statusRemarks || ""}
+                  <b> Remarks:</b> {singleData?.statusRemarks || ''}
                 </p>
                 {singleData?.respondentTypeName === 'Employee' && (
                   <p>
-                    <b> Work Place:</b> {singleData?.workPlace || ""}
+                    <b> Work Place:</b> {singleData?.workPlace || ''}
                   </p>
                 )}
                 {singleData?.respondentTypeName === 'End User' && (
@@ -274,7 +272,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
                       if (v?.length < 2) return [];
                       return axios
                         .get(
-                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`,
+                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`
                         )
                         .then((res) => {
                           return res?.data?.map((itm) => ({
@@ -307,10 +305,9 @@ function InvestigateForm({ clickRowData, landingCB }) {
                   </label>
                   <InputField
                     value={values?.investigationDateTime}
-
-                    placeholder='Investigation Date'
-                    name='investigationDateTime'
-                    type='datetime-local'
+                    placeholder="Investigation Date"
+                    name="investigationDateTime"
+                    type="datetime-local"
                   />
                 </div>
 
@@ -351,7 +348,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.attachment),
+                            getDownlloadFileView_Action(values?.attachment)
                           );
                         }}
                       >
@@ -376,7 +373,7 @@ function InvestigateForm({ clickRowData, landingCB }) {
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}

@@ -47,7 +47,7 @@ export default function HeaderForm() {
     };
   }, shallowEqual);
   const salesInvoiceiBOSlanding = useSelector(
-    (state) => state.localStorage.salesInvoiceiBOSlanding,
+    (state) => state.localStorage.salesInvoiceiBOSlanding
   );
   const { profileData, selectedBusinessUnit } = storeData;
   const dispatch = useDispatch();
@@ -67,7 +67,7 @@ export default function HeaderForm() {
         profileData.userId,
         profileData.accountId,
         selectedBusinessUnit?.value,
-        setTaxBranchDDL,
+        setTaxBranchDDL
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -86,17 +86,16 @@ export default function HeaderForm() {
         salesInvoiceiBOSlanding?.branch
           ? salesInvoiceiBOSlanding?.branch?.value
           : taxBranchDDL[0]?.value,
-        setShipPointByBranchDDL,
+        setShipPointByBranchDDL
       );
     }
-
   }, [selectedBusinessUnit, profileData, taxBranchDDL]);
 
   const commonGridFunc = (
     searchValue,
     values,
     _pageNo = pageNo,
-    _pageSize = pageSize,
+    _pageSize = pageSize
   ) => {
     setGirdData([]);
 
@@ -111,7 +110,7 @@ export default function HeaderForm() {
         setLoading,
         _pageNo,
         _pageSize,
-        searchValue,
+        searchValue
       );
     } else {
       if (values?.shipPoint?.value) {
@@ -123,7 +122,7 @@ export default function HeaderForm() {
           setLoading,
           _pageNo,
           _pageSize,
-          searchValue,
+          searchValue
         );
       }
     }
@@ -140,7 +139,6 @@ export default function HeaderForm() {
     if (salesInvoiceiBOSlanding?.branch && salesInvoiceiBOSlanding?.status) {
       commonGridFunc(null, salesInvoiceiBOSlanding, pageNo, pageSize);
     }
-
   }, []);
   const isMagnum = [171, 224]?.includes(selectedBusinessUnit?.value);
 
@@ -242,7 +240,7 @@ export default function HeaderForm() {
                           `/vat/TaxSalesInvoiceIbos/GetSalesInvoiceIbosSearchPagination?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&taxBranchId=${values?.branch?.value}&status=true&fromdate=${values?.fromDate}&todate=${values?.toDate}&PageNo=1&PageSize=${gridData?.totalCountForExcel}&viewOrder=desc`,
                           (data) => {
                             generateExcel(data?.data);
-                          },
+                          }
                         );
                       }}
                       disabled={!gridData?.data?.length}
@@ -273,11 +271,11 @@ export default function HeaderForm() {
                             profileData.accountId,
                             selectedBusinessUnit.value,
                             valueOption?.value,
-                            setShipPointByBranchDDL,
+                            setShipPointByBranchDDL
                           );
                           commonGridFunc(null, modifyValues, pageNo, pageSize);
                           dispatch(
-                            setSalesInvoiceiBOSlanding_Action(modifyValues),
+                            setSalesInvoiceiBOSlanding_Action(modifyValues)
                           );
                           setFieldValue('shipPoint', '');
                           setFieldValue('status', 'printed');
@@ -303,7 +301,7 @@ export default function HeaderForm() {
                           };
                           commonGridFunc(null, modifyValues, pageNo, pageSize);
                           dispatch(
-                            setSalesInvoiceiBOSlanding_Action(modifyValues),
+                            setSalesInvoiceiBOSlanding_Action(modifyValues)
                           );
                         }}
                         placeholder="ShipPoint"
@@ -326,7 +324,7 @@ export default function HeaderForm() {
                           setFieldValue('fromDate', e?.target?.value);
                           commonGridFunc(null, modifyValues, pageNo, pageSize);
                           dispatch(
-                            setSalesInvoiceiBOSlanding_Action(modifyValues),
+                            setSalesInvoiceiBOSlanding_Action(modifyValues)
                           );
                         }}
                       />
@@ -345,7 +343,7 @@ export default function HeaderForm() {
                           setFieldValue('toDate', e?.target?.value);
                           commonGridFunc(null, modifyValues, pageNo, pageSize);
                           dispatch(
-                            setSalesInvoiceiBOSlanding_Action(modifyValues),
+                            setSalesInvoiceiBOSlanding_Action(modifyValues)
                           );
                         }}
                       />
@@ -370,10 +368,10 @@ export default function HeaderForm() {
                               null,
                               modifyValues,
                               pageNo,
-                              pageSize,
+                              pageSize
                             );
                             dispatch(
-                              setSalesInvoiceiBOSlanding_Action(modifyValues),
+                              setSalesInvoiceiBOSlanding_Action(modifyValues)
                             );
                             setFieldValue('status', e.target.value);
                           }}
@@ -402,10 +400,10 @@ export default function HeaderForm() {
                               null,
                               modifyValues,
                               pageNo,
-                              pageSize,
+                              pageSize
                             );
                             dispatch(
-                              setSalesInvoiceiBOSlanding_Action(modifyValues),
+                              setSalesInvoiceiBOSlanding_Action(modifyValues)
                             );
                             setFieldValue('status', e.target.value);
                           }}

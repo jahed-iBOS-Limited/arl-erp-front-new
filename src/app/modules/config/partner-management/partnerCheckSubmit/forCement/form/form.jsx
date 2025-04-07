@@ -1,14 +1,13 @@
-
-import { Form, Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router";
-import IButton from "../../../../../_helper/iButton";
-import TextArea from "../../../../../_helper/TextArea";
-import ICustomCard from "../../../../../_helper/_customCard";
-import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
-import IDelete from "../../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../../_helper/_inputField";
-import NewSelect from "../../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router';
+import IButton from '../../../../../_helper/iButton';
+import TextArea from '../../../../../_helper/TextArea';
+import ICustomCard from '../../../../../_helper/_customCard';
+import { _fixedPoint } from '../../../../../_helper/_fixedPoint';
+import IDelete from '../../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../../_helper/_inputField';
+import NewSelect from '../../../../../_helper/_select';
 
 export default function FormCmp({
   title,
@@ -107,7 +106,7 @@ export default function FormCmp({
                         value={values?.partner}
                         label="Partner Name"
                         onChange={(valueOption) => {
-                          setFieldValue("partner", valueOption);
+                          setFieldValue('partner', valueOption);
                         }}
                         placeholder="Partner Name"
                         errors={errors}
@@ -224,7 +223,7 @@ export default function FormCmp({
                         name="comments"
                         placeholder="Comments"
                         type="text"
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
 
@@ -252,61 +251,64 @@ export default function FormCmp({
                   </div>
                 </div>
                 {rowData?.length > 0 && (
-                 <div className="table-responsive">
-                   <table
-                    className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                    }
-                  >
-                    <thead>
-                      <tr className="cursor-pointer">
-                        <th>SL</th>
-                        <th>Partner Name</th>
-                        <th>Bill Amount</th>
-                        <th>Cheque No</th>
-                        <th>Cheque Amount</th>
-                        <th>Deducted AIT</th>
-                        <th>Received AIT</th>
-                        <th>AIT Challan No</th>
-                        <th>Comments</th>
-                        {viewType !== "view" && <th>Action</th>}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowData.map((row, index) => (
-                        <tr key={index + row?.chequeNo}>
-                          <td className="text-center" style={{ width: "40px" }}>
-                            {index + 1}
-                          </td>
-                          <td>{row?.businessPartnerName}</td>
-                          <td className="text-right">
-                            {_fixedPoint(row?.billAmount, true)}
-                          </td>
-                          <td>{row?.chequeNo}</td>
-                          <td className="text-right">
-                            {_fixedPoint(row?.mrramount, true)}
-                          </td>
-                          <td className="text-right">
-                            {_fixedPoint(row?.deductedAit, true)}
-                          </td>
-                          <td className="text-right">
-                            {_fixedPoint(row?.receivedAit, true)}
-                          </td>
-                          <td>{row?.aitchallanNo}</td>
-                          <td>{row?.comments}</td>
-                          {viewType !== "view" && (
+                  <div className="table-responsive">
+                    <table
+                      className={
+                        'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
+                      }
+                    >
+                      <thead>
+                        <tr className="cursor-pointer">
+                          <th>SL</th>
+                          <th>Partner Name</th>
+                          <th>Bill Amount</th>
+                          <th>Cheque No</th>
+                          <th>Cheque Amount</th>
+                          <th>Deducted AIT</th>
+                          <th>Received AIT</th>
+                          <th>AIT Challan No</th>
+                          <th>Comments</th>
+                          {viewType !== 'view' && <th>Action</th>}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowData.map((row, index) => (
+                          <tr key={index + row?.chequeNo}>
                             <td
                               className="text-center"
-                              style={{ width: "60px" }}
+                              style={{ width: '40px' }}
                             >
-                              <IDelete remover={deleteRow} id={index} />
+                              {index + 1}
                             </td>
-                          )}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                 </div>
+                            <td>{row?.businessPartnerName}</td>
+                            <td className="text-right">
+                              {_fixedPoint(row?.billAmount, true)}
+                            </td>
+                            <td>{row?.chequeNo}</td>
+                            <td className="text-right">
+                              {_fixedPoint(row?.mrramount, true)}
+                            </td>
+                            <td className="text-right">
+                              {_fixedPoint(row?.deductedAit, true)}
+                            </td>
+                            <td className="text-right">
+                              {_fixedPoint(row?.receivedAit, true)}
+                            </td>
+                            <td>{row?.aitchallanNo}</td>
+                            <td>{row?.comments}</td>
+                            {viewType !== 'view' && (
+                              <td
+                                className="text-center"
+                                style={{ width: '60px' }}
+                              >
+                                <IDelete remover={deleteRow} id={index} />
+                              </td>
+                            )}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
               </Form>
             </ICustomCard>

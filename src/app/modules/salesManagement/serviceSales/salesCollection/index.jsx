@@ -90,7 +90,6 @@ export default function SalesCollectionLanding() {
     } else if (actionType === 2) {
       onCheckHandler();
     }
-
   }, [receivableAmount, actionType]);
 
   const onCheckHandler = () => {
@@ -142,7 +141,6 @@ export default function SalesCollectionLanding() {
       return;
     }
     getData({ typeId: initData?.type?.value, values: initData || {} });
-
   }, [profileData, selectedBusinessUnit, initData]);
 
   const getData = ({ typeId, values }) => {
@@ -153,14 +151,18 @@ export default function SalesCollectionLanding() {
     let apiUrl = [2]?.includes(typeId)
       ? `/oms/ServiceSales/GetServiceSalesInvocieList?accountId=${
           profileData?.accountId
-        }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${values
-          ?.customer?.value || 0}&paymentTypeId=${values?.billType?.value ||
-          0}&isCollectionComplte=${false}${strFromAndToDate}`
+        }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${
+          values?.customer?.value || 0
+        }&paymentTypeId=${
+          values?.billType?.value || 0
+        }&isCollectionComplte=${false}${strFromAndToDate}`
       : `/oms/ServiceSales/GetServiceSalesInvocieList?accountId=${
           profileData?.accountId
-        }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${values
-          ?.customer?.value || 0}&paymentTypeId=${values?.billType?.value ||
-          0}&isCollectionComplte=${true}${strFromAndToDate}`;
+        }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${
+          values?.customer?.value || 0
+        }&paymentTypeId=${
+          values?.billType?.value || 0
+        }&isCollectionComplte=${true}${strFromAndToDate}`;
 
     getRowData(apiUrl, (data) => {
       const modifyData = data.map((item) => {
@@ -194,7 +196,7 @@ export default function SalesCollectionLanding() {
           profileData?.accountId
         }&BusinessUnitId=${
           selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${2}`,
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${2}`
       )
       .then((res) => {
         return res?.data;
@@ -203,7 +205,7 @@ export default function SalesCollectionLanding() {
   };
 
   const collectionRow = rowData?.filter(
-    (item) => item?.invocieRow?.[0]?.numCollectionAmount,
+    (item) => item?.invocieRow?.[0]?.numCollectionAmount
   );
 
   return (
@@ -335,7 +337,7 @@ export default function SalesCollectionLanding() {
                           setSalesCollectionInitDataAction({
                             ...values,
                             paymentType,
-                          }),
+                          })
                         );
                         setReceivableAmount(0);
                         setVdsAmount(0);
@@ -409,7 +411,7 @@ export default function SalesCollectionLanding() {
                                 onChange={(valueOption) => {
                                   setFieldValue(
                                     'accountingJournalTypeId',
-                                    valueOption,
+                                    valueOption
                                   );
                                 }}
                                 isDisabled
@@ -483,7 +485,7 @@ export default function SalesCollectionLanding() {
                                       setSalesCollectionInitDataAction({
                                         ...values,
                                         paymentType,
-                                      }),
+                                      })
                                     );
                                     history.push(
                                       paymentType === 2
@@ -495,12 +497,13 @@ export default function SalesCollectionLanding() {
                                               selectedSbu: values.sbu,
                                               transactionDate: _todayDate(),
                                               customerDetails: values?.customer,
-                                              receivableAmount: receivableAmount,
+                                              receivableAmount:
+                                                receivableAmount,
                                               numVDSAmount: 0,
                                               collectionRow: rowData?.filter(
                                                 (item) =>
                                                   item?.invocieRow?.[0]
-                                                    ?.numCollectionAmount,
+                                                    ?.numCollectionAmount
                                               ),
                                             },
                                           }
@@ -512,11 +515,12 @@ export default function SalesCollectionLanding() {
                                                 values?.accountingJournalTypeId
                                                   ?.value,
                                               customerDetails: values?.customer,
-                                              receivableAmount: receivableAmount,
+                                              receivableAmount:
+                                                receivableAmount,
                                               numVDSAmount: 0,
                                               collectionRow: collectionRow,
                                             },
-                                          },
+                                          }
                                     );
                                   }}
                                 >
@@ -552,7 +556,7 @@ export default function SalesCollectionLanding() {
                                               values,
                                             });
                                           },
-                                          true,
+                                          true
                                         );
                                       },
                                       noAlertFunc: () => {},
@@ -680,7 +684,7 @@ export default function SalesCollectionLanding() {
                                         : 'N/A';
 
                                     return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
-                                  },
+                                  }
                                 );
 
                                 return itemStrings?.join(' / ');
@@ -689,7 +693,7 @@ export default function SalesCollectionLanding() {
                             <td>{item?.invocieHeader?.strCustomerAddress}</td>
                             <td className="text-center">
                               {formatMonthYear(
-                                item?.invocieRow?.[0]?.dteDueDateTime,
+                                item?.invocieRow?.[0]?.dteDueDateTime
                               )}
                             </td>
                             <td>{item?.invocieHeader?.strScheduleTypeName}</td>

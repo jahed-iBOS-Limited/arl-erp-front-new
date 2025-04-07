@@ -1,8 +1,8 @@
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 import Loading from './../../../../_helper/_loading';
-import { shipmentTransferDetails_api } from "./../helper";
+import { shipmentTransferDetails_api } from './../helper';
 function TransferDetails({ currentRowData }) {
   const [rowDto, setRowDto] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -17,13 +17,13 @@ function TransferDetails({ currentRowData }) {
         fromTime,
         toDate,
         toTime,
-        reportType
+        reportType,
       } = currentRowData;
       const fromDateTime = moment(`${fromDate} ${fromTime}`).format(
-        "YYYY-MM-DDTHH:mm:ss"
+        'YYYY-MM-DDTHH:mm:ss'
       );
       const toDateTime = moment(`${toDate} ${toTime}`).format(
-        "YYYY-MM-DDTHH:mm:ss"
+        'YYYY-MM-DDTHH:mm:ss'
       );
 
       shipmentTransferDetails_api(
@@ -40,7 +40,7 @@ function TransferDetails({ currentRowData }) {
   }, [currentRowData]);
   return (
     <>
-    {loading && <Loading />}
+      {loading && <Loading />}
       <div className="table-responsive">
         <table className="table global-table table-responsive">
           <thead>

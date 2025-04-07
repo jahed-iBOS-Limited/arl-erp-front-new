@@ -1,27 +1,27 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import MedicalRegisterDetailsView from "./detailsViewModal";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import MedicalRegisterDetailsView from './detailsViewModal';
 
 const initData = {
   fromDate: _todayDate(),
@@ -50,15 +50,15 @@ function MedicalRegisterLanding() {
       // `/mes/MSIL/GetAllMedicalRegisterLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessunitId=${selectedBusinessUnit?.value}`
       `/mes/MSIL/GetAllMedicalRegisterLanding?BusinessunitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}&FromDate=${initData?.fromDate}&ToDate=${initData?.toDate}`
     );
-
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowData(
       `/mes/MSIL/GetAllMedicalRegisterLanding?BusinessunitId=${
         selectedBusinessUnit?.value
-      }&PageNo=${pageNo}&PageSize=${pageSize}&search=${searchValue ||
-        ""}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
+      }&PageNo=${pageNo}&PageSize=${pageSize}&search=${
+        searchValue || ''
+      }&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
       // `/mes/MSIL/GetAllMedicalRegisterLanding?PageNo=${pageNo}&PageSize=${pageSize}&search=${searchValue ||
       // ""}&date=${values?.date || ""}&BusinessunitId=${selectedBusinessUnit?.value}`
     );
@@ -78,7 +78,7 @@ function MedicalRegisterLanding() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Medical Register"}>
+              <CardHeader title={'Medical Register'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -104,7 +104,7 @@ function MedicalRegisterLanding() {
                       type="date"
                       value={values?.fromDate}
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -115,13 +115,13 @@ function MedicalRegisterLanding() {
                       type="date"
                       value={values?.toDate}
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
                   <div>
                     <button
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       type="button"
                       className="btn btn-primary"
                       onClick={() => {
@@ -148,7 +148,7 @@ function MedicalRegisterLanding() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>Date</th>
                             <th>Service Recipient</th>
                             <th>Gender</th>
@@ -159,7 +159,7 @@ function MedicalRegisterLanding() {
                             <th>Reason</th>
                             <th>Shift</th>
                             <th>Doctor</th>
-                            <th style={{ width: "80px" }}>Action</th>
+                            <th style={{ width: '80px' }}>Action</th>
                           </tr>
                         </thead>
                         <tbody>

@@ -1,8 +1,6 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getSalesQuotationById,
   getSalesOrgDDLAction,
@@ -11,58 +9,58 @@ import {
   saveSalesquotation,
   setSalesQuotationSingleEmpty,
   saveEditedSalesquotation,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
 import {
   getSalesOfficeDDLAction,
   getDistributionChannelDDLAction,
   getItemSaleDDLAction,
   getUomDDLItemId_Action,
-} from "../../../../_helper/_redux/Actions";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import { toast } from "react-toastify";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import Loading from "../../../../_helper/_loading";
-import { editSalesQuotationStatusAction } from "./../_redux/Actions";
-import { useReactToPrint } from "react-to-print";
-import { useRef } from "react";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+} from '../../../../_helper/_redux/Actions';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import { toast } from 'react-toastify';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import Loading from '../../../../_helper/_loading';
+import { editSalesQuotationStatusAction } from './../_redux/Actions';
+import { useReactToPrint } from 'react-to-print';
+import { useRef } from 'react';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
   id: undefined,
-  salesOrg: "",
-  channel: "",
-  salesOffice: "",
-  soldToParty: "",
-  partnerReffNo: "",
+  salesOrg: '',
+  channel: '',
+  salesOffice: '',
+  soldToParty: '',
+  partnerReffNo: '',
   pricingDate: _todayDate(),
-  itemList: "",
-  quantity: "",
-  price: "",
-  value: "",
-  specification: "",
-  uom: "",
-  quotationCode: "",
+  itemList: '',
+  quantity: '',
+  price: '',
+  value: '',
+  specification: '',
+  uom: '',
+  quotationCode: '',
   isSpecification: false,
   quotationEndDate: _todayDate(),
-  remark: "",
+  remark: '',
 
-  customerType: "",
-  customerName: "",
-  customerAddress: "",
-  includeVat: "",
-  shippingPoint: "",
-  paymentMode: "",
-  address: "",
-  includeAit: "",
-  distance: "",
+  customerType: '',
+  customerName: '',
+  customerAddress: '',
+  includeVat: '',
+  shippingPoint: '',
+  paymentMode: '',
+  address: '',
+  includeAit: '',
+  distance: '',
 
-  validityDays: "",
-  transportType: "",
-  creditBackUp: "",
-  destination: "",
-  creditLimitDaysPropose: "",
-  creditLimitAmountsPropose: "",
+  validityDays: '',
+  transportType: '',
+  creditBackUp: '',
+  destination: '',
+  creditLimitDaysPropose: '',
+  creditLimitAmountsPropose: '',
 };
 
 export default function SalesQuotationReadyMixForm({
@@ -101,12 +99,8 @@ export default function SalesQuotationReadyMixForm({
   );
 
   //  ddl
-  const {
-    distributionChannelDDL,
-    salesOfficeDDL,
-    itemSaleDDL,
-    uomDDL,
-  } = useSelector((state) => state?.commonDDL, shallowEqual);
+  const { distributionChannelDDL, salesOfficeDDL, itemSaleDDL, uomDDL } =
+    useSelector((state) => state?.commonDDL, shallowEqual);
 
   //Dispatch single data action and empty single data for create
   useEffect(() => {
@@ -115,7 +109,6 @@ export default function SalesQuotationReadyMixForm({
     } else {
       dispatch(setSalesQuotationSingleEmpty());
     }
-
   }, [id]);
 
   // single data Specification set
@@ -125,7 +118,6 @@ export default function SalesQuotationReadyMixForm({
       setSpecRowDto(singleData?.objSpec);
       setSpecTableData(singleData?.objSpec);
     }
-
   }, [singleData]);
 
   const salesOfficeDDLDispatcher = (salesOrgId) => {
@@ -182,7 +174,7 @@ export default function SalesQuotationReadyMixForm({
             totalQuotationQty: total.totalQty,
             actionBy: userId,
             quotationEndDate: values?.quotationEndDate,
-            remark: values?.remark || "",
+            remark: values?.remark || '',
 
             // soldToPartnerName:
             //   values?.customerType?.value === 1
@@ -190,31 +182,31 @@ export default function SalesQuotationReadyMixForm({
             //     : values?.customerName,
             newCustomerName: values?.customerName,
             newCustomerAddress: values?.customerAddress,
-            address: values?.address || "",
+            address: values?.address || '',
             shipPointId: values?.shippingPoint?.value || 0,
-            shipPointName: values?.shippingPoint?.label || "",
+            shipPointName: values?.shippingPoint?.label || '',
             isIncludeVat: values?.includeVat?.value === 1,
-            paymentMode: values?.paymentMode || "",
+            paymentMode: values?.paymentMode || '',
 
             intConcernEmployeId: values?.officerName?.value,
             strConcernEmployeeName: values?.officerName?.label,
-            strUsesOfCement: "",
-            strCoraseAggregate: "",
-            strFineAggregate: "",
-            strAddmixture: "",
-            strWaterProofingChemical: "",
-            strProject: "",
+            strUsesOfCement: '',
+            strCoraseAggregate: '',
+            strFineAggregate: '',
+            strAddmixture: '',
+            strWaterProofingChemical: '',
+            strProject: '',
             isAitinclude: values?.includeAit?.value === 1,
-            distancekm: values?.distance || "",
+            distancekm: values?.distance || '',
 
             validityDays: +values.validityDays || 0,
-            transportType: values.transportType?.label || "",
+            transportType: values.transportType?.label || '',
             transportTypeId: +values.transportType?.value || 0,
             creditTypeId: +values.creditBackUp?.value || 0,
-            creditTypeS: values.creditBackUp?.label || "",
+            creditTypeS: values.creditBackUp?.label || '',
             creditLimitDaysPropose: +values.creditLimitDaysPropose || 0,
             creditLimitAmountsPropose: +values.creditLimitAmountsPropose || 0,
-            finalDestination: values?.destination || "",
+            finalDestination: values?.destination || '',
           },
           objRow: objListRowDTO,
           objSpecRow: objSpecRow,
@@ -223,7 +215,7 @@ export default function SalesQuotationReadyMixForm({
         if (rowDto.length) {
           dispatch(saveEditedSalesquotation(payload, setDisabled));
         } else {
-          toast.warning("You must have to add atleast one item");
+          toast.warning('You must have to add atleast one item');
         }
       } else {
         const objListRowDTO = rowDto.map((itm, index) => {
@@ -257,7 +249,7 @@ export default function SalesQuotationReadyMixForm({
             totalQuotationQty: total.totalQty,
             actionBy: userId,
             quotationEndDate: values?.quotationEndDate,
-            remark: values?.remark || "",
+            remark: values?.remark || '',
 
             // soldToPartnerName:
             //   values?.customerType?.value === 1
@@ -265,22 +257,22 @@ export default function SalesQuotationReadyMixForm({
             //     : values?.customerName,
             newCustomerName: values?.customerName,
             newCustomerAddress: values?.customerAddress,
-            address: values?.address || "",
+            address: values?.address || '',
             shipPointId: values?.shippingPoint?.value || 0,
-            shipPointName: values?.shippingPoint?.label || "",
+            shipPointName: values?.shippingPoint?.label || '',
             isIncludeVat: values?.includeVat?.value === 1,
-            paymentMode: values?.paymentMode || "",
+            paymentMode: values?.paymentMode || '',
             isAitinclude: values?.includeAit?.value === 1,
-            distancekm: values?.distance || "",
+            distancekm: values?.distance || '',
 
             validityDays: +values.validityDays || 0,
-            transportType: values.transportType?.label || "",
+            transportType: values.transportType?.label || '',
             transportTypeId: +values.transportType?.value || 0,
             creditTypeId: +values.creditBackUp?.value || 0,
-            creditTypeS: values.creditBackUp?.label || "",
+            creditTypeS: values.creditBackUp?.label || '',
             creditLimitDaysPropose: +values.creditLimitDaysPropose || 0,
             creditLimitAmountsPropose: +values.creditLimitAmountsPropose || 0,
-            finalDestination: values?.destination || "",
+            finalDestination: values?.destination || '',
           },
           objRow: objListRowDTO,
           objSpecRow: objSpecRow,
@@ -291,7 +283,7 @@ export default function SalesQuotationReadyMixForm({
           setSpecTableData([]);
           setSpecRowDto([]);
         } else {
-          toast.warning("You must have to add atleast one item");
+          toast.warning('You must have to add atleast one item');
         }
       }
     } else {
@@ -301,7 +293,7 @@ export default function SalesQuotationReadyMixForm({
 
   //buttom row table specification string generator
   const strGen = (arr, key1, key2) => {
-    let str = "";
+    let str = '';
     if (arr.length) {
       arr.forEach((itm) => {
         str += `${itm[key1]}-${itm[key2]}, `;
@@ -320,7 +312,7 @@ export default function SalesQuotationReadyMixForm({
         itemPrice: values?.price,
         quotationValue: values?.quantity * values?.price,
         itemCode: values?.itemList.code,
-        specification: strGen(specTableData, "specification", "value"),
+        specification: strGen(specTableData, 'specification', 'value'),
         length: values?.length,
         height: values?.height,
         uomName: values?.uom.label,
@@ -328,7 +320,7 @@ export default function SalesQuotationReadyMixForm({
       },
     ];
 
-    if (isUniq("itemId", values?.itemList.value, rowDto)) {
+    if (isUniq('itemId', values?.itemList.value, rowDto)) {
       setRowDto([...rowDto, ...newData]);
       setSpecRowDto([...specRowDto, ...specTableData]);
       setSpecTableData([]);
@@ -366,7 +358,7 @@ export default function SalesQuotationReadyMixForm({
       value: param.value,
       itemId: param.itemList.value,
     };
-    if (isUniq("specificationId", param.specification.value, specTableData)) {
+    if (isUniq('specificationId', param.specification.value, specTableData)) {
       setSpecTableData([...specTableData, newData]);
     }
   };
@@ -403,14 +395,14 @@ export default function SalesQuotationReadyMixForm({
   const handleInvoicePrint = useReactToPrint({
     content: () => printRef.current,
     pageStyle:
-      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+      '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}',
   });
   return (
     <IForm
       title={
         id
           ? `Edit Sales Quotation [${quationCodeForEditPageTitle}]`
-          : "Create Sales Quotation"
+          : 'Create Sales Quotation'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

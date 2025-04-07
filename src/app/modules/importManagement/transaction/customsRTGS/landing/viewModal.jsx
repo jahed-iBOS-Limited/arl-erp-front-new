@@ -27,7 +27,7 @@ function ViewModal({ clickViewData }) {
   useEffect(() => {
     const rtgsAmount = singleData?.objRow?.reduce(
       (acc, curr) => acc + (+curr.rtgsAmount || 0),
-      0,
+      0
     );
     setTotal(rtgsAmount);
   }, [singleData]);

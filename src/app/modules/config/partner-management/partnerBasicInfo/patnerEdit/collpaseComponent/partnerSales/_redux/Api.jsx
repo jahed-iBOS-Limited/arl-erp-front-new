@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call sbuDDL APi
 export function getSbuDDL(accId, buId) {

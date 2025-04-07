@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getTerritoryTypeDDL = async (accId, buId, setter) => {
   try {
@@ -21,7 +21,7 @@ export const getDistributionChannelDDL = async (accId, buId, setter) => {
     );
     if (res?.status === 200 && res?.data) {
       res.data.push({
-        label: "Top",
+        label: 'Top',
         value: 0,
       });
       setter(res?.data);
@@ -50,15 +50,15 @@ export const getTerritorySetupLanding = async (
         for (let j = 0; j < res?.data?.objTypeList?.length; j++) {
           if (
             !res?.data?.objInfoList[i][
-            res?.data?.objTypeList[
-              j + 1
-            ]?.territoryTypeCodeName?.toLowerCase()
+              res?.data?.objTypeList[
+                j + 1
+              ]?.territoryTypeCodeName?.toLowerCase()
             ]
           ) {
-            res.data.objInfoList[i]["editBtn"] =
+            res.data.objInfoList[i]['editBtn'] =
               res?.data?.objTypeList[j].territoryTypeCodeName.toLowerCase();
             if (j < res?.data?.objTypeList.length - 1) {
-              res.data.objInfoList[i]["addBtn"] =
+              res.data.objInfoList[i]['addBtn'] =
                 res?.data?.objTypeList[
                   j + 1
                 ].territoryTypeCodeName.toLowerCase();
@@ -82,7 +82,7 @@ export const saveTerritorySetup = async (data, cb) => {
       data
     );
     if (res?.status === 200) {
-      toast.success("Save Successfully");
+      toast.success('Save Successfully');
       cb();
     }
   } catch (error) {
@@ -97,7 +97,7 @@ export const editTerritorySetup = async (data, cb) => {
       data
     );
     if (res?.status === 200) {
-      toast.success("Update successfully");
+      toast.success('Update successfully');
       cb();
     }
   } catch (error) {
@@ -114,8 +114,8 @@ export const saveEditedSalesforeclabel = async (data, setDisabled, cb) => {
       data
     );
     if (res?.status === 200) {
-      toast.success(res?.data?.message || "Edited successfully", {
-        toastId: "saveEditedSalesforceLabel",
+      toast.success(res?.data?.message || 'Edited successfully', {
+        toastId: 'saveEditedSalesforceLabel',
       });
       setDisabled(false);
       cb();
@@ -141,17 +141,17 @@ export const GetbyId = async (salesLabelById, setter) => {
           label: data.intTerritoryTypeName,
         },
         isVisit:
-          data?.isRouteWiseVisit === true ? "routeWise" : "territoryWise",
+          data?.isRouteWiseVisit === true ? 'routeWise' : 'territoryWise',
         isAllow:
           data?.isSomenuAllow === true
-            ? "soMenu"
+            ? 'soMenu'
             : data?.isTsmmenuAllow === true
-              ? "tsmMenu"
-              : "allow",
+              ? 'tsmMenu'
+              : 'allow',
       };
       setter(newData);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const GetEmployeeList = async (
@@ -169,17 +169,18 @@ export const GetEmployeeList = async (
     setter(res?.data);
     setLoading(false);
   } catch (error) {
-    setter("");
+    setter('');
     setLoading(false);
   }
 };
 
-
 export const getChannelDDL = async (accId, buId, setter) => {
   try {
-    const res = await Axios.get(`/rtm/RTMDDL/GetDistributionChannel?AccountId=${accId}&BusinessUnitId=${buId}`)
-    setter([{ value: 0, label: "All" }, ...res?.data])
+    const res = await Axios.get(
+      `/rtm/RTMDDL/GetDistributionChannel?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    setter([{ value: 0, label: 'All' }, ...res?.data]);
   } catch (error) {
-    setter([])
+    setter([]);
   }
-}
+};

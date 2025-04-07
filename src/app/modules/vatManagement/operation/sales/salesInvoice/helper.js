@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 export const getSalesInvoicePagination = async (
   accId,
   buId,
@@ -14,7 +14,7 @@ export const getSalesInvoicePagination = async (
   setDisabled
 ) => {
   // setDisabled(true);
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
   try {
     const res = await Axios.get(
       `/vat/TaxSalesInvoice/GetTaxSalesInvoiceSearchPagination?${searchPath}accountId=${accId}&businessUnitId=${buId}&taxBranchId=${taxBranchId}&startDate=${startDate}&endDate=${endDate}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
@@ -38,7 +38,7 @@ export const createSales = async (payload, cb, setDisabled) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -56,7 +56,7 @@ export const editSales = async (payload, setDisabled) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
       // cb();
     }
@@ -101,10 +101,10 @@ export const getDeliveryToDDL = async (
       setter(res?.data);
       if (setFieldValue) {
         setFieldValue(
-          "deliveryTo",
-          res?.data?.[0]?.value && res?.data?.[0]?.label ? res?.data?.[0] : ""
+          'deliveryTo',
+          res?.data?.[0]?.value && res?.data?.[0]?.label ? res?.data?.[0] : ''
         );
-        setFieldValue("deliveryAddress", res?.data?.[0]?.address || "");
+        setFieldValue('deliveryAddress', res?.data?.[0]?.address || '');
       }
     }
   } catch (error) {}
@@ -246,10 +246,10 @@ export const getSinglePurchase = async (
         },
         totalAtv: taxPurchase.atvtotal,
         totalAit: taxPurchase.aittotal,
-        selectedItem: "",
-        selectedUom: "",
-        quantity: "",
-        rate: "",
+        selectedItem: '',
+        selectedUom: '',
+        quantity: '',
+        rate: '',
       };
       setSingleData(objHeader);
       const objRow = res?.data?.objList;
@@ -277,8 +277,8 @@ export const getSinglePurchase = async (
 
               sd: newData?.sdpercentage,
               vat: newData?.vatpercentage,
-              ait: "",
-              atv: "",
+              ait: '',
+              atv: '',
               isFree: item.isFree,
               surcharge: newData?.surchargePercentage,
               // get percentage
@@ -309,15 +309,15 @@ export const getSelectedItemInfo = async (
     );
     if (res.status === 200 && res?.data) {
       if (res.data.length > 0) {
-        setFieldValue("rate", res?.data[0]?.basePrice);
-        setFieldValue("declarePrice", res?.data[0]?.basePrice);
+        setFieldValue('rate', res?.data[0]?.basePrice);
+        setFieldValue('declarePrice', res?.data[0]?.basePrice);
         setter(res?.data[0]);
       } else {
         toast.warn(
-          "Price declaration missing, please create price declaration."
+          'Price declaration missing, please create price declaration.'
         );
-        setFieldValue("rate", "");
-        setFieldValue("declarePrice", "");
+        setFieldValue('rate', '');
+        setFieldValue('declarePrice', '');
         setter({});
       }
     }
@@ -414,18 +414,18 @@ export const getPartnerDDL = async (accId, buId, setter) => {
 export const salesAttachment_action = async (attachment, setUploadImage) => {
   let formData = new FormData();
   attachment.forEach((file) => {
-    formData.append("files", file?.file);
+    formData.append('files', file?.file);
   });
   try {
-    let { data } = await Axios.post("/vat/Document/UploadFile", formData, {
+    let { data } = await Axios.post('/vat/Document/UploadFile', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
-    toast.success("Upload  successfully");
+    toast.success('Upload  successfully');
     setUploadImage(data);
   } catch (error) {
-    toast.error("Document not upload");
+    toast.error('Document not upload');
   }
 };
 export const GetCustomHouseDDL_api = async (setter) => {

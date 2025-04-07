@@ -1,32 +1,35 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import {
-  getLandingData,
-  editBillProcess,
-} from "../helper";
-import Loading from "./../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getLandingData, editBillProcess } from '../helper';
+import Loading from './../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "./../../../../../../_metronic/_partials/controls";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { Formik, Form } from "formik";
-import NewSelect from "./../../../../_helper/_select";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { toast } from "react-toastify";
-import { _formatMoney } from "./../../../../_helper/_formatMoney";
-import { getBeatDDL, getCategoryDDL, getItemDDL, getMonthDDL, getRouteDDL, getSubCategoryDDL } from "../../../../_helper/_commonApi";
+} from './../../../../../../_metronic/_partials/controls';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import { Formik, Form } from 'formik';
+import NewSelect from './../../../../_helper/_select';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { toast } from 'react-toastify';
+import { _formatMoney } from './../../../../_helper/_formatMoney';
+import {
+  getBeatDDL,
+  getCategoryDDL,
+  getItemDDL,
+  getMonthDDL,
+  getRouteDDL,
+  getSubCategoryDDL,
+} from '../../../../_helper/_commonApi';
 
 const initData = {
-  route: "",
-  beat: "",
-  month: "",
-  category: "",
-  subCategory: "",
-  item: "",
+  route: '',
+  beat: '',
+  month: '',
+  category: '',
+  subCategory: '',
+  item: '',
 };
 
 const OutletBillProcessLanding = () => {
@@ -140,10 +143,10 @@ const OutletBillProcessLanding = () => {
           isBillProcess: true,
         };
       });
-      console.log("Payload => ", payload);
+      console.log('Payload => ', payload);
       editBillProcess(payload);
     } else {
-      toast.warning("Please select atleast one item");
+      toast.warning('Please select atleast one item');
     }
     setAllSelect(false);
   };
@@ -173,7 +176,7 @@ const OutletBillProcessLanding = () => {
               </CardHeaderToolbar>
             </CardHeader>
             <CardBody>
-              {console.log("Values => ", values)}
+              {console.log('Values => ', values)}
               <Form>
                 <div className="row global-form">
                   <div className="col-lg-3">
@@ -183,7 +186,7 @@ const OutletBillProcessLanding = () => {
                       value={values?.route}
                       label="Route"
                       onChange={(valueOption) => {
-                        setFieldValue("route", valueOption);
+                        setFieldValue('route', valueOption);
                         getBeatDDL(valueOption?.value, setBeatDDL);
                       }}
                       placeholder="Route"
@@ -199,7 +202,7 @@ const OutletBillProcessLanding = () => {
                       value={values?.beat}
                       label="Market"
                       onChange={(valueOption) => {
-                        setFieldValue("beat", valueOption);
+                        setFieldValue('beat', valueOption);
                       }}
                       placeholder="Market"
                       errors={errors}
@@ -214,7 +217,7 @@ const OutletBillProcessLanding = () => {
                       value={values?.month}
                       label="Month"
                       onChange={(valueOption) => {
-                        setFieldValue("month", valueOption);
+                        setFieldValue('month', valueOption);
                       }}
                       placeholder="Month"
                       errors={errors}
@@ -229,7 +232,7 @@ const OutletBillProcessLanding = () => {
                       value={values?.category}
                       label="Category"
                       onChange={(valueOption) => {
-                        setFieldValue("category", valueOption);
+                        setFieldValue('category', valueOption);
                         getSubCategoryDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -250,7 +253,7 @@ const OutletBillProcessLanding = () => {
                       value={values?.subCategory}
                       label="Sub Category"
                       onChange={(valueOption) => {
-                        setFieldValue("subCategory", valueOption);
+                        setFieldValue('subCategory', valueOption);
                         getItemDDL(
                           values?.category?.value,
                           valueOption?.value,
@@ -271,7 +274,7 @@ const OutletBillProcessLanding = () => {
                       value={values?.item}
                       label="Item Name"
                       onChange={(valueOption) => {
-                        setFieldValue("item", valueOption);
+                        setFieldValue('item', valueOption);
                       }}
                       placeholder="Item Name"
                       errors={errors}
@@ -283,7 +286,7 @@ const OutletBillProcessLanding = () => {
                     <button
                       type="button"
                       class="btn btn-primary"
-                      style={{ marginTop: "16px" }}
+                      style={{ marginTop: '16px' }}
                       onClick={() => {
                         getLandingData(
                           profileData?.accountId,
@@ -317,7 +320,7 @@ const OutletBillProcessLanding = () => {
                   <tr>
                     <th>
                       <input
-                        style={{ width: "15px", height: "15px" }}
+                        style={{ width: '15px', height: '15px' }}
                         name="isSelect"
                         checked={allSelect}
                         className="form-control ml-8"
@@ -343,7 +346,7 @@ const OutletBillProcessLanding = () => {
                           <td className="ml-3">
                             <span>
                               <input
-                                style={{ width: "15px", height: "15px" }}
+                                style={{ width: '15px', height: '15px' }}
                                 name="isSelect"
                                 checked={item?.isSelect}
                                 className="form-control ml-8"
@@ -352,7 +355,7 @@ const OutletBillProcessLanding = () => {
                               />
                             </span>
                           </td>
-                          <td style={{ width: "30px" }} className="text-center">
+                          <td style={{ width: '30px' }} className="text-center">
                             {index + 1}
                           </td>
                           <td>

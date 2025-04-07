@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useMemo } from 'react';
 // import ICustomTable from "../../../../_helper/_customTable";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 
 const TableData = ({ adviceReportData, setAdviceReportData }) => {
   const totalAmount = useMemo(
@@ -13,7 +13,7 @@ const TableData = ({ adviceReportData, setAdviceReportData }) => {
       <div className="table-responsive">
         <table
           className={
-            "table table-striped table-bordered global-table mt-0 table-font-size-sm advice_table"
+            'table table-striped table-bordered global-table mt-0 table-font-size-sm advice_table'
           }
         >
           <thead className="bg-secondary">
@@ -58,7 +58,7 @@ const TableData = ({ adviceReportData, setAdviceReportData }) => {
               <tr
                 key={index}
                 className={
-                  item?.printCount || item?.mailCount ? "font_color_red" : ""
+                  item?.printCount || item?.mailCount ? 'font_color_red' : ''
                 }
               >
                 <td className="text-center align-middle">
@@ -67,7 +67,7 @@ const TableData = ({ adviceReportData, setAdviceReportData }) => {
                     // value = {item?.checked ? true:false}
                     checked={item?.checked}
                     onChange={(e) => {
-                      item["checked"] = e.target.checked;
+                      item['checked'] = e.target.checked;
                       setAdviceReportData([...adviceReportData]);
                     }}
                   />
@@ -87,7 +87,7 @@ const TableData = ({ adviceReportData, setAdviceReportData }) => {
                 <td>{item?.strPayee}</td>
                 <td>{item?.strRoutingNumber}</td>
                 <td>
-                  P-{item?.printCount}, M-{item?.mailCount}{" "}
+                  P-{item?.printCount}, M-{item?.mailCount}{' '}
                 </td>
               </tr>
             ))}

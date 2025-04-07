@@ -1,21 +1,17 @@
-import React, { Suspense } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
-import NotPermittedPage from "../_helper/notPermitted/NotPermittedPage";
-import { GatePass } from "./GatePass/GatePass";
-import { ConfigurationPages } from "./configuration/configurationPages";
-import CreateInventoryLoanForm from "./inventoryLoan/form/addEditForm";
-import { ReportsPages } from "./reports/reportsPages";
-import { WarehouseManagementPages } from "./warehouseManagement/warehouseManagementPages";
-import { DispatchDeskPages } from "./dispatch/dispatchDeskPages";
+import React, { Suspense } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute, LayoutSplashScreen } from '../../../_metronic/layout';
+import NotPermittedPage from '../_helper/notPermitted/NotPermittedPage';
+import { GatePass } from './GatePass/GatePass';
+import { ConfigurationPages } from './configuration/configurationPages';
+import CreateInventoryLoanForm from './inventoryLoan/form/addEditForm';
+import { ReportsPages } from './reports/reportsPages';
+import { WarehouseManagementPages } from './warehouseManagement/warehouseManagementPages';
+import { DispatchDeskPages } from './dispatch/dispatchDeskPages';
 
 export function InventoryManagementPages() {
-
-  const { userRole } = useSelector(
-    (state) => state?.authData,
-    shallowEqual
-  );
+  const { userRole } = useSelector((state) => state?.authData, shallowEqual);
 
   let inventoryLoan = null;
 
@@ -44,7 +40,7 @@ export function InventoryManagementPages() {
           component={WarehouseManagementPages}
         />
 
-       <ContentRoute
+        <ContentRoute
           path="/inventory-management/inventory-dispatch"
           component={DispatchDeskPages}
         />
@@ -61,13 +57,14 @@ export function InventoryManagementPages() {
         {/* Inventory Load */}
         <ContentRoute
           path="/inventory-management/inventory-loan/inventory-loan/create"
-          component={inventoryLoan?.isCreate ? CreateInventoryLoanForm : NotPermittedPage}
+          component={
+            inventoryLoan?.isCreate ? CreateInventoryLoanForm : NotPermittedPage
+          }
         />
         {/* <ContentRoute
           path="/inventory-management/inventory-loan/inventory-loan"
           component={InventoryLoadLanding}
         /> */}
-        
       </Switch>
     </Suspense>
   );

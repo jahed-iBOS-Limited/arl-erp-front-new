@@ -1,20 +1,20 @@
-import React, { useCallback } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import axios from "axios";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useCallback } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import axios from 'axios';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { _todayDate } from '../../../../_helper/_todayDate';
 // import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _timeFormatter } from "../../../../_helper/_timeFormatter";
+import { _timeFormatter } from '../../../../_helper/_timeFormatter';
 import {
   getDifferenceBetweenTime,
   getOvertimeByEmp,
   getEmpInfoById,
-} from "../helper";
-import { formatTime, timestrToSec } from "./utils";
+} from '../helper';
+import { formatTime, timestrToSec } from './utils';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -61,8 +61,9 @@ export default function FormCmp({
     rowDto.reduce(
       (acc, item) =>
         formatTime(timestrToSec(acc) + timestrToSec(item?.countableHour)),
-      "0:00:00"
-    ), [rowDto]
+      '0:00:00'
+    ),
+    [rowDto]
   );
 
   return (
@@ -88,7 +89,7 @@ export default function FormCmp({
         }) => (
           <>
             <Form className="form form-label-right">
-              {console.log("values", values)}
+              {console.log('values', values)}
               <div className="form-group row global-form">
                 <div className="col-lg-3">
                   <label>Employee</label>
@@ -102,10 +103,10 @@ export default function FormCmp({
                         setRowDto
                       );
                       getEmpInfoById(valueOption?.value, setFieldValue);
-                      setFieldValue("enroll", valueOption?.value || "");
-                      setFieldValue("code", valueOption?.code || "");
+                      setFieldValue('enroll', valueOption?.value || '');
+                      setFieldValue('code', valueOption?.code || '');
                       setRowDto([]);
-                      setFieldValue("employee", valueOption);
+                      setFieldValue('employee', valueOption);
                     }}
                     loadOptions={loadUserList}
                   />
@@ -117,7 +118,7 @@ export default function FormCmp({
                     value={values?.workPlace}
                     placeholder="Work Place"
                     onChange={(valueOption) => {
-                      setFieldValue("workPlace", valueOption);
+                      setFieldValue('workPlace', valueOption);
                     }}
                   />
                 </div>
@@ -152,14 +153,14 @@ export default function FormCmp({
                     type="date"
                     name="date"
                     onChange={(e) => {
-                      setFieldValue("date", e.target.value);
+                      setFieldValue('date', e.target.value);
                       if (values?.startTime && values?.endTime) {
                         let difference = getDifferenceBetweenTime(
                           e.target.value,
                           values?.startTime,
                           values?.endTime
                         );
-                        setFieldValue("overTimeHour", difference);
+                        setFieldValue('overTimeHour', difference);
                       }
                     }}
                     // min={_dateFormatter(firstDay)}
@@ -172,14 +173,14 @@ export default function FormCmp({
                     label="Start Time"
                     type="time"
                     onChange={(e) => {
-                      setFieldValue("startTime", e.target.value);
+                      setFieldValue('startTime', e.target.value);
                       if (values?.date && values?.endTime) {
                         let difference = getDifferenceBetweenTime(
                           values?.date,
                           e.target.value,
                           values?.endTime
                         );
-                        setFieldValue("overTimeHour", difference);
+                        setFieldValue('overTimeHour', difference);
                       }
                     }}
                     name="startTime"
@@ -190,14 +191,14 @@ export default function FormCmp({
                     value={values?.endTime}
                     label="End Time"
                     onChange={(e) => {
-                      setFieldValue("endTime", e.target.value);
+                      setFieldValue('endTime', e.target.value);
                       if (values?.date && values?.startTime) {
                         let difference = getDifferenceBetweenTime(
                           values?.date,
                           values?.startTime,
                           e.target.value
                         );
-                        setFieldValue("overTimeHour", difference);
+                        setFieldValue('overTimeHour', difference);
                       }
                     }}
                     type="time"
@@ -219,7 +220,7 @@ export default function FormCmp({
                     value={values?.purpose}
                     placeholder="Purpose"
                     onChange={(valueOption) => {
-                      setFieldValue("purpose", valueOption);
+                      setFieldValue('purpose', valueOption);
                     }}
                   />
                 </div>
@@ -230,7 +231,7 @@ export default function FormCmp({
                     name="remarks"
                   />
                 </div>
-                <div style={{ marginTop: "18px" }} className="col-lg-3">
+                <div style={{ marginTop: '18px' }} className="col-lg-3">
                   <button
                     onClick={() => rowDtoAddHandler(values)}
                     disabled={
@@ -254,8 +255,8 @@ export default function FormCmp({
                 <thead>
                   <tr>
                     <th>SL</th>
-                    <th style={{ minWidth: "30px" }}>Employee Id</th>
-                    <th style={{ minWidth: "40px" }}>ERP Emp. Id</th>
+                    <th style={{ minWidth: '30px' }}>Employee Id</th>
+                    <th style={{ minWidth: '40px' }}>ERP Emp. Id</th>
                     <th>Date</th>
                     <th>Start Time</th>
                     <th>End Time</th>
@@ -272,8 +273,8 @@ export default function FormCmp({
                       <td>{index + 1}</td>
                       <td className="text-center">{item?.employee?.value}</td>
                       <td className="text-center">
-                        {" "}
-                        {item?.employee?.erpemployeeId}{" "}
+                        {' '}
+                        {item?.employee?.erpemployeeId}{' '}
                       </td>
                       <td className="text-center">{item?.date}</td>
                       <td className="text-center">
@@ -298,7 +299,9 @@ export default function FormCmp({
                       <td></td>
                       <td></td>
                       <td></td>
-                      <td><b>Total</b></td>
+                      <td>
+                        <b>Total</b>
+                      </td>
                       <td className="text-center">{totalCountableHour}</td>
                       <td></td>
                       <td></td>
@@ -310,14 +313,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 export const getInvoiceClearPasignation_api = async (
   accId,
   buId,
@@ -51,7 +51,7 @@ export const createCashInvoiceClear_api = async (data, cb, setDisabled) => {
     );
     if (res.status === 200) {
       setDisabled && setDisabled(false);
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {
@@ -59,7 +59,6 @@ export const createCashInvoiceClear_api = async (data, cb, setDisabled) => {
     toast.error(error?.response?.data?.message);
   }
 };
-
 
 //getInstrumentType_Api
 export const getInstrumentType_Api = async (setter) => {
@@ -80,7 +79,7 @@ export const createBankInvoiceClear_api = async (data, cb, setDisabled) => {
     );
     if (res.status === 200) {
       setDisabled && setDisabled(false);
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {
@@ -125,7 +124,7 @@ export const createAdvAdjustmentInvoiceClear_api = async (
     );
     if (res.status === 200) {
       setLoading && setLoading(false);
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {

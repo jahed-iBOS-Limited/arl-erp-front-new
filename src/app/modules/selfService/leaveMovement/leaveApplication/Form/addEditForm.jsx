@@ -1,30 +1,26 @@
-
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { empAttachment_action } from "../../../../_helper/attachmentUpload";
-import {
-  saveLeaveMovementAction,
-  saveMovementAction
-} from "../helper";
-import Form from "./form";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
+import { saveLeaveMovementAction, saveMovementAction } from '../helper';
+import Form from './form';
 
 const initData = {
   id: undefined,
   leaveType: 1,
-  employeeName: "",
-  employeeInfo: "",
-  reasonType: "",
+  employeeName: '',
+  employeeInfo: '',
+  reasonType: '',
   fromDate: _todayDate(),
-  fromTime: "",
+  fromTime: '',
   toDate: _todayDate(),
-  toTime: "",
-  reason: "",
-  address: "",
+  toTime: '',
+  reason: '',
+  address: '',
 };
 
 export function LeaveAddForm({
@@ -59,10 +55,10 @@ export function LeaveAddForm({
             documentFile: null,
             reason: values?.reason,
             addressDueToLeaveMove: values?.address,
-            phoneDueToLeaveMove: "",
+            phoneDueToLeaveMove: '',
             actionBy: profileData?.userId,
             isPaid: 0,
-            approvedStatus: "",
+            approvedStatus: '',
             approvedBy: 0,
             ysnHalfDayLeave: true,
             ysnApproved: false,
@@ -133,8 +129,8 @@ export function LeaveAddForm({
           isEdit={id || false}
           setFileObjects={setFileObjects}
           fileObjects={fileObjects}
-        // employeeValue={employeeValue}
-        // setEmployeeValue={setEmployeeValue}
+          // employeeValue={employeeValue}
+          // setEmployeeValue={setEmployeeValue}
         />
       </div>
     </IForm>

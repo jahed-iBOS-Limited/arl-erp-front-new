@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
-import { toast } from "react-toastify";
-import shortid from "shortid";
+import Axios from 'axios';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 //getTaxBranchDDL_api
 export const getTaxBranchDDL_api = async (userId, accid, buid, setter) => {
   try {
@@ -12,7 +12,7 @@ export const getTaxBranchDDL_api = async (userId, accid, buid, setter) => {
       const modify = res?.data;
       const all = {
         value: 0,
-        label: "All",
+        label: 'All',
       };
       modify.unshift(all);
       setter(modify);
@@ -63,10 +63,10 @@ export const getDeliveryInfoByDeliveryNum_api = async (
       `/vat/TaxSalesInvoiceIbos/GetDeliveryInfoByDeliveryNum?AccountId=${accId}&BusinessUnitId=${buId}&DeliveryCode=${deliveryCode}`
     );
     if (res.status === 200 && res?.data) {
-      setFieldValue("shiptoPartnerAddress", res?.data[0]?.shipToPartnerAddress);
-      setFieldValue("vehicleNo", res?.data[0]?.deliveryCode);
+      setFieldValue('shiptoPartnerAddress', res?.data[0]?.shipToPartnerAddress);
+      setFieldValue('vehicleNo', res?.data[0]?.deliveryCode);
       setFieldValue(
-        "actualDeliveryDate",
+        'actualDeliveryDate',
         _dateFormatter(res?.data[0]?.deliveryDate)
       );
     }
@@ -97,7 +97,7 @@ export const createSalesInvoiceIbos_api = async (
       data
     );
     if (res.status === 200) {
-      toast.success("Submitted Successfully", {
+      toast.success('Submitted Successfully', {
         toastId: shortid(),
       });
       cb();
@@ -116,7 +116,7 @@ export const AutoTaxCompleteApi = async (deliveryId, buid, setLoading, cb) => {
     );
     if (res.status === 200) {
       setLoading(false);
-      toast.success("Submitted Successfully", {
+      toast.success('Submitted Successfully', {
         toastId: shortid(),
       });
       cb();
@@ -144,7 +144,7 @@ export const createAutoSalesInvoiceiBOSPrint_api = async (
     );
     setRowDto && setLoading(false);
     if (res.status === 200) {
-      toast.success("Submitted Successfully", {
+      toast.success('Submitted Successfully', {
         toastId: shortid(),
       });
       GetManualTaxSalesInvoiceById(res?.data?.key, setTaxSalesInvoiceById);
@@ -173,7 +173,7 @@ export const getManualSalesInvoiceIbos = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
 
     const res = await Axios.get(
       `/vat/TaxSalesInvoiceIbos/GetManualSalesInvoiceIbosSearchPagination?${searchPath}accountId=${accId}&businessUnitId=${buId}&taxBranchId=${taxBranchId}&status=true&fromdate=${fromDate}&todate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
@@ -222,7 +222,7 @@ export const getSalesInvoiceIbosSearchPaginationShippointId = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
 
     const res = await Axios.get(
       `/vat/TaxSalesInvoiceIbos/GetSalesInvoiceIbosSearchPaginationShippointId?${searchPath}accountId=${accId}&businessUnitId=${buId}&shippointId=${shippointId}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
@@ -249,7 +249,7 @@ export const GetDetailTaxPendingDeliveryListAuto = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = search ? `search=${search}&` : "";
+    const searchPath = search ? `search=${search}&` : '';
 
     const res = await Axios.get(
       `/vat/TaxDDL/GetDetailTaxPendingDeliveryListAuto?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&ShippointId=${shippointId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`

@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getAssetDetailsInformation = async (
   accId,
@@ -58,7 +58,7 @@ export const saveWorkOrderData = async (
     setDisabled(true);
     const res = await Axios.post(`/asset/Workorder/CreateWorkOrder`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
       setisShowModalforCreate(false);
@@ -85,7 +85,7 @@ export const saveForItemReqData = async (
 
     let payload = {
       assetMaintenanceRefId: +maintainId,
-      purpose: "",
+      purpose: '',
       actionBy: profileData?.userId || 0,
     };
     const res = await Axios.post(
@@ -93,7 +93,7 @@ export const saveForItemReqData = async (
       payload
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       //cb();
       setDisabled(false);
     }
@@ -118,8 +118,8 @@ export const saveForPurchaseRequestData = async (data, unitId, cb) => {
       payload
     );
     cb && cb();
-    console.log("response", res);
-    toast.success(res?.data?.Message || "Submitted successfully");
+    console.log('response', res);
+    toast.success(res?.data?.Message || 'Submitted successfully');
   } catch (error) {
     toast.error(error?.response?.data?.Message);
   }
@@ -138,9 +138,9 @@ export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
 
 const getStatus = (status) => {
   return [
-    { label: "Open", value: 1 },
-    { label: "Pending", value: 2 },
-    { label: "Close", value: 3 },
+    { label: 'Open', value: 1 },
+    { label: 'Pending', value: 2 },
+    { label: 'Close', value: 3 },
   ].find((item) => item.label.toLowerCase() === status.toLowerCase());
 };
 
@@ -163,18 +163,19 @@ export const getSingleData = async (id, setter) => {
               value: maintainData?.costCenterId,
               label: maintainData?.costCenterName,
             }
-          : "",
-        assignTo: maintainData?.assign?.length > 0
-        ? maintainData?.assign?.map((item) => ({
-            value: item?.engineerEmployeeId,
-            label: item?.engineerName,
-            contactNumber: item?.engineerContact
-          }))
-        : "",
+          : '',
+        assignTo:
+          maintainData?.assign?.length > 0
+            ? maintainData?.assign?.map((item) => ({
+                value: item?.engineerEmployeeId,
+                label: item?.engineerName,
+                contactNumber: item?.engineerContact,
+              }))
+            : '',
         note: maintainData?.notes,
-        depService: "",
-        amount: "",
-        description: "",
+        depService: '',
+        amount: '',
+        description: '',
       };
       setter(newData);
     }
@@ -197,7 +198,7 @@ export const saveWorkOrderEdit = async (data, cb, setDisabled) => {
   try {
     const res = await Axios.put(`/asset/Workorder/EditWorkOrder`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -221,7 +222,7 @@ export const saveWorkOrderTaskData = async (data, mainId, setTaskRowData) => {
   try {
     const res = await Axios.post(`/asset/MntTask/CreateMntTask`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       const newData = await Axios.get(
         `/asset/DetalisView/GetMaintenceTaskRowData?MaintenanceId=${mainId}`
       );
@@ -265,7 +266,7 @@ export const saveMntTaskforEdit = async (data, cb) => {
   try {
     const res = await Axios.put(`/asset/MntTask/UpdateMntTask`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       //cb()
     }
   } catch (error) {}

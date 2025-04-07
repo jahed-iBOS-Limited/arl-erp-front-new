@@ -1,18 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const salesOrganizationSlice = createSlice({
-  name: "salesOrganization",
+  name: 'salesOrganization',
   initialState: initState,
   reducers: {
-
     SetGridData: (state, action) => {
       const { payload } = action;
       state.gridData = payload;
@@ -22,10 +21,8 @@ export const salesOrganizationSlice = createSlice({
       const { payload } = action;
       state.singleData = payload;
     },
-    SetSingleStoreEmpty: state => {
-      state.singleData = "";
+    SetSingleStoreEmpty: (state) => {
+      state.singleData = '';
     },
-
-  }
+  },
 });
-

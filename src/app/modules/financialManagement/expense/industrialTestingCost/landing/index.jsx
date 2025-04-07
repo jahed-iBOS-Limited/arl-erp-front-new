@@ -33,10 +33,11 @@ const IndustrialTestingCostLanding = () => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getLandingData = (_pageNo, _pageSize, values) => {
-    const url = `/oms/IndustrialTestExpense/GetIndustrialTestExpensePagination?businessUnitId=${buId}&testTypeId=${values
-      ?.testType?.value || 0}&projectTypeId=${values?.projectType?.value ||
-      0}&testPerformPlaceId=${values?.testPerformPlace?.value ||
-      0}&pageNo=${_pageNo}&pageSize=${_pageSize}`;
+    const url = `/oms/IndustrialTestExpense/GetIndustrialTestExpensePagination?businessUnitId=${buId}&testTypeId=${
+      values?.testType?.value || 0
+    }&projectTypeId=${values?.projectType?.value || 0}&testPerformPlaceId=${
+      values?.testPerformPlace?.value || 0
+    }&pageNo=${_pageNo}&pageSize=${_pageSize}`;
 
     getGridData(url);
   };
@@ -45,10 +46,9 @@ const IndustrialTestingCostLanding = () => {
     getProjectTypes(`/oms/ShipPoint/GetDDLByTypeNUnit?TypeId=3&UnitId=${buId}`);
     getTestTypes(`/oms/ShipPoint/GetDDLByTypeNUnit?TypeId=2&UnitId=${buId}`);
     getPerformPlaces(
-      `/oms/ShipPoint/GetDDLByTypeNUnit?TypeId=1&UnitId=${buId}`,
+      `/oms/ShipPoint/GetDDLByTypeNUnit?TypeId=1&UnitId=${buId}`
     );
     getLandingData(pageNo, pageSize, initData);
-
   }, [buId]);
 
   const loading = isLoading;

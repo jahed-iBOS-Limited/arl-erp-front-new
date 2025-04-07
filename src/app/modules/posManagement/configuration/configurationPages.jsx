@@ -1,18 +1,18 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { LayoutSplashScreen, ContentRoute } from "../../../../_metronic/layout";
-import { Suspense } from "react";
-import ItemProfileForm from "./itemProfile/form/addEditForm";
-import CustomerPoint from "./customerPoint/customerPoint";
-import ItemGroupForPrivilege from "./itemGroupForPrivilege/landing";
-import ItemGroupForPrivilegeForm from "./itemGroupForPrivilege/Form/addEditForm";
-import CustomerGroupForPrivilege from "./customerGroupForPrivilege/landing";
-import CustomerGroupForPrivilegeForm from "./customerGroupForPrivilege/Form/addEditForm";
-import PrivilegeSchemeLanding from "./customerPrivilegeScheme/landing";
-import CustomerPrivilegeSchemeForm from "./customerPrivilegeScheme/Form/addEditForm";
-import WalletSetupForm from "./walletSetup/form/addEditForm";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import { shallowEqual, useSelector } from "react-redux";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { LayoutSplashScreen, ContentRoute } from '../../../../_metronic/layout';
+import { Suspense } from 'react';
+import ItemProfileForm from './itemProfile/form/addEditForm';
+import CustomerPoint from './customerPoint/customerPoint';
+import ItemGroupForPrivilege from './itemGroupForPrivilege/landing';
+import ItemGroupForPrivilegeForm from './itemGroupForPrivilege/Form/addEditForm';
+import CustomerGroupForPrivilege from './customerGroupForPrivilege/landing';
+import CustomerGroupForPrivilegeForm from './customerGroupForPrivilege/Form/addEditForm';
+import PrivilegeSchemeLanding from './customerPrivilegeScheme/landing';
+import CustomerPrivilegeSchemeForm from './customerPrivilegeScheme/Form/addEditForm';
+import WalletSetupForm from './walletSetup/form/addEditForm';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import { shallowEqual, useSelector } from 'react-redux';
 
 export function ConfigurationPages() {
   const { userRole } = useSelector((state) => {

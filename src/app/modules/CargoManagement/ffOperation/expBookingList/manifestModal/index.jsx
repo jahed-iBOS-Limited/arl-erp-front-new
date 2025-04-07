@@ -10,7 +10,7 @@ import logisticsLogo from './logisticsLogo.png';
 export default function ManifestModal({ rowClickData }) {
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -38,11 +38,9 @@ export default function ManifestModal({ rowClickData }) {
   useEffect(() => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
       );
     }
-
-
   }, [bookingRequestId]);
 
   const bookingData = shipBookingRequestGetById || {};
@@ -189,7 +187,7 @@ export default function ManifestModal({ rowClickData }) {
                 }}
               >
                 {moment(
-                  transportPlanningAir?.airTransportRow?.[0]?.flightDate,
+                  transportPlanningAir?.airTransportRow?.[0]?.flightDate
                 ).format('YYYY-MM-DD')}
               </td>
             </tr>

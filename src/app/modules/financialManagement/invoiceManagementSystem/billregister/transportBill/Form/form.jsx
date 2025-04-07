@@ -111,7 +111,7 @@ export default function FormCmp({
                               profileData?.accountId
                             }&UnitId=${selectedBusinessUnit?.value}&SBUId=${
                               headerData?.sbu?.value || 0
-                            }`,
+                            }`
                           ).then((res) => {
                             const updateList = res?.data.map((item) => ({
                               ...item,
@@ -176,7 +176,7 @@ export default function FormCmp({
                             values?.fromDate,
                             values?.toDate,
                             setGridData,
-                            setDisabled,
+                            setDisabled
                           );
                         }}
                         disabled={!values?.supplier}
@@ -238,8 +238,8 @@ export default function FormCmp({
                               clickHandler={() => {
                                 dispatch(
                                   getDownlloadFileView_Action(
-                                    values?.attachmentId,
-                                  ),
+                                    values?.attachmentId
+                                  )
                                 );
                               }}
                             />
@@ -266,8 +266,8 @@ export default function FormCmp({
                         (a, b) =>
                           Number(a) +
                           (b.checked ? Number(b.approvedAmount) : 0),
-                        0,
-                      ),
+                        0
+                      )
                     )}
                   </span>
                 </div>
@@ -291,7 +291,7 @@ export default function FormCmp({
                                       ...item,
                                       checked: e?.target?.checked,
                                     };
-                                  }),
+                                  })
                                 );
                               }}
                             />
@@ -345,14 +345,14 @@ export default function FormCmp({
                               {item?.rentalCost >= 0
                                 ? numberWithCommas(item?.rentalCost)
                                 : `(${numberWithCommas(
-                                    Math.abs(item?.rentalCost),
+                                    Math.abs(item?.rentalCost)
                                   )})`}
                             </td>
                             <td className="text-right">
                               {_fixedPoint(
                                 +item?.rentalCost / +item?.totalQty || 0,
                                 true,
-                                2,
+                                2
                               )}
                             </td>
 
@@ -360,14 +360,14 @@ export default function FormCmp({
                               {item?.otherCost >= 0
                                 ? numberWithCommas(item?.otherCost)
                                 : `(${numberWithCommas(
-                                    Math.abs(item?.otherCost),
+                                    Math.abs(item?.otherCost)
                                   )})`}
                             </td>
                             <td className="text-right">
                               {item?.totalCost >= 0
                                 ? numberWithCommas(item?.totalCost)
                                 : `(${numberWithCommas(
-                                    Math.abs(item?.totalCost),
+                                    Math.abs(item?.totalCost)
                                   )})`}
                             </td>
                             <td style={{ width: '100px' }}>
@@ -414,7 +414,7 @@ export default function FormCmp({
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}

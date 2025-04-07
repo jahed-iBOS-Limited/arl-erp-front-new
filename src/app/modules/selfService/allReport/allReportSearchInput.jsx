@@ -1,6 +1,6 @@
-import React from "react";
-import ReactSpeechRecognition from "./react-speech-recognition";
-import { debounce } from "lodash";
+import React from 'react';
+import ReactSpeechRecognition from './react-speech-recognition';
+import { debounce } from 'lodash';
 
 const search = debounce((paginationSearchHandler, value) => {
   paginationSearchHandler(value);
@@ -19,32 +19,32 @@ function AllReportSearchInput({
 }) {
   return (
     <div
-      className={classes ? `paginationSearch ${classes}` : "paginationSearch"}
+      className={classes ? `paginationSearch ${classes}` : 'paginationSearch'}
     >
       <div
         className={
-          secondClasses ? `input-group ${secondClasses}` : "input-group"
+          secondClasses ? `input-group ${secondClasses}` : 'input-group'
         }
       >
-        <div className='input-group-append'>
+        <div className="input-group-append">
           <button
-            className='btn btn-outline-secondary'
-            type='button'
+            className="btn btn-outline-secondary"
+            type="button"
             disabled={isDisabledFiled}
             onClick={() => {
               paginationSearchHandler(searchInput);
             }}
           >
-            <i className='fas fa-search'></i>
+            <i className="fas fa-search"></i>
           </button>
         </div>
         <input
-          type='text'
+          type="text"
           disabled={isDisabledFiled}
-          className='form-control'
+          className="form-control"
           placeholder={placeholder}
           aria-label={placeholder}
-          aria-describedby='basic-addon2'
+          aria-describedby="basic-addon2"
           onChange={(e) => {
             setter && setter(e.target.value);
             setSearchInput(e.target.value);

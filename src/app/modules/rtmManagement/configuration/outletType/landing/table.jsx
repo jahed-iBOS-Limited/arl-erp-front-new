@@ -1,17 +1,16 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getLandingData } from "../helper";
-import Loading from "./../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getLandingData } from '../helper';
+import Loading from './../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "./../../../../../../_metronic/_partials/controls";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+} from './../../../../../../_metronic/_partials/controls';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import PaginationTable from './../../../../_helper/_tablePagination';
 
 const OutletBusinessTypeLanding = () => {
   const history = useHistory();
@@ -60,7 +59,7 @@ const OutletBusinessTypeLanding = () => {
           <CardHeaderToolbar>
             <button
               onClick={() =>
-                history.push("/rtm-management/configuration/outletType/create")
+                history.push('/rtm-management/configuration/outletType/create')
               }
               className="btn btn-primary"
             >
@@ -75,7 +74,7 @@ const OutletBusinessTypeLanding = () => {
               <tr>
                 <th>SL</th>
                 <th>Outlet Type Name</th>
-                <th style={{ width: "90px" }}>Tms Allowed</th>
+                <th style={{ width: '90px' }}>Tms Allowed</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -84,7 +83,7 @@ const OutletBusinessTypeLanding = () => {
                 gridData?.data?.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td style={{ width: "30px" }} className="text-center">
+                      <td style={{ width: '30px' }} className="text-center">
                         {index + 1}
                       </td>
                       <td>
@@ -94,8 +93,8 @@ const OutletBusinessTypeLanding = () => {
                         <div className="text-center">
                           <input
                             style={{
-                              width: "15px",
-                              height: "15px",
+                              width: '15px',
+                              height: '15px',
                             }}
                             name="isOnlyTmsAllowed"
                             checked={item?.isOnlyTmsAllowed}
@@ -104,7 +103,7 @@ const OutletBusinessTypeLanding = () => {
                           />
                         </div>
                       </td>
-                      <td style={{ width: "100px" }} className="text-center">
+                      <td style={{ width: '100px' }} className="text-center">
                         <span
                           className="edit"
                           onClick={(e) =>

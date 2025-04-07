@@ -61,9 +61,8 @@ export default function IncomestatementNew() {
 
   useEffect(() => {
     getEnterpriseDivisionDDL(
-      `/hcm/HCMDDL/GetBusinessUnitGroupByAccountDDL?AccountId=${profileData?.accountId}`,
+      `/hcm/HCMDDL/GetBusinessUnitGroupByAccountDDL?AccountId=${profileData?.accountId}`
     );
-
   }, [profileData]);
 
   useEffect(() => {
@@ -77,9 +76,8 @@ export default function IncomestatementNew() {
           };
         });
         setBuDDL(newData);
-      },
+      }
     );
-
   }, []);
 
   return (
@@ -151,9 +149,9 @@ export default function IncomestatementNew() {
                               setProfitCenterDDL(profitCenterDDLData);
                               setFieldValue(
                                 'profitCenter',
-                                profitCenterDDLData?.[0] || '',
+                                profitCenterDDLData?.[0] || ''
                               );
-                            },
+                            }
                           );
                         }
                         if (
@@ -161,7 +159,7 @@ export default function IncomestatementNew() {
                           valueOption?.value !== 'profitCenter'
                         ) {
                           getTradeAndDivisionDDL(
-                            `/fino/CostSheet/ProfitCenterDivisionChannelDDL?BUId=${values?.businessUnit?.value}&Type=${valueOption?.value}`,
+                            `/fino/CostSheet/ProfitCenterDivisionChannelDDL?BUId=${values?.businessUnit?.value}&Type=${valueOption?.value}`
                           );
                         }
 
@@ -300,10 +298,10 @@ export default function IncomestatementNew() {
                           values?.productDivision?.value
                             ? values?.productDivision?.value
                             : values?.profitCenter?.value
-                            ? values?.profitCenter?.label
-                            : values?.tradeType?.value,
+                              ? values?.profitCenter?.label
+                              : values?.tradeType?.value,
                           values?.isForecast?.value,
-                          values?.subDivision?.label,
+                          values?.subDivision?.label
                         );
                       } else {
                         setShow(false);

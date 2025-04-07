@@ -21,7 +21,7 @@ import html2pdf from 'html2pdf.js';
 
 const RegisterDetailsModal = ({ tableItem, values }) => {
   const { financialManagementReportRegister } = useSelector(
-    (state) => state?.localStorage,
+    (state) => state?.localStorage
   );
   const initData = {
     fromDate: financialManagementReportRegister?.fromDate || _todayDate(),
@@ -33,7 +33,7 @@ const RegisterDetailsModal = ({ tableItem, values }) => {
   const dispatch = useDispatch();
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   const pdfExport = (fileName) => {
@@ -79,7 +79,7 @@ const RegisterDetailsModal = ({ tableItem, values }) => {
                           SetFinancialManagementReportRegisterAction({
                             ...values,
                             fromDate: e.target.value,
-                          }),
+                          })
                         );
                         setRowDto([]);
                       }}
@@ -100,7 +100,7 @@ const RegisterDetailsModal = ({ tableItem, values }) => {
                           SetFinancialManagementReportRegisterAction({
                             ...values,
                             toDate: e.target.value,
-                          }),
+                          })
                         );
                         setRowDto([]);
                       }}
@@ -116,7 +116,7 @@ const RegisterDetailsModal = ({ tableItem, values }) => {
                           values?.fromDate,
                           values?.toDate,
                           setLoading,
-                          setRowDto,
+                          setRowDto
                         );
                       }}
                       style={{ marginTop: '19px' }}
@@ -242,21 +242,21 @@ const RegisterDetailsModal = ({ tableItem, values }) => {
                               {_formatMoney(
                                 rowDto?.reduce(
                                   (a, b) => a + Number(b?.numDebit),
-                                  0,
-                                ),
+                                  0
+                                )
                               )}
                             </td>
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.reduce(
                                   (a, b) => a + Number(b?.numCredit),
-                                  0,
-                                ),
+                                  0
+                                )
                               )}
                             </td>
                             <td className="text-right">
                               {_formatMoney(
-                                Number(rowDto[rowDto?.length - 1]?.numBalance),
+                                Number(rowDto[rowDto?.length - 1]?.numBalance)
                               )}
                             </td>
                           </tr>

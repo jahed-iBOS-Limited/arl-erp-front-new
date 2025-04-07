@@ -1,9 +1,9 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { toast } from "react-toastify";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { getDifferenceBetweenTime } from "../../../msilProduction/meltingProduction/helper";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { toast } from 'react-toastify';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { getDifferenceBetweenTime } from '../../../msilProduction/meltingProduction/helper';
 
 export default function RebShutdownForm({
   initData,
@@ -51,15 +51,15 @@ export default function RebShutdownForm({
                   <NewSelect
                     name="shift"
                     options={[
-                      { value: "A", label: "A" },
-                      { value: "B", label: "B" },
-                      { value: "C", label: "C" },
-                      { value: "General", label: "General" },
+                      { value: 'A', label: 'A' },
+                      { value: 'B', label: 'B' },
+                      { value: 'C', label: 'C' },
+                      { value: 'General', label: 'General' },
                     ]}
                     value={values?.shift}
                     label="Shift"
                     onChange={(valueOption) => {
-                      setFieldValue("shift", valueOption);
+                      setFieldValue('shift', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -73,15 +73,15 @@ export default function RebShutdownForm({
                     type="time"
                     onChange={(e) => {
                       if (!values?.date)
-                        return toast.warn("Please select date");
-                      setFieldValue("startTime", e.target.value);
+                        return toast.warn('Please select date');
+                      setFieldValue('startTime', e.target.value);
                       if (values?.date && values?.endTime) {
                         let difference = getDifferenceBetweenTime(
                           values?.date,
                           e.target.value,
                           values?.endTime
                         );
-                        setFieldValue("totalHour", difference);
+                        setFieldValue('totalHour', difference);
                       }
                     }}
                   />
@@ -94,15 +94,15 @@ export default function RebShutdownForm({
                     type="time"
                     onChange={(e) => {
                       if (!values?.date)
-                        return toast.warn("Please select date");
-                      setFieldValue("endTime", e.target.value);
+                        return toast.warn('Please select date');
+                      setFieldValue('endTime', e.target.value);
                       if (values?.date && values?.startTime) {
                         let difference = getDifferenceBetweenTime(
                           values?.date,
                           values?.startTime,
                           e.target.value
                         );
-                        setFieldValue("totalHour", difference);
+                        setFieldValue('totalHour', difference);
                       }
                     }}
                   />
@@ -120,14 +120,14 @@ export default function RebShutdownForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

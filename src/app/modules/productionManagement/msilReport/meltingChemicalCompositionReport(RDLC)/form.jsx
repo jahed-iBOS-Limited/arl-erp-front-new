@@ -1,16 +1,16 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICustomCard from "../../../_helper/_customCard";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICustomCard from '../../../_helper/_customCard';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  testName:"",
+  testName: '',
 };
 const MeltingChemicalCompositionReportRDLC = () => {
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
@@ -24,16 +24,17 @@ const MeltingChemicalCompositionReportRDLC = () => {
   const [testNameList, getTestNameList] = useAxiosGet();
 
   useEffect(() => {
-    getTestNameList(`/mes/MesDDL/GetTestNameDDL?BusinessUnitId=${selectedBusinessUnit?.value}`)
-
-  },[]);
+    getTestNameList(
+      `/mes/MesDDL/GetTestNameDDL?BusinessUnitId=${selectedBusinessUnit?.value}`
+    );
+  }, []);
 
   const parameterValues = (values) => {
     return [
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
-      { name: "UnitId", value: `${selectedBusinessUnit?.value}` },
-      { name: "TestName", value: `${values?.testName?.label || ""}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
+      { name: 'UnitId', value: `${selectedBusinessUnit?.value}` },
+      { name: 'TestName', value: `${values?.testName?.label || ''}` },
     ];
   };
 
@@ -44,7 +45,7 @@ const MeltingChemicalCompositionReportRDLC = () => {
           <ICustomCard title="Melting Chemical Composition Report">
             <form className="form form-label-right">
               <div className="form-group row global-form">
-              <div className="col-lg-3">
+                <div className="col-lg-3">
                   <NewSelect
                     name="testName"
                     options={testNameList || []}
@@ -52,7 +53,7 @@ const MeltingChemicalCompositionReportRDLC = () => {
                     label="Test Name"
                     onChange={(valueOption) => {
                       setShowReport(false);
-                      setFieldValue("testName", valueOption);
+                      setFieldValue('testName', valueOption);
                     }}
                   />
                 </div>
@@ -65,7 +66,7 @@ const MeltingChemicalCompositionReportRDLC = () => {
                     type="date"
                     onChange={(e) => {
                       setShowReport(false);
-                      setFieldValue("fromDate", e?.target?.value);
+                      setFieldValue('fromDate', e?.target?.value);
                     }}
                   />
                 </div>
@@ -78,17 +79,17 @@ const MeltingChemicalCompositionReportRDLC = () => {
                     type="date"
                     onChange={(e) => {
                       setShowReport(false);
-                      setFieldValue("toDate", e?.target?.value);
+                      setFieldValue('toDate', e?.target?.value);
                     }}
                   />
                 </div>
                 <div className="col-lg-3">
                   <button
                     onClick={() => {
-                      console.log("clicked");
+                      console.log('clicked');
                       setShowReport(true);
                     }}
-                    style={{ marginTop: "19px" }}
+                    style={{ marginTop: '19px' }}
                     className="btn btn-primary ml-2 mr-2"
                     type="button"
                   >

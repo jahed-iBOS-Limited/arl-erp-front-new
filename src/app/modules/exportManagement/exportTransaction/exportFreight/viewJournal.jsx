@@ -1,13 +1,13 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 export default function ViewJournal({ journalId, sbuId }) {
   const saveHandler = (values, cb) => {};
@@ -23,14 +23,12 @@ export default function ViewJournal({ journalId, sbuId }) {
   const [rowData, getRowData, rowDataLoader, setRowData] = useAxiosGet();
   const [, exportTrasnport, exportTransportLoader] = useAxiosPost();
 
-
   // handle save
 
   useEffect(() => {
     getRowData(
       `/oms/SalesOrder/GetSalesOrderDetailsByJournalId?businessUnitId=${selectedBusinessUnit?.value}&accountingJournalId=${journalId}`
     );
-
   }, [selectedBusinessUnit?.value]);
   return (
     <Formik
@@ -81,7 +79,7 @@ export default function ViewJournal({ journalId, sbuId }) {
                         businesspartnerName: item?.businessPartnerName,
                         freightProviderId: item?.freightProvider?.value,
                         freightProviderName: item?.freightProvider?.label,
-                        freightProviderType: "",
+                        freightProviderType: '',
                         freightAmount: item?.freightAmount,
                         salesOrderId: item?.salesOrderId,
                         narration: item?.narration,
@@ -89,7 +87,7 @@ export default function ViewJournal({ journalId, sbuId }) {
                       exportTrasnport(
                         `/oms/SalesOrder/SaveExportTransportProviderInfo`,
                         payload,
-                        "",
+                        '',
                         true
                       );
                     }}
@@ -104,115 +102,116 @@ export default function ViewJournal({ journalId, sbuId }) {
               <div className="row">
                 <div className="col-lg-12">
                   <div className="table-responsive">
-                  <table className="table table-striped table-bordered global-table sales_order_landing_table">
-                    <thead>
-                      <tr>
-                        <th>
-                          <input
-                            type="checkbox"
-                            checked={
-                              rowData?.length > 0 &&
-                              rowData?.every((item) => item?.isSelected)
-                            }
-                            onChange={(e) => {
-                              setRowData(
-                                rowData?.map((item) => {
-                                  return {
-                                    ...item,
-                                    isSelected: e?.target?.checked,
-                                  };
-                                })
-                              );
-                            }}
-                          />
-                        </th>
-                        <th style={{ width: "35px" }}>SL</th>
-                        <th style={{ width: "90px" }}>Sales Order Code</th>
-                        <th style={{ width: "90px" }}>Journal Code</th>
-                        <th>Ledger Name</th>
-                        <th>Business Partner Name</th>
-                        <th>Freight Amount</th>
-                        <th>Freight Provider Name</th>
-                        <th>Transaction Date</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowData?.length > 0 &&
-                        rowData?.map((td, index) => (
-                          <tr key={index}>
-                            <td>
-                              <input
-                                type="checkbox"
-                                value={td?.isSelected}
-                                checked={td?.isSelected}
-                                onChange={(e) => {
-                                  const data = [...rowData];
-                                  data[index]["isSelected"] = e.target.checked;
-                                  setRowData(data);
-                                }}
-                              />
-                            </td>
-                            <td className="text-center">{index + 1}</td>
-                            <td>
-                              <div className="pl-2">{td?.salesOrderCode}</div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {td?.accountingJournalCode}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {td?.generalLedgerName}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {td?.businessPartnerName}
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">
-                                {td?.freightAmount ? td?.freightAmount : 0}
-                              </div>
-                            </td>
-                            <td>
-                              <SearchAsyncSelect
-                                selectedValue={td?.freightProvider}
-                                handleChange={(valueOption) => {
-                                  const data = [...rowData];
-                                  data[index]["freightProvider"] = {
-                                    label: valueOption?.label,
-                                    value: valueOption?.value,
-                                  };
-                                  setRowData(data);
-                                }}
-                                loadOptions={(v) => {
-                                  if (v.length < 3) return [];
-                                  return axios
-                                    .get(
-                                      `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${
-                                        profileData?.accountId
-                                      }&UnitId=${
-                                        selectedBusinessUnit?.value
-                                      }&SBUId=${0}`
-                                    )
-                                    .then((res) => {
-                                      const updateList = res?.data.map(
-                                        (item) => ({
-                                          ...item,
-                                        })
-                                      );
-                                      return updateList;
-                                    });
-                                }}
-                              />
-                            </td>
-                            <td>{_dateFormatter(td?.transactionDate)}</td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                    <table className="table table-striped table-bordered global-table sales_order_landing_table">
+                      <thead>
+                        <tr>
+                          <th>
+                            <input
+                              type="checkbox"
+                              checked={
+                                rowData?.length > 0 &&
+                                rowData?.every((item) => item?.isSelected)
+                              }
+                              onChange={(e) => {
+                                setRowData(
+                                  rowData?.map((item) => {
+                                    return {
+                                      ...item,
+                                      isSelected: e?.target?.checked,
+                                    };
+                                  })
+                                );
+                              }}
+                            />
+                          </th>
+                          <th style={{ width: '35px' }}>SL</th>
+                          <th style={{ width: '90px' }}>Sales Order Code</th>
+                          <th style={{ width: '90px' }}>Journal Code</th>
+                          <th>Ledger Name</th>
+                          <th>Business Partner Name</th>
+                          <th>Freight Amount</th>
+                          <th>Freight Provider Name</th>
+                          <th>Transaction Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowData?.length > 0 &&
+                          rowData?.map((td, index) => (
+                            <tr key={index}>
+                              <td>
+                                <input
+                                  type="checkbox"
+                                  value={td?.isSelected}
+                                  checked={td?.isSelected}
+                                  onChange={(e) => {
+                                    const data = [...rowData];
+                                    data[index]['isSelected'] =
+                                      e.target.checked;
+                                    setRowData(data);
+                                  }}
+                                />
+                              </td>
+                              <td className="text-center">{index + 1}</td>
+                              <td>
+                                <div className="pl-2">{td?.salesOrderCode}</div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {td?.accountingJournalCode}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {td?.generalLedgerName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {td?.businessPartnerName}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {td?.freightAmount ? td?.freightAmount : 0}
+                                </div>
+                              </td>
+                              <td>
+                                <SearchAsyncSelect
+                                  selectedValue={td?.freightProvider}
+                                  handleChange={(valueOption) => {
+                                    const data = [...rowData];
+                                    data[index]['freightProvider'] = {
+                                      label: valueOption?.label,
+                                      value: valueOption?.value,
+                                    };
+                                    setRowData(data);
+                                  }}
+                                  loadOptions={(v) => {
+                                    if (v.length < 3) return [];
+                                    return axios
+                                      .get(
+                                        `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${
+                                          profileData?.accountId
+                                        }&UnitId=${
+                                          selectedBusinessUnit?.value
+                                        }&SBUId=${0}`
+                                      )
+                                      .then((res) => {
+                                        const updateList = res?.data.map(
+                                          (item) => ({
+                                            ...item,
+                                          })
+                                        );
+                                        return updateList;
+                                      });
+                                  }}
+                                />
+                              </td>
+                              <td>{_dateFormatter(td?.transactionDate)}</td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>

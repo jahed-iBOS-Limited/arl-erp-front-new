@@ -74,14 +74,14 @@ export const saveTimeCharterTransaction = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/TimeCharterTransaction/SaveTimeCharterTransaction`,
-      data,
+      data
     );
     cb();
     toast.success(res?.data?.message);
     setLoading(false);
   } catch (err) {
     toast.error(
-      err?.response?.data?.message || 'Something went wrong, Please try again!',
+      err?.response?.data?.message || 'Something went wrong, Please try again!'
     );
     setLoading(false);
   }
@@ -107,7 +107,7 @@ export const saveTimeCharterTransaction = async (data, setLoading, cb) => {
 export const GetTransactionNameList = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Transaction/GetTransactionListDDL`,
+      `${imarineBaseUrl}/domain/Transaction/GetTransactionListDDL`
     );
     setter(res?.data);
   } catch (err) {
@@ -119,7 +119,7 @@ export const GetTransactionNameList = async (setter) => {
 export const getTransactionById = async (id, setter, setDataForEdit, cb) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterByTcTransactionId?TcTrasactionId=${id}`,
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterByTcTransactionId?TcTrasactionId=${id}`
     );
 
     setter(res?.data);
@@ -153,18 +153,18 @@ export const getPreOffHires = async (
   voyageId,
   transactionId,
   tcTransactionId,
-  setter,
+  setter
 ) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTransactionDetails?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}&TcTransactionId=${tcTransactionId}`,
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTransactionDetails?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}&TcTransactionId=${tcTransactionId}`
     );
     const totalOffHireDuration = res?.data?.offHires?.reduce(
       (a, b) => a + b?.offHireDurOnPercentage,
-      0,
+      0
     );
     setter(totalOffHireDuration);
-  } catch (e) { }
+  } catch (e) {}
 };
 
 export const getTimeCharterTransaction = async (
@@ -173,11 +173,11 @@ export const getTimeCharterTransaction = async (
   vesselId,
   voyageId,
   transactionId,
-  setter,
+  setter
 ) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterById?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`,
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTimeCharterById?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`
     );
     setter(res?.data);
   } catch (err) {
@@ -199,7 +199,7 @@ export const GetTransactionDetails = async (
   setOffHireDuration,
   cb,
   type,
-  hireTypeName,
+  hireTypeName
 ) => {
   setLoading(true);
   try {
@@ -208,11 +208,11 @@ export const GetTransactionDetails = async (
         ? 'GetTimeCharterByIdForTimeCharter'
         : 'GetTimeCharterById';
     const resInvoiceTransaction = await axios.get(
-      `${imarineBaseUrl}/domain/TimeCharterTransaction/${apiName}?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`,
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/${apiName}?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`
     );
 
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTransactionDetails?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`,
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/GetTransactionDetails?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&HireTrasaction=${transactionId}`
     );
 
     cb(resInvoiceTransaction?.data?.objHeader);
@@ -228,10 +228,11 @@ export const GetTransactionDetails = async (
     } else {
       const prevHireList = res?.data?.previousTransaciton?.map((item) => {
         return {
-          description: `${item?.transactionName} ${item?.receiveDate
+          description: `${item?.transactionName} ${
+            item?.receiveDate
               ? `[${moment(item?.receiveDate).format('MM-DD-YYYY')}]`
               : ''
-            }`,
+          }`,
           tctransactionId: 0,
           duration: 0,
           quantity: 0,
@@ -249,12 +250,11 @@ export const GetTransactionDetails = async (
       const hireIdList = [];
       const totalOffHireDuration = offHireArr?.reduce(
         (a, b) => a + b?.offHireDurOnPercentage,
-        0,
+        0
       );
       setOffHireDuration(totalOffHireDuration);
 
       if (offHireArr.length > 0) {
-
         offHireArr?.forEach((item, index) => {
           hireIdList.push(item?.hireId);
           finalArr.push({
@@ -277,8 +277,9 @@ export const GetTransactionDetails = async (
             isChecked: true,
           });
           finalArr.push({
-            description: `OFFHIRE${offHireArr?.length > 1 ? `-${index + 1}` : ''
-              } ADD COM`,
+            description: `OFFHIRE${
+              offHireArr?.length > 1 ? `-${index + 1}` : ''
+            } ADD COM`,
             tctransactionId: 0,
             duration: item?.offHireDurOnPercentage,
             quantity: 0,
@@ -302,8 +303,9 @@ export const GetTransactionDetails = async (
           //   isChecked: true,
           // });
           finalArr.push({
-            description: `OFFHIRE${offHireArr?.length > 1 ? `-${index + 1}` : ''
-              } LSFO`,
+            description: `OFFHIRE${
+              offHireArr?.length > 1 ? `-${index + 1}` : ''
+            } LSFO`,
             tctransactionId: 0,
             duration: 0,
             quantity: item?.offHireLsfoqty,
@@ -315,8 +317,9 @@ export const GetTransactionDetails = async (
             isQty: { name: 'quantity' },
           });
           finalArr.push({
-            description: `OFFHIRE${offHireArr?.length > 1 ? `-${index + 1}` : ''
-              } LSMGO`,
+            description: `OFFHIRE${
+              offHireArr?.length > 1 ? `-${index + 1}` : ''
+            } LSMGO`,
             tctransactionId: 0,
             duration: 0,
             quantity: item?.offHireLsmgoqty || 0,
@@ -328,8 +331,9 @@ export const GetTransactionDetails = async (
             isQty: { name: 'quantity' },
           });
           finalArr.push({
-            description: `OFFHIRE${offHireArr?.length > 1 ? `-${index + 1}` : ''
-              } C/V/E`,
+            description: `OFFHIRE${
+              offHireArr?.length > 1 ? `-${index + 1}` : ''
+            } C/V/E`,
             tctransactionId: 0,
             duration: item?.offHireDurOnPercentage,
             quantity: 0,
@@ -340,8 +344,9 @@ export const GetTransactionDetails = async (
             isChecked: true,
           });
           finalArr.push({
-            description: `OFFHIRE${offHireArr?.length > 1 ? `-${index + 1}` : ''
-              } OTHERS`,
+            description: `OFFHIRE${
+              offHireArr?.length > 1 ? `-${index + 1}` : ''
+            } OTHERS`,
             tctransactionId: 0,
             duration: 0,
             quantity: 0,
@@ -547,7 +552,7 @@ export const GetTransactionDetails = async (
 export const getTimeCharterHirePaid = async (vesselId, voyageId, setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Transaction/GetTimeCharterHirePaid?VesselId=${vesselId}&VoyageId=${voyageId}`,
+      `${imarineBaseUrl}/domain/Transaction/GetTimeCharterHirePaid?VesselId=${vesselId}&VoyageId=${voyageId}`
     );
     setter(res?.data);
   } catch (err) {
@@ -558,7 +563,7 @@ export const getTimeCharterHirePaid = async (vesselId, voyageId, setter) => {
 export const getOwnerBankInfoDetailsById = async (ownerId, setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderViewDetailsById?stakeholderId=${ownerId}`,
+      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderViewDetailsById?stakeholderId=${ownerId}`
     );
     setter(res?.data);
   } catch (err) {
@@ -571,11 +576,11 @@ export const timeCharterReceiveAmountUpdate = async (
   tcTransactionId,
   amount,
   date,
-  cb,
+  cb
 ) => {
   try {
     const res = await axios.put(
-      `${imarineBaseUrl}/domain/TimeCharterTransaction/EditTimeCharterTrnsReceiveAmount?BusinessUnitId=${buId}&TctransactionId=${tcTransactionId}&TotalReceivedAmount=${amount}&ReceiveDate=${date}`,
+      `${imarineBaseUrl}/domain/TimeCharterTransaction/EditTimeCharterTrnsReceiveAmount?BusinessUnitId=${buId}&TctransactionId=${tcTransactionId}&TotalReceivedAmount=${amount}&ReceiveDate=${date}`
     );
     toast.success(res?.data?.message, { toastId: 234 });
     cb();
@@ -591,12 +596,12 @@ export const getSalesOrgList = async (
   buId,
   sbuId,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `/oms/SalesOrder/GetSODDLbySBUId?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbuId}`,
+      `/oms/SalesOrder/GetSODDLbySBUId?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbuId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -614,7 +619,7 @@ export const createJournalForTimeCharter = async (
   tctransactionId,
   rowData,
   setLoading,
-  cb,
+  cb
 ) => {
   setLoading(true);
   const payload = getPayload(
@@ -623,12 +628,12 @@ export const createJournalForTimeCharter = async (
     buId,
     values,
     tctransactionId,
-    rowData,
+    rowData
   );
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/TimeCharterTransaction/TimeCharterJournal`,
-      payload,
+      payload
     );
     toast.success(res?.data?.message, { toastId: 234 });
     cb();
@@ -672,7 +677,7 @@ export const editTimeCharterTransaction = async (payload, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/TimeCharterTransaction/EditTimeCharterTransaction`,
-      payload,
+      payload
     );
     toast.success(res?.data?.message);
     setLoading(false);
@@ -693,7 +698,7 @@ export const createTimeCharterBR = async (
   vesselName,
   receiveDate,
   setLoading,
-  cb,
+  cb
 ) => {
   setLoading && setLoading(true);
   try {
@@ -701,7 +706,7 @@ export const createTimeCharterBR = async (
     //   `/fino/BankJournal/TimeCharterBR?businessUnitId=${buId}&accountId=${accId}&charterId=${charterId}&amount=${amount}&bankAccountId=${bankAccId}`
     // );
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/VoyageCharter/TimeCharterBRNew?businessUnitId=${buId}&accountId=${accId}&charterId=${charterId}&amount=${amount}&bankAccountId=${bankAccId}&VoyageNo=${voyageNo}&HireNo=${hireNo}&VesselName=${vesselName}&receiveDate=${receiveDate}`,
+      `${imarineBaseUrl}/domain/VoyageCharter/TimeCharterBRNew?businessUnitId=${buId}&accountId=${accId}&charterId=${charterId}&amount=${amount}&bankAccountId=${bankAccId}&VoyageNo=${voyageNo}&HireNo=${hireNo}&VesselName=${vesselName}&receiveDate=${receiveDate}`
     );
     toast.success(res?.data?.message);
     cb && cb();

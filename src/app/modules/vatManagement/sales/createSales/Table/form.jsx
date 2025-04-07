@@ -1,14 +1,13 @@
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
 
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { getGridData, getVatBranches } from "../helper";
-import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { getGridData, getVatBranches } from '../helper';
+import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 
 export function SearchForm({
   onSubmit,
@@ -16,7 +15,7 @@ export function SearchForm({
   setLoading,
   setSearchFormValues,
 }) {
-  const [taxBranchDDL, setTaxBranchDDL] = useState("");
+  const [taxBranchDDL, setTaxBranchDDL] = useState('');
 
   const history = useHistory();
 
@@ -87,8 +86,8 @@ export function SearchForm({
             <div
               className="text-right"
               style={{
-                paddingBottom: "10px",
-                marginTop: "-41px",
+                paddingBottom: '10px',
+                marginTop: '-41px',
               }}
             >
               <button
@@ -98,7 +97,7 @@ export function SearchForm({
                 disabled={!values?.taxBranch}
                 onClick={() =>
                   history.push({
-                    pathname: "/mngVat/sales/create/create",
+                    pathname: '/mngVat/sales/create/create',
                     state: { taxBranch: values.taxBranch },
                   })
                 }
@@ -114,7 +113,7 @@ export function SearchForm({
                   value={values?.taxBranch}
                   label="Select Branch"
                   onChange={(valueOption) => {
-                    setFieldValue("taxBranch", valueOption);
+                    setFieldValue('taxBranch', valueOption);
                   }}
                   placeholder=" Branch"
                   errors={errors}
@@ -148,7 +147,7 @@ export function SearchForm({
                 <button
                   type="submit"
                   class="btn btn-primary"
-                  style={{ marginTop: "16px" }}
+                  style={{ marginTop: '16px' }}
                   // ref={btnRef}
                   onSubmit={() => {
                     handleSubmit();

@@ -1,33 +1,34 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import Loading from "../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../_helper/_todayDate";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import Loading from '../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../_helper/_todayDate';
 import {
   GetSupplier_api,
   getLandingData,
   saveCommercialPayment,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 let initData = {
-  polcNo: "",
-  supplier: "",
-  billingStatus:  { value: 0, label: "Pending" },
-  billNo: "",
-  fromDate:_dateFormatter(new Date(new Date().setDate(new Date().getDate()-7))),
-  toDate:_todayDate(),
-  vatamount: "",
-  chargeType:"",
-  subChargeType:"",
+  polcNo: '',
+  supplier: '',
+  billingStatus: { value: 0, label: 'Pending' },
+  billNo: '',
+  fromDate: _dateFormatter(
+    new Date(new Date().setDate(new Date().getDate() - 7))
+  ),
+  toDate: _todayDate(),
+  vatamount: '',
+  chargeType: '',
+  subChargeType: '',
 };
 
 const statusOption = [
-  { value: 0, label: "Pending" },
-  { value: 1, label: "Done" },
+  { value: 0, label: 'Pending' },
+  { value: 1, label: 'Done' },
 ];
 
 export function CommercialPayment() {
@@ -38,9 +39,8 @@ export function CommercialPayment() {
   const [allSelect, setAllSelect] = useState(false);
   const [uploadImage, setUploadImage] = useState([]);
   const [objProps] = useState({});
-  const [totalCount, setTotalCount] = useState("");
+  const [totalCount, setTotalCount] = useState('');
   const { state } = useLocation();
-
 
   const [supplierDDL, setSupplierDDL] = useState([]);
 
@@ -49,8 +49,10 @@ export function CommercialPayment() {
   }, shallowEqual);
 
   const rowDtoSelectHandler = (costTypeName, name, value, sl, item) => {
-    if(item?.modifyVatPercentage){
-      return toast.warn("After modifying Modify Vat Percentage you cannot check or uncheck. If you want to change, reload this page and do it again")
+    if (item?.modifyVatPercentage) {
+      return toast.warn(
+        'After modifying Modify Vat Percentage you cannot check or uncheck. If you want to change, reload this page and do it again'
+      );
     }
     let data = [...rowDto];
     const isCheckPreviousVlaue = data.some(
@@ -61,10 +63,10 @@ export function CommercialPayment() {
       _sl[name] = value;
       setRowDto(data);
     } else {
-     const modifiedData = data.map(item=>({...item,isSelect:false}))
-     let _sl = modifiedData[sl];
-     _sl[name] = value;
-     setRowDto(modifiedData);
+      const modifiedData = data.map((item) => ({ ...item, isSelect: false }));
+      let _sl = modifiedData[sl];
+      _sl[name] = value;
+      setRowDto(modifiedData);
     }
   };
 
@@ -77,17 +79,21 @@ export function CommercialPayment() {
 
   const setAllCheck = () => {
     setAllSelect(!allSelect);
-    const data = rowDto?.map((item) =>{
-      if(item.costTypeId===12 || item.costTypeId===21 || item.costTypeId===22){
-        return({
+    const data = rowDto?.map((item) => {
+      if (
+        item.costTypeId === 12 ||
+        item.costTypeId === 21 ||
+        item.costTypeId === 22
+      ) {
+        return {
           ...item,
           isSelect: false,
-        })
-      }else{
-        return({
+        };
+      } else {
+        return {
           ...item,
           isSelect: !allSelect,
-        })
+        };
       }
     });
     setRowDto(data);
@@ -104,8 +110,8 @@ export function CommercialPayment() {
       getLandingData(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        "",
-        "",
+        '',
+        '',
         0,
         setRowDto,
         pageNo,
@@ -116,7 +122,13 @@ export function CommercialPayment() {
     }
   }, [profileData, selectedBusinessUnit]);
 
-  const getLandingDataForCommercialBill = (poLc, supplierId, billingStatus, chargeTypeName = "", subChargeTypeId = 0) => {
+  const getLandingDataForCommercialBill = (
+    poLc,
+    supplierId,
+    billingStatus,
+    chargeTypeName = '',
+    subChargeTypeId = 0
+  ) => {
     getLandingData(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -143,18 +155,18 @@ export function CommercialPayment() {
         values?.supplier?.value,
         profileData?.userId,
         values?.billNo,
-        uploadImage[0]?.id || "",
+        uploadImage[0]?.id || '',
         rowDto,
         setDisabled,
         cb,
-        () => getLandingDataForCommercialBill("", "", 0, "", 0)
+        () => getLandingDataForCommercialBill('', '', 0, '', 0)
       );
     } else {
-      toast.error("Please Enter Bill No");
+      toast.error('Please Enter Bill No');
     }
   };
 
-const rowData = rowDto.map((item) => ({
+  const rowData = rowDto.map((item) => ({
     ...item,
     vatAmount: item?.vatamount,
   }));

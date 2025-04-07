@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "./../../../../_helper/_select";
-import {
-  getEmployee,
-    getSalesForceMonthlyTaDaById,
-} from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { getMonthDDL } from "../../../../_helper/_commonApi";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from './../../../../_helper/_select';
+import { getEmployee, getSalesForceMonthlyTaDaById } from '../helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { getMonthDDL } from '../../../../_helper/_commonApi';
 export default function FormCmp({
   initData,
   saveHandler,
@@ -24,22 +21,22 @@ export default function FormCmp({
   const [employeeDDL, setEmployeeDDL] = useState([]);
   const [monthDDL, setMonthDDL] = useState([]);
   const yearDDL = [
-    { value: 2020, label: "2020" },
-    { value: 2021, label: "2021" },
-    { value: 2022, label: "2022" },
-    { value: 2023, label: "2023" },
-    { value: 2024, label: "2024" },
-    { value: 2025, label: "2025" },
+    { value: 2020, label: '2020' },
+    { value: 2021, label: '2021' },
+    { value: 2022, label: '2022' },
+    { value: 2023, label: '2023' },
+    { value: 2024, label: '2024' },
+    { value: 2025, label: '2025' },
   ];
   const headers = [
-    "SL",
-    "Date",
-    "Day Name",
-    "Working Day Status",
-    "Present Status",
-    "Daily DA Amount",
-    "Aditional Amount",
-    "Deduction Amount",
+    'SL',
+    'Date',
+    'Day Name',
+    'Working Day Status',
+    'Present Status',
+    'Daily DA Amount',
+    'Aditional Amount',
+    'Deduction Amount',
   ];
   const showRowData = (values, setValues) => {
     // console.log(value)
@@ -129,7 +126,6 @@ export default function FormCmp({
           setValues,
         }) => (
           <>
-
             <Form className="form form-label-right">
               <div className="form-group">
                 <div className="row align-items-end">
@@ -140,7 +136,7 @@ export default function FormCmp({
                       value={values?.employeeDDL}
                       label="Employee Name"
                       onChange={(valueOption) => {
-                        setFieldValue("employeeDDL", valueOption);
+                        setFieldValue('employeeDDL', valueOption);
                       }}
                       placeholder="Employee"
                       errors={errors}
@@ -154,7 +150,7 @@ export default function FormCmp({
                       value={values?.monthDDL}
                       label="Month"
                       onChange={(valueOption) => {
-                        setFieldValue("monthDDL", valueOption);
+                        setFieldValue('monthDDL', valueOption);
                       }}
                       placeholder="month"
                       errors={errors}
@@ -168,7 +164,7 @@ export default function FormCmp({
                       value={values?.yearDDL}
                       label="Year"
                       onChange={(valueOption) => {
-                        setFieldValue("yearDDL", valueOption);
+                        setFieldValue('yearDDL', valueOption);
                       }}
                       placeholder="Year"
                       errors={errors}
@@ -177,7 +173,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3">
                     <button
-                      className={"btn btn-sm btn-primary"}
+                      className={'btn btn-sm btn-primary'}
                       type="button"
                       onClick={(e) =>
                         showRowData(
@@ -253,7 +249,7 @@ export default function FormCmp({
                   <div className="col-lg-3 ">
                     <label>Total DA Amount</label>
                     <InputField
-                      value={getSum(rowData, "dailyDaAmount")}
+                      value={getSum(rowData, 'dailyDaAmount')}
                       name="totalDaamount"
                       placeholder="Total Da Amount"
                       type="text"
@@ -263,7 +259,7 @@ export default function FormCmp({
                   <div className="col-lg-3 ">
                     <label>Addition Amount</label>
                     <InputField
-                      value={getSum(rowData, "additionalAmount")}
+                      value={getSum(rowData, 'additionalAmount')}
                       name="additionalAmount"
                       placeholder="Additional Amount"
                       type="text"
@@ -273,7 +269,7 @@ export default function FormCmp({
                   <div className="col-lg-3 ">
                     <label>Deduction Amount</label>
                     <InputField
-                      value={getSum(rowData, "deductionAmount")}
+                      value={getSum(rowData, 'deductionAmount')}
                       name="deductionAmount"
                       placeholder="Deduction Amount"
                       type="text"
@@ -331,12 +327,12 @@ export default function FormCmp({
                 <tbody>
                   {rowData.length > 0 &&
                     rowData.map((data, index) => (
-                      <tr style={{ textAlign: "center" }} key={index}>
+                      <tr style={{ textAlign: 'center' }} key={index}>
                         <td>{index + 1}</td>
                         <td>{_dateFormatter(data.date)}</td>
                         <td>{data.dayName}</td>
                         <td>{data.workingDayStatus}</td>
-                        <td>{data.present ? "Present" : "Absent"}</td>
+                        <td>{data.present ? 'Present' : 'Absent'}</td>
                         <td className="text-right">
                           <input
                             name="dailyDaAmount"
@@ -345,7 +341,7 @@ export default function FormCmp({
                             className="w-100"
                             onChange={(e) => {
                               inputHandler(
-                                "dailyDaAmount",
+                                'dailyDaAmount',
                                 e.target.value,
                                 index,
                                 rowData,
@@ -362,7 +358,7 @@ export default function FormCmp({
                             className="w-100"
                             onChange={(e) => {
                               inputHandler(
-                                "additionalAmount",
+                                'additionalAmount',
                                 e.target.value,
                                 index,
                                 rowData,
@@ -379,7 +375,7 @@ export default function FormCmp({
                             className="w-100"
                             onChange={(e) => {
                               inputHandler(
-                                "deductionAmount",
+                                'deductionAmount',
                                 e.target.value,
                                 index,
                                 rowData,
@@ -391,29 +387,29 @@ export default function FormCmp({
                       </tr>
                     ))}
                   {rowData.length > 0 && (
-                    <tr style={{ textAlign: "center" }}>
+                    <tr style={{ textAlign: 'center' }}>
                       <td></td>
                       <td></td>
                       <td></td>
                       <td></td>
                       <td></td>
-                      <td>{getSum(rowData, "dailyDaAmount")}</td>
-                      <td>{getSum(rowData, "additionalAmount")}</td>
-                      <td>{getSum(rowData, "deductionAmount")}</td>
+                      <td>{getSum(rowData, 'dailyDaAmount')}</td>
+                      <td>{getSum(rowData, 'additionalAmount')}</td>
+                      <td>{getSum(rowData, 'deductionAmount')}</td>
                     </tr>
                   )}
                 </tbody>
               </table>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               {console.log(rowData)}
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onClick={() => {
                   resetForm();

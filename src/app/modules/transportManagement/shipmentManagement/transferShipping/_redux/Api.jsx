@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call GetSalesOfficeDDLbyId APi
 export function GetSalesOfficeDDLbyId(accId, buId, SalesOrgId) {
@@ -82,7 +82,6 @@ export function getLoadingPointDDL(accId, buId, pointId) {
 export function getPendingDeliveryapi(shippointid, buId, accId) {
   return axios.get(
     `/wms/ShipmentInventoryTranfer/GetPendingInvetoryShipment?AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${shippointid}`
-
   );
 }
 

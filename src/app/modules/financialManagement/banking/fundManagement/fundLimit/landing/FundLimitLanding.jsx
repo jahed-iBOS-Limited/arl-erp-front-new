@@ -1,32 +1,31 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useMemo, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useMemo, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../../_helper/_formatMoney";
-import IEdit from "../../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../../_helper/_helperIcons/_view";
-import IDelete from "../../../../../_helper/_helperIcons/_delete";
-import Loading from "../../../../../_helper/_loading";
-import NewSelect from "../../../../../_helper/_select";
-import PaginationTable from "../../../../../_helper/_tablePagination";
-import IViewModal from "../../../../../_helper/_viewModal";
+} from '../../../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../../_helper/_formatMoney';
+import IEdit from '../../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../../_helper/_helperIcons/_view';
+import IDelete from '../../../../../_helper/_helperIcons/_delete';
+import Loading from '../../../../../_helper/_loading';
+import NewSelect from '../../../../../_helper/_select';
+import PaginationTable from '../../../../../_helper/_tablePagination';
+import IViewModal from '../../../../../_helper/_viewModal';
 import {
   DeleteFundManagementApi,
   getBusinessUnitDDL,
   getFundLimitLandingData,
-} from "../../helper";
-import FundLimitDetailsModal from "../view/FundLimitDetailsModal";
-import IConfirmModal from "../../../../../_helper/_confirmModal";
+} from '../../helper';
+import FundLimitDetailsModal from '../view/FundLimitDetailsModal';
+import IConfirmModal from '../../../../../_helper/_confirmModal';
 // import { ExcelRenderer } from "react-excel-renderer";
 
 // const header = [
@@ -46,9 +45,8 @@ const FundLimitLanding = () => {
   const history = useHistory();
 
   const initData = {
-    businessUnit: "",
+    businessUnit: '',
   };
-
 
   const [loading, setLoading] = useState(false);
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
@@ -67,7 +65,7 @@ const FundLimitLanding = () => {
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
-    console.log("values", values);
+    console.log('values', values);
     getFundLimitLandingData(
       profileData?.accountId,
       values?.businessUnit?.value,
@@ -98,7 +96,7 @@ const FundLimitLanding = () => {
     return fundLimitData?.data?.reduce(
       (a, c) =>
         a +
-        (c?.facilityName === "STL" && c?.utilizedAmount < 0
+        (c?.facilityName === 'STL' && c?.utilizedAmount < 0
           ? 0
           : c?.utilizedAmount),
       0
@@ -109,7 +107,7 @@ const FundLimitLanding = () => {
       fundLimitData?.data?.reduce(
         (a, c) =>
           a +
-          (c?.facilityName === "STL" && c?.utilizedAmount < 0
+          (c?.facilityName === 'STL' && c?.utilizedAmount < 0
             ? c?.numLimit
             : c?.numLimit - c?.utilizedAmount),
         0
@@ -142,7 +140,7 @@ const FundLimitLanding = () => {
           <div className="">
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Fund Limit"}>
+              <CardHeader title={'Fund Limit'}>
                 <CardHeaderToolbar>
                   <button
                     className="btn btn-primary ml-2"
@@ -172,17 +170,17 @@ const FundLimitLanding = () => {
                       <NewSelect
                         name="businessUnit"
                         options={
-                          [{ value: 0, label: "All" }, ...businessUnitDDL] || []
+                          [{ value: 0, label: 'All' }, ...businessUnitDDL] || []
                         }
                         value={values?.businessUnit}
                         label="BusinessUnit"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("businessUnit", valueOption);
+                            setFieldValue('businessUnit', valueOption);
                             setFundLimitData([]);
                           } else {
                             setFundLimitData([]);
-                            setFieldValue("businessUnit", "");
+                            setFieldValue('businessUnit', '');
                           }
                         }}
                         placeholder="BusinessUnit"
@@ -315,7 +313,7 @@ const FundLimitLanding = () => {
                                 <th>Interest</th>
                                 <th>Rate Review</th>
                                 <th>Remarks</th>
-                                <th style={{ width: "70px" }}>Action</th>
+                                <th style={{ width: '70px' }}>Action</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -335,13 +333,13 @@ const FundLimitLanding = () => {
                                       {_formatMoney(item?.numLimit)}
                                     </td>
                                     <td className="text-right">
-                                      {item?.facilityName === "STL" &&
+                                      {item?.facilityName === 'STL' &&
                                       item?.utilizedAmount < 0
                                         ? _formatMoney(0)
                                         : _formatMoney(item?.utilizedAmount)}
                                     </td>
                                     <td className="text-right">
-                                      {item?.facilityName === "STL" &&
+                                      {item?.facilityName === 'STL' &&
                                       item?.utilizedAmount < 0
                                         ? _formatMoney(item?.numLimit)
                                         : _formatMoney(
@@ -373,13 +371,13 @@ const FundLimitLanding = () => {
                                     <td className="text-center">
                                       <div
                                         style={{
-                                          display: "flex",
-                                          gap: "10px",
-                                          alignItems: "center",
+                                          display: 'flex',
+                                          gap: '10px',
+                                          alignItems: 'center',
                                         }}
                                       >
                                         <span
-                                          style={{ marginRight: "4px" }}
+                                          style={{ marginRight: '4px' }}
                                           onClick={() => {
                                             setSingleItem(item);
                                             setIsModalShow(true);
@@ -403,7 +401,7 @@ const FundLimitLanding = () => {
                                             <span
                                               onClick={() => {
                                                 let confirmObject = {
-                                                  title: "Are you sure?",
+                                                  title: 'Are you sure?',
                                                   message: `Are you sure you want to delete this complain?`,
                                                   yesAlertFunc: () => {
                                                     DeleteFundManagementApi(
@@ -441,17 +439,17 @@ const FundLimitLanding = () => {
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td style={{ textAlign: "right" }}>
+                                <td style={{ textAlign: 'right' }}>
                                   <b>Total</b>
                                 </td>
 
-                                <td style={{ textAlign: "right" }}>
+                                <td style={{ textAlign: 'right' }}>
                                   <b>{_formatMoney(totalLimitAmount)}</b>
                                 </td>
-                                <td style={{ textAlign: "right" }}>
+                                <td style={{ textAlign: 'right' }}>
                                   <b>{_formatMoney(totalUtilizedAmount)}</b>
                                 </td>
-                                <td style={{ textAlign: "right" }}>
+                                <td style={{ textAlign: 'right' }}>
                                   <b>{_formatMoney(totalBalance)}</b>
                                 </td>
                                 <td></td>
@@ -472,7 +470,7 @@ const FundLimitLanding = () => {
             <IViewModal
               show={isModalShow}
               onHide={() => setIsModalShow(false)}
-              title={"Fund Limit Details"}
+              title={'Fund Limit Details'}
             >
               <FundLimitDetailsModal singleItem={singleItem} />
             </IViewModal>

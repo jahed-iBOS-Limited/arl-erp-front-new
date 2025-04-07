@@ -1,16 +1,16 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router-dom";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { collectPayment, ValidationSchema, getSalesOrgList } from "../helper";
+} from '../../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { collectPayment, ValidationSchema, getSalesOrgList } from '../helper';
 
 export default function FormCmp({
   initData,
@@ -57,11 +57,11 @@ export default function FormCmp({
             <Card>
               <CardHeader
                 title={
-                  type === "edit"
-                    ? "Edit Asset Rent Invoice"
-                    : type === "view"
-                    ? "View Asset Rent Invoice"
-                    : "Create Asset Rent Invoice"
+                  type === 'edit'
+                    ? 'Edit Asset Rent Invoice'
+                    : type === 'view'
+                      ? 'View Asset Rent Invoice'
+                      : 'Create Asset Rent Invoice'
                 }
               >
                 <CardHeaderToolbar>
@@ -70,7 +70,7 @@ export default function FormCmp({
                     onClick={() => {
                       history.goBack();
                     }}
-                    className={false ? "d-none" : "btn btn-light"}
+                    className={false ? 'd-none' : 'btn btn-light'}
                   >
                     <i className="fa fa-arrow-left"></i>
                     Back
@@ -82,9 +82,9 @@ export default function FormCmp({
                       resetForm(initData);
                     }}
                     className={
-                      type === "view" || type === "cash"
-                        ? "d-none"
-                        : "btn btn-light ml-2"
+                      type === 'view' || type === 'cash'
+                        ? 'd-none'
+                        : 'btn btn-light ml-2'
                     }
                   >
                     <i className="fa fa-redo"></i>
@@ -94,12 +94,12 @@ export default function FormCmp({
                   <button
                     type="submit"
                     className={
-                      type === "view" || type === "cash"
-                        ? "d-none"
-                        : "btn btn-primary ml-2"
+                      type === 'view' || type === 'cash'
+                        ? 'd-none'
+                        : 'btn btn-primary ml-2'
                     }
                     onClick={handleSubmit}
-                    disabled={type === "view"}
+                    disabled={type === 'view'}
                   >
                     Save
                   </button>
@@ -117,7 +117,7 @@ export default function FormCmp({
                           value={values?.sbu}
                           label="SBU"
                           onChange={(valueOption) => {
-                            setFieldValue("sbu", valueOption);
+                            setFieldValue('sbu', valueOption);
                             getSalesOrgList(
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
@@ -139,7 +139,7 @@ export default function FormCmp({
                           value={values?.salesOrganization}
                           label="Sales Organization"
                           onChange={(valueOption) => {
-                            setFieldValue("salesOrganization", valueOption);
+                            setFieldValue('salesOrganization', valueOption);
                           }}
                           placeholder="Sales Organization"
                           errors={errors}
@@ -155,7 +155,7 @@ export default function FormCmp({
                           value={values?.partner}
                           label="Customer"
                           onChange={(valueOption) => {
-                            setFieldValue("partner", valueOption);
+                            setFieldValue('partner', valueOption);
                           }}
                           placeholder="Customer"
                           errors={errors}
@@ -174,7 +174,7 @@ export default function FormCmp({
                         />
                       </div>
                       {!type ? (
-                        <div style={{ marginTop: "17px" }} className="col-lg-1">
+                        <div style={{ marginTop: '17px' }} className="col-lg-1">
                           <button
                             type="button"
                             className="btn btn-primary"
@@ -185,8 +185,8 @@ export default function FormCmp({
                             View
                           </button>
                         </div>
-                      ) : type === "cash" ? (
-                        <div style={{ marginTop: "17px" }} className="col-lg-2">
+                      ) : type === 'cash' ? (
+                        <div style={{ marginTop: '17px' }} className="col-lg-2">
                           <button
                             type="button"
                             className="btn btn-primary"
@@ -205,13 +205,13 @@ export default function FormCmp({
                       ) : null}
                       <div
                         style={{
-                          marginTop: "17px",
-                          fontSize: "1rem",
+                          marginTop: '17px',
+                          fontSize: '1rem',
                         }}
                         className="col-lg-2"
                       >
                         <b>
-                          Total Rent Amount:{" "}
+                          Total Rent Amount:{' '}
                           {totalRentAmount || values?.totalInvoiceAmount}
                         </b>
                       </div>
@@ -220,171 +220,173 @@ export default function FormCmp({
 
                   <button
                     type="submit"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     onSubmit={() => handleSubmit()}
                   ></button>
 
                   <button
                     type="reset"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     onSubmit={() => resetForm(initData)}
                   ></button>
                 </Form>
                 {!type && rowDto?.length > 0 && (
-                 <div className="table-responsive">
-                   <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>
-                          <input
-                            type="checkbox"
-                            name="isSelect"
-                            // checked={allSelect}
-                            value={false}
-                            onChange={(e) => {
-                              getTotalAmount(
-                                rowDto?.map((item) => ({
-                                  ...item,
-                                  isSelect: e?.target?.checked,
-                                }))
-                              );
-                              setRowDto(
-                                rowDto?.map((item) => ({
-                                  ...item,
-                                  isSelect: e?.target?.checked,
-                                }))
-                              );
-                            }}
-                            id="isSelect"
-                          />
-                        </th>
-                        <th>SL</th>
-                        <th>Rent Type Name</th>
-                        <th>Business Partner Name</th>
-                        <th>SBU</th>
-                        <th>Asset Name</th>
-                        <th>Rent From Date</th>
-                        <th>Rent To Date</th>
-                        <th>Rent Rate</th>
-                        <th>Rent Amount</th>
-                        <th>Currency Name</th>
-                        <th>Conversation Rate</th>
-                        {/* <th>Action</th> */}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowDto?.map((item, index) => (
-                        <tr key={index}>
-                          <td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>
                             <input
                               type="checkbox"
                               name="isSelect"
-                              value={item?.isSelect}
-                              checked={item?.isSelect}
-                              id="isSelect"
+                              // checked={allSelect}
+                              value={false}
                               onChange={(e) => {
-                                rowDataHandler(
-                                  "isSelect",
-                                  e?.target?.checked,
-                                  index
+                                getTotalAmount(
+                                  rowDto?.map((item) => ({
+                                    ...item,
+                                    isSelect: e?.target?.checked,
+                                  }))
+                                );
+                                setRowDto(
+                                  rowDto?.map((item) => ({
+                                    ...item,
+                                    isSelect: e?.target?.checked,
+                                  }))
                                 );
                               }}
+                              id="isSelect"
                             />
-                          </td>
-                          <td>
-                            <div className="text-center">{index + 1}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.rentTypeName}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">
-                              {item?.businessPartnerName}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.sbuName}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.assetName}</div>
-                          </td>
-                          <td>
-                            <div className="text-center">
-                              {_dateFormatter(item?.rentFromDate)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-center">
-                              {item?.rentToDate
-                                ? _dateFormatter(item?.rentToDate)
-                                : "-"}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-right">{item?.rentRate}</div>
-                          </td>
-                          <td>
-                            <div className="text-right">{item?.rentAmount}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.currencyName}</div>
-                          </td>
-                          <td>
-                            <div className="text-right">
-                              {item?.currConversationRate}
-                            </div>
-                          </td>
+                          </th>
+                          <th>SL</th>
+                          <th>Rent Type Name</th>
+                          <th>Business Partner Name</th>
+                          <th>SBU</th>
+                          <th>Asset Name</th>
+                          <th>Rent From Date</th>
+                          <th>Rent To Date</th>
+                          <th>Rent Rate</th>
+                          <th>Rent Amount</th>
+                          <th>Currency Name</th>
+                          <th>Conversation Rate</th>
+                          {/* <th>Action</th> */}
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                 </div>
+                      </thead>
+                      <tbody>
+                        {rowDto?.map((item, index) => (
+                          <tr key={index}>
+                            <td>
+                              <input
+                                type="checkbox"
+                                name="isSelect"
+                                value={item?.isSelect}
+                                checked={item?.isSelect}
+                                id="isSelect"
+                                onChange={(e) => {
+                                  rowDataHandler(
+                                    'isSelect',
+                                    e?.target?.checked,
+                                    index
+                                  );
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <div className="text-center">{index + 1}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.rentTypeName}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.businessPartnerName}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.sbuName}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.assetName}</div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {_dateFormatter(item?.rentFromDate)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.rentToDate
+                                  ? _dateFormatter(item?.rentToDate)
+                                  : '-'}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-right">{item?.rentRate}</div>
+                            </td>
+                            <td>
+                              <div className="text-right">
+                                {item?.rentAmount}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.currencyName}</div>
+                            </td>
+                            <td>
+                              <div className="text-right">
+                                {item?.currConversationRate}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
                 {type && rowDtoById?.length > 0 && (
-                 <div className="table-responsive">
-                   <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Rent Type Name</th>
-                        <th>Rent From Date</th>
-                        <th>Rent To Date</th>
-                        <th>Rent Rate</th>
-                        <th>Currency Name</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowDtoById?.map((item, index) => (
-                        <tr key={index}>
-                          <td>
-                            <div className="text-center">{index + 1}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.rentTypeName}</div>
-                          </td>
-                          <td>
-                            <div className="text-center">
-                              {_dateFormatter(item?.rentFromDate)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-center">
-                              {item?.rentToDate
-                                ? _dateFormatter(item?.rentToDate)
-                                : "-"}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-right">{item?.rentRate}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.currencyName}</div>
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Rent Type Name</th>
+                          <th>Rent From Date</th>
+                          <th>Rent To Date</th>
+                          <th>Rent Rate</th>
+                          <th>Currency Name</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                 </div>
+                      </thead>
+                      <tbody>
+                        {rowDtoById?.map((item, index) => (
+                          <tr key={index}>
+                            <td>
+                              <div className="text-center">{index + 1}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.rentTypeName}</div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {_dateFormatter(item?.rentFromDate)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.rentToDate
+                                  ? _dateFormatter(item?.rentToDate)
+                                  : '-'}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-right">{item?.rentRate}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.currencyName}</div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
               </CardBody>
             </Card>

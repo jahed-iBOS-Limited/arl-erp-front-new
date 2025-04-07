@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../../_helper/_inputField";
-import CashRegisterReportTable from "../Table/table";
-import { getBusinessUnitDDL, getCashRegisterReport } from "./helper";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from '../../../../_helper/_select';
+import { shallowEqual, useSelector } from 'react-redux';
+import InputField from '../../../../_helper/_inputField';
+import CashRegisterReportTable from '../Table/table';
+import { getBusinessUnitDDL, getCashRegisterReport } from './helper';
 
 const validationSchema = Yup.object().shape({});
 
-export default function
-FormCmp({ initData }) {
+export default function FormCmp({ initData }) {
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
 
@@ -20,7 +19,6 @@ FormCmp({ initData }) {
 
   useEffect(() => {
     getBusinessUnitDDL(profileData?.accountId, setBusinessUnitDDL);
-
   }, [profileData?.accountId]);
 
   return (
@@ -50,7 +48,7 @@ FormCmp({ initData }) {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption);
+                      setFieldValue('businessUnit', valueOption);
                     }}
                     placeholder="Business Unit"
                     errors={errors}
@@ -58,34 +56,38 @@ FormCmp({ initData }) {
                   />
                 </div>
                 <div className="col-lg-3">
-                    <label>From Date</label>
-                    <InputField
-                      value={values?.fromDate}
-                      name="fromDate"
-                      placeholder="From Date"
-                      type="date"
-                      onChange={(e) => {
-                        setFieldValue("fromDate", e?.target?.value);
-                      }}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <label>To Date</label>
-                    <InputField
-                      value={values?.toDate}
-                      name="toDate"
-                      placeholder="To Date"
-                      type="date"
-                      min={values?.fromDate}
-                      onChange={(e) => {
-                        setFieldValue("toDate", e?.target?.value);
-                      }}
-                    />
-                  </div>
-                <div style={{ marginTop: "18px" }}>
+                  <label>From Date</label>
+                  <InputField
+                    value={values?.fromDate}
+                    name="fromDate"
+                    placeholder="From Date"
+                    type="date"
+                    onChange={(e) => {
+                      setFieldValue('fromDate', e?.target?.value);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <label>To Date</label>
+                  <InputField
+                    value={values?.toDate}
+                    name="toDate"
+                    placeholder="To Date"
+                    type="date"
+                    min={values?.fromDate}
+                    onChange={(e) => {
+                      setFieldValue('toDate', e?.target?.value);
+                    }}
+                  />
+                </div>
+                <div style={{ marginTop: '18px' }}>
                   <button
                     type="button"
-                    disabled={!values?.businessUnit||!values?.fromDate ||!values?.toDate}
+                    disabled={
+                      !values?.businessUnit ||
+                      !values?.fromDate ||
+                      !values?.toDate
+                    }
                     onClick={() => {
                       getCashRegisterReport({
                         fromDate: values?.fromDate,
@@ -101,7 +103,7 @@ FormCmp({ initData }) {
                 </div>
               </div>
               <div>
-                <CashRegisterReportTable rowDto = {rowDto} />
+                <CashRegisterReportTable rowDto={rowDto} />
               </div>
             </Form>
           </>

@@ -51,10 +51,9 @@ export default function AirPreAlert({ rowClickData }) {
   useEffect(() => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
       );
     }
-
   }, [bookingRequestId]);
 
   return (

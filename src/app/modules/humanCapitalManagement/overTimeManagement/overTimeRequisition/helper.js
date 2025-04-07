@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const loadUserListAction = (accId, buId, searchValue) => {
   if (searchValue?.length < 2) return [];
@@ -32,12 +32,12 @@ export const saveOvertimeReqAction = async (
       strEmployeeName: item?.employee?.label,
       strReasonForOvertime: item?.reason,
       intCurrentShiftId: item?.employee?.employeeCalenderId || 0,
-      strCurrentShiftName: item?.employee?.employeeCalenderName || "",
+      strCurrentShiftName: item?.employee?.employeeCalenderName || '',
       intRequestedOtShiftId: item?.reqOtShift?.value,
       strRequestedOtShiftName: item?.reqOtShift?.label,
       strHoursMinute: `${item?.hour}:${
-        item?.minutes.toString().length === 1 ? "0" : ""
-      }${item?.minutes || "0"}`,
+        item?.minutes.toString().length === 1 ? '0' : ''
+      }${item?.minutes || '0'}`,
       intActionBy: profileData?.userId,
     }));
     const res = await axios.post(
@@ -46,9 +46,9 @@ export const saveOvertimeReqAction = async (
     );
     cb();
     setRowDto([]);
-    toast.success(res?.data?.message || "Save successfully");
+    toast.success(res?.data?.message || 'Save successfully');
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    toast.error(error?.response?.data?.message || 'Something went wrong');
   }
 };
 
@@ -88,9 +88,9 @@ export const removeOvertimeReqByIdAction = async (id, cb) => {
       `/hcm/HCMOvertimeRequisition/DeleteOvertimeRequisition?autoId=${id}`
     );
     cb();
-    toast.success(res?.data?.message || "Deleted successfully");
+    toast.success(res?.data?.message || 'Deleted successfully');
   } catch (error) {
-    toast.warn(error?.response?.data?.message || "Try again");
+    toast.warn(error?.response?.data?.message || 'Try again');
   }
 };
 

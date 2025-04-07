@@ -1,26 +1,24 @@
-
-
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import shortid from "shortid";
-import { toast } from "react-toastify";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import shortid from 'shortid';
+import { toast } from 'react-toastify';
 // import { uniqBy } from "lodash";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "../../../../_helper/_loading";
+import { useSelector, shallowEqual } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  businessunit: "",
-  employee: "",
-  orgtype: "",
-  orgname: "",
+  businessunit: '',
+  employee: '',
+  orgtype: '',
+  orgname: '',
 };
 
 export default function RoleEditForm({
@@ -30,7 +28,7 @@ export default function RoleEditForm({
   },
 }) {
   const [isDisabled, setDisabled] = useState(false);
-  const [datadb, setData] = useState("");
+  const [datadb, setData] = useState('');
   const [rowdataList, setRowdataList] = useState([]);
   const [emp, setEmp] = useState(null);
   // Get profile data from store
@@ -44,7 +42,6 @@ export default function RoleEditForm({
   }, shallowEqual);
 
   const setRowdataListFromChild = (data) => {
-
     // var uniq = uniqBy([...rowdataList, data], function(itm) {
     //   return itm.organizationUnitReffName;
     // });
@@ -55,8 +52,6 @@ export default function RoleEditForm({
     //   return ""
     // }
     setRowdataList([...rowdataList, data]);
-
-
   };
 
   const deleteFromChild = (payload) => {
@@ -69,7 +64,6 @@ export default function RoleEditForm({
     if (profileData && id && profileData.accountId) {
       getDataById(id, profileData.accountId);
     }
-
   }, [profileData]);
 
   const getDataById = async (id, accId) => {
@@ -93,24 +87,24 @@ export default function RoleEditForm({
             label: meta.businessUnitName,
           },
           employee: { value: meta.userId, label: meta.employeeName },
-          orgtype: { value: "", label: "" },
-          orgname: { value: "", label: "" },
+          orgtype: { value: '', label: '' },
+          orgname: { value: '', label: '' },
         });
       } else {
         const tobj = {
-          businessunit: { value: "", label: "" },
-          employee: { value: "0", label: "" },
-          orgtype: { value: "0", label: "" },
-          orgname: { value: "0", label: "" },
+          businessunit: { value: '', label: '' },
+          employee: { value: '0', label: '' },
+          orgtype: { value: '0', label: '' },
+          orgname: { value: '0', label: '' },
         };
         setData(tobj);
       }
     } catch (err) {
       const tobj = {
-        businessunit: { value: "", label: "" },
-        employee: { value: "", label: "" },
-        orgtype: { value: "", label: "" },
-        orgname: { value: "", label: "" },
+        businessunit: { value: '', label: '' },
+        employee: { value: '', label: '' },
+        orgtype: { value: '', label: '' },
+        orgname: { value: '', label: '' },
       };
       setData(tobj);
     }
@@ -125,7 +119,7 @@ export default function RoleEditForm({
         setEmp(empPayload);
         return true;
       } else {
-        alert("Employee already exist");
+        alert('Employee already exist');
         return false;
       }
     }
@@ -159,10 +153,10 @@ export default function RoleEditForm({
     try {
       setDisabled(true);
       const res = await Axios.put(
-        "/domain/RoleExtension/EditRoleExtension",
+        '/domain/RoleExtension/EditRoleExtension',
         RoleExtensionData
       );
-      toast.success(res.data?.message || "Submitted successfully", {
+      toast.success(res.data?.message || 'Submitted successfully', {
         toastId: shortid(),
       });
       setDisabled(false);

@@ -1,6 +1,6 @@
-import React from "react";
-import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import React from 'react';
+import InfoCircle from '../../../../_helper/_helperIcons/_infoCircle';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 
 const TableAssetRegister = ({
   setTableItem,
@@ -14,10 +14,10 @@ const TableAssetRegister = ({
           <thead>
             <tr>
               <th>SL</th>
-              <th style={{ width: "200px" }}>Item Name</th>
+              <th style={{ width: '200px' }}>Item Name</th>
               <th>Item Code</th>
-              <th style={{ minWidth: "100px" }}>UoM Name</th>
-              <th style={{ minWidth: "100px" }}>Warehouse</th>
+              <th style={{ minWidth: '100px' }}>UoM Name</th>
+              <th style={{ minWidth: '100px' }}>Warehouse</th>
               <th>Location</th>
               <th>Open Qty</th>
               <th>Open Value</th>
@@ -33,7 +33,7 @@ const TableAssetRegister = ({
               inventoryStatement?.map((item, index) => {
                 return (
                   <tr key={index}>
-                    <td style={{ width: "30px" }} className="text-center">
+                    <td style={{ width: '30px' }} className="text-center">
                       {item?.sl}
                     </td>
                     <td>
@@ -88,7 +88,7 @@ const TableAssetRegister = ({
                             itemId: item?.itemId,
                           });
                         }}
-                        classes={"text-primary"}
+                        classes={'text-primary'}
                       />
                     </td>
                   </tr>

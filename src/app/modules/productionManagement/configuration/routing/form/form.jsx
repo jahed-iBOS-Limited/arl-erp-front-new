@@ -1,35 +1,35 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import { IInput } from "../../../../_helper/_input";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import { IInput } from '../../../../_helper/_input';
 import {
   getWorkCenterNameDDL,
   getItemNameDDL,
   getCreatePageData,
   getShopFloorDDL,
   getBomNameDDL,
-} from "../helper";
-import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
+} from '../helper';
+import * as Yup from 'yup';
+import NewSelect from '../../../../_helper/_select';
 const validationSchema = Yup.object().shape({
   plantName: Yup.object().shape({
-    label: Yup.string().required("Plant Name is required"),
-    value: Yup.string().required("Plant Name is required"),
+    label: Yup.string().required('Plant Name is required'),
+    value: Yup.string().required('Plant Name is required'),
   }),
   shopFloorName: Yup.object().shape({
-    label: Yup.string().required("Shop Floor Name is required"),
-    value: Yup.string().required("Shop Floor Name is required"),
+    label: Yup.string().required('Shop Floor Name is required'),
+    value: Yup.string().required('Shop Floor Name is required'),
   }),
   workCenterName: Yup.object().shape({
-    label: Yup.string().required("Work Center Name is required"),
-    value: Yup.string().required("Work Center Name is required"),
+    label: Yup.string().required('Work Center Name is required'),
+    value: Yup.string().required('Work Center Name is required'),
   }),
   itemName: Yup.object().shape({
-    label: Yup.string().required("Item Name is required"),
-    value: Yup.string().required("Item Name is required"),
+    label: Yup.string().required('Item Name is required'),
+    value: Yup.string().required('Item Name is required'),
   }),
   bomNameDDL: Yup.object().shape({
-    label: Yup.string().required("BOM Name is required"),
-    value: Yup.string().required("BOM Name is required"),
+    label: Yup.string().required('BOM Name is required'),
+    value: Yup.string().required('BOM Name is required'),
   }),
 });
 
@@ -53,7 +53,6 @@ export default function FormCmp({
   profileData,
   id,
 }) {
-
   const [createPageData, setCreatePageData] = useState({});
   console.log({ workCenterNameDDL });
   return (
@@ -85,7 +84,7 @@ export default function FormCmp({
                     label="Plant Name"
                     options={plantNameDDL}
                     onChange={(valueOption) => {
-                      setFieldValue("plantName", valueOption);
+                      setFieldValue('plantName', valueOption);
                       setItemNameDDL([]);
                       setItemNameDDL([]);
                       setBomNameDDL([]);
@@ -95,16 +94,16 @@ export default function FormCmp({
                         valueOption?.value,
                         setShopFloorDDL
                       );
-                      setFieldValue("bomNameDDL", "");
-                      setFieldValue("shopFloorName", "");
-                      setFieldValue("workCenterName", "");
-                      setFieldValue("capacity", "");
-                      setFieldValue("setUpTime", "");
-                      setFieldValue("machineTime", "");
-                      setFieldValue("laborQty", "");
-                      setFieldValue("laborTime", "");
-                      setFieldValue("laborCost", "");
-                      setFieldValue("itemName", "");
+                      setFieldValue('bomNameDDL', '');
+                      setFieldValue('shopFloorName', '');
+                      setFieldValue('workCenterName', '');
+                      setFieldValue('capacity', '');
+                      setFieldValue('setUpTime', '');
+                      setFieldValue('machineTime', '');
+                      setFieldValue('laborQty', '');
+                      setFieldValue('laborTime', '');
+                      setFieldValue('laborCost', '');
+                      setFieldValue('itemName', '');
                     }}
                     value={id ? initData?.plantName : values.plantName}
                     name="plantName"
@@ -121,7 +120,7 @@ export default function FormCmp({
                     value={values?.shopFloorName}
                     label="Shop Floor Name"
                     onChange={(valueOption) => {
-                      setFieldValue("shopFloorName", valueOption);
+                      setFieldValue('shopFloorName', valueOption);
                       setItemNameDDL([]);
                       setBomNameDDL([]);
                       getWorkCenterNameDDL(
@@ -131,9 +130,9 @@ export default function FormCmp({
                         valueOption?.value,
                         setWorkCenterNameDDL
                       );
-                      setFieldValue("workCenterName", "");
-                      setFieldValue("itemName", "");
-                      setFieldValue("bomNameDDL", "");
+                      setFieldValue('workCenterName', '');
+                      setFieldValue('itemName', '');
+                      setFieldValue('bomNameDDL', '');
                     }}
                     placeholder="Shop Floor Name"
                     errors={errors}
@@ -146,7 +145,7 @@ export default function FormCmp({
                     label="Work Center Name"
                     options={workCenterNameDDL}
                     onChange={(valueOption) => {
-                      setFieldValue("workCenterName", valueOption);
+                      setFieldValue('workCenterName', valueOption);
                       setBomNameDDL([]);
                       getItemNameDDL(
                         profileData?.accountId,
@@ -155,8 +154,8 @@ export default function FormCmp({
                         valueOption?.value,
                         setItemNameDDL
                       );
-                      setFieldValue("itemName", "");
-                      setFieldValue("bomNameDDL", "");
+                      setFieldValue('itemName', '');
+                      setFieldValue('bomNameDDL', '');
                       getCreatePageData(
                         profileData.accountId,
                         selectedBusinessUnit?.value,
@@ -177,7 +176,7 @@ export default function FormCmp({
                     label="Item Name"
                     options={itemNameDDL}
                     onChange={(valueOption) => {
-                      setFieldValue("itemName", valueOption);
+                      setFieldValue('itemName', valueOption);
                       getBomNameDDL(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
@@ -186,7 +185,7 @@ export default function FormCmp({
                         values?.shopFloorName?.value,
                         setBomNameDDL
                       );
-                      setFieldValue("bomNameDDL", "");
+                      setFieldValue('bomNameDDL', '');
                     }}
                     value={values.itemName}
                     name="itemName"
@@ -197,14 +196,14 @@ export default function FormCmp({
                   />
                 </div>
               </div>
-              {console.log(values.itemName, "values.itemName")}
+              {console.log(values.itemName, 'values.itemName')}
               <div className="form-group row">
                 <div className="col-lg-3">
                   <NewSelect
                     label="BoM Name"
                     options={bomNameDDL}
                     onChange={(valueOption) => {
-                      setFieldValue("bomNameDDL", valueOption);
+                      setFieldValue('bomNameDDL', valueOption);
                     }}
                     value={values.bomNameDDL}
                     name="bomNameDDL"
@@ -218,7 +217,7 @@ export default function FormCmp({
                     value={
                       values.capacity
                         ? values.capacity
-                        : createPageData.workCenterCapacity || ""
+                        : createPageData.workCenterCapacity || ''
                     }
                     label="Work Center Capacity [Per Hour]"
                     name="capacity"
@@ -226,9 +225,9 @@ export default function FormCmp({
                     min="0"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("capacity", e.target.value);
+                        setFieldValue('capacity', e.target.value);
                       } else {
-                        setFieldValue("capacity", "");
+                        setFieldValue('capacity', '');
                       }
                     }}
                   />
@@ -238,16 +237,16 @@ export default function FormCmp({
                     value={
                       values.setUpTime
                         ? values.setUpTime
-                        : createPageData.setupTime || ""
+                        : createPageData.setupTime || ''
                     }
                     label="Setup Time [Per Min]"
                     name="setUpTime"
                     type="number"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("setUpTime", e.target.value);
+                        setFieldValue('setUpTime', e.target.value);
                       } else {
-                        setFieldValue("setUpTime", "");
+                        setFieldValue('setUpTime', '');
                       }
                     }}
                   />
@@ -281,21 +280,21 @@ export default function FormCmp({
                     value={
                       values.laborQty
                         ? values.laborQty
-                        : createPageData.laborQty || ""
+                        : createPageData.laborQty || ''
                     }
                     label="Labor Qty"
                     name="laborQty"
                     type="number"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("laborQty", e.target.value);
+                        setFieldValue('laborQty', e.target.value);
                         if (values?.machineTime) {
                           const laborTime =
                             e.target.value * values?.machineTime;
-                          setFieldValue("laborTime", laborTime);
+                          setFieldValue('laborTime', laborTime);
                         }
                       } else {
-                        setFieldValue("laborQty", "");
+                        setFieldValue('laborQty', '');
                       }
                     }}
                   />
@@ -338,14 +337,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

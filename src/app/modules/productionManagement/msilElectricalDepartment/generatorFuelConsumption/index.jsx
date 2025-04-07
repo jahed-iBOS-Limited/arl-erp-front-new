@@ -1,20 +1,19 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import PaginationTable from "../../../chartering/_chartinghelper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { setFuelConsumptionLandingAction } from "../../../_helper/reduxForLocalStorage/Actions";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { ITable } from "../../../_helper/_table";
-import IViewModal from "../../../_helper/_viewModal";
-import JVModalView from "./jvView";
-import { toast } from "react-toastify";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import PaginationTable from '../../../chartering/_chartinghelper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { setFuelConsumptionLandingAction } from '../../../_helper/reduxForLocalStorage/Actions';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { ITable } from '../../../_helper/_table';
+import IViewModal from '../../../_helper/_viewModal';
+import JVModalView from './jvView';
+import { toast } from 'react-toastify';
 
 export default function FuelConsumption() {
   const [pageNo, setPageNo] = useState(0);
@@ -36,7 +35,6 @@ export default function FuelConsumption() {
     getlandingData(
       `/mes/MSIL/GetElectricalGeneratorFuelConsumptionLanding?BusinessUnitId=${selectedBusinessUnit.value}&FromDate=${rebConsumptionLanding?.fromDate}&ToDate=${rebConsumptionLanding?.toDate}&Shift=${rebConsumptionLanding?.shift?.value}&pageNumber=${pageNo}&pageSize=${pageSize}`
     );
-
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -55,7 +53,7 @@ export default function FuelConsumption() {
       start.getFullYear() === end.getFullYear();
 
     if (!sameMonthAndYear) {
-      alert("Error: The selected dates must be in the same month and year.");
+      alert('Error: The selected dates must be in the same month and year.');
       return false;
     }
 
@@ -124,26 +122,26 @@ export default function FuelConsumption() {
                     <NewSelect
                       name="shift"
                       options={[
-                        { value: "", label: "ALL" },
-                        { value: "A", label: "A" },
-                        { value: "B", label: "B" },
-                        { value: "C", label: "C" },
-                        { value: "General", label: "General" },
+                        { value: '', label: 'ALL' },
+                        { value: 'A', label: 'A' },
+                        { value: 'B', label: 'B' },
+                        { value: 'C', label: 'C' },
+                        { value: 'General', label: 'General' },
                       ]}
                       value={values?.shift}
                       label="Shift"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("shift", valueOption);
+                          setFieldValue('shift', valueOption);
                         } else {
-                          setFieldValue("shift", { value: "", label: "ALL" });
+                          setFieldValue('shift', { value: '', label: 'ALL' });
                         }
                       }}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div style={{ marginTop: "15px" }} className="col-lg-1">
+                  <div style={{ marginTop: '15px' }} className="col-lg-1">
                     <button
                       type="button"
                       onClick={() => {
@@ -165,14 +163,14 @@ export default function FuelConsumption() {
                       Show
                     </button>
                   </div>
-                  <div className="col-lg-2" style={{ marginTop: "1px" }}>
+                  <div className="col-lg-2" style={{ marginTop: '1px' }}>
                     <button
                       onClick={() => {
                         if (validateDates(values?.fromDate, values?.toDate)) {
                           setShowJVModal(true);
                         } else {
                           toast.error(
-                            "Please select the first and last date of the same month to create JV."
+                            'Please select the first and last date of the same month to create JV.'
                           );
                         }
                       }}
@@ -184,13 +182,13 @@ export default function FuelConsumption() {
                   </div>
                 </div>
 
-                <div style={{ marginTop: "15px" }}>
+                <div style={{ marginTop: '15px' }}>
                   <div>
                     <div className="table-responsive">
                       <table className="table table-striped table-bordered global-table">
                         <thead>
                           <tr>
-                            <th style={{ width: "50px" }}>SL</th>
+                            <th style={{ width: '50px' }}>SL</th>
                             <th>Date</th>
                             <th>Shift</th>
                             <th>Generator Name</th>
@@ -243,7 +241,7 @@ export default function FuelConsumption() {
 
                   {showJVModal && (
                     <IViewModal
-                      title={"JV View for Fuel Consumption"}
+                      title={'JV View for Fuel Consumption'}
                       show={showJVModal}
                       onHide={() => {
                         setShowJVModal(false);

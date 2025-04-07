@@ -1,9 +1,8 @@
-
-import React, { useState } from "react";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Form from "./form";
+import React, { useState } from 'react';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Form from './form';
 
 const initData = {
   fromDate: _todayDate(),
@@ -15,7 +14,7 @@ export function FinencialRatiosAnalysis() {
 
   return (
     <IForm
-      title={"Financial Ratios"}
+      title={'Financial Ratios'}
       getProps={setObjprops}
       isHiddenSave
       isHiddenReset

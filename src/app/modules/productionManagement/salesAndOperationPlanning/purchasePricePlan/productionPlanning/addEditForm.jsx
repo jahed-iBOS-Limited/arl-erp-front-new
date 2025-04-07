@@ -1,26 +1,24 @@
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useLocation, useParams } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
-import { createProductionEntry, getProductionPlanning } from "../helper";
-import { toast } from "react-toastify";
-import { getPlantDDL } from "../../../../_helper/_commonApi";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useLocation, useParams } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
+import { createProductionEntry, getProductionPlanning } from '../helper';
+import { toast } from 'react-toastify';
+import { getPlantDDL } from '../../../../_helper/_commonApi';
 
 const initData = {
-  plant: "",
-  year: "",
-  horizon: "",
-  startDate: "",
-  endDate: "",
-  itemName: "",
-  qty: "",
-  planningHorizonId: "",
-  monthId: "",
-  itemPlanQty: "",
+  plant: '',
+  year: '',
+  horizon: '',
+  startDate: '',
+  endDate: '',
+  itemName: '',
+  qty: '',
+  planningHorizonId: '',
+  monthId: '',
+  itemPlanQty: '',
 };
 export default function PurchasePlanningForm({
   history,
@@ -28,11 +26,9 @@ export default function PurchasePlanningForm({
     params: { id },
   },
 }) {
-
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [gridData, setGridData] = useState([])
-
+  const [gridData, setGridData] = useState([]);
 
   const [singleData, setSingleData] = useState({});
   // DDL state
@@ -40,7 +36,6 @@ export default function PurchasePlanningForm({
   const [yearDDL, setYearDDL] = useState([]);
   const [horizonDDL, setHorizonDDL] = useState([]);
   const [itemNameDDL, setItemNameDDL] = useState([]);
-
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -70,22 +65,22 @@ export default function PurchasePlanningForm({
   const inputHandler = (item, value, name, rowDto, setRowDto) => {
     item[name] = value;
     setRowDto([...rowDto]);
-  }
+  };
 
   const saveHandler = (values, cb) => {
     if (values && profileData.accountId && selectedBusinessUnit) {
       const payload = {
         objHeader: {
-          "salesPlanId": +params?.salesPlanId,
-          "monthId": values?.horizon.value,
-          "yearId": singleData?.year.value,
-          "startDateTime": values?.startDate,
-          "endDateTime": values?.endDate,
-          "accountId": +profileData?.accountId,
-          "plantId": values?.plant?.value,
-          "businessUnitId": +selectedBusinessUnit?.value,
-          "isActive": true,
-          "actionBy": +profileData?.userId,
+          salesPlanId: +params?.salesPlanId,
+          monthId: values?.horizon.value,
+          yearId: singleData?.year.value,
+          startDateTime: values?.startDate,
+          endDateTime: values?.endDate,
+          accountId: +profileData?.accountId,
+          plantId: values?.plant?.value,
+          businessUnitId: +selectedBusinessUnit?.value,
+          isActive: true,
+          actionBy: +profileData?.userId,
         },
         objRow: gridData,
         // objRow: [
@@ -98,7 +93,7 @@ export default function PurchasePlanningForm({
         //     "isActive": true
         //   }
         // ],
-      }
+      };
       createProductionEntry(payload, cb);
     }
   };
@@ -107,15 +102,15 @@ export default function PurchasePlanningForm({
     var rowData = [];
     for (let i = 0; i < rowDto.length; i++) {
       rowData.push({
-        "itemId": rowDto[i].itemId,
-        "itemName": rowDto[i].itemName,
-        "uoMid": rowDto[i].uoMid,
-        "productionPlanQty": +rowDto[i].itemPlanQty,
-        "rate": 0,
-        "isActive": true
-      })
+        itemId: rowDto[i].itemId,
+        itemName: rowDto[i].itemName,
+        uoMid: rowDto[i].uoMid,
+        productionPlanQty: +rowDto[i].itemPlanQty,
+        rate: 0,
+        isActive: true,
+      });
     }
-    setGridData(rowData)
+    setGridData(rowData);
   }, [rowDto]);
 
   useEffect(() => {
@@ -125,9 +120,9 @@ export default function PurchasePlanningForm({
       params?.plantId,
       params?.salesPlanId,
       setSingleData,
-      setRowDto,
-    )
-  }, [params?.plantId, params?.salesPlanId])
+      setRowDto
+    );
+  }, [params?.plantId, params?.salesPlanId]);
 
   const [objProps, setObjprops] = useState({});
 
@@ -140,7 +135,7 @@ export default function PurchasePlanningForm({
       (item) => item?.itemId === values?.itemName?.value
     );
     if (findDuplicate) {
-      toast.warning("Item already added");
+      toast.warning('Item already added');
     } else {
       let rowDataValues = {
         itemId: values?.itemName?.value,
@@ -155,14 +150,16 @@ export default function PurchasePlanningForm({
 
   return (
     <IForm
-      title={params?.id ? "Production Plan Edit" : "Production Plan Create"}
+      title={params?.id ? 'Production Plan Edit' : 'Production Plan Create'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >
       {isDisabled && <Loading />}
       <Form
         {...objProps}
-        initData={(params?.plantId && params?.salesPlanId) ? singleData : initData}
+        initData={
+          params?.plantId && params?.salesPlanId ? singleData : initData
+        }
         saveHandler={saveHandler}
         profileData={profileData}
         selectedBusinessUnit={selectedBusinessUnit}

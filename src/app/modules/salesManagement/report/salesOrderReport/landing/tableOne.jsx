@@ -1,16 +1,11 @@
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
 
 export default function TableOne({ obj }) {
-  const {
-    values,
-    gridData,
-    setDetails,
-    setModalShow,
-    getSummaryReportData,
-  } = obj;
+  const { values, gridData, setDetails, setModalShow, getSummaryReportData } =
+    obj;
 
   let totalOrderQty = 0;
   let totalOrderValue = 0;
@@ -21,28 +16,28 @@ export default function TableOne({ obj }) {
     <>
       {gridData?.length > 0 && (
         <div className="loan-scrollable-table">
-          <div className="scroll-table _table" style={{ maxHeight: "400px" }}>
+          <div className="scroll-table _table" style={{ maxHeight: '400px' }}>
             <table className="table table-striped table-bordered bj-table bj-table-landing text-center">
               <thead>
                 <tr>
-                  <th style={{ minWidth: "50px" }}>SL</th>
+                  <th style={{ minWidth: '50px' }}>SL</th>
                   {values?.reportType?.value !== 1 && (
                     <>
-                      <th style={{ minWidth: "75px" }}>Order Date</th>
-                      <th style={{ minWidth: "95px" }}>Order Code</th>
+                      <th style={{ minWidth: '75px' }}>Order Date</th>
+                      <th style={{ minWidth: '95px' }}>Order Code</th>
                     </>
                   )}
 
-                  <th style={{ minWidth: "100px" }}>Customer Name</th>
-                  <th style={{ minWidth: "100px" }}>Customer Address</th>
-                  <th style={{ minWidth: "75px" }}>Order Quantity</th>
-                  <th style={{ minWidth: "75px" }}>Order Value</th>
+                  <th style={{ minWidth: '100px' }}>Customer Name</th>
+                  <th style={{ minWidth: '100px' }}>Customer Address</th>
+                  <th style={{ minWidth: '75px' }}>Order Quantity</th>
+                  <th style={{ minWidth: '75px' }}>Order Value</th>
 
                   {/* <th style={{ minWidth: "100px" }}>Delivery Quantity</th>
                   <th style={{ minWidth: "100px" }}>Delivery Value</th>
                   <th style={{ minWidth: "100px" }}>Pending Delivery</th> */}
 
-                  <th style={{ minWidth: "50px" }}>Action</th>
+                  <th style={{ minWidth: '50px' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -101,7 +96,7 @@ export default function TableOne({ obj }) {
                     </tr>
                   );
                 })}
-                <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
                   <td
                     colSpan={values?.reportType?.value !== 1 ? 5 : 3}
                     className="text-right"

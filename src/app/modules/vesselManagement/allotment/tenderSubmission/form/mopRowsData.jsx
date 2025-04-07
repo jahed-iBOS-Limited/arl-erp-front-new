@@ -1,9 +1,9 @@
-import React from "react";
-import InputField from "../../../../_helper/_inputField";
+import React from 'react';
+import InputField from '../../../../_helper/_inputField';
 import {
   commonFieldValueChange,
   mopTenderCreateDataTableHeader,
-} from "../helper";
+} from '../helper';
 
 const BADCMOPRowsData = ({
   mopRowsData,
@@ -16,7 +16,7 @@ const BADCMOPRowsData = ({
       <table
         id="table-to-xlsx"
         className={
-          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table common-scrollable-table two-column-sticky"
+          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table common-scrollable-table two-column-sticky'
         }
       >
         <thead>
@@ -37,7 +37,7 @@ const BADCMOPRowsData = ({
                 <td className="text-center">{item?.ghatName}</td>
                 <td>
                   <InputField
-                    value={item?.distance || ""}
+                    value={item?.distance || ''}
                     type="number"
                     placeholder="0"
                     onChange={(e) =>
@@ -48,7 +48,7 @@ const BADCMOPRowsData = ({
                         values,
                         mopRowsData,
                         updateMopRowsData,
-                        "distance"
+                        'distance'
                       )
                     }
                   />
@@ -62,7 +62,7 @@ const BADCMOPRowsData = ({
                 <td>{item?.taxVat}</td>
                 <td>
                   <InputField
-                    value={item?.invoiceCost || ""}
+                    value={item?.invoiceCost || ''}
                     type="number"
                     placeholder="0"
                     onChange={(e) => {
@@ -73,14 +73,14 @@ const BADCMOPRowsData = ({
                         values,
                         mopRowsData,
                         updateMopRowsData,
-                        "invoiceCost"
+                        'invoiceCost'
                       );
                     }}
                   />
                 </td>
                 <td>
                   <InputField
-                    value={item?.labourBill || ""}
+                    value={item?.labourBill || ''}
                     type="number"
                     placeholder="0"
                     onChange={(e) => {
@@ -91,14 +91,14 @@ const BADCMOPRowsData = ({
                         values,
                         mopRowsData,
                         updateMopRowsData,
-                        "labourBill"
+                        'labourBill'
                       );
                     }}
                   />
                 </td>
                 <td>
                   <InputField
-                    value={item?.transPortCost || ""}
+                    value={item?.transPortCost || ''}
                     type="number"
                     placeholder="0"
                     onChange={(e) => {
@@ -109,14 +109,14 @@ const BADCMOPRowsData = ({
                         values,
                         mopRowsData,
                         updateMopRowsData,
-                        "transPortCost"
+                        'transPortCost'
                       );
                     }}
                   />
                 </td>
                 <td>
                   <InputField
-                    value={item?.additionalCost || ""}
+                    value={item?.additionalCost || ''}
                     type="number"
                     placeholder="0"
                     onChange={(e) => {
@@ -127,7 +127,7 @@ const BADCMOPRowsData = ({
                         values,
                         mopRowsData,
                         updateMopRowsData,
-                        "additionalCost"
+                        'additionalCost'
                       );
                     }}
                   />
@@ -136,7 +136,7 @@ const BADCMOPRowsData = ({
                 <td>{item?.totalRecieve}</td>
                 <td>
                   <InputField
-                    value={item?.quantity || ""}
+                    value={item?.quantity || ''}
                     type="number"
                     placeholder="0"
                     onChange={(e) => {
@@ -147,7 +147,7 @@ const BADCMOPRowsData = ({
                         values,
                         mopRowsData,
                         updateMopRowsData,
-                        "quantity"
+                        'quantity'
                       );
                     }}
                   />

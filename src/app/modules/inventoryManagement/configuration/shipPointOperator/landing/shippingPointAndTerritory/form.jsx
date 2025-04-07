@@ -10,12 +10,7 @@ const ShipPointAndTerritoryForm = ({ values, setFieldValue }) => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const [channelDDL, getChannelDDL] = useAxiosGet();
-  const [
-    regionDDL,
-    getRegionDDL,
-    ,
-    setRegionDDL,
-  ] = useAxiosGet();
+  const [regionDDL, getRegionDDL, , setRegionDDL] = useAxiosGet();
   const [areaDDL, getAreaDDL, , setAreaDDL] = useAxiosGet();
 
   const handleGetRegionDDL = (channelId) => {
@@ -28,7 +23,7 @@ const ShipPointAndTerritoryForm = ({ values, setFieldValue }) => {
         }));
 
         setRegionDDL(ddl);
-      },
+      }
     );
   };
 
@@ -41,16 +36,15 @@ const ShipPointAndTerritoryForm = ({ values, setFieldValue }) => {
           label: item.areaName,
         }));
         setAreaDDL(ddl);
-      },
+      }
     );
   };
 
   //on-mount ddl loading
   useEffect(() => {
     getChannelDDL(
-      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`,
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
     );
-
   }, [buId, accId]);
 
   return (

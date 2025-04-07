@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import Loading from '../../../../_helper/_loading';
@@ -110,7 +109,7 @@ export default function AttachmentUploadForm({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${v}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${channelId}`,
+        `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${v}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${channelId}`
       )
       .then((res) => res?.data);
   };
@@ -140,7 +139,7 @@ export default function AttachmentUploadForm({
       });
     } else {
       const m = attachmentLists.filter(
-        (i) => i?.businessPartnerId === +values?.customer?.value,
+        (i) => i?.businessPartnerId === +values?.customer?.value
       );
       if (m?.length < 1) {
         setAttachmentLists((prevAttachementLists) => {
@@ -175,7 +174,7 @@ export default function AttachmentUploadForm({
                   if (
                     attachmentLists?.filter(
                       (item) =>
-                        item.isSelected === true && item.attachment.length > 0,
+                        item.isSelected === true && item.attachment.length > 0
                     )
                   ) {
                     onSelectedRowPost(
@@ -184,7 +183,7 @@ export default function AttachmentUploadForm({
                       () => {
                         getLandingData(value);
                         setShow(false);
-                      },
+                      }
                     );
                   }
                 }}
@@ -254,7 +253,7 @@ export default function AttachmentUploadForm({
                             return [];
                           return axios
                             .get(
-                              `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.channel?.value}`,
+                              `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.channel?.value}`
                             )
                             .then((res) => res?.data);
                         }}
@@ -334,7 +333,7 @@ export default function AttachmentUploadForm({
                             values?.channel?.value,
                             valueOption?.value,
                             setItemList,
-                            setLoading,
+                            setLoading
                           );
                         }}
                         placeholder="Sales Organization"
@@ -410,7 +409,7 @@ export default function AttachmentUploadForm({
                   }}
                   onDelete={(deleteFileObj) => {
                     const newData = fileObjects.filter(
-                      (item) => item.file.name !== deleteFileObj.file.name,
+                      (item) => item.file.name !== deleteFileObj.file.name
                     );
                     setFileObjects(newData);
                   }}

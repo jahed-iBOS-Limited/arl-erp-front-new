@@ -1,28 +1,27 @@
-
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
-import { GetSalesOrderReportByItemWise_api } from "./../helper";
-import "../stye.css";
-import IViewModal from "./../../../../_helper/_viewModal";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import { Form } from 'formik';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from './../../../../_helper/_select';
+import { GetSalesOrderReportByItemWise_api } from './../helper';
+import '../stye.css';
+import IViewModal from './../../../../_helper/_viewModal';
 import QtyClickModel from './model/qtyClickModel';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  reportType: { value: 1, label: "Complete" },
+  reportType: { value: 1, label: 'Complete' },
 };
 
 function ItemWiseOrderReport() {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [viewClickRowData, setViewClickRowData] = useState("");
+  const [viewClickRowData, setViewClickRowData] = useState('');
   const [isQtyClickModel, setIsQtyClickModel] = useState(false);
   // get user profile data from store
   const storeData = useSelector((state) => {
@@ -60,14 +59,14 @@ function ItemWiseOrderReport() {
                     <NewSelect
                       label="Report Type"
                       options={[
-                        { value: 1, label: "Complete" },
-                        { value: 2, label: "Pending" },
+                        { value: 1, label: 'Complete' },
+                        { value: 2, label: 'Pending' },
                       ]}
                       value={values?.reportType}
                       placeholder="Report Type"
                       name="reportType"
                       onChange={(valueOption) => {
-                        setFieldValue("reportType", valueOption);
+                        setFieldValue('reportType', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -96,7 +95,7 @@ function ItemWiseOrderReport() {
                       />
                     </div>
                   </div>
-                  <div style={{ marginTop: "17px" }} className="col-lg">
+                  <div style={{ marginTop: '17px' }} className="col-lg">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -134,8 +133,8 @@ function ItemWiseOrderReport() {
                             <td
                               className="text-right itemWiseOrderQtyModel pointer"
                               onClick={() => {
-                                setIsQtyClickModel(true)
-                                setViewClickRowData(item)
+                                setIsQtyClickModel(true);
+                                setViewClickRowData(item);
                               }}
                             >
                               {item?.quantity}

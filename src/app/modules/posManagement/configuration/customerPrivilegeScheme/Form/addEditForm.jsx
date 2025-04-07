@@ -1,36 +1,36 @@
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { isUniq } from "./../../../../_helper/uniqChecker";
-import { postPrivilegeScheme_api } from "../helper";
-import { toast } from "react-toastify";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { isUniq } from './../../../../_helper/uniqChecker';
+import { postPrivilegeScheme_api } from '../helper';
+import { toast } from 'react-toastify';
 const initData = {
   id: undefined,
-  outletName: "",
-  nameOfScheme: "",
-  conditionType: "",
-  itemGroup: "",
-  customerGroup: "",
+  outletName: '',
+  nameOfScheme: '',
+  conditionType: '',
+  itemGroup: '',
+  customerGroup: '',
   schemeStartDate: _todayDate(),
   schemeEndDate: _todayDate(),
-  offerBasedOn: "",
-  schemeType: "",
-  customersPurchaseType: "",
-  minimumQuantity: "",
-  maximumQuantity: "",
-  offerItem: "",
-  itemUoM: "",
-  maximumAmount: "",
-  discountFormat: "",
-  discountAmount: "",
-  offerQuantity: "",
-  minimumAmount: "",
-  durationType: "",
-  monthDuration: "",
-  basedOn: "",
+  offerBasedOn: '',
+  schemeType: '',
+  customersPurchaseType: '',
+  minimumQuantity: '',
+  maximumQuantity: '',
+  offerItem: '',
+  itemUoM: '',
+  maximumAmount: '',
+  discountFormat: '',
+  discountAmount: '',
+  offerQuantity: '',
+  minimumAmount: '',
+  durationType: '',
+  monthDuration: '',
+  basedOn: '',
 };
 
 export default function CustomerPrivilegeSchemeForm({
@@ -57,12 +57,12 @@ export default function CustomerPrivilegeSchemeForm({
             accountId: profileData?.accountId,
             bussinessUnitId: selectedBusinessUnit?.value,
             warehouseId: [values?.outletName?.value],
-            nameOfScheme: values?.nameOfScheme || "",
+            nameOfScheme: values?.nameOfScheme || '',
             conditionTypeId: values?.conditionType?.value || 0,
             itemOrItemGroupId: values?.itemGroup?.value || 0,
             customerOrCustomerGroupId: values?.customerGroup?.value || 0,
-            startDate: values?.schemeStartDate || "",
-            endDate: values?.schemeEndDate || "",
+            startDate: values?.schemeStartDate || '',
+            endDate: values?.schemeEndDate || '',
             offerBasedOnId: values?.offerBasedOn?.value || 0,
             customersPurchaseTypeId: values?.customersPurchaseType?.value || 0,
             schemeTypeId: values?.schemeType?.value || 0,
@@ -73,7 +73,7 @@ export default function CustomerPrivilegeSchemeForm({
           row: rowDto,
         };
         if (rowDto?.length === 0) {
-          toast.warn("Please select at least one item");
+          toast.warn('Please select at least one item');
           return false;
         }
         postPrivilegeScheme_api(payload, cb, setDisabled);
@@ -92,23 +92,23 @@ export default function CustomerPrivilegeSchemeForm({
       maximumQuantityOrAmount:
         +values?.maximumQuantity || +values?.maximumAmount || 0,
       itemId: values?.offerItem?.value || 0,
-      itemName: values?.offerItem?.label || "",
-      itemUomName: values?.itemUoM?.label || "",
+      itemName: values?.offerItem?.label || '',
+      itemUomName: values?.itemUoM?.label || '',
       offerQuantity: +values?.offerQuantity || 0,
       discountFormatId: values?.discountFormat?.value || 0,
-      discountFormatName: values?.discountFormat?.label || "",
+      discountFormatName: values?.discountFormat?.label || '',
       discountAmount: +values?.discountAmount || 0,
       durationTypeId: +values?.durationType?.value || 0,
-      durationTypeName: values?.durationType?.label || "",
+      durationTypeName: values?.durationType?.label || '',
       monthDuration: +values?.monthDuration || 0,
       basedOnId: +values?.basedOn?.value || 0,
-      basedOnName: values?.basedOn?.label || "",
+      basedOnName: values?.basedOn?.label || '',
       serverDateTime: _todayDate(),
       actionDateTime: _todayDate(),
       isActive: true,
     };
 
-    if (isUniq("itemId", values?.item?.value, rowDto)) {
+    if (isUniq('itemId', values?.item?.value, rowDto)) {
       setRowDto([...rowDto, ob]);
     }
   };
@@ -120,7 +120,7 @@ export default function CustomerPrivilegeSchemeForm({
 
   return (
     <IForm
-      title={"Create Customers Privilege Scheme"}
+      title={'Create Customers Privilege Scheme'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

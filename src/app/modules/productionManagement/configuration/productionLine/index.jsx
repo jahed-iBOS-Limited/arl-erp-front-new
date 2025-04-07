@@ -1,6 +1,6 @@
-import React from "react";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import ProductionLineTable from "./Table/TableHeader";
+import React from 'react';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import ProductionLineTable from './Table/TableHeader';
 
 export default function ProductionLine({ history }) {
   const uIEvents = {

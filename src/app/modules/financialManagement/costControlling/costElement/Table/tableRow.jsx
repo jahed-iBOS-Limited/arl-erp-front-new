@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { getCostCenterData } from "../_redux/Actions";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { useHistory } from "react-router-dom";
-import IEdit from "./../../../../_helper/_helperIcons/_edit";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { getCostCenterData } from '../_redux/Actions';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import { useHistory } from 'react-router-dom';
+import IEdit from './../../../../_helper/_helperIcons/_edit';
 
 export function TableRow() {
   let history = useHistory();
@@ -41,7 +41,6 @@ export function TableRow() {
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -63,7 +62,7 @@ export function TableRow() {
       <div className="table-responsive">
         <table
           className="table table-striped table-bordered global-table"
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
         >
           <thead>
             <tr>
@@ -91,7 +90,7 @@ export function TableRow() {
                 </td>
                 <td>
                   <div className="pl-2">
-                    {data?.allocationBased === true ? "Yes" : "No"}
+                    {data?.allocationBased === true ? 'Yes' : 'No'}
                   </div>
                 </td>
                 <td>
@@ -111,7 +110,7 @@ export function TableRow() {
               </tr>
             ))}
           </tbody>
-        </table>{" "}
+        </table>{' '}
       </div>
 
       {gridData?.data?.length > 0 && (

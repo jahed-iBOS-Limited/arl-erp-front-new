@@ -1,8 +1,8 @@
-import React from "react";
-import { Route } from "react-router-dom";
-import { ViewModal } from "./businessUnitView/viewModal";
-import { PartnerLandingCard } from "./partnerTable/partnerLandingCard";
-import { UiProvider } from "../../../_helper/uiContextHelper";
+import React from 'react';
+import { Route } from 'react-router-dom';
+import { ViewModal } from './businessUnitView/viewModal';
+import { PartnerLandingCard } from './partnerTable/partnerLandingCard';
+import { UiProvider } from '../../../_helper/uiContextHelper';
 
 export default function PartnerInformation({ history }) {
   const uIEvents = {
@@ -20,7 +20,7 @@ export default function PartnerInformation({ history }) {
             id={match && match.params.id}
             history={history}
             onHide={() => {
-              history.push("/config/partner-management/partner-basic-info");
+              history.push('/config/partner-management/partner-basic-info');
             }}
           />
         )}

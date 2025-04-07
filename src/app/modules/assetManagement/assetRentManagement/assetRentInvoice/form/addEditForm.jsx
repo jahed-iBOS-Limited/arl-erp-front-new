@@ -1,23 +1,22 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   getBusinessPartnerDDL,
   getSBUListDDL,
   getAssetRentInfoForInvoice,
   saveAssetRentInvoice,
   getAssetRentInvoiceById,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
   date: _todayDate(),
-  partner: "",
-  sbu: "",
-  salesOrganization: "",
+  partner: '',
+  sbu: '',
+  salesOrganization: '',
 };
 
 export default function AssetRentInvoiceForm() {
@@ -34,7 +33,7 @@ export default function AssetRentInvoiceForm() {
   const { id, type } = useParams();
   const [loading, setLoading] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [partnerDDL, setPartnerDDL] = useState([]);
   const [sbuDDL, setSBUDDL] = useState([]);
   const [totalRentAmount, setTotalRentAmount] = useState(0);

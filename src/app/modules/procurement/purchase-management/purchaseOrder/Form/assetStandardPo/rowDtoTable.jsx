@@ -38,7 +38,7 @@ const RowDtoTable = ({
         orderQtyCheck ? item?.restofQty : 0,
         index,
         rowDto,
-        setRowDto,
+        setRowDto
       );
     });
   };
@@ -163,7 +163,7 @@ const RowDtoTable = ({
                               },
                               index,
                               rowDto,
-                              setRowDto,
+                              setRowDto
                             );
                           }}
                           // defaultValue={item?.selectedUom || ""}
@@ -189,7 +189,7 @@ const RowDtoTable = ({
                               e.target.value,
                               index,
                               rowDto,
-                              setRowDto,
+                              setRowDto
                             );
                           }}
                         />
@@ -207,7 +207,7 @@ const RowDtoTable = ({
                               item?.restofQty || 0,
                               index,
                               rowDto,
-                              setRowDto,
+                              setRowDto
                             )
                           }
                           className="text-center align-middle pointer"
@@ -243,7 +243,7 @@ const RowDtoTable = ({
                               validNum,
                               index,
                               rowDto,
-                              setRowDto,
+                              setRowDto
                             );
                           }}
                         />
@@ -265,7 +265,7 @@ const RowDtoTable = ({
                               validNum,
                               index,
                               rowDto,
-                              setRowDto,
+                              setRowDto
                             );
                           }}
                           disabled={porefType === 1}
@@ -300,7 +300,7 @@ const RowDtoTable = ({
                               validNum,
                               index,
                               rowDto,
-                              setRowDto,
+                              setRowDto
                             );
                           }}
                           //disabled={porefType === 1}
@@ -324,7 +324,7 @@ const RowDtoTable = ({
                               validNum,
                               index,
                               rowDto,
-                              setRowDto,
+                              setRowDto
                             );
                           }}
                         />

@@ -18,7 +18,7 @@ export function Header() {
 
   const manualClickHandler = () => {
     window.open(
-      'https://docs.google.com/document/d/1h8N-fjk3yXEkk1_orlHhBna9VqQT4NqlQER9PEfBzVc/view',
+      'https://docs.google.com/document/d/1h8N-fjk3yXEkk1_orlHhBna9VqQT4NqlQER9PEfBzVc/view'
     );
   };
 
@@ -29,7 +29,7 @@ export function Header() {
       headerContainerClasses: uiService.getClasses('header_container', true),
       menuHeaderDisplay: objectPath.get(
         uiService.config,
-        'header.menu.self.display',
+        'header.menu.self.display'
       ),
     };
   }, [uiService]);
@@ -43,7 +43,9 @@ export function Header() {
         {...layoutProps.headerAttributes}
       >
         {/*begin::Container*/}
-        {!["https://erp.peopledesk.io", "https://erp.ibos.io"].includes(window?.location?.origin) && (
+        {!['https://erp.peopledesk.io', 'https://erp.ibos.io'].includes(
+          window?.location?.origin
+        ) && (
           <b
             style={{ marginLeft: '23px' }}
             className="mt-3 danger development-env"

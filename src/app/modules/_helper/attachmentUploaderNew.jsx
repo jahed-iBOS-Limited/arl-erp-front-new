@@ -7,7 +7,7 @@ import {
   uploadAttachmentNew,
 } from '../financialManagement/invoiceManagementSystem/billregister/helper';
 import Loading from './_loading';
-import { attachmentUpload } from "./attachmentUpload";
+import { attachmentUpload } from './attachmentUpload';
 import { compressfile } from './compressfile';
 
 export default function AttachmentUploaderNew({
@@ -66,7 +66,12 @@ export default function AttachmentUploaderNew({
       <DropzoneDialogBase
         filesLimit={fileUploadLimits || 3}
         showAlerts={false}
-        acceptedFiles={["image/*", "application/pdf", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]}
+        acceptedFiles={[
+          'image/*',
+          'application/pdf',
+          'application/vnd.ms-excel',
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ]}
         fileObjects={fileObjects}
         cancelButtonText={'cancel'}
         submitButtonText={'submit'}
@@ -88,7 +93,7 @@ export default function AttachmentUploaderNew({
         }}
         onDelete={(deleteFileObj) => {
           const newData = fileObjects?.filter(
-            (item) => item?.file?.name !== deleteFileObj?.file?.name,
+            (item) => item?.file?.name !== deleteFileObj?.file?.name
           );
           setFileObjects && setFileObjects(newData);
         }}
@@ -104,7 +109,7 @@ export default function AttachmentUploaderNew({
               let compressedFile = [];
               if (fileObjects?.length > 0) {
                 compressedFile = await compressfile(
-                  fileObjects?.map((f) => f?.file),
+                  fileObjects?.map((f) => f?.file)
                 );
               }
               if (compressedFile?.length < 1) {

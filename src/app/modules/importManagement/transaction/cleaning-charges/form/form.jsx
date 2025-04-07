@@ -1,8 +1,8 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import {validationSchema } from "../helper";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { validationSchema } from '../helper';
 
 export default function FormCmp({
   initData,
@@ -41,9 +41,9 @@ export default function FormCmp({
         }) => (
           <>
             <div className="d-flex justify-content-between align-items-center">
-              <div style={{ fontWeight: "900" }}>Unit: APMBD</div>
-              <div style={{ fontWeight: "900" }}>PO Number: 46545651</div>
-              <div style={{ fontWeight: "900", marginRight: "30px" }}>
+              <div style={{ fontWeight: '900' }}>Unit: APMBD</div>
+              <div style={{ fontWeight: '900' }}>PO Number: 46545651</div>
+              <div style={{ fontWeight: '900', marginRight: '30px' }}>
                 LC Number: 65465
               </div>
             </div>
@@ -59,7 +59,7 @@ export default function FormCmp({
                       label="Shipment"
                       value={values?.shipment}
                       onChange={(valueOption) => {
-                        setFieldValue("shipment", valueOption);
+                        setFieldValue('shipment', valueOption);
                       }}
                       placeholder="Shipment"
                       errors={errors}
@@ -75,7 +75,7 @@ export default function FormCmp({
                       label="Provider Name"
                       value={values?.providerName}
                       onChange={(valueOption) => {
-                        setFieldValue("providerName", valueOption);
+                        setFieldValue('providerName', valueOption);
                       }}
                       placeholder="Provider Name"
                       errors={errors}
@@ -114,14 +114,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

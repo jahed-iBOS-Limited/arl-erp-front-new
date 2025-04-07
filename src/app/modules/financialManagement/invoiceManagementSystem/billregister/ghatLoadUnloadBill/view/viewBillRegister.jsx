@@ -1,17 +1,17 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import Loading from "../../../../../_helper/_loading";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import IForm from "../../../../../_helper/_form";
-import BillApproveForm from "../../../approvebillregister/approveForm";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import Loading from '../../../../../_helper/_loading';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import IForm from '../../../../../_helper/_form';
+import BillApproveForm from '../../../approvebillregister/approveForm';
 
 const initData = {
-  approveAmount: "",
-  approveAmountMax: "",
-  remarks: "",
+  approveAmount: '',
+  approveAmountMax: '',
+  remarks: '',
 };
 
 export default function ViewGhatLoadUnloadBill({
@@ -37,7 +37,6 @@ export default function ViewGhatLoadUnloadBill({
     getGridData(
       `/tms/LigterLoadUnload/GetUnloadLabourBillByBillregesterId?accountId=${accId}&buisinessUnitId=${buId}&billRegisterId=${billRegisterId}`
     );
-
   }, [accId, buId]);
 
   return (
@@ -71,7 +70,7 @@ export default function ViewGhatLoadUnloadBill({
             />
             <div className="common-scrollable-table two-column-sticky">
               <div className="scroll-table _table overflow-auto">
-              {/* <div className="table-responsive"> */}
+                {/* <div className="table-responsive"> */}
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
@@ -102,7 +101,7 @@ export default function ViewGhatLoadUnloadBill({
                     {gridData?.map((item, index) => {
                       return (
                         <tr key={index}>
-                          <td style={{ width: "30px" }} className="text-center">
+                          <td style={{ width: '30px' }} className="text-center">
                             {index + 1}
                           </td>
                           <td>{item?.shipPointName}</td>
@@ -161,7 +160,7 @@ export default function ViewGhatLoadUnloadBill({
                                 className="ml-2"
                               >
                                 <i
-                                  style={{ fontSize: "16px" }}
+                                  style={{ fontSize: '16px' }}
                                   className={`fa pointer fa-eye`}
                                   aria-hidden="true"
                                 ></i>
@@ -173,7 +172,7 @@ export default function ViewGhatLoadUnloadBill({
                     })}
                   </tbody>
                 </table>
-                </div>
+              </div>
               {/* </div> */}
             </div>
           </form>

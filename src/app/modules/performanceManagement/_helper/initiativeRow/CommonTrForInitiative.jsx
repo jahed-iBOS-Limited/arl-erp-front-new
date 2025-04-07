@@ -1,20 +1,19 @@
-
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Select from "react-select";
-import { toast } from "react-toastify";
-import customStyles from "../../../selectCustomStyle";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import IApproval from "../../../_helper/_helperIcons/_approval";
-import IClose from "../../../_helper/_helperIcons/_close";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import IUpdate from "../../../_helper/_helperIcons/_update";
-import IView from "../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../_helper/_viewModal";
-import SlideReportView from "../../slideReportView/SlideReportView";
-import { saveStrategicInitiativeRowAction } from "./helper";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Select from 'react-select';
+import { toast } from 'react-toastify';
+import customStyles from '../../../selectCustomStyle';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import IApproval from '../../../_helper/_helperIcons/_approval';
+import IClose from '../../../_helper/_helperIcons/_close';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import IUpdate from '../../../_helper/_helperIcons/_update';
+import IView from '../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../_helper/_viewModal';
+import SlideReportView from '../../slideReportView/SlideReportView';
+import { saveStrategicInitiativeRowAction } from './helper';
 
 export default function CommonTrForInitiative({ obj }) {
   const {
@@ -68,7 +67,7 @@ export default function CommonTrForInitiative({ obj }) {
 
   return (
     <>
-      <tr style={{ background: "rgb(155, 102, 255)" }}>
+      <tr style={{ background: 'rgb(155, 102, 255)' }}>
         <td className="kpi-new-table-firstTd">{title}</td>
         <td></td>
         <td></td>
@@ -89,17 +88,17 @@ export default function CommonTrForInitiative({ obj }) {
                 <td>
                   <input
                     style={{
-                      border: "1px solid black",
-                      height: "30px",
-                      borderRadius: "5px",
-                      width: "70px",
+                      border: '1px solid black',
+                      height: '30px',
+                      borderRadius: '5px',
+                      width: '70px',
                     }}
                     type="number"
                     step="1"
                     value={item?.initiativeNo}
                     onChange={(e) => {
                       rowDtoHandler(
-                        "initiativeNo",
+                        'initiativeNo',
                         e.target.value,
                         index,
                         data,
@@ -116,7 +115,7 @@ export default function CommonTrForInitiative({ obj }) {
                         isSearchIcon={true}
                         handleChange={(valueOption) => {
                           rowDtoHandler(
-                            "ownerName",
+                            'ownerName',
                             valueOption,
                             index,
                             data,
@@ -134,7 +133,7 @@ export default function CommonTrForInitiative({ obj }) {
                       menuPosition="fixed"
                       onChange={(valueOption) => {
                         rowDtoHandler(
-                          "ownerName",
+                          'ownerName',
                           valueOption,
                           index,
                           data,
@@ -149,14 +148,14 @@ export default function CommonTrForInitiative({ obj }) {
                     styles={customStyles}
                     value={item?.priorityName}
                     options={[
-                      { label: "High", value: 1 },
-                      { label: "Medium", value: 2 },
-                      { label: "Low", value: 3 },
+                      { label: 'High', value: 1 },
+                      { label: 'Medium', value: 2 },
+                      { label: 'Low', value: 3 },
                     ]}
                     menuPosition="fixed"
                     onChange={(valueOption) => {
                       rowDtoHandler(
-                        "priorityName",
+                        'priorityName',
                         valueOption,
                         index,
                         data,
@@ -168,16 +167,16 @@ export default function CommonTrForInitiative({ obj }) {
                 <td>
                   <input
                     style={{
-                      border: "1px solid black",
-                      height: "30px",
-                      borderRadius: "5px",
-                      width: "80px",
+                      border: '1px solid black',
+                      height: '30px',
+                      borderRadius: '5px',
+                      width: '80px',
                     }}
                     type="number"
                     value={item?.budget}
                     onChange={(e) => {
                       rowDtoHandler(
-                        "budget",
+                        'budget',
                         e.target.value,
                         index,
                         data,
@@ -189,16 +188,16 @@ export default function CommonTrForInitiative({ obj }) {
                 <td>
                   <input
                     style={{
-                      border: "1px solid black",
-                      height: "30px",
-                      borderRadius: "5px",
-                      width: "115px",
+                      border: '1px solid black',
+                      height: '30px',
+                      borderRadius: '5px',
+                      width: '115px',
                     }}
                     type="date"
                     value={item?.startDate}
                     onChange={(e) => {
                       rowDtoHandler(
-                        "startDate",
+                        'startDate',
                         e.target.value,
                         index,
                         data,
@@ -210,16 +209,16 @@ export default function CommonTrForInitiative({ obj }) {
                 <td>
                   <input
                     style={{
-                      border: "1px solid black",
-                      height: "30px",
-                      borderRadius: "5px",
-                      width: "115px",
+                      border: '1px solid black',
+                      height: '30px',
+                      borderRadius: '5px',
+                      width: '115px',
                     }}
                     type="date"
                     value={item?.endDate}
                     onChange={(e) => {
                       rowDtoHandler(
-                        "endDate",
+                        'endDate',
                         e.target.value,
                         index,
                         data,
@@ -236,7 +235,7 @@ export default function CommonTrForInitiative({ obj }) {
                     menuPosition="fixed"
                     onChange={(valueOption) => {
                       rowDtoHandler(
-                        "statusValueLabel",
+                        'statusValueLabel',
                         valueOption,
                         index,
                         data,
@@ -248,15 +247,15 @@ export default function CommonTrForInitiative({ obj }) {
                 <td>
                   <input
                     style={{
-                      border: "1px solid black",
-                      height: "30px",
-                      borderRadius: "5px",
+                      border: '1px solid black',
+                      height: '30px',
+                      borderRadius: '5px',
                     }}
                     type="text"
                     value={item?.comment}
                     onChange={(e) => {
                       rowDtoHandler(
-                        "comment",
+                        'comment',
                         e.target.value,
                         index,
                         data,
@@ -298,7 +297,7 @@ export default function CommonTrForInitiative({ obj }) {
                         !item?.endDate
                       ) {
                         return toast.warn(
-                          "Please select Owner, Priority, Start date, End date"
+                          'Please select Owner, Priority, Start date, End date'
                         );
                       }
 
@@ -330,7 +329,7 @@ export default function CommonTrForInitiative({ obj }) {
                       </span>
                     ) : (
                       <span>
-                        <IUpdate title={"Edit"} />
+                        <IUpdate title={'Edit'} />
                       </span>
                     )}
                   </span>
@@ -354,14 +353,14 @@ export default function CommonTrForInitiative({ obj }) {
                   >
                     <IView />
                   </span>
-                  {edit !== "" && (
-                    <span onClick={() => setEdit("")} className="pointer">
+                  {edit !== '' && (
+                    <span onClick={() => setEdit('')} className="pointer">
                       <IClose />
                     </span>
                   )}
                 </div>
               ) : (
-                "N/A"
+                'N/A'
               )}
             </td>
           </tr>

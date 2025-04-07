@@ -1,26 +1,26 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import { BalanceReport } from "./balanceSheetReport";
-import { CashFlowStatement } from "./cashFlowStatement/cashFlowStatement";
-import CostOfProductionReport from "./costProductionReport";
-import CostVarianceReportLanding from "./costVarianceReport";
-import DistributionPlanReport from "./distributionPlanReport";
-import DistributionQtyVariance from "./distributionQtyVarianceReport";
-import DistributionRateVariance from "./distributionRateVarianceReport";
-import { FinencialRatiosAnalysis } from "./financialRatioAnalysis/Form/addEditForm";
-import Incomestatement from "./incomeStatement";
-import { IncomeStatementReport } from "./incomeStatementReport";
-import MaterialConsumptionVarianceReport from "./materialConsumptionReport";
-import MaterialPriceVariance from "./metarialPriceVariance";
-import OverheadVarianceReport from "./overheadVarianceReport";
-import ProductionVarianceReport from "./productionVarianceReport";
-import BudgetVsSalesVarient from "./salesBudgetVarianceReport";
-import TrailBalanceReport from "./trailBalance";
-import WorkingCapitalVarianceReport from "./workingCapitalVarianceReport";
-import InventoryVarianceReport from "./workingVarianceReport";
-import IncomestatementNew from "./incomeStatementNew";
-import IscomponentDetails from "./isComponentDetails";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import { BalanceReport } from './balanceSheetReport';
+import { CashFlowStatement } from './cashFlowStatement/cashFlowStatement';
+import CostOfProductionReport from './costProductionReport';
+import CostVarianceReportLanding from './costVarianceReport';
+import DistributionPlanReport from './distributionPlanReport';
+import DistributionQtyVariance from './distributionQtyVarianceReport';
+import DistributionRateVariance from './distributionRateVarianceReport';
+import { FinencialRatiosAnalysis } from './financialRatioAnalysis/Form/addEditForm';
+import Incomestatement from './incomeStatement';
+import { IncomeStatementReport } from './incomeStatementReport';
+import MaterialConsumptionVarianceReport from './materialConsumptionReport';
+import MaterialPriceVariance from './metarialPriceVariance';
+import OverheadVarianceReport from './overheadVarianceReport';
+import ProductionVarianceReport from './productionVarianceReport';
+import BudgetVsSalesVarient from './salesBudgetVarianceReport';
+import TrailBalanceReport from './trailBalance';
+import WorkingCapitalVarianceReport from './workingCapitalVarianceReport';
+import InventoryVarianceReport from './workingVarianceReport';
+import IncomestatementNew from './incomeStatementNew';
+import IscomponentDetails from './isComponentDetails';
 
 const BudgetVarianceReportPages = () => {
   return (
@@ -42,7 +42,7 @@ const BudgetVarianceReportPages = () => {
         path="/internal-control/budgetvariancereport/income_statement_new"
         component={IncomestatementNew}
       />
-       <ContentRoute
+      <ContentRoute
         path="/internal-control/budgetvariancereport/is_componentDetails"
         component={IscomponentDetails}
       />

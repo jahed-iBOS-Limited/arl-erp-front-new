@@ -1,31 +1,30 @@
-
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../../../_metronic/_partials/controls";
-import Form from "./form";
-import Axios from "axios";
-import shortid from "shortid";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { isUniq } from "../../../../../../_helper/uniqChecker";
-import { toast } from "react-toastify";
-import Loading from "./../../../../../../_helper/_loading";
+} from '../../../../../../../../_metronic/_partials/controls';
+import Form from './form';
+import Axios from 'axios';
+import shortid from 'shortid';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { isUniq } from '../../../../../../_helper/uniqChecker';
+import { toast } from 'react-toastify';
+import Loading from './../../../../../../_helper/_loading';
 
 const initProduct = {
-  purchaseOrganization: "",
-  priceStructure: "",
-  generalLedgerName: "",
-  accuredGeneralLedgerName: "",
-  advancedGeneralLedgerName: "",
-  itemCategory: "",
-  itemName: "",
-  sbu: "",
-  shipPointName: "",
+  purchaseOrganization: '',
+  priceStructure: '',
+  generalLedgerName: '',
+  accuredGeneralLedgerName: '',
+  advancedGeneralLedgerName: '',
+  itemCategory: '',
+  itemName: '',
+  sbu: '',
+  shipPointName: '',
 };
 
 export default function PartnerPurchase() {
@@ -37,7 +36,7 @@ export default function PartnerPurchase() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [shipPointRowDto, setShipPointRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   useEffect(() => {
     SingleData(id);
@@ -80,12 +79,12 @@ export default function PartnerPurchase() {
         setSingleData({
           configId,
           sbu: {
-            value: sbuid || "",
-            label: sbuName || "",
+            value: sbuid || '',
+            label: sbuName || '',
           },
           purchaseOrganization: {
-            value: purchaseOrganizationId || "",
-            label: purchaseOrganizationName || "",
+            value: purchaseOrganizationId || '',
+            label: purchaseOrganizationName || '',
           },
           priceStructure: {
             value: priceStructureId,
@@ -96,23 +95,21 @@ export default function PartnerPurchase() {
             label: acPayGLName,
           },
           accuredGeneralLedgerName: {
-            value: accruedPayGLId || "",
-            label: accruedPayGLName || "",
+            value: accruedPayGLId || '',
+            label: accruedPayGLName || '',
           },
           advancedGeneralLedgerName: {
-            value: advanceGLId || "",
-            label: advanceGLName || "",
+            value: advanceGLId || '',
+            label: advanceGLName || '',
           },
-          itemCategory: "",
-          itemName: "",
+          itemCategory: '',
+          itemName: '',
         });
       } else {
         setRowDto([]);
         setShipPointRowDto([]);
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   const savePurchase = async (values, cb) => {
@@ -152,7 +149,7 @@ export default function PartnerPurchase() {
           ledgerBalance: 0,
           unbilledAmount: 0,
           actionBy,
-          dteLastActionDateTime: "2020-08-31T04:49:29.981Z",
+          dteLastActionDateTime: '2020-08-31T04:49:29.981Z',
           isActive: true,
         },
         objRow: objRow,
@@ -162,13 +159,13 @@ export default function PartnerPurchase() {
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/partner/BusinessPartnerPurchaseInfo/CreateBusinessPartnerPurchaseInfo",
+          '/partner/BusinessPartnerPurchaseInfo/CreateBusinessPartnerPurchaseInfo',
           purchaseData
         );
         if (res.status === 200) {
         }
         cb(initProduct);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
         setDisabled(false);
@@ -182,13 +179,13 @@ export default function PartnerPurchase() {
   };
 
   const setter = (payload) => {
-    if (isUniq("itemId", payload.itemId, rowDto)) {
+    if (isUniq('itemId', payload.itemId, rowDto)) {
       setRowDto([...rowDto, payload]);
     }
   };
 
   const shipPointSetter = (payload) => {
-    if (isUniq("shipPointName", payload.shipPointName, shipPointRowDto)) {
+    if (isUniq('shipPointName', payload.shipPointName, shipPointRowDto)) {
       setShipPointRowDto([...shipPointRowDto, payload]);
     }
   };

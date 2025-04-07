@@ -48,7 +48,7 @@ export default function ChemicalCompositionForm({
   const setCarbonEquivalent = (
     manganeseValue = 0,
     carbonValue = 0,
-    setFieldValue,
+    setFieldValue
   ) => {
     const v = manganeseValue / 6 + carbonValue;
     setFieldValue('carbonEquivalent', v);
@@ -90,7 +90,7 @@ export default function ChemicalCompositionForm({
           saveHandler(values, () => {
             if (id) {
               getSingleData(
-                `/mes/MSIL/GetAllMSIL?PartName=MeltingQC&FromDate=${state?.dteDate}&ToDate=${state?.dteDate}&BusinessUnitId=${buId}&AutoId=${state?.intAutoId}`,
+                `/mes/MSIL/GetAllMSIL?PartName=MeltingQC&FromDate=${state?.dteDate}&ToDate=${state?.dteDate}&BusinessUnitId=${buId}&AutoId=${state?.intAutoId}`
               );
             } else {
               resetForm(initData);
@@ -159,7 +159,7 @@ export default function ChemicalCompositionForm({
                         setCarbonEquivalent(
                           +values?.manganese,
                           +values?.carbone,
-                          setFieldValue,
+                          setFieldValue
                         );
                       } else {
                         setFieldValue('carbonEquivalent', 0);
@@ -182,7 +182,7 @@ export default function ChemicalCompositionForm({
                         setCarbonEquivalent(
                           +values?.manganese,
                           +e.target.value,
-                          setFieldValue,
+                          setFieldValue
                         );
                       }
                     }}
@@ -210,7 +210,7 @@ export default function ChemicalCompositionForm({
                         setCarbonEquivalent(
                           +e.target.value,
                           +values?.carbone,
-                          setFieldValue,
+                          setFieldValue
                         );
                       }
                     }}

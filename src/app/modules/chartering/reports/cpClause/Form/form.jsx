@@ -1,10 +1,10 @@
-import { Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router";
-import { validationSchema } from "../helper";
-import ReactQuill from "react-quill";
-import "./style.css";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
+import { Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router';
+import { validationSchema } from '../helper';
+import ReactQuill from 'react-quill';
+import './style.css';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
 
 export default function FormCmp({
   title,
@@ -16,35 +16,35 @@ export default function FormCmp({
   const history = useHistory();
 
   const formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "align",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
+    'header',
+    'font',
+    'size',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'align',
+    'list',
+    'bullet',
+    'indent',
+    'link',
+    'image',
   ];
 
   const modules = {
     toolbar: [
-      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ header: '1' }, { header: '2' }, { font: [] }],
       [{ size: [] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [
-        { align: "" },
-        { align: "center" },
-        { align: "right" },
-        { align: "justify" },
+        { align: '' },
+        { align: 'center' },
+        { align: 'right' },
+        { align: 'justify' },
       ],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["link", "image"],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link', 'image'],
     ],
   };
 
@@ -52,7 +52,7 @@ export default function FormCmp({
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{ ...initData, cpData: cpData?.varDataFile || "" }}
+        initialValues={{ ...initData, cpData: cpData?.varDataFile || '' }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
@@ -79,24 +79,24 @@ export default function FormCmp({
                     onClick={() => {
                       history.goBack();
                     }}
-                    className={"btn btn-secondary px-3 py-2"}
+                    className={'btn btn-secondary px-3 py-2'}
                   >
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
                   </button>
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
                   )}
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="submit"
-                      className={"btn btn-primary ml-2 px-3 py-2"}
+                      className={'btn btn-primary ml-2 px-3 py-2'}
                       onClick={handleSubmit}
                       disabled={false}
                     >
@@ -106,7 +106,7 @@ export default function FormCmp({
                 </div>
               </div>
               <div className="marine-form-card-content">
-                <div className="row" style={{ padding: "0 12em 0 12em" }}>
+                <div className="row" style={{ padding: '0 12em 0 12em' }}>
                   <div className="col-lg-6">
                     <label>File Name</label>
                     <FormikInput
@@ -315,7 +315,7 @@ export default function FormCmp({
                   <ReactQuill
                     // theme=""
                     onChange={(e) => {
-                      setFieldValue("cpData", e);
+                      setFieldValue('cpData', e);
                     }}
                     value={values?.cpData}
                     modules={modules}

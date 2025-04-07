@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   empDDL: [],
   yearDDL: [],
   objectiveDDL: [],
@@ -13,9 +13,9 @@ const initState = {
   measuringScale: [],
   measuringScaleButtom: [],
   gridData: [],
-  singleData: "",
-  employeeBasicInfo: "",
-  empInfo: "",
+  singleData: '',
+  employeeBasicInfo: '',
+  empInfo: '',
   empSupDDL: [],
   competencyList: [],
   valuesList: [],
@@ -23,15 +23,15 @@ const initState = {
   valuesPopUp: [],
   competencyPopUp: [],
   reportData: [],
-  strategicParticularsGrid: "",
-  individualKpiEditedSingleData: "",
+  strategicParticularsGrid: '',
+  individualKpiEditedSingleData: '',
   dataSourceDDL: [],
   unFavDepSbuDDL: [],
   newKpiReport: [],
 };
 
 export const performanceMgtSlice = createSlice({
-  name: "performanceMgt",
+  name: 'performanceMgt',
   initialState: initState,
   reducers: {
     SetStrategicParticularsGrid: (state, action) => {
@@ -44,7 +44,7 @@ export const performanceMgtSlice = createSlice({
       state.unFavDepSbuDDL = payload;
     },
     SetStrategicParticularsEmpty: (state) => {
-      state.strategicParticularsGrid = "";
+      state.strategicParticularsGrid = '';
     },
     SetIndividualKpiEditedSingleData: (state, action) => {
       const { payload } = action;
@@ -142,14 +142,14 @@ export const performanceMgtSlice = createSlice({
       state.employeeBasicInfo = payload;
     },
     SetEmployeeBasicInfoEmpty: (state) => {
-      state.employeeBasicInfo = "";
+      state.employeeBasicInfo = '';
     },
     SetReportData: (state, action) => {
       const { payload } = action;
       state.reportData = payload;
     },
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
     SetReportEmpty: (state) => {
       state.reportData = [];

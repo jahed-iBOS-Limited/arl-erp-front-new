@@ -1,7 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -34,7 +31,7 @@ const FolderTree = ({
 }) => {
   const [treeState, setTreeState] = useState(null);
 
-  const handleTreeStateChange = newState => {
+  const handleTreeStateChange = (newState) => {
     setTreeState(newState);
     onChange(newState);
   };
@@ -51,7 +48,9 @@ const FolderTree = ({
 
       default:
         if (!isValidCheckedStatus(initState)) {
-          console.warn('checked status is not provided! Fell back to all unchecked.');
+          console.warn(
+            'checked status is not provided! Fell back to all unchecked.'
+          );
           initState = setAllCheckedStatus(initState, 0);
         }
     }
@@ -73,7 +72,6 @@ const FolderTree = ({
     }
 
     handleTreeStateChange(initState);
-
   }, [data, initCheckedStatus]);
 
   const handleCheck = (path, status) => {
@@ -86,7 +84,7 @@ const FolderTree = ({
     handleTreeStateChange(newState);
   };
 
-  const handleDelete = path => {
+  const handleDelete = (path) => {
     const newState = deleteNode(treeState, path);
     handleTreeStateChange(newState);
   };
@@ -116,15 +114,9 @@ const FolderTree = ({
   };
 
   return (
-    <div className='FolderTree'>
-      <ConfigContext.Provider
-        value={ configs }
-      >
-        <TreeNode
-          key={ treeState._id}
-          path={ [] }
-          { ...treeState }
-        />
+    <div className="FolderTree">
+      <ConfigContext.Provider value={configs}>
+        <TreeNode key={treeState._id} path={[]} {...treeState} />
       </ConfigContext.Provider>
     </div>
   );

@@ -1,6 +1,6 @@
-import React from "react";
-import BackPartImage from "./images/back.png";
-import EngineImage from "./images/engine.png";
+import React from 'react';
+import BackPartImage from './images/back.png';
+import EngineImage from './images/engine.png';
 
 const VesselLayout = ({ vesselData, values, holdRows }) => {
   // const styles = {
@@ -81,8 +81,8 @@ const VesselLayout = ({ vesselData, values, holdRows }) => {
   return (
     <div
       style={{
-        display: "flex",
-        justifyContent: "center",
+        display: 'flex',
+        justifyContent: 'center',
       }}
     >
       <div className="vessel_wrapper">
@@ -95,16 +95,20 @@ const VesselLayout = ({ vesselData, values, holdRows }) => {
 
         <div className="vessel_hold_wrapper">
           {/* Dynamic Hold Sections */}
-          {Array.from({ length: vesselData?.intHoldNumber || 0 }, (_, index) => {
-            const holdNumber = vesselData?.intHoldNumber - index;
-            const holdData = getHoldData(holdNumber);
-            return (
-              <div key={index} className="vessel_part vessel_hold">
-                {/* Hold Number */}
-                <div className="hold_number_label">{vesselData?.intHoldNumber - index}</div>
-                {/* Hold Image */}
+          {Array.from(
+            { length: vesselData?.intHoldNumber || 0 },
+            (_, index) => {
+              const holdNumber = vesselData?.intHoldNumber - index;
+              const holdData = getHoldData(holdNumber);
+              return (
+                <div key={index} className="vessel_part vessel_hold">
+                  {/* Hold Number */}
+                  <div className="hold_number_label">
+                    {vesselData?.intHoldNumber - index}
+                  </div>
+                  {/* Hold Image */}
 
-                {/* {index === 0 ? (
+                  {/* {index === 0 ? (
                 <>
                   <img
                     src={ExtraPartImage}
@@ -126,21 +130,22 @@ const VesselLayout = ({ vesselData, values, holdRows }) => {
                 </>
               )} */}
 
-                {/* Dynamic Hold Description */}
-                <div className="hold_box">
-                  {holdData.cargoNames?.length > 0 ? (
-                    <>
-                      <p>{holdData.cargoNames.join(", ")}</p>
-                      <p>{holdData.totalQuantity} MT</p>
-                      <p> {holdData.portNames.join(", ")}</p>
-                    </>
-                  ) : (
-                    <p>NIL</p>
-                  )}
+                  {/* Dynamic Hold Description */}
+                  <div className="hold_box">
+                    {holdData.cargoNames?.length > 0 ? (
+                      <>
+                        <p>{holdData.cargoNames.join(', ')}</p>
+                        <p>{holdData.totalQuantity} MT</p>
+                        <p> {holdData.portNames.join(', ')}</p>
+                      </>
+                    ) : (
+                      <p>NIL</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            }
+          )}
         </div>
 
         {/* Static Front Section Image */}

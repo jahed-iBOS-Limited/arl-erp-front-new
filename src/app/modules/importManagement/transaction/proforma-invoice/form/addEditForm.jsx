@@ -1,61 +1,57 @@
-
-
-
-import React, { useEffect, useState } from "react";
-import {useLocation} from 'react-router'
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { createPI, getSingleData, updatePi } from "../helper";
-import Form from "./form";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { createPI, getSingleData, updatePi } from '../helper';
+import Form from './form';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 // import { setter } from "../utils";
 const initData = {
-  plant: "",
-  purchaseOrganizationDDL: "",
-  pinumber: "",
-  beneficiaryNameDDL: "",
+  plant: '',
+  purchaseOrganizationDDL: '',
+  pinumber: '',
+  beneficiaryNameDDL: '',
   // expireDate: _dateFormatter(addDaysToDate(new Date(), 180)),
   expireDate: _todayDate(),
-  lcTypeDDL: "",
+  lcTypeDDL: '',
   // lastShipDate: _dateFormatter(addDaysToDate(new Date(), 180)),
   lastShipDate: _todayDate(),
-  incoTermsDDL: "",
-  materialTypeDDL: "",
-  bankNameDDL: "",
-  countryOriginDDL: "",
-  loadingPort: "",
-  finalDestinationDDL: "",
-  currencyDDL: "",
-  tolerance: "",
-  usance: "",
-  presentation: "",
-  otherTerms: "",
-  itemDDL: "",
-  uomDDL: "",
-  quantity: "",
-  rate: "",
-  sbu: "",
-  purchaseRequestNo: "",
+  incoTermsDDL: '',
+  materialTypeDDL: '',
+  bankNameDDL: '',
+  countryOriginDDL: '',
+  loadingPort: '',
+  finalDestinationDDL: '',
+  currencyDDL: '',
+  tolerance: '',
+  usance: '',
+  presentation: '',
+  otherTerms: '',
+  itemDDL: '',
+  uomDDL: '',
+  quantity: '',
+  rate: '',
+  sbu: '',
+  purchaseRequestNo: '',
   isAllItem: false,
-  referenceType: "",
-  purchaseContractNo: "",
+  referenceType: '',
+  purchaseContractNo: '',
   etaDate: _todayDate(),
   dteEstimatedLaycanDate: _todayDate(),
-  warehouse: "",
-  strRemarks:"",
+  warehouse: '',
+  strRemarks: '',
 };
-
 
 export default function AddEditForm() {
   const params = useParams();
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
   // get singleData
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [rowDto, setRowDto] = useState([]);
   const [purchaseRequestValidity, setPurchaseRequestValidity] = useState(null);
 
@@ -81,7 +77,7 @@ export default function AddEditForm() {
             : item?.referenceId === values?.purchaseRequestNo?.value)
       )
     ) {
-      return toast.error("Item is already added");
+      return toast.error('Item is already added');
     } else {
       const obj = {
         referenceType: values?.referenceType?.label,
@@ -118,12 +114,12 @@ export default function AddEditForm() {
   const checkItemValidity = () => {
     let validationMessage;
     rowDto.forEach((item) => {
-      if (!item?.hscode || item.hscode === "0") {
-        validationMessage = "HS code not found";
+      if (!item?.hscode || item.hscode === '0') {
+        validationMessage = 'HS code not found';
       } else if (!item?.quantity) {
-        validationMessage = "Qty Will be grater than 0";
+        validationMessage = 'Qty Will be grater than 0';
       } else if (!item?.rate) {
-        validationMessage = "Rate Will be grater than 0";
+        validationMessage = 'Rate Will be grater than 0';
       }
     });
     return validationMessage;
@@ -131,7 +127,7 @@ export default function AddEditForm() {
 
   const saveHandler = async (values, cb) => {
     if (rowDto.length === 0) {
-      toast.warn("Please add at least one Item");
+      toast.warn('Please add at least one Item');
       return;
     }
     if (params?.pid) {
@@ -142,7 +138,7 @@ export default function AddEditForm() {
       return updatePi(setDisabled, values, rowDto);
     }
     if (!purchaseRequestValidity) {
-      toast.warn("Purchase Request No is not valid");
+      toast.warn('Purchase Request No is not valid');
       return;
     }
 
@@ -161,25 +157,32 @@ export default function AddEditForm() {
     );
   };
 
-
-
-
   return (
     <IForm
       title={
-        params?.type === "edit"
-          ? "Edit Proforma Invoice"
-          : params?.type === "view"
-          ? "View Proforma Invoice"
-          : "Proforma Invoice"
+        params?.type === 'edit'
+          ? 'Edit Proforma Invoice'
+          : params?.type === 'view'
+            ? 'View Proforma Invoice'
+            : 'Proforma Invoice'
       }
       getProps={setObjprops}
-      isDisabled={params?.type === "view" ? true : isDisabled}
+      isDisabled={params?.type === 'view' ? true : isDisabled}
     >
       {isDisabled && <Loading />}
       <Form
         {...objProps}
-        initData={params?.pid ? {...singleData, warehouse: {value:singleData?.warehouseId, label:singleData?.warehouseName}} : initData}
+        initData={
+          params?.pid
+            ? {
+                ...singleData,
+                warehouse: {
+                  value: singleData?.warehouseId,
+                  label: singleData?.warehouseName,
+                },
+              }
+            : initData
+        }
         saveHandler={saveHandler}
         viewType={params?.type}
         rowDto={rowDto}

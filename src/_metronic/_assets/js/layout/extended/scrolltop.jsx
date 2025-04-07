@@ -1,4 +1,3 @@
-
 'use strict';
 
 import KTScrolltop from './../../components/scrolltop';

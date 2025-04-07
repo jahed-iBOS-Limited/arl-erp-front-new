@@ -1,20 +1,20 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import InputField from "../../../_helper/_inputField";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _firstDateOfMonth, _todayDate } from "../../../_helper/_todayDate";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { _formatMoney } from "../../../_helper/_formatMoney";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import InputField from '../../../_helper/_inputField';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _firstDateOfMonth, _todayDate } from '../../../_helper/_todayDate';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { _formatMoney } from '../../../_helper/_formatMoney';
 
 const initData = {
-  reportType: "",
-  customer: "",
-  paymentType: "",
+  reportType: '',
+  customer: '',
+  paymentType: '',
   fromDate: _firstDateOfMonth(),
   toDate: _todayDate(),
 };
@@ -31,20 +31,20 @@ export default function ServiceSalesReport() {
     getCustomerList(
       `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
   const getData = (values) => {
     const strFromAndToDate =
       values?.fromDate && values?.toDate
         ? `&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
-        : "";
+        : '';
     const url =
       values?.reportType?.value === 1
         ? `/oms/ServiceSales/GetServiceSaleOrderReport?BusinessUnitId=${
             selectedBusinessUnit?.value
-          }&CustomerId=${values?.customer?.value || 0}&PaymentTypeId=${values
-            ?.paymentType?.value || 0}${strFromAndToDate}`
+          }&CustomerId=${values?.customer?.value || 0}&PaymentTypeId=${
+            values?.paymentType?.value || 0
+          }${strFromAndToDate}`
         : `/oms/ServiceSales/GetServiceSalesBillReport?BusinessUnitId=${
             selectedBusinessUnit?.value
           }&CustomerId=${values?.customer?.value || 0}${strFromAndToDate}`;
@@ -124,8 +124,8 @@ export default function ServiceSalesReport() {
   const saveHandler = (values, cb) => {};
 
   // Add unique IDs for the tables
-  const tableIdType1 = "sales-order-wise-report-table";
-  const tableIdType2 = "service-sales-bill-report-table";
+  const tableIdType1 = 'sales-order-wise-report-table';
+  const tableIdType2 = 'service-sales-bill-report-table';
 
   return (
     <Formik
@@ -162,13 +162,13 @@ export default function ServiceSalesReport() {
                     <NewSelect
                       name="reportType"
                       options={[
-                        { value: 1, label: "Sales Order Wise Report" },
-                        { value: 2, label: "Service Sales Bill Report" },
+                        { value: 1, label: 'Sales Order Wise Report' },
+                        { value: 2, label: 'Service Sales Bill Report' },
                       ]}
                       value={values?.reportType}
                       label="Report Type"
                       onChange={(valueOption) => {
-                        setFieldValue("reportType", valueOption);
+                        setFieldValue('reportType', valueOption);
                         setRowData([]);
                       }}
                       errors={errors}
@@ -183,7 +183,7 @@ export default function ServiceSalesReport() {
                         value={values?.customer}
                         label="Customer"
                         onChange={(valueOption) => {
-                          setFieldValue("customer", valueOption);
+                          setFieldValue('customer', valueOption);
                         }}
                       />
                     </div>
@@ -191,13 +191,13 @@ export default function ServiceSalesReport() {
                       <NewSelect
                         name="paymentType"
                         options={[
-                          { value: 1, label: "Re-Curring" },
-                          { value: 2, label: "One Time" },
+                          { value: 1, label: 'Re-Curring' },
+                          { value: 2, label: 'One Time' },
                         ]}
                         value={values?.paymentType}
                         label="Payment Type"
                         onChange={(valueOption) => {
-                          setFieldValue("paymentType", valueOption);
+                          setFieldValue('paymentType', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -212,7 +212,7 @@ export default function ServiceSalesReport() {
                             name="fromDate"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("fromDate", e.target.value);
+                              setFieldValue('fromDate', e.target.value);
                             }}
                           />
                         </div>
@@ -223,7 +223,7 @@ export default function ServiceSalesReport() {
                             name="toDate"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("toDate", e.target.value);
+                              setFieldValue('toDate', e.target.value);
                             }}
                           />
                         </div>
@@ -249,8 +249,8 @@ export default function ServiceSalesReport() {
                         id="date-wise-table-xls-button-att-reports"
                         className="btn btn-primary"
                         table={tableIdType1}
-                        filename={"Sales Order Wise Report"}
-                        sheet={"Sales Order Wise Report"}
+                        filename={'Sales Order Wise Report'}
+                        sheet={'Sales Order Wise Report'}
                         buttonText="Export Excel"
                       />
                     ) : values?.reportType?.value === 2 ? (
@@ -258,8 +258,8 @@ export default function ServiceSalesReport() {
                         id="date-wise-table-xls-button-att-reports"
                         className="btn btn-primary"
                         table={tableIdType2}
-                        filename={"Service Sales Bill Report"}
-                        sheet={"Service Sales Bill Report"}
+                        filename={'Service Sales Bill Report'}
+                        sheet={'Service Sales Bill Report'}
                         buttonText="Export Excel"
                       />
                     ) : null}

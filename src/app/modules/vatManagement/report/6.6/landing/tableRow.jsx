@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 
-import { getGridDataSingleInvoice, getGenaratedGridData } from "../helper";
-import { SearchForm } from "./form";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _todayDate } from "./../../../../_helper/_todayDate";
+import { getGridDataSingleInvoice, getGenaratedGridData } from '../helper';
+import { SearchForm } from './form';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _todayDate } from './../../../../_helper/_todayDate';
 
 export function TableRow() {
   const [gridData, setGridData] = useState({});
@@ -29,7 +29,6 @@ export function TableRow() {
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -61,11 +60,10 @@ export function TableRow() {
         pageSize
       );
     }
-
   }, [taxBranchDDL]);
 
   const onSubmitHandler = (values, setModal) => {
-    if (values?.radio === "generate") {
+    if (values?.radio === 'generate') {
       getGenaratedGridData(
         profileData.accountId,
         selectedBusinessUnit?.value,

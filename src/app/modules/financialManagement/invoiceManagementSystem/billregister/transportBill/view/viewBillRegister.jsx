@@ -1,45 +1,44 @@
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import ReactToPrint from "react-to-print";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import ReactToPrint from 'react-to-print';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../../_helper/_loading";
+} from '../../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../../_helper/_loading';
 // import {
 //   GetCommissionByBillRegisterId,
 //   GetSalesCommissionById,
 // } from "../helper";
 // import ViewModalForTransportBill from "./viewModal";
-import { _fixedPoint } from "./../../../../../_helper/_fixedPoint";
-import printIcon from "../../../../../_helper/images/print-icon.png";
-import IView from "../../../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../../../_helper/_viewModal";
-import { getTransportBillById } from "../../helper";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import RentalVehicleEdit from "../../../../../transportManagement/routeCostManagement/rentalVehilceCost/Form/addEditForm";
-import { useHistory } from "react-router";
-import { Formik } from "formik";
-import InputField from "../../../../../_helper/_inputField";
-import { BillApproved_api } from "../../../approvebillregister/helper";
-import { getMultipleFileView_Action } from "../../../../../_helper/_redux/Actions";
-import * as Yup from "yup";
+import { _fixedPoint } from './../../../../../_helper/_fixedPoint';
+import printIcon from '../../../../../_helper/images/print-icon.png';
+import IView from '../../../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../../../_helper/_viewModal';
+import { getTransportBillById } from '../../helper';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import RentalVehicleEdit from '../../../../../transportManagement/routeCostManagement/rentalVehilceCost/Form/addEditForm';
+import { useHistory } from 'react-router';
+import { Formik } from 'formik';
+import InputField from '../../../../../_helper/_inputField';
+import { BillApproved_api } from '../../../approvebillregister/helper';
+import { getMultipleFileView_Action } from '../../../../../_helper/_redux/Actions';
+import * as Yup from 'yup';
 
 const initData = {
-  approveAmount: "",
-  approveAmountMax: "",
-  remarks: "",
+  approveAmount: '',
+  approveAmountMax: '',
+  remarks: '',
 };
 
 const validationSchema = Yup.object().shape({
   approveAmount: Yup.number()
-    .min(0, "Minimum 0 number")
-    .required("Approve amount required")
-    .test("approveAmount", "Max Net Payable Amount", function(value) {
+    .min(0, 'Minimum 0 number')
+    .required('Approve amount required')
+    .test('approveAmount', 'Max Net Payable Amount', function (value) {
       return this.parent.approveAmountMax >= value;
     }),
 });
@@ -65,7 +64,7 @@ function ViewTransportBill({
   const [gridData, setGridData] = useState([]);
   // const [rowDto, setRowDto] = useState([]);
   const [show, setShow] = useState(false);
-  const [shipmentId, setShipmentId] = useState("");
+  const [shipmentId, setShipmentId] = useState('');
   const [disabled, setDisabled] = useState(false);
   const printRef = useRef();
   const history = useHistory();
@@ -87,7 +86,7 @@ function ViewTransportBill({
       unitId: selectedBusinessUnit?.value,
       billTypeId: gridItem?.billType,
       approvedAmount: +values?.approveAmount,
-      remarks: values?.remarks || "",
+      remarks: values?.remarks || '',
     };
     const payload = {
       bill: [modifyGridData],
@@ -171,17 +170,17 @@ function ViewTransportBill({
                   <div className="col-lg-12 ">
                     <div
                       className="text-center "
-                      style={{ position: "relative" }}
+                      style={{ position: 'relative' }}
                     >
                       <h2>{selectedBusinessUnit?.label}</h2>
                       <h5>{selectedBusinessUnit?.address} </h5>
-                      <h3>{"Transport Bill"}</h3>
+                      <h3>{'Transport Bill'}</h3>
                       <button
                         style={{
-                          padding: "4px 4px",
-                          position: "absolute",
-                          top: "2px",
-                          right: "70px",
+                          padding: '4px 4px',
+                          position: 'absolute',
+                          top: '2px',
+                          right: '70px',
                         }}
                         onClick={() => {
                           dispatch(
@@ -195,23 +194,23 @@ function ViewTransportBill({
                       </button>
                       <ReactToPrint
                         pageStyle={
-                          "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}"
+                          '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}'
                         }
                         trigger={() => (
                           <button
                             type="button"
                             className="btn btn-primary printSectionNone"
                             style={{
-                              padding: "2px 5px",
-                              position: "absolute",
-                              top: "0",
-                              right: "0",
+                              padding: '2px 5px',
+                              position: 'absolute',
+                              top: '0',
+                              right: '0',
                             }}
                           >
                             <img
                               style={{
-                                width: "25px",
-                                paddingRight: "5px",
+                                width: '25px',
+                                paddingRight: '5px',
                               }}
                               src={printIcon}
                               alt="print-icon"
@@ -237,13 +236,13 @@ function ViewTransportBill({
                             <th>Shipment Name</th>
                             <th>Challan No</th>
                             <th>Total Quantity</th>
-                            <th style={{ minWidth: "40px" }}>Rate</th>
+                            <th style={{ minWidth: '40px' }}>Rate</th>
                             <th>Vehicle Name</th>
                             <th>Driver Name</th>
                             <th>Route Name</th>
                             <th>Net Payable</th>
                             <th
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                               className="printSectionNone"
                             >
                               Action
@@ -256,7 +255,7 @@ function ViewTransportBill({
                               <>
                                 <tr key={index}>
                                   <td
-                                    style={{ width: "30px" }}
+                                    style={{ width: '30px' }}
                                     className="text-center"
                                   >
                                     {index + 1}
@@ -304,11 +303,11 @@ function ViewTransportBill({
                           })}
                           <tr>
                             <td className="text-right" colSpan="11">
-                              {" "}
+                              {' '}
                               <b>Total:</b>
                             </td>
                             <td className="text-right">
-                              {" "}
+                              {' '}
                               <b>
                                 {_fixedPoint(
                                   gridData?.rows?.reduce(
@@ -332,12 +331,12 @@ function ViewTransportBill({
                   setShow(false);
                 }}
               >
-                {" "}
+                {' '}
                 <RentalVehicleEdit
                   isBtnHide={true}
                   billId={shipmentId}
                   // initData={rowDto}
-                ></RentalVehicleEdit>{" "}
+                ></RentalVehicleEdit>{' '}
               </IViewModal>
             </CardBody>
           </Card>

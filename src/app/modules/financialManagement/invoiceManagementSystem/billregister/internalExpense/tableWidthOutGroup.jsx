@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ClearExpenseViewModel from "./clearExpenseViewModel";
-import IView from "../../../../_helper/_helperIcons/_view";
-import InputField from "./../../../../_helper/_inputField";
+import React, { useState } from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ClearExpenseViewModel from './clearExpenseViewModel';
+import IView from '../../../../_helper/_helperIcons/_view';
+import InputField from './../../../../_helper/_inputField';
 // import { toast } from "react-toastify";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
 
 function TableWidthOutGroup({
   gridData,
@@ -14,9 +14,8 @@ function TableWidthOutGroup({
   parentValues,
 }) {
   const [isClearExpenseViewModel, setIsClearExpenseViewModel] = useState(false);
-  const [gridRowDataClearExpViewBtn, setGridRowDataClearExpViewBtn] = useState(
-    ""
-  );
+  const [gridRowDataClearExpViewBtn, setGridRowDataClearExpViewBtn] =
+    useState('');
 
   // const isAdjustAmount =
   //   parentValues?.isGroup?.value === 1 &&
@@ -32,14 +31,14 @@ function TableWidthOutGroup({
     <>
       <div className="d-flex justify-content-end align-content-center p-0 m-0">
         <p className=" p-0 m-0 mr-2">
-          <b>Total Advance Amount:</b>{" "}
+          <b>Total Advance Amount:</b>{' '}
           {itemCheckFilterList?.[0]?.advanceAmount || 0},
         </p>
         <p className=" p-0 m-0 mr-2">
           <b>Total Adjust Amount:</b> {itemCheckTotalAdjustAmount || 0},
         </p>
         <p className=" p-0 m-0">
-          <b>Total Net Payable Amount:</b>{" "}
+          <b>Total Net Payable Amount:</b>{' '}
           {itemCheckFilterList.reduce((acc, cur) => acc + cur.netAmount, 0)}
         </p>
       </div>
@@ -52,7 +51,7 @@ function TableWidthOutGroup({
           >
             <thead>
               <tr>
-                <th style={{ width: "25px" }}>
+                <th style={{ width: '25px' }}>
                   {/* <input
                     type="checkbox"
                     id="parent"
@@ -66,21 +65,21 @@ function TableWidthOutGroup({
                     disabled={parentValues?.expenseGroup?.value === "Other"}
                   /> */}
                 </th>
-                <th style={{ width: "35px" }}>SL</th>
-                <th style={{ width: "150px" }}>Request Date</th>
-                <th style={{ width: "150px" }}>Employee Id</th>
-                <th style={{ width: "150px" }}>Expense Code</th>
-                <th style={{ width: "150px" }}>Request By</th>
-                <th style={{ width: "150px" }}>Purpose</th>
-                <th style={{ width: "150px" }}>Disbursement Center Name</th>
+                <th style={{ width: '35px' }}>SL</th>
+                <th style={{ width: '150px' }}>Request Date</th>
+                <th style={{ width: '150px' }}>Employee Id</th>
+                <th style={{ width: '150px' }}>Expense Code</th>
+                <th style={{ width: '150px' }}>Request By</th>
+                <th style={{ width: '150px' }}>Purpose</th>
+                <th style={{ width: '150px' }}>Disbursement Center Name</th>
                 {/* <th style={{ width: "150px" }}>Advance Amount</th> */}
-                <th style={{ width: "150px" }}>Total Amount</th>
+                <th style={{ width: '150px' }}>Total Amount</th>
                 {/* {isAdjustAmount && ( */}
-                <th style={{ minWidth: "100px" }}> Adjust Amount</th>
+                <th style={{ minWidth: '100px' }}> Adjust Amount</th>
                 {/* )} */}
 
-                <th style={{ width: "150px" }}>Net Payable Amount</th>
-                <th style={{ width: "150px" }}>Action</th>
+                <th style={{ width: '150px' }}>Net Payable Amount</th>
+                <th style={{ width: '150px' }}>Action</th>
               </tr>
             </thead>
             <tbody>

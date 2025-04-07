@@ -1,7 +1,6 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getCompetencyListAction,
   getEmpDDLAction,
@@ -14,24 +13,24 @@ import {
   SetEmployeeBasicInfoEmptyAction,
   SetValAndCompByEmpIdEmptyAction,
   SetValuesListEmptyAction,
-} from "../../_redux/Actions";
-import { toast } from "react-toastify";
-import IForm from "../../../_helper/_form";
+} from '../../_redux/Actions';
+import { toast } from 'react-toastify';
+import IForm from '../../../_helper/_form';
 import { useLocation } from 'react-router-dom';
 
 const initData = {
-  searchEmployee: "",
-  year: "",
-  quarter: "",
-  type: "private",
+  searchEmployee: '',
+  year: '',
+  quarter: '',
+  type: 'private',
 };
 
 export default function ValuesAndCompetencyPage() {
   const [isDisabled, setDisabled] = useState(true);
-  const [year, setYear] = useState("");
+  const [year, setYear] = useState('');
   const [chackBox, setChackBox] = useState(false);
-  const {state: headerData} = useLocation()
-  console.log(headerData)
+  const { state: headerData } = useLocation();
+  console.log(headerData);
   let pmsData = useSelector(
     (state) => {
       return {
@@ -69,7 +68,6 @@ export default function ValuesAndCompetencyPage() {
     if (profileData) {
       dispatch(getEmployeeBasicInfoByIdAction(profileData?.userId));
     }
-
   }, [profileData]);
 
   useEffect(() => {
@@ -96,7 +94,6 @@ export default function ValuesAndCompetencyPage() {
     if (payloadOne && payloadTwo) {
       setValueObj([...payloadOne, ...payloadTwo]);
     }
-
   }, [valuesData, valueList]);
 
   useEffect(() => {
@@ -112,7 +109,6 @@ export default function ValuesAndCompetencyPage() {
         )
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const getValueAndCompList = (empId) => {
@@ -134,7 +130,7 @@ export default function ValuesAndCompetencyPage() {
     setDisabled(true);
     if (values && profileData && selectedBusinessUnit?.value) {
       if (!valueList.length || !competencyList.length) {
-        toast.warn("Values and competencies are required");
+        toast.warn('Values and competencies are required');
       } else {
         let isDisabled = false;
         let row = valueObj.map((itm, index) => {
@@ -163,7 +159,7 @@ export default function ValuesAndCompetencyPage() {
           objRow: row,
         };
         if (isDisabled) {
-          toast.warning("Select all fields");
+          toast.warning('Select all fields');
         } else {
           dispatch(saveValuesAndCompetencyAction({ data: payload, cb }));
         }
@@ -183,7 +179,6 @@ export default function ValuesAndCompetencyPage() {
         getValuesAndCompByEmpIdAction(profileData.userId, yearDDL[0].value)
       );
     }
-
   }, [yearDDL]);
 
   //remove store data
@@ -194,7 +189,6 @@ export default function ValuesAndCompetencyPage() {
       dispatch(SetValuesListEmptyAction());
       dispatch(SetCompetencyEmptyAction());
     };
-
   }, []);
 
   useEffect(() => {
@@ -205,10 +199,7 @@ export default function ValuesAndCompetencyPage() {
 
       getValueAndCompList(profileData.userId);
     }
-
   }, [yearDDL, profileData]);
-
-
 
   return (
     <IForm

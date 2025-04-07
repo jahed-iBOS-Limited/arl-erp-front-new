@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import Form from './form';
@@ -247,7 +246,7 @@ export default function StrategicParticularsForm({
           }
         } else {
           toast.warn(
-            'Select Employee or Department or SBU or Corporate checkbox',
+            'Select Employee or Department or SBU or Corporate checkbox'
           );
         }
       }
@@ -260,38 +259,33 @@ export default function StrategicParticularsForm({
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       dispatch(
-        getSbuDDLAction(profileData.accountId, selectedBusinessUnit.value),
+        getSbuDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
       dispatch(
-        getEmpDDLCommonAction(
-          profileData.accountId,
-          selectedBusinessUnit.value,
-        ),
+        getEmpDDLCommonAction(profileData.accountId, selectedBusinessUnit.value)
       );
       dispatch(getPMSFrequencyDDLAction());
       dispatch(
         getStrategicParticularsTypeDDLAction(
           profileData.accountId,
-          selectedBusinessUnit.value,
-        ),
+          selectedBusinessUnit.value
+        )
       );
       dispatch(getBSCPerspectiveDDLAction());
       dispatch(
-        getYearDDLAction(profileData.accountId, selectedBusinessUnit.value),
+        getYearDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
       dispatch(
         getStrategicObjectiveTypeDDLAction(
           profileData.accountId,
-          selectedBusinessUnit.value,
-        ),
+          selectedBusinessUnit.value
+        )
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     return () => dispatch(setParticullersGridEmpty());
-
   }, []);
 
   // dipatch getStrategicParticularsGridAction
@@ -304,8 +298,8 @@ export default function StrategicParticularsForm({
         values.year?.label,
         frequencyId,
         5,
-        values,
-      ),
+        values
+      )
     );
   };
 
@@ -319,7 +313,6 @@ export default function StrategicParticularsForm({
     } else {
       dispatch(getStrategicParticularsSingleEmpty());
     }
-
   }, [strId]);
 
   useEffect(() => {

@@ -1,34 +1,34 @@
-import React from "react";
+import React from 'react';
 
 export const DebitNote = () => {
   const styles = {
     container: {
-      fontFamily: "Arial, sans-serif",
-      lineHeight: "1.5",
-      margin: "20px auto",
-      padding: "20px",
-      maxWidth: "800px",
-      border: "1px solid #ccc",
+      fontFamily: 'Arial, sans-serif',
+      lineHeight: '1.5',
+      margin: '20px auto',
+      padding: '20px',
+      maxWidth: '800px',
+      border: '1px solid #ccc',
     },
     heading: {
-      textAlign: "center",
-      textDecoration: "underline",
-      margin: "20px 0",
+      textAlign: 'center',
+      textDecoration: 'underline',
+      margin: '20px 0',
     },
 
     table: {
-      width: "100%",
-      borderCollapse: "collapse",
-      marginBottom: "20px",
-      textAlign: "center",
+      width: '100%',
+      borderCollapse: 'collapse',
+      marginBottom: '20px',
+      textAlign: 'center',
     },
     tableCell: {
-      padding: "8px",
-      textAlign: "center",
+      padding: '8px',
+      textAlign: 'center',
     },
 
     bankDetails: {
-      marginTop: "20px",
+      marginTop: '20px',
     },
   };
   return (
@@ -37,13 +37,13 @@ export const DebitNote = () => {
       <div className="d-flex justify-content-between">
         <div className="d-flex">
           <p>DATE</p>
-          <p style={{ marginLeft: "100px" }}> 30TH MAY, 2024</p>
+          <p style={{ marginLeft: '100px' }}> 30TH MAY, 2024</p>
         </div>
         <p>INVOICE REF: ACL/GRAIN FLOWER/MAY-02</p>
       </div>
       <div className="d-flex ">
         <p>TO</p>
-        <div style={{ marginLeft: "115px" }}>
+        <div style={{ marginLeft: '115px' }}>
           <p>GRAIN FLOWER DMCC.</p>
           <p>UNIT NO-3705 HDS BUSINESS CENTER PLOT NO-JLT-PH1-M1A JUMEIRAH</p>
           <p> LAKES TOWERS DUBAI UNITED ARAB EMIRATES</p>
@@ -51,7 +51,7 @@ export const DebitNote = () => {
       </div>
       <div className="d-flex ">
         <p>FROM</p>
-        <div style={{ marginLeft: "94px" }}>
+        <div style={{ marginLeft: '94px' }}>
           <p>AKIJ COMMODITIES LIMITED</p>
           <p>
             198 AKIJ HOUSE BIR UTTAM MIR SHAWKAT SARAK (GULSHAN LINK ROAD
@@ -66,7 +66,7 @@ export const DebitNote = () => {
           <p>DISCHARGE PORT</p>
           <p>BL QTY</p>
         </div>
-        <div style={{ marginLeft: "50px" }}>
+        <div style={{ marginLeft: '50px' }}>
           <p>
             <span>:</span> M.V MALAK
           </p>
@@ -120,13 +120,13 @@ export const DebitNote = () => {
       <div style={styles.bankDetails}>
         <div className="d-flex ">
           <div>
-            <p style={{ marginTop: "35px" }}>BENEFICIARY NAME</p>
+            <p style={{ marginTop: '35px' }}>BENEFICIARY NAME</p>
             <p>ACCOUNT NUMBER </p>
             <p>BANK NAME</p>
             <p>BRANCH</p>
             <p>SWIFT CODE</p>
           </div>
-          <div style={{ marginLeft: "50px" }}>
+          <div style={{ marginLeft: '50px' }}>
             <p>BANK DETAILS:</p>
             <p>
               <span>:</span> AKIJ COMMODITIES LIMITED
@@ -147,7 +147,7 @@ export const DebitNote = () => {
         </div>
       </div>
       <div>
-        <p style={{ marginTop: "50px", marginBottom: "-5px" }}>
+        <p style={{ marginTop: '50px', marginBottom: '-5px' }}>
           FOR AND ON BEHALF OF AKIJ COMMODITIES LTD
         </p>
       </div>

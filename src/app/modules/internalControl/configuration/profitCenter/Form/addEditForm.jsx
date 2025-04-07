@@ -1,8 +1,7 @@
-
-import React, { useEffect, useState } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import IForm from '../../../../_helper/_form'
-import { getControllingUnitDDLAction } from '../../../../_helper/_redux/Actions'
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import IForm from '../../../../_helper/_form';
+import { getControllingUnitDDLAction } from '../../../../_helper/_redux/Actions';
 import {
   getEmpDDLAction,
   getGroupNameDDLAction,
@@ -10,9 +9,9 @@ import {
   saveEditedProfitCenter,
   saveProfitCenter,
   setProfitCenterSingleEmpty,
-} from '../_redux/Actions'
-import Loading from './../../../../_helper/_loading'
-import Form from './form'
+} from '../_redux/Actions';
+import Loading from './../../../../_helper/_loading';
+import Form from './form';
 
 const initData = {
   id: undefined,
@@ -22,7 +21,7 @@ const initData = {
   responsiblePerson: '',
   controllingUnit: '',
   groupName: '',
-}
+};
 
 export default function ProfitCenterForm({
   history,
@@ -30,67 +29,64 @@ export default function ProfitCenterForm({
     params: { id },
   },
 }) {
-  const [isDisabled, setDisabled] = useState(false)
-  const [responsiblePerson, setResponsiblePerson] = useState('')
+  const [isDisabled, setDisabled] = useState(false);
+  const [responsiblePerson, setResponsiblePerson] = useState('');
   // get user profile data from store
   const profileData = useSelector((state) => {
-    return state.authData.profileData
-  }, shallowEqual)
+    return state.authData.profileData;
+  }, shallowEqual);
 
   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit
-  }, shallowEqual)
+    return state.authData.selectedBusinessUnit;
+  }, shallowEqual);
 
   // get emplist ddl from store
   const empDDL = useSelector((state) => {
-    return state?.profitCenter?.empDDL
-  }, shallowEqual)
+    return state?.profitCenter?.empDDL;
+  }, shallowEqual);
 
   // get cuDDL ddl from store
   const cuDDL = useSelector((state) => {
-    return state?.commonDDL?.controllingDDL
-  }, shallowEqual)
+    return state?.commonDDL?.controllingDDL;
+  }, shallowEqual);
 
   const groupNameDDL = useSelector((state) => {
-    return state?.profitCenter?.groupNameDDL
-  }, shallowEqual)
-
+    return state?.profitCenter?.groupNameDDL;
+  }, shallowEqual);
 
   // get single profitCenter from store
   const singleData = useSelector((state) => {
-    return state.profitCenter?.singleData
-  }, shallowEqual)
+    return state.profitCenter?.singleData;
+  }, shallowEqual);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   //Dispatch single data action and empty single data for create
   useEffect(() => {
     if (id) {
-      dispatch(getProfitCenterById(id))
+      dispatch(getProfitCenterById(id));
     } else {
-      dispatch(setProfitCenterSingleEmpty())
+      dispatch(setProfitCenterSingleEmpty());
     }
-
-  }, [id])
+  }, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       dispatch(
         getEmpDDLAction(profileData.accountId, selectedBusinessUnit.value)
-      )
+      );
       dispatch(
         getControllingUnitDDLAction(
           profileData.accountId,
           selectedBusinessUnit.value
         )
-      )
+      );
     }
-
-  }, [selectedBusinessUnit, profileData])
+  }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
-    setDisabled(true)
+    setDisabled(true);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (id) {
         const payload = {
@@ -101,8 +97,8 @@ export default function ProfitCenterForm({
           controllingUnitId: values?.controllingUnit?.value,
           responsiblePersonId: values?.responsiblePerson?.value || 0,
           actionBy: profileData.userId,
-        }
-        dispatch(saveEditedProfitCenter(payload, setDisabled))
+        };
+        dispatch(saveEditedProfitCenter(payload, setDisabled));
       } else {
         const payload = {
           profitCenterName: values.profitCenterName,
@@ -113,14 +109,14 @@ export default function ProfitCenterForm({
           controllingUnitId: values?.controllingUnit?.value,
           responsiblePersonId: values?.responsiblePerson?.value || 0,
           actionBy: profileData.userId,
-        }
-        dispatch(saveProfitCenter({ data: payload, cb, setDisabled }))
+        };
+        dispatch(saveProfitCenter({ data: payload, cb, setDisabled }));
       }
     } else {
-      setDisabled(false)
-      console.log(values)
+      setDisabled(false);
+      console.log(values);
     }
-  }
+  };
 
   const groupDDLDispatch = (payload) => {
     dispatch(
@@ -129,9 +125,9 @@ export default function ProfitCenterForm({
         selectedBusinessUnit.value,
         payload
       )
-    )
-  }
-  const [objProps, setObjprops] = useState({})
+    );
+  };
+  const [objProps, setObjprops] = useState({});
 
   return (
     <IForm
@@ -155,5 +151,5 @@ export default function ProfitCenterForm({
         responsiblePerson={responsiblePerson}
       />
     </IForm>
-  )
+  );
 }

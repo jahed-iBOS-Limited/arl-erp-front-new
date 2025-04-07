@@ -27,7 +27,7 @@ export default function AchievementTable() {
         departmentDDL: state.inDividualBalancedScore.departmentDDL,
       };
     },
-    { shallowEqual },
+    { shallowEqual }
   );
   let { profileData, selectedBusinessUnit, yearDDL, monthDDL, departmentDDL } =
     storeData;
@@ -49,14 +49,13 @@ export default function AchievementTable() {
       dispatch(
         getDepartmentDDLAction(
           profileData?.accountId,
-          selectedBusinessUnit?.value,
-        ),
+          selectedBusinessUnit?.value
+        )
       );
       dispatch(
-        getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value),
+        getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -64,7 +63,6 @@ export default function AchievementTable() {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
     setYear({ value: yearDDL[0]?.value, label: yearDDL[0]?.label });
-
   }, [yearDDL]);
 
   const [report, setReport] = useState({});
@@ -79,10 +77,9 @@ export default function AchievementTable() {
         0,
         0,
         false,
-        2,
+        2
       );
     }
-
   }, [selectedBusinessUnit, department]);
 
   useEffect(() => {
@@ -131,7 +128,7 @@ export default function AchievementTable() {
                 from?.value,
                 to?.value,
                 false,
-                2,
+                2
               );
             }}
             isDisabled={!depKpiResultPublic?.isView}
@@ -161,7 +158,7 @@ export default function AchievementTable() {
                 from?.value,
                 to?.value,
                 false,
-                2,
+                2
               );
             }}
             className="mb-3"
@@ -189,7 +186,7 @@ export default function AchievementTable() {
                 valueOption?.value,
                 to?.value,
                 false,
-                2,
+                2
               );
             }}
             className="mb-3"
@@ -219,7 +216,7 @@ export default function AchievementTable() {
                 from?.value,
                 valueOption?.value,
                 false,
-                2,
+                2
               );
             }}
             className="mb-3"

@@ -72,20 +72,15 @@ export default function LoadingSupervisorInfo() {
   const [tlmDDL, getTLMDDL] = useAxiosGet();
   const [rowData, getRowData, rowLoading, setRowData] = useAxiosGet();
   const [packerList, getPackerList, , setPackerList] = useAxiosGet();
-  const [
-    shipmentDetails,
-    getShipmentDetails,
-    shipmentDetailsLoading,
-  ] = useAxiosGet();
+  const [shipmentDetails, getShipmentDetails, shipmentDetailsLoading] =
+    useAxiosGet();
   const [
     packerForcelyCompleteData,
     getPackerForcelyCompleteData,
     packerForcelyCompleteDataLoading,
   ] = useAxiosGet();
-  const [
-    isPermitedToConfirmPackerForce,
-    getPermitedToConfirmPackerForce,
-  ] = useAxiosGet();
+  const [isPermitedToConfirmPackerForce, getPermitedToConfirmPackerForce] =
+    useAxiosGet();
 
   // axios post
   const [, onComplete, loader] = useAxiosPost();
@@ -119,7 +114,7 @@ export default function LoadingSupervisorInfo() {
                   clickHandler={() => {
                     getShipmentDetails(
                       `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${reportData?.objHeader?.shipmentId}`,
-                      () => setShipmentModalOpen(true),
+                      () => setShipmentModalOpen(true)
                     );
                   }}
                 />
@@ -140,10 +135,10 @@ export default function LoadingSupervisorInfo() {
               item?.bagType === 'Pasting'
                 ? '#57d557c2'
                 : item?.bagType === 'Sewing'
-                ? '#6cbbe7de'
-                : item?.bagType === 'MES PCC'
-                ? '#bb8ef2f0'
-                : ''
+                  ? '#6cbbe7de'
+                  : item?.bagType === 'MES PCC'
+                    ? '#bb8ef2f0'
+                    : ''
             }`,
           }}
         >
@@ -214,7 +209,7 @@ export default function LoadingSupervisorInfo() {
           <td>
             {rowData?.data?.reduce(
               (total, curr) => (total += curr?.itemTotalQty),
-              0,
+              0
             )}
           </td>
           <td colSpan={2}></td>
@@ -224,7 +219,7 @@ export default function LoadingSupervisorInfo() {
           <td>
             {reportData?.objRow?.reduce(
               (total, curr) => (total += curr?.quantity),
-              0,
+              0
             )}
           </td>
 
@@ -234,7 +229,7 @@ export default function LoadingSupervisorInfo() {
               <td className="text-right">
                 {reportData?.objRow?.reduce(
                   (total, curr) => total + curr?.itemPrice,
-                  0,
+                  0
                 )}
               </td>
               <td></td>
@@ -308,7 +303,7 @@ export default function LoadingSupervisorInfo() {
                     item,
                     profileData,
                     confirmShipmentInfo,
-                    values,
+                    values
                     // setOpen
                   );
                 }}
@@ -381,7 +376,7 @@ export default function LoadingSupervisorInfo() {
                 selectedBusinessUnit?.value
               }&TypeId=1&RefferencePKId=${
                 valueOption?.value
-              }&ShipPointId=${values?.shipPoint?.value || 0}`,
+              }&ShipPointId=${values?.shipPoint?.value || 0}`
             );
           }}
         />
@@ -450,7 +445,7 @@ export default function LoadingSupervisorInfo() {
                               resetForm(initData);
                               setShipmentId(null);
                             },
-                            true,
+                            true
                           );
                         }}
                       >
@@ -480,7 +475,7 @@ export default function LoadingSupervisorInfo() {
                             setShipmentId(null);
                             setRowData([]);
                           },
-                          true,
+                          true
                         );
                       }}
                     >
@@ -519,14 +514,14 @@ export default function LoadingSupervisorInfo() {
                                 ...item,
                                 value: item?.workCenterId,
                                 label: item?.workCenterName,
-                              })),
+                              }))
                             );
-                          },
+                          }
                         );
 
                         // get permited to confirm packer forcely complete
                         getPermitedToConfirmPackerForce(
-                          `/oms/SalesInformation/GetAllowForModification?Partid=22&UserId=${profileData?.userId}&UnitId=${selectedBusinessUnit?.value}`,
+                          `/oms/SalesInformation/GetAllowForModification?Partid=22&UserId=${profileData?.userId}&UnitId=${selectedBusinessUnit?.value}`
                         );
                       }
                     }}
@@ -614,7 +609,7 @@ export default function LoadingSupervisorInfo() {
                             profileData,
                             selectedBusinessUnit,
                             values,
-                            getRowData,
+                            getRowData
                           );
                         }
                       }}
@@ -844,8 +839,9 @@ export default function LoadingSupervisorInfo() {
                                 selectedBusinessUnit?.value
                               }&TypeId=1&RefferencePKId=${
                                 valueOption?.value
-                              }&ShipPointId=${shipPointIdForCementTlmLoadFromPacker ||
-                                0}`,
+                              }&ShipPointId=${
+                                shipPointIdForCementTlmLoadFromPacker || 0
+                              }`
                             );
                           }
                         }}
@@ -939,7 +935,7 @@ export default function LoadingSupervisorInfo() {
                     history={history}
                     onHide={() => {
                       history.push(
-                        '/transport-management/deliveryprocess/LoadingSupervisorInfo',
+                        '/transport-management/deliveryprocess/LoadingSupervisorInfo'
                       );
                     }}
                   />
@@ -952,73 +948,78 @@ export default function LoadingSupervisorInfo() {
                 onHide={() => setIsQRCodeSHow(false)}
               >
                 <QRCodeScanner
-                 QrCodeScannerCB={(result) => {
-                  // Validate result to ensure it's a valid string
-                  if (!result || typeof result !== "string" || result.trim() === "") {
-                    console.error("Invalid QR code result received:", result);
-                    return; // Exit the function to prevent further execution
-                  }
-                
-                  // Trim any leading/trailing spaces and extract only the part before the first space
-                  const modifiedResult = result.includes(" ") ? result.split(" ")[0] : result;
-                
-                  setIsQRCodeSHow(false);
-                  setShipmentId(modifiedResult);
-                  getReportData(
-                    // `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${+modifiedResult}`,
-                    `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${modifiedResult}`,
-                    (res) => {
-                      getTLMDDL(
-                        `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${
-                          selectedBusinessUnit?.value
-                        }&TypeId=1&RefferencePKId=${
-                          selectedBusinessUnit?.value === 4
-                            ? res?.objHeader?.packerId
-                            : 1
-                        }&ShipPointId=${res?.objHeader?.shipPointId || 0}`,
-                      );
-                      setShipPointIdForCementTlmLoadFromPacker(
-                        res?.objHeader?.shipPointId,
-                      );
-                
-                      getPackerList(
-                        `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
-                        (resData) => {
-                          // set ddl state
-                          setPackerList(
-                            resData?.map((item) => ({
-                              ...item,
-                              value: item?.workCenterId,
-                              label: item?.workCenterName,
-                            })),
-                          );
-                        },
-                      );
-                
-                      setFieldValue(
-                        'shippingPoint',
-                        res?.objHeader?.shipPointName || '',
-                      );
-                      setFieldValue(
-                        'vehicleNumber',
-                        res?.objHeader?.strVehicleName || '',
-                      );
-                      setFieldValue(
-                        'driver',
-                        res?.objHeader?.driverName || '',
-                      );
-                      setFieldValue(
-                        'packerName',
-                        res?.objHeader?.packerName || '',
-                      );
-                      setFieldValue(
-                        'deliveryDate',
-                        _dateFormatter(res?.objHeader?.pricingDate) || '',
-                      );
-                    },
-                  );
-                }}
-                
+                  QrCodeScannerCB={(result) => {
+                    // Validate result to ensure it's a valid string
+                    if (
+                      !result ||
+                      typeof result !== 'string' ||
+                      result.trim() === ''
+                    ) {
+                      console.error('Invalid QR code result received:', result);
+                      return; // Exit the function to prevent further execution
+                    }
+
+                    // Trim any leading/trailing spaces and extract only the part before the first space
+                    const modifiedResult = result.includes(' ')
+                      ? result.split(' ')[0]
+                      : result;
+
+                    setIsQRCodeSHow(false);
+                    setShipmentId(modifiedResult);
+                    getReportData(
+                      // `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${+modifiedResult}`,
+                      `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${modifiedResult}`,
+                      (res) => {
+                        getTLMDDL(
+                          `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${
+                            selectedBusinessUnit?.value
+                          }&TypeId=1&RefferencePKId=${
+                            selectedBusinessUnit?.value === 4
+                              ? res?.objHeader?.packerId
+                              : 1
+                          }&ShipPointId=${res?.objHeader?.shipPointId || 0}`
+                        );
+                        setShipPointIdForCementTlmLoadFromPacker(
+                          res?.objHeader?.shipPointId
+                        );
+
+                        getPackerList(
+                          `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+                          (resData) => {
+                            // set ddl state
+                            setPackerList(
+                              resData?.map((item) => ({
+                                ...item,
+                                value: item?.workCenterId,
+                                label: item?.workCenterName,
+                              }))
+                            );
+                          }
+                        );
+
+                        setFieldValue(
+                          'shippingPoint',
+                          res?.objHeader?.shipPointName || ''
+                        );
+                        setFieldValue(
+                          'vehicleNumber',
+                          res?.objHeader?.strVehicleName || ''
+                        );
+                        setFieldValue(
+                          'driver',
+                          res?.objHeader?.driverName || ''
+                        );
+                        setFieldValue(
+                          'packerName',
+                          res?.objHeader?.packerName || ''
+                        );
+                        setFieldValue(
+                          'deliveryDate',
+                          _dateFormatter(res?.objHeader?.pricingDate) || ''
+                        );
+                      }
+                    );
+                  }}
                 />
               </IViewModal>
 

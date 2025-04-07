@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const inactivePrintedInfo = async (soId, userId, setLoading, cb) => {
   setLoading && setLoading(true);

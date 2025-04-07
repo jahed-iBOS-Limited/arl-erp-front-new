@@ -1,16 +1,10 @@
+import React, { useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
-import React, { useEffect } from "react";
-import { Formik, Form } from "formik";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-
-export default function FormCmp({
-  initData,
-  rowDto,
-  getData,
-}) {
-
+export default function FormCmp({ initData, rowDto, getData }) {
   const [unitNameDDL, getUnitNameDDL] = useAxiosGet();
 
   const generateAPI = (name, autoId = 0, typeId = 0) => {
@@ -19,15 +13,13 @@ export default function FormCmp({
 
   const getTrustAllLanding = (partName, unitId, fromDate, toDate) => {
     return `/hcm/TrustManagement/GetTrustAllLanding?PartName=${partName}&UnitId=${unitId}&FromDate=${fromDate}&ToDate=${toDate}`;
-  }
+  };
 
   useEffect(() => {
-    getUnitNameDDL(generateAPI("UnitDDL"));
+    getUnitNameDDL(generateAPI('UnitDDL'));
   }, []);
 
-  const saveHandler = (values, cb) => {
-
-  }
+  const saveHandler = (values, cb) => {};
 
   return (
     <>
@@ -40,12 +32,7 @@ export default function FormCmp({
           });
         }}
       >
-        {({
-          values,
-          setFieldValue,
-          errors,
-          touched,
-        }) => (
+        {({ values, setFieldValue, errors, touched }) => (
           <>
             <Form className="form form-label-right">
               <div className="row">
@@ -63,7 +50,7 @@ export default function FormCmp({
                           <InputField
                             value={values?.fromDate}
                             name="fromDate"
-                            placeholder={""}
+                            placeholder={''}
                             type="date"
                           />
                         </div>
@@ -104,7 +91,7 @@ export default function FormCmp({
                           options={unitNameDDL || []}
                           value={values?.unitName}
                           onChange={(valueOption) => {
-                            setFieldValue("unitName", valueOption);
+                            setFieldValue('unitName', valueOption);
                           }}
                           placeholder="Select"
                           errors={errors}
@@ -116,20 +103,22 @@ export default function FormCmp({
                       <div className="text-right">
                         <button
                           type="button"
-                          style={{ fontSize: "12px" }}
+                          style={{ fontSize: '12px' }}
                           className="btn btn-primary"
                           disabled={!values?.fromDate || !values?.toDate}
                           onClick={() => {
                             getData(
                               getTrustAllLanding(
-                                "MonthWiseGetAllDonationApplicationList",
+                                'MonthWiseGetAllDonationApplicationList',
                                 values?.unitName?.value || 4,
                                 values?.fromDate,
-                                values?.toDate,
+                                values?.toDate
                               )
-                            )
+                            );
                           }}
-                        >Show Report</button>
+                        >
+                          Show Report
+                        </button>
                       </div>
                     </div>
                   </div>

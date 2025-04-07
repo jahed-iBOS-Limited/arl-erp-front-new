@@ -85,7 +85,6 @@ const EstimatePDACreate = () => {
       getVesselTypeDDL(accId, buId, setVesselTypeDDL);
       getCargoDDL(setCargoDDL);
     }
-
   }, [accId, buId]);
 
   const history = useHistory();
@@ -138,7 +137,6 @@ const EstimatePDACreate = () => {
     if (editId || viewId) {
       commonGetById();
     }
-
   }, [editId, viewId]);
 
   const commonGetById = async () => {
@@ -189,7 +187,7 @@ const EstimatePDACreate = () => {
               ...item,
               completionDate: _dateFormatter(item?.completionDate),
             };
-          }) || [],
+          }) || []
         );
       }
     });
@@ -337,7 +335,7 @@ const EstimatePDACreate = () => {
                         if (v?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/Stakeholder/GetPortDDL?search=${v}`,
+                            `${imarineBaseUrl}/domain/Stakeholder/GetPortDDL?search=${v}`
                           )
                           .then((res) => res?.data);
                       }}
@@ -432,7 +430,7 @@ const EstimatePDACreate = () => {
                             if (v?.length < 3) return [];
                             return axios
                               .get(
-                                `${imarineBaseUrl}/domain/Stakeholder/GetPortDDL?search=${v}`,
+                                `${imarineBaseUrl}/domain/Stakeholder/GetPortDDL?search=${v}`
                               )
                               .then((res) => res?.data);
                           }}
@@ -505,7 +503,7 @@ const EstimatePDACreate = () => {
                             (item) =>
                               item?.dischargePortId === obj?.dischargePortId &&
                               item?.cargoId === obj?.cargoId &&
-                              item?.cargoOwner === obj?.cargoOwner,
+                              item?.cargoOwner === obj?.cargoOwner
                           );
                           if (duplicateCheck)
                             return toast.warn('Duplicate data found');
@@ -578,7 +576,7 @@ const EstimatePDACreate = () => {
                         <b>
                           {rowDto?.reduce(
                             (acc, cur) => acc + (+cur?.quantity || 0),
-                            0,
+                            0
                           )}
                         </b>
                       </td>

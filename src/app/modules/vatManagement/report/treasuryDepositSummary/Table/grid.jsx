@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
-import { withRouter } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
+import React, { useRef } from 'react';
+import { withRouter } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
 const GridData = ({ rowDto, loading }) => {
   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
@@ -21,12 +21,12 @@ const GridData = ({ rowDto, loading }) => {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  style={{ padding: "2px 5px" }}
+                  style={{ padding: '2px 5px' }}
                 >
                   <img
                     style={{
-                      width: "25px",
-                      paddingRight: "5px",
+                      width: '25px',
+                      paddingRight: '5px',
                     }}
                     src={printIcon}
                     alt="print-icon"
@@ -47,13 +47,13 @@ const GridData = ({ rowDto, loading }) => {
             <table className="table table-striped table-bordered mt-3">
               <thead>
                 <tr>
-                  <th style={{ width: "35px" }}>SL</th>
-                  <th style={{ width: "70px" }}>ID</th>
-                  <th style={{ width: "100px" }}>Type</th>
-                  <th style={{ width: "100px" }}>Code</th>
-                  <th style={{ width: "100px" }}>Date</th>
-                  <th style={{ width: "100px" }}>TrChallan</th>
-                  <th style={{ width: "100px" }}>Deposit Amount</th>
+                  <th style={{ width: '35px' }}>SL</th>
+                  <th style={{ width: '70px' }}>ID</th>
+                  <th style={{ width: '100px' }}>Type</th>
+                  <th style={{ width: '100px' }}>Code</th>
+                  <th style={{ width: '100px' }}>Date</th>
+                  <th style={{ width: '100px' }}>TrChallan</th>
+                  <th style={{ width: '100px' }}>Deposit Amount</th>
                 </tr>
               </thead>
               <tbody>

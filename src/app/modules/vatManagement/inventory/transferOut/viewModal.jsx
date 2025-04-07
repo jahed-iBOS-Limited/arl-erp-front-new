@@ -1,21 +1,21 @@
-import React, { useRef, useState, useEffect } from "react";
-import printIcon from "./../../../_helper/images/print-icon.png";
-import ReactToPrint from "react-to-print";
-import { getEmployeeDesination, getItemTransferOutById } from "./helper";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
-import moment from "moment";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import Loading from "../../../_helper/_loading";
-import { MushakBox } from "../../../_helper/mushakBox";
-import { _fixedPointVat } from "../../../_helper/_fixedPointVat";
+import React, { useRef, useState, useEffect } from 'react';
+import printIcon from './../../../_helper/images/print-icon.png';
+import ReactToPrint from 'react-to-print';
+import { getEmployeeDesination, getItemTransferOutById } from './helper';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
+import moment from 'moment';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import Loading from '../../../_helper/_loading';
+import { MushakBox } from '../../../_helper/mushakBox';
+import { _fixedPointVat } from '../../../_helper/_fixedPointVat';
 const tableTitles = [
-  "SL No",
-  "Goods (In case of specify brand name Description)",
-  "Quantity",
-  "Value Excluding Tax",
-  "Amount Of Applicable Tax",
-  "Comments",
+  'SL No',
+  'Goods (In case of specify brand name Description)',
+  'Quantity',
+  'Value Excluding Tax',
+  'Amount Of Applicable Tax',
+  'Comments',
 ];
 export default function TransferOutViewForm({ viewClick }) {
   const storeData = useSelector((state) => {
@@ -28,7 +28,7 @@ export default function TransferOutViewForm({ viewClick }) {
 
   const [modalData, setModalData] = useState({});
   const [loading, setLoading] = useState(false);
-  const [designationName, setDesignationName] = useState("");
+  const [designationName, setDesignationName] = useState('');
 
   useEffect(() => {
     if (viewClick?.SalesId) {
@@ -38,16 +38,14 @@ export default function TransferOutViewForm({ viewClick }) {
         viewClick?.itemTypeId
           ? viewClick?.itemTypeId
           : viewClick?.SalesId
-          ? 3
-          : viewClick?.PurchaseId
-          ? 1
-          : 4,
+            ? 3
+            : viewClick?.PurchaseId
+              ? 1
+              : 4,
         setModalData,
         setLoading
       );
     }
-
-
   }, [viewClick]);
 
   const printRef = useRef();
@@ -73,7 +71,7 @@ export default function TransferOutViewForm({ viewClick }) {
                   className="btn btn-primary sales_invoice_btn"
                 >
                   <img
-                    style={{ width: "25px", paddingRight: "5px" }}
+                    style={{ width: '25px', paddingRight: '5px' }}
                     src={printIcon}
                     alt="print-icon"
                   />
@@ -90,7 +88,7 @@ export default function TransferOutViewForm({ viewClick }) {
                 {/* <h1>Government of the People's Republic of Bangladesh</h1> */}
                 <MushakBox
                   title="Government of the People's Republic of Bangladesh"
-                  mushakNumber={"6.5"}
+                  mushakNumber={'6.5'}
                 />
                 <h5>National Board of Revenue</h5>
               </div>
@@ -107,8 +105,8 @@ export default function TransferOutViewForm({ viewClick }) {
             <div className="d-flex justify-content-between">
               <div className="left">
                 <p>
-                  Name of Registered Person:{" "}
-                  {modalData?.getByIdHeader?.regPersonName}{" "}
+                  Name of Registered Person:{' '}
+                  {modalData?.getByIdHeader?.regPersonName}{' '}
                 </p>
                 <p>
                   BIN of Registered Person: {modalData?.getByIdHeader?.binNo}
@@ -122,23 +120,23 @@ export default function TransferOutViewForm({ viewClick }) {
                   {modalData?.getByIdHeader?.addressOfReceipentSupply}
                 </p>
                 <p>
-                  Receipent Branch Address:{" "}
+                  Receipent Branch Address:{' '}
                   {modalData?.getByIdHeader?.receipentBranchAddress}
                 </p>
               </div>
               <div className="right">
                 <p>Invoice No: {modalData?.getByIdHeader?.taxSalesCode}</p>
                 <p>
-                  Date of Issue:{" "}
+                  Date of Issue:{' '}
                   {_dateFormatter(
                     modalData?.getByIdHeader?.taxDeliveryDateTime
                   )}
                 </p>
                 <p className="mt-2">
-                  Time of Issue:{" "}
+                  Time of Issue:{' '}
                   {moment(modalData?.getByIdHeader?.taxDeliveryDateTime)
-                    .add(6, "hours")
-                    .format("LT")}
+                    .add(6, 'hours')
+                    .format('LT')}
                 </p>
               </div>
             </div>

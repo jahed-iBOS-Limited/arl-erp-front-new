@@ -15,7 +15,7 @@ export const CardHeaderToolbar = forwardRef(
     <div {...props} ref={ref} className={clsx('card-toolbar', className)}>
       {children}
     </div>
-  ),
+  )
 );
 
 export const CardHeader = forwardRef(
@@ -30,7 +30,7 @@ export const CardHeader = forwardRef(
       labelRef,
       ...props
     },
-    ref,
+    ref
   ) => {
     const [top, setTop] = useState(0);
     const [windowHeight, setWindowHeight] = useState(0);
@@ -113,7 +113,7 @@ export const CardHeader = forwardRef(
         {children}
       </div>
     );
-  },
+  }
 );
 
 export const CardBody = forwardRef(
@@ -127,10 +127,10 @@ export const CardBody = forwardRef(
           'card-body-fit': fit,
           'card-body-fluid': fluid,
         },
-        className,
+        className
       )}
     />
-  ),
+  )
 );
 
 export const CardFooter = forwardRef(({ className, ...props }, ref) => (
@@ -144,7 +144,7 @@ export const Card = forwardRef(({ fluidHeight, className, ...props }, ref) => (
     className={clsx(
       'card card-custom gutter-b',
       { 'card-height-fluid': fluidHeight },
-      className,
+      className
     )}
   />
 ));

@@ -1,29 +1,29 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IForm from "../../../_helper/_form";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import AddAuditEngagement from "./addAuditEngagement";
-import { loadEmployeeInfo } from "./helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IForm from '../../../_helper/_form';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import AddAuditEngagement from './addAuditEngagement';
+import { loadEmployeeInfo } from './helper';
 
 // formik init data
 const initData = {
-  auditEngagement: "",
-  businessUnit: "",
-  priority: "",
-  auditor: "",
-  dteScheduleDate: "",
-  dteStartDate: "",
-  dteEndDate: "",
+  auditEngagement: '',
+  businessUnit: '',
+  priority: '',
+  auditor: '',
+  dteScheduleDate: '',
+  dteStartDate: '',
+  dteEndDate: '',
 };
 
 export default function AuditSchedulesEntry() {
@@ -61,7 +61,6 @@ export default function AuditSchedulesEntry() {
 
   useEffect(() => {
     getAuditEngagement();
-
   }, []);
 
   // handle double entry with same schedule
@@ -90,22 +89,22 @@ export default function AuditSchedulesEntry() {
   // save a new schedule
   const saveHandler = async (values, cb) => {
     if (!scheduleList?.length) {
-      return toast.warn("Add at least one schedule !");
+      return toast.warn('Add at least one schedule !');
     }
     const entryApiUrl = `/fino/Audit/SaveAuditEngagementSchedules`;
 
     const payload = scheduleList.map((item) => ({
       intAuditScheduleId: 0,
       intAuditEngagementId: item?.auditEngagement?.value || 0,
-      strAuditEngagementName: item?.auditEngagement?.label || "",
+      strAuditEngagementName: item?.auditEngagement?.label || '',
       intBusinessUnitId: item?.businessUnit?.value || 0,
-      strBusinessUnitName: item?.businessUnit?.label || "",
+      strBusinessUnitName: item?.businessUnit?.label || '',
       intPriorityId: item?.priority?.value || 0,
-      strPriorityName: item?.priority?.label || "",
+      strPriorityName: item?.priority?.label || '',
       intAuditorId: item?.auditor?.value || 0,
-      strAuditorName: item?.auditor?.label || "",
-      dteStartDate: item?.dteStartDate || "",
-      dteEndDate: item?.dteEndDate || "",
+      strAuditorName: item?.auditor?.label || '',
+      dteStartDate: item?.dteStartDate || '',
+      dteEndDate: item?.dteEndDate || '',
       isActive: true,
       intCreateBy: profileData?.userId,
       dteServerDateTime: new Date().toISOString(),
@@ -130,7 +129,7 @@ export default function AuditSchedulesEntry() {
 
     if (checkOverlap(newSchedule)) {
       toast.warn(
-        "This audit engagement with the same business unit has overlapping dates."
+        'This audit engagement with the same business unit has overlapping dates.'
       );
       return;
     }
@@ -175,12 +174,12 @@ export default function AuditSchedulesEntry() {
                         value={values?.auditEngagement}
                         label="Audit Engagement"
                         onChange={(valueOption) => {
-                          setFieldValue("auditEngagement", valueOption);
+                          setFieldValue('auditEngagement', valueOption);
                         }}
                       />
-                      <div style={{ marginTop: "23px", paddingLeft: "3px" }}>
+                      <div style={{ marginTop: '23px', paddingLeft: '3px' }}>
                         <OverlayTrigger
-                          overlay={<Tooltip id="cs-icon">{"Add"}</Tooltip>}
+                          overlay={<Tooltip id="cs-icon">{'Add'}</Tooltip>}
                         >
                           <span>
                             <i
@@ -199,7 +198,7 @@ export default function AuditSchedulesEntry() {
                       value={values?.businessUnit}
                       label="Business Unit"
                       onChange={(valueOption) => {
-                        setFieldValue("businessUnit", valueOption);
+                        setFieldValue('businessUnit', valueOption);
                       }}
                     />
                   </div>
@@ -207,15 +206,15 @@ export default function AuditSchedulesEntry() {
                     <NewSelect
                       name="priority"
                       options={[
-                        { value: 1, label: "P1" },
-                        { value: 2, label: "P2" },
-                        { value: 3, label: "P3" },
-                        { value: 4, label: "P4" },
+                        { value: 1, label: 'P1' },
+                        { value: 2, label: 'P2' },
+                        { value: 3, label: 'P3' },
+                        { value: 4, label: 'P4' },
                       ]}
                       value={values?.priority}
                       label="Priority"
                       onChange={(valueOption) => {
-                        setFieldValue("priority", valueOption);
+                        setFieldValue('priority', valueOption);
                       }}
                     />
                   </div>
@@ -225,12 +224,12 @@ export default function AuditSchedulesEntry() {
                       selectedValue={values?.auditor}
                       isSearchIcon={true}
                       handleChange={(valueOption) => {
-                        setFieldValue("auditor", valueOption);
+                        setFieldValue('auditor', valueOption);
                       }}
                       loadOptions={(searchInput) =>
                         loadEmployeeInfo(profileData?.accountId, searchInput)
                       }
-                      name={"auditor"}
+                      name={'auditor'}
                     />
                   </div>
                   {/* <div className="col-lg-3">
@@ -251,7 +250,7 @@ export default function AuditSchedulesEntry() {
                       name="dteStartDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("dteStartDate", e.target.value);
+                        setFieldValue('dteStartDate', e.target.value);
                       }}
                     />
                   </div>
@@ -263,7 +262,7 @@ export default function AuditSchedulesEntry() {
                       min={values?.dteStartDate}
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("dteEndDate", e.target.value);
+                        setFieldValue('dteEndDate', e.target.value);
                       }}
                     />
                   </div>
@@ -310,18 +309,18 @@ export default function AuditSchedulesEntry() {
                           scheduleList.map((item, index) => (
                             <tr key={index}>
                               <td>{index + 1}</td>
-                              <td>{item?.auditEngagement?.label || ""}</td>
-                              <td>{item?.businessUnit?.label || ""}</td>
-                              <td>{item?.priority?.label || ""}</td>
-                              <td>{item?.auditor?.label || ""}</td>
+                              <td>{item?.auditEngagement?.label || ''}</td>
+                              <td>{item?.businessUnit?.label || ''}</td>
+                              <td>{item?.priority?.label || ''}</td>
+                              <td>{item?.auditor?.label || ''}</td>
                               <td className="text-center">
-                                {item?.dteScheduleDate || ""}
+                                {item?.dteScheduleDate || ''}
                               </td>
                               <td className="text-center">
-                                {item?.dteStartDate || ""}
+                                {item?.dteStartDate || ''}
                               </td>
                               <td className="text-center">
-                                {item?.dteEndDate || ""}
+                                {item?.dteEndDate || ''}
                               </td>
                               <td className="text-center">
                                 <span>
@@ -339,14 +338,14 @@ export default function AuditSchedulesEntry() {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

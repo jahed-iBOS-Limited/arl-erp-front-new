@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
 
 // expense for api
 export const getExpenseFor = async (accId, BuId, setter) => {
@@ -18,7 +18,7 @@ export const getExpenseFor = async (accId, BuId, setter) => {
       setter(ddlWithNameID);
       // setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getBankAccountNumberDDL_Api = async (accId, BuId, setter) => {
   try {
@@ -29,10 +29,9 @@ export const getBankAccountNumberDDL_Api = async (accId, BuId, setter) => {
       setter(res?.data);
       // setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //
-
 
 // country api
 export const getCountry = async (setter) => {
@@ -41,7 +40,7 @@ export const getCountry = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //
 // currency api
@@ -54,7 +53,7 @@ export const getCurrency = async (BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //
 // Payment Type api
@@ -65,7 +64,7 @@ export const getPaymentType = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //
 // category api
@@ -79,7 +78,7 @@ export const getCategory = async (accId, BuId, SBUID, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //
 // project Name api
@@ -92,7 +91,7 @@ export const getProjectName = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //
 // cost center api
@@ -105,7 +104,7 @@ export const getCostCenter = async (accId, BuId, SBUID, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //
 // get disbursment api
@@ -117,7 +116,7 @@ export const getDisbursementCenter = async (accId, BuId, SBUID, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //
 export const getBankAc = async (accId, BuId, setter) => {
@@ -128,7 +127,7 @@ export const getBankAc = async (accId, BuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 //create expense register
@@ -137,7 +136,7 @@ export const CreateExpenceRegister = async (data, cb, setDisabled) => {
   try {
     const res = await Axios.post(`/fino/Expense/CreateExpenceRegister`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -167,8 +166,10 @@ export const getExpenseLandingPagination = async (
 ) => {
   try {
     setLoading(true);
-    let apiUrl = supervisor === "employee" ? `/fino/Expense/ExpenseEmployeeLandingPagination?AccountId=${accId}&BusinessUnitId=${BuId}&ExpenseForId=${expForId}&SbuId=${SBUID}&CountryId=${countryId}&CurrencyId=${currId}&IsActive=true&isBillSubmitted=${BillSubmitted}&isApproved=${isApproved}&fromDate=${fromDate}&toDate=${toDate}` :
-      `/fino/Expense/GetExpenseLandingPagination?AccountId=${accId}&BusinessUnitId=${BuId}&ExpenseForId=${expForId}&SbuId=${SBUID}&CountryId=${countryId}&CurrencyId=${currId}&IsActive=true&isBillSubmitted=${BillSubmitted}&isApproved=${isApproved}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&IsSuppervisor=${supervisor}&fromDate=${fromDate}&toDate=${toDate}&isforcelyAprv=${isForce}`
+    let apiUrl =
+      supervisor === 'employee'
+        ? `/fino/Expense/ExpenseEmployeeLandingPagination?AccountId=${accId}&BusinessUnitId=${BuId}&ExpenseForId=${expForId}&SbuId=${SBUID}&CountryId=${countryId}&CurrencyId=${currId}&IsActive=true&isBillSubmitted=${BillSubmitted}&isApproved=${isApproved}&fromDate=${fromDate}&toDate=${toDate}`
+        : `/fino/Expense/GetExpenseLandingPagination?AccountId=${accId}&BusinessUnitId=${BuId}&ExpenseForId=${expForId}&SbuId=${SBUID}&CountryId=${countryId}&CurrencyId=${currId}&IsActive=true&isBillSubmitted=${BillSubmitted}&isApproved=${isApproved}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&IsSuppervisor=${supervisor}&fromDate=${fromDate}&toDate=${toDate}&isforcelyAprv=${isForce}`;
 
     const res = await Axios.get(apiUrl);
     if (res.status === 200 && res?.data) {
@@ -197,7 +198,7 @@ export const getExpenseById = async (expId, setter, setRowDto, setLoding) => {
           expenseTo: _dateFormatter(data?.objHeader?.toDate),
           reference: data?.objHeader?.vehicleId,
           comments1: data?.objHeader?.comments,
-          expenseDate: "",
+          expenseDate: '',
           expenseCategory: {
             value: data?.objHeader?.advExpCategoryId,
             label: data?.objHeader?.advExpCategoryName,
@@ -219,15 +220,15 @@ export const getExpenseById = async (expId, setter, setRowDto, setLoding) => {
             label: data?.objHeader?.disbursementCenterName,
           },
           expenseGroup:
-            data?.objHeader?.expenseGroup === "TaDa"
+            data?.objHeader?.expenseGroup === 'TaDa'
               ? {
-                value: "TaDa",
-                label: "Ta/Da",
-              }
+                  value: 'TaDa',
+                  label: 'Ta/Da',
+                }
               : {
-                value: "Other",
-                label: "Other",
-              },
+                  value: 'Other',
+                  label: 'Other',
+                },
         },
         objRow: [...data?.objRow],
       };
@@ -264,7 +265,7 @@ export const getExpenseById = async (expId, setter, setRowDto, setLoding) => {
           driverName: item?.driverName,
           driverId: item?.driverId,
           expenseGroupName:
-            data?.objHeader?.expenseGroup === "TaDa" ? "Ta/Da" : "Other",
+            data?.objHeader?.expenseGroup === 'TaDa' ? 'Ta/Da' : 'Other',
         };
       });
       setRowDto(newRowDto);
@@ -280,10 +281,10 @@ export const editExpenseRegister = async (data, setDisabled, history) => {
   try {
     const res = await Axios.put(`/fino/Expense/EditExpenseRegister`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Updated successfully");
+      toast.success(res?.message || 'Updated successfully');
       // cb();
       setDisabled(false);
-      history && history.push("/financial-management/expense/expense-register");
+      history && history.push('/financial-management/expense/expense-register');
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -307,7 +308,7 @@ export const GetSumOfBalanceAmmount = async (
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //GetSumOfAdjustedAmmount
 export const GetSumOfAdjustedAmmount = async (
@@ -326,7 +327,7 @@ export const GetSumOfAdjustedAmmount = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //GetSumOfTotalExpense
 export const GetSumOfTotalExpense = async (
@@ -345,7 +346,7 @@ export const GetSumOfTotalExpense = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //Get Advance Code DDL api
 export const GetAdvanceCodeDDL = async (accId, BuId, SBUID, empId, setter) => {
@@ -364,7 +365,7 @@ export const GetAdvanceCodeDDL = async (accId, BuId, SBUID, empId, setter) => {
       });
       setter(addVanceDDL);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //created adjust with advance api
 export const createAdjustWithAdvance = async (data, cb) => {
@@ -374,7 +375,7 @@ export const createAdjustWithAdvance = async (data, cb) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {
@@ -391,7 +392,7 @@ export const getAdjustAdvanceInfoByAdvanceId = async (advanceId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // vehicle api
@@ -402,12 +403,12 @@ export const getVehicleDDL = async (accId, BuId, setter) => {
     );
     if (res.status === 200 && res?.data) {
       const newData = [
-        { value: 1, label: "Select Vehicle Number.." },
+        { value: 1, label: 'Select Vehicle Number..' },
         ...res?.data,
       ];
       setter(newData);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 //BillSubmit_Api
@@ -421,14 +422,13 @@ export const BillSubmit_Api = async (
   try {
     const res = await Axios.put(`/fino/Expense/BillSubmitApi`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       gridDataCB(values, pageNo, pageSize, false, false);
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);
   }
 };
-
 
 export const getExpensePlantDDLAction = async (accId, buId, setter) => {
   try {
@@ -441,7 +441,7 @@ export const getExpensePlantDDLAction = async (accId, buId, setter) => {
       label: item?.strPlantname,
     }));
     setter(modifyData);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getFuelLogCash = async (enroll, date, setLoading) => {

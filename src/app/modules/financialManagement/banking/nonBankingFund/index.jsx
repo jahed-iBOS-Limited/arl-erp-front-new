@@ -1,26 +1,26 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import IView from "../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../_helper/_viewModal";
-import IExtend from "../../../_helper/_helperIcons/_extend";
-import ViewModal from "./viewModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import IView from '../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../_helper/_viewModal';
+import IExtend from '../../../_helper/_helperIcons/_extend';
+import ViewModal from './viewModal';
 const initData = {
-  partner: "",
+  partner: '',
   depositeType: {
     value: 1,
-    label: "Security Deposit",
+    label: 'Security Deposit',
     code: null,
   },
-  status: "",
+  status: '',
 };
 export default function NonBankingFund() {
   const saveHandler = (values, cb) => {};
@@ -28,11 +28,8 @@ export default function NonBankingFund() {
   const [pageSize, setPageSize] = useState(15);
   const [tableData, geTableData, tableDataLoader, setTableData] = useAxiosGet();
   const [partnerDDl, getPartnerDDL, partnerDDLloader] = useAxiosGet();
-  const [
-    depositeTypeDDL,
-    getDepositeTypeDDL,
-    depositeTypeDDLloader,
-  ] = useAxiosGet();
+  const [depositeTypeDDL, getDepositeTypeDDL, depositeTypeDDLloader] =
+    useAxiosGet();
 
   const [viewModal, setViewModal] = useState(false);
   const [clickedItem, setClickedItem] = useState(null);
@@ -58,7 +55,6 @@ export default function NonBankingFund() {
       `/fino/FundManagement/GetNonBankingPartnerDDL?businessUnitId=${selectedBusinessUnit?.value}`
     );
     getDepositeTypeDDL(`/fino/FundManagement/GetDepositTypeDDL`);
-
   }, []);
 
   return (
@@ -97,7 +93,7 @@ export default function NonBankingFund() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/financial-management/banking/NonBankingFund/create"
+                        '/financial-management/banking/NonBankingFund/create'
                       );
                     }}
                   >
@@ -117,7 +113,7 @@ export default function NonBankingFund() {
                       value={values?.partner}
                       label="Partner"
                       onChange={(valueOption) => {
-                        setFieldValue("partner", valueOption);
+                        setFieldValue('partner', valueOption);
                         setTableData([]);
                       }}
                       errors={errors}
@@ -131,7 +127,7 @@ export default function NonBankingFund() {
                       value={values?.depositeType}
                       label="Deposite Type"
                       onChange={(valueOption) => {
-                        setFieldValue("depositeType", valueOption);
+                        setFieldValue('depositeType', valueOption);
                         setTableData([]);
                       }}
                       errors={errors}
@@ -143,14 +139,14 @@ export default function NonBankingFund() {
                     <NewSelect
                       name="status"
                       options={[
-                        { value: 0, label: "All" },
-                        { value: 1, label: "Active" },
-                        { value: 2, label: "Closed" },
+                        { value: 0, label: 'All' },
+                        { value: 1, label: 'Active' },
+                        { value: 2, label: 'Closed' },
                       ]}
                       value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
-                        setFieldValue("status", valueOption);
+                        setFieldValue('status', valueOption);
                         setTableData([]);
                       }}
                       errors={errors}
@@ -230,7 +226,7 @@ export default function NonBankingFund() {
                                       });
                                     }}
                                   >
-                                    <IExtend title={"Repay"} />
+                                    <IExtend title={'Repay'} />
                                   </span>
                                 ) : null}
                               </div>

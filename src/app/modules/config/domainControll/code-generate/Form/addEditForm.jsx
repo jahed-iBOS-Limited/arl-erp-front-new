@@ -1,25 +1,24 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getCodeTypeDDLAction,
   saveCodeGenerate,
   saveEditedCodeGenerate,
   getSingleById,
   setCodeGenerateSingleEmpty,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  codeType: "",
-  prefix: "",
-  monthLength: "",
-  yearLength: "",
-  refreshType: "",
-  startLengthId: "",
+  codeType: '',
+  prefix: '',
+  monthLength: '',
+  yearLength: '',
+  refreshType: '',
+  startLengthId: '',
 };
 
 export default function CodeGenerateForm({
@@ -52,25 +51,23 @@ export default function CodeGenerateForm({
         getCodeTypeDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
-
   }, [selectedBusinessUnit, profileData]);
 
   const monthLengthDDL = [
-    { value: 1, label: "M (1)" },
-    { value: 2, label: "MM (01)" },
-    { value: 3, label: "MMM (Jul)" },
+    { value: 1, label: 'M (1)' },
+    { value: 2, label: 'MM (01)' },
+    { value: 3, label: 'MMM (Jul)' },
   ];
 
   const yearLengthDDL = [
-    { value: 1, label: "yy (21)" },
-    { value: 2, label: "YY (2021)" },
+    { value: 1, label: 'yy (21)' },
+    { value: 2, label: 'YY (2021)' },
   ];
 
   const refreshTypeDDL = [
-    { value: 1, label: "Monthly" },
-    { value: 2, label: "Yearly" },
-    { value: 3, label: "Never" },
+    { value: 1, label: 'Monthly' },
+    { value: 2, label: 'Yearly' },
+    { value: 3, label: 'Never' },
   ];
 
   // get single vehicleUnit from store
@@ -87,7 +84,6 @@ export default function CodeGenerateForm({
     } else {
       dispatch(setCodeGenerateSingleEmpty());
     }
-
   }, [id]);
 
   const saveHandler = async (values, cb) => {
@@ -121,7 +117,6 @@ export default function CodeGenerateForm({
       }
     } else {
       // setDisabled(false);
-
     }
   };
 

@@ -1,6 +1,6 @@
-import axios from "axios";
-import { useState } from "react";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const useAxiosPost = () => {
   const [res, setRes] = useState([]);
@@ -25,7 +25,10 @@ const useAxiosPost = () => {
         setLoading(false);
         if (isToast) {
           toast.success(
-            res?.data?.message || successMessage ||  res?.data?.[0]?.message || "Submitted Successfully"
+            res?.data?.message ||
+              successMessage ||
+              res?.data?.[0]?.message ||
+              'Submitted Successfully'
           );
         }
       })
@@ -36,7 +39,10 @@ const useAxiosPost = () => {
         onErrorCB && onErrorCB(err);
         if (isToast) {
           toast.warn(
-            err?.response?.data?.message || errorMessage || err?.response?.data?.[0]?.message || "Failed, try again"
+            err?.response?.data?.message ||
+              errorMessage ||
+              err?.response?.data?.[0]?.message ||
+              'Failed, try again'
           );
         }
       });

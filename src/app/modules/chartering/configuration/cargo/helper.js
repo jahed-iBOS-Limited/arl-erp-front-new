@@ -18,13 +18,13 @@ export const GetCargoLandingData = async (
   pageSize,
   searchValue,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   const search = searchValue ? `&search=${searchValue}` : '';
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Cargo/GetCargoLandingPagination?viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`,
+      `${imarineBaseUrl}/domain/Cargo/GetCargoLandingPagination?viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`
     );
     setter(res.data);
     setLoading(false);
@@ -39,7 +39,7 @@ export const createCargo = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/Cargo/CreateCargo`,
-      data,
+      data
     );
     cb();
     toast.success(res.data.message);
@@ -55,7 +55,7 @@ export const editCargo = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/Cargo/EditCargo`,
-      data,
+      data
     );
 
     toast.success(res.data.message);
@@ -70,7 +70,7 @@ export const DeleteCargo = async (id, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.delete(
-      `${imarineBaseUrl}/domain/Cargo/DeleteCargo?cargoId=${id}`,
+      `${imarineBaseUrl}/domain/Cargo/DeleteCargo?cargoId=${id}`
     );
     toast.success(res?.data?.message);
     cb();
@@ -85,7 +85,7 @@ export const activeInactiveCargo = async (id, status, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${imarineBaseUrl}/domain/Cargo/ActiveOrInActive?cargoId=${id}&activeOrInActive=${status}`,
+      `${imarineBaseUrl}/domain/Cargo/ActiveOrInActive?cargoId=${id}&activeOrInActive=${status}`
     );
     toast.success(res?.data?.message);
     cb();

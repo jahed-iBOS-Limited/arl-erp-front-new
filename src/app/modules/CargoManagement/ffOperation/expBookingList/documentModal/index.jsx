@@ -22,8 +22,6 @@ function DocumentModal({ rowClickData, CB }) {
   useEffect(() => {
     if (bookingRequestId) {
     }
-
-
   }, [bookingRequestId]);
 
   useEffect(() => {
@@ -37,21 +35,20 @@ function DocumentModal({ rowClickData, CB }) {
             const documentsUploadTypeList = resDataDocumentsUpload?.map(
               (item) => {
                 const isExist = documents?.find(
-                  (doc) => doc?.documentTypeId === item?.value,
+                  (doc) => doc?.documentTypeId === item?.value
                 );
                 return {
                   ...item,
                   checked: isExist ? true : false,
                   documentFileId: isExist?.documentFileId,
                 };
-              },
+              }
             );
             setDocumentsUploadTypeList(documentsUploadTypeList);
-          },
+          }
         );
-      },
+      }
     );
-
   }, []);
   const saveHandler = (values, cb) => {
     const commonPaylaod = commonBookingRequestStatusUpdate(rowClickData);
@@ -66,7 +63,7 @@ function DocumentModal({ rowClickData, CB }) {
       payload,
       () => {
         CB();
-      },
+      }
     );
   };
   const dispatch = useDispatch();
@@ -130,8 +127,8 @@ function DocumentModal({ rowClickData, CB }) {
                               onClick={() => {
                                 dispatch(
                                   getDownlloadFileView_Action(
-                                    item?.documentFileId,
-                                  ),
+                                    item?.documentFileId
+                                  )
                                 );
                               }}
                               style={{

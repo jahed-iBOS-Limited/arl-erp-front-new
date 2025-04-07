@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 // Save created data
 export function saveCreateData(data) {
@@ -11,8 +11,8 @@ export function saveEditData(data) {
 }
 
 //Call get grid data api
-export function getGridData(accId, buId, pageNo, pageSize,search) {
-  const searchPath = search ? `searchTerm=${search}&` : "";
+export function getGridData(accId, buId, pageNo, pageSize, search) {
+  const searchPath = search ? `searchTerm=${search}&` : '';
   return axios.get(
     `oms/TerritoryInfo/GetTerritorySearchLandingPagination?${searchPath}AccountId=${accId}&BUnitId=${buId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc`
   );

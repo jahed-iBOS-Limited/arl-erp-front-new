@@ -1,10 +1,9 @@
-
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { getDDL } from "../helper";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { getDDL } from '../helper';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
 
 export default function FormCmp({
   initData,
@@ -22,9 +21,9 @@ export default function FormCmp({
   const [BSCPerspectiveDDL, setBSCPerspectiveDDL] = useState([]);
 
   const KPIFormatDDL = [
-    { value: 1, label: "% of" },
-    { value: 2, label: "# of" },
-    { value: 3, label: "Amount" },
+    { value: 1, label: '% of' },
+    { value: 2, label: '# of' },
+    { value: 3, label: 'Amount' },
   ];
 
   useEffect(() => {
@@ -65,7 +64,7 @@ export default function FormCmp({
                       value={values?.BSCPerspective}
                       label="BSC Perspective"
                       onChange={(valueOption) => {
-                        setFieldValue("BSCPerspective", valueOption);
+                        setFieldValue('BSCPerspective', valueOption);
                       }}
                       placeholder="BSC Perspective"
                       errors={errors}
@@ -89,7 +88,7 @@ export default function FormCmp({
                       value={values?.KPIFormat}
                       label="KPI Format"
                       onChange={(valueOption) => {
-                        setFieldValue("KPIFormat", valueOption);
+                        setFieldValue('KPIFormat', valueOption);
                       }}
                       placeholder="KPI Format"
                       errors={errors}
@@ -129,7 +128,7 @@ export default function FormCmp({
                   <table className="table table-striped table-bordered global-table">
                     <thead>
                       <tr>
-                        <th style={{ width: "35px" }}>SL</th>
+                        <th style={{ width: '35px' }}>SL</th>
                         <th>BSC Perspective</th>
                         <th>KPI Name</th>
                         <th>KPI Format</th>
@@ -157,14 +156,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

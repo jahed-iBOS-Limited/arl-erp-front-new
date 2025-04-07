@@ -1,18 +1,18 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InputField from "../../../_helper/_inputField";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "./../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InputField from '../../../_helper/_inputField';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from './../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  supplier: "",
+  supplier: '',
 };
 export default function SupplierWisePurchase() {
   const [rowData, getRowDto, loading, setRowDto] = useAxiosGet();
@@ -59,7 +59,7 @@ export default function SupplierWisePurchase() {
                     label="From Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e?.target?.value);
+                      setFieldValue('fromDate', e?.target?.value);
                     }}
                   />
                 </div>
@@ -70,7 +70,7 @@ export default function SupplierWisePurchase() {
                     label="To Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e?.target?.value);
+                      setFieldValue('toDate', e?.target?.value);
                     }}
                   />
                 </div>
@@ -79,7 +79,7 @@ export default function SupplierWisePurchase() {
                   <SearchAsyncSelect
                     selectedValue={values?.supplier}
                     handleChange={(valueOption) => {
-                      setFieldValue("supplier", valueOption);
+                      setFieldValue('supplier', valueOption);
                     }}
                     placeholder="Search..."
                     loadOptions={(v) => {
@@ -90,7 +90,7 @@ export default function SupplierWisePurchase() {
                           `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=0`
                         )
                         .then((res) => [
-                          { value: 0, label: "All" },
+                          { value: 0, label: 'All' },
                           ...res?.data,
                         ]);
                     }}
@@ -98,7 +98,7 @@ export default function SupplierWisePurchase() {
                 </div>
                 <div>
                   <button
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     type="button"
                     class="btn btn-primary"
                     disabled={!values?.fromDate || !values?.toDate}
@@ -133,51 +133,51 @@ export default function SupplierWisePurchase() {
               </div>
               <div className="row mt-5">
                 <div className="col-lg-12 cost-of-production">
-                <div className="table-responsive">
-                  <table
-                    id="table-to-xlsx"
-                    className="table table-striped table-bordered bj-table bj-table-landing"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Supplier Name</th>
-                        <th>Item Code</th>
-                        <th>Item Name</th>
-                        <th>UoM</th>
-                        <th>Qty</th>
-                        <th>Rate</th>
-                        <th>Value</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowData?.length > 0 &&
-                        rowData.map((item, index) => (
-                          <tr key={index}>
-                            {item?.isShow ? (
-                              <>
-                                <td
-                                  className="text-center"
-                                  rowSpan={item?.sectionCount}
-                                >
-                                  {item?.supplierName}
-                                </td>
-                              </>
-                            ) : null}
-                            <td className="text-center">{item?.itemCode}</td>
-                            <td className="text-left">{item?.itemName}</td>
-                            <td className="text-left">{item?.uoMName}</td>
-                            <td className="text-center">{item?.quantity}</td>
-                            <td className="text-center">
-                              {_formatMoney(item?.rate)}
-                            </td>
-                            <td className="text-center">
-                              {_formatMoney(item?.value)}
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
-                </div>
+                  <div className="table-responsive">
+                    <table
+                      id="table-to-xlsx"
+                      className="table table-striped table-bordered bj-table bj-table-landing"
+                    >
+                      <thead>
+                        <tr>
+                          <th>Supplier Name</th>
+                          <th>Item Code</th>
+                          <th>Item Name</th>
+                          <th>UoM</th>
+                          <th>Qty</th>
+                          <th>Rate</th>
+                          <th>Value</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowData?.length > 0 &&
+                          rowData.map((item, index) => (
+                            <tr key={index}>
+                              {item?.isShow ? (
+                                <>
+                                  <td
+                                    className="text-center"
+                                    rowSpan={item?.sectionCount}
+                                  >
+                                    {item?.supplierName}
+                                  </td>
+                                </>
+                              ) : null}
+                              <td className="text-center">{item?.itemCode}</td>
+                              <td className="text-left">{item?.itemName}</td>
+                              <td className="text-left">{item?.uoMName}</td>
+                              <td className="text-center">{item?.quantity}</td>
+                              <td className="text-center">
+                                {_formatMoney(item?.rate)}
+                              </td>
+                              <td className="text-center">
+                                {_formatMoney(item?.value)}
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </IForm>

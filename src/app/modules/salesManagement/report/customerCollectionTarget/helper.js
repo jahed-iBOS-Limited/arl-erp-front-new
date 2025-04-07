@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { getMonth } from "./utils";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { getMonth } from './utils';
 
 export const getBusinessUnitDDL = async (setter, accId, buId) => {
   try {
@@ -25,8 +25,9 @@ export const getSalesTargetPagination = async (
   setLoading(true);
   try {
     const res = await Axios.get(
-      `/oms/CustomerSalesTarget/CustomerSalesTargetLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&BusinessPartnerId=${buPartnerId ||
-        31}&userId=${userId}&vieworder=desc&PageNo=1&PageSize=1000000`
+      `/oms/CustomerSalesTarget/CustomerSalesTargetLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&BusinessPartnerId=${
+        buPartnerId || 31
+      }&userId=${userId}&vieworder=desc&PageNo=1&PageSize=1000000`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data?.objdata);
@@ -75,7 +76,7 @@ export const getSalesTargetById = async (
               value: objheader.distributionChannelId,
               label: objheader.distributionChannelName,
             }
-          : "",
+          : '',
       };
 
       let newRowData = [];
@@ -145,8 +146,8 @@ export const getRegionAreaTerritory = async ({
   label,
 }) => {
   setLoading(true);
-  const region = regionId ? `&regionId=${regionId}` : "";
-  const area = areaId ? `&areaId=${areaId}` : "";
+  const region = regionId ? `&regionId=${regionId}` : '';
+  const area = areaId ? `&areaId=${areaId}` : '';
   try {
     const res = await Axios.get(
       `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${channelId}${region}${area}`
@@ -188,13 +189,13 @@ export const GetSalesTargetEntry = async (
         ?.map((item) => ({
           ...item,
           isSelected: false,
-          itemCode: values?.item?.itemCode || values?.item?.code || "",
-          itemName: values?.item?.label || "",
+          itemCode: values?.item?.itemCode || values?.item?.code || '',
+          itemName: values?.item?.label || '',
           itemId: values?.item?.value || 0,
           itemSalesRate: 0,
           uomid: values?.uom?.value || 0,
-          uomcode: values?.uom?.uomcode || "",
-          uomname: values?.uom?.label || "",
+          uomcode: values?.uom?.uomcode || '',
+          uomname: values?.uom?.label || '',
           itemTypeId: 0,
           targetAmount: 0,
         }))

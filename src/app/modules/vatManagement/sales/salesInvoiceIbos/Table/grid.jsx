@@ -33,7 +33,7 @@ const printBtnClick = debounce(
     setLoading(false);
     if (printedObj) {
       const modifyFilterRowDto = rowDto?.data?.filter(
-        (itm) => itm?.deliveryId !== tableData?.deliveryId,
+        (itm) => itm?.deliveryId !== tableData?.deliveryId
       );
       const payload = {
         accountId: profileData?.accountId,
@@ -54,11 +54,11 @@ const printBtnClick = debounce(
         setModelShow,
         modifyFilterRowDto,
         setRowDto,
-        setLoading,
+        setLoading
       );
     }
   },
-  1500,
+  1500
 );
 const GridData = ({
   rowDto,
@@ -123,7 +123,7 @@ const GridData = ({
                 <tbody>
                   {rowDto?.data?.map((tableData, index) => {
                     const duplicatedeliveryNumber = rowDto?.data?.filter(
-                      (i) => i?.deliveryNumber === tableData?.deliveryNumber,
+                      (i) => i?.deliveryNumber === tableData?.deliveryNumber
                     );
 
                     return (
@@ -166,7 +166,7 @@ const GridData = ({
                               tableData?.quantity ||
                               tableData?.deliveryQuantity ||
                               0
-                            ).toFixed(3),
+                            ).toFixed(3)
                           )}
                         </td>
                         <td className="text-right">
@@ -182,11 +182,11 @@ const GridData = ({
                                     getSalesInvoiceById(
                                       tableData?.salesId,
                                       setTaxSalesInvoiceById,
-                                      setLoading,
+                                      setLoading
                                     );
                                     GetTaxSalesInvoicePrintStatus_api(
                                       tableData.salesId,
-                                      setSalesInvoicePrintStatus,
+                                      setSalesInvoicePrintStatus
                                     );
                                     setModelShow(true);
                                   }}
@@ -206,7 +206,7 @@ const GridData = ({
                                       const printedObj = rowDto?.data?.filter(
                                         (itm) =>
                                           itm?.deliveryId ===
-                                          tableData?.deliveryId,
+                                          tableData?.deliveryId
                                       );
                                       let confirmObject = {
                                         title: 'Are you sure?',
@@ -235,7 +235,7 @@ const GridData = ({
                                   Printed
                                 </button>
                                 {[521215, 523988, 3959, 3958, 265725].includes(
-                                  profileData?.userId,
+                                  profileData?.userId
                                 ) && (
                                   <button
                                     type="button"
@@ -247,7 +247,7 @@ const GridData = ({
                                         setLoading,
                                         () => {
                                           commonGridFunc(null, values);
-                                        },
+                                        }
                                       );
                                     }}
                                   >

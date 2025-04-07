@@ -1,21 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   itemDDL: [],
   uomDDL: [],
   gridData: [],
   viewModalData: [],
   copyFromDDL: [],
   bomListData: [],
-  netWeight: "",
-  singleData: "",
+  netWeight: '',
+  singleData: '',
 };
 
 export const billOfMaterialSlice = createSlice({
-  name: "bom",
+  name: 'bom',
   initialState: initState,
   reducers: {
     SetItemDDL: (state, action) => {
@@ -54,7 +54,7 @@ export const billOfMaterialSlice = createSlice({
     },
 
     SetSingleStoreEmpty: (state, action) => {
-      state.singleData = "";
+      state.singleData = '';
     },
   },
 });

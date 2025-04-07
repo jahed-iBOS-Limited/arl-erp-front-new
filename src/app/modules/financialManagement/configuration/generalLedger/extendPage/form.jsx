@@ -1,9 +1,9 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import IDelete from "./../../../../_helper/_helperIcons/_delete";
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import IDelete from './../../../../_helper/_helperIcons/_delete';
 
 export default function FormCmp({
   initData,
@@ -46,7 +46,7 @@ export default function FormCmp({
               <div className="form-group row">
                 <div className="col-lg-4">
                   <Field
-                    value={values.generalLedgerName || ""}
+                    value={values.generalLedgerName || ''}
                     name="generalLedgerName"
                     component={Input}
                     disabled
@@ -66,7 +66,7 @@ export default function FormCmp({
                         // isDisabled={isEdit}
                         value={values.businessUnit}
                         onChange={(valueOption) => {
-                          setFieldValue("businessUnit", valueOption);
+                          setFieldValue('businessUnit', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -75,16 +75,16 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors && errors.buDDL && touched && touched.buDDL
                       ? errors.buDDL.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-4">
@@ -153,21 +153,21 @@ export default function FormCmp({
                       </table>
                     </div>
                   ) : (
-                    ""
+                    ''
                   )}
                 </div>
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

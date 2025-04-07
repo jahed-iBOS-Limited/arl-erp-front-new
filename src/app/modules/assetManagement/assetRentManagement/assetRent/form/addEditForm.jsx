@@ -1,29 +1,27 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { editAssetRent, getAssetSingleData, saveAssetRent } from "../helper";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { editAssetRent, getAssetSingleData, saveAssetRent } from '../helper';
+import Form from './form';
 
 const initData = {
-  rentType: { value: 1, label: "Daily" },
+  rentType: { value: 1, label: 'Daily' },
   rentFromDate: _todayDate(),
   rentToDate: _todayDate(),
-  partner: "",
-  asset: "",
-  sbu: "",
-  currency: { value: 141, label: "Taka", code: "BDT" },
-  rentRate: "",
-  currConversationRate: "",
+  partner: '',
+  asset: '',
+  sbu: '',
+  currency: { value: 141, label: 'Taka', code: 'BDT' },
+  rentRate: '',
+  currConversationRate: '',
 };
 
 export default function CreateAssetRentForm() {
-
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [assetSingleData, setAssetSingleData] = useState("");
+  const [assetSingleData, setAssetSingleData] = useState('');
 
   const params = useParams();
   const location = useLocation();
@@ -54,12 +52,12 @@ export default function CreateAssetRentForm() {
       businessPartnerId: values?.partner?.value,
       businessPartnerName: values?.partner?.label,
       rentFromDate: values?.rentFromDate,
-      rentToDate: values?.rentType?.value === 3 ? values?.rentToDate : "",
+      rentToDate: values?.rentType?.value === 3 ? values?.rentToDate : '',
       assetId: values?.asset?.value || 0,
-      assetName: values?.asset?.label || "",
+      assetName: values?.asset?.label || '',
       assetCode: values?.asset?.code,
       sbuId: values?.sbu?.value || 0,
-      sbuName: values?.sbu?.label || "",
+      sbuName: values?.sbu?.label || '',
       rentRate: +values?.rentRate,
       currencyId: values?.currency?.value,
       currencyName: values?.currency?.label,
@@ -67,7 +65,7 @@ export default function CreateAssetRentForm() {
       actionBy: profileData?.userId,
     };
     if (!params?.id) {
-      console.log("Save Asset Rent ", payload);
+      console.log('Save Asset Rent ', payload);
       saveAssetRent(payload, setDisabled, cb);
     } else {
       editAssetRent(payload, setDisabled, cb);

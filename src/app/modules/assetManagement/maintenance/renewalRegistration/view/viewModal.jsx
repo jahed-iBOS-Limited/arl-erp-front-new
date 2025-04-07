@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewRowItem from "./View";
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewRowItem from './View';
 
 export default function SubmittedRow({ code }) {
   const [gridList, getGridList] = useAxiosGet();
@@ -16,7 +16,6 @@ export default function SubmittedRow({ code }) {
     getGridList(
       `/asset/LandingView/GetRenewalInfoByRenewalCode?RenewalCode=${code?.renewalCode}`
     );
-
   }, []);
   return (
     <>

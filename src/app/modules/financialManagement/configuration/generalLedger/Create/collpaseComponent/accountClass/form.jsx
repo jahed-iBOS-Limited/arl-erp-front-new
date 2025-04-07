@@ -1,9 +1,9 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import IDelete from "../../../../../../_helper/_helperIcons/_delete";
-import NewSelect from "../../../../../../_helper/_select";
-import InputField from "../../../../../../_helper/_inputField";
-import IConfirmModal from "../../../../../../_helper/_confirmModal";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import IDelete from '../../../../../../_helper/_helperIcons/_delete';
+import NewSelect from '../../../../../../_helper/_select';
+import InputField from '../../../../../../_helper/_inputField';
+import IConfirmModal from '../../../../../../_helper/_confirmModal';
 
 export default function FormCmp({
   initData,
@@ -42,7 +42,7 @@ export default function FormCmp({
                 <div className="col-lg-3">
                   <label>Account Class Name</label>
                   <InputField
-                    value={values?.accountClassName || ""}
+                    value={values?.accountClassName || ''}
                     name="accountClassName"
                     placeholder="Account Class Name"
                     type="text"
@@ -51,7 +51,7 @@ export default function FormCmp({
                 <div className="col-lg-3">
                   <label>Account Class Code</label>
                   <InputField
-                    value={values?.accountClassCode || ""}
+                    value={values?.accountClassCode || ''}
                     name="accountClassCode"
                     placeholder="Account Class Code"
                     type="text"
@@ -64,7 +64,7 @@ export default function FormCmp({
                     value={values?.accountGroupName}
                     label="Account Group"
                     onChange={(valueOption) => {
-                      setFieldValue("accountGroupName", valueOption);
+                      setFieldValue('accountGroupName', valueOption);
                     }}
                     placeholder="Select Account Group"
                     errors={errors}
@@ -73,7 +73,7 @@ export default function FormCmp({
                 </div>
                 <div className="col-lg-3">
                   <button
-                    style={{ marginTop: "26px" }}
+                    style={{ marginTop: '26px' }}
                     type="submit"
                     className="btn btn-primary prurchaseBtn"
                     disabled={
@@ -127,14 +127,14 @@ export default function FormCmp({
                                     className="delete"
                                     onClick={() => {
                                       let confirmObject = {
-                                        title: "Are you sure?",
+                                        title: 'Are you sure?',
                                         message:
-                                          "If you delete this, it can not be undone",
+                                          'If you delete this, it can not be undone',
                                         yesAlertFunc: async () => {
                                           deleteSingleRow(itm?.accountClassId);
                                         },
                                         noAlertFunc: () => {
-                                          "";
+                                          '';
                                         },
                                       };
                                       IConfirmModal(confirmObject);
@@ -155,14 +155,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

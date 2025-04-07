@@ -1,7 +1,7 @@
-import React from "react";
-import Select from "react-select";
-import FormikError from "./formikError";
-import customStyles from "./selectCustomStyle";
+import React from 'react';
+import Select from 'react-select';
+import FormikError from './formikError';
+import customStyles from './selectCustomStyle';
 
 const FormikSelect = (props) => {
   const {
@@ -19,7 +19,7 @@ const FormikSelect = (props) => {
     <div className="newSelectWrapper">
       {label && <label> {label} </label>}
       <Select
-        isClearable={isClearable === "false" ? isClearable : true}
+        isClearable={isClearable === 'false' ? isClearable : true}
         {...props}
         onChange={onChange}
         options={options || []}

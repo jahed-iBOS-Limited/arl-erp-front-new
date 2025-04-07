@@ -1,14 +1,13 @@
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { damageCalenderSave, getDamageCalender } from "./../helper";
-import Loading from "../../../../_helper/_loading";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { damageCalenderSave, getDamageCalender } from './../helper';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  year: "",
-  startDate: "",
-  endDate: "",
+  year: '',
+  startDate: '',
+  endDate: '',
 };
 
 const RTMCalendarSetup = ({ match: { params } }) => {
@@ -43,29 +42,29 @@ const RTMCalendarSetup = ({ match: { params } }) => {
       // if (startDateData === false && endDateData === false) {
       //   toast.warning("Invalid Date Range");
       // } else {
-        const modifyData = calendarConfig?.map((itm) => ({
-          accountId: profileData?.accountId,
-          businessUnitId: selectedBusinessUnit?.value,
-          monthId: itm?.monthID,
-          monthName: itm?.monthName,
-          monthStartDate: itm?.startDate,
-          monthEndDate: itm?.endDate,
-        }));
-        const payload = {
-          yearId: values?.year?.value,
-          damageCalenders: modifyData,
-        };
-        const callbackFunc = () => {
-          getDamageCalender(
-            profileData?.accountId,
-            selectedBusinessUnit?.value,
-            values?.year?.value,
-            setCalendarConfig,
-            setDisabled
-          );
-          cb();
-        };
-        damageCalenderSave(payload, setDisabled, callbackFunc);
+      const modifyData = calendarConfig?.map((itm) => ({
+        accountId: profileData?.accountId,
+        businessUnitId: selectedBusinessUnit?.value,
+        monthId: itm?.monthID,
+        monthName: itm?.monthName,
+        monthStartDate: itm?.startDate,
+        monthEndDate: itm?.endDate,
+      }));
+      const payload = {
+        yearId: values?.year?.value,
+        damageCalenders: modifyData,
+      };
+      const callbackFunc = () => {
+        getDamageCalender(
+          profileData?.accountId,
+          selectedBusinessUnit?.value,
+          values?.year?.value,
+          setCalendarConfig,
+          setDisabled
+        );
+        cb();
+      };
+      damageCalenderSave(payload, setDisabled, callbackFunc);
       // }
     }
   };
@@ -81,7 +80,7 @@ const RTMCalendarSetup = ({ match: { params } }) => {
     <>
       {isDisabled && <Loading />}
       <Form
-        title={"Month Setup"}
+        title={'Month Setup'}
         initData={initData}
         profileData={profileData}
         selectedBusinessUnit={selectedBusinessUnit}

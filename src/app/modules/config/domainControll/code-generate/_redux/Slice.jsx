@@ -1,19 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   codeTypeDDL: [],
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const codeGenerateSlice = createSlice({
-  name: "codeGenerate",
+  name: 'codeGenerate',
   initialState: initState,
   reducers: {
-
     SetCodeTypeDDL: (state, action) => {
       const { payload } = action;
       state.codeTypeDDL = payload;
@@ -28,11 +27,9 @@ export const codeGenerateSlice = createSlice({
       const { payload } = action;
       state.singleData = payload;
     },
-    
-    SetSingleStoreEmpty: state => {
-      state.singleData = "";
+
+    SetSingleStoreEmpty: (state) => {
+      state.singleData = '';
     },
-
-  }
+  },
 });
-

@@ -1,6 +1,6 @@
-import React from "react";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { WorkCenterTable } from "./table/TableHeader";
+import React from 'react';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { WorkCenterTable } from './table/TableHeader';
 
 export function WorkCenter({ history }) {
   const uIEvents = {

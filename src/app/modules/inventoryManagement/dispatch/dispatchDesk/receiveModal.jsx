@@ -1,57 +1,51 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import IForm from "../../../_helper/_form";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import CommonTable from "../../../_helper/commonTable";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { dispatchReceiveValidationSchema } from "./helper";
-import FormikError from "../../../_helper/_formikError";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import IForm from '../../../_helper/_form';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import CommonTable from '../../../_helper/commonTable';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { dispatchReceiveValidationSchema } from './helper';
+import FormikError from '../../../_helper/_formikError';
 
 const initData = {
-  receiveType: "",
-  senderName: "",
-  senderContactNo: "",
-  receiverName: "",
-  receiverContractNo: "",
-  fromLocation: "",
-  fromLocationDDL: "",
-  toLocation: "",
-  toLocationDDL: "",
-  receiveDate: "",
-  remarks: "",
-  dispatchType: "",
-  parcelName: "",
-  qty: "",
-  rowRemark: "",
-  uom: "",
-  plant: "",
-  documentNo: "",
-  reciverBuName:"",
+  receiveType: '',
+  senderName: '',
+  senderContactNo: '',
+  receiverName: '',
+  receiverContractNo: '',
+  fromLocation: '',
+  fromLocationDDL: '',
+  toLocation: '',
+  toLocationDDL: '',
+  receiveDate: '',
+  remarks: '',
+  dispatchType: '',
+  parcelName: '',
+  qty: '',
+  rowRemark: '',
+  uom: '',
+  plant: '',
+  documentNo: '',
+  reciverBuName: '',
 };
 
 export default function ReceiveModal() {
-
   const [objProps, setObjprops] = useState({});
   const [rowData, setRowData] = useState([]);
   //   const location = useLocation();
   const [, saveDocumentReceive, loadDocumentReceive] = useAxiosPost();
-  const [locationDDL, getLocationDDL, ] = useAxiosGet();
+  const [locationDDL, getLocationDDL] = useAxiosGet();
   const [singleData, getSingleData] = useAxiosGet();
   const {
-    profileData: {
-      accountId: accId,
-      employeeFullName,
-      employeeId,
-      userId,
-    },
+    profileData: { accountId: accId, employeeFullName, employeeId, userId },
     selectedBusinessUnit: { value: buId, label: buName },
     // businessUnitList,
   } = useSelector((state) => state?.authData, shallowEqual);
@@ -59,41 +53,41 @@ export default function ReceiveModal() {
 
   // all handler
   const saveHandler = (values, cb) => {
-    if (rowData?.length < 1) return toast.warn("Add minimum one data");
-    if (!values?.senderName) return toast.warn("Sender Name is required");
+    if (rowData?.length < 1) return toast.warn('Add minimum one data');
+    if (!values?.senderName) return toast.warn('Sender Name is required');
     const payload = {
       header: {
         dispatchType: values?.receiveType?.label,
         dispatchHeaderId: singleData?.header?.DispatchHeaderId || 0,
-        sendReceive: "received",
+        sendReceive: 'received',
         fromLocation:
           values?.receiveType?.value === 1
             ? values?.fromLocationDDL?.label
             : values?.fromLocation,
         fromPlantId: values?.fromLocationDDL?.value || 0,
-        toLocation:values?.toLocationDDL?.label,
+        toLocation: values?.toLocationDDL?.label,
         toPlantId: values?.toLocationDDL?.value || 0,
         senderEnrollId: values?.senderName?.value || 0,
-        senderName: values?.senderName?.label || values?.senderName || "",
-        senderContactNo: values?.senderContactNo || "",
+        senderName: values?.senderName?.label || values?.senderName || '',
+        senderContactNo: values?.senderContactNo || '',
         receiverEnrollId: values.receiverName?.value || 0,
-        receiverName: values.receiverName?.label || "",
-        receiverBusinessUnitId : values?.receiverName?.businessUnitId || 0,
-        receiverBusinessUnit : values?.receiverName?.businessUnitName || "",
-        receiverContactNo: values?.receiverContractNo || "",
+        receiverName: values.receiverName?.label || '',
+        receiverBusinessUnitId: values?.receiverName?.businessUnitId || 0,
+        receiverBusinessUnit: values?.receiverName?.businessUnitName || '',
+        receiverContactNo: values?.receiverContractNo || '',
         remaks: values?.remarks,
         dispatchSenderReceiverEnroll: employeeId,
         dispatchSenderReceiverName: employeeFullName,
         dispatchReceiveDate: values?.receiveDate,
-        dispatchNote: values?.dispatchNote || "",
+        dispatchNote: values?.dispatchNote || '',
         actionById: employeeId,
         accountId: accId,
         businessUnitId: buId,
-        businessUnit: buName
+        businessUnit: buName,
       },
       row: [...rowData],
     };
-    if (values?.receiveType?.label === "External") {
+    if (values?.receiveType?.label === 'External') {
       saveDocumentReceive(
         `/tms/DocumentDispatch/ExternalDocumentReceive`,
         payload,
@@ -145,7 +139,6 @@ export default function ReceiveModal() {
       .get(
         // `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=${accId}&BusinessUnitId=${buId}&Search=${v}`
         `/hcm/HCMDDL/GetEmployeeByAcIdDDL?AccountId=${accId}&search=${v}`
-
       )
       .then((res) => {
         return res.data;
@@ -161,7 +154,7 @@ export default function ReceiveModal() {
         item?.remaks === values?.remarks
     );
 
-    if (checkDuplicate) return toast.warn("Duplicate Data Found");
+    if (checkDuplicate) return toast.warn('Duplicate Data Found');
     const newRowItem = {
       rowId: 0,
       dispatchHeaderId: 0,
@@ -169,7 +162,7 @@ export default function ReceiveModal() {
       documentMaterialName: values?.parcelName,
       quantity: +values?.qty || 0,
       uomId: values?.uom?.value || 0,
-      uom: values?.uom?.label || "",
+      uom: values?.uom?.label || '',
       isActive: true,
       remaks: values?.rowRemark,
     };
@@ -187,7 +180,6 @@ export default function ReceiveModal() {
     getLocationDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=0&OrgUnitTypeId=8`
     );
-
   }, [accId, buId, userId]);
 
   return (
@@ -200,7 +192,7 @@ export default function ReceiveModal() {
       validationSchema={dispatchReceiveValidationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         if (!values?.receiverName)
-          return toast.warn("Receiver name is required");
+          return toast.warn('Receiver name is required');
         saveHandler(values, () => {
           resetForm(initData);
         });
@@ -229,13 +221,13 @@ export default function ReceiveModal() {
                   <NewSelect
                     name="receiveType"
                     options={[
-                      { value: 1, label: "Internal" },
-                      { value: 2, label: "External" },
+                      { value: 1, label: 'Internal' },
+                      { value: 2, label: 'External' },
                     ]}
                     value={values?.receiveType}
                     label="Receive Type"
                     onChange={(valueOption) => {
-                      setFieldValue("receiveType", valueOption);
+                      setFieldValue('receiveType', valueOption);
                       setValues({ ...initData, receiveType: valueOption });
                       setRowData([]);
                     }}
@@ -251,21 +243,21 @@ export default function ReceiveModal() {
                       selectedValue={values?.documentNo}
                       isSearchIcon={true}
                       handleChange={(valueOption) => {
-                        setFieldValue("senderName","");
-                        setFieldValue("senderContactNo","");
-                        setFieldValue("receiverName","");
-                        setFieldValue("receiverContractNo","");
-                        setFieldValue("fromLocationDDL","");
-                        setFieldValue("toLocationDDL","");
-                        setFieldValue("remarks","");
-                        setFieldValue("documentNo", valueOption || "");
-                        setFieldValue("reciverBuName", "");
+                        setFieldValue('senderName', '');
+                        setFieldValue('senderContactNo', '');
+                        setFieldValue('receiverName', '');
+                        setFieldValue('receiverContractNo', '');
+                        setFieldValue('fromLocationDDL', '');
+                        setFieldValue('toLocationDDL', '');
+                        setFieldValue('remarks', '');
+                        setFieldValue('documentNo', valueOption || '');
+                        setFieldValue('reciverBuName', '');
                         if (valueOption) {
                           getSingleData(
                             `/tms/DocumentDispatch/GetDocumentDispatchById?DispatchId=${valueOption?.value}`,
                             (data) => {
                               setFieldValue(
-                                "senderName",
+                                'senderName',
                                 data?.header?.SenderEnrollId &&
                                   data?.header?.SenderName
                                   ? {
@@ -275,28 +267,40 @@ export default function ReceiveModal() {
                                   : null
                               );
                               setFieldValue(
-                                "senderContactNo",
-                                data?.header?.SenderContactNo || ""
+                                'senderContactNo',
+                                data?.header?.SenderContactNo || ''
                               );
                               setFieldValue(
-                                "receiverName",
+                                'receiverName',
                                 data?.header?.ReceiverEnrollId &&
                                   data?.header?.ReceiverName
                                   ? {
                                       value: data?.header?.ReceiverEnrollId,
                                       label: data?.header?.ReceiverName,
-                                      businessUnitId: data?.header?.ReceiverBusinessUnitId,
-                                      businessUnitName:  data?.header?.ReceiverBusinessUnit,
+                                      businessUnitId:
+                                        data?.header?.ReceiverBusinessUnitId,
+                                      businessUnitName:
+                                        data?.header?.ReceiverBusinessUnit,
                                     }
                                   : null
                               );
-                              setFieldValue("reciverBuName",  data?.header?.ReceiverBusinessUnitId &&  data?.header?.ReceiverBusinessUnit ? {value: data?.header?.ReceiverBusinessUnitId, label:  data?.header?.ReceiverBusinessUnit} : "")
                               setFieldValue(
-                                "receiverContractNo",
-                                data?.header?.ReceiverContactNo || ""
+                                'reciverBuName',
+                                data?.header?.ReceiverBusinessUnitId &&
+                                  data?.header?.ReceiverBusinessUnit
+                                  ? {
+                                      value:
+                                        data?.header?.ReceiverBusinessUnitId,
+                                      label: data?.header?.ReceiverBusinessUnit,
+                                    }
+                                  : ''
                               );
                               setFieldValue(
-                                "fromLocationDDL",
+                                'receiverContractNo',
+                                data?.header?.ReceiverContactNo || ''
+                              );
+                              setFieldValue(
+                                'fromLocationDDL',
                                 data?.header?.FromPlantId &&
                                   data?.header?.FromLocation
                                   ? {
@@ -306,7 +310,7 @@ export default function ReceiveModal() {
                                   : null
                               );
                               setFieldValue(
-                                "toLocationDDL",
+                                'toLocationDDL',
                                 data?.header?.ToPlantId &&
                                   data?.header?.ToLocation
                                   ? {
@@ -316,8 +320,8 @@ export default function ReceiveModal() {
                                   : null
                               );
                               setFieldValue(
-                                "remarks",
-                                data?.header?.Remaks || ""
+                                'remarks',
+                                data?.header?.Remaks || ''
                               );
 
                               setRowData(
@@ -350,20 +354,20 @@ export default function ReceiveModal() {
                       selectedValue={values?.senderName}
                       isSearchIcon={true}
                       handleChange={(valueOption) => {
-                        setFieldValue("senderName", valueOption);
+                        setFieldValue('senderName', valueOption);
                         setFieldValue(
-                          "senderContactNo",
+                          'senderContactNo',
                           valueOption?.contactNo
                         );
                       }}
                       loadOptions={loadSenderList}
                       isDisabled={true}
                     />
-                     <FormikError
+                    <FormikError
                       errors={errors}
                       name="senderName"
                       touched={touched}
-                  />
+                    />
                   </div>
                 ) : values?.receiveType?.value === 2 ? (
                   <div className="col-lg-3">
@@ -374,7 +378,7 @@ export default function ReceiveModal() {
                       name="senderName"
                       type="text"
                       onChange={(e) => {
-                        setFieldValue("senderName", e.target.value);
+                        setFieldValue('senderName', e.target.value);
                       }}
                     />
                   </div>
@@ -387,7 +391,7 @@ export default function ReceiveModal() {
                     name="senderContactNo"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("senderContactNo", e.target.value);
+                      setFieldValue('senderContactNo', e.target.value);
                     }}
                   />
                 </div>
@@ -397,12 +401,15 @@ export default function ReceiveModal() {
                     selectedValue={values?.receiverName}
                     isSearchIcon={true}
                     handleChange={(valueOption) => {
-                      setFieldValue("receiverName", valueOption);
+                      setFieldValue('receiverName', valueOption);
                       setFieldValue(
-                        "receiverContractNo",
+                        'receiverContractNo',
                         valueOption?.contactNo
                       );
-                      setFieldValue("reciverBuName", {value: valueOption?.businessUnitId, label: valueOption?.businessUnitName});
+                      setFieldValue('reciverBuName', {
+                        value: valueOption?.businessUnitId,
+                        label: valueOption?.businessUnitName,
+                      });
                     }}
                     loadOptions={loadUserList}
                     errors={errors}
@@ -410,14 +417,14 @@ export default function ReceiveModal() {
                   />
                 </div>
                 <div className="col-lg-3">
-                      <NewSelect
-                        name="reciverBuName"
-                        options={[]}
-                        value={values?.reciverBuName}
-                        label="Receiver Business Unit"
-                        disabled={true}
-                      />
-                    </div>
+                  <NewSelect
+                    name="reciverBuName"
+                    options={[]}
+                    value={values?.reciverBuName}
+                    label="Receiver Business Unit"
+                    disabled={true}
+                  />
+                </div>
                 <div className="col-lg-3">
                   <InputField
                     value={values?.receiverContractNo}
@@ -426,13 +433,13 @@ export default function ReceiveModal() {
                     name="receiverContractNo"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("receiverContractNo", e.target.value);
+                      setFieldValue('receiverContractNo', e.target.value);
                     }}
                   />
                 </div>
                 {values?.receiveType?.value === 1 ? (
                   <>
-                    {" "}
+                    {' '}
                     <div className="col-lg-3">
                       <NewSelect
                         name="fromLocationDDL"
@@ -440,7 +447,7 @@ export default function ReceiveModal() {
                         value={values?.fromLocationDDL}
                         label="From Location"
                         onChange={(valueOption) => {
-                          setFieldValue("fromLocationDDL", valueOption);
+                          setFieldValue('fromLocationDDL', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -450,7 +457,7 @@ export default function ReceiveModal() {
                   </>
                 ) : (
                   <>
-                    {" "}
+                    {' '}
                     <div className="col-lg-3">
                       <InputField
                         value={values?.fromLocation}
@@ -459,7 +466,7 @@ export default function ReceiveModal() {
                         name="fromLocation"
                         type="text"
                         onClick={(e) => {
-                          setFieldValue("fromLocation", e.target.value);
+                          setFieldValue('fromLocation', e.target.value);
                         }}
                       />
                     </div>
@@ -472,26 +479,28 @@ export default function ReceiveModal() {
                     value={values?.toLocationDDL}
                     label="To Location"
                     onChange={(valueOption) => {
-                      setFieldValue("toLocationDDL", valueOption);
+                      setFieldValue('toLocationDDL', valueOption);
                     }}
                     isDisabled={values?.receiveType?.value === 1}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-              {values?.receiveType?.value === 1 && ( <div className="col-lg-3">
-                  <InputField
-                    value={values?.remarks}
-                    label="Remarks"
-                    name="remarks"
-                    placeholder="Remarks"
-                    type="text"
-                    disabled
-                    onChange={(e) => {
-                      setFieldValue("remarks", e.target.value);
-                    }}
-                  />
-                </div>)}
+                {values?.receiveType?.value === 1 && (
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.remarks}
+                      label="Remarks"
+                      name="remarks"
+                      placeholder="Remarks"
+                      type="text"
+                      disabled
+                      onChange={(e) => {
+                        setFieldValue('remarks', e.target.value);
+                      }}
+                    />
+                  </div>
+                )}
                 <div className="col-lg-3">
                   <InputField
                     value={values?.receiveDate}
@@ -499,7 +508,7 @@ export default function ReceiveModal() {
                     name="receiveDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("receiveDate", e.target.value);
+                      setFieldValue('receiveDate', e.target.value);
                     }}
                   />
                 </div>
@@ -511,7 +520,7 @@ export default function ReceiveModal() {
                     placeholder="Dispatch Note"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("dispatchNote", e.target.value);
+                      setFieldValue('dispatchNote', e.target.value);
                     }}
                   />
                 </div>
@@ -523,15 +532,15 @@ export default function ReceiveModal() {
                     <NewSelect
                       name="dispatchType"
                       options={[
-                        { value: 1, label: "Document" },
-                        { value: 2, label: "Material" },
+                        { value: 1, label: 'Document' },
+                        { value: 2, label: 'Material' },
                       ]}
                       value={values?.dispatchType}
                       label="Dispatch Type"
                       onChange={(valueOption) => {
-                        setFieldValue("parcelName", "");
-                        setFieldValue("qty", "");
-                        setFieldValue("dispatchType", valueOption);
+                        setFieldValue('parcelName', '');
+                        setFieldValue('qty', '');
+                        setFieldValue('dispatchType', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -543,17 +552,17 @@ export default function ReceiveModal() {
                       label={
                         values?.dispatchType
                           ? `${values?.dispatchType?.label} Name`
-                          : "Document / Material Name"
+                          : 'Document / Material Name'
                       }
                       name="parcelName"
                       placeholder={
                         values?.dispatchType
                           ? `${values?.dispatchType?.label} Name`
-                          : "Document / Material Name"
+                          : 'Document / Material Name'
                       }
                       type="text"
                       onChange={(e) => {
-                        setFieldValue("parcelName", e.target.value);
+                        setFieldValue('parcelName', e.target.value);
                       }}
                     />
                   </div>
@@ -566,7 +575,7 @@ export default function ReceiveModal() {
                       type="number"
                       min={0}
                       onChange={(e) => {
-                        setFieldValue("qty", e.target.value);
+                        setFieldValue('qty', e.target.value);
                       }}
                     />
                   </div>
@@ -580,7 +589,7 @@ export default function ReceiveModal() {
                         placeholder="UOM"
                         type="text"
                         onChange={(valueOption) => {
-                          setFieldValue("uom", valueOption);
+                          setFieldValue('uom', valueOption);
                         }}
                       />
                     </div>
@@ -593,24 +602,24 @@ export default function ReceiveModal() {
                       placeholder="Remarks"
                       type="text"
                       onChange={(e) => {
-                        setFieldValue("rowRemark", e.target.value);
+                        setFieldValue('rowRemark', e.target.value);
                       }}
                     />
                   </div>
                   <div className="col-lg-3">
                     <button
-                      style={{ marginTop: "16px" }}
+                      style={{ marginTop: '16px' }}
                       className="btn btn-primary"
                       type="button"
                       onClick={() => {
                         handleAdd(values, setRowData);
                         setValues({
                           ...values,
-                          dispatchType: "",
-                          parcelName: "",
-                          qty: "",
-                          rowRemark: "",
-                          uom: "",
+                          dispatchType: '',
+                          parcelName: '',
+                          qty: '',
+                          rowRemark: '',
+                          uom: '',
                         });
                       }}
                       disabled={
@@ -626,16 +635,16 @@ export default function ReceiveModal() {
                 </div>
               )}
 
-              <div style={{ marginTop: "15px" }}>
+              <div style={{ marginTop: '15px' }}>
                 <CommonTable
                   headersData={[
-                    "Sl",
-                    "Dispatch Type",
-                    "Parcel Name",
-                    "Quantity",
-                    "UoM",
-                    "Remarks",
-                    "Action",
+                    'Sl',
+                    'Dispatch Type',
+                    'Parcel Name',
+                    'Quantity',
+                    'UoM',
+                    'Remarks',
+                    'Action',
                   ]}
                 >
                   <tbody>
@@ -662,14 +671,14 @@ export default function ReceiveModal() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

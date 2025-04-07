@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getPartnerTerritoryInformation = async (
   accId,
@@ -14,13 +14,13 @@ export const getPartnerTerritoryInformation = async (
   setLoading
 ) => {
   setLoading(true);
-  const searchValue = search ? `&search=${search}` : "";
+  const searchValue = search ? `&search=${search}` : '';
   try {
     const res = await axios.get(
       `/partner/PartnerTerritoryInfo/GetPartnerTerritoryInfoLanding?AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${channelId}&UserId=${userId}${searchValue}&pageNo=${pageNo}&pageSize=${pageSize}&vieworder=desc&terrtorystatus=${status}`
     );
     if (res?.data?.data?.length < 1) {
-      toast.warn("Data Not Found");
+      toast.warn('Data Not Found');
     } else {
       setter(res?.data);
     }
@@ -85,7 +85,7 @@ export const getBusinessPartnersWithoutTerritory = async (
   setLoading
 ) => {
   setLoading(true);
-  const searchValue = search ? `&Search=${search}` : "";
+  const searchValue = search ? `&Search=${search}` : '';
   try {
     const res = await axios.get(
       `/partner/PartnerTerritoryInfo/getNotBusinessPartnerTerritory?accountid=${accId}&businessid=${buId}${searchValue}&pageNo=${pageNo}&pageSize=${pageSize}&vieworder=desc`

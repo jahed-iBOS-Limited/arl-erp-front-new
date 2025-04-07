@@ -1,31 +1,31 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
 // import { RouteSetupLanding } from "./routeSetup";
 // import SalesForceInfoForm from './salesforceBasicInformation/form/addEditForm'
 // import SalesForceInfoLanding from './salesforceBasicInformation/landing/table'
-import { RouteSetupLanding } from "./routeSetup";
-import RouteSetupForm from "./routeSetup/Form/addEditForm";
+import { RouteSetupLanding } from './routeSetup';
+import RouteSetupForm from './routeSetup/Form/addEditForm';
 // import SalesForceInfoViewForm from './salesforceBasicInformation/view/addEditForm'
-import { SalesforceTransferLanding } from "./salesforceTransfer";
-import SalesforceTranferForm from "./salesforceTransfer/Form/addEditForm";
-import RouteSetupViewForm from "./routeSetup/View/addEditForm";
-import { SalesForceFixedTaDALanding } from "./salesforceFixedTaDa/Table/tableHeader";
-import SalesForceFixedTaDAForm from "./salesforceFixedTaDa/Form/addEditForm";
-import ViewSalesForceFixedTaDA from "./salesforceFixedTaDa/View/addEditForm";
-import RouteSetupApproveForm from "./routeSetup/Approve/addEditForm";
-import SalesOfficialInfoCollapsePanel from "./salesforcebasic/officialInformation/EditForm/mainCollapse";
+import { SalesforceTransferLanding } from './salesforceTransfer';
+import SalesforceTranferForm from './salesforceTransfer/Form/addEditForm';
+import RouteSetupViewForm from './routeSetup/View/addEditForm';
+import { SalesForceFixedTaDALanding } from './salesforceFixedTaDa/Table/tableHeader';
+import SalesForceFixedTaDAForm from './salesforceFixedTaDa/Form/addEditForm';
+import ViewSalesForceFixedTaDA from './salesforceFixedTaDa/View/addEditForm';
+import RouteSetupApproveForm from './routeSetup/Approve/addEditForm';
+import SalesOfficialInfoCollapsePanel from './salesforcebasic/officialInformation/EditForm/mainCollapse';
 
-import SalesTargetSetupForm from "./salesTarget/form/addEditForm";
+import SalesTargetSetupForm from './salesTarget/form/addEditForm';
 // import SalesForceInfoForm from "./salesforceBasicInformation/form/addEditForm";
 // import SalesForceInfoLanding from "./salesforceBasicInformation/landing/table";
-import SalesForceInfoViewForm from "./salesforceBasicInformation/view/addEditForm";
-import SalesForceInfoEditForm from "./salesforceBasicInformation/edit/addEditForm";
-import AssetAllocationLanding from "./assetAllocation/landing/table";
-import SalesBasicInformationlLanding from "./salesforcebasic/Table";
-import SalesForceElmployeeInformationForm from "./salesforcebasic/Form/addEditForm";
-import SalesforceMonthlyTaDa from "./saleForceMonthlyTaDa/Form/AddEditForm";
-import BulkSalesTargetSetup from "./bulkSalesTargetSetup/landing/table";
+import SalesForceInfoViewForm from './salesforceBasicInformation/view/addEditForm';
+import SalesForceInfoEditForm from './salesforceBasicInformation/edit/addEditForm';
+import AssetAllocationLanding from './assetAllocation/landing/table';
+import SalesBasicInformationlLanding from './salesforcebasic/Table';
+import SalesForceElmployeeInformationForm from './salesforcebasic/Form/addEditForm';
+import SalesforceMonthlyTaDa from './saleForceMonthlyTaDa/Form/AddEditForm';
+import BulkSalesTargetSetup from './bulkSalesTargetSetup/landing/table';
 
 export function SalesforcePages() {
   return (

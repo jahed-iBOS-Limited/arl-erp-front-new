@@ -9,6 +9,7 @@ td.no-data {
   border: none;
   border-bottom: 1px solid black !important;
 }
-.salesInvoiceReport table tbody tr td, .salesInvoiceReport {
+.salesInvoiceReport table tbody tr td,
+.salesInvoiceReport {
   color: black !important;
 }

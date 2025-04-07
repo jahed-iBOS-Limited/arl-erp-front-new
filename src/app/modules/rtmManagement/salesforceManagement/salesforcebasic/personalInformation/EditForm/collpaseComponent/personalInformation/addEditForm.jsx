@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import Form from './form';
 import {
@@ -114,10 +112,10 @@ export default function PersonalInformation() {
               (data) => {
                 getEmpPersonalInfoById_api(
                   headerData?.employeeId,
-                  setSingleData,
+                  setSingleData
                 );
                 setFileObjects([]);
-              },
+              }
             );
           });
         } else {
@@ -168,7 +166,7 @@ export default function PersonalInformation() {
             createEmployeePersonalInformation(
               modifyPlyload,
               cb,
-              setDisabled,
+              setDisabled
             ).then((data) => {
               getEmpPersonalInfoById_api(headerData?.employeeId, setSingleData);
               setFileObjects([]);
@@ -179,7 +177,7 @@ export default function PersonalInformation() {
             (data) => {
               getEmpPersonalInfoById_api(headerData?.employeeId, setSingleData);
               setFileObjects([]);
-            },
+            }
           );
         }
       }
@@ -204,7 +202,6 @@ export default function PersonalInformation() {
 
   useEffect(() => {
     getEmpPersonalInfoById_api(headerData?.employeeId, setSingleData);
-
   }, []);
 
   useEffect(() => {

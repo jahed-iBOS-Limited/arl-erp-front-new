@@ -1,5 +1,5 @@
-import React from "react";
-import InputField from "../../../../_helper/_inputField";
+import React from 'react';
+import InputField from '../../../../_helper/_inputField';
 
 export default function ManpowerSalesTargetFormTable({ obj }) {
   const { rowData, values, allSelect, selectedAll, rowDataChange, buId } = obj;
@@ -8,14 +8,14 @@ export default function ManpowerSalesTargetFormTable({ obj }) {
       {rowData?.length > 0 && [1, 2, 3, 4].includes(values?.type?.value) && (
         <table
           className={
-            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+            'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
           }
         >
           <thead>
             <tr className="cursor-pointer">
               <th
                 className="text-center cursor-pointer"
-                style={{ width: "40px" }}
+                style={{ width: '40px' }}
                 onClick={() => allSelect(!selectedAll())}
               >
                 <input
@@ -28,14 +28,14 @@ export default function ManpowerSalesTargetFormTable({ obj }) {
               <th>SL</th>
               {[1, 2, 3].includes(values?.type?.value) ? (
                 <>
-                  <th>{buId === 144 ? "TSO Name" : "Employee Name"}</th>
+                  <th>{buId === 144 ? 'TSO Name' : 'Employee Name'}</th>
                   {[1].includes(values?.type?.value) && [144].includes(buId) ? (
                     <>
                       <th>Territory Name</th>
-                      <th>Territory Type Name</th>{" "}
+                      <th>Territory Type Name</th>{' '}
                     </>
                   ) : null}
-                  <th>{buId === 144 ? "TSO ID" : "Employee ID"}</th>
+                  <th>{buId === 144 ? 'TSO ID' : 'Employee ID'}</th>
                   {/* <th>Employee ID</th> */}
                 </>
               ) : (
@@ -62,7 +62,7 @@ export default function ManpowerSalesTargetFormTable({ obj }) {
             <tr key={index}>
               <td
                 onClick={() => {
-                  rowDataChange(index, "isSelected", !row.isSelected);
+                  rowDataChange(index, 'isSelected', !row.isSelected);
                 }}
                 className="text-center"
               >
@@ -73,7 +73,7 @@ export default function ManpowerSalesTargetFormTable({ obj }) {
                   // onChange={() => {}}
                 />
               </td>
-              <td className="text-center" style={{ width: "40px" }}>
+              <td className="text-center" style={{ width: '40px' }}>
                 {index + 1}
               </td>
               {[1, 2, 3].includes(values?.type?.value) ? (
@@ -82,7 +82,7 @@ export default function ManpowerSalesTargetFormTable({ obj }) {
                   {[1].includes(values?.type?.value) && [144].includes(buId) ? (
                     <>
                       <td>{row?.territoryName}</td>
-                      <td>{row?.territoryTypeName}</td>{" "}
+                      <td>{row?.territoryTypeName}</td>{' '}
                     </>
                   ) : null}
                   <td>{row?.employeeId}</td>
@@ -99,17 +99,17 @@ export default function ManpowerSalesTargetFormTable({ obj }) {
                 ))}
               {buId === 144 ? (
                 <>
-                  <td className="text-right" style={{ width: "150px" }}>
+                  <td className="text-right" style={{ width: '150px' }}>
                     <InputField
                       value={row?.chiniguraQty}
                       name="chiniguraQty"
                       type="number"
                       onChange={(e) => {
-                        rowDataChange(index, "chiniguraQty", e?.target?.value);
+                        rowDataChange(index, 'chiniguraQty', e?.target?.value);
                       }}
                     />
                   </td>
-                  <td className="text-right" style={{ width: "150px" }}>
+                  <td className="text-right" style={{ width: '150px' }}>
                     <InputField
                       value={row?.nonChiniguraQty}
                       name="nonChiniguraQty"
@@ -117,7 +117,7 @@ export default function ManpowerSalesTargetFormTable({ obj }) {
                       onChange={(e) => {
                         rowDataChange(
                           index,
-                          "nonChiniguraQty",
+                          'nonChiniguraQty',
                           e?.target?.value
                         );
                       }}
@@ -125,13 +125,13 @@ export default function ManpowerSalesTargetFormTable({ obj }) {
                   </td>
                 </>
               ) : (
-                <td className="text-right" style={{ width: "150px" }}>
+                <td className="text-right" style={{ width: '150px' }}>
                   <InputField
                     value={row?.targetQty}
                     name="targetQty"
                     type="number"
                     onChange={(e) => {
-                      rowDataChange(index, "targetQty", e?.target?.value);
+                      rowDataChange(index, 'targetQty', e?.target?.value);
                     }}
                   />
                 </td>

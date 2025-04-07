@@ -6,7 +6,6 @@ import { imarineBaseUrl } from '../../../../../App';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 import { _todayDate } from '../../../_helper/_todayDate';
 
-
 export const getAdditionalCostLandingData = async (
   accId,
   buId,
@@ -15,14 +14,14 @@ export const getAdditionalCostLandingData = async (
   pageNo,
   pageSize,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   const vesselID = vesselId ? `&VesselId=${vesselId}` : '';
   const voyageID = voyageId ? `&VoyageId=${voyageId}` : '';
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/AdditionalCost/GetAddionalCostLanding?AccountId=${accId}&BusinessUnitId=${buId}${vesselID}${voyageID}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+      `${imarineBaseUrl}/domain/AdditionalCost/GetAddionalCostLanding?AccountId=${accId}&BusinessUnitId=${buId}${vesselID}${voyageID}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     if (res?.data?.data?.length) {
       setter(res?.data);
@@ -43,7 +42,7 @@ export const createAdditionalCost = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/AdditionalCost/CreateAdditionalCost`,
-      data,
+      data
     );
     cb();
     toast.success(res?.data?.message);
@@ -58,7 +57,7 @@ export const getCostTypeDDL = async (typeId, setter, setLoading) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/PortPDA/GetAdditionalCost?VoyageTypeId=${typeId}`,
+      `${imarineBaseUrl}/domain/PortPDA/GetAdditionalCost?VoyageTypeId=${typeId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -73,7 +72,7 @@ export const saveNewCostType = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/AdditionalCost/CreateAdditionalCostConfig`,
-      data,
+      data
     );
     cb();
     toast.success(res?.data?.message);
@@ -88,7 +87,7 @@ export const deleteAdditionalCost = async (id, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${imarineBaseUrl}/domain/AdditionalCost/InActiveAdditionalCost?AdditionalCostId=${id}`,
+      `${imarineBaseUrl}/domain/AdditionalCost/InActiveAdditionalCost?AdditionalCostId=${id}`
     );
     toast.success(res?.data?.message);
     cb();
@@ -104,12 +103,12 @@ export const getAdditionalCostById = async (
   voyageId,
   setter,
   setLoading,
-  cb,
+  cb
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/AdditionalCost/GetAdditonalCostById?VesselId=${vesselId}&VoyageId=${voyageId}`,
+      `${imarineBaseUrl}/domain/AdditionalCost/GetAdditonalCostById?VesselId=${vesselId}&VoyageId=${voyageId}`
     );
     setter(res?.data);
     cb && cb(res?.data[0]);
@@ -125,12 +124,12 @@ export const getBusinessPartnerDDL = async (
   voyageId,
   stackHolderTypeId,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Stakeholder/GetVoyageStackHolderInfo?BusinessUnitId=${buId}&VoyageId=${voyageId}&StackTypeId=${stackHolderTypeId}`,
+      `${imarineBaseUrl}/domain/Stakeholder/GetVoyageStackHolderInfo?BusinessUnitId=${buId}&VoyageId=${voyageId}&StackTypeId=${stackHolderTypeId}`
     );
     const modifyData = res?.data?.map((item) => {
       return {
@@ -151,7 +150,7 @@ export const editOrCashReceive = async (data, setLoading, cb) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/AdditionalCost/EditAdditionalCost`,
-      data,
+      data
     );
     cb();
     toast.success(res?.data?.message);
@@ -183,7 +182,7 @@ export const initData = {
   orderDate: _todayDate(),
   // last shipment date will after 15 days of current
   lastShipmentDate: _dateFormatter(
-    new Date(new Date().getTime() + 15 * 24 * 60 * 60 * 1000),
+    new Date(new Date().getTime() + 15 * 24 * 60 * 60 * 1000)
   ),
   currency: '',
   paymentTerms: { value: 2, label: 'Credit' },

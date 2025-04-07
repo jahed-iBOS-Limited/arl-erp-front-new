@@ -1,14 +1,12 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import * as Yup from "yup";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import * as Yup from 'yup';
 
 //plant ddl
 export const getInsurancePolicyDDL = async (setter) => {
   try {
-    const res = await Axios.get(
-      `/imp/InsurancePolicy/GetProviderDDL`
-    );
+    const res = await Axios.get(`/imp/InsurancePolicy/GetProviderDDL`);
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
@@ -56,7 +54,7 @@ export const createGetPaseData = async (
   try {
     await Axios.post(`/wms/GatePass/CreateGetPass`, obj);
     setDisabled(false);
-    toast.success("Create successfully");
+    toast.success('Create successfully');
     cb();
   } catch (error) {
     setDisabled(false);
@@ -124,7 +122,7 @@ export const updateGetPassData = async (
   try {
     await Axios.put(`/wms/GatePass/EditGatePass`, obj);
     setDisabled(false);
-    toast.success("Update successfully");
+    toast.success('Update successfully');
     cb();
   } catch (error) {
     setDisabled(false);
@@ -145,16 +143,18 @@ const updatePayloadChange = (
       intGatePassId: values?.gatePassId,
       dteTransactionDate: values?.date,
       strFromAddress: values?.fromAddress,
-      strToAddress:values?.others ? values?.toAddress : values?.toAddress?.label,
+      strToAddress: values?.others
+        ? values?.toAddress
+        : values?.toAddress?.label,
       intToEmployeeId: values?.toAddress?.value,
       strRemarks: values?.remarks,
       strDriverName: values?.receiversName,
       strContact: values?.contactNo,
       strVehicleNumber: values?.vehicle,
       strReason: values?.reason?.label,
-      isOthers: values?.others
+      isOthers: values?.others,
     },
-    objRow: rowDto?.map(item =>({
+    objRow: rowDto?.map((item) => ({
       intRowId: item?.intRowId || 0,
       numQuantity: item?.quantity,
       strItemName: item?.item,
@@ -265,7 +265,7 @@ export const getSingleData = async (
     setDisabled(false);
     toast.error(error?.response?.data?.message);
   }
-}
+};
 export const approveGatePass = async (id, setDisabled, userId, cb) => {
   setDisabled(true);
   try {
@@ -285,47 +285,46 @@ export const approveGatePass = async (id, setDisabled, userId, cb) => {
   }
 };
 
-
 export const reason = [
-  { value: "Sample", label: "Sample" },
-  { value: "Material Return", label: "Material Return" },
-  { value: "Repair & Maintenance", label: "Repair & Maintenance" },
-  { value: "Transfer", label: "Transfer" },
-  { value: "Others", label: "Others" },
+  { value: 'Sample', label: 'Sample' },
+  { value: 'Material Return', label: 'Material Return' },
+  { value: 'Repair & Maintenance', label: 'Repair & Maintenance' },
+  { value: 'Transfer', label: 'Transfer' },
+  { value: 'Others', label: 'Others' },
 ];
 
 //validation schema;
 export const validationSchema = Yup.object().shape({
-  receiversName: Yup.string().required("Driver/Receive Name is required"),
+  receiversName: Yup.string().required('Driver/Receive Name is required'),
   contactNo: Yup.string()
-    .required("Contact no is required")
-    .matches(/^[0-9]+$/, "Must be only digits")
-    .min(11, "Must be exactly 11 digits")
-    .max(11, "Must be exactly 11 digits"),
-  remarks: Yup.string().required("Remarks is required"),
+    .required('Contact no is required')
+    .matches(/^[0-9]+$/, 'Must be only digits')
+    .min(11, 'Must be exactly 11 digits')
+    .max(11, 'Must be exactly 11 digits'),
+  remarks: Yup.string().required('Remarks is required'),
 });
 
 //send to email api;
 export const sendEmailPostApi = async (dataObj) => {
   let formData = new FormData();
-  formData.append("to", dataObj?.toMail);
-  formData.append("cc", dataObj?.toCC);
-  formData.append("bcc", dataObj?.toBCC);
-  formData.append("subject", dataObj?.subject);
-  formData.append("body", dataObj?.message);
-  formData.append("file", dataObj?.attachment);
+  formData.append('to', dataObj?.toMail);
+  formData.append('cc', dataObj?.toCC);
+  formData.append('bcc', dataObj?.toBCC);
+  formData.append('subject', dataObj?.subject);
+  formData.append('body', dataObj?.message);
+  formData.append('file', dataObj?.attachment);
   try {
-    let { data } = await Axios.post("/domain/MailSender/SendMail", formData, {
+    let { data } = await Axios.post('/domain/MailSender/SendMail', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
 
-    toast.success("Mail Send Successfully");
+    toast.success('Mail Send Successfully');
     return data;
   } catch (error) {
     toast.error(
-      error?.response?.data?.message || "Mail cant not send successfully"
+      error?.response?.data?.message || 'Mail cant not send successfully'
     );
   }
 };

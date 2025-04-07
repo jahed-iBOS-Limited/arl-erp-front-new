@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { competencyTwoSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { competencyTwoSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = competencyTwoSlice;
 
 export const getEmpDDLAction = (accId, buId) => (dispatch) => {
@@ -19,12 +19,11 @@ export const saveCompetencyAction = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
     });
 };
@@ -35,8 +34,8 @@ export const saveEditedCompetencyAction = (payload, cb) => () => {
     .then((res) => {
       if (res.status === 200) {
         console.log(res.data);
-        toast.success(res.data?.message || "Submitted successfully", {
-          toastId: "editedCompetency",
+        toast.success(res.data?.message || 'Submitted successfully', {
+          toastId: 'editedCompetency',
         });
         cb();
       }
@@ -53,9 +52,7 @@ export const getEmployeeClusterListAction = () => (dispatch) => {
     .then((res) => {
       return dispatch(slice.SetEmpClusterList(res.data));
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 
 // action for get grid data
@@ -65,9 +62,7 @@ export const getCompetencyGridData = (accId, buId) => (dispatch) => {
     .then((res) => {
       return dispatch(slice.SetGridData(res.data?.data));
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 
 // action for get data by id single
@@ -82,17 +77,15 @@ export const getCompetencyIdAction = (id) => (dispatch) => {
           objCompetency: {
             ...item.objCompetency,
             competencyType: item.objCompetency.isFunctionalCompetency
-              ? { value: true, label: "Core competency" }
-              : { value: false, label: "Functional competency" },
-              isPositive: true
+              ? { value: true, label: 'Core competency' }
+              : { value: false, label: 'Functional competency' },
+            isPositive: true,
           },
         };
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 // set single store empty
 export const setCompetencyEmpty = () => async (dispatch) => {

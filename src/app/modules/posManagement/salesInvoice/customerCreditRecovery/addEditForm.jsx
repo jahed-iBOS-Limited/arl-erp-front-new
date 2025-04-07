@@ -1,26 +1,21 @@
+import React, { useEffect, useState } from 'react';
+import Form from './form';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import IForm from './../../../_helper/_form';
 
-import React, { useEffect, useState } from "react";
-import Form from "./form";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams } from "react-router-dom";
-import IForm from "./../../../_helper/_form";
-
-import {
-  getWareHouseDDL,
-  customerCreditRecovery,
-} from "../helper";
+import { getWareHouseDDL, customerCreditRecovery } from '../helper';
 
 const initData = {
-  whName: ''
+  whName: '',
 };
 
 const CustomerCreditRecoveryForm = () => {
   const { id } = useParams();
   const [rowDto, setRowDto] = useState([]);
   const [whNameDDL, setWhNameDDL] = useState([]);
-  const [itemDDL, setItemDDL] = useState([])
+  const [itemDDL, setItemDDL] = useState([]);
   const [objProps, setObjprops] = useState({});
-
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -33,34 +28,36 @@ const CustomerCreditRecoveryForm = () => {
   }, shallowEqual);
 
   useEffect(() => {
-    if(profileData?.accountId && selectedBusinessUnit?.value){
-      getWareHouseDDL(profileData?.accountId, selectedBusinessUnit?.value, profileData?.userId, setWhNameDDL)
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
+      getWareHouseDDL(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        profileData?.userId,
+        setWhNameDDL
+      );
     }
-  }, [profileData, selectedBusinessUnit])
+  }, [profileData, selectedBusinessUnit]);
 
-  const saveHandler= async ()=>{
-    await customerCreditRecovery(rowDto)
-    setRowDto([])
-  }
+  const saveHandler = async () => {
+    await customerCreditRecovery(rowDto);
+    setRowDto([]);
+  };
 
   const remover = (itemName) => {
-    const filterData= rowDto.filter(item => item.itemName !== itemName)
+    const filterData = rowDto.filter((item) => item.itemName !== itemName);
     setRowDto(filterData);
   };
 
   const updateRecoverAmount = (value, index) => {
-    const rowData=rowDto
-    rowData[index].recoverAmount = parseInt(value)
-    setRowDto(rowData)
-  }
+    const rowData = rowDto;
+    rowData[index].recoverAmount = parseInt(value);
+    setRowDto(rowData);
+  };
 
   return (
     <>
-      <IForm
-        title={"Customer Credit Recovery"}
-        getProps={setObjprops}
-      >
-       <Form
+      <IForm title={'Customer Credit Recovery'} getProps={setObjprops}>
+        <Form
           {...objProps}
           initData={initData}
           saveHandler={saveHandler}

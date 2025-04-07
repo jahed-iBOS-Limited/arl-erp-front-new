@@ -77,18 +77,18 @@ export default function CreateForm({
           return itm;
         });
         setProfitCenterDDL(newData);
-      },
+      }
     );
 
     dispatch(getreferenceTypeDDLAction(landingData?.transGrup?.value));
     dispatch(
       getBusinessPartnerDDLAction(
         profileData.accountId,
-        selectedBusinessUnit.value,
-      ),
+        selectedBusinessUnit.value
+      )
     );
     dispatch(
-      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     dispatch(getStockDDLAction());
     dispatch(
@@ -96,8 +96,8 @@ export default function CreateForm({
         profileData.accountId,
         selectedBusinessUnit.value,
         landingData?.plant?.value,
-        landingData?.warehouse?.value,
-      ),
+        landingData?.warehouse?.value
+      )
     );
     return () => {
       dispatch(slice.setItemDDL([]));
@@ -105,7 +105,6 @@ export default function CreateForm({
       dispatch(slice.setreferenceNoDDL([]));
       dispatch(slice.setTransactionTypeDDL([]));
     };
-
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   const onChaneForRefType = (refTyp) => {
@@ -117,12 +116,12 @@ export default function CreateForm({
           selectedBusinessUnit.value,
           landingData?.sbu?.value,
           landingData?.plant?.value,
-          landingData?.warehouse?.value,
-        ),
+          landingData?.warehouse?.value
+        )
       );
     }
     dispatch(
-      getTransactionTypeDDLAction(landingData?.transGrup?.value, refTyp.value),
+      getTransactionTypeDDLAction(landingData?.transGrup?.value, refTyp.value)
     );
   };
 
@@ -171,9 +170,9 @@ export default function CreateForm({
                 },
               ];
               setRowDto(modifidRowDto);
-            },
+            }
           );
-        },
+        }
       );
     }
   };
@@ -267,8 +266,8 @@ export default function CreateForm({
               saveInventoryTransactionForAdjustInv(
                 { data: modifyPlyload, cb },
                 setRowDto,
-                setDisabled,
-              ),
+                setDisabled
+              )
             );
           });
         } else {
@@ -276,8 +275,8 @@ export default function CreateForm({
             saveInventoryTransactionForAdjustInv(
               { data: payload, cb },
               setRowDto,
-              setDisabled,
-            ),
+              setDisabled
+            )
           );
         }
       }
@@ -421,7 +420,7 @@ export default function CreateForm({
                           //   `/wms/InventoryTransaction/GetItemForAdjustInventory?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${landingData?.plant?.value}&whId=${landingData?.warehouse?.value}&searchTerm=${v}`
                           // )
                           .get(
-                            `/fino/AdjustmentJournal/GetItemForAdjustInventory?accountId=1&businessUnitId=${selectedBusinessUnit?.value}&plantId=${landingData?.plant?.value}&whId=${landingData?.warehouse?.value}&searchTerm=${v}`,
+                            `/fino/AdjustmentJournal/GetItemForAdjustInventory?accountId=1&businessUnitId=${selectedBusinessUnit?.value}&plantId=${landingData?.plant?.value}&whId=${landingData?.warehouse?.value}&searchTerm=${v}`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -481,7 +480,7 @@ export default function CreateForm({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

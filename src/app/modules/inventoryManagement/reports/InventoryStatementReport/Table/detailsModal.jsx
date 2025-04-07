@@ -1,14 +1,14 @@
-import React, { useEffect, useState, useRef } from "react";
-import { InventoryLedger_api } from "../helper";
-import { useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
+import React, { useEffect, useState, useRef } from 'react';
+import { InventoryLedger_api } from '../helper';
+import { useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
 
-import { shallowEqual } from "react-redux";
-import { _timeFormatter } from "./../../../../_helper/_timeFormatter";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import Loading from "./../../../../_helper/_loading";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { downloadFile } from "../../../../_helper/downloadFile";
+import { shallowEqual } from 'react-redux';
+import { _timeFormatter } from './../../../../_helper/_timeFormatter';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import Loading from './../../../../_helper/_loading';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import { downloadFile } from '../../../../_helper/downloadFile';
 
 const DetailsModal = ({ tableItem, values, type }) => {
   const [inventoryLedger, setInventoryLedger] = useState([]);
@@ -38,7 +38,6 @@ const DetailsModal = ({ tableItem, values, type }) => {
       setInventoryLedger,
       setLoading
     );
-
   }, [tableItem]);
 
   const printRef = useRef();
@@ -71,12 +70,12 @@ const DetailsModal = ({ tableItem, values, type }) => {
       {loading && <Loading />}
       <div
         className="text-right pointer"
-        style={{ position: "absolute", top: "16px", right: "16px" }}
+        style={{ position: 'absolute', top: '16px', right: '16px' }}
       >
         <ReactToPrint
           trigger={() => (
             <i
-              style={{ fontSize: "18px", marginRight: "5px" }}
+              style={{ fontSize: '18px', marginRight: '5px' }}
               className="fas fa-print"
             ></i>
           )}
@@ -95,7 +94,7 @@ const DetailsModal = ({ tableItem, values, type }) => {
           type="button"
           onClick={(e) => {
             let api = `/wms/WmsReport/InventoryStatementByIdNewDownload?businessUnitId=${selectedBusinessUnit?.value}&warehouseId=${values?.wh?.value}&itemId=${tableItem?.itemId}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
-            downloadFile(api, "Inventory Statement", "xlsx", setLoading);
+            downloadFile(api, 'Inventory Statement', 'xlsx', setLoading);
           }}
         >
           Export Excel
@@ -105,7 +104,7 @@ const DetailsModal = ({ tableItem, values, type }) => {
       <div className="inventoryStatement-reports mt-6 " ref={printRef}>
         <div
           className="text-right pointer"
-          style={{ position: "absolute", top: "161px", right: "42px" }}
+          style={{ position: 'absolute', top: '161px', right: '42px' }}
         ></div>
         <div className="text-center">
           <h3>Business Unit : {selectedBusinessUnit?.label}</h3>
@@ -125,7 +124,7 @@ const DetailsModal = ({ tableItem, values, type }) => {
         </div>
         <div className="d-flex justify-content-between">
           <h6>
-            From Date: {values?.fromDate} Time:{" "}
+            From Date: {values?.fromDate} Time:{' '}
             {_timeFormatter(values?.fromTime)}
           </h6>
           <h6>
@@ -139,21 +138,21 @@ const DetailsModal = ({ tableItem, values, type }) => {
                 <th>SL</th>
                 <th
                   style={{
-                    width: "80px",
+                    width: '80px',
                   }}
                 >
                   Transection Date
                 </th>
                 <th
                   style={{
-                    width: "90px",
+                    width: '90px',
                   }}
                 >
                   Transection Code
                 </th>
                 <th
                   style={{
-                    width: "100px",
+                    width: '100px',
                   }}
                 >
                   Transection Type
@@ -161,21 +160,21 @@ const DetailsModal = ({ tableItem, values, type }) => {
                 <th>Reference No.</th>
                 <th
                   style={{
-                    width: "100px",
+                    width: '100px',
                   }}
                 >
                   Qty.
                 </th>
                 <th
                   style={{
-                    width: "100px",
+                    width: '100px',
                   }}
                 >
                   Value
                 </th>
                 <th
                   style={{
-                    width: "100px",
+                    width: '100px',
                   }}
                 >
                   Rate
@@ -239,11 +238,11 @@ const DetailsModal = ({ tableItem, values, type }) => {
                       <tr className="bg-light">
                         <td className="font-weight-bold">{index + 2}</td>
                         <td className="font-weight-bold">{values?.toDate}</td>
-                        <td>{"-"}</td>
+                        <td>{'-'}</td>
                         <td className="font-weight-bold">
-                          {"Closing Balance"}
+                          {'Closing Balance'}
                         </td>
-                        <td>{"-"}</td>
+                        <td>{'-'}</td>
                         <td className="text-right">
                           {total?.quantityTotal.toFixed(2)}
                         </td>

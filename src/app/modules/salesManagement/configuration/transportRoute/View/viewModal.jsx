@@ -1,9 +1,8 @@
-
-import React, { useEffect } from "react";
-import { Form, Row, Col } from "react-bootstrap";
-import IViewModal from "../../../../_helper/_viewModal";
-import { getTransportRouteById } from "../_redux/Actions";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useEffect } from 'react';
+import { Form, Row, Col } from 'react-bootstrap';
+import IViewModal from '../../../../_helper/_viewModal';
+import { getTransportRouteById } from '../_redux/Actions';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
 export default function ViewForm({ id, show, onHide }) {
   const dispatch = useDispatch();
@@ -22,12 +21,12 @@ export default function ViewForm({ id, show, onHide }) {
       <IViewModal
         show={show}
         onHide={onHide}
-        title={singleData?.objHeader?.routeName || ""}
+        title={singleData?.objHeader?.routeName || ''}
         isShow={singleData && false}
       >
         {singleData ? (
           <>
-            <Row style={{ marginTop: "20px" }}>
+            <Row style={{ marginTop: '20px' }}>
               <Col lg="6">
                 <Form.Group controlId="routeName">
                   <Form.Label className="text-left">Route Name</Form.Label>
@@ -51,7 +50,7 @@ export default function ViewForm({ id, show, onHide }) {
                 </Form.Group>
               </Col>
             </Row>
-            <Row style={{ marginTop: "25px" }}>
+            <Row style={{ marginTop: '25px' }}>
               <table className="table table-striped table-bordered table table-head-custom table-vertical-center">
                 <thead>
                   <tr>

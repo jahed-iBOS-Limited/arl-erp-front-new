@@ -1,22 +1,22 @@
-import axios from "axios";
-import React from "react";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import IButton from "../../../../_helper/iButton";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import axios from 'axios';
+import React from 'react';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import IButton from '../../../../_helper/iButton';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
 
 const reportTypes = [
-  { value: 1, label: "Days And Amount Base Balance" },
+  { value: 1, label: 'Days And Amount Base Balance' },
   // { value: 4, label: "Receivable Report" },
-  { value: 2, label: "Regular Irregular Party" },
-  { value: 3, label: "Sister Concern Overdue" },
-  { value: 5, label: "Party Status" },
-  { value: 6, label: "Sales & Revenue Collection Report" },
-  { value: 7, label: "BP BA CP Analysis Report" },
-  { value: 8, label: "Receivable & OverDue Report" },
-  { value: 9, label: "Sales Analysis as Per Receivable" },
+  { value: 2, label: 'Regular Irregular Party' },
+  { value: 3, label: 'Sister Concern Overdue' },
+  { value: 5, label: 'Party Status' },
+  { value: 6, label: 'Sales & Revenue Collection Report' },
+  { value: 7, label: 'BP BA CP Analysis Report' },
+  { value: 8, label: 'Receivable & OverDue Report' },
+  { value: 9, label: 'Sales Analysis as Per Receivable' },
 ];
 
 // const partyStatusList = [
@@ -27,13 +27,13 @@ const reportTypes = [
 // ];
 
 const partyGroupList = [
-  { value: 0, label: "All" },
-  { value: 2, label: "Bank Guarantee" },
-  { value: 3, label: "Work order / Purchase Order" },
-  { value: 4, label: "Cheque" },
-  { value: 5, label: "Contract" },
-  { value: 6, label: "LC" },
-  { value: 7, label: "Cash" },
+  { value: 0, label: 'All' },
+  { value: 2, label: 'Bank Guarantee' },
+  { value: 3, label: 'Work order / Purchase Order' },
+  { value: 4, label: 'Cheque' },
+  { value: 5, label: 'Contract' },
+  { value: 6, label: 'LC' },
+  { value: 7, label: 'Cash' },
 ];
 
 export default function Form({ obj }) {
@@ -93,7 +93,7 @@ export default function Form({ obj }) {
               label="Report Type"
               onChange={(valueOption) => {
                 setIsShow(false);
-                setFieldValue("reportType", valueOption);
+                setFieldValue('reportType', valueOption);
               }}
             />
           </div>
@@ -102,12 +102,12 @@ export default function Form({ obj }) {
               <div className="col-lg-3">
                 <NewSelect
                   name="businessUnit"
-                  options={[{ value: 0, label: "All" }, ...buDDL]}
+                  options={[{ value: 0, label: 'All' }, ...buDDL]}
                   value={values?.businessUnit}
                   label="Business Unit"
                   onChange={(valueOption) => {
                     setIsShow(false);
-                    setFieldValue("businessUnit", valueOption);
+                    setFieldValue('businessUnit', valueOption);
                   }}
                   placeholder="Business Unit"
                 />
@@ -117,14 +117,14 @@ export default function Form({ obj }) {
                   <NewSelect
                     name="viewType"
                     options={[
-                      { value: 1, label: "Details" },
-                      { value: 5, label: "Top Sheet" },
+                      { value: 1, label: 'Details' },
+                      { value: 5, label: 'Top Sheet' },
                     ]}
                     value={values?.viewType}
                     label="View Type"
                     onChange={(valueOption) => {
                       setIsShow(false);
-                      setFieldValue("viewType", valueOption);
+                      setFieldValue('viewType', valueOption);
                     }}
                     placeholder="View Type"
                   />
@@ -136,15 +136,16 @@ export default function Form({ obj }) {
             <div className="col-lg-3">
               <InputField
                 value={values?.date}
-                label={`${[2, 4, 5].includes(values?.reportType?.value)
-                  ? "Transaction"
-                  : ""
-                  } Date`}
+                label={`${
+                  [2, 4, 5].includes(values?.reportType?.value)
+                    ? 'Transaction'
+                    : ''
+                } Date`}
                 name="date"
                 type="date"
                 onChange={(e) => {
                   setIsShow(false);
-                  setFieldValue("date", e?.target?.value);
+                  setFieldValue('date', e?.target?.value);
                   setRowDto([]);
                 }}
               />
@@ -154,12 +155,12 @@ export default function Form({ obj }) {
             <div className="col-lg-3">
               <InputField
                 value={values?.itemPrice}
-                label={"Item Price"}
+                label={'Item Price'}
                 name="itemPrice"
                 type="text"
                 onChange={(e) => {
                   setIsShow(false);
-                  setFieldValue("itemPrice", e?.target?.value);
+                  setFieldValue('itemPrice', e?.target?.value);
                 }}
               />
             </div>
@@ -168,32 +169,34 @@ export default function Form({ obj }) {
             <div className="col-lg-3">
               <InputField
                 value={values?.businessPeriod}
-                label={"Business Period"}
+                label={'Business Period'}
                 name="businessPeriod"
                 type="text"
                 onChange={(e) => {
                   setIsShow(false);
-                  setFieldValue("businessPeriod", e?.target?.value);
+                  setFieldValue('businessPeriod', e?.target?.value);
                 }}
               />
             </div>
           )}
-          {[3].includes(values?.reportType?.value) && (<div className="col-lg-3">
-            <NewSelect
-              name="sisViewType"
-              options={[
-                { value: 1, label: "Top Sheet" },
-                { value: 2, label: "Details" },
-              ]}
-              value={values?.sisViewType}
-              label="View Type"
-              onChange={(valueOption) => {
-                setIsShow(false);
-                setFieldValue("sisViewType", valueOption);
-              }}
-              placeholder="View Type"
-            />
-          </div>)}
+          {[3].includes(values?.reportType?.value) && (
+            <div className="col-lg-3">
+              <NewSelect
+                name="sisViewType"
+                options={[
+                  { value: 1, label: 'Top Sheet' },
+                  { value: 2, label: 'Details' },
+                ]}
+                value={values?.sisViewType}
+                label="View Type"
+                onChange={(valueOption) => {
+                  setIsShow(false);
+                  setFieldValue('sisViewType', valueOption);
+                }}
+                placeholder="View Type"
+              />
+            </div>
+          )}
           {[6, 7, 8].includes(values?.reportType?.value) && (
             <FromDateToDateForm
               obj={{
@@ -218,8 +221,8 @@ export default function Form({ obj }) {
                   onChange: (allValue, fieldName) => {
                     setIsShow(false);
                     setRowDto([]);
-                    if (fieldName === "channel") {
-                      console.log("channel");
+                    if (fieldName === 'channel') {
+                      console.log('channel');
                       setChannelId(allValue?.channel?.value);
                     }
                   },
@@ -233,7 +236,7 @@ export default function Form({ obj }) {
                     selectedValue={values?.customer}
                     handleChange={(valueOption) => {
                       setIsShow(false);
-                      setFieldValue("customer", valueOption);
+                      setFieldValue('customer', valueOption);
                       setRowDto([]);
                     }}
                     placeholder="Search Customer"
@@ -241,24 +244,26 @@ export default function Form({ obj }) {
                   />
                 </div>
               )}
-              {[2].includes(values?.reportType?.value) && (<div className="col-lg-3">
-                <NewSelect
-                  name="partyStatus"
-                  options={[
-                    { value: 1, label: "Regular" },
-                    { value: 2, label: "Irregular" },
-                    { value: 3, label: "Block" },
-                    { value: 4, label: "Above 90 Days" },
-                  ]}
-                  value={values?.partyStatus}
-                  label="Party Status"
-                  onChange={(valueOption) => {
-                    setIsShow(false);
-                    setFieldValue("partyStatus", valueOption);
-                  }}
-                  placeholder="Party Status"
-                />
-              </div>)}
+              {[2].includes(values?.reportType?.value) && (
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="partyStatus"
+                    options={[
+                      { value: 1, label: 'Regular' },
+                      { value: 2, label: 'Irregular' },
+                      { value: 3, label: 'Block' },
+                      { value: 4, label: 'Above 90 Days' },
+                    ]}
+                    value={values?.partyStatus}
+                    label="Party Status"
+                    onChange={(valueOption) => {
+                      setIsShow(false);
+                      setFieldValue('partyStatus', valueOption);
+                    }}
+                    placeholder="Party Status"
+                  />
+                </div>
+              )}
             </>
           )}
 
@@ -285,7 +290,7 @@ export default function Form({ obj }) {
                   label="Party Group"
                   onChange={(valueOption) => {
                     setIsShow(false);
-                    setFieldValue("partyGroup", valueOption);
+                    setFieldValue('partyGroup', valueOption);
                   }}
                   placeholder="Party Group"
                 />
@@ -298,7 +303,7 @@ export default function Form({ obj }) {
               if ([1].includes(values?.reportType?.value)) {
                 viewHandler(values);
               } else if (
-                [2, 3, 4, 5, 6, 7, 8,9].includes(values?.reportType?.value)
+                [2, 3, 4, 5, 6, 7, 8, 9].includes(values?.reportType?.value)
               ) {
                 setIsShow(true);
               }

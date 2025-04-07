@@ -1,21 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getGridData } from "../helper";
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getGridData } from '../helper';
 //import IEdit from "../../../../_helper/_helperIcons/_edit";
-import ReactToPrint from "react-to-print";
-import ICustomCard from "../../../../_helper/_customCard";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { setShipmentCostLadingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import ShipmentCostViewForm from "../view/addEditForm";
-import { ManualShippointCostDetails } from "../view/manualShippointCostDetails";
-import SalesInvoiceModel from "../viewModal";
-import { SearchForm } from "./form";
+import ReactToPrint from 'react-to-print';
+import ICustomCard from '../../../../_helper/_customCard';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { setShipmentCostLadingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import ShipmentCostViewForm from '../view/addEditForm';
+import { ManualShippointCostDetails } from '../view/manualShippointCostDetails';
+import SalesInvoiceModel from '../viewModal';
+import { SearchForm } from './form';
 
 export function TableRow() {
   const [gridData, setGridData] = useState([]);
@@ -24,12 +24,13 @@ export function TableRow() {
 
   const [singleData, setSingleData] = useState({});
   // Modal State
-  const [id, setId] = useState("");
+  const [id, setId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [modelShow, setModelShow] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [currentItem, setCurrentItem] = useState()
-  const [manualShippointCostDetails, setManualShippointCostDetails] = useState(false);
+  const [currentItem, setCurrentItem] = useState();
+  const [manualShippointCostDetails, setManualShippointCostDetails] =
+    useState(false);
 
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
@@ -53,7 +54,6 @@ export function TableRow() {
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   // Initially Load Grid Data
@@ -83,7 +83,6 @@ export function TableRow() {
         setPaginationState
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -108,7 +107,7 @@ export function TableRow() {
         title="Manual Shipment Cost"
         createHandler={() =>
           history.push(
-            "/transport-management/routecostmanagement/shipmentcostManual/create"
+            '/transport-management/routecostmanagement/shipmentcostManual/create'
           )
         }
       >
@@ -146,12 +145,12 @@ export function TableRow() {
                             <button
                               type="button"
                               className="btn btn-primary"
-                              style={{ padding: "2px 5px" }}
+                              style={{ padding: '2px 5px' }}
                             >
                               <img
                                 style={{
-                                  width: "25px",
-                                  paddingRight: "5px",
+                                  width: '25px',
+                                  paddingRight: '5px',
                                 }}
                                 src={printIcon}
                                 alt="print-icon"
@@ -171,122 +170,124 @@ export function TableRow() {
                     componentRef={printRef}
                     ref={printRef}
                   >
-                  <div className="table-responsive">
-                  <table className="table table-striped table-bordered global-table">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered global-table">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
 
-                          <th>Vehical No</th>
-                          <th>Driver Name</th>
-                          <th>Route Name</th>
-                          <th>Distance KM</th>
-                          <th>Actual Cost</th>
-                          <th>Pay to Driver</th>
-                          <th className="printSectionNone">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gridData?.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td> {index + 1}</td>
-                              <td>
-                                <div className="pl-2">{item.vehicleNo}</div>
-                              </td>
+                            <th>Vehical No</th>
+                            <th>Driver Name</th>
+                            <th>Route Name</th>
+                            <th>Distance KM</th>
+                            <th>Actual Cost</th>
+                            <th>Pay to Driver</th>
+                            <th className="printSectionNone">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {gridData?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td> {index + 1}</td>
+                                <td>
+                                  <div className="pl-2">{item.vehicleNo}</div>
+                                </td>
 
-                              <td>
-                                <div className="pl-2">{item.driverName}</div>
-                              </td>
-                              <td>
-                                <div className="pl-2">{item.routeName}</div>
-                              </td>
-                              <td className="text-right">
-                                <div className="pl-2">
-                                  <div className="pl-2">{item.distanceKm}</div>
-                                </div>
-                              </td>
-                              <td className="text-right">
-                                <div className="pl-2">
+                                <td>
+                                  <div className="pl-2">{item.driverName}</div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">{item.routeName}</div>
+                                </td>
+                                <td className="text-right">
                                   <div className="pl-2">
-                                    {item.totalActualCost}
+                                    <div className="pl-2">
+                                      {item.distanceKm}
+                                    </div>
                                   </div>
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {item?.netPayable}
-                                </div>
-                              </td>
+                                </td>
+                                <td className="text-right">
+                                  <div className="pl-2">
+                                    <div className="pl-2">
+                                      {item.totalActualCost}
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {item?.netPayable}
+                                  </div>
+                                </td>
 
-                              <td className="printSectionNone">
-                                <div className="d-flex justify-content-around">
-                                  <span className="view">
-                                    <IView
-                                      clickHandler={() => {
-                                        setId(item?.shipmentCostId);
-                                        setShowModal(true);
-                                      }}
-                                    />
-                                  </span>
-                                  <div className="text-right">
-                                    <button
-                                      disabled={false}
-                                      type="button"
-                                      class="btn btn-primary "
-                                      // style={{ marginTop: "18px" }}
-                                      onClick={() => {
-                                        setCurrentItem(item)
-                                        setManualShippointCostDetails(true)
-                                      }}
-                                    >
-                                      Details
-                                    </button>
+                                <td className="printSectionNone">
+                                  <div className="d-flex justify-content-around">
+                                    <span className="view">
+                                      <IView
+                                        clickHandler={() => {
+                                          setId(item?.shipmentCostId);
+                                          setShowModal(true);
+                                        }}
+                                      />
+                                    </span>
+                                    <div className="text-right">
+                                      <button
+                                        disabled={false}
+                                        type="button"
+                                        class="btn btn-primary "
+                                        // style={{ marginTop: "18px" }}
+                                        onClick={() => {
+                                          setCurrentItem(item);
+                                          setManualShippointCostDetails(true);
+                                        }}
+                                      >
+                                        Details
+                                      </button>
+                                    </div>
                                   </div>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                        {/* {values?.reportType?.value && ( */}
-                        <tr>
-                          <td colSpan="4" className="text-right">
-                            <b>Total:</b>
-                          </td>
-                          <td className="text-right">
-                            <div className="pl-2">
+                                </td>
+                              </tr>
+                            );
+                          })}
+                          {/* {values?.reportType?.value && ( */}
+                          <tr>
+                            <td colSpan="4" className="text-right">
+                              <b>Total:</b>
+                            </td>
+                            <td className="text-right">
+                              <div className="pl-2">
+                                <b>
+                                  {gridData?.reduce(
+                                    (acc, cur) => acc + cur?.distanceKm,
+                                    0
+                                  )}
+                                </b>
+                              </div>
+                            </td>
+                            <td className="text-right">
+                              <div className="pl-2">
+                                <b>
+                                  {gridData?.reduce(
+                                    (acc, cur) => acc + cur?.totalActualCost,
+                                    0
+                                  )}
+                                </b>
+                              </div>
+                            </td>
+                            <td className="text-right">
                               <b>
                                 {gridData?.reduce(
-                                  (acc, cur) => acc + cur?.distanceKm,
+                                  (acc, cur) => acc + cur?.netPayable,
                                   0
                                 )}
                               </b>
-                            </div>
-                          </td>
-                          <td className="text-right">
-                            <div className="pl-2">
-                              <b>
-                                {gridData?.reduce(
-                                  (acc, cur) => acc + cur?.totalActualCost,
-                                  0
-                                )}
-                              </b>
-                            </div>
-                          </td>
-                          <td className="text-right">
-                            <b>
-                              {gridData?.reduce(
-                                (acc, cur) => acc + cur?.netPayable,
-                                0
-                              )}
-                            </b>
-                          </td>
-                          <td></td>
-                        </tr>
-                        {/* )} */}
-                      </tbody>
-                    </table>
-                  </div>
+                            </td>
+                            <td></td>
+                          </tr>
+                          {/* )} */}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   <IViewModal
                     show={manualShippointCostDetails}

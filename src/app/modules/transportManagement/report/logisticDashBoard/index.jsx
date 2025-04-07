@@ -15,7 +15,9 @@ const LogisticDashBoard = () => {
   const [, getRowData, isLoading] = useAxiosGet();
   const [loading] = useState(false);
 
-  const { powerApi: localStorageData } = useSelector((state) => state.localStorage);
+  const { powerApi: localStorageData } = useSelector(
+    (state) => state.localStorage
+  );
 
   const [, setSeconds] = useState(0);
 
@@ -69,7 +71,6 @@ const LogisticDashBoard = () => {
 
   useEffect(() => {
     getData();
-
   }, []);
 
   const generateTokenPoppup = () => {
@@ -143,19 +144,19 @@ const LogisticDashBoard = () => {
               new Map([
                 [
                   'loaded',
-                  function() {
+                  function () {
                     console.log('Report loaded');
                   },
                 ],
                 [
                   'rendered',
-                  function() {
+                  function () {
                     console.log('Report rendered');
                   },
                 ],
                 [
                   'error',
-                  function(event) {
+                  function (event) {
                     console.log(event.detail);
                   },
                 ],

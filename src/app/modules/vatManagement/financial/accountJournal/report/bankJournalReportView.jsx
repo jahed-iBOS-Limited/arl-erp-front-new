@@ -46,7 +46,7 @@ export function BankJournalReportView({
   useEffect(() => {
     if (bankJournalReport?.length > 0) {
       const findHeaderObj = bankJournalReport?.find(
-        (item) => item?.subGLTypeId === 6,
+        (item) => item?.subGLTypeId === 6
       );
       console.log(findHeaderObj);
       const modifyHeaderObj = {

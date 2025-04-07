@@ -1,14 +1,14 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import IView from "../../../_helper/_helperIcons/_view";
-import NewSelect from "../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import IView from '../../../_helper/_helperIcons/_view';
+import NewSelect from '../../../_helper/_select';
 const initData = {
-  businessUnit: "",
+  businessUnit: '',
 };
 export default function AssetLiabilityPlan() {
   const saveHandler = (values, cb) => {};
@@ -18,12 +18,8 @@ export default function AssetLiabilityPlan() {
     return state.authData;
   }, shallowEqual);
 
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-    setTableData,
-  ] = useAxiosGet();
+  const [tableData, getTableData, tableDataLoader, setTableData] =
+    useAxiosGet();
 
   useEffect(() => {
     getBuDDL(
@@ -38,7 +34,6 @@ export default function AssetLiabilityPlan() {
         setBuDDL(newData);
       }
     );
-
   }, []);
 
   const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
@@ -97,9 +92,9 @@ export default function AssetLiabilityPlan() {
                     label="Business Unit"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("businessUnit", valueOption);
+                        setFieldValue('businessUnit', valueOption);
                       } else {
-                        setFieldValue("businessUnit", "");
+                        setFieldValue('businessUnit', '');
                         setTableData([]);
                       }
                     }}
@@ -110,7 +105,7 @@ export default function AssetLiabilityPlan() {
                 <div className="col-lg-3 mt-5">
                   <button
                     style={{
-                      marginTop: "3px",
+                      marginTop: '3px',
                     }}
                     className="btn btn-primary"
                     type="button"
@@ -139,11 +134,11 @@ export default function AssetLiabilityPlan() {
                       tableData.map((item, index) => (
                         <>
                           <tr key={index}>
-                            <td style={{ width: "200px" }}>{index + 1}</td>
+                            <td style={{ width: '200px' }}>{index + 1}</td>
                             <td>{item?.strYear}</td>
                             <td
                               className="text-center"
-                              style={{ width: "200px" }}
+                              style={{ width: '200px' }}
                             >
                               <div className="d-flex justify-content-around">
                                 <IView

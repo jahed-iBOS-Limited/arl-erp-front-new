@@ -33,18 +33,16 @@ export default function BankGuaranteeEntry() {
 
       setAttachmentFile(location?.state?.strAttachment || '');
       getBankAccDDL(
-        `/costmgmt/BankAccount/GetBankAccountDDLByBankId?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}&BankId=${location?.state?.intBankId}`,
+        `/costmgmt/BankAccount/GetBankAccountDDLByBankId?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}&BankId=${location?.state?.intBankId}`
       );
     }
-
   }, [location]);
 
   useEffect(() => {
     getBankDDL(`/hcm/HCMDDL/GetBankDDL`);
     getSbuDDL(
-      `/fino/Disbursement/GetSbuDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/fino/Disbursement/GetSbuDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
@@ -66,7 +64,7 @@ export default function BankGuaranteeEntry() {
             history.push(`/financial-management/banking/BankGuarantee`);
           }
         : null,
-      true,
+      true
     );
   };
   return (
@@ -96,8 +94,8 @@ export default function BankGuaranteeEntry() {
               +typeId === 1
                 ? 'BANK GUARANTEE'
                 : +typeId === 2
-                ? 'SECURITY DEPOSIT REGISTER'
-                : ''
+                  ? 'SECURITY DEPOSIT REGISTER'
+                  : ''
             }`}
             getProps={setObjprops}
           >

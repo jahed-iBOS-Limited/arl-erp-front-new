@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { ItemSubCategoryTable } from "./itemSubCategoryTableCard";
-import * as XLSX from "xlsx";
+} from '../../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { ItemSubCategoryTable } from './itemSubCategoryTableCard';
+import * as XLSX from 'xlsx';
 
 export function ItemSubCategoryLandingCard() {
   let history = useHistory();
@@ -19,16 +19,17 @@ export function ItemSubCategoryLandingCard() {
   }, shallowEqual);
 
   useEffect(() => {
-    getExcelData(`/item/MasterCategory/GetItemMasterSubCategoryPasignation?AccountId=${profileData?.accountId}&viewOrder=desc&PageNo=${0}&PageSize=${2000}`)
-
-  }, [])
+    getExcelData(
+      `/item/MasterCategory/GetItemMasterSubCategoryPasignation?AccountId=${profileData?.accountId}&viewOrder=desc&PageNo=${0}&PageSize=${2000}`
+    );
+  }, []);
 
   const exportDataInExcel = () => {
     const data = excelData?.data;
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-    XLSX.writeFile(wb, "ItemSubCategory.xlsx");
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, 'ItemSubCategory.xlsx');
   };
   return (
     <Card>
@@ -37,7 +38,9 @@ export function ItemSubCategoryLandingCard() {
           <button
             type="button"
             className="btn btn-primary mr-1"
-            onClick={() => { exportDataInExcel() }}
+            onClick={() => {
+              exportDataInExcel();
+            }}
           >
             Export Excel
           </button>
@@ -45,7 +48,7 @@ export function ItemSubCategoryLandingCard() {
             type="button"
             className="btn btn-primary"
             onClick={() =>
-              history.push("/config/material-management/item-sub-category/add")
+              history.push('/config/material-management/item-sub-category/add')
             }
           >
             Create New

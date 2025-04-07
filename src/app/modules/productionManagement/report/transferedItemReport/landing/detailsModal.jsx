@@ -1,10 +1,9 @@
-
-import React, { useState, useEffect, useRef } from "react";
-import Loading from "../../../../_helper/_loading";
-import { getStockReportDetailsData } from "../helper";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useState, useEffect, useRef } from 'react';
+import Loading from '../../../../_helper/_loading';
+import { getStockReportDetailsData } from '../helper';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 function DetailsModal({ modalData }) {
   const { item, values, profileData, selectedBusinessUnit } = modalData;
@@ -43,7 +42,7 @@ function DetailsModal({ modalData }) {
     <>
       {loading && <Loading />}
       <div
-        style={{ marginTop: "15px" }}
+        style={{ marginTop: '15px' }}
         className="col-lg-12 d-flex justify-content-end"
       >
         <div>
@@ -51,7 +50,7 @@ function DetailsModal({ modalData }) {
             trigger={() => (
               <button type="button" className="btn btn-primary px-4 py-1">
                 <img
-                  style={{ width: "25px", paddingRight: "5px" }}
+                  style={{ width: '25px', paddingRight: '5px' }}
                   src={printIcon}
                   alt="print-icon"
                 />

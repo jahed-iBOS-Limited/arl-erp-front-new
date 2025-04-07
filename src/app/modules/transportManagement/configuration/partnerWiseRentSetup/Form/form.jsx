@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { getDDL } from "../helper";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { getDDL } from '../helper';
 
 // Validation schema
 // const validationSchema = Yup.object().shape({
@@ -52,7 +52,6 @@ export default function FormCmp({
         setVehicleDDL
       );
     }
-
   }, []);
 
   return (
@@ -88,7 +87,7 @@ export default function FormCmp({
                       value={values?.shipPoint}
                       label="Shippoint"
                       onChange={(valueOption) => {
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                       }}
                       placeholder="Shippoint"
                       errors={errors}
@@ -103,7 +102,7 @@ export default function FormCmp({
                       value={values?.vehicle}
                       label="Vehicle"
                       onChange={(valueOption) => {
-                        setFieldValue("vehicle", valueOption);
+                        setFieldValue('vehicle', valueOption);
                       }}
                       placeholder="vehicle"
                       errors={errors}
@@ -143,14 +142,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

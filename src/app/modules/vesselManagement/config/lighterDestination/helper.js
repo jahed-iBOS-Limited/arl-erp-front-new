@@ -1,7 +1,7 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-export const deleteLighterDestination = async (id,userId, setLoading, cb) => {
+export const deleteLighterDestination = async (id, userId, setLoading, cb) => {
   setLoading && setLoading(true);
   try {
     const res = await axios.put(

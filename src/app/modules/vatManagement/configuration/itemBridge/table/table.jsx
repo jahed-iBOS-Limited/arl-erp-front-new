@@ -1,26 +1,25 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
-} from "../../../../../../_metronic/_partials/controls";
-import ICustomTable from "../../../../_helper/_customTable";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
+} from '../../../../../../_metronic/_partials/controls';
+import ICustomTable from '../../../../_helper/_customTable';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
 import {
   GetItemSalesForTaxDDL,
   GetTaxItemGroupDDL,
   UpdateTaxItem,
-} from "../helper";
+} from '../helper';
 
 const ItemBridge = () => {
-  const header = ["SL", "Code", "Name", "Uom Name", "Tax Item", "Action"];
+  const header = ['SL', 'Code', 'Name', 'Uom Name', 'Tax Item', 'Action'];
   const initData = {
-    itemGroup: "",
+    itemGroup: '',
   };
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -44,7 +43,7 @@ const ItemBridge = () => {
         GetItemSalesForTaxDDL(
           profileData?.accountId,
           selectedBusinessUnit?.value,
-          "",
+          '',
           setGridData,
           setLoading,
           data
@@ -90,7 +89,7 @@ const ItemBridge = () => {
                         return (
                           <tr key={index}>
                             <td
-                              style={{ width: "30px" }}
+                              style={{ width: '30px' }}
                               className="text-center"
                             >
                               {index + 1}
@@ -104,14 +103,14 @@ const ItemBridge = () => {
                                 options={taxItemGroupDDL || []}
                                 value={item?.itemGroup}
                                 onChange={(valueOption) => {
-                                  modifyData("itemGroup", index, valueOption);
+                                  modifyData('itemGroup', index, valueOption);
                                 }}
                                 touched={touched}
                                 menuPosition="fixed"
                               />
                             </td>
                             <td
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                               className="text-center"
                             >
                               <button

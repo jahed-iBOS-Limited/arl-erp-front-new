@@ -1,18 +1,17 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import BusinessPartnerGroupLandingForm from "./form";
-import BusinessPartnerGroupLandingTable from "./table";
-import { useHistory } from "react-router-dom";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import BusinessPartnerGroupLandingForm from './form';
+import BusinessPartnerGroupLandingTable from './table';
+import { useHistory } from 'react-router-dom';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 const initData = {
-  channel: "",
-  customer: "",
-  partnerGroup: "",
+  channel: '',
+  customer: '',
+  partnerGroup: '',
 };
 
 export default function BusinessPartnerGroupLanding() {
@@ -21,8 +20,7 @@ export default function BusinessPartnerGroupLanding() {
   const [partnerGroups, getPartnerGroups] = useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(25);
-  const [businessPartnerGroup, GetBusinessPartnerGroupList] = useAxiosGet()
-
+  const [businessPartnerGroup, GetBusinessPartnerGroupList] = useAxiosGet();
 
   const {
     profileData: { accountId: accId },
@@ -31,14 +29,18 @@ export default function BusinessPartnerGroupLanding() {
 
   const getLandingData = (values, _pageNo = 0, _pageSize = 25) => {
     getRowData(
-      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerGroupDetailPagination?businessUnitId=${buId}&businessPartnerId=${values
-        ?.customer?.value || 0}&businessPartnerGroupId=${values?.partnerGroup
-        ?.value || 0}&pageNo=${_pageNo}&pageSize=${_pageSize}`
+      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerGroupDetailPagination?businessUnitId=${buId}&businessPartnerId=${
+        values?.customer?.value || 0
+      }&businessPartnerGroupId=${
+        values?.partnerGroup?.value || 0
+      }&pageNo=${_pageNo}&pageSize=${_pageSize}`
     );
   };
 
   useEffect(() => {
-    GetBusinessPartnerGroupList(`/partner/BusinessPartnerBasicInfo/GetBusinessPartnerGroupDDL`);
+    GetBusinessPartnerGroupList(
+      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerGroupDDL`
+    );
     getPartnerGroups(
       `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerGroupDDL`
     );
@@ -58,7 +60,7 @@ export default function BusinessPartnerGroupLanding() {
       >
         {({ handleSubmit, resetForm, values, setFieldValue }) => (
           <ICustomCard
-            title={"Business Partner Group"}
+            title={'Business Partner Group'}
             createHandler={() => {
               history.push(
                 `/config/partner-management/businesspartnergroup/create`
@@ -75,7 +77,9 @@ export default function BusinessPartnerGroupLanding() {
                 getLandingData,
               }}
             />
-            <BusinessPartnerGroupLandingTable obj={{ rowData, businessPartnerGroup, setRowData}} />
+            <BusinessPartnerGroupLandingTable
+              obj={{ rowData, businessPartnerGroup, setRowData }}
+            />
             {rowData?.data?.data?.length > 0 && (
               <PaginationTable
                 count={rowData?.data?.totalCount}

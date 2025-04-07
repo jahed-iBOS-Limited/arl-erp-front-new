@@ -1,29 +1,29 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { useDispatch } from "react-redux";
-import { getParentDivisionTypeDDLAction } from "../_redux/Actions";
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import { useDispatch } from 'react-redux';
+import { getParentDivisionTypeDDLAction } from '../_redux/Actions';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   productDivisionName: Yup.string()
-    .min(1, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Parent Division is required"),
+    .min(1, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Parent Division is required'),
   productDivisionCode: Yup.string()
-    .min(1, "Minimum 2 symbols")
-    .max(100, "Middle Name 100 symbols")
-    .required("Product Division Code required"),
+    .min(1, 'Minimum 2 symbols')
+    .max(100, 'Middle Name 100 symbols')
+    .required('Product Division Code required'),
   productDivisionType: Yup.object().shape({
-    label: Yup.string().required("product Division Type is required"),
-    value: Yup.string().required("product Division Type is required"),
+    label: Yup.string().required('product Division Type is required'),
+    value: Yup.string().required('product Division Type is required'),
   }),
   parentDivisionName: Yup.object().shape({
-    label: Yup.string().required("parent Division is required"),
-    value: Yup.string().required("parent Division is required"),
+    label: Yup.string().required('parent Division is required'),
+    value: Yup.string().required('parent Division is required'),
   }),
 });
 
@@ -89,7 +89,7 @@ export default function FormCmp({
                         placeholder="Select Product Division Type"
                         defaultValue={values.productDivisionType}
                         onChange={(valueOption) => {
-                          setFieldValue("productDivisionType", valueOption);
+                          setFieldValue('productDivisionType', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -99,10 +99,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -111,12 +111,12 @@ export default function FormCmp({
                     touched &&
                     touched.productDivisionType
                       ? errors.productDivisionType.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-3">
                   <Field
-                    value={values.productDivisionName || ""}
+                    value={values.productDivisionName || ''}
                     name="productDivisionName"
                     component={Input}
                     placeholder="product Division Name"
@@ -125,7 +125,7 @@ export default function FormCmp({
                 </div>
                 <div className="col-lg-3">
                   <Field
-                    value={values.productDivisionCode || ""}
+                    value={values.productDivisionCode || ''}
                     name="productDivisionCode"
                     component={Input}
                     disabled={isEdit}
@@ -144,7 +144,7 @@ export default function FormCmp({
                         placeholder="Parent Product Division"
                         defaultValue={values.parentDivisionName}
                         onChange={(valueOption) => {
-                          setFieldValue("parentDivisionName", valueOption);
+                          setFieldValue('parentDivisionName', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -153,10 +153,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -165,21 +165,21 @@ export default function FormCmp({
                     touched &&
                     touched.parentDivisionName
                       ? errors.parentDivisionName.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

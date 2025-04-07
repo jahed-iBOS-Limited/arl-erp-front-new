@@ -1,30 +1,30 @@
-import Axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import IForm from "../../../../_helper/_form";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { debounce } from "lodash";
+import Axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import IForm from '../../../../_helper/_form';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { debounce } from 'lodash';
 
 const initData = {
-  sbu: "",
-  partner: "",
-  plant: "",
-  warehouse: "",
-  toBusinessUnit: "",
-  reference: "",
-  item: "",
-  uom: "",
-  quantity: "",
-  remarks: "",
-  itemRate: "",
+  sbu: '',
+  partner: '',
+  plant: '',
+  warehouse: '',
+  toBusinessUnit: '',
+  reference: '',
+  item: '',
+  uom: '',
+  quantity: '',
+  remarks: '',
+  itemRate: '',
 };
 
 export default function InternalLoan({ loanType }) {
@@ -34,11 +34,8 @@ export default function InternalLoan({ loanType }) {
     return state.authData;
   }, shallowEqual);
   const [, getItemRate] = useAxiosGet();
-  const [
-    businessUnitDDL,
-    getBusinessUnitDDL,
-    businessUnitDDLloader,
-  ] = useAxiosGet();
+  const [businessUnitDDL, getBusinessUnitDDL, businessUnitDDLloader] =
+    useAxiosGet();
   const [, saveData, saveDataLoader] = useAxiosPost();
   const [, getSbuDDL, sbuDDLloader] = useAxiosGet();
   const [plantDDL, getPlantDDL, plantDDLloader] = useAxiosGet();
@@ -48,29 +45,28 @@ export default function InternalLoan({ loanType }) {
   const [availableStock, getAvailableStock] = useAxiosGet();
   const [isDisabled, setDisabled] = useState(false);
 
-
   const saveHandler = (values, cb) => {
     if (transactionType === 1) {
       if (!values?.partner) {
-        return toast.warn("Partner is required");
+        return toast.warn('Partner is required');
       }
       if (!values?.plant) {
-        return toast.warn("Plant is required");
+        return toast.warn('Plant is required');
       }
       if (!values?.warehouse) {
-        return toast.warn("Warehouse is required");
+        return toast.warn('Warehouse is required');
       }
       if (!values?.toBusinessUnit) {
-        return toast.warn("To Business Unit is required");
+        return toast.warn('To Business Unit is required');
       }
       if (!values?.item) {
-        return toast.warn("Item is required");
+        return toast.warn('Item is required');
       }
       if (!values?.quantity) {
-        return toast.warn("Quantity is required");
+        return toast.warn('Quantity is required');
       }
       if (!availableStock || availableStock <= 0) {
-        return toast.warn("Stock is unavailable!");
+        return toast.warn('Stock is unavailable!');
       }
       const payload = {
         intAccountId: profileData?.accountId,
@@ -80,20 +76,20 @@ export default function InternalLoan({ loanType }) {
         intBusinessPartnerId: values?.partner?.value,
         strBusinessPartnerName: values?.partner?.label,
         intLoanTypeId: loanType,
-        intLoanTypeName: loanType === 1 ? "Internal Loan" : "External Loan",
+        intLoanTypeName: loanType === 1 ? 'Internal Loan' : 'External Loan',
         intTransTypeId: transactionType,
-        strTransTypeName: transactionType === 1 ? "Issue" : "Receive",
+        strTransTypeName: transactionType === 1 ? 'Issue' : 'Receive',
         intWareHouseId: values?.warehouse?.value,
         strWareHouseName: values?.warehouse?.label,
         intLcid: 0,
-        strLcnumber: "",
+        strLcnumber: '',
         intShipmentId: 0,
-        strShipmentName: "",
-        strSurveyReportNo: "",
+        strShipmentName: '',
+        strSurveyReportNo: '',
         intLighterVesselId: 0,
-        strLighterVesselName: "",
+        strLighterVesselName: '',
         intMotherVesselId: 0,
-        strMotherVesselName: "",
+        strMotherVesselName: '',
         dteTransDate: _todayDate(),
         intItemId: values?.item?.value,
         strItemName: values?.item?.label,
@@ -101,7 +97,9 @@ export default function InternalLoan({ loanType }) {
         strUomName: values?.uom?.label,
         numItemQty: +values?.quantity,
         numItemRate: parseFloat((values?.itemRate || 0).toFixed(4)),
-        numItemAmount: parseFloat(((values?.itemRate || 0) * (values?.quantity || 0)).toFixed(4)),
+        numItemAmount: parseFloat(
+          ((values?.itemRate || 0) * (values?.quantity || 0)).toFixed(4)
+        ),
         strNarration: values?.remarks,
         intActionBy: profileData?.userId,
         intFromOrToBusinessUnitId: values?.toBusinessUnit?.value,
@@ -109,25 +107,25 @@ export default function InternalLoan({ loanType }) {
         intLoanId: 0,
       };
       saveData(`/wms/InventoryLoan/CreateLoan`, payload, cb, true);
-      console.log("transactionType 1 => payload", payload);
+      console.log('transactionType 1 => payload', payload);
     } else if (transactionType === 2) {
       if (!values?.plant) {
-        return toast.warn("Plant is required");
+        return toast.warn('Plant is required');
       }
       if (!values?.warehouse) {
-        return toast.warn("Warehouse is required");
+        return toast.warn('Warehouse is required');
       }
       if (!values?.toBusinessUnit) {
-        return toast.warn("From Business Unit is required");
+        return toast.warn('From Business Unit is required');
       }
       if (!values?.reference) {
-        return toast.warn("Reference is required");
+        return toast.warn('Reference is required');
       }
       if (!values?.partner) {
-        return toast.warn("Partner is required");
+        return toast.warn('Partner is required');
       }
       if (!values?.item) {
-        return toast.warn("Item is required");
+        return toast.warn('Item is required');
       }
       const payload = {
         intAccountId: profileData?.accountId,
@@ -137,20 +135,20 @@ export default function InternalLoan({ loanType }) {
         intBusinessPartnerId: values?.partner?.value,
         strBusinessPartnerName: values?.partner?.label,
         intLoanTypeId: loanType,
-        intLoanTypeName: loanType === 1 ? "Internal Loan" : "External Loan",
+        intLoanTypeName: loanType === 1 ? 'Internal Loan' : 'External Loan',
         intTransTypeId: transactionType,
-        strTransTypeName: transactionType === 1 ? "Issue" : "Receive",
+        strTransTypeName: transactionType === 1 ? 'Issue' : 'Receive',
         intWareHouseId: values?.warehouse?.value,
         strWareHouseName: values?.warehouse?.label,
         intLcid: 0,
-        strLcnumber: "",
+        strLcnumber: '',
         intShipmentId: 0,
-        strShipmentName: "",
-        strSurveyReportNo: "",
+        strShipmentName: '',
+        strSurveyReportNo: '',
         intLighterVesselId: 0,
-        strLighterVesselName: "",
+        strLighterVesselName: '',
         intMotherVesselId: 0,
-        strMotherVesselName: "",
+        strMotherVesselName: '',
         dteTransDate: _todayDate(),
         intItemId: values?.item?.value,
         strItemName: values?.item?.label,
@@ -166,7 +164,7 @@ export default function InternalLoan({ loanType }) {
         intLoanId: values?.reference?.loanId,
       };
       saveData(`/wms/InventoryLoan/CreateInvItemloan`, payload, cb, true);
-      console.log("transactionType 2 => payload", payload);
+      console.log('transactionType 2 => payload', payload);
     } else {
     }
   };
@@ -189,7 +187,6 @@ export default function InternalLoan({ loanType }) {
     getBusinessUnitDDL(
       `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`
     );
-
   }, []);
 
   const debounceHandelar = debounce(({ setLoading, CB }) => {
@@ -223,7 +220,8 @@ export default function InternalLoan({ loanType }) {
         touched,
       }) => (
         <>
-          {(isDisabled || plantDDLloader ||
+          {(isDisabled ||
+            plantDDLloader ||
             warehouseDDLloader ||
             saveDataLoader ||
             sbuDDLloader ||
@@ -240,7 +238,7 @@ export default function InternalLoan({ loanType }) {
                       name="transactionType"
                       checked={transactionType === 1}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(valueOption) => {
                         setTransactionType(1);
                         resetForm(initData);
@@ -254,7 +252,7 @@ export default function InternalLoan({ loanType }) {
                       name="transactionType"
                       checked={transactionType === 2}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(e) => {
                         setTransactionType(2);
                         resetForm(initData);
@@ -274,18 +272,18 @@ export default function InternalLoan({ loanType }) {
                       label="Plant"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("plant", valueOption);
-                          setFieldValue("warehouse", "");
-                          setFieldValue("item", "");
-                          setFieldValue("uom", "");
+                          setFieldValue('plant', valueOption);
+                          setFieldValue('warehouse', '');
+                          setFieldValue('item', '');
+                          setFieldValue('uom', '');
                           getWarehouseDDL(
                             `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`
                           );
                         } else {
-                          setFieldValue("plant", "");
-                          setFieldValue("warehouse", "");
-                          setFieldValue("item", "");
-                          setFieldValue("uom", "");
+                          setFieldValue('plant', '');
+                          setFieldValue('warehouse', '');
+                          setFieldValue('item', '');
+                          setFieldValue('uom', '');
                         }
                       }}
                       errors={errors}
@@ -300,13 +298,13 @@ export default function InternalLoan({ loanType }) {
                       label="Warehouse"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("warehouse", valueOption);
-                          setFieldValue("item", "");
-                          setFieldValue("uom", "");
+                          setFieldValue('warehouse', valueOption);
+                          setFieldValue('item', '');
+                          setFieldValue('uom', '');
                         } else {
-                          setFieldValue("warehouse", "");
-                          setFieldValue("item", "");
-                          setFieldValue("uom", "");
+                          setFieldValue('warehouse', '');
+                          setFieldValue('item', '');
+                          setFieldValue('uom', '');
                         }
                       }}
                       errors={errors}
@@ -325,7 +323,7 @@ export default function InternalLoan({ loanType }) {
                       value={values?.toBusinessUnit}
                       label="To Business Unit"
                       onChange={(valueOption) => {
-                        setFieldValue("toBusinessUnit", valueOption);
+                        setFieldValue('toBusinessUnit', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -338,7 +336,7 @@ export default function InternalLoan({ loanType }) {
                       value={values?.partner}
                       label="To Business Partner"
                       onChange={(valueOption) => {
-                        setFieldValue("partner", valueOption);
+                        setFieldValue('partner', valueOption);
                       }}
                       placeholder="Business Partner"
                       errors={errors}
@@ -347,17 +345,17 @@ export default function InternalLoan({ loanType }) {
                   </div>
                   <div className="col-lg-3">
                     <label>Item Name</label>
-                    <span style={{ marginTop: "8px" }}>
+                    <span style={{ marginTop: '8px' }}>
                       {values?.itemRate
-                        ? `Rate: ${values?.itemRate || ""}`
-                        : ""}
+                        ? `Rate: ${values?.itemRate || ''}`
+                        : ''}
                     </span>
                     <SearchAsyncSelect
                       selectedValue={values?.item}
                       handleChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("item", valueOption);
-                          setFieldValue("uom", {
+                          setFieldValue('item', valueOption);
+                          setFieldValue('uom', {
                             value: valueOption?.uomId,
                             label: valueOption?.uomName,
                           });
@@ -371,14 +369,14 @@ export default function InternalLoan({ loanType }) {
                           // );
                           getItemRate(
                             `/wms/InventoryLoan/GetItemRate?ItemId=${valueOption?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`,
-                            (data) => setFieldValue("itemRate", data)
+                            (data) => setFieldValue('itemRate', data)
                           );
                           getAvailableStock(
                             `/wms/InventoryTransaction/sprRuningQty?businessUnitId=${selectedBusinessUnit?.value}&whId=${values?.warehouse?.value}&itemId=${valueOption?.value}`
                           );
                         } else {
-                          setFieldValue("item", "");
-                          setFieldValue("uom", "");
+                          setFieldValue('item', '');
+                          setFieldValue('uom', '');
                         }
                       }}
                       loadOptions={(v) => {
@@ -388,8 +386,9 @@ export default function InternalLoan({ loanType }) {
                             profileData?.accountId
                           }&BUnitId=${
                             selectedBusinessUnit?.value
-                          }&WareHouseId=${values?.warehouse?.value ||
-                            0}&Search=${v}`
+                          }&WareHouseId=${
+                            values?.warehouse?.value || 0
+                          }&Search=${v}`
                         ).then((res) => res?.data);
                       }}
                       disabled={true}
@@ -414,7 +413,7 @@ export default function InternalLoan({ loanType }) {
                       name="quantity"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("quantity", e.target.value);
+                        setFieldValue('quantity', e.target.value);
                       }}
                     />
                   </div>
@@ -425,7 +424,7 @@ export default function InternalLoan({ loanType }) {
                       name="remarks"
                       type="text"
                       onChange={(e) => {
-                        setFieldValue("remarks", e.target.value);
+                        setFieldValue('remarks', e.target.value);
                       }}
                     />
                   </div>
@@ -441,16 +440,16 @@ export default function InternalLoan({ loanType }) {
                         label="Receive Plant"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("plant", valueOption);
-                            setFieldValue("warehouse", "");
-                            setFieldValue("item", "");
+                            setFieldValue('plant', valueOption);
+                            setFieldValue('warehouse', '');
+                            setFieldValue('item', '');
                             getWarehouseDDL(
                               `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`
                             );
                           } else {
-                            setFieldValue("plant", "");
-                            setFieldValue("warehouse", "");
-                            setFieldValue("item", "");
+                            setFieldValue('plant', '');
+                            setFieldValue('warehouse', '');
+                            setFieldValue('item', '');
                           }
                         }}
                         errors={errors}
@@ -465,11 +464,11 @@ export default function InternalLoan({ loanType }) {
                         label="Receive Warehouse"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("warehouse", valueOption);
-                            setFieldValue("item", "");
+                            setFieldValue('warehouse', valueOption);
+                            setFieldValue('item', '');
                           } else {
-                            setFieldValue("warehouse", "");
-                            setFieldValue("item", "");
+                            setFieldValue('warehouse', '');
+                            setFieldValue('item', '');
                           }
                         }}
                         errors={errors}
@@ -488,13 +487,13 @@ export default function InternalLoan({ loanType }) {
                         label="From Business Unit"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("toBusinessUnit", valueOption);
+                            setFieldValue('toBusinessUnit', valueOption);
                             getReferenceDDL(
                               `/wms/InventoryLoan/GetItemLoanReferenceDDL?accountId=${profileData?.accountId}&fromBusinessUnitId=${valueOption?.value}&tobBusinessUnitId=${selectedBusinessUnit?.value}`
                             );
                           } else {
-                            setFieldValue("toBusinessUnit", "");
-                            setFieldValue("reference", "");
+                            setFieldValue('toBusinessUnit', '');
+                            setFieldValue('reference', '');
                           }
                         }}
                         errors={errors}
@@ -508,13 +507,13 @@ export default function InternalLoan({ loanType }) {
                         value={values?.reference}
                         label="Reference"
                         onChange={(valueOption) => {
-                          console.log("valueOption", valueOption);
-                          setFieldValue("reference", valueOption);
+                          console.log('valueOption', valueOption);
+                          setFieldValue('reference', valueOption);
                           // setFieldValue(
                           //   "quantity",
                           //   Math.abs(valueOption?.itemQty)
                           // );
-                          setFieldValue("quantity", valueOption?.itemQty || 0);
+                          setFieldValue('quantity', valueOption?.itemQty || 0);
                         }}
                         errors={errors}
                         touched={touched}
@@ -524,10 +523,10 @@ export default function InternalLoan({ loanType }) {
                     <div className="col-lg-12">
                       {values?.reference && (
                         <p className="mt-5">
-                          <b>Item Name:</b> {values?.reference?.itemName}{" "}
-                          <b>Uom:</b> {values?.reference?.strUomName}{" "}
-                          <b>Quantity:</b>{" "}
-                          {Math.abs(values?.reference?.itemQty)}{" "}
+                          <b>Item Name:</b> {values?.reference?.itemName}{' '}
+                          <b>Uom:</b> {values?.reference?.strUomName}{' '}
+                          <b>Quantity:</b>{' '}
+                          {Math.abs(values?.reference?.itemQty)}{' '}
                         </p>
                       )}
                     </div>
@@ -538,7 +537,7 @@ export default function InternalLoan({ loanType }) {
                         value={values?.partner}
                         label="From Business Partner"
                         onChange={(valueOption) => {
-                          setFieldValue("partner", valueOption);
+                          setFieldValue('partner', valueOption);
                         }}
                         placeholder="Business Partner"
                         errors={errors}
@@ -551,14 +550,14 @@ export default function InternalLoan({ loanType }) {
                         selectedValue={values?.item}
                         handleChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("item", valueOption);
-                            setFieldValue("uom", {
+                            setFieldValue('item', valueOption);
+                            setFieldValue('uom', {
                               value: valueOption?.uomId,
                               label: valueOption?.uomName,
                             });
                           } else {
-                            setFieldValue("item", "");
-                            setFieldValue("uom", "");
+                            setFieldValue('item', '');
+                            setFieldValue('uom', '');
                           }
                         }}
                         loadOptions={(v) => {
@@ -568,8 +567,9 @@ export default function InternalLoan({ loanType }) {
                               profileData?.accountId
                             }&BUnitId=${
                               selectedBusinessUnit?.value
-                            }&WareHouseId=${values?.warehouse?.value ||
-                              0}&Search=${v}`
+                            }&WareHouseId=${
+                              values?.warehouse?.value || 0
+                            }&Search=${v}`
                           ).then((res) => res?.data);
                         }}
                         disabled={true}
@@ -582,7 +582,7 @@ export default function InternalLoan({ loanType }) {
                         name="remarks"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("remarks", e.target.value);
+                          setFieldValue('remarks', e.target.value);
                         }}
                       />
                     </div>
@@ -593,7 +593,7 @@ export default function InternalLoan({ loanType }) {
                         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                           <thead>
                             <tr>
-                              <th style={{ width: "30px" }}>SL</th>
+                              <th style={{ width: '30px' }}>SL</th>
                               <th>Item Code</th>
                               <th>Item Name</th>
                               <th>UOM</th>
@@ -609,7 +609,7 @@ export default function InternalLoan({ loanType }) {
                                 </td>
                                 <td>{values?.item?.label}</td>
                                 <td>{values?.item?.uomName}</td>
-                                <td>{values?.quantity || ""}</td>
+                                <td>{values?.quantity || ''}</td>
                               </tr>
                             ) : null}
                           </tbody>
@@ -624,14 +624,14 @@ export default function InternalLoan({ loanType }) {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

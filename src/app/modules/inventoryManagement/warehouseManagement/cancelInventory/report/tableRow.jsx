@@ -1,18 +1,16 @@
-
-
-import React, { useState, useRef, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik, Form as FormikForm } from "formik";
-import * as Yup from "yup";
-import ReactToPrint from "react-to-print";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Loading from "./../../../../_helper/loader/_loader";
-import { getReportCancelInvReq } from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { useHistory } from "react-router-dom";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import ICustomCard from "../../../../_helper/_customCard";
-import iMarineIcon from "../../../../_helper/images/imageakijpoly.png";
+import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik, Form as FormikForm } from 'formik';
+import * as Yup from 'yup';
+import ReactToPrint from 'react-to-print';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Loading from './../../../../_helper/loader/_loader';
+import { getReportCancelInvReq } from '../helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { useHistory } from 'react-router-dom';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import ICustomCard from '../../../../_helper/_customCard';
+import iMarineIcon from '../../../../_helper/images/imageakijpoly.png';
 
 let imageObj = {
   8: iMarineIcon,
@@ -23,7 +21,7 @@ const validationSchema = Yup.object().shape({});
 
 export function TableRow({ CrId }) {
   const [loading, setLoading] = useState(false);
-  const [itemReqReport, setiIemReqReport] = useState("");
+  const [itemReqReport, setiIemReqReport] = useState('');
 
   // const profileData = useSelector((state) => {
   //   return state.authData.profileData;
@@ -107,7 +105,7 @@ export function TableRow({ CrId }) {
                           <div className="d-flex justify-content-center align-items-center">
                             {selectedBusinessUnit.value === 8 && (
                               <img
-                                style={{ width: "150px", height: "100px" }}
+                                style={{ width: '150px', height: '100px' }}
                                 class=""
                                 src={imageObj[selectedBusinessUnit?.value]}
                                 alt="img"
@@ -127,7 +125,7 @@ export function TableRow({ CrId }) {
                         Transaction Code:
                         <span className="font-weight-bold mr-2 ml-1">
                           {itemReqReport?.head?.inventoryTransactionCode}
-                        </span>{" "}
+                        </span>{' '}
                         {/* Purchase Request Type:
                         <span className='font-weight-bold mr-2'>
                           {
@@ -189,7 +187,7 @@ export function TableRow({ CrId }) {
                           <p className="font-weight-bold ml-2">
                             {itemReqReport?.row
                               ? itemReqReport?.row[0]?.actionByName
-                              : ""}{" "}
+                              : ''}{' '}
                           </p>
                         </div>
                       </div>

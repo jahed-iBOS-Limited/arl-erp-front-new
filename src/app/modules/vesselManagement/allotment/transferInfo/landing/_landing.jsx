@@ -1,32 +1,31 @@
-
-import React, { useState } from "react";
-import { Formik } from "formik";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import { toast } from "react-toastify";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import React, { useState } from 'react';
+import { Formik } from 'formik';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
+import { toast } from 'react-toastify';
+import IApproval from '../../../../_helper/_helperIcons/_approval';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  shipPoint: "",
-  transactionType: "",
+  shipPoint: '',
+  transactionType: '',
   fromDate: _monthFirstDate(),
   toDate: _todayDate(),
 };
-const headers = ["SL", "Date", "Item Name", "Warehouse", "Quantity", "Action"];
+const headers = ['SL', 'Date', 'Item Name', 'Warehouse', 'Quantity', 'Action'];
 
 const TransferInfoLanding = () => {
   const history = useHistory();
@@ -48,8 +47,8 @@ const TransferInfoLanding = () => {
       transferTypeId === 1
         ? `/wms/FertilizerOperation/GetG2GInventoryTransferPagination?AccountId=${accId}&BusinessUnitId=${buId}&TransactionType=${values?.transactionType?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=${_pageNo}&PageSize=${_pageSize}`
         : transferTypeId === 2
-        ? `/tms/LigterLoadUnload/GetMotherVesselTransferInfoPagination?accountId=${accId}&businessUnitId=${buId}&transactionType=${values?.transactionType?.value}&pageNo=${_pageNo}&pageSize=${_pageSize}`
-        : "";
+          ? `/tms/LigterLoadUnload/GetMotherVesselTransferInfoPagination?accountId=${accId}&businessUnitId=${buId}&transactionType=${values?.transactionType?.value}&pageNo=${_pageNo}&pageSize=${_pageSize}`
+          : '';
 
     getGridData(url);
   };
@@ -71,7 +70,7 @@ const TransferInfoLanding = () => {
         itemId: item?.itemId,
         transferQuantity: item?.transferQuantity,
         transactionTypeId: 5,
-        transactionTypeName: "Transfer In",
+        transactionTypeName: 'Transfer In',
         actionBy: userId,
         accountId: accId,
         businessUnitId: buId,
@@ -105,7 +104,7 @@ const TransferInfoLanding = () => {
               title="Transfer Info"
               createHandler={() => {
                 if (!values?.transferType) {
-                  toast.warn("Please select a transfer type");
+                  toast.warn('Please select a transfer type');
                 } else {
                   history.push({
                     pathname: `/vessel-management/allotment/transferInfo/create`,
@@ -121,16 +120,16 @@ const TransferInfoLanding = () => {
                     <NewSelect
                       name="transferType"
                       options={[
-                        { value: 1, label: "Warehouse to Warehouse transfer" },
+                        { value: 1, label: 'Warehouse to Warehouse transfer' },
                         {
                           value: 2,
-                          label: "Mother vessel to Mother vessel transfer",
+                          label: 'Mother vessel to Mother vessel transfer',
                         },
                       ]}
                       value={values?.transferType}
                       label="Transfer Type"
                       onChange={(valueOption) => {
-                        setFieldValue("transferType", valueOption);
+                        setFieldValue('transferType', valueOption);
                       }}
                       placeholder="Transfer Type"
                     />
@@ -139,13 +138,13 @@ const TransferInfoLanding = () => {
                     <NewSelect
                       name="transactionType"
                       options={[
-                        { value: 5, label: "Transfer In" },
-                        { value: 19, label: "Transfer Out" },
+                        { value: 5, label: 'Transfer In' },
+                        { value: 19, label: 'Transfer Out' },
                       ]}
                       value={values?.transactionType}
                       label="Transaction Type"
                       onChange={(valueOption) => {
-                        setFieldValue("transactionType", valueOption);
+                        setFieldValue('transactionType', valueOption);
                       }}
                       placeholder="Transaction Type"
                     />
@@ -170,7 +169,7 @@ const TransferInfoLanding = () => {
                       <table
                         id="table-to-xlsx"
                         className={
-                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                         }
                       >
                         <thead>
@@ -197,7 +196,7 @@ const TransferInfoLanding = () => {
                                       <IView clickHandler={() => {}} />
                                     </span>
                                     <span className="edit" onClick={() => {}}>
-                                      <IEdit title={"Rate Entry"} />
+                                      <IEdit title={'Rate Entry'} />
                                     </span>
                                   </div>
                                 </td>
@@ -243,13 +242,13 @@ function MotherVesselTransferTable({ obj }) {
   const { gridData, transferIn, values } = obj;
 
   const tHeads = [
-    "SL",
-    "Business Partner",
-    "From Mother Vessel",
-    "To Mother Vessel",
-    "Item",
-    "Reason",
-    "Quantity",
+    'SL',
+    'Business Partner',
+    'From Mother Vessel',
+    'To Mother Vessel',
+    'Item',
+    'Reason',
+    'Quantity',
   ];
 
   return (
@@ -258,7 +257,7 @@ function MotherVesselTransferTable({ obj }) {
         <table
           id="table-to-xlsx"
           className={
-            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+            'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
           }
         >
           <thead>
@@ -289,7 +288,7 @@ function MotherVesselTransferTable({ obj }) {
                       <div className="d-flex justify-content-around">
                         <span className="edit">
                           <IApproval
-                            title={"Transfer In"}
+                            title={'Transfer In'}
                             onClick={() => {
                               transferIn(item, values);
                             }}

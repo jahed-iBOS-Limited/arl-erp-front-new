@@ -1,37 +1,37 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 // import ViewG2GCustomizeBill from "../billregister/g2gCustomizeBill/view/viewBillRegister";
-import ViewCNFBill from "../billregister/cnfBill/view/table";
-import ViewG2GGodownUnloadBill from "../billregister/g2gGodownUnloadBill/view/viewBillRegister";
-import ViewG2GLighterBill from "../billregister/g2gLighterBill/view/viewBillRegister";
-import ViewG2GTruckBill from "../billregister/g2gTruckBill/view/viewBillRegister";
-import ViewGhatLoadUnloadBill from "../billregister/ghatLoadUnloadBill/view/viewBillRegister";
-import ViewHatchLaborBill from "../billregister/hatchLaborBill/view/table";
-import OthersBillView from "../billregister/othersBillNew/view/othersBillView";
-import ViewPumpFoodingBill from "../billregister/pumpFoodingBill/view/viewPumpFoodingBill";
-import ViewSalesCommission from "../billregister/salesCommission/view/viewSalesCommission";
-import ViewStevedoreBill from "../billregister/stevedoreBill/view/table";
-import ViewSurveyorBill from "../billregister/surveyorBill/view/table";
-import ViewTransportBill from "../billregister/transportBill/view/viewBillRegister";
-import ShippingInvoiceView from "../shippingBillRegister/shippingInvoiceView";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../_helper/_fixedPoint";
-import IDelete from "./../../../_helper/_helperIcons/_delete";
-import IView from "./../../../_helper/_helperIcons/_view";
-import IViewModal from "./../../../_helper/_viewModal";
-import ViewFuelBill from "./../billregister/fuelBill/view/viewBillRegister";
-import ViewInternalTransportBill from "./../billregister/internalTransportBill/view/viewBillRegister";
-import ViewLabourBill from "./../billregister/labourBill/view/viewBillRegister";
-import AdvForInternalView from "./advForInternal";
-import CommercialBillTypeDetails from "./commercialBillType";
-import ExpenseView from "./expenseView";
-import RejectModel from "./rejectModel/form";
-import SupplerInvoiceView from "./supplerInvoiceView";
-import SupplierAdvanceView from "./supplierAdvanceView";
-import ViewDamDeliveryBill from "../billregister/damDelivery/view/table";
-import CustomerViewModal from "../billregister/customerRefund/customerViewModal";
-import FairPriceShopInvoiceView from "./fairPriceShopInvoiceView";
-import ViewMotherVesselBill from "../billregister/motherVesselBill/view/viewBillRegister";
-import SalesForceIncetiveDetailsModal from "../billregister/salesForceIncentive/detailsModal";
+import ViewCNFBill from '../billregister/cnfBill/view/table';
+import ViewG2GGodownUnloadBill from '../billregister/g2gGodownUnloadBill/view/viewBillRegister';
+import ViewG2GLighterBill from '../billregister/g2gLighterBill/view/viewBillRegister';
+import ViewG2GTruckBill from '../billregister/g2gTruckBill/view/viewBillRegister';
+import ViewGhatLoadUnloadBill from '../billregister/ghatLoadUnloadBill/view/viewBillRegister';
+import ViewHatchLaborBill from '../billregister/hatchLaborBill/view/table';
+import OthersBillView from '../billregister/othersBillNew/view/othersBillView';
+import ViewPumpFoodingBill from '../billregister/pumpFoodingBill/view/viewPumpFoodingBill';
+import ViewSalesCommission from '../billregister/salesCommission/view/viewSalesCommission';
+import ViewStevedoreBill from '../billregister/stevedoreBill/view/table';
+import ViewSurveyorBill from '../billregister/surveyorBill/view/table';
+import ViewTransportBill from '../billregister/transportBill/view/viewBillRegister';
+import ShippingInvoiceView from '../shippingBillRegister/shippingInvoiceView';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
+import { _fixedPoint } from './../../../_helper/_fixedPoint';
+import IDelete from './../../../_helper/_helperIcons/_delete';
+import IView from './../../../_helper/_helperIcons/_view';
+import IViewModal from './../../../_helper/_viewModal';
+import ViewFuelBill from './../billregister/fuelBill/view/viewBillRegister';
+import ViewInternalTransportBill from './../billregister/internalTransportBill/view/viewBillRegister';
+import ViewLabourBill from './../billregister/labourBill/view/viewBillRegister';
+import AdvForInternalView from './advForInternal';
+import CommercialBillTypeDetails from './commercialBillType';
+import ExpenseView from './expenseView';
+import RejectModel from './rejectModel/form';
+import SupplerInvoiceView from './supplerInvoiceView';
+import SupplierAdvanceView from './supplierAdvanceView';
+import ViewDamDeliveryBill from '../billregister/damDelivery/view/table';
+import CustomerViewModal from '../billregister/customerRefund/customerViewModal';
+import FairPriceShopInvoiceView from './fairPriceShopInvoiceView';
+import ViewMotherVesselBill from '../billregister/motherVesselBill/view/viewBillRegister';
+import SalesForceIncetiveDetailsModal from '../billregister/salesForceIncentive/detailsModal';
 const GridData = ({
   rowDto,
   setRowDto,
@@ -44,7 +44,7 @@ const GridData = ({
   rejectSaveHandler,
 }) => {
   const [mdalShow, setModalShow] = useState(false);
-  const [gridItem, setGridItem] = useState("");
+  const [gridItem, setGridItem] = useState('');
 
   return (
     <>
@@ -55,7 +55,7 @@ const GridData = ({
               <thead>
                 <tr>
                   {values?.status?.value === 1 && (
-                    <th style={{ width: "25px" }}>
+                    <th style={{ width: '25px' }}>
                       <input
                         type="checkbox"
                         id="parent"
@@ -66,26 +66,26 @@ const GridData = ({
                     </th>
                   )}
 
-                  <th style={{ width: "20px" }}>SL</th>
-                  <th style={{ width: "80px" }}>Bill Code</th>
-                  <th style={{ width: "50px" }}>Bill Date</th>
-                  <th style={{ width: "75px" }}>Type Name</th>
+                  <th style={{ width: '20px' }}>SL</th>
+                  <th style={{ width: '80px' }}>Bill Code</th>
+                  <th style={{ width: '50px' }}>Bill Date</th>
+                  <th style={{ width: '75px' }}>Type Name</th>
                   {[4].includes(values?.billType?.value) && (
-                    <th style={{ width: "100px" }}>Group</th>
+                    <th style={{ width: '100px' }}>Group</th>
                   )}
 
-                  <th style={{ width: "100px" }}>Partner Name</th>
-                  <th style={{ width: "100px" }}>Adj. Amount</th>
-                  <th style={{ width: "80px" }}>Req. Amount</th>
-                  <th style={{ width: "80px" }}>Approval Amount</th>
+                  <th style={{ width: '100px' }}>Partner Name</th>
+                  <th style={{ width: '100px' }}>Adj. Amount</th>
+                  <th style={{ width: '80px' }}>Req. Amount</th>
+                  <th style={{ width: '80px' }}>Approval Amount</th>
                   {[1, 2].includes(values?.status?.value) && (
-                    <th style={{ width: "50px" }}>Approve Date</th>
+                    <th style={{ width: '50px' }}>Approve Date</th>
                   )}
 
-                  <th style={{ width: "50px" }}>Is Payment</th>
-                  <th style={{ width: "220px" }}>Status</th>
-                  <th style={{ width: "220px" }}>Remarks</th>
-                  <th style={{ width: "50px" }}>Action</th>
+                  <th style={{ width: '50px' }}>Is Payment</th>
+                  <th style={{ width: '220px' }}>Status</th>
+                  <th style={{ width: '220px' }}>Remarks</th>
+                  <th style={{ width: '50px' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -102,7 +102,11 @@ const GridData = ({
                           name={tableData?.itemCheck}
                           onChange={(e) => {
                             setRowDto(
-                            itemSlectedHandler(e.target.checked, index, rowDto)
+                              itemSlectedHandler(
+                                e.target.checked,
+                                index,
+                                rowDto
+                              )
                             );
                           }}
                         />
@@ -120,19 +124,22 @@ const GridData = ({
                     <td
                       className="text-right"
                       style={
-                        tableData?.adjustmentAmount > 0 ? { color: "red" } : {}
+                        tableData?.adjustmentAmount > 0 ? { color: 'red' } : {}
                       }
                     >
                       {_fixedPoint(tableData.adjustmentAmount || 0)}
                     </td>
                     <td className="text-right"> {tableData.monTotalAmount} </td>
-                  <td className="text-right"> {tableData.monApproveAmount} </td>
+                    <td className="text-right">
+                      {' '}
+                      {tableData.monApproveAmount}{' '}
+                    </td>
                     {[1, 2].includes(values?.status?.value) && (
                       <td>{_dateFormatter(tableData?.approvalDate)}</td>
                     )}
                     <td className="text-center">
-                      {" "}
-                      {tableData?.requsetPosted ? "True" : "False"}{" "}
+                      {' '}
+                      {tableData?.requsetPosted ? 'True' : 'False'}{' '}
                     </td>
                     <td> {tableData?.billStatus} </td>
                     <td> {tableData.remarks} </td>
@@ -141,7 +148,7 @@ const GridData = ({
                         <div className="d-flex justify-content-around align-items-center">
                           <span className="view">
                             <IView
-                              title={"Edit & View"}
+                              title={'Edit & View'}
                               clickHandler={() => {
                                 setModalShow(true);
                                 setGridItem(tableData);
@@ -156,7 +163,7 @@ const GridData = ({
                                 setGridItem(tableData);
                               }}
                             >
-                              <IDelete title={"Bill Cancel"} />
+                              <IDelete title={'Bill Cancel'} />
                             </span>
                           )}
                         </div>
@@ -302,10 +309,7 @@ const GridData = ({
           />
         )}
         {gridItem?.billType === 19 && (
-              <ViewMotherVesselBill
-                landingValues={values}
-                gridItem={gridItem}
-              />
+          <ViewMotherVesselBill landingValues={values} gridItem={gridItem} />
         )}
         {gridItem?.billType === 21 && (
           <ViewG2GGodownUnloadBill billRegisterId={gridItem?.billRegisterId} />
@@ -361,7 +365,7 @@ const GridData = ({
         show={isReject}
         onHide={() => {
           setIsReject(false);
-          setGridItem("");
+          setGridItem('');
         }}
       >
         <RejectModel

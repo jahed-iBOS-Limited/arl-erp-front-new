@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import MealRequisition from "../form/mealRequsition/MealRequisition";
-import MenuList from "../form/menuList/MenuList";
-import ConsumeMeal from "./mealDetails/ConsumeMeal";
-import ScheduleMeal from "./mealDetails/ScheduleMeal";
-import "./style.css";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import MealRequisition from '../form/mealRequsition/MealRequisition';
+import MenuList from '../form/menuList/MenuList';
+import ConsumeMeal from './mealDetails/ConsumeMeal';
+import ScheduleMeal from './mealDetails/ScheduleMeal';
+import './style.css';
 
 function FoodCornerLanding() {
   const { profileData } = useSelector((state) => {

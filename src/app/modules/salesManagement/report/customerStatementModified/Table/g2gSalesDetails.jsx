@@ -1,24 +1,24 @@
-import React from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
   const headers = [
-    "SL",
-    "Delivery Date",
-    "Mother Vessel",
-    "Lighter Vessel",
-    "Challan No",
-    "Sold to Partner",
-    "Ship to Partner",
-    "ShipPoint",
-    "Item",
-    "Quantity (ton)",
-    "Price",
-    "Sales Amount",
-    "JV Amount",
+    'SL',
+    'Delivery Date',
+    'Mother Vessel',
+    'Lighter Vessel',
+    'Challan No',
+    'Sold to Partner',
+    'Ship to Partner',
+    'ShipPoint',
+    'Item',
+    'Quantity (ton)',
+    'Price',
+    'Sales Amount',
+    'JV Amount',
   ];
 
   return (
@@ -27,14 +27,14 @@ const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
         ref={excelRef}
         id="test-table-xls-button-att-reports"
         className="d-none"
-        table={"table-to-xlsx"}
+        table={'table-to-xlsx'}
         filename="G2G Sales Details (Top Sheet)"
         sheet="G2G Sales Details (Top Sheet)"
         buttonText="Export Excel"
       />
 
       <h3>
-        Total Amount:{" "}
+        Total Amount:{' '}
         {_fixedPoint(
           rowData.reduce((total, cur) => {
             return total + cur?.salesValue;
@@ -51,11 +51,11 @@ const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
                 style={{
                   background:
                     e.itemPrice <= 0
-                      ? "#fd2626a1"
+                      ? '#fd2626a1'
                       : _fixedPoint(e.salesValue, false, 2) !==
-                        _fixedPoint(e.jvAmount, false, 2)
-                      ? "#ffe627a8"
-                      : "",
+                          _fixedPoint(e.jvAmount, false, 2)
+                        ? '#ffe627a8'
+                        : '',
                 }}
               >
                 <td>{i + 1}</td>
@@ -78,7 +78,7 @@ const G2GSalesDetailsTable = ({ rowData, excelRef }) => {
               </tr>
             );
           })}
-          <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+          <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
             <td className="text-right" colSpan={9}>
               Total
             </td>

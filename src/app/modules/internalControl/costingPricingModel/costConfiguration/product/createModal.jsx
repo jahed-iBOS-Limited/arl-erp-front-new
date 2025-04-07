@@ -1,17 +1,17 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const validationSchema = Yup.object().shape({
-  productName: Yup.string().required("Product Name is required"),
+  productName: Yup.string().required('Product Name is required'),
   productUOM: Yup.object().shape({
-    label: Yup.string().required("UOM is required"),
-    value: Yup.string().required("UOM is required"),
+    label: Yup.string().required('UOM is required'),
+    value: Yup.string().required('UOM is required'),
   }),
 });
 
@@ -46,8 +46,8 @@ function CreateCostModal({ uomDDL, CB }) {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          productName: "",
-          productUOM: "",
+          productName: '',
+          productUOM: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -76,7 +76,7 @@ function CreateCostModal({ uomDDL, CB }) {
                     name="productName"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("productName", e.target.value)
+                      setFieldValue('productName', e.target.value)
                     }
                   />
                 </div>
@@ -89,7 +89,7 @@ function CreateCostModal({ uomDDL, CB }) {
                     value={values?.productUOM}
                     label="Product UOM"
                     onChange={(valueOption) => {
-                      setFieldValue("productUOM", valueOption);
+                      setFieldValue('productUOM', valueOption);
                     }}
                     placeholder="Product UOM"
                     errors={errors}

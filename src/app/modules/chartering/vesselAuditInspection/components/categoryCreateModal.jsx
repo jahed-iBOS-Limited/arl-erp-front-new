@@ -1,18 +1,18 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import FormikInput from "../../_chartinghelper/common/formikInput";
-import * as Yup from "yup";
-import ICustomTable from "../../_chartinghelper/_customTable";
-import IDelete from "../../_chartinghelper/icons/_delete";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import FormikInput from '../../_chartinghelper/common/formikInput';
+import * as Yup from 'yup';
+import ICustomTable from '../../_chartinghelper/_customTable';
+import IDelete from '../../_chartinghelper/icons/_delete';
 
 export default function CategoryCreateModal({ title, setter, onHide }) {
   const [, createCategory, loading] = useAxiosPost();
   const validationSchema = Yup.object().shape({
     strVesselAuditInspectionCategoryName: Yup.string().required(
-      "Vessel Audit Inspection Category is required"
+      'Vessel Audit Inspection Category is required'
     ),
   });
   const [rowDto, setRowDto] = useState([]);
@@ -21,21 +21,21 @@ export default function CategoryCreateModal({ title, setter, onHide }) {
     setRowDto(filterArr);
   };
   const headers = [
-    { name: "SL" },
-    { name: "Category", style: { minWidth: "65px" } },
-    { name: "Action", style: { minWidth: "40px" } },
+    { name: 'SL' },
+    { name: 'Category', style: { minWidth: '65px' } },
+    { name: 'Action', style: { minWidth: '40px' } },
   ];
   return (
     <Formik
       enableReinitialize={true}
       initialValues={{
         intVesselAuditInspectionCategoryId: 0,
-        strVesselAuditInspectionCategoryName: "",
+        strVesselAuditInspectionCategoryName: '',
       }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, setFieldValue }) => {
         setRowDto([...rowDto, { ...values, isActive: true }]);
-        setFieldValue("strVesselAuditInspectionCategoryName", "");
+        setFieldValue('strVesselAuditInspectionCategoryName', '');
       }}
     >
       {({
@@ -67,7 +67,7 @@ export default function CategoryCreateModal({ title, setter, onHide }) {
                         () => {
                           resetForm({
                             intVesselAuditInspectionCategoryId: 0,
-                            strVesselAuditInspectionCategoryName: "",
+                            strVesselAuditInspectionCategoryName: '',
                           });
                         },
                         true
@@ -96,7 +96,7 @@ export default function CategoryCreateModal({ title, setter, onHide }) {
                 <div className="col-lg-3">
                   <button
                     type="button"
-                    className={"btn btn-primary mt-5 ml-2 px-3 py-2"}
+                    className={'btn btn-primary mt-5 ml-2 px-3 py-2'}
                     onClick={handleSubmit}
                   >
                     Add

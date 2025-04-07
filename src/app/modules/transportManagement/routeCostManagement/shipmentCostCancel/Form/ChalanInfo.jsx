@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { getChalanInfo } from "../helper";
+import React, { useEffect, useState } from 'react';
+import { getChalanInfo } from '../helper';
 
 const ChalanInfo = ({ shipmentId }) => {
   const [chalanInfo, setChalanInfo] = useState([]);
@@ -12,14 +12,14 @@ const ChalanInfo = ({ shipmentId }) => {
     <>
       <div className="col-lg-6">
         <div className="mt-2">
-          {" "}
+          {' '}
           <h5 className="mt-1">Chalan Info</h5>
         </div>
         <div className="table-responsive">
-          <table className={"table global-table"}>
+          <table className={'table global-table'}>
             <thead>
               <tr>
-                <th style={{ width: "20px" }}>SL</th>
+                <th style={{ width: '20px' }}>SL</th>
                 <th>Delivery Code</th>
                 <th>Shipment Code</th>
                 <th>Shipping Name</th>

@@ -128,32 +128,32 @@
 //   );
 // }
 
-import React from "react";
-import PowerBIReport from "../../_helper/commonInputFieldsGroups/PowerBIReport";
+import React from 'react';
+import PowerBIReport from '../../_helper/commonInputFieldsGroups/PowerBIReport';
 export default function ProjectedCashflowStatementIndirect({
   rowData,
   values,
   showReport,
 }) {
-  const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
-  const reportId = "0fe4c9ea-5735-471f-a7ec-00a07af4657c";
+  const groupId = 'e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a';
+  const reportId = '0fe4c9ea-5735-471f-a7ec-00a07af4657c';
   const parameterValues = (values) => {
     // dteDate, ReportType, businessUnitId
     return [
-      { name: "strUnitGroup", value: `${values?.enterpriseDivision?.value}` },
-      { name: "strSubGroup", value: `${values?.subDivision?.label}` },
-      { name: "intUnit", value: `${values?.businessUnit?.value}` },
-      { name: "dteFromDate", value: `${values?.fromDate}` },
-      { name: "dteToDate", value: `${values?.toDate}` },
-      { name: "ConvertionRate", value: `${values?.conversionRate}` },
-      { name: "isForecast", value: `${values?.isForecast?.value}` },
+      { name: 'strUnitGroup', value: `${values?.enterpriseDivision?.value}` },
+      { name: 'strSubGroup', value: `${values?.subDivision?.label}` },
+      { name: 'intUnit', value: `${values?.businessUnit?.value}` },
+      { name: 'dteFromDate', value: `${values?.fromDate}` },
+      { name: 'dteToDate', value: `${values?.toDate}` },
+      { name: 'ConvertionRate', value: `${values?.conversionRate}` },
+      { name: 'isForecast', value: `${values?.isForecast?.value}` },
       {
-        name: "intType",
+        name: 'intType',
         value: `${values?.reportTypeCashFlowIndirect?.value}`,
       },
     ];
   };
-  console.log(parameterValues(values), "parameterValues(values)");
+  console.log(parameterValues(values), 'parameterValues(values)');
   return (
     <>
       {showReport && (

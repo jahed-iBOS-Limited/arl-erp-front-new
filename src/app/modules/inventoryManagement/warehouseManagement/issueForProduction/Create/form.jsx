@@ -1,19 +1,24 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import ICustomTable from "../../../../_helper/_customTable";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import ICustomTable from '../../../../_helper/_customTable';
 
 const validationSchema = Yup.object().shape({});
 
-export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) {
+export default function FormCmp({
+  initData,
+  btnRef,
+  saveHandler,
+  resetBtnRef,
+}) {
   let ths = [
-    "SL",
-    "Transaction Code",
-    "Reference Type",
-    "Reference No.",
-    "Transaction Type",
-    "Action",
+    'SL',
+    'Transaction Code',
+    'Reference Type',
+    'Reference No.',
+    'Transaction Type',
+    'Action',
   ];
   return (
     <>
@@ -46,7 +51,7 @@ export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) 
                     value={values?.date}
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("date", e.target.value);
+                      setFieldValue('date', e.target.value);
                     }}
                   />
                 </div>
@@ -56,8 +61,8 @@ export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) 
                     <input
                       type="radio"
                       name="type"
-                      checked={values.type === "Group By"}
-                      onChange={(e) => setFieldValue("type", "Group By")}
+                      checked={values.type === 'Group By'}
+                      onChange={(e) => setFieldValue('type', 'Group By')}
                       className="mr-2"
                     />
                     Group By
@@ -67,18 +72,18 @@ export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) 
                     <input
                       type="radio"
                       name=""
-                      checked={values.type === "Single"}
-                      onChange={(e) => setFieldValue("type", "Single")}
+                      checked={values.type === 'Single'}
+                      onChange={(e) => setFieldValue('type', 'Single')}
                       className="mr-2"
                     />
                     Single
                   </label>
                 </div>
 
-                <div style={{ marginTop: "18px" }} className="col-lg-4">
+                <div style={{ marginTop: '18px' }} className="col-lg-4">
                   <button
                     className="btn btn-primary"
-                    onClick={(action) => alert("Item Already added")}
+                    onClick={(action) => alert('Item Already added')}
                   >
                     View
                   </button>
@@ -88,14 +93,14 @@ export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) 
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

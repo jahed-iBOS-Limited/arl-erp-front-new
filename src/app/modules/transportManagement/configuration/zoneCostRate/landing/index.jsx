@@ -1,26 +1,25 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import ICustomCard from "../../../../_helper/_customCard";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import ICustomCard from '../../../../_helper/_customCard';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
 import {
   ZoneCostRateLandingPagination,
   deleteZoneCostSetup,
   getShipPointDDL,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  shipPoint: "",
+  shipPoint: '',
 };
 
 export function ZoneCostRateLanding() {
-
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -44,7 +43,6 @@ export function ZoneCostRateLanding() {
       selectedBusinessUnit?.value,
       setShipPointDDL
     );
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -62,7 +60,7 @@ export function ZoneCostRateLanding() {
 
   const deleteHandler = (id, values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to delete?`,
       yesAlertFunc: () => {
         deleteZoneCostSetup(id, profileData?.userId, setLoading, () => {
@@ -102,7 +100,6 @@ export function ZoneCostRateLanding() {
         setLoading
       );
     }
-
   }, [shipPointDDL[0], profileData?.accountId, selectedBusinessUnit?.value]);
 
   return (
@@ -114,7 +111,7 @@ export function ZoneCostRateLanding() {
           onClick={() => {
             history.push({
               pathname:
-                "/transport-management/configuration/zoneCostRate/create",
+                '/transport-management/configuration/zoneCostRate/create',
             });
           }}
         >
@@ -146,12 +143,12 @@ export function ZoneCostRateLanding() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="shipPoint"
-                    options={[{ value: 0, label: "All" }, ...shipPointDDL]}
+                    options={[{ value: 0, label: 'All' }, ...shipPointDDL]}
                     value={values?.shipPoint}
                     label="Select ShipPoint"
                     onChange={(valueOption) => {
                       setGridData([]);
-                      setFieldValue("shipPoint", valueOption);
+                      setFieldValue('shipPoint', valueOption);
                       ZoneCostRateLandingPagination(
                         profileData?.accountId,
                         profileData?.userId,
@@ -178,7 +175,7 @@ export function ZoneCostRateLanding() {
                     <th>Shippoint Name</th>
                     <th>Zone Name</th>
                     <th>Number Of Distance</th>
-                    <th style={{ width: "70px" }}>Action</th>
+                    <th style={{ width: '70px' }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>

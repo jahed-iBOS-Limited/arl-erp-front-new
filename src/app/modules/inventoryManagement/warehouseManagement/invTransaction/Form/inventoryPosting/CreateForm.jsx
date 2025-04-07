@@ -65,11 +65,11 @@ export default function CreateForm({
     dispatch(
       getBusinessPartnerDDLAction(
         profileData.accountId,
-        selectedBusinessUnit.value,
-      ),
+        selectedBusinessUnit.value
+      )
     );
     dispatch(
-      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     // dispatch(getItemDDLAction(profileData.accountId,selectedBusinessUnit.value,landingData?.plant?.value,landingData?.warehouse?.value))
     dispatch(getStockDDLAction());
@@ -78,8 +78,8 @@ export default function CreateForm({
         profileData.accountId,
         selectedBusinessUnit.value,
         landingData?.plant?.value,
-        landingData?.warehouse?.value,
-      ),
+        landingData?.warehouse?.value
+      )
     );
 
     return () => {
@@ -88,8 +88,6 @@ export default function CreateForm({
       dispatch(slice.setreferenceNoDDL([]));
       dispatch(slice.setTransactionTypeDDL([]));
     };
-
-
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   const onChaneForRefType = (refTyp) => {
@@ -101,8 +99,8 @@ export default function CreateForm({
         selectedBusinessUnit.value,
         landingData?.sbu?.value,
         landingData?.plant?.value,
-        landingData?.warehouse?.value,
-      ),
+        landingData?.warehouse?.value
+      )
     );
     // dispatch(getTransactionTypeDDLAction(landingData?.transGrup?.value,refTyp.value))
 
@@ -112,8 +110,8 @@ export default function CreateForm({
           profileData.accountId,
           selectedBusinessUnit.value,
           landingData?.plant?.value,
-          landingData?.warehouse?.value,
-        ),
+          landingData?.warehouse?.value
+        )
       );
     }
   };
@@ -129,8 +127,8 @@ export default function CreateForm({
       getItemforCancelInvAction(
         values.refType.value,
         values.refType.label,
-        refNo.value,
-      ),
+        refNo.value
+      )
     );
     dispatch(getTransactionTypeforCancelInv(refNo.value));
     //    if(transactionTypeDDL){
@@ -234,8 +232,8 @@ export default function CreateForm({
                 { data: modifyPlyload, cb },
                 setRowDto,
                 setTransaType,
-                setDisabled,
-              ),
+                setDisabled
+              )
             );
           });
         } else {
@@ -244,8 +242,8 @@ export default function CreateForm({
               { data: payload, cb },
               setRowDto,
               setTransaType,
-              setDisabled,
-            ),
+              setDisabled
+            )
           );
         }
       }
@@ -458,7 +456,7 @@ export default function CreateForm({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

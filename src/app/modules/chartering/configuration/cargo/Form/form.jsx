@@ -1,10 +1,10 @@
-import { Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import { validationSchema } from "../helper";
+import { Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import { validationSchema } from '../helper';
 
 export default function FormCmp({ title, initData, saveHandler, viewType }) {
   const history = useHistory();
@@ -40,24 +40,24 @@ export default function FormCmp({ title, initData, saveHandler, viewType }) {
                     onClick={() => {
                       history.goBack();
                     }}
-                    className={"btn btn-secondary px-3 py-2"}
+                    className={'btn btn-secondary px-3 py-2'}
                   >
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
                   </button>
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
                   )}
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="submit"
-                      className={"btn btn-primary ml-2 px-3 py-2"}
+                      className={'btn btn-primary ml-2 px-3 py-2'}
                       onClick={handleSubmit}
                       disabled={false}
                     >
@@ -73,18 +73,18 @@ export default function FormCmp({ title, initData, saveHandler, viewType }) {
                       value={values?.cargoGroup}
                       isSearchable={true}
                       options={[
-                        { value: 1, label: "A" },
-                        { value: 2, label: "B" },
-                        { value: 3, label: "C" },
+                        { value: 1, label: 'A' },
+                        { value: 2, label: 'B' },
+                        { value: 3, label: 'C' },
                       ]}
                       styles={customStyles}
                       name="cargoGroup"
                       placeholder="Cargo Group"
                       label="Cargo Group"
                       onChange={(valueOption) => {
-                        setFieldValue("cargoGroup", valueOption);
+                        setFieldValue('cargoGroup', valueOption);
                       }}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                       errors={errors}
                       touched={touched}
                     />
@@ -98,7 +98,7 @@ export default function FormCmp({ title, initData, saveHandler, viewType }) {
                       type="text"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
 
@@ -111,7 +111,7 @@ export default function FormCmp({ title, initData, saveHandler, viewType }) {
                       type="text"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -124,11 +124,11 @@ export default function FormCmp({ title, initData, saveHandler, viewType }) {
                           value={values?.required}
                           checked={values?.required}
                           onChange={(e) => {
-                            setFieldValue("required", e.target.checked);
-                            setFieldValue("notRequired", !e.target.checked);
+                            setFieldValue('required', e.target.checked);
+                            setFieldValue('notRequired', !e.target.checked);
                           }}
                           name="required"
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                         <label htmlFor="required" className="pl-1">
                           Required
@@ -141,11 +141,11 @@ export default function FormCmp({ title, initData, saveHandler, viewType }) {
                           value={values?.notRequired}
                           checked={values?.notRequired}
                           onChange={(e) => {
-                            setFieldValue("notRequired", e.target.checked);
-                            setFieldValue("required", !e.target.checked);
+                            setFieldValue('notRequired', e.target.checked);
+                            setFieldValue('required', !e.target.checked);
                           }}
                           name="notRequired"
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                         <label htmlFor="notRequired" className="pl-1">
                           Not Required

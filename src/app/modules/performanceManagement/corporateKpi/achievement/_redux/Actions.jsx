@@ -1,6 +1,6 @@
-import * as requestFromServer from "./Api";
-import { corporatePmsAchievementSlice } from "./Slice";
-import { toast } from "react-toastify";
+import * as requestFromServer from './Api';
+import { corporatePmsAchievementSlice } from './Slice';
+import { toast } from 'react-toastify';
 const { actions: slice } = corporatePmsAchievementSlice;
 
 // action for save created data
@@ -9,7 +9,7 @@ export const saveAchievementAction = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
     })
@@ -18,16 +18,15 @@ export const saveAchievementAction = (payload) => () => {
     });
 };
 
-export const getObjectiveAction = (accId, buId, empId, yearId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getObjective(accId, buId, empId, yearId)
-    .then((res) => {
-      return dispatch(slice.SetObjective(res.data));
-    })
-    .catch((err) => {});
-};
+export const getObjectiveAction =
+  (accId, buId, empId, yearId) => (dispatch) => {
+    return requestFromServer
+      .getObjective(accId, buId, empId, yearId)
+      .then((res) => {
+        return dispatch(slice.SetObjective(res.data));
+      })
+      .catch((err) => {});
+  };
 
 export const getTargetAction = (kpiId, freqId, yearId) => (dispatch) => {
   return requestFromServer

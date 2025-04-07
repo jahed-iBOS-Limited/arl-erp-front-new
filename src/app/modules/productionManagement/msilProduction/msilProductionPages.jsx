@@ -1,21 +1,21 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import AccidentEntry from "./AccidentEntry";
-import AccidentEntryCreate from "./AccidentEntry/createEdit";
-import ChemicalComposition from "./chemicalComposition";
-import ChemicalCompositionCreate from "./chemicalComposition/Form/addEditForm";
-import MedicalLeaveReportRDLC from "./medicalLeaveReportRDLC/medicalLeaveReportRDLC";
-import MedicalRegisterLanding from "./medicalRegister";
-import MedicalRegisterCreate from "./medicalRegister/createEdit";
-import MedicalStock from "./medicalStock";
-import MedicalStockForm from "./medicalStock/components/AddForm";
-import MeltingProduction from "./meltingProduction";
-import MeltingProductionCreate from "./meltingProduction/Form/addEditForm";
-import ScrapusedLanding from "./scrapused";
-import ScrapusedCreate from "./scrapused/Form/addEditForm";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import AccidentEntry from './AccidentEntry';
+import AccidentEntryCreate from './AccidentEntry/createEdit';
+import ChemicalComposition from './chemicalComposition';
+import ChemicalCompositionCreate from './chemicalComposition/Form/addEditForm';
+import MedicalLeaveReportRDLC from './medicalLeaveReportRDLC/medicalLeaveReportRDLC';
+import MedicalRegisterLanding from './medicalRegister';
+import MedicalRegisterCreate from './medicalRegister/createEdit';
+import MedicalStock from './medicalStock';
+import MedicalStockForm from './medicalStock/components/AddForm';
+import MeltingProduction from './meltingProduction';
+import MeltingProductionCreate from './meltingProduction/Form/addEditForm';
+import ScrapusedLanding from './scrapused';
+import ScrapusedCreate from './scrapused/Form/addEditForm';
 
 export function MilProductionPages() {
   const userRole = useSelector(
@@ -112,41 +112,42 @@ export function MilProductionPages() {
       />
       <ContentRoute
         path="/production-management/msil-Production/medicalregister/edit/:id"
-        component={ MedicalRegisterCreate }
+        component={MedicalRegisterCreate}
       />
       <ContentRoute
         path="/production-management/msil-Production/medicalregister/create"
-        component={ MedicalRegisterCreate }
+        component={MedicalRegisterCreate}
       />
       <ContentRoute
         path="/production-management/msil-Production/medicalregister"
-        component={ MedicalRegisterLanding }
+        component={MedicalRegisterLanding}
       />
       <ContentRoute
         path="/production-management/msil-Production/accidententry/edit/:id"
-        component={ AccidentEntryCreate }
+        component={AccidentEntryCreate}
       />
       <ContentRoute
         path="/production-management/msil-Production/accidententry/create"
-        component={ AccidentEntryCreate }
+        component={AccidentEntryCreate}
       />
       <ContentRoute
         path="/production-management/msil-Production/accidententry"
-        component={ AccidentEntry }        
+        component={AccidentEntry}
       />
-      <ContentRoute 
+      <ContentRoute
         path="/production-management/msil-Production/medicinestock/add"
-        component={ medicineStock?.isCreate ?  MedicalStockForm : NotPermittedPage }
+        component={
+          medicineStock?.isCreate ? MedicalStockForm : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/production-management/msil-Production/medicinestock"
-        component={ medicineStock?.isView ?  MedicalStock : NotPermittedPage}
+        component={medicineStock?.isView ? MedicalStock : NotPermittedPage}
       />
       <ContentRoute
         path="/production-management/msil-Production/MedicalLeaveReport"
-        component={ MedicalLeaveReportRDLC }
+        component={MedicalLeaveReportRDLC}
       />
-
     </Switch>
   );
 }

@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const GetExportSales_api = async (
   buid,
@@ -13,12 +13,12 @@ export const GetExportSales_api = async (
     const { customsHouse, fromDate, toDate, tarrifSchedule } = values;
     const HsCode = tarrifSchedule?.hscode
       ? `&HsCode=${tarrifSchedule?.hscode}`
-      : "";
+      : '';
     const res = await axios.get(
       `/vat/AuditLog/GetExportSales?BusinessUnitId=${buid}&CustomId=${customsHouse?.value}${HsCode}&FromDate=${fromDate}&ToDate=${toDate}`
     );
     setter(res?.data);
-    if (res?.data?.length === 0) toast.warning("Data Not Found");
+    if (res?.data?.length === 0) toast.warning('Data Not Found');
     setLoading(false);
     setGridAllData(res?.data);
   } catch (error) {
@@ -33,13 +33,13 @@ export const GetLocalSales_api = async (buid, values, setter, setLoading) => {
     const { partnerByType, fromDate, toDate, tarrifSchedule } = values;
     const HsCode = tarrifSchedule?.hscode
       ? `&HsCode=${tarrifSchedule?.hscode}`
-      : "";
+      : '';
 
     const res = await axios.get(
       `/vat/AuditLog/GetLocalSales?BusinessUnitId=${buid}&CustomerId=${partnerByType?.value}${HsCode}&FromDate=${fromDate}&ToDate=${toDate}`
     );
     setter(res?.data);
-    if (res?.data?.length === 0) toast.warning("Data Not Found");
+    if (res?.data?.length === 0) toast.warning('Data Not Found');
     setLoading(false);
   } catch (error) {
     setter([]);
@@ -58,12 +58,12 @@ export const GetImportPurchase_api = async (
     const { customsHouse, fromDate, toDate, tarrifSchedule } = values;
     const HsCode = tarrifSchedule?.hscode
       ? `&HsCode=${tarrifSchedule?.hscode}`
-      : "";
+      : '';
     const res = await axios.get(
       `/vat/AuditLog/GetImportPurchase?BusinessUnitId=${buid}&CustomId=${customsHouse?.value}${HsCode}&FromDate=${fromDate}&ToDate=${toDate}`
     );
     setter(res?.data);
-    if (res?.data?.length === 0) toast.warning("Data Not Found");
+    if (res?.data?.length === 0) toast.warning('Data Not Found');
     setLoading(false);
   } catch (error) {
     setter([]);
@@ -82,11 +82,11 @@ export const GetLocalPurchase_api = async (
     const { partnerByType, fromDate, toDate, tarrifSchedule } = values;
     const HsCode = tarrifSchedule?.hscode
       ? `&HsCode=${tarrifSchedule?.hscode}`
-      : "";
+      : '';
     const res = await axios.get(
       `/vat/AuditLog/GetLocalPurchase?BusinessUnitId=${buid}&SupplierId=${partnerByType?.value}${HsCode}&FromDate=${fromDate}&ToDate=${toDate}`
     );
-    if (res?.data?.length === 0) toast.warning("Data Not Found");
+    if (res?.data?.length === 0) toast.warning('Data Not Found');
     setter(res?.data);
     setLoading(false);
   } catch (error) {
@@ -126,7 +126,7 @@ export const GetBusinessPartnerByType_api = async (
           return {
             ...item,
             label:
-              item?.bin && item?.bin?.toLowerCase() !== "na"
+              item?.bin && item?.bin?.toLowerCase() !== 'na'
                 ? `${item?.label} [${item?.bin}]`
                 : item?.label,
           };

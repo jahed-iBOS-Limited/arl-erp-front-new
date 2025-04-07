@@ -1,9 +1,9 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Switch, Redirect } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import ApplicationEntryForm from "./entryForm/Form/addEditForm";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Switch, Redirect } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import ApplicationEntryForm from './entryForm/Form/addEditForm';
 
 export function ApplicationPages() {
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);

@@ -28,7 +28,7 @@ export const rateUpdateModalHandler = async (
   values,
   setRateUpdateModal,
   setLoading,
-  cb,
+  cb
 ) => {
   setLoading && setLoading(true);
   const arr = [
@@ -98,7 +98,7 @@ export const editRowDataClick = (
   values,
   setValues,
   setEditMode,
-  index,
+  index
 ) => {
   const formikValuesPayload = {
     ...item,
@@ -165,7 +165,7 @@ export const rowDataAddHandler = (
   setRowData,
   setTouched,
   setErrors,
-  setFieldValue,
+  setFieldValue
 ) => {
   if (addRowValidation(values, setTouched, setErrors)) return;
 
@@ -220,7 +220,7 @@ export const dateHandler = (e, values, setFieldValue, type) => {
       : moment(e.target.value).format('YYYY-MM-DDTHH:mm:ss'),
     type === 'endDate'
       ? moment(e.target.value).format('YYYY-MM-DDTHH:mm:ss')
-      : moment(values?.dteTripCompletionDate).format('YYYY-MM-DDTHH:mm:ss'),
+      : moment(values?.dteTripCompletionDate).format('YYYY-MM-DDTHH:mm:ss')
   );
 
   /* Set Trip Duration */
@@ -230,12 +230,12 @@ export const dateHandler = (e, values, setFieldValue, type) => {
   if (type === 'endDate') {
     setFieldValue(
       'dteTripCompletionDate',
-      moment(e.target.value).format('YYYY-MM-DDTHH:mm:ss'),
+      moment(e.target.value).format('YYYY-MM-DDTHH:mm:ss')
     );
   } else {
     setFieldValue(
       'dteTripCommencedDate',
-      moment(e.target.value).format('YYYY-MM-DDTHH:mm:ss'),
+      moment(e.target.value).format('YYYY-MM-DDTHH:mm:ss')
     );
   }
 };
@@ -248,7 +248,7 @@ export const rowDataEditHandler = (
   setErrors,
   setFieldValue,
   editMode,
-  setEditMode,
+  setEditMode
 ) => {
   if (addRowValidation(values, setTouched, setErrors)) return;
 

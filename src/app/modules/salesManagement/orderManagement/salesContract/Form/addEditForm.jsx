@@ -1,7 +1,6 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveSalesContact,
   getSalesContactById,
@@ -11,46 +10,46 @@ import {
   getPaymentTermsDDLAction,
   setSalesContactSingleEmpty,
   saveEditedSalesContact,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
 import {
   getPlantDDLAction,
   getDistributionChannelDDLAction,
   getItemSaleDDLAction,
   getUomDDLItemId_Action,
-} from "../../../../_helper/_redux/Actions";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { getSalesOrgDDLAction } from "../_redux/Actions";
-import Loading from "../../../../_helper/_loading";
-import { toast } from "react-toastify";
-import IViewModal from "../../../../_helper/_viewModal";
-import SalesContractInfo from "./SalesContractInfo";
+} from '../../../../_helper/_redux/Actions';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { getSalesOrgDDLAction } from '../_redux/Actions';
+import Loading from '../../../../_helper/_loading';
+import { toast } from 'react-toastify';
+import IViewModal from '../../../../_helper/_viewModal';
+import SalesContractInfo from './SalesContractInfo';
 
 const initData = {
   id: undefined,
-  plant: "",
-  salesOrg: "",
-  distributionChannel: "",
-  salesOffice: "",
-  soldToParty: "",
-  itemSale: "",
-  partnerReffNo: "",
+  plant: '',
+  salesOrg: '',
+  distributionChannel: '',
+  salesOffice: '',
+  soldToParty: '',
+  itemSale: '',
+  partnerReffNo: '',
   pricingDate: _todayDate(),
   startDate: _todayDate(),
   endDate: _todayDate(),
-  BUsalesOrgIncoterm: "",
-  paymentTerms: "",
+  BUsalesOrgIncoterm: '',
+  paymentTerms: '',
   partialShipment: false,
   unlimited: false,
   offerInclude: false,
-  deliveryAddress: "",
-  vehicleBy: "",
-  quantity: "",
-  price: "",
-  salesContactCode: "",
-  uom: "",
-  remark: "",
+  deliveryAddress: '',
+  vehicleBy: '',
+  quantity: '',
+  price: '',
+  salesContactCode: '',
+  uom: '',
+  remark: '',
   itemLists: [],
 };
 
@@ -126,7 +125,6 @@ export default function SalesContactForm({
     } else {
       dispatch(setSalesContactSingleEmpty());
     }
-
   }, [id]);
 
   //Dispatch Get PlantDDL & SalesOrgDDL & DistributionChannelDDL & SoldToPPId
@@ -156,7 +154,6 @@ export default function SalesContactForm({
         getSalesOrgDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
@@ -205,7 +202,7 @@ export default function SalesContactForm({
         if (objListRowDTO?.length > 0) {
           dispatch(saveEditedSalesContact(payload, setDisabled));
         } else {
-          toast.warning("You must have to add atleast one item");
+          toast.warning('You must have to add atleast one item');
         }
       } else {
         const objListRowDTO = values?.itemLists.map((itm) => {
@@ -238,8 +235,8 @@ export default function SalesContactForm({
             partnerReffNo: values.partnerReffNo,
             partialShipment: values.partialShipment,
             incotermId: 1,
-            incotermsCode: "CFR",
-            incotermsName: "CFR (Cost And Freight)",
+            incotermsCode: 'CFR',
+            incotermsName: 'CFR (Cost And Freight)',
             paymentTermId: values.paymentTerms.value,
             paymentTermsName: values.paymentTerms.label,
             totalContactValue: +totalAmount,
@@ -252,7 +249,7 @@ export default function SalesContactForm({
             deliveryAddress: values.deliveryAddress,
             actionBy: profileData.userId,
             active: true,
-            remark: values?.remark || "",
+            remark: values?.remark || '',
           },
           objListRowDTO: objListRowDTO,
         };
@@ -260,7 +257,7 @@ export default function SalesContactForm({
         if (objListRowDTO?.length > 0) {
           dispatch(saveSalesContact({ data: payload, cb, setDisabled }));
         } else {
-          toast.warning("You must have to add atleast one item");
+          toast.warning('You must have to add atleast one item');
         }
       }
     }
@@ -297,8 +294,8 @@ export default function SalesContactForm({
         uomName: values?.uom?.label,
       },
     ];
-    if (isUniq("itemId", values.itemSale.value, values?.itemLists)) {
-      setFieldValue("itemLists", [...values?.itemLists, ...newData]);
+    if (isUniq('itemId', values.itemSale.value, values?.itemLists)) {
+      setFieldValue('itemLists', [...values?.itemLists, ...newData]);
     }
   };
 
@@ -306,7 +303,6 @@ export default function SalesContactForm({
     return () => {
       dispatch(setSalesContactSingleEmpty());
     };
-
   }, []);
 
   //onChange itemListHandelar
@@ -323,7 +319,7 @@ export default function SalesContactForm({
 
   return (
     <IForm
-      title={id ? "Edit Sales Contract" : "Create Sales Contract"}
+      title={id ? 'Edit Sales Contract' : 'Create Sales Contract'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       renderProps={
@@ -332,7 +328,7 @@ export default function SalesContactForm({
         )
           ? () => (
               <button
-                className='btn btn-primary'
+                className="btn btn-primary"
                 onClick={(e) => {
                   setSalesContractInfoModal(true);
                 }}
@@ -373,7 +369,7 @@ export default function SalesContactForm({
             onHide={() => {
               setSalesContractInfoModal(false);
             }}
-            title='Sale Contract Info'
+            title="Sale Contract Info"
           >
             <SalesContractInfo />
           </IViewModal>

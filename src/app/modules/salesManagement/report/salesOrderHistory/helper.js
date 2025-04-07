@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getSalesOrderHistoryLanding = async (
   accId,
@@ -26,8 +26,7 @@ export const getSalesOrderHistoryLanding = async (
   }
 };
 
-export const getSalesOrderWithPendingLanding = async (
- {
+export const getSalesOrderWithPendingLanding = async ({
   partId,
   buId,
   orderCode,
@@ -36,13 +35,12 @@ export const getSalesOrderWithPendingLanding = async (
   reason,
   customerId,
   setLoading,
-  setter
- }
-) => {
+  setter,
+}) => {
   try {
     setLoading(true);
     const res = await axios.get(
-      `/oms/SalesInformation/GetSalesOrderPendingInfoDet?intPartid=${partId}&intBusinessUnitId=${buId}&strSalesOrderCode=${orderCode || ""}&intShippointId=${shippointId}&intUpdateBy=${userId}&strResson=${reason || "N/A"}&intcustomerid=${customerId}`
+      `/oms/SalesInformation/GetSalesOrderPendingInfoDet?intPartid=${partId}&intBusinessUnitId=${buId}&strSalesOrderCode=${orderCode || ''}&intShippointId=${shippointId}&intUpdateBy=${userId}&strResson=${reason || 'N/A'}&intcustomerid=${customerId}`
     );
     if (res?.status === 200) {
       setLoading(false);

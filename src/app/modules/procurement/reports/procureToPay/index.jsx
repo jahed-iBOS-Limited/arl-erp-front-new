@@ -1,8 +1,6 @@
-import React from "react";
-import ProcureToPayReportTable  from "./Table/table";
+import React from 'react';
+import ProcureToPayReportTable from './Table/table';
 
 export default function ProcureToPay({ history }) {
-  return (  
-      <ProcureToPayReportTable />
-  );
-};
+  return <ProcureToPayReportTable />;
+}

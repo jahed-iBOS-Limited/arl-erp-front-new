@@ -45,13 +45,12 @@ function MasterBLLanding() {
 
   useEffect(() => {
     getLandingData(initData, pageNo, pageSize);
-
   }, [profileData, selectedBusinessUnit]);
 
   const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       GetMasterBlLanding(
-        `${imarineBaseUrl}/domain/ShippingService/GetMasterBlLanding?typeId=${values?.modeOfTransport?.value}&search=${searchValue}&PageNo=${pageNo}&PageSize=${pageSize}`,
+        `${imarineBaseUrl}/domain/ShippingService/GetMasterBlLanding?typeId=${values?.modeOfTransport?.value}&search=${searchValue}&PageNo=${pageNo}&PageSize=${pageSize}`
       );
     }
   };
@@ -95,7 +94,7 @@ function MasterBLLanding() {
                             modeOfTransport: valueOption,
                           },
                           pageNo,
-                          pageSize,
+                          pageSize
                         );
                       }}
                       placeholder="Booking Type"

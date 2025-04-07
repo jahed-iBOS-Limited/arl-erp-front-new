@@ -1,8 +1,8 @@
-import React from "react";
-import ValuesAndCompetencyPage from "./Form/addEditForm";
-import { UiProvider } from "../../_helper/uiContextHelper";
-import { Route } from "react-router-dom";
-import ViewModal from "../_helper/_viewModal";
+import React from 'react';
+import ValuesAndCompetencyPage from './Form/addEditForm';
+import { UiProvider } from '../../_helper/uiContextHelper';
+import { Route } from 'react-router-dom';
+import ViewModal from '../_helper/_viewModal';
 
 export function ValuesAndCompetencyEmployee({ history }) {
   const uIEvents = {};
@@ -18,7 +18,7 @@ export function ValuesAndCompetencyEmployee({ history }) {
             history={history}
             onHide={(value) => {
               history.push({
-                pathname: "/performance-management/employee-entry",
+                pathname: '/performance-management/employee-entry',
                 _data: value && value,
               });
             }}

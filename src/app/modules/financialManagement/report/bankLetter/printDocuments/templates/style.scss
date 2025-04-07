@@ -1,73 +1,66 @@
 .bank-letter-template-common-wrapper {
-    * {
-      margin: 0;
-      padding: 0;
-      line-height: 1.2;
-      box-sizing: border-box;
-      font-family: "Times New Roman", Times, serif; /* Classic serif font */
-      font-size: 16px; /* Good default size for print */
-    }
-    p {
-      margin: 5px 0px 10px 0px;
-      text-align: justify !important;
-    }
-  
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-  
-    table.border_table td,
-    th {
-      border: 1px solid #ddd;
-      text-align: center;
-      padding: 4px;
-    }
-  
-    table.no_border_table th,
-    td {
-      border: none;
-      padding: 3px;
-    }
-    table.signatory
-    thead,
-    td {
-      border: 1px solid black;
-      padding: 6px;
-      border-collapse: collapse;
-      // text-align: center;
-    }
-    table.signatory
-    thead{
-        font-weight: 600;
-    }
-    &.signatory-wrapper {
-      * {
-        font-size: 17.7px !important; /* Specific font size for this file */
-        // margin-right:20px
-     
-      }
+  * {
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif; /* Classic serif font */
+    font-size: 16px; /* Good default size for print */
   }
-    &.authoFDR-wrapper {
-      * {
-        font-size: 18px !important; /* Specific font size for this file */
-        // margin-right:20px
-     
-      }
+  p {
+    margin: 5px 0px 10px 0px;
+    text-align: justify !important;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table.border_table td,
+  th {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 4px;
+  }
+
+  table.no_border_table th,
+  td {
+    border: none;
+    padding: 3px;
+  }
+  table.signatory thead,
+  td {
+    border: 1px solid black;
+    padding: 6px;
+    border-collapse: collapse;
+    // text-align: center;
+  }
+  table.signatory thead {
+    font-weight: 600;
+  }
+  &.signatory-wrapper {
+    * {
+      font-size: 17.7px !important; /* Specific font size for this file */
+      // margin-right:20px
+    }
+  }
+  &.authoFDR-wrapper {
+    * {
+      font-size: 18px !important; /* Specific font size for this file */
+      // margin-right:20px
+    }
   }
   &.bankCertificate-wrapper {
     * {
       font-size: 17px !important; /* Specific font size for this file */
       // margin-right:20px
-   
     }
-}
+  }
   &.close-wrapper {
     * {
       font-size: 20px !important; /* Specific font size for this file */
       // margin-right:20px
-   
     }
-}
-
+  }
 }

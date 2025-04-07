@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import PaginationSearch from "../../../../_helper/_search";
-import { postPoApprovalLandingDataAction } from "../helper";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import PaginationSearch from '../../../../_helper/_search';
+import { postPoApprovalLandingDataAction } from '../helper';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import IView from './../../../../_helper/_helperIcons/_view';
+import PaginationTable from './../../../../_helper/_tablePagination';
 // import { setTableLastAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 // import { useDispatch } from "react-redux";
-import { Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
-import IViewModal from "../../../../_helper/_viewModal";
-import { checkTwoFactorApproval } from "../helper";
-import { ReceivePoReportView } from "../report/recievePoReportView";
-import { ShippingViewReport1 } from "../report/shippingreport1";
-import { PurchaseOrderViewTableRow } from "../report/tableRow";
-import { ShippingViewReport2 } from "../report/shippingReport2";
-import { ShippingViewReport3 } from "../report/shippingReport3";
+import { Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import IViewModal from '../../../../_helper/_viewModal';
+import { checkTwoFactorApproval } from '../helper';
+import { ReceivePoReportView } from '../report/recievePoReportView';
+import { ShippingViewReport1 } from '../report/shippingreport1';
+import { PurchaseOrderViewTableRow } from '../report/tableRow';
+import { ShippingViewReport2 } from '../report/shippingReport2';
+import { ShippingViewReport3 } from '../report/shippingReport3';
 const GridData = ({
   history,
   POorderType,
@@ -33,21 +33,21 @@ const GridData = ({
   profileData,
   gridData,
   data,
-  setLoading
+  setLoading,
 }) => {
   let ths = [
-    "SL",
-    "Reference Code",
-    "PO Code",
-    "Supplier Name",
-    "Order Date",
-    "Delivery Address",
-    "Terms",
-    "Validity",
-    "PO Qty",
-    "RCV Qty",
-    "Status",
-    "Action",
+    'SL',
+    'Reference Code',
+    'PO Code',
+    'Supplier Name',
+    'Order Date',
+    'Delivery Address',
+    'Terms',
+    'Validity',
+    'PO Qty',
+    'RCV Qty',
+    'Status',
+    'Action',
   ];
   // gridData ddl
 
@@ -56,7 +56,7 @@ const GridData = ({
 
   const tableIndex = useSelector((state) => state?.localStorage?.tablePOIndex);
 
-  const [currentItem, setCurrentItem] = useState("");
+  const [currentItem, setCurrentItem] = useState('');
   const [isShowModal, setIsShowModal] = useState(false);
   const [reverseModalShowState, setReverseModalShowState] = useState({
     isShow: false,
@@ -71,14 +71,12 @@ const GridData = ({
   // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (POId, POorderTypeID, PORefType) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to Close this PO`,
       yesAlertFunc: () => {
-        postPoApprovalLandingDataAction(
-          POId,
-          POorderTypeID,
-          PORefType
-        ).then(() => cb());
+        postPoApprovalLandingDataAction(POId, POorderTypeID, PORefType).then(
+          () => cb()
+        );
       },
       noAlertFunc: () => {},
     };
@@ -91,9 +89,9 @@ const GridData = ({
       data: null,
     });
   };
-  console.log("for pagination values: ", values);
+  console.log('for pagination values: ', values);
   return (
-    <div style={{ marginTop: "-35px" }}>
+    <div style={{ marginTop: '-35px' }}>
       <div className="po_custom_search">
         <PaginationSearch
           isDisabledFiled={
@@ -114,17 +112,17 @@ const GridData = ({
           return (
             <tr key={index}>
               <td> {td.sl} </td>
-              <td> {td.referenceCode || ""} </td>
+              <td> {td.referenceCode || ''} </td>
               <td> {td.purchaseOrderNo} </td>
               <td> {td.supplierName} </td>
               <td> {_dateFormatter(td.purchaseOrderDate)} </td>
-              <td style={{ minWidth: "250px" }}> {td.deliveryAddress} </td>
+              <td style={{ minWidth: '250px' }}> {td.deliveryAddress} </td>
               <td> {td.paymentTermsName} </td>
               <td> {_dateFormatter(td.validityDate)} </td>
               <td> {td.poquantity || 0} </td>
               <td>
                 {
-                  <span style={{ textDecoration: "underline" }}>
+                  <span style={{ textDecoration: 'underline' }}>
                     <Link
                       onClick={() => {
                         setIsReceivePoModal(true);
@@ -137,7 +135,14 @@ const GridData = ({
                   </span>
                 }
               </td>
-              <td> {td.isApprove ? "Approved" : td?.isClose ? "Closed" : "Pending"} </td>
+              <td>
+                {' '}
+                {td.isApprove
+                  ? 'Approved'
+                  : td?.isClose
+                    ? 'Closed'
+                    : 'Pending'}{' '}
+              </td>
               <td>
                 <div className="d-flex justify-content-center align-items-center">
                   {/* <button style={{ border: "none", background: "none" }}>
@@ -155,7 +160,7 @@ const GridData = ({
                   {td?.isClose ? (
                     <IView
                       classes={
-                        tableIndex === td?.purchaseOrderId ? "text-primary" : ""
+                        tableIndex === td?.purchaseOrderId ? 'text-primary' : ''
                       }
                       clickHandler={() => {
                         // history.push({
@@ -213,7 +218,7 @@ const GridData = ({
                       </span>
                       {td?.isApprove && !td?.isMrr && (
                         <OverlayTrigger
-                          overlay={<Tooltip id="cs-icon">{"Edit"}</Tooltip>}
+                          overlay={<Tooltip id="cs-icon">{'Edit'}</Tooltip>}
                         >
                           <span
                             className={`iconActive ml-1 pointer`}
@@ -222,7 +227,7 @@ const GridData = ({
                                 isShow: true,
                                 data: td,
                                 index,
-                                otp: "",
+                                otp: '',
                               });
                             }}
                           >
@@ -241,7 +246,7 @@ const GridData = ({
                     <IView
                       title="Shipping View"
                       classes={
-                        tableIndex === td?.purchaseOrderId ? "text-primary" : ""
+                        tableIndex === td?.purchaseOrderId ? 'text-primary' : ''
                       }
                       clickHandler={() => {
                         setCurrentItem(td);
@@ -298,7 +303,7 @@ const GridData = ({
                   checkTwoFactorApproval(
                     2,
                     selectedBusinessUnit?.value,
-                    "PurchaseOrder",
+                    'PurchaseOrder',
                     reverseModalShowState?.data?.purchaseOrderId,
                     reverseModalShowState?.data?.purchaseOrderNo,
                     profileData?.userId,
@@ -324,17 +329,17 @@ const GridData = ({
                   checkTwoFactorApproval(
                     1,
                     selectedBusinessUnit?.value,
-                    "PurchaseOrder",
+                    'PurchaseOrder',
                     reverseModalShowState?.data?.purchaseOrderId,
                     reverseModalShowState?.data?.purchaseOrderNo,
                     profileData?.userId,
-                    "",
+                    '',
                     1,
                     setDisabledModalButton,
                     () => {
                       setReverseModalShowState({
                         ...reverseModalShowState,
-                        otp: "",
+                        otp: '',
                         isOtpGenerate: true,
                       });
                     }
@@ -350,17 +355,17 @@ const GridData = ({
             >
               {/* {reverseModalShowState?.isOtpGenerate ? "Send" : "Yes"} */}
               {disabledModalButton
-                ? "Processing"
+                ? 'Processing'
                 : reverseModalShowState?.isOtpGenerate
-                ? "Send"
-                : "Yes"}
+                  ? 'Send'
+                  : 'Yes'}
             </button>
             <button
               className="btn btn-secondary"
               onClick={handleClose}
               disabled={disabledModalButton}
             >
-              {reverseModalShowState?.isOtpGenerate ? "Cancel" : "No"}
+              {reverseModalShowState?.isOtpGenerate ? 'Cancel' : 'No'}
             </button>
           </div>
         </Modal.Body>

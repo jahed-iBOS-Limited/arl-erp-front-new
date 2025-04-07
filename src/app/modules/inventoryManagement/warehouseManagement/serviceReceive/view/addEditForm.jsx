@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useEffect } from 'react';
 import Form from './form';
 import { getSingleDataForEdit } from '../helper/Actions';

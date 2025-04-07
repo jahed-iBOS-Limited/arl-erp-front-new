@@ -1,25 +1,23 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   closeRentAsset,
   getBusinessPartnerDDL,
   getLandingPaginationData,
-} from "../helper";
-import SalesOrderReportModal from "../../../../salesManagement/orderManagement/salesOrderInActive/landing/salesOrderReportModal";
+} from '../helper';
+import SalesOrderReportModal from '../../../../salesManagement/orderManagement/salesOrderInActive/landing/salesOrderReportModal';
 
 const initData = {
-  partner: "",
+  partner: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -82,8 +80,8 @@ function AssetRentLanding() {
   // confirm to cancel
   const confirmToCancel = (id, values) => {
     let confirmObject = {
-      title: "Are you sure?",
-      message: "If you delete this, it can not be undone",
+      title: 'Are you sure?',
+      message: 'If you delete this, it can not be undone',
       yesAlertFunc: async () => {
         closeRentAsset(id, setLoading, () => {
           getLandingPaginationData(
@@ -98,7 +96,7 @@ function AssetRentLanding() {
         });
       },
       noAlertFunc: () => {
-        "";
+        '';
       },
     };
     IConfirmModal(confirmObject);
@@ -125,14 +123,14 @@ function AssetRentLanding() {
                       value={values?.partner}
                       label="Business Partner"
                       onChange={(valueOption) => {
-                        setFieldValue("partner", valueOption);
+                        setFieldValue('partner', valueOption);
                       }}
                       placeholder="Business Partner"
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div style={{ marginTop: "17px" }} className="col-lg">
+                  <div style={{ marginTop: '17px' }} className="col-lg">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -145,121 +143,124 @@ function AssetRentLanding() {
                   </div>
                 </div>
                 {gridData?.data?.length > 0 && (
-                 <div className="table-responsive">
-                   <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Rent Type Name</th>
-                        <th>Business Partner Name</th>
-                        <th>SBU</th>
-                        <th>Asset Name</th>
-                        <th>Rent From Date</th>
-                        <th>Rent To Date</th>
-                        <th>Rent Rate</th>
-                        <th>Currency Name</th>
-                        <th>Conversation Rate</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.data?.map((item, index) => (
-                        <tr key={index}>
-                          <td>
-                            <div className="text-center">{index + 1}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.rentTypeName}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">
-                              {item?.businessPartnerName}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.sbuName}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.assetName}</div>
-                          </td>
-                          <td>
-                            <div className="text-center">
-                              {_dateFormatter(item?.rentFromDate)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-center">
-                              {item?.rentToDate
-                                ? _dateFormatter(item?.rentToDate)
-                                : "-"}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-right">{item?.rentRate}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.currencyName}</div>
-                          </td>
-                          <td>
-                            <div className="text-right">
-                              {item?.currConversationRate}
-                            </div>
-                          </td>
-                          <td style={{ minWidth: "80px" }}>
-                            <div className="d-flex justify-content-center">
-                              <span
-                                onClick={() => {
-                                  history.push({
-                                    pathname: `/mngAsset/assetRentMangmnt/rentAsset/view/${item?.rentAssetId}`,
-                                    state: {
-                                      rentAssetId: item?.rentAssetId,
-                                    },
-                                  });
-                                }}
-                                className="ml-2"
-                              >
-                                <i
-                                  className={`fa pointer fa-eye fa-lg`}
-                                  aria-hidden="true"
-                                ></i>
-                              </span>
-
-                              {!item?.isClosed ? (
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Rent Type Name</th>
+                          <th>Business Partner Name</th>
+                          <th>SBU</th>
+                          <th>Asset Name</th>
+                          <th>Rent From Date</th>
+                          <th>Rent To Date</th>
+                          <th>Rent Rate</th>
+                          <th>Currency Name</th>
+                          <th>Conversation Rate</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {gridData?.data?.map((item, index) => (
+                          <tr key={index}>
+                            <td>
+                              <div className="text-center">{index + 1}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.rentTypeName}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">
+                                {item?.businessPartnerName}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.sbuName}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.assetName}</div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {_dateFormatter(item?.rentFromDate)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center">
+                                {item?.rentToDate
+                                  ? _dateFormatter(item?.rentToDate)
+                                  : '-'}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-right">{item?.rentRate}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.currencyName}</div>
+                            </td>
+                            <td>
+                              <div className="text-right">
+                                {item?.currConversationRate}
+                              </div>
+                            </td>
+                            <td style={{ minWidth: '80px' }}>
+                              <div className="d-flex justify-content-center">
                                 <span
                                   onClick={() => {
                                     history.push({
-                                      pathname: `/mngAsset/assetRentMangmnt/rentAsset/edit/${item?.rentAssetId}`,
+                                      pathname: `/mngAsset/assetRentMangmnt/rentAsset/view/${item?.rentAssetId}`,
                                       state: {
                                         rentAssetId: item?.rentAssetId,
                                       },
                                     });
                                   }}
-                                  className="ml-2 mr-2"
-                                >
-                                  <i className={`fas fa-pen-square`}></i>
-                                </span>
-                              ) : null}
-
-                              {!item?.isClosed ? (
-                                <span
                                   className="ml-2"
-                                  onClick={() => {
-                                    confirmToCancel(item?.rentAssetId, values);
-                                  }}
                                 >
                                   <i
-                                    className="fa fa-times-circle fa-lg"
+                                    className={`fa pointer fa-eye fa-lg`}
                                     aria-hidden="true"
                                   ></i>
                                 </span>
-                              ) : null}
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                 </div>
+
+                                {!item?.isClosed ? (
+                                  <span
+                                    onClick={() => {
+                                      history.push({
+                                        pathname: `/mngAsset/assetRentMangmnt/rentAsset/edit/${item?.rentAssetId}`,
+                                        state: {
+                                          rentAssetId: item?.rentAssetId,
+                                        },
+                                      });
+                                    }}
+                                    className="ml-2 mr-2"
+                                  >
+                                    <i className={`fas fa-pen-square`}></i>
+                                  </span>
+                                ) : null}
+
+                                {!item?.isClosed ? (
+                                  <span
+                                    className="ml-2"
+                                    onClick={() => {
+                                      confirmToCancel(
+                                        item?.rentAssetId,
+                                        values
+                                      );
+                                    }}
+                                  >
+                                    <i
+                                      className="fa fa-times-circle fa-lg"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </span>
+                                ) : null}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
 
                 {gridData?.data?.length > 0 && (
@@ -288,7 +289,7 @@ function AssetRentLanding() {
                 }}
                 onHide={() => setModalShow(false)}
                 setLoading={setLoading}
-                isSaveWork ={false}
+                isSaveWork={false}
               />
             </>
           )}

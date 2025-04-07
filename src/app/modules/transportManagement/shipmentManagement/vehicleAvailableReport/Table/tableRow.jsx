@@ -1,19 +1,17 @@
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Select from "react-select";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import customStyles from "../../../../selectCustomStyle";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Select from 'react-select';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import customStyles from '../../../../selectCustomStyle';
 import {
   getCheckpostListPermissionByUser,
   getItemRequestGridData,
   getVehicleStatusDDL,
-} from "../helper";
+} from '../helper';
 
 export function TableRow(props) {
   // get user profile data from store
@@ -29,11 +27,11 @@ export function TableRow(props) {
 
   // vehicle status ddl
   const [vehicleStatusDDL, setVehicleStatusDDL] = useState([]);
-  const [selectVehicleStatusDDL, setSelectVehicleStatusDDL] = useState("");
+  const [selectVehicleStatusDDL, setSelectVehicleStatusDDL] = useState('');
 
   // Checkpost ddl
   const [checkPostDDL, setCheckPostDDL] = useState([]);
-  const [selectCheckPost, setSelectCheckPost] = useState("");
+  const [selectCheckPost, setSelectCheckPost] = useState('');
   const [loading, setLoading] = useState(false);
 
   //paginationState
@@ -130,38 +128,38 @@ export function TableRow(props) {
           paginationSearchHandler={paginationSearchHandler}
         />
         {gridData?.length > 0 && (
-         <div className="table-responsive">
-           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-            <thead>
-              <tr>
-                <th style={{ width: "50px" }}>Sl</th>
-                <th>Vehicle No</th>
-                <th>Driver Name</th>
-                <th>Came From</th>
-                <th>Entry Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {gridData?.map((td, index) => (
-                <tr key={index}>
-                  <td className="text-center"> {index + 1} </td>
-                  <td>
-                    <div className="pl-2">{td?.vehicleNo}</div>
-                  </td>
-                  <td>
-                    <div className="pl-2">{td?.driverName}</div>
-                  </td>
-                  <td>
-                    <div className="pl-2">{td?.cameFrom}</div>
-                  </td>
-                  <td className="text-center">
-                    {_dateFormatter(td?.inDateTime)}
-                  </td>
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+              <thead>
+                <tr>
+                  <th style={{ width: '50px' }}>Sl</th>
+                  <th>Vehicle No</th>
+                  <th>Driver Name</th>
+                  <th>Came From</th>
+                  <th>Entry Date</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-         </div>
+              </thead>
+              <tbody>
+                {gridData?.map((td, index) => (
+                  <tr key={index}>
+                    <td className="text-center"> {index + 1} </td>
+                    <td>
+                      <div className="pl-2">{td?.vehicleNo}</div>
+                    </td>
+                    <td>
+                      <div className="pl-2">{td?.driverName}</div>
+                    </td>
+                    <td>
+                      <div className="pl-2">{td?.cameFrom}</div>
+                    </td>
+                    <td className="text-center">
+                      {_dateFormatter(td?.inDateTime)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
         {gridData?.length > 0 && (
           <PaginationTable

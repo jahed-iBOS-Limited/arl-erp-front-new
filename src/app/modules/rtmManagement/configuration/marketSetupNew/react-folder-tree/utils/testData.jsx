@@ -128,8 +128,4 @@ const initializedTestData = {
   ],
 };
 
-export {
-  testData,
-  testDataWithId,
-  initializedTestData,
-};
+export { testData, testDataWithId, initializedTestData };

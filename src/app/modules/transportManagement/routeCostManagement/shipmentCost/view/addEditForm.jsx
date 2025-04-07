@@ -1,33 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   GetFuelConstInfoById_api,
   GetPartnerShippingInformation_api,
   getShipmentByID,
-} from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import { GetShipToPartnerDistanceByShipmentId_api } from "./../helper";
-import Form from "./form";
+} from '../helper';
+import Loading from './../../../../_helper/_loading';
+import { GetShipToPartnerDistanceByShipmentId_api } from './../helper';
+import Form from './form';
 
 const initData = {
-  vehicleNo: "",
-  driverName: "",
-  routeName: "",
-  distanceKm: "",
-  shipmentDate: "",
-  startMillage: "",
-  endMillage: "",
-  totalStandardCost: "",
-  advanceAmount: "",
-  totalActualCost: "",
-  costComponent: "",
+  vehicleNo: '',
+  driverName: '',
+  routeName: '',
+  distanceKm: '',
+  shipmentDate: '',
+  startMillage: '',
+  endMillage: '',
+  totalStandardCost: '',
+  advanceAmount: '',
+  totalActualCost: '',
+  costComponent: '',
 };
 
 export default function ShipmentCostViewForm({ id, values }) {
-  const [reset, setReset] = useState({ func: "" });
+  const [reset, setReset] = useState({ func: '' });
   const [isDisabled, setDisabled] = useState(true);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [fuleCost, setFuleCost] = useState([]);
   const [distanceKM, setDistanceKM] = useState([]);
   const [vehicleReant, setVehicleReant] = useState([]);
@@ -79,7 +79,6 @@ export default function ShipmentCostViewForm({ id, values }) {
         setDisabled,
       });
     }
-
   }, []);
 
   // if Report type panding

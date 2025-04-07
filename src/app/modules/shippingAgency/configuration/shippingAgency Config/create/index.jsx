@@ -1,33 +1,33 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import {
   createShippingAgency,
   getVesselDDL,
   getVesselTypeDDL,
   shippingAgencyValidation,
   updateShippingAgency,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  vesselType: "",
-  vessel: "",
-  costCenter: "",
-  transferCostCenter: "",
-  costElement: "",
-  transferBusinessUnit: "",
-  profitCenter: "",
-  transferProfitCenter: "",
-  businessTransaction: "",
-  revenueCenter: "",
-  revenueElement: "",
+  vesselType: '',
+  vessel: '',
+  costCenter: '',
+  transferCostCenter: '',
+  costElement: '',
+  transferBusinessUnit: '',
+  profitCenter: '',
+  transferProfitCenter: '',
+  businessTransaction: '',
+  revenueCenter: '',
+  revenueElement: '',
 };
 
 export default function ShippingAgencyCreateEditForm() {
@@ -62,18 +62,18 @@ export default function ShippingAgencyCreateEditForm() {
       const payload = {
         id: state?.id,
         vesselId: values?.vessel?.value || 0,
-        vesselName: values?.vessel?.label || "",
+        vesselName: values?.vessel?.label || '',
         vesselTypeId: values?.vesselType?.value || 0,
-        vesselTypeName: values?.vesselType?.label || "",
+        vesselTypeName: values?.vesselType?.label || '',
         profitCenterId: values?.profitCenter?.value || 0,
         revenueCenterId: values?.revenueCenter?.value || 0,
         revenueElementId: values?.revenueElement?.value || 0,
         transferBusinessId: values?.transferBusinessUnit?.value || 0,
         transferProfitCenterId: values?.transferProfitCenter?.value || 0,
         transferCostCenterId: values?.transferCostCenter?.value || 0,
-        transferCostCenterName: values?.transferCostCenter?.label || "",
+        transferCostCenterName: values?.transferCostCenter?.label || '',
         transferCostElementId: values?.costElement?.value || 0,
-        transferCostElementName: values?.costElement?.label || "",
+        transferCostElementName: values?.costElement?.label || '',
         actionById: userId,
         businessTransactionId: values?.businessTransaction?.value || 0,
         businessTransactionName: values?.businessTransaction?.label,
@@ -100,14 +100,14 @@ export default function ShippingAgencyCreateEditForm() {
     );
 
     if (isRowAlreadyAdded) {
-      toast.warn("Duplicate Data");
+      toast.warn('Duplicate Data');
     } else {
       const data = {
         businessUnitId: buId,
         vesselId: values?.vessel?.value || 0,
-        vesselName: values?.vessel?.label || "",
+        vesselName: values?.vessel?.label || '',
         vesselTypeId: values?.vesselType?.value || 0,
-        vesselTypeName: values?.vesselType?.label || "",
+        vesselTypeName: values?.vesselType?.label || '',
         profitCenterId: values?.profitCenter?.value || 0,
         revenueCenterId: values?.revenueCenter?.value || 0,
         revenueElementId: values?.revenueElement?.value || 0,
@@ -116,9 +116,9 @@ export default function ShippingAgencyCreateEditForm() {
         costCenterId: values?.costCenter?.value,
         consCenterName: values?.costCenter?.label,
         transferCostCenterId: values?.transferCostCenter?.value || 0,
-        transferCostCenterName: values?.transferCostCenter?.label || "",
+        transferCostCenterName: values?.transferCostCenter?.label || '',
         transferCostElementId: values?.costElement?.value || 0,
-        transferCostElementName: values?.costElement?.label || "",
+        transferCostElementName: values?.costElement?.label || '',
         actionById: userId,
         businessTransactionId: values?.businessTransaction?.value || 0,
         businessTransactionName: values?.businessTransaction?.label,
@@ -146,8 +146,6 @@ export default function ShippingAgencyCreateEditForm() {
         `/costmgmt/Revenue/GetRevenueCenterDDL?accountId=${accId}&businessUnitId=${buId}`
       );
     }
-
-
   }, [buId, accId]);
   useEffect(() => {
     if (id && state) {
@@ -204,7 +202,6 @@ export default function ShippingAgencyCreateEditForm() {
         `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${state?.transferCostCenterId}&businessUnitId=${state?.transferBusinessId}&employeeId=0`
       );
     }
-
   }, [id, state]);
   return (
     <Formik
@@ -213,7 +210,7 @@ export default function ShippingAgencyCreateEditForm() {
       validationSchema={shippingAgencyValidation}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         if (rowData?.length < 1 && !id) {
-          toast.warn("Add minimum one item");
+          toast.warn('Add minimum one item');
         } else {
           saveHandler(values, () => {
             resetForm(initData);
@@ -233,7 +230,7 @@ export default function ShippingAgencyCreateEditForm() {
         <>
           {loading && <Loading />}
           <IForm
-            title={` Shipping Agency ${!id ? "Create" : ""}`}
+            title={` Shipping Agency ${!id ? 'Create' : ''}`}
             getProps={setObjprops}
           >
             <Form>
@@ -245,7 +242,7 @@ export default function ShippingAgencyCreateEditForm() {
                     value={values?.vesselType}
                     label="Vessel Type"
                     onChange={(valueOption) => {
-                      setFieldValue("vesselType", valueOption);
+                      setFieldValue('vesselType', valueOption);
                     }}
                     isDisabled={id}
                     errors={errors}
@@ -259,7 +256,7 @@ export default function ShippingAgencyCreateEditForm() {
                     value={values?.vessel}
                     label="Vessel Name"
                     onChange={(valueOption) => {
-                      setFieldValue("vessel", valueOption);
+                      setFieldValue('vessel', valueOption);
                     }}
                     isDisabled={id}
                     errors={errors}
@@ -280,8 +277,8 @@ export default function ShippingAgencyCreateEditForm() {
                     value={values?.revenueCenter}
                     label="Revenue Center"
                     onChange={(valueOption) => {
-                      setFieldValue("revenueElement", "");
-                      setFieldValue("revenueCenter", valueOption);
+                      setFieldValue('revenueElement', '');
+                      setFieldValue('revenueCenter', valueOption);
                       if (!valueOption) return;
                       getRevenueElementDDL(
                         `/costmgmt/Revenue/GetRevenueElementDDL?accountId=${accId}&businessUnitId=${buId}&revenueCenterId=0`
@@ -298,7 +295,7 @@ export default function ShippingAgencyCreateEditForm() {
                     value={values?.revenueElement}
                     label="Revenue Element"
                     onChange={(valueOption) => {
-                      setFieldValue("revenueElement", valueOption);
+                      setFieldValue('revenueElement', valueOption);
                     }}
                     isDisabled={!values?.revenueCenter}
                     errors={errors}
@@ -314,8 +311,8 @@ export default function ShippingAgencyCreateEditForm() {
                     label="Cost Center"
                     placeholder="Cost Center"
                     onChange={(valueOption) => {
-                      setFieldValue("profitCenter", "");
-                      setFieldValue("costCenter", valueOption);
+                      setFieldValue('profitCenter', '');
+                      setFieldValue('costCenter', valueOption);
                       if (!valueOption) return;
                       getProfitCenterDDL(
                         `costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value}&businessUnitId=${buId}&employeeId=0`
@@ -333,7 +330,7 @@ export default function ShippingAgencyCreateEditForm() {
                     value={values?.profitCenter}
                     label="Profit Center"
                     onChange={(valueOption) => {
-                      setFieldValue("profitCenter", valueOption);
+                      setFieldValue('profitCenter', valueOption);
                     }}
                     isDisabled={!values?.costCenter}
                     errors={errors}
@@ -347,8 +344,8 @@ export default function ShippingAgencyCreateEditForm() {
                     value={values?.transferBusinessUnit}
                     label="Transfer Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("transferCostCenter", "");
-                      setFieldValue("transferBusinessUnit", valueOption);
+                      setFieldValue('transferCostCenter', '');
+                      setFieldValue('transferBusinessUnit', valueOption);
                       if (!valueOption) return;
                       getTransferCostCenter(
                         `/costmgmt/CostCenter/GetCostCenterDDL?AccountId=${accId}&BusinessUnitId=${valueOption?.value}&SBUId=0`
@@ -367,9 +364,9 @@ export default function ShippingAgencyCreateEditForm() {
                     label="Transfer Cost Center"
                     placeholder="Transfer Cost Center"
                     onChange={(valueOption) => {
-                      setFieldValue("transferProfitCenter", "");
-                      setFieldValue("costElement", "");
-                      setFieldValue("transferCostCenter", valueOption);
+                      setFieldValue('transferProfitCenter', '');
+                      setFieldValue('costElement', '');
+                      setFieldValue('transferCostCenter', valueOption);
                       if (!valueOption) return;
                       getConstElementDDL(
                         `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accId}&UnitId=${values?.transferBusinessUnit?.value}&CostCenterId=${valueOption?.value}`
@@ -389,7 +386,7 @@ export default function ShippingAgencyCreateEditForm() {
                     value={values?.transferProfitCenter}
                     label="Transfer Profit Center"
                     onChange={(valueOption) => {
-                      setFieldValue("transferProfitCenter", valueOption);
+                      setFieldValue('transferProfitCenter', valueOption);
                     }}
                     isDisabled={!values?.transferCostCenter}
                     errors={errors}
@@ -404,7 +401,7 @@ export default function ShippingAgencyCreateEditForm() {
                     value={values?.costElement}
                     label="Transfer Cost Element"
                     onChange={(valueOption) => {
-                      setFieldValue("costElement", valueOption);
+                      setFieldValue('costElement', valueOption);
                     }}
                     isDisabled={!values?.transferCostCenter}
                     errors={errors}
@@ -418,7 +415,7 @@ export default function ShippingAgencyCreateEditForm() {
                     value={values?.businessTransaction}
                     label="Business Transaction"
                     onChange={(valueOption) => {
-                      setFieldValue("businessTransaction", valueOption);
+                      setFieldValue('businessTransaction', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -493,14 +490,14 @@ export default function ShippingAgencyCreateEditForm() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit(resetForm)}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

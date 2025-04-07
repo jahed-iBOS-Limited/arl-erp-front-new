@@ -58,7 +58,7 @@ export default function Header({
                     profileData?.accountId,
                     selectedBusinessUnit?.value,
                     setVesselDDL,
-                    valueOption?.value === 2 ? 2 : '',
+                    valueOption?.value === 2 ? 2 : ''
                   );
                 }
               }}
@@ -113,14 +113,14 @@ export default function Header({
                     `${imarineBaseUrl}/domain/Voyage/CurrentVoyageNo?BusinessUnitId=${selectedBusinessUnit?.value}&VesselId=${valueOption?.value}&HireTypeId=${values?.hireType?.value}`,
                     (res) => {
                       setFieldValue('currentVoyageNo', res || '');
-                    },
+                    }
                   );
                 }
                 if (values?.hireType?.value === 1) {
                   GetOwnerVesselCharterVoyageID(
                     valueOption?.value,
                     setFieldValue,
-                    setLoading,
+                    setLoading
                   );
                 }
               }}
@@ -187,7 +187,7 @@ export default function Header({
                 setFieldValue('startDate', e.target.value);
                 setFieldValue(
                   'voyageDuration',
-                  getDifference(e.target.value, values?.completionDate),
+                  getDifference(e.target.value, values?.completionDate)
                 );
 
                 /* Func For Total Amount Value Handler */
@@ -196,10 +196,10 @@ export default function Header({
                     ...values,
                     voyageDuration: getDifference(
                       e.target.value,
-                      values?.completionDate,
+                      values?.completionDate
                     ),
                   },
-                  setFieldValue,
+                  setFieldValue
                 );
               }}
               type="datetime-local"
@@ -225,7 +225,7 @@ export default function Header({
                 setFieldValue('completionDate', e.target.value);
                 setFieldValue(
                   'voyageDuration',
-                  getDifference(values?.startDate, e.target.value),
+                  getDifference(values?.startDate, e.target.value)
                 );
 
                 /* Func For Total Amount Value Handler */
@@ -234,10 +234,10 @@ export default function Header({
                     ...values,
                     voyageDuration: getDifference(
                       values?.startDate,
-                      e.target.value,
+                      e.target.value
                     ),
                   },
-                  setFieldValue,
+                  setFieldValue
                 );
               }}
               type="datetime-local"

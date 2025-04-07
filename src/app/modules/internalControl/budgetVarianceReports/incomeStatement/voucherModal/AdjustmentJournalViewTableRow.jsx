@@ -1,15 +1,15 @@
-import { Formik, Form as FormikForm } from "formik";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import findIndex from "../../../../_helper/_findIndex";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import Loading from "../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import NotPermittedPage from "../../../../_helper/notPermitted/NotPermittedPage";
-import { getAdjustmentJournalView } from "../helper";
+import { Formik, Form as FormikForm } from 'formik';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import findIndex from '../../../../_helper/_findIndex';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import Loading from '../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import NotPermittedPage from '../../../../_helper/notPermitted/NotPermittedPage';
+import { getAdjustmentJournalView } from '../helper';
 export function AdjustmentJournalViewTableRow({ id, typeId }) {
   const [loading, setLoading] = useState(false);
   const [adjustmentReport, setAdjustmentReport] = useState([]);
@@ -42,7 +42,7 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
     //   return data?.businessPartnerName
     // }
     if (data?.generalLedgerName && data?.businessPartnerName) {
-      return data?.generalLedgerName + "(" + data?.businessPartnerName + ")";
+      return data?.generalLedgerName + '(' + data?.businessPartnerName + ')';
     } else {
       return data?.generalLedgerName;
     }
@@ -70,7 +70,7 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
     return { totalCredit, totalDebit };
   }, [adjustmentReport]);
 
-  const adjustmentJournal = userRole[findIndex(userRole, "Adjustment Journal")];
+  const adjustmentJournal = userRole[findIndex(userRole, 'Adjustment Journal')];
   if (!adjustmentJournal?.isView) return <NotPermittedPage />;
 
   return (
@@ -129,7 +129,7 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
                       </div>
                       <div className="my-3 d-flex justify-content-between">
                         <div>
-                          <span className="font-weight-bold mr-2"></span>{" "}
+                          <span className="font-weight-bold mr-2"></span>{' '}
                         </div>
                         <div>
                           <div>
@@ -173,10 +173,10 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
                                 <td className="text-left">{data?.subGLName}</td>
                                 <td>
                                   {data?.costRevenueName +
-                                    " " +
+                                    ' ' +
                                     data?.elementName}
                                 </td>
-                                {data?.debitCredit === "Debit" ? (
+                                {data?.debitCredit === 'Debit' ? (
                                   <td>
                                     <div className="text-right pr-2">
                                       {selectedBusinessUnit?.value === 102
@@ -186,9 +186,9 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
                                     </div>
                                   </td>
                                 ) : (
-                                  <td>{""}</td>
+                                  <td>{''}</td>
                                 )}
-                                {data?.debitCredit === "Credit" ? (
+                                {data?.debitCredit === 'Credit' ? (
                                   <td>
                                     <div className="text-right pr-2">
                                       {selectedBusinessUnit?.value === 102
@@ -198,7 +198,7 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
                                     </div>
                                   </td>
                                 ) : (
-                                  <td>{""}</td>
+                                  <td>{''}</td>
                                 )}
                               </tr>
                             ))}
@@ -245,10 +245,10 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
                                 <td className="text-left">{data?.subGLName}</td>
                                 <td>
                                   {data?.costRevenueName +
-                                    " " +
+                                    ' ' +
                                     data?.elementName}
                                 </td>
-                                {data?.debitCredit === "Debit" ? (
+                                {data?.debitCredit === 'Debit' ? (
                                   <td>
                                     <div className="text-right pr-2">
                                       {selectedBusinessUnit?.value === 102
@@ -258,9 +258,9 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
                                     </div>
                                   </td>
                                 ) : (
-                                  <td>{""}</td>
+                                  <td>{''}</td>
                                 )}
-                                {data?.debitCredit === "Credit" ? (
+                                {data?.debitCredit === 'Credit' ? (
                                   <td>
                                     <div className="text-right pr-2">
                                       {selectedBusinessUnit?.value === 102
@@ -270,7 +270,7 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
                                     </div>
                                   </td>
                                 ) : (
-                                  <td>{""}</td>
+                                  <td>{''}</td>
                                 )}
                               </tr>
                             ))}
@@ -299,7 +299,7 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
                       <div className="mt-5">
                         <div className="d-flex">
                           <p className="font-weight-bold mr-2">
-                            Sum Of Taka :{" "}
+                            Sum Of Taka :{' '}
                           </p>
                           <p>{adjustmentReport?.objHeader?.amount}</p>
                         </div>
@@ -309,7 +309,7 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
                         </div>
                         <div className="d-flex">
                           <p className="font-weight-bold mr-2">
-                            Description :{" "}
+                            Description :{' '}
                           </p>
                           <p>{adjustmentReport?.objHeader?.narration}</p>
                         </div>

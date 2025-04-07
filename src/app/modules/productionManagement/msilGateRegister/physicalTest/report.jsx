@@ -1,19 +1,18 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "./../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from './../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  shift: "",
-  vrmName: "",
+  shift: '',
+  vrmName: '',
 };
 export default function PhysicalTestReport() {
   const [landingData, getLandingData, loading] = useAxiosGet();
@@ -27,7 +26,6 @@ export default function PhysicalTestReport() {
     getMachineList(
       `/hcm/QCTest/GetTransactionMachineNameDDL?BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [selectedBusinessUnit]);
   const saveHandler = (values, cb) => {};
 
@@ -65,7 +63,7 @@ export default function PhysicalTestReport() {
                       placeholder="From Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -76,7 +74,7 @@ export default function PhysicalTestReport() {
                       name="toDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
@@ -84,14 +82,14 @@ export default function PhysicalTestReport() {
                     <NewSelect
                       name="shift"
                       options={[
-                        { value: "1", label: "A" },
-                        { value: "2", label: "B" },
-                        { value: "3", label: "C" },
+                        { value: '1', label: 'A' },
+                        { value: '2', label: 'B' },
+                        { value: '3', label: 'C' },
                       ]}
                       value={values?.shift}
                       label="Shift"
                       onChange={(valueOption) => {
-                        setFieldValue("shift", valueOption);
+                        setFieldValue('shift', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -104,7 +102,7 @@ export default function PhysicalTestReport() {
                       value={values?.vrmName}
                       label="VRM Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vrmName", valueOption);
+                        setFieldValue('vrmName', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -117,22 +115,22 @@ export default function PhysicalTestReport() {
                       onClick={() => {
                         const FromDate = values?.fromDate
                           ? `&FromDate=${values?.fromDate}`
-                          : "";
+                          : '';
                         const ToDate = values?.toDate
                           ? `&Todate=${values?.toDate}`
-                          : "";
+                          : '';
                         const ShiftName = values?.shift
                           ? `&ShiftName=${values?.shift?.label}`
-                          : "";
+                          : '';
                         const MachineName = values?.vrmName
                           ? `&MachineName=${values?.vrmName?.label}`
-                          : "";
+                          : '';
 
                         getLandingData(
                           `/hcm/QCTest/DailyPhysicalTestReport?BusinessUnitId=${selectedBusinessUnit?.value}&QcTestType=PhysicalTest${FromDate}${ToDate}${ShiftName}${MachineName}`
                         );
                       }}
-                      style={{ marginTop: "17px" }}
+                      style={{ marginTop: '17px' }}
                       className="btn btn-primary ml-5"
                     >
                       View

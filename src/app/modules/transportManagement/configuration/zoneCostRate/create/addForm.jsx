@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useParams } from 'react-router-dom';
 import {
   createZoneCostSetup,
   editZoneCostSetup,
@@ -11,14 +11,14 @@ import {
   getShipPointDDL,
   getIsSubsidyRunningApi,
   getIsAmountOrDistanceBase,
-} from "../helper";
-import Loading from "../../../../_helper/_loading";
-import { toast } from "react-toastify";
+} from '../helper';
+import Loading from '../../../../_helper/_loading';
+import { toast } from 'react-toastify';
 
 const initData = {
-  checkPostName: "",
-  zone: "",
-  shipPoint: "",
+  checkPostName: '',
+  zone: '',
+  shipPoint: '',
   num1TonRate: 0,
   num1point5TonRate: 0,
   num2TonRate: 0,
@@ -27,7 +27,7 @@ const initData = {
   num7tonRate: 0,
   num14TonRate: 0,
   num20TonRate: 0,
-  distanceKm: "",
+  distanceKm: '',
   additionalAmount: 0,
   handlingCost: 0,
   labourCost: 0,
@@ -35,10 +35,10 @@ const initData = {
   isAmountBase: false, // Checkbox
   isAmountBase2: true, // Checkbox
   isSlabProgram: false, // Checkbox
-  rangeFrom: "",
-  rangeTo: "",
-  slabRate: "",
-  categoryName: "",
+  rangeFrom: '',
+  rangeTo: '',
+  slabRate: '',
+  categoryName: '',
   subsidiaryRate: 0,
 };
 
@@ -46,7 +46,7 @@ export default function ZoneCostRateForm() {
   const [isSubsidyRunning, setIsSubsidyRunning] = useState(false);
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [objProps, setObjprops] = useState({});
   const [rows, setRows] = useState([]);
   const params = useParams();
@@ -69,7 +69,6 @@ export default function ZoneCostRateForm() {
         setDisabled
       );
     }
-
   }, [params]);
 
   useEffect(() => {
@@ -77,7 +76,6 @@ export default function ZoneCostRateForm() {
     getZoneDDL(accId, buId, setZoneDDL);
     getShipPointDDL(accId, buId, setShipPointDDL);
     getIsAmountOrDistanceBase(buId, setIsAmountOrDistanceBase);
-
   }, [accId, buId]);
 
   const addRows = (values, setFieldValue) => {
@@ -88,9 +86,9 @@ export default function ZoneCostRateForm() {
       categoryName,
       // isAmountBase2,
     } = values;
-    if (!rangeFrom) return toast.error("Please enter Range From");
-    if (!rangeTo) return toast.error("Please enter Range To");
-    if (!slabRate) return toast.error("Please enter Slab Rate");
+    if (!rangeFrom) return toast.error('Please enter Range From');
+    if (!rangeTo) return toast.error('Please enter Range To');
+    if (!slabRate) return toast.error('Please enter Slab Rate');
     const row = {
       slabRateId: 0,
       zoneCostId: 0,
@@ -98,16 +96,16 @@ export default function ZoneCostRateForm() {
       rangeFrom: rangeFrom,
       rangeTo: rangeTo,
       slabRate: slabRate,
-      categoryName: buId === 171 || buId === 224 ? categoryName?.label : categoryName,
-      isAmountBase:isAmountOrDistanceBase?.isAmountBase,
-      isDistanceBase:isAmountOrDistanceBase?.isDistanceBase,
-
+      categoryName:
+        buId === 171 || buId === 224 ? categoryName?.label : categoryName,
+      isAmountBase: isAmountOrDistanceBase?.isAmountBase,
+      isDistanceBase: isAmountOrDistanceBase?.isDistanceBase,
     };
     setRows([...rows, row]);
-    setFieldValue("rangeFrom", "");
-    setFieldValue("rangeTo", "");
-    setFieldValue("slabRate", "");
-    setFieldValue("categoryName", "");
+    setFieldValue('rangeFrom', '');
+    setFieldValue('rangeTo', '');
+    setFieldValue('slabRate', '');
+    setFieldValue('categoryName', '');
     // setFieldValue("isAmountBase2", true);
   };
 
@@ -118,7 +116,7 @@ export default function ZoneCostRateForm() {
 
   const saveHandler = async (values, cb) => {
     if (isAmountOrDistanceBase?.isAmountBase === null) {
-      return toast.error("Business unit operation not configured!");
+      return toast.error('Business unit operation not configured!');
     }
     if (accId && buId) {
       const payload = {
@@ -156,7 +154,7 @@ export default function ZoneCostRateForm() {
         rateSalbs: rows,
       };
       if (values?.isSlabProgram && rows?.length < 1) {
-        return toast.warn("Please add at least one row");
+        return toast.warn('Please add at least one row');
       } else if (params?.id) {
         editZoneCostSetup(payload, setDisabled);
       } else {
@@ -167,7 +165,7 @@ export default function ZoneCostRateForm() {
 
   return (
     <IForm
-      title={"Create Zone Cost Rate"}
+      title={'Create Zone Cost Rate'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenReset={params?.viewId}

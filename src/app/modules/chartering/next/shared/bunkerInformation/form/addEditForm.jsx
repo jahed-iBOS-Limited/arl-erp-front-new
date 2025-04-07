@@ -1,51 +1,50 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 import {
   GetItemInfoFromPurchase,
   getPreBORInformationByVoyageId,
   saveBunkerInformation,
-} from "../helper";
-import { useLocation, useHistory } from "react-router-dom";
+} from '../helper';
+import { useLocation, useHistory } from 'react-router-dom';
 // import { _todayDate } from "../../../../_chartinghelper/_todayDate";
-import Loading from "../../../../_chartinghelper/loading/_loading";
+import Loading from '../../../../_chartinghelper/loading/_loading';
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
-  voyageType: "",
-  bodLsmgoQty: "",
-  bodLsfo1Qty: "",
-  bodLsfo2Qty: "",
-  borLsmgoQty: "",
-  borLsfo1Qty: "",
-  borLsfo2Qty: "",
-  adjustmentLsmgoQty: "",
-  adjustmentLsfo1Qty: "",
-  adjustmentLsfo2Qty: "",
-  bunkerSaleLsmgoQty: "",
-  bunkerSaleLsmgoRate: "",
-  bunkerSaleLsmgoValue: "",
-  bunkerSaleLsfo1Qty: "",
-  bunkerSaleLsfo1Rate: "",
-  bunkerSaleLsfo1Value: "",
-  bunkerSaleLsfo2Qty: "",
-  bunkerSaleLsfo2Rate: "",
-  bunkerSaleLsfo2Value: "",
-  consumptionLsmgoQty: "",
-  consumptionLsfo1Qty: "",
-  consumptionLsfo2Qty: "",
-  bunkerPurchaseLsmgoQty: "",
-  bunkerPurchaseLsmgoRate: "",
-  bunkerPurchaseLsmgoValue: "",
-  bunkerPurchaseLsfo1Qty: "",
-  bunkerPurchaseLsfo1Rate: "",
-  bunkerPurchaseLsfo1Value: "",
-  bunkerPurchaseLsfo2Qty: "",
-  bunkerPurchaseLsfo2Rate: "",
-  bunkerPurchaseLsfo2Value: "",
-  hireType: "",
+  vesselName: '',
+  voyageNo: '',
+  voyageType: '',
+  bodLsmgoQty: '',
+  bodLsfo1Qty: '',
+  bodLsfo2Qty: '',
+  borLsmgoQty: '',
+  borLsfo1Qty: '',
+  borLsfo2Qty: '',
+  adjustmentLsmgoQty: '',
+  adjustmentLsfo1Qty: '',
+  adjustmentLsfo2Qty: '',
+  bunkerSaleLsmgoQty: '',
+  bunkerSaleLsmgoRate: '',
+  bunkerSaleLsmgoValue: '',
+  bunkerSaleLsfo1Qty: '',
+  bunkerSaleLsfo1Rate: '',
+  bunkerSaleLsfo1Value: '',
+  bunkerSaleLsfo2Qty: '',
+  bunkerSaleLsfo2Rate: '',
+  bunkerSaleLsfo2Value: '',
+  consumptionLsmgoQty: '',
+  consumptionLsfo1Qty: '',
+  consumptionLsfo2Qty: '',
+  bunkerPurchaseLsmgoQty: '',
+  bunkerPurchaseLsmgoRate: '',
+  bunkerPurchaseLsmgoValue: '',
+  bunkerPurchaseLsfo1Qty: '',
+  bunkerPurchaseLsfo1Rate: '',
+  bunkerPurchaseLsfo1Value: '',
+  bunkerPurchaseLsfo2Qty: '',
+  bunkerPurchaseLsfo2Rate: '',
+  bunkerPurchaseLsfo2Value: '',
+  hireType: '',
 };
 
 export default function NextBunkerInfoForm() {
@@ -63,7 +62,7 @@ export default function NextBunkerInfoForm() {
   }, shallowEqual);
 
   useEffect(() => {
-    if (preData?.voyageNo?.label !== "1") {
+    if (preData?.voyageNo?.label !== '1') {
       getPreBORInformationByVoyageId(
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -127,7 +126,7 @@ export default function NextBunkerInfoForm() {
       cb();
       history.push({
         pathname: `/chartering/next/${
-          preData?.voyageType?.value === 1 ? "ballastPassage" : "bunkerCost"
+          preData?.voyageType?.value === 1 ? 'ballastPassage' : 'bunkerCost'
         }`,
         state: preData,
       });
@@ -242,9 +241,9 @@ export default function NextBunkerInfoForm() {
       values?.bodLsfo2Qty +
       values?.adjustmentLsfo2Qty -
       values?.borLsfo2Qty;
-    setFieldValue("consumptionLsmgoQty", lsmgoConsumption);
-    setFieldValue("consumptionLsfo1Qty", lsfo1Consumption);
-    setFieldValue("consumptionLsfo2Qty", lsfo2Consumption);
+    setFieldValue('consumptionLsmgoQty', lsmgoConsumption);
+    setFieldValue('consumptionLsfo1Qty', lsfo1Consumption);
+    setFieldValue('consumptionLsfo2Qty', lsfo2Consumption);
     setIsCalculated(true);
   };
 

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, shallowEqual } from 'react-redux'
-import Form from './form'
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 
-import IForm from '../../../../_helper/_form'
-import Loading from './../../../../_helper/_loading'
-import { CreateBankBranch_api } from '../helper'
+import IForm from '../../../../_helper/_form';
+import Loading from './../../../../_helper/_loading';
+import { CreateBankBranch_api } from '../helper';
 
 const initData = {
   id: undefined,
@@ -13,26 +13,25 @@ const initData = {
   branchCode: '',
   routingNo: '',
   branchAddress: '',
-}
+};
 
 export default function BankBranchForm() {
-  const [isDisabled, setDisabled] = useState(false)
-  const [objProps, setObjprops] = useState({})
+  const [isDisabled, setDisabled] = useState(false);
+  const [objProps, setObjprops] = useState({});
   // get user profile data from store
   const profileData = useSelector((state) => {
-    return state.authData.profileData
-  }, shallowEqual)
+    return state.authData.profileData;
+  }, shallowEqual);
   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit
-  }, shallowEqual)
+    return state.authData.selectedBusinessUnit;
+  }, shallowEqual);
 
   //Dispatch Get emplist action for get emplist ddl
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
     }
-
-  }, [selectedBusinessUnit, profileData])
+  }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
@@ -46,12 +45,12 @@ export default function BankBranchForm() {
         bankCode: values?.bankDDL?.code,
         actionBy: profileData?.userId,
         routingNo: values?.routingNo,
-      }
-      CreateBankBranch_api({ data: payload, cb, setDisabled })
+      };
+      CreateBankBranch_api({ data: payload, cb, setDisabled });
     } else {
-      console.log(values)
+      console.log(values);
     }
-  }
+  };
 
   return (
     <IForm
@@ -68,5 +67,5 @@ export default function BankBranchForm() {
         selectedBusinessUnit={selectedBusinessUnit}
       />
     </IForm>
-  )
+  );
 }

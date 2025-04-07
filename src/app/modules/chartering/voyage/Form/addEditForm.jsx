@@ -1,80 +1,79 @@
-
-import React, { useEffect, useState } from "react";
-import moment from "moment";
-import { confirmAlert } from "react-confirm-alert";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import moment from 'moment';
+import { confirmAlert } from 'react-confirm-alert';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
   getBrokerDDL,
   getCargoDDL,
   getCharterPartyDDL,
   GetPortDDL,
-} from "../../helper";
-import Loading from "../../_chartinghelper/loading/_loading";
-import { _todayDate } from "../../_chartinghelper/_todayDate";
+} from '../../helper';
+import Loading from '../../_chartinghelper/loading/_loading';
+import { _todayDate } from '../../_chartinghelper/_todayDate';
 import {
   createVoyage,
   editVoyage,
   editVoyageTimeCharterer,
   getBusinessPartnerType,
   getVoyageById,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 import {
   previousDataMaker,
   timeChartererEditPayloadMaker,
   timeChartererSavePayloadMaker,
   voyageChartererEditPayloadMaker,
   voyageChartererSavePayloadMaker,
-} from "./utils";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+} from './utils';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 const date = new Date();
 
 const initData = {
-  startDate: moment(date).format("YYYY-MM-DD HH:mm"),
-  completionDate: "",
+  startDate: moment(date).format('YYYY-MM-DD HH:mm'),
+  completionDate: '',
   // completionDate: moment(date).format("YYYY-MM-DDTHH:mm"),
-  voyageDuration: "",
-  hireType: "",
-  vesselName: "",
-  voyageType: "",
-  currentVoyageNo:"",
-  chartererVoyageCode: "",
-  businessPartnerName: "",
-  businessPartnerType: "",
-  charterName: "",
-  brokerName: "",
-  brokerCommission: "",
-  addressCommission: "",
-  startPort: "",
-  endPort: "",
+  voyageDuration: '',
+  hireType: '',
+  vesselName: '',
+  voyageType: '',
+  currentVoyageNo: '',
+  chartererVoyageCode: '',
+  businessPartnerName: '',
+  businessPartnerType: '',
+  charterName: '',
+  brokerName: '',
+  brokerCommission: '',
+  addressCommission: '',
+  startPort: '',
+  endPort: '',
   cpDate: _todayDate(),
   layCanFrom: _todayDate(),
   layCanTo: _todayDate(),
-  lsmgoPrice: "",
-  lsifoPrice: "",
-  iloch: "",
-  cve30Days: "",
-  dailyHire: "",
-  ap: "",
-  others: "",
-  totalAmount: "",
-  dueAmount: "",
+  lsmgoPrice: '',
+  lsifoPrice: '',
+  iloch: '',
+  cve30Days: '',
+  dailyHire: '',
+  ap: '',
+  others: '',
+  totalAmount: '',
+  dueAmount: '',
 
-  demurrageRate: "",
-  despatchRate: "",
-  deadFreightDetention: "",
-  cargoName: "",
+  demurrageRate: '',
+  despatchRate: '',
+  deadFreightDetention: '',
+  cargoName: '',
 
   // new fields
-  freightPercentage: "",
-  detention: "",
+  freightPercentage: '',
+  detention: '',
 
-  deliveryDate: "",
-  reDeliveryDate: "",
+  deliveryDate: '',
+  reDeliveryDate: '',
 };
 
 export default function VoyageForm() {
@@ -98,8 +97,8 @@ export default function VoyageForm() {
   const [fileObjects, setFileObjects] = useState([]);
   const [uploadedFile, setUploadedFile] = useState([]);
   const [cpList, setCPList] = useState([]);
-  const [currentVoyageNo, getCurrentVoyageNo, , setCurrentVoyageNo] = useAxiosGet()
-
+  const [currentVoyageNo, getCurrentVoyageNo, , setCurrentVoyageNo] =
+    useAxiosGet();
 
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -110,11 +109,11 @@ export default function VoyageForm() {
   const SuccessPopup = (props) => {
     const { values, resData } = props;
     return confirmAlert({
-      title: "Success",
+      title: 'Success',
       message: resData?.message,
       buttons: [
         {
-          label: "Next",
+          label: 'Next',
           onClick: () => {
             history.push({
               pathname: `/chartering/next/bunkerInformation`,
@@ -139,8 +138,6 @@ export default function VoyageForm() {
     getCargoDDL(setCargoDDL);
     getBrokerDDL(setBrokerDDL);
     getByIdCalled();
-
-
   }, [profileData, selectedBusinessUnit, id]);
 
   const getByIdCalled = () => {
@@ -159,9 +156,9 @@ export default function VoyageForm() {
   const saveHandler = (values, cb) => {
     if (!id) {
       /* Create Part */
-      if(currentVoyageNo && +values?.currentVoyageNo < +currentVoyageNo){
-        return toast.warn(`You cann't input less than ${currentVoyageNo}`)
-       }
+      if (currentVoyageNo && +values?.currentVoyageNo < +currentVoyageNo) {
+        return toast.warn(`You cann't input less than ${currentVoyageNo}`);
+      }
       let payload;
       if (values?.voyageType?.value === 1) {
         payload = timeChartererSavePayloadMaker(
@@ -174,7 +171,7 @@ export default function VoyageForm() {
         );
       } else {
         if (chartererRowData?.length === 0) {
-          toast.warning("Please add at least one charterer");
+          toast.warning('Please add at least one charterer');
           return;
         }
         payload = voyageChartererSavePayloadMaker(
@@ -210,12 +207,12 @@ export default function VoyageForm() {
         editVoyageTimeCharterer(payload, setLoading);
       } else {
         if (chartererRowData?.length === 0) {
-          toast.warning("Please add at least one charterer");
+          toast.warning('Please add at least one charterer');
           return;
         }
-        if(currentVoyageNo && +values?.currentVoyageNo < +currentVoyageNo){
-          return toast.warn(`You cann't input less than ${currentVoyageNo}`)
-         }
+        if (currentVoyageNo && +values?.currentVoyageNo < +currentVoyageNo) {
+          return toast.warn(`You cann't input less than ${currentVoyageNo}`);
+        }
         payload = voyageChartererEditPayloadMaker(
           +id,
           values,
@@ -234,11 +231,11 @@ export default function VoyageForm() {
       {loading && <Loading />}
       <Form
         title={
-          type === "view"
-            ? "View Voyage"
-            : type === "edit"
-            ? "Edit Voyage"
-            : "Create Voyage"
+          type === 'view'
+            ? 'View Voyage'
+            : type === 'edit'
+              ? 'Edit Voyage'
+              : 'Create Voyage'
         }
         initData={id ? singleData : initData}
         saveHandler={saveHandler}

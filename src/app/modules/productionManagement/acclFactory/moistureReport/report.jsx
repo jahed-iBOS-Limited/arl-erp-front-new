@@ -1,14 +1,13 @@
-
-import { Form, Formik } from "formik";
-import React from "react";
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import InputField from "../../../_helper/_inputField";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import ReactHtmlTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import InputField from '../../../_helper/_inputField';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -19,12 +18,8 @@ export default function MoistureReport() {
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
-  const [
-    reportData,
-    getReportData,
-    reportDataLoader,
-    setReportData,
-  ] = useAxiosGet();
+  const [reportData, getReportData, reportDataLoader, setReportData] =
+    useAxiosGet();
   return (
     <Formik
       enableReinitialize={true}
@@ -57,7 +52,7 @@ export default function MoistureReport() {
                       type="date"
                       name="fromDate"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                         setReportData([]);
                       }}
                     />
@@ -69,7 +64,7 @@ export default function MoistureReport() {
                       type="date"
                       name="toDate"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                         setReportData([]);
                       }}
                     />
@@ -78,7 +73,7 @@ export default function MoistureReport() {
                     <button
                       type="button"
                       disabled={!values?.fromDate || !values?.toDate}
-                      style={{ marginTop: "17px" }}
+                      style={{ marginTop: '17px' }}
                       className="btn btn-primary"
                       onClick={() => {
                         getReportData(
@@ -95,9 +90,9 @@ export default function MoistureReport() {
                     <ReactHtmlTableToExcel
                       id="test-table-xls-button-att-reports"
                       className="btn btn-primary"
-                      table={"moisture-report-table"}
-                      filename={"moisture-report-table"}
-                      sheet={"moisture-report-table"}
+                      table={'moisture-report-table'}
+                      filename={'moisture-report-table'}
+                      sheet={'moisture-report-table'}
                       buttonText="Export Excel"
                     />
                   </div>
@@ -167,7 +162,7 @@ export default function MoistureReport() {
                                     </td>
                                   );
                                 })}
-                                <td>{item?.comments || "iuygfd"}</td>
+                                <td>{item?.comments || 'iuygfd'}</td>
                               </tr>
                             );
                           })}

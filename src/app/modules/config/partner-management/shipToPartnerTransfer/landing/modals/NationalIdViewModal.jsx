@@ -1,22 +1,19 @@
-import React from 'react'
-import IViewModal from '../../../../../_helper/_viewModal'
+import React from 'react';
+import IViewModal from '../../../../../_helper/_viewModal';
 
-const NationalIdViewModal = ({show, onHide, nationalIdImg}) => {
+const NationalIdViewModal = ({ show, onHide, nationalIdImg }) => {
   return (
     <div>
-        <IViewModal
+      <IViewModal
         show={show}
         onHide={onHide}
-        title={"National ID"}
+        title={'National ID'}
         btnText="Close"
       >
-       <img
-          src={nationalIdImg ?? ""}
-          alt="National Id"
-        />
+        <img src={nationalIdImg ?? ''} alt="National Id" />
       </IViewModal>
     </div>
-  )
-}
+  );
+};
 
-export default NationalIdViewModal
+export default NationalIdViewModal;

@@ -1,15 +1,15 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { shallowEqual, useSelector } from "react-redux";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { shallowEqual, useSelector } from 'react-redux';
 
-import { _todayDate } from "./../../../../_helper/_todayDate";
+import { _todayDate } from './../../../../_helper/_todayDate';
 const initialValues = {
-  shipPoint: "",
+  shipPoint: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  reportType: "",
+  reportType: '',
 };
 export function SearchForm(props) {
   const { onSubmit, setGridData, shipmentCostLading } = props;
@@ -28,8 +28,8 @@ export function SearchForm(props) {
             ? shipmentCostLading?.reportType
             : {
                 value: false,
-                label: "Pending",
-              } || "",
+                label: 'Pending',
+              } || '',
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           onSubmit(values);
@@ -48,11 +48,11 @@ export function SearchForm(props) {
               <div className="col-lg-3">
                 <NewSelect
                   name="shipPoint"
-                  options={[{ value: 0, label: "All" }, ...ShippointDDL]}
+                  options={[{ value: 0, label: 'All' }, ...ShippointDDL]}
                   value={values?.shipPoint}
                   label="Shippoint"
                   onChange={(valueOption) => {
-                    setFieldValue("shipPoint", valueOption);
+                    setFieldValue('shipPoint', valueOption);
                     setGridData([]);
                   }}
                   placeholder="Shippoint"
@@ -67,18 +67,18 @@ export function SearchForm(props) {
                   options={[
                     {
                       value: false,
-                      label: "Pending",
+                      label: 'Pending',
                     },
                     {
                       value: true,
-                      label: "Bill Submit",
+                      label: 'Bill Submit',
                     },
                   ]}
                   value={values?.reportType}
                   label="Select Report"
                   onChange={(valueOption) => {
                     setGridData([]);
-                    setFieldValue("reportType", valueOption);
+                    setFieldValue('reportType', valueOption);
                   }}
                   placeholder="Report Type"
                   errors={errors}
@@ -114,7 +114,7 @@ export function SearchForm(props) {
                   }
                   type="submit"
                   class="btn btn-primary "
-                  style={{ marginTop: "18px" }}
+                  style={{ marginTop: '18px' }}
                   onSubmit={() => handleSubmit()}
                 >
                   View

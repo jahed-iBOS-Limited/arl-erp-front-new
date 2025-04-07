@@ -1,28 +1,28 @@
-import React, { useEffect } from "react";
-import { Form, Formik } from "formik";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
+import React, { useEffect } from 'react';
+import { Form, Formik } from 'formik';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "./../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
-import Loading from "./../../../_helper/_loading";
-import { _todayDate } from "./../../../_helper/_todayDate";
-import { useDispatch } from "react-redux";
-import IView from "../../../_helper/_helperIcons/_view";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+} from './../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
+import Loading from './../../../_helper/_loading';
+import { _todayDate } from './../../../_helper/_todayDate';
+import { useDispatch } from 'react-redux';
+import IView from '../../../_helper/_helperIcons/_view';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
 
 const initData = {
-  fromDate: "",
-  toDate: "",
-  businessUnit: "",
-  registrationNo: "",
-  applicationId: "",
+  fromDate: '',
+  toDate: '',
+  businessUnit: '',
+  registrationNo: '',
+  applicationId: '',
 };
 
 const ApprovedReport = () => {
@@ -35,8 +35,7 @@ const ApprovedReport = () => {
   };
 
   useEffect(() => {
-    getUnitNameDDL(generateAPI("UnitDDL"));
-
+    getUnitNameDDL(generateAPI('UnitDDL'));
   }, []);
 
   // landing
@@ -56,15 +55,14 @@ const ApprovedReport = () => {
   useEffect(() => {
     setRowDto(
       landingAPI(
-        "GetAllApproveDonationApplicationList",
+        'GetAllApproveDonationApplicationList',
         _todayDate(),
         _todayDate(),
         4,
-        "",
+        '',
         0
       )
     );
-
   }, []);
 
   return (
@@ -91,7 +89,7 @@ const ApprovedReport = () => {
             <Form className="form form-label-right">
               <Card>
                 <ModalProgressBar />
-                <CardHeader title={"Approved Report"}></CardHeader>
+                <CardHeader title={'Approved Report'}></CardHeader>
                 <CardBody>
                   <div className="mt-0">
                     <div className="form-group row global-form">
@@ -112,7 +110,7 @@ const ApprovedReport = () => {
                                 options={unitNameDDL || []}
                                 value={values?.businessUnit}
                                 onChange={(valueOption) => {
-                                  setFieldValue("businessUnit", valueOption);
+                                  setFieldValue('businessUnit', valueOption);
                                 }}
                                 placeholder="Unit Name"
                                 errors={errors}
@@ -197,15 +195,15 @@ const ApprovedReport = () => {
                             <button
                               type="button"
                               className="btn btn-primary"
-                              style={{ fontSize: "12px" }}
+                              style={{ fontSize: '12px' }}
                               onClick={() => {
                                 setRowDto(
                                   landingAPI(
-                                    "GetAllApproveDonationApplicationList",
+                                    'GetAllApproveDonationApplicationList',
                                     values?.fromDate,
                                     values?.toDate,
                                     values?.businessUnit?.value || 4,
-                                    values?.registrationNo || "",
+                                    values?.registrationNo || '',
                                     values?.applicationId || 0
                                   )
                                 );
@@ -224,7 +222,7 @@ const ApprovedReport = () => {
                           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                             <thead>
                               <tr>
-                                <th style={{ width: "20px" }}>SL</th>
+                                <th style={{ width: '20px' }}>SL</th>
                                 <th>Application Id</th>
                                 <th>Application Date</th>
                                 <th>Approved Date</th>
@@ -280,8 +278,8 @@ const ApprovedReport = () => {
                                   </td>
                                   <td
                                     style={{
-                                      verticalAlign: "middle",
-                                      textAlign: "center",
+                                      verticalAlign: 'middle',
+                                      textAlign: 'center',
                                     }}
                                   >
                                     <div className="">

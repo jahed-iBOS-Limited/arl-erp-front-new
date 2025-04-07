@@ -27,17 +27,16 @@ export default function ShippingInfoDetails({ obj }) {
     if (id) {
       getDeliveryShippingPrintInfoById(id);
       getTransportStatus(
-        `/oms/SalesInformation/sprTransportStatusByDeliveryId?intParid=${2}&intBusinessUnitId=${buId}&PKID=${id}`,
+        `/oms/SalesInformation/sprTransportStatusByDeliveryId?intParid=${2}&intBusinessUnitId=${buId}&PKID=${id}`
       );
     }
-
   }, [id, buId]);
 
   const getDeliveryShippingPrintInfoById = async (id) => {
     try {
       setLoading(true);
       const res = await Axios.get(
-        `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${id}`,
+        `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${id}`
       );
       if (res && res.data) {
         setSingleShippingPrintInfo(res.data);
@@ -80,7 +79,7 @@ export default function ShippingInfoDetails({ obj }) {
                     getData(values);
                     setOpen(false);
                   },
-                  true,
+                  true
                 );
               }
             : ''
@@ -155,9 +154,11 @@ export default function ShippingInfoDetails({ obj }) {
                   <br />
                   <b>
                     Pricing Date:{' '}
-                    {`${_dateFormatterTwo(
-                      shippingPrint?.objHeader?.pricingDate,
-                    ) || ''}`}
+                    {`${
+                      _dateFormatterTwo(
+                        shippingPrint?.objHeader?.pricingDate
+                      ) || ''
+                    }`}
                   </b>
 
                   <br />
@@ -171,7 +172,9 @@ export default function ShippingInfoDetails({ obj }) {
                 <div>
                   <b>
                     Delivery Date:{' '}
-                    {_dateFormatterTwo(shippingPrint?.objHeader?.shipmentDate)}{' '}
+                    {_dateFormatterTwo(
+                      shippingPrint?.objHeader?.shipmentDate
+                    )}{' '}
                   </b>{' '}
                   <br />
                   <b>
@@ -200,8 +203,9 @@ export default function ShippingInfoDetails({ obj }) {
                   <br />
                   <b>
                     Contact Info:{' '}
-                    {`${shippingPrint?.objHeader?.shipToPartnerContactNo ||
-                      ''}`}
+                    {`${
+                      shippingPrint?.objHeader?.shipToPartnerContactNo || ''
+                    }`}
                   </b>
                   {(buId === 171 || buId === 224) && (
                     <>

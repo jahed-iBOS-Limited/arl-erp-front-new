@@ -1,42 +1,42 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
 // import IClose from '../../../_helper/_helperIcons/_close';
 
 const initData = {
-  dteDate: "",
-  strShift: "",
-  intPowerConsumptionId: "",
-  intBusinessUnitId: "",
-  intConsumptionBusinessUnit: "",
-  strConsumptionBusinessUnitName: "",
-  startTime: "",
-  endTime: "",
-  numPreviousReading: "",
-  numPreviousReadingM1: "",
-  numPreviousReadingM2: "",
-  numPreviousReadingM3: "",
-  numPresentReading: "",
-  numPresentReadingM1: "",
-  numPresentReadingM2: "",
-  numPresentReadingM3: "",
-  numTotalConsumption: "",
-  numTotalConsumptionM1: "",
-  numTotalConsumptionM2: "",
-  numTotalConsumptionM3: "",
-  dteInsertDateTime: "",
-  intInsertBy: "",
-  dteLastActionDateTime: "",
+  dteDate: '',
+  strShift: '',
+  intPowerConsumptionId: '',
+  intBusinessUnitId: '',
+  intConsumptionBusinessUnit: '',
+  strConsumptionBusinessUnitName: '',
+  startTime: '',
+  endTime: '',
+  numPreviousReading: '',
+  numPreviousReadingM1: '',
+  numPreviousReadingM2: '',
+  numPreviousReadingM3: '',
+  numPresentReading: '',
+  numPresentReadingM1: '',
+  numPresentReadingM2: '',
+  numPresentReadingM3: '',
+  numTotalConsumption: '',
+  numTotalConsumptionM1: '',
+  numTotalConsumptionM2: '',
+  numTotalConsumptionM3: '',
+  dteInsertDateTime: '',
+  intInsertBy: '',
+  dteLastActionDateTime: '',
 };
 
 const PowerConsumptionAllSbuCreate = () => {
@@ -47,19 +47,11 @@ const PowerConsumptionAllSbuCreate = () => {
   const location = useLocation();
   const history = useHistory();
   const [modifyData, setModifyData] = useState(initData);
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-    setTableData,
-  ] = useAxiosGet();
+  const [tableData, getTableData, tableDataLoader, setTableData] =
+    useAxiosGet();
 
-  const [
-    detailsData,
-    getDetailsData,
-    detailsDataLoader,
-    setDetailsData,
-  ] = useAxiosGet();
+  const [detailsData, getDetailsData, detailsDataLoader, setDetailsData] =
+    useAxiosGet();
 
   const { profileData } = useSelector((state) => {
     return state.authData;
@@ -136,7 +128,7 @@ const PowerConsumptionAllSbuCreate = () => {
         numTotalConsumptionM3: values?.numTotalConsumptionM3 || null,
         dteInsertDateTime: _todayDate(),
         intInsertBy: profileData?.userId,
-        dteLastActionDateTime: "",
+        dteLastActionDateTime: '',
       },
     ];
     saveData(
@@ -194,8 +186,8 @@ const PowerConsumptionAllSbuCreate = () => {
     <IForm
       title={
         id
-          ? "Edit Power Consumption All SBU"
-          : "Create Power Consumption All SBU"
+          ? 'Edit Power Consumption All SBU'
+          : 'Create Power Consumption All SBU'
       }
       getProps={setObjprops}
     >
@@ -240,12 +232,12 @@ const PowerConsumptionAllSbuCreate = () => {
                         type="date"
                         onChange={(e) => {
                           if (e.target.value) {
-                            setFieldValue("dteDate", e.target.value);
-                            setFieldValue("intConsumptionBusinessUnit", "");
+                            setFieldValue('dteDate', e.target.value);
+                            setFieldValue('intConsumptionBusinessUnit', '');
                           } else {
-                            setFieldValue("dteDate", "");
-                            setFieldValue("strShift", "");
-                            setFieldValue("intConsumptionBusinessUnit", "");
+                            setFieldValue('dteDate', '');
+                            setFieldValue('strShift', '');
+                            setFieldValue('intConsumptionBusinessUnit', '');
                           }
                         }}
                         disabled={id}
@@ -255,9 +247,9 @@ const PowerConsumptionAllSbuCreate = () => {
                       <NewSelect
                         name="strShift"
                         options={[
-                          { value: "A", label: "A" },
-                          { value: "B", label: "B" },
-                          { value: "C", label: "C" },
+                          { value: 'A', label: 'A' },
+                          { value: 'B', label: 'B' },
+                          { value: 'C', label: 'C' },
                         ]}
                         value={values?.strShift}
                         label="Shift"
@@ -267,29 +259,29 @@ const PowerConsumptionAllSbuCreate = () => {
                             (data) => {
                               values?.intConsumptionBusinessUnit?.value === 4
                                 ? setFieldValue(
-                                    "numPresentReading",
+                                    'numPresentReading',
                                     data?.data?.totalRebConsumption +
                                       data?.data?.totalGenerationRunningHour -
                                       data?.data?.totalAllSbuConsumption || 0
                                   )
-                                : setFieldValue("numPresentReading", "");
+                                : setFieldValue('numPresentReading', '');
                             }
                           );
-                          setFieldValue("strShift", valueOption);
-                          setFieldValue("intConsumptionBusinessUnit", "");
-                          setFieldValue("strConsumptionBusinessUnitName", "");
-                          setFieldValue("numPresentReading", "");
-                          setFieldValue("numPresentReadingM1", "");
-                          setFieldValue("numPresentReadingM2", "");
-                          setFieldValue("numPresentReadingM3", "");
-                          setFieldValue("numPreviousReading", "");
-                          setFieldValue("numPreviousReadingM1", "");
-                          setFieldValue("numPreviousReadingM2", "");
-                          setFieldValue("numPreviousReadingM3", "");
-                          setFieldValue("numTotalConsumption", "");
-                          setFieldValue("numTotalConsumptionM1", "");
-                          setFieldValue("numTotalConsumptionM2", "");
-                          setFieldValue("numTotalConsumptionM3", "");
+                          setFieldValue('strShift', valueOption);
+                          setFieldValue('intConsumptionBusinessUnit', '');
+                          setFieldValue('strConsumptionBusinessUnitName', '');
+                          setFieldValue('numPresentReading', '');
+                          setFieldValue('numPresentReadingM1', '');
+                          setFieldValue('numPresentReadingM2', '');
+                          setFieldValue('numPresentReadingM3', '');
+                          setFieldValue('numPreviousReading', '');
+                          setFieldValue('numPreviousReadingM1', '');
+                          setFieldValue('numPreviousReadingM2', '');
+                          setFieldValue('numPreviousReadingM3', '');
+                          setFieldValue('numTotalConsumption', '');
+                          setFieldValue('numTotalConsumptionM1', '');
+                          setFieldValue('numTotalConsumptionM2', '');
+                          setFieldValue('numTotalConsumptionM3', '');
                           setTableData([]);
                         }}
                         errors={errors}
@@ -302,22 +294,22 @@ const PowerConsumptionAllSbuCreate = () => {
                         <NewSelect
                           name="intConsumptionBusinessUnit"
                           options={[
-                            { value: 4, label: "Akij Cement Company Ltd" },
+                            { value: 4, label: 'Akij Cement Company Ltd' },
                             {
                               value: 8,
-                              label: "Akij Poly Fibre Industries Ltd",
+                              label: 'Akij Poly Fibre Industries Ltd',
                             },
-                            { value: 17, label: "Akij Shipping Lines Ltd" },
+                            { value: 17, label: 'Akij Shipping Lines Ltd' },
                             {
                               value: 94,
-                              label: "Akij Poly Fibre Industries Ltd(Chiller)",
+                              label: 'Akij Poly Fibre Industries Ltd(Chiller)',
                             },
                             {
                               value: 175,
-                              label: "Akij Ready Mix Concrete Ltd",
+                              label: 'Akij Ready Mix Concrete Ltd',
                             },
-                            { value: 53, label: "Akij Flour Mills Ltd" },
-                            { value: -10, label: "ACCL_Power Plant" },
+                            { value: 53, label: 'Akij Flour Mills Ltd' },
+                            { value: -10, label: 'ACCL_Power Plant' },
                           ]}
                           value={values?.intConsumptionBusinessUnit}
                           label="BusinessUnit"
@@ -328,33 +320,33 @@ const PowerConsumptionAllSbuCreate = () => {
                                 (data) => {
                                   valueOption?.value === 4
                                     ? setFieldValue(
-                                        "numPresentReading",
+                                        'numPresentReading',
                                         data?.data?.totalRebConsumption +
                                           data?.data
                                             ?.totalGenerationRunningHour -
                                           data?.data?.totalAllSbuConsumption ||
                                           0
                                       )
-                                    : setFieldValue("numPresentReading", "");
+                                    : setFieldValue('numPresentReading', '');
                                 }
                               );
                               getRowData(
                                 `/mes/MSIL/GetPreviousPowerConsumptionReading?BusinessUnitId=${selectedBusinessUnit?.value}&ConsumptionBusinessUnitId=${valueOption?.value}&Date=${values?.dteDate}`,
                                 (data) => {
                                   setFieldValue(
-                                    "numPreviousReadingM1",
+                                    'numPreviousReadingM1',
                                     data?.numPreviousReadingM1 || 0
                                   );
                                   setFieldValue(
-                                    "numPreviousReadingM2",
+                                    'numPreviousReadingM2',
                                     data?.numPreviousReadingM2 || 0
                                   );
                                   setFieldValue(
-                                    "numPreviousReadingM3",
+                                    'numPreviousReadingM3',
                                     data?.numPreviousReadingM3 || 0
                                   );
                                   setFieldValue(
-                                    "numPreviousReading",
+                                    'numPreviousReading',
                                     data?.numPreviousReading || 0
                                   );
                                 }
@@ -363,17 +355,17 @@ const PowerConsumptionAllSbuCreate = () => {
                                 `/mes/MSIL/GetDateWisePowerCosumptionAllSBU?BusinessUnitId=${selectedBusinessUnit?.value}&Date=${values?.dteDate}&ConsumptionBusinessUnitId=${valueOption?.value}`
                               );
                               setFieldValue(
-                                "intConsumptionBusinessUnit",
+                                'intConsumptionBusinessUnit',
                                 valueOption
                               );
                               setFieldValue(
-                                "intConsumptionBusinessUnitName",
+                                'intConsumptionBusinessUnitName',
                                 valueOption?.label
                               );
                             } else {
                               resetForm(initData);
-                              setFieldValue("dteDate", values?.dteDate);
-                              setFieldValue("strShift", values?.strShift);
+                              setFieldValue('dteDate', values?.dteDate);
+                              setFieldValue('strShift', values?.strShift);
                               setTableData([]);
                               setDetailsData({});
                             }
@@ -386,14 +378,14 @@ const PowerConsumptionAllSbuCreate = () => {
                     ) : null}
                     <div className="col-lg-4">
                       <p>
-                        Total Generator:{" "}
+                        Total Generator:{' '}
                         {values?.intConsumptionBusinessUnit !== 4
                           ? totalGeneratorHour || 0
                           : totalGeneratorHour -
                               detailsData?.data?.totalAllSbuConsumption || 0}
                       </p>
                       <p>
-                        Total Consumption:{" "}
+                        Total Consumption:{' '}
                         {detailsData?.data?.totalAllSbuConsumption || 0}
                       </p>
                     </div>
@@ -419,8 +411,8 @@ const PowerConsumptionAllSbuCreate = () => {
                                 type="time"
                                 onChange={(e) => {
                                   if (!values?.dteDate)
-                                    return toast.warn("Please select date");
-                                  setFieldValue("startTime", e.target.value);
+                                    return toast.warn('Please select date');
+                                  setFieldValue('startTime', e.target.value);
                                 }}
                               />
                             </div>
@@ -433,9 +425,9 @@ const PowerConsumptionAllSbuCreate = () => {
                                 onChange={(e) => {
                                   if (!values?.startTime)
                                     return toast.warn(
-                                      "Please Select Start Time"
+                                      'Please Select Start Time'
                                     );
-                                  setFieldValue("endTime", e.target.value);
+                                  setFieldValue('endTime', e.target.value);
                                 }}
                               />
                             </div>
@@ -459,17 +451,17 @@ const PowerConsumptionAllSbuCreate = () => {
                             onChange={(e) => {
                               if (+e.target.value) {
                                 setFieldValue(
-                                  "numPresentReading",
+                                  'numPresentReading',
                                   +e.target.value
                                 );
                                 setFieldValue(
-                                  "numTotalConsumption",
+                                  'numTotalConsumption',
                                   (+e.target.value || 0) -
                                     values?.numPreviousReading
                                 );
                               } else {
-                                setFieldValue("numPresentReading", "");
-                                setFieldValue("numTotalConsumption", "");
+                                setFieldValue('numPresentReading', '');
+                                setFieldValue('numTotalConsumption', '');
                               }
                             }}
                             disabled={
@@ -516,17 +508,17 @@ const PowerConsumptionAllSbuCreate = () => {
                                 onChange={(e) => {
                                   if (+e.target.value) {
                                     setFieldValue(
-                                      "numPresentReadingM1",
+                                      'numPresentReadingM1',
                                       +e.target.value
                                     );
                                     setFieldValue(
-                                      "numTotalConsumptionM1",
+                                      'numTotalConsumptionM1',
                                       (+e.target.value || 0) -
                                         values?.numPreviousReadingM1
                                     );
                                   } else {
-                                    setFieldValue("numPresentReadingM1", "");
-                                    setFieldValue("numTotalConsumptionM1", "");
+                                    setFieldValue('numPresentReadingM1', '');
+                                    setFieldValue('numTotalConsumptionM1', '');
                                   }
                                 }}
                               />
@@ -563,17 +555,17 @@ const PowerConsumptionAllSbuCreate = () => {
                                 onChange={(e) => {
                                   if (+e.target.value) {
                                     setFieldValue(
-                                      "numPresentReadingM2",
+                                      'numPresentReadingM2',
                                       +e.target.value
                                     );
                                     setFieldValue(
-                                      "numTotalConsumptionM2",
+                                      'numTotalConsumptionM2',
                                       (+e.target.value || 0) -
                                         values?.numPreviousReadingM2
                                     );
                                   } else {
-                                    setFieldValue("numPresentReadingM2", "");
-                                    setFieldValue("numTotalConsumptionM2", "");
+                                    setFieldValue('numPresentReadingM2', '');
+                                    setFieldValue('numTotalConsumptionM2', '');
                                   }
                                 }}
                               />
@@ -610,17 +602,17 @@ const PowerConsumptionAllSbuCreate = () => {
                                 onChange={(e) => {
                                   if (+e.target.value) {
                                     setFieldValue(
-                                      "numPresentReadingM3",
+                                      'numPresentReadingM3',
                                       +e.target.value
                                     );
                                     setFieldValue(
-                                      "numTotalConsumptionM3",
+                                      'numTotalConsumptionM3',
                                       (+e.target.value || 0) -
                                         values?.numPreviousReadingM3
                                     );
                                   } else {
-                                    setFieldValue("numPresentReadingM3", "");
-                                    setFieldValue("numTotalConsumptionM3", "");
+                                    setFieldValue('numPresentReadingM3', '');
+                                    setFieldValue('numTotalConsumptionM3', '');
                                   }
                                 }}
                               />
@@ -666,13 +658,13 @@ const PowerConsumptionAllSbuCreate = () => {
                 </div>
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => {
                     setTableData([]);
@@ -727,7 +719,7 @@ const PowerConsumptionAllSbuCreate = () => {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th colSpan={4} style={{ width: "30px" }}>
+                            <th colSpan={4} style={{ width: '30px' }}>
                               SL
                             </th>
                             <th colSpan={4}>Date</th>

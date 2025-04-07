@@ -21,8 +21,8 @@ const initData = {
   fundTrasferType: { value: 1, label: 'Contra' },
   fromDate: _todayDate(),
   toDate: _monthLastDate(),
-  receivingFromUnit: { value: 0, label: "All" },
-  requestedUnit: "",
+  receivingFromUnit: { value: 0, label: 'All' },
+  requestedUnit: '',
   status: { value: 0, label: 'Pending' },
 };
 export default function FundTransferApproval({ viewType }) {
@@ -30,7 +30,7 @@ export default function FundTransferApproval({ viewType }) {
     (state) => {
       return state.authData;
     },
-    shallowEqual,
+    shallowEqual
   );
 
   const [pageNo, setPageNo] = useState(0);
@@ -38,7 +38,7 @@ export default function FundTransferApproval({ viewType }) {
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
   const [, onApproveHandler, approveLoader] = useAxiosPost();
 
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
 
   const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     const searchTearm = searchValue ? `&search=${searchValue}` : '';
@@ -57,13 +57,17 @@ export default function FundTransferApproval({ viewType }) {
 
   useEffect(() => {
     getLandingData(initData, pageNo, pageSize, '');
-
-
   }, []);
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{ ...initData, requestedUnit: { value: selectedBusinessUnit?.value, label: selectedBusinessUnit?.label } }}
+      initialValues={{
+        ...initData,
+        requestedUnit: {
+          value: selectedBusinessUnit?.value,
+          label: selectedBusinessUnit?.label,
+        },
+      }}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -102,7 +106,7 @@ export default function FundTransferApproval({ viewType }) {
                       label="Fund Transfer Type"
                       onChange={(valueOption) => {
                         setFieldValue('fundTrasferType', valueOption || '');
-                        setGridData([])
+                        setGridData([]);
                       }}
                       errors={errors}
                       touched={touched}
@@ -117,7 +121,7 @@ export default function FundTransferApproval({ viewType }) {
                       type="date"
                       onChange={(e) => {
                         setFieldValue('fromDate', e.target.value);
-                        setGridData([])
+                        setGridData([]);
                       }}
                     />
                   </div>
@@ -129,7 +133,7 @@ export default function FundTransferApproval({ viewType }) {
                       type="date"
                       onChange={(e) => {
                         setFieldValue('toDate', e.target.value);
-                        setGridData([])
+                        setGridData([]);
                       }}
                     />
                   </div>
@@ -141,19 +145,22 @@ export default function FundTransferApproval({ viewType }) {
                       label="Requested Unit"
                       onChange={(valueOption) => {
                         setFieldValue('requestedUnit', valueOption);
-                        setGridData([])
+                        setGridData([]);
                       }}
                     />
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
                       name="receivingFromUnit"
-                      options={[{ value: 0, label: "All" }, ...businessUnitList]}
+                      options={[
+                        { value: 0, label: 'All' },
+                        ...businessUnitList,
+                      ]}
                       value={values?.receivingFromUnit}
                       label="Receiving From Unit"
                       onChange={(valueOption) => {
                         setFieldValue('receivingFromUnit', valueOption);
-                        setGridData([])
+                        setGridData([]);
                       }}
                     />
                   </div>
@@ -169,7 +176,7 @@ export default function FundTransferApproval({ viewType }) {
                       label="Status"
                       onChange={(valueOption) => {
                         setFieldValue('status', valueOption);
-                        setGridData([])
+                        setGridData([]);
                       }}
                     />
                   </div>
@@ -231,8 +238,20 @@ export default function FundTransferApproval({ viewType }) {
                             {values?.fundTrasferType?.value === 2 && (
                               <td>{item?.strRequestToUnitName}</td>
                             )}
-                            <td>{item?.strTransferBy === "Cash To Bank" ? item?.strRequestGlName : item?.strTransferBy === "Bank To Cash" ? item?.strGivenBankAccountName : item?.strGivenBankName || ""}</td>
-                            <td>{item?.strTransferBy === "Bank To Cash" ? item?.strRequestGlName : item?.strTransferBy === "Cash To Bank" ? item?.strGivenBankAccountName || "" : item?.strRequestedBankAccountName || ""}</td>
+                            <td>
+                              {item?.strTransferBy === 'Cash To Bank'
+                                ? item?.strRequestGlName
+                                : item?.strTransferBy === 'Bank To Cash'
+                                  ? item?.strGivenBankAccountName
+                                  : item?.strGivenBankName || ''}
+                            </td>
+                            <td>
+                              {item?.strTransferBy === 'Bank To Cash'
+                                ? item?.strRequestGlName
+                                : item?.strTransferBy === 'Cash To Bank'
+                                  ? item?.strGivenBankAccountName || ''
+                                  : item?.strRequestedBankAccountName || ''}
+                            </td>
                             <td className="text-center">
                               {_dateFormatter(item.dteExpectedDate)}
                             </td>
@@ -240,12 +259,13 @@ export default function FundTransferApproval({ viewType }) {
                             <td>{item.strResponsibleEmpName}</td>
                             <td>{item.strRemarks}</td>
                             <td
-                              className={`bold text-center ${item.isApproved === 1
-                                ? 'text-success'
-                                : item.isApproved === 2
-                                  ? 'text-danger'
-                                  : 'text-warning'
-                                }`}
+                              className={`bold text-center ${
+                                item.isApproved === 1
+                                  ? 'text-success'
+                                  : item.isApproved === 2
+                                    ? 'text-danger'
+                                    : 'text-warning'
+                              }`}
                             >
                               {item.isApproved === 1
                                 ? 'Approved'
@@ -271,42 +291,45 @@ export default function FundTransferApproval({ viewType }) {
                                                 values,
                                                 pageNo,
                                                 pageSize,
-                                                '',
+                                                ''
                                               );
                                             },
                                             isApproved: 1,
-                                            actionName:"Approve"
+                                            actionName: 'Approve',
                                           });
                                         },
-                                        noAlertFunc: () => { },
+                                        noAlertFunc: () => {},
                                       });
                                     }}
                                   >
                                     <IApproval title={'Approve'} />
                                   </span>
-                                  <span onClick={() => {
-                                    IConfirmModal({
-                                      message: `Are you sure to reject?`,
-                                      yesAlertFunc: () => {
-                                        approveHandeler({
-                                          item,
-                                          onApproveHandler,
-                                          profileData,
-                                          cb: () => {
-                                            getLandingData(
-                                              values,
-                                              pageNo,
-                                              pageSize,
-                                              '',
-                                            );
-                                          },
-                                          isApproved: 2,
-                                          actionName:"Reject"
-                                        });
-                                      },
-                                      noAlertFunc: () => { },
-                                    });
-                                  }} className='ml-1'>
+                                  <span
+                                    onClick={() => {
+                                      IConfirmModal({
+                                        message: `Are you sure to reject?`,
+                                        yesAlertFunc: () => {
+                                          approveHandeler({
+                                            item,
+                                            onApproveHandler,
+                                            profileData,
+                                            cb: () => {
+                                              getLandingData(
+                                                values,
+                                                pageNo,
+                                                pageSize,
+                                                ''
+                                              );
+                                            },
+                                            isApproved: 2,
+                                            actionName: 'Reject',
+                                          });
+                                        },
+                                        noAlertFunc: () => {},
+                                      });
+                                    }}
+                                    className="ml-1"
+                                  >
                                     <IClose
                                       title={'Reject'}
                                       styles={{ fontSize: '16px' }}

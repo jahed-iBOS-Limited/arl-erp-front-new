@@ -1,24 +1,23 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getGroupParentDDLAction,
   saveProfitCentedGroup,
   saveEditedControllingUnit,
   getProfitCenterGroupDataById,
   setProfitCenterGroupDataSingleEmpty,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import { getControllingUnitDDLAction } from "../../../../_helper/_redux/Actions";
-import Loading from "./../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import { getControllingUnitDDLAction } from '../../../../_helper/_redux/Actions';
+import Loading from './../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  profitCenterGroupCode: "",
-  profitCenterGroupName: "",
-  controllingUnit: "",
-  profitCenterGroupParent: "",
+  profitCenterGroupCode: '',
+  profitCenterGroupName: '',
+  controllingUnit: '',
+  profitCenterGroupParent: '',
 };
 
 export default function ProfitCenterGroupFrom({
@@ -60,7 +59,6 @@ export default function ProfitCenterGroupFrom({
     } else {
       dispatch(setProfitCenterGroupDataSingleEmpty());
     }
-
   }, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -73,7 +71,6 @@ export default function ProfitCenterGroupFrom({
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
@@ -107,7 +104,6 @@ export default function ProfitCenterGroupFrom({
       }
     } else {
       setDisabled(false);
-
     }
   };
 

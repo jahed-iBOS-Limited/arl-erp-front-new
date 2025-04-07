@@ -63,7 +63,7 @@ const ChartererComponent = ({
   // Function to handle removing a cargo from a specific charterer
   const handleRemoveCargo = (cargoIndex) => {
     const updateCargoList = nominationCargosList.filter(
-      (item, index) => index !== cargoIndex,
+      (item, index) => index !== cargoIndex
     );
     setNominationCargosList(updateCargoList);
   };
@@ -109,7 +109,7 @@ const ChartererComponent = ({
                   setFieldValue('strShipperName', valueOption);
                   setFieldValue(
                     'strShipperEmailForVesselNomination',
-                    valueOption?.email || '',
+                    valueOption?.email || ''
                   );
                 }}
                 errors={errors}
@@ -125,7 +125,7 @@ const ChartererComponent = ({
                 onChange={(e) => {
                   setFieldValue(
                     'strShipperEmailForVesselNomination',
-                    e.target.value,
+                    e.target.value
                   );
                 }}
                 errors={errors}
@@ -199,12 +199,12 @@ const ChartererComponent = ({
                 className="btn btn-primary ml-5 mt-5"
                 onClick={() => {
                   const existingCargo = nominationCargosList.find(
-                    (cargo) => cargo.strCargoName === values?.cargoName.label,
+                    (cargo) => cargo.strCargoName === values?.cargoName.label
                   );
 
                   if (existingCargo) {
                     return toast.warn(
-                      'Cargo already exists and will not be added again.',
+                      'Cargo already exists and will not be added again.'
                     );
                   }
 
@@ -241,12 +241,12 @@ const ChartererComponent = ({
               onClick={() => {
                 const existingCharterer = chartererList.find(
                   (cargo) =>
-                    cargo.strChartererName === values?.strChartererName.label,
+                    cargo.strChartererName === values?.strChartererName.label
                 );
 
                 if (existingCharterer) {
                   return toast.warn(
-                    'Charterer already exists and will not be added again.',
+                    'Charterer already exists and will not be added again.'
                   );
                 }
 

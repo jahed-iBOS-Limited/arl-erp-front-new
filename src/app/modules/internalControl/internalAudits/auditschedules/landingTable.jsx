@@ -1,12 +1,12 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IView from "../../../_helper/_helperIcons/_view";
-import NewIcon from "../../../_helper/_helperIcons/newIcon";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IView from '../../../_helper/_helperIcons/_view';
+import NewIcon from '../../../_helper/_helperIcons/newIcon';
 import {
   auditScheduleLandingTableHeader,
   calculateDaysDifference,
-} from "./helper";
+} from './helper';
 
 const AuditScheduleLandingTable = ({ objProps }) => {
   // use hooks

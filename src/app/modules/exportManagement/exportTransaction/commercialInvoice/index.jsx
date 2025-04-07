@@ -1,11 +1,11 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router-dom";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
 const initData = {};
 export default function CommercialInvoiceLanding() {
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   const history = useHistory();
   return (
     <Formik
@@ -18,7 +18,7 @@ export default function CommercialInvoiceLanding() {
         });
       }}
     >
-      {({ }) => (
+      {() => (
         <>
           {false && <Loading />}
           <IForm
@@ -33,7 +33,9 @@ export default function CommercialInvoiceLanding() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      history.push("/managementExport/exptransaction/commercialinvoice/create");
+                      history.push(
+                        '/managementExport/exptransaction/commercialinvoice/create'
+                      );
                     }}
                   >
                     Create

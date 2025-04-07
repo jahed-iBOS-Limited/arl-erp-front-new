@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
 
 // Get data for form
 export const GetDataForForm = async (accId, buId, PoNo, setter) => {
@@ -26,11 +26,11 @@ export const GetDataForForm = async (accId, buId, PoNo, setter) => {
         LCTenorDays: res?.data?.lcTenor,
         totalAmendmentCharge:
           res?.data?.totalAmendmentCharge === 0
-            ? ""
+            ? ''
             : res?.data?.totalAmendmentCharge,
         VATOnAmendmentCharge:
           res?.data?.vatOnAmendmentCharge === 0
-            ? ""
+            ? ''
             : res?.data?.vatOnAmendmentCharge,
         totalPIAmount: res?.data?.numTotalPiamount,
         exchangeRate: res?.data?.numExchangeRate,
@@ -106,7 +106,7 @@ export const createLCAmendment = async (
     await Axios.post(`/imp/LCAmendment/CreateLCAmendment`, obj);
     setDisabled(false);
     toast.success(
-      "Create Successfully And Please Create Insurance Amendment now"
+      'Create Successfully And Please Create Insurance Amendment now'
     );
     cb();
   } catch (error) {
@@ -121,7 +121,7 @@ export const saveLcDocAmendmentRowApi = async (payload, setDisabled, cb) => {
     await Axios.post(`/imp/LetterOfCredit/SaveLcDocAmendmentRow`, payload);
     setDisabled(false);
     toast.success(
-      "Create Successfully And Please Create Insurance Amendment now"
+      'Create Successfully And Please Create Insurance Amendment now'
     );
     cb();
   } catch (error) {
@@ -166,7 +166,7 @@ const createPayloadChange = (
       totalPIAmountFC: PIAmount,
       numExchangeRate: +values?.exchangeRate,
       totalPIAmountBDT: values?.PIAmountBDT,
-      documentId: uploadImage[0]?.id || "",
+      documentId: uploadImage[0]?.id || '',
       lastActionBy: profileData?.employeeId,
       dueDate: values?.dueDate,
     },
@@ -261,7 +261,7 @@ export const updateLCAmendment = async (
   try {
     await Axios.put(`/imp/LCAmendment/EditLCAmendment`, obj);
     setDisabled(false);
-    toast.success("Update successfully");
+    toast.success('Update successfully');
     // cb();
   } catch (error) {
     setDisabled(false);
@@ -288,7 +288,7 @@ const updatePayloadChange = (
     numVat: values?.vat,
     dteLcexpireDate: values?.LCExpireDate,
     dteLastShipDate: values?.lastShipDate,
-    lcamendmentDocumentId: values?.attachment || "",
+    lcamendmentDocumentId: values?.attachment || '',
     dtePaymentDate: values?.paymentDate,
     lastActionBy: singleData?.userId,
     numPiamount: values?.PIAmount,
@@ -299,7 +299,6 @@ const updatePayloadChange = (
   };
   return payload;
 };
-
 
 export const getLCAmendmentLandingPasignation = async (
   accountId,
@@ -327,14 +326,14 @@ export const getLCAmendmentLandingPasignation = async (
 //schema validation
 export const validationSchema = Yup.object().shape({
   exchangeRate: Yup.number()
-    .required("Exchange Rate is required")
-    .positive("Exchange Rate Must be a positive number"),
+    .required('Exchange Rate is required')
+    .positive('Exchange Rate Must be a positive number'),
   totalAmendmentCharge: Yup.number()
-    .required("Amendment Charge is required")
-    .positive("Amendment Charge Must be a positive number"),
+    .required('Amendment Charge is required')
+    .positive('Amendment Charge Must be a positive number'),
   VATOnAmendmentCharge: Yup.number()
-    .required("VAT On Amendment Charge is required")
-    .positive("VAT On Amendment Charge Must be a positive number"),
+    .required('VAT On Amendment Charge is required')
+    .positive('VAT On Amendment Charge Must be a positive number'),
 });
 
 //landing api;

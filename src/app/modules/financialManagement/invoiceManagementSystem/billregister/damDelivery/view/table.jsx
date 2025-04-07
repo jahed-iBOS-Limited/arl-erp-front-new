@@ -1,13 +1,12 @@
-
-import React, { useEffect, useState } from "react";
-import { Formik } from "formik";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import ICard from "../../../../../_helper/_card";
-import Loading from "../../../../../_helper/_loading";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import { toast } from "react-toastify";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import { Formik } from 'formik';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import ICard from '../../../../../_helper/_card';
+import Loading from '../../../../../_helper/_loading';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import { toast } from 'react-toastify';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 function ViewDamDeliveryBill({ billRegisterId, billTypeId, values }) {
   // get profile data from store
@@ -17,7 +16,7 @@ function ViewDamDeliveryBill({ billRegisterId, billTypeId, values }) {
   } = useSelector((state) => state.authData, shallowEqual);
 
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const [gridData, getGridData, loadingGridData] = useAxiosGet();
 
@@ -74,7 +73,7 @@ function ViewDamDeliveryBill({ billRegisterId, billTypeId, values }) {
                         <>
                           <tr key={index}>
                             <td
-                              style={{ width: "30px" }}
+                              style={{ width: '30px' }}
                               className="text-center"
                             >
                               {index + 1}
@@ -101,43 +100,50 @@ function ViewDamDeliveryBill({ billRegisterId, billTypeId, values }) {
                             <td className="text-right">
                               {item?.dumpOtherCost}
                             </td>
-                           {index === 0 && ( <td rowSpan={gridData?.length + 1} className="text-center">
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip id="cs-icon">View Attachment</Tooltip>
-                              }
-                            >
-                              <span
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  if (item?.attachment) {
-                                    dispatch(
-                                      getDownlloadFileView_Action(
-                                        item?.attachment,
-                                        null,
-                                        null,
-                                        setLoading
-                                      )
-                                    );
-                                  } else {
-                                    toast.warn("No Attachment Found");
-                                  }
-                                }}
-                                className="ml-2"
+                            {index === 0 && (
+                              <td
+                                rowSpan={gridData?.length + 1}
+                                className="text-center"
                               >
-                                <i
-                                  style={{ fontSize: "16px" }}
-                                  className={`fa pointer fa-eye`}
-                                  aria-hidden="true"
-                                ></i>
-                              </span>
-                            </OverlayTrigger>
-                          </td>)}
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">
+                                      View Attachment
+                                    </Tooltip>
+                                  }
+                                >
+                                  <span
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      if (item?.attachment) {
+                                        dispatch(
+                                          getDownlloadFileView_Action(
+                                            item?.attachment,
+                                            null,
+                                            null,
+                                            setLoading
+                                          )
+                                        );
+                                      } else {
+                                        toast.warn('No Attachment Found');
+                                      }
+                                    }}
+                                    className="ml-2"
+                                  >
+                                    <i
+                                      style={{ fontSize: '16px' }}
+                                      className={`fa pointer fa-eye`}
+                                      aria-hidden="true"
+                                    ></i>
+                                  </span>
+                                </OverlayTrigger>
+                              </td>
+                            )}
                           </tr>
                         </>
                       );
                     })}
-                    <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                    <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
                       <td colSpan={4}>Total</td>
                       <td>{totalDampToTruckQty}</td>
                       <td> </td>

@@ -1,12 +1,11 @@
-
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import NewSelect from "../../../../_helper/_select";
-import { useParams } from "react-router-dom";
-import { getItemList_api, getRefferenceCode_api } from "../helper";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import NewSelect from '../../../../_helper/_select';
+import { useParams } from 'react-router-dom';
+import { getItemList_api, getRefferenceCode_api } from '../helper';
 
 const validationSchema = Yup.object().shape({});
 export default function FormCmp({
@@ -57,8 +56,8 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
-            {console.log("Values => ", values)}
-            {console.log("RowDto => ", rowDto)}
+            {console.log('Values => ', values)}
+            {console.log('RowDto => ', rowDto)}
             <Form>
               <div className="row mt-2">
                 <div className="col-lg-12 p-0 m-0">
@@ -66,7 +65,7 @@ export default function FormCmp({
                     <div className="col-lg-3 pb-2">
                       <label>SBU</label>
                       <IInput
-                        value={receiveFromShopFloorInitData?.sbu?.label || ""}
+                        value={receiveFromShopFloorInitData?.sbu?.label || ''}
                         name="sbuName"
                         type="text"
                         disabled={true}
@@ -75,7 +74,7 @@ export default function FormCmp({
                     <div className="col-lg-3 pb-2">
                       <label>Plant</label>
                       <IInput
-                        value={receiveFromShopFloorInitData?.plant?.label || ""}
+                        value={receiveFromShopFloorInitData?.plant?.label || ''}
                         name="plantName"
                         type="text"
                         disabled={true}
@@ -85,7 +84,7 @@ export default function FormCmp({
                       <label>Warehouse</label>
                       <IInput
                         value={
-                          receiveFromShopFloorInitData?.warehouse?.label || ""
+                          receiveFromShopFloorInitData?.warehouse?.label || ''
                         }
                         name="wareHouseName"
                         type="text"
@@ -96,7 +95,7 @@ export default function FormCmp({
                     <div className="col-lg-3 pb-2">
                       <label>Transaction Date</label>
                       <IInput
-                        value={values?.transactionDate || ""}
+                        value={values?.transactionDate || ''}
                         name="transactionDate"
                         type="date"
                         disabled={viewId}
@@ -107,11 +106,11 @@ export default function FormCmp({
                       <NewSelect
                         name="referenceCode"
                         options={referrenceCodeDDL}
-                        value={values?.referenceCode || ""}
+                        value={values?.referenceCode || ''}
                         onChange={(valueOption) => {
-                          setFieldValue("item", "");
+                          setFieldValue('item', '');
                           setRowDto([]);
-                          setFieldValue("referenceCode", valueOption);
+                          setFieldValue('referenceCode', valueOption);
                           getItemList_api(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
@@ -137,7 +136,7 @@ export default function FormCmp({
                         options={itemDDL}
                         value={values?.item}
                         onChange={(valueOption) => {
-                          setFieldValue("item", valueOption);
+                          setFieldValue('item', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -150,15 +149,15 @@ export default function FormCmp({
                       <div className="col-lg-1 d-flex align-items-center ">
                         <label className="pr-1 mt-4">All Item</label>
                         <input
-                          style={{ marginTop: "18px" }}
+                          style={{ marginTop: '18px' }}
                           value={values?.checkbox}
                           name="checkbox"
                           checked={values?.checkbox}
                           type="checkbox"
                           onChange={(e) => {
-                            setFieldValue("checkbox", e.target.checked);
+                            setFieldValue('checkbox', e.target.checked);
                             setRowDto([]);
-                            setFieldValue("qty", "");
+                            setFieldValue('qty', '');
                           }}
                           disabled={viewId}
                         />
@@ -187,21 +186,21 @@ export default function FormCmp({
                   <div className="row">
                     <div className="col-lg-12">
                       <div className="table-responsive">
-                        <table className={"table global-table mt-0"}>
-                          <thead className={rowDto?.length < 1 && "d-none"}>
+                        <table className={'table global-table mt-0'}>
+                          <thead className={rowDto?.length < 1 && 'd-none'}>
                             <tr>
-                              <th style={{ width: "20px" }}>SL</th>
-                              <th style={{ width: "100px" }}>Item code</th>
-                              <th style={{ width: "150px" }}>Item Name</th>
-                              <th style={{ width: "100px" }}>UoM</th>
-                              <th style={{ width: "100px" }}>Transfer Qty</th>
-                              <th style={{ width: "180px" }}>Location</th>
-                              <th style={{ width: "100px" }}>Bin Number</th>
-                              <th style={{ width: "100px" }}>Receive Qty</th>
-                              <th style={{ width: "50px" }}>Actions</th>
+                              <th style={{ width: '20px' }}>SL</th>
+                              <th style={{ width: '100px' }}>Item code</th>
+                              <th style={{ width: '150px' }}>Item Name</th>
+                              <th style={{ width: '100px' }}>UoM</th>
+                              <th style={{ width: '100px' }}>Transfer Qty</th>
+                              <th style={{ width: '180px' }}>Location</th>
+                              <th style={{ width: '100px' }}>Bin Number</th>
+                              <th style={{ width: '100px' }}>Receive Qty</th>
+                              <th style={{ width: '50px' }}>Actions</th>
                             </tr>
                           </thead>
-                          {console.log(rowDto, "rowDto")}
+                          {console.log(rowDto, 'rowDto')}
                           {rowDto?.length > 0 && (
                             <tbody>
                               {rowDto?.map((item, index) => (
@@ -215,8 +214,8 @@ export default function FormCmp({
                                   <td>
                                     <div className="text-center">
                                       {item?.item?.label
-                                        ? item?.item?.label.split("[")[0]
-                                        : ""}
+                                        ? item?.item?.label.split('[')[0]
+                                        : ''}
                                     </div>
                                   </td>
                                   <td>
@@ -261,14 +260,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

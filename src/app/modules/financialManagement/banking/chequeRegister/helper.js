@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { toast } from 'react-toastify';
 
 export const getSbuDDL = async (accId, buId, setter) => {
   try {
@@ -34,7 +34,6 @@ export const getBankJournal = async (
   sbu
 ) => {
   try {
-
     const res = await Axios.get(
       `/fino/BankBranch/GetBankJournal?BankAccountId=${bankAccountId}&FromDate=${_dateFormatter(
         fromDate
@@ -43,19 +42,17 @@ export const getBankJournal = async (
       )}&SBUId=${sbuId}&IsPrint=${isPrint}&Search=${searchTerm}`
     );
     // we need sbu with item, if user click edit, we will pass sbu from item to edit page, we can pass sbu directly from values?.sbu, but user can change sbu, then it will mismatch sbu with grid data set
-    let newData = res?.data?.map(item => ({...item, sbu}))
+    let newData = res?.data?.map((item) => ({ ...item, sbu }));
     setter(newData);
   } catch (error) {}
 };
-
 
 export const bankJournalPrintCount = async (data) => {
   try {
     const res = await Axios.put(`/fino/BankJournal/ChequePrintCount`, data);
     if (res.status === 200) {
     }
-  } catch (error) {   
-  }
+  } catch (error) {}
 };
 
 export const checkTwoFactorApproval = async (
@@ -72,7 +69,7 @@ export const checkTwoFactorApproval = async (
   cb
 ) => {
   try {
-    setDisabledModalButton(true)
+    setDisabledModalButton(true);
     const res = await Axios.get(
       `/fino/CommonFino/CheckTwoFactorApproval?OtpType=${otpType}&intUnitId=${unitId}&strTransectionType=${transectionType}&intTransectionId=${transectionId}&strCode=${journalCode}&journalTypeId=${journalTypeId}&intActionById=${actionById}&strOTP=${strOTP}&CancelType=${cancelType}`
     );
@@ -84,13 +81,11 @@ export const checkTwoFactorApproval = async (
       toast.error(res?.data?.message);
       cb();
     }
-    setDisabledModalButton(false)
+    setDisabledModalButton(false);
     // toast.success("Submitted successfully");
   } catch (error) {
-    setDisabledModalButton(false)
+    setDisabledModalButton(false);
     // toast.warn(error?.response?.data?.message);
     // setDisabled(false);
   }
 };
-
-

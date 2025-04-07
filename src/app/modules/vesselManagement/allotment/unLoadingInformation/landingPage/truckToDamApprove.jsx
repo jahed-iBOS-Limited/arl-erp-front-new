@@ -1,53 +1,52 @@
-
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import FormikError from "../../../../_helper/_formikError";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import ICustomTable from "../../../../_helper/_customTable";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import FormikError from '../../../../_helper/_formikError';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import ICustomTable from '../../../../_helper/_customTable';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  supplier: "",
-  unloadedQty: "",
-  dumpDeliveryRate: "",
-  dumpDeliveryQty: "",
-  directRate: "",
-  directQty: "",
-  deliveryOn: "",
-  truckToDamQty: "",
-  truckToDamRate: "",
-  othersCostRate: "",
+  supplier: '',
+  unloadedQty: '',
+  dumpDeliveryRate: '',
+  dumpDeliveryQty: '',
+  directRate: '',
+  directQty: '',
+  deliveryOn: '',
+  truckToDamQty: '',
+  truckToDamRate: '',
+  othersCostRate: '',
   date: _todayDate(),
 };
 
 const headers = [
-  "SL",
-  "Date",
-  "Delivery On",
-  "Truck to Damp Qty (ton)",
-  "Truck to Damp Rate",
-  "Amount",
-  "Other Cost",
-  "Total",
-  "Action",
+  'SL',
+  'Date',
+  'Delivery On',
+  'Truck to Damp Qty (ton)',
+  'Truck to Damp Rate',
+  'Amount',
+  'Other Cost',
+  'Total',
+  'Action',
 ];
 
 export default function TruckToDamApproveForm({
@@ -150,7 +149,7 @@ export default function TruckToDamApproveForm({
       dumpDeliveryQty: rates?.dumpQnt,
       directRate: rates?.directRate,
       directQty: rates?.directQnt,
-      othersCostRate: "",
+      othersCostRate: '',
     };
 
     return dataSetThree;
@@ -195,7 +194,7 @@ export default function TruckToDamApproveForm({
                         <SearchAsyncSelect
                           selectedValue={values?.supplier}
                           handleChange={(valueOption) => {
-                            setFieldValue("supplier", valueOption);
+                            setFieldValue('supplier', valueOption);
                           }}
                           loadOptions={loadOptions}
                           // isDisabled={levelOfApprove === "third" ? true : false}
@@ -224,7 +223,7 @@ export default function TruckToDamApproveForm({
                           name="dumpDeliveryRate"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("dumpDeliveryRate", e?.target?.value);
+                            setFieldValue('dumpDeliveryRate', e?.target?.value);
                           }}
                           disabled
                         />
@@ -237,7 +236,7 @@ export default function TruckToDamApproveForm({
                           name="dumpDeliveryQty"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("dumpDeliveryQty", e?.target?.value);
+                            setFieldValue('dumpDeliveryQty', e?.target?.value);
                           }}
                           disabled
                         />
@@ -250,7 +249,7 @@ export default function TruckToDamApproveForm({
                           name="directRate"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("directRate", e?.target?.value);
+                            setFieldValue('directRate', e?.target?.value);
                           }}
                           disabled
                         />
@@ -263,7 +262,7 @@ export default function TruckToDamApproveForm({
                           name="directQty"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("directQty", e?.target?.value);
+                            setFieldValue('directQty', e?.target?.value);
                           }}
                           disabled
                         />
@@ -277,7 +276,7 @@ export default function TruckToDamApproveForm({
                           name="date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("date", e?.target?.value);
+                            setFieldValue('date', e?.target?.value);
                           }}
                         />
                       </div>
@@ -285,13 +284,13 @@ export default function TruckToDamApproveForm({
                         <NewSelect
                           name="deliveryOn"
                           options={[
-                            { value: true, label: "Day" },
-                            { value: false, label: "Night" },
+                            { value: true, label: 'Day' },
+                            { value: false, label: 'Night' },
                           ]}
                           value={values?.deliveryOn}
                           label="Delivery On"
                           onChange={(valueOption) => {
-                            setFieldValue("deliveryOn", valueOption);
+                            setFieldValue('deliveryOn', valueOption);
                           }}
                           placeholder="Delivery On"
                           errors={errors}
@@ -306,10 +305,10 @@ export default function TruckToDamApproveForm({
                           name="truckToDamQty"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("truckToDamQty", e?.target?.value);
+                            setFieldValue('truckToDamQty', e?.target?.value);
                           }}
                         />
-                      </div>{" "}
+                      </div>{' '}
                       <div className="col-lg-3">
                         <InputField
                           label="Truck to Dam Rate"
@@ -318,7 +317,7 @@ export default function TruckToDamApproveForm({
                           name="truckToDamRate"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("truckToDamRate", e?.target?.value);
+                            setFieldValue('truckToDamRate', e?.target?.value);
                           }}
                         />
                       </div>
@@ -330,7 +329,7 @@ export default function TruckToDamApproveForm({
                           name="othersCostRate"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("othersCostRate", e?.target?.value);
+                            setFieldValue('othersCostRate', e?.target?.value);
                           }}
                         />
                       </div>
@@ -350,7 +349,7 @@ export default function TruckToDamApproveForm({
                       <tr>
                         <td>{index + 1}</td>
                         <td>{_dateFormatter(item?.transactionDate)}</td>
-                        <td>{item?.isDeliveryOnDay ? "Day" : "Night"}</td>
+                        <td>{item?.isDeliveryOnDay ? 'Day' : 'Night'}</td>
                         <td className="text-right">{item?.truckToDumpQnt}</td>
                         <td className="text-right">{item?.truckToDumpRate}</td>
                         <td className="text-right">{item?.amount}</td>
@@ -362,7 +361,7 @@ export default function TruckToDamApproveForm({
                       </tr>
                     );
                   })}
-                  <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                  <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
                     <td colSpan={3}>Total</td>
                     <td>
                       {rows?.reduce((a, b) => (a += +b?.truckToDumpQnt), 0)}

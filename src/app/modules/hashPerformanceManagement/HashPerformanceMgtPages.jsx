@@ -1,9 +1,9 @@
-import React, { Suspense } from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { LayoutSplashScreen, ContentRoute } from "../../../_metronic/layout";
-import { PerformanceCoachingPages } from "./performanceCoaching/performanceCoachingPages";
-import { PerformancePlanningPages } from "./performancePlanning/performancePlanningPages";
-import { ReportPages } from "./report/reportPages";
+import React, { Suspense } from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { LayoutSplashScreen, ContentRoute } from '../../../_metronic/layout';
+import { PerformanceCoachingPages } from './performanceCoaching/performanceCoachingPages';
+import { PerformancePlanningPages } from './performancePlanning/performancePlanningPages';
+import { ReportPages } from './report/reportPages';
 
 export function HashPerformanceMgtPages() {
   return (

@@ -1,7 +1,7 @@
-import { Formik } from "formik";
-import React from "react";
-import ICustomCard from "../../../_helper/_customCard";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
+import { Formik } from 'formik';
+import React from 'react';
+import ICustomCard from '../../../_helper/_customCard';
+import { _fixedPoint } from '../../../_helper/_fixedPoint';
 
 const JournalDetails = ({ obj }) => {
   const { rowData, buName, buAddress } = obj;
@@ -18,10 +18,10 @@ const JournalDetails = ({ obj }) => {
                     <h2>{buName.toUpperCase()}</h2>
                     <h6
                       style={{
-                        borderBottom: "2px solid #ccc",
-                        paddingBottom: "10px",
-                        fontSize: "12px",
-                        fontWeight: "bold",
+                        borderBottom: '2px solid #ccc',
+                        paddingBottom: '10px',
+                        fontSize: '12px',
+                        fontWeight: 'bold',
                       }}
                     >
                       {buAddress}
@@ -36,7 +36,7 @@ const JournalDetails = ({ obj }) => {
                     >
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}> SL </th>
+                          <th style={{ width: '30px' }}> SL </th>
                           <th> Code </th>
                           <th> Gl Name </th>
                           <th>Business Transaction</th>
@@ -67,7 +67,7 @@ const JournalDetails = ({ obj }) => {
                           </td>
                           <td className="text-right">
                             <b>
-                              {" "}
+                              {' '}
                               {_fixedPoint(
                                 rowData?.reduce(
                                   (total, curr) => (total += curr?.numAmount),

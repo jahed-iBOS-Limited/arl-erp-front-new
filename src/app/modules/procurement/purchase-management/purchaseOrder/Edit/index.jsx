@@ -1,11 +1,10 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import IForm from "../../../../_helper/_form";
-import PurchaseContractCreateForm from "./purchaseContract/CreateForm";
-import SubContractPO from "./subcontractPO/CreateForm";
-import ServicePO from "./servicePO/CreateForm";
-import AssetStandardPOCreateForm from "./assetStandardPo/createForm";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import IForm from '../../../../_helper/_form';
+import PurchaseContractCreateForm from './purchaseContract/CreateForm';
+import SubContractPO from './subcontractPO/CreateForm';
+import ServicePO from './servicePO/CreateForm';
+import AssetStandardPOCreateForm from './assetStandardPo/createForm';
 import {
   getCurrencyDDLAction,
   getIncoTermsListDDLAction,
@@ -16,15 +15,15 @@ import {
   editCreateDataForPurchaseContractAction,
   getSingleDataAction,
   getSingleDataForReturnAction,
-} from "../_redux/Actions";
-import { useParams } from "react-router-dom";
-import { getUomDDLAction } from "../../../../_helper/_redux/Actions";
-import StockTransferPOCreateForm from "./stockTransfer/createForm";
-import ReturnPOCreateForm from "./returnPO/createForm";
-import { toast } from "react-toastify";
-import Loading from "./../../../../_helper/_loading";
-import { useLocation } from "react-router-dom";
-import AssetPOEditForm from "./assetPo/createForm";
+} from '../_redux/Actions';
+import { useParams } from 'react-router-dom';
+import { getUomDDLAction } from '../../../../_helper/_redux/Actions';
+import StockTransferPOCreateForm from './stockTransfer/createForm';
+import ReturnPOCreateForm from './returnPO/createForm';
+import { toast } from 'react-toastify';
+import Loading from './../../../../_helper/_loading';
+import { useLocation } from 'react-router-dom';
+import AssetPOEditForm from './assetPo/createForm';
 
 // id 1 = purchase contract
 // id 2 = request
@@ -75,7 +74,6 @@ export function POEditFormByOrderType() {
         )
       );
     }
-
   }, [profileData, selectedBusinessUnit, singleData]);
 
   useEffect(() => {
@@ -88,13 +86,11 @@ export function POEditFormByOrderType() {
         )
       );
     }
-
   }, [singleData]);
 
   useEffect(() => {
     dispatch(getPaymentTermsListDDLAction());
     dispatch(getIncoTermsListDDLAction());
-
   }, []);
 
   useEffect(() => {
@@ -105,8 +101,6 @@ export function POEditFormByOrderType() {
         dispatch(getSingleDataAction(params?.poId, params?.poType));
       }
     }
-
-
   }, []);
 
   let singlereturnCB = () => {
@@ -118,10 +112,11 @@ export function POEditFormByOrderType() {
   };
 
   const saveHandler = async (values, rowDto, cb) => {
-    if (+singleData?.objHeaderDTO?.purchaseOrganizationId === 12 &&
-        !values?.incoterms
-      ) {
-      return toast.warn("Incoterm is required");
+    if (
+      +singleData?.objHeaderDTO?.purchaseOrganizationId === 12 &&
+      !values?.incoterms
+    ) {
+      return toast.warn('Incoterm is required');
     }
 
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
@@ -138,33 +133,33 @@ export function POEditFormByOrderType() {
         // we will save only those field , where order qty is greater than 0
         const foundArr = rowDto?.filter((item) => item?.orderQty > 0);
         if (foundArr.length === 0) {
-          return toast.warn("Enter quantity");
+          return toast.warn('Enter quantity');
         }
 
         const objRowListDTO = foundArr?.map((item, index) => ({
           referenceId: +item?.referenceNo?.value || 0,
-          referenceCode: item?.referenceNo?.label || "",
+          referenceCode: item?.referenceNo?.label || '',
           referenceQty: +item?.item?.refQty || 0,
           itemId: +item?.item?.value || 0,
-          itemName: item?.item?.itemName || "",
+          itemName: item?.item?.itemName || '',
           uoMid: +item?.selectedUom?.value || 0,
           rowId: item?.rowId || 0,
-          uoMname: item?.selectedUom?.label || "",
+          uoMname: item?.selectedUom?.label || '',
           controllingUnitId: +item?.controllingUnit?.value || 0,
-          controllingUnitName: item?.controllingUnit?.label || "",
+          controllingUnitName: item?.controllingUnit?.label || '',
           costCenterId: values?.isTransfer
             ? +item?.costCenter?.value || 0
             : +item?.costCenterTwo?.value || 0,
           costCenterName: values?.isTransfer
             ? item?.costCenter?.label
-            : item?.costCenterTwo?.label || "",
+            : item?.costCenterTwo?.label || '',
           costElementId: values?.isTransfer
             ? +item?.costElement?.value || 0
             : +item?.costElementTwo?.value || 0,
           costElementName: values?.isTransfer
             ? item?.costElement?.label
-            : item?.costElementTwo?.label || "",
-          purchaseDescription: item?.desc || "",
+            : item?.costElementTwo?.label || '',
+          purchaseDescription: item?.desc || '',
           orderQty: +item?.orderQty || 0,
           basePrice: +item?.basicPrice || 0,
           finalPrice: +(item?.orderQty * item?.basicPrice) || 0,
@@ -199,7 +194,7 @@ export function POEditFormByOrderType() {
         const payload = {
           objHeaderDTO: {
             purchaseOrderId: +params?.poId,
-            purchaseOrderNo: "string",
+            purchaseOrderNo: 'string',
             accountId: +profileData?.accountId,
             businessUnitId: +selectedBusinessUnit?.value || 0,
             sbuId: +singleData?.objHeaderDTO?.sbuId,
@@ -209,28 +204,28 @@ export function POEditFormByOrderType() {
             warehouseId: +singleData?.objHeaderDTO?.warehouseId,
             warehouseName: singleData?.objHeaderDTO?.warehouseName,
             supplyingWarehouseId: values?.supplyingWh?.value || 0,
-            supplyingWarehouseName: values?.supplyingWh?.label || "",
-            purchaseOrganizationId: +singleData?.objHeaderDTO
-              ?.purchaseOrganizationId,
+            supplyingWarehouseName: values?.supplyingWh?.label || '',
+            purchaseOrganizationId:
+              +singleData?.objHeaderDTO?.purchaseOrganizationId,
             businessPartnerId: +values?.supplierName?.value || 0,
-            purchaseOrderDate: values?.orderDate || "2020-11-10T08:52:28.574Z",
+            purchaseOrderDate: values?.orderDate || '2020-11-10T08:52:28.574Z',
             purchaseOrderTypeId: +singleData?.objHeaderDTO?.purchaseOrderTypeId,
             incotermsId: +values?.incoterms?.value || 0,
-            returnDate: values?.returnDate || "2020-12-06T09:35:19.200Z",
+            returnDate: values?.returnDate || '2020-12-06T09:35:19.200Z',
             currencyId: +values?.currency?.value || 0,
-            currencyCode: values?.currency?.label || "",
-            supplierReference: values?.supplierReference || "",
-            referenceDate: values?.referenceDate || "2020-11-10T08:52:28.574Z",
+            currencyCode: values?.currency?.label || '',
+            supplierReference: values?.supplierReference || '',
+            referenceDate: values?.referenceDate || '2020-11-10T08:52:28.574Z',
             referenceTypeId: +singleData?.objHeaderDTO?.referenceTypeId,
             paymentTerms: +values?.paymentTerms?.value || 0,
             creditPercent: 0,
             cashOrAdvancePercent: parseFloat(values?.cash) || 0,
-            otherTerms: values?.otherTerms || "",
-            poValidityDate: values?.validity || "2020-11-10T08:52:28.574Z",
+            otherTerms: values?.otherTerms || '',
+            poValidityDate: values?.validity || '2020-11-10T08:52:28.574Z',
             lastShipmentDate:
-              values?.lastShipmentDate || "2020-11-10T08:52:28.574Z",
+              values?.lastShipmentDate || '2020-11-10T08:52:28.574Z',
             paymentDaysAfterDelivery: +values.payDays || 0,
-            deliveryAddress: values?.deliveryAddress || "",
+            deliveryAddress: values?.deliveryAddress || '',
             actionBy: +profileData?.userId,
             grossDiscount: values?.grossDiscount || 0,
             freight: values?.freight || 0,
@@ -260,26 +255,26 @@ export function POEditFormByOrderType() {
         // check atleast one row item quantity should be greater than 0
         // we will save only those field , where order qty is greater than 0
         const foundArr = rowDto?.filter((item) => item?.orderQty > 0);
-        if (foundArr.length === 0) return toast.warn("Enter quantity");
+        if (foundArr.length === 0) return toast.warn('Enter quantity');
 
         const rowListDTO = foundArr?.map((item, index) => ({
           referenceId: +item?.referenceNo?.value || 0,
-          referenceCode: item?.referenceNo?.label || "",
+          referenceCode: item?.referenceNo?.label || '',
           itemId: +item?.item?.value || 0,
-          itemName: item?.item?.label || "",
+          itemName: item?.item?.label || '',
           uoMid: +item?.selectedUom?.value || 0,
           active: true,
           rowId: item?.rowId || 0,
-          serverDateTime: "2020-12-06T11:24:20.983Z",
-          uoMname: item?.selectedUom?.label || "",
-          purchaseDescription: item?.desc || "",
+          serverDateTime: '2020-12-06T11:24:20.983Z',
+          uoMname: item?.selectedUom?.label || '',
+          purchaseDescription: item?.desc || '',
           referenceQty: +item?.item?.refQty || 0,
           basePrice: +item?.basicPrice || 0,
           finalPrice: +(item?.orderQty * item?.basicPrice) || 0,
           totalValue: +item?.netValue || 0,
           actionBy: +profileData?.userId || 0,
-          lastActionDateTime: "2020-11-10T08:52:28.574Z",
-          deliveryDateTime: item?.deliveryDate || "2020-12-06T11:17:58.990Z",
+          lastActionDateTime: '2020-11-10T08:52:28.574Z',
+          deliveryDateTime: item?.deliveryDate || '2020-12-06T11:17:58.990Z',
           purchaseContractId: 0,
           contractQty: +item?.orderQty || 0,
           // objListCPCPriceingDetailsDTO:
@@ -306,7 +301,7 @@ export function POEditFormByOrderType() {
             purchaseContractId: +params?.poId,
             priceStructureId: 0,
             sbuId: +singleData?.objHeaderDTO?.sbuId,
-            serverDateTime: "2020-12-06T11:24:20.983Z",
+            serverDateTime: '2020-12-06T11:24:20.983Z',
             active: true,
             accountId: +profileData?.accountId,
             businessUnitId: +selectedBusinessUnit?.value || 0,
@@ -317,29 +312,29 @@ export function POEditFormByOrderType() {
             purchaseOrganizationId: +singleData?.objHeaderDTO?.purchaseOrgId,
             businessPartnerId: +values?.supplierName?.value || 0,
             currencyId: +values?.currency?.value || 0,
-            currencyCode: values?.currency?.label || "",
+            currencyCode: values?.currency?.label || '',
             referenceTypeId: +singleData?.objHeaderDTO?.referenceTypeId,
             paymentTerms: +values?.paymentTerms?.value || 0,
             creditPercent: 0,
             cashOrAdvancePercent: parseFloat(values?.cash) || 0,
             incotermsId: +values?.incoterms?.value || 0,
-            supplierReference: values?.supplierReference || "",
-            referenceDate: values?.referenceDate || "2020-11-10T08:52:28.574Z",
-            otherTerms: values?.otherTerms || "",
+            supplierReference: values?.supplierReference || '',
+            referenceDate: values?.referenceDate || '2020-11-10T08:52:28.574Z',
+            otherTerms: values?.otherTerms || '',
             lastShipmentDate:
-              values?.lastShipmentDate || "2020-11-10T08:52:28.574Z",
+              values?.lastShipmentDate || '2020-11-10T08:52:28.574Z',
             paymentDaysAfterDelivery: +values.payDays || 0,
-            deliveryAddress: values?.deliveryAddress || "",
+            deliveryAddress: values?.deliveryAddress || '',
             actionBy: +profileData?.userId,
-            purchaseContractNo: "string",
+            purchaseContractNo: 'string',
             purchaseContractDate:
-              values?.orderDate || "2020-11-10T08:52:28.574Z",
+              values?.orderDate || '2020-11-10T08:52:28.574Z',
             itemGroupName: values?.itemGroup?.label,
             contractType: values?.contractType?.label,
-            pcvalidityDate: values?.validity || "2020-11-10T08:52:28.574Z",
+            pcvalidityDate: values?.validity || '2020-11-10T08:52:28.574Z',
             approveBy: 0,
-            approveDatetime: "2020-11-21T08:40:39.980Z",
-            lastActionDateTime: "2020-11-21T08:40:39.980Z",
+            approveDatetime: '2020-11-21T08:40:39.980Z',
+            lastActionDateTime: '2020-11-21T08:40:39.980Z',
           },
           rowListDTO,
         };
@@ -364,7 +359,7 @@ export function POEditFormByOrderType() {
   };
 
   const [objProps, setObjprops] = useState({});
-  const pagetitle = viewPage ? "View" : "Edit";
+  const pagetitle = viewPage ? 'View' : 'Edit';
 
   useEffect(() => {
     switch (+singleData?.objHeaderDTO?.purchaseOrderTypeId) {
@@ -492,10 +487,9 @@ export function POEditFormByOrderType() {
         break;
       default:
         setPoForm(<Loading />);
-        setTitle("");
+        setTitle('');
         break;
     }
-
   }, [singleData, objProps]);
 
   return (

@@ -1,23 +1,22 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { ModalProgressBar } from "../../../../../_metronic/_partials/controls";
-import PaginationTable from "../../../chartering/_chartinghelper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { setGeneratorRunningHourLandingAction } from "../../../_helper/reduxForLocalStorage/Actions";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { ITable } from "../../../_helper/_table";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import IViewModal from "../../../_helper/_viewModal";
-import BreakdownViewModal from "./Form/View";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { ModalProgressBar } from '../../../../../_metronic/_partials/controls';
+import PaginationTable from '../../../chartering/_chartinghelper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { setGeneratorRunningHourLandingAction } from '../../../_helper/reduxForLocalStorage/Actions';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { ITable } from '../../../_helper/_table';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
+import IViewModal from '../../../_helper/_viewModal';
+import BreakdownViewModal from './Form/View';
 
 export default function GeneratorRunningHour() {
   const [pageNo, setPageNo] = useState(0);
@@ -26,7 +25,7 @@ export default function GeneratorRunningHour() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
-  const [currentItem, setCurrentItem] = useState("");
+  const [currentItem, setCurrentItem] = useState('');
   const onClose = () => {
     setShow(!show);
   };
@@ -43,7 +42,6 @@ export default function GeneratorRunningHour() {
     getlandingData(
       `/mes/MSIL/GetElectricalGeneratorRunningHourLanding?FromDate=${generatorRunningHourLanding?.fromDate}&ToDate=${generatorRunningHourLanding?.toDate}&Shift=${generatorRunningHourLanding?.shift?.value}&pageNumber=${pageNo}&pageSize=${pageSize}&BusinessUnitId=${selectedBusinessUnit.value}`
     );
-
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -82,7 +80,7 @@ export default function GeneratorRunningHour() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/production-management/msil-Electrical/GeneratorRunningHour/create"
+                        '/production-management/msil-Electrical/GeneratorRunningHour/create'
                       );
                     }}
                   >
@@ -101,7 +99,7 @@ export default function GeneratorRunningHour() {
                     name="fromDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                       setlandingData([]);
                     }}
                   />
@@ -114,7 +112,7 @@ export default function GeneratorRunningHour() {
                     type="date"
                     min={values?.fromDate}
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                       setlandingData([]);
                     }}
                   />
@@ -123,23 +121,23 @@ export default function GeneratorRunningHour() {
                   <NewSelect
                     name="shift"
                     options={[
-                      { value: "", label: "ALL" },
-                      { value: "A", label: "A" },
-                      { value: "B", label: "B" },
-                      { value: "C", label: "C" },
-                      { value: "General", label: "General" },
+                      { value: '', label: 'ALL' },
+                      { value: 'A', label: 'A' },
+                      { value: 'B', label: 'B' },
+                      { value: 'C', label: 'C' },
+                      { value: 'General', label: 'General' },
                     ]}
                     value={values?.shift}
                     label="Shift"
                     onChange={(valueOption) => {
-                      setFieldValue("shift", valueOption);
+                      setFieldValue('shift', valueOption);
                       setlandingData([]);
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                <div style={{ marginTop: "15px" }} className="col-lg-1">
+                <div style={{ marginTop: '15px' }} className="col-lg-1">
                   <button
                     type="button"
                     onClick={() => {
@@ -161,13 +159,13 @@ export default function GeneratorRunningHour() {
                   </button>
                 </div>
               </div>
-              <div style={{ marginTop: "15px" }}>
+              <div style={{ marginTop: '15px' }}>
                 <div>
                   <div className="table-responsive">
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
-                          <th style={{ minWidth: "25px" }}>SL</th>
+                          <th style={{ minWidth: '25px' }}>SL</th>
                           <th>Date</th>
                           <th>Shift</th>
                           <th>Generator Name</th>
@@ -220,9 +218,9 @@ export default function GeneratorRunningHour() {
                               </td>
                               <td className="text-center">
                                 {item?.tmTotalHour &&
-                                  item?.tmTotalHour?.split(":")?.[0] + "H"}{" "}
+                                  item?.tmTotalHour?.split(':')?.[0] + 'H'}{' '}
                                 {item?.tmTotalHour &&
-                                  item?.tmTotalHour?.split(":")?.[1] + "M"}
+                                  item?.tmTotalHour?.split(':')?.[1] + 'M'}
                               </td>
 
                               {selectedBusinessUnit.value === 4 ? (

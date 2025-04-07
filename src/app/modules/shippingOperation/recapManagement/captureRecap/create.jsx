@@ -92,7 +92,7 @@ const validationSchema = Yup.object().shape({
 export default function RecapCreate() {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   const [, setObjprops] = useState({});
@@ -148,10 +148,9 @@ export default function RecapCreate() {
           };
           setModifyInitData(data);
           setChartererList(res?.chartererList || []);
-        },
+        }
       );
     }
-
   }, [viewId]);
 
   useEffect(() => {
@@ -161,13 +160,12 @@ export default function RecapCreate() {
     getCargoDDL(`${imarineBaseUrl}/domain/HireOwner/GetCargoDDL
 `);
     getChartererDDL(
-      `${imarineBaseUrl}/domain/PortPDA/GetCharterParty?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `${imarineBaseUrl}/domain/PortPDA/GetCharterParty?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
     getbrokerList(`${imarineBaseUrl}/domain/VesselNomination/GetBrokerDDL`);
     getshipperNameList(
-      `${imarineBaseUrl}/domain/VesselNomination/GetShipperDDL`,
+      `${imarineBaseUrl}/domain/VesselNomination/GetShipperDDL`
     );
-
   }, []);
 
   const saveHandler = async (values, cb) => {
@@ -187,8 +185,9 @@ export default function RecapCreate() {
 
       if (!hasRequiredFields) {
         toast.warn(
-          `Please fill out all required fields for charterer at index ${index +
-            1}.`,
+          `Please fill out all required fields for charterer at index ${
+            index + 1
+          }.`
         );
       }
 
@@ -249,7 +248,7 @@ export default function RecapCreate() {
       `${imarineBaseUrl}/domain/VesselNomination/CreateVesselNominationRecape`,
       payload,
       cb,
-      true,
+      true
     );
   };
 
@@ -581,9 +580,10 @@ export default function RecapCreate() {
                                 {!viewId && (
                                   <span
                                     onClick={() => {
-                                      const deletedChartererList = chartererList?.filter(
-                                        (item, index) => index !== idx,
-                                      );
+                                      const deletedChartererList =
+                                        chartererList?.filter(
+                                          (item, index) => index !== idx
+                                        );
                                       setChartererList(deletedChartererList);
                                     }}
                                   >

@@ -1,15 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call Empddl APi
-export function getUnFavouriteDDL(buId, empId, yearId ) {
+export function getUnFavouriteDDL(buId, empId, yearId) {
   return axios.get(
     `/pms/CommonDDL/UnfavouriteDDL?UnitId=${buId}&EmployeeId=${empId}&YearId=${yearId}`
   );
 }
 export function updateUnpov(Kpiid) {
-  return axios.put(
-    `/pms/Kpi2/UpdateIsShownDashBoard?Kpiid=${Kpiid}&TF=true`
-  );
+  return axios.put(`/pms/Kpi2/UpdateIsShownDashBoard?Kpiid=${Kpiid}&TF=true`);
 }
 
 export function getReport(

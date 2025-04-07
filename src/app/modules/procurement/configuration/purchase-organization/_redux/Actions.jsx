@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { purchaseOrgSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { purchaseOrgSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = purchaseOrgSlice;
 
 // Save PurchaseOrgData into DB
@@ -12,13 +12,13 @@ export const savePurchaseOrgData = (payload) => () => {
     .then((res) => {
       if (res.status === 200) {
         payload.setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
     })
     .catch((err) => {
       payload.setDisabled(false);
-     
+
       toast.error(err?.response?.data?.message);
     });
 };
@@ -29,7 +29,7 @@ export const saveEditedPurchaseOrg = (payload, setDisabled) => () => {
     .saveEditData(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         setDisabled(false);
       }
     })
@@ -39,25 +39,19 @@ export const saveEditedPurchaseOrg = (payload, setDisabled) => () => {
     });
 };
 // PurchaseOrgData action for get data of table
-export const getPurchaseOrgData = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-     
-    });
-};
+export const getPurchaseOrgData =
+  (accId, buId, setLoading, pageNo, pageSize) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 // PurchaseOrgData action for get single data by id
 export const getPurchaseOrgById = (id) => (dispatch) => {
   return requestFromServer
@@ -69,9 +63,7 @@ export const getPurchaseOrgById = (id) => (dispatch) => {
         return dispatch(slice.SetDataById(item));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 // sPurchaseOrg single to empty
 export const setPurchaseOrgSingleEmpty = () => async (dispatch) => {

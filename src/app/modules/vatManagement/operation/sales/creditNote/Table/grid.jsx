@@ -1,15 +1,15 @@
-import React, { useRef, useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "./../../../../../_helper/_loading";
-import ReactToPrint from "react-to-print";
-import printIcon from "./../../../../../_helper/images/print-icon.png";
+import React, { useRef, useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Loading from './../../../../../_helper/_loading';
+import ReactToPrint from 'react-to-print';
+import printIcon from './../../../../../_helper/images/print-icon.png';
 import {
   getCreditNoteReport_api,
   GetCreditNoteLogDetails_api,
-} from "../helper";
-import { _fixedPoint } from "./../../../../../_helper/_fixedPoint";
-import { _dateFormatter } from "./../../../../../_helper/_dateFormate";
-import moment from "moment";
+} from '../helper';
+import { _fixedPoint } from './../../../../../_helper/_fixedPoint';
+import { _dateFormatter } from './../../../../../_helper/_dateFormate';
+import moment from 'moment';
 const CreditNoteView = ({ viewClick, title, redirectAuditLogPage }) => {
   const [singleData, setSingleData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -46,7 +46,6 @@ const CreditNoteView = ({ viewClick, title, redirectAuditLogPage }) => {
         );
       }
     }
-
   }, [selectedBusinessUnit, profileData, viewClick]);
 
   return (
@@ -54,12 +53,12 @@ const CreditNoteView = ({ viewClick, title, redirectAuditLogPage }) => {
       {redirectAuditLogPage?.logId && (
         <div className="mt-8">
           <p className="p-0 m-0">
-            <b>Activity</b>: {singleData?.auditLog?.activity}{" "}
+            <b>Activity</b>: {singleData?.auditLog?.activity}{' '}
           </p>
           <p className="p-0 m-0">
-            <b>Action Date/Time</b>:{" "}
+            <b>Action Date/Time</b>:{' '}
             {moment(singleData?.auditLog?.activityTime).format(
-              "DD-MMM-YY, LTS"
+              'DD-MMM-YY, LTS'
             )}
           </p>
         </div>
@@ -73,12 +72,12 @@ const CreditNoteView = ({ viewClick, title, redirectAuditLogPage }) => {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  style={{ padding: "2px 5px" }}
+                  style={{ padding: '2px 5px' }}
                 >
                   <img
                     style={{
-                      width: "25px",
-                      paddingRight: "5px",
+                      width: '25px',
+                      paddingRight: '5px',
                     }}
                     src={printIcon}
                     alt="print-icon"
@@ -92,11 +91,11 @@ const CreditNoteView = ({ viewClick, title, redirectAuditLogPage }) => {
           <div className="col-lg-12">
             <div
               className="report_top mt-5 d-flex flex-column justify-content-center align-items-center"
-              style={{ position: "relative" }}
+              style={{ position: 'relative' }}
             >
-              <div style={{ position: "absolute", top: "11px", right: "0" }}>
+              <div style={{ position: 'absolute', top: '11px', right: '0' }}>
                 <span
-                  style={{ border: "1px solid gray", fontSize: 18 }}
+                  style={{ border: '1px solid gray', fontSize: 18 }}
                   className="p-2"
                 >
                   <strong>Mushak-6.7</strong>
@@ -117,31 +116,31 @@ const CreditNoteView = ({ viewClick, title, redirectAuditLogPage }) => {
               <div className="d-flex justify-content-between">
                 <div>
                   <p className="p-0 m-0">
-                    <strong>Organization Name:</strong>{" "}
+                    <strong>Organization Name:</strong>{' '}
                     {singleData?.objHeader?.organizationName}
                   </p>
                   <p className="p-0 m-0">
-                    <strong>Organization Address:</strong>{" "}
+                    <strong>Organization Address:</strong>{' '}
                     {singleData?.objHeader?.organizationAddress}
                   </p>
                   <p className="p-0 m-0">
-                    <strong>BIN No:</strong>{" "}
+                    <strong>BIN No:</strong>{' '}
                     {singleData?.objHeader?.organizationBinNo}
                   </p>
                   <p className="p-0 m-0">
-                    <strong>Customer/Receiver Name:</strong>{" "}
+                    <strong>Customer/Receiver Name:</strong>{' '}
                     {singleData?.objHeader?.customerName}
                   </p>
                   <p className="p-0 m-0">
-                    <strong>Customer/Receiver Address:</strong>{" "}
+                    <strong>Customer/Receiver Address:</strong>{' '}
                     {singleData?.objHeader?.customerAddress}
                   </p>
                   <p className="p-0 m-0">
-                    <strong>Customer/Receiver BIN No:</strong>{" "}
+                    <strong>Customer/Receiver BIN No:</strong>{' '}
                     {singleData?.objHeader?.customerBinNo}
                   </p>
                   <p className="p-0 m-0">
-                    <strong>Vehicle Type and No: </strong>{" "}
+                    <strong>Vehicle Type and No: </strong>{' '}
                     {singleData?.objHeader?.vehicleTypeandNo}
                   </p>
                 </div>
@@ -153,7 +152,7 @@ const CreditNoteView = ({ viewClick, title, redirectAuditLogPage }) => {
 
                   <p className="p-0 m-0">
                     <b>
-                      Date of Issue:{" "}
+                      Date of Issue:{' '}
                       {singleData?.objHeader?.taxDelivaryDateTime &&
                         _dateFormatter(
                           singleData?.objHeader?.taxDelivaryDateTime
@@ -162,10 +161,10 @@ const CreditNoteView = ({ viewClick, title, redirectAuditLogPage }) => {
                   </p>
                   <p className="p-0 m-0">
                     <b>
-                      Time of Issue:{" "}
+                      Time of Issue:{' '}
                       {moment(
                         singleData?.objHeader?.taxDelivaryDateTime
-                      ).format("LTS")}
+                      ).format('LTS')}
                     </b>
                   </p>
                 </div>
@@ -177,37 +176,37 @@ const CreditNoteView = ({ viewClick, title, redirectAuditLogPage }) => {
             <table className="table table-striped table-bordered mt-3">
               <thead>
                 <tr>
-                  <th style={{ width: "50px" }} rowspan="2">
+                  <th style={{ width: '50px' }} rowspan="2">
                     S/N
                   </th>
-                  <th style={{ width: "150px" }} rowspan="2">
+                  <th style={{ width: '150px' }} rowspan="2">
                     Orginal Tax Invoice No & Date
                   </th>
-                  <th style={{ width: "150px" }} rowspan="2">
+                  <th style={{ width: '150px' }} rowspan="2">
                     Details Of Supply
                   </th>
                   {/* <th style={{ width: "150px" }} rowspan="2">
                     Total Price
                   </th> */}
-                  <th style={{ width: "150px" }} colspan="4">
+                  <th style={{ width: '150px' }} colspan="4">
                     Mentioned Original Mushak-6.3
                   </th>
                   {/* <th style={{ width: "150px" }} rowspan="2">
                     Total Price
                   </th> */}
-                  <th style={{ width: "150px" }} colspan="4">
+                  <th style={{ width: '150px' }} colspan="4">
                     Related to Decreased Adjustment
                   </th>
                 </tr>
                 <tr>
-                  <th style={{ width: "150px" }}>Total Price</th>
-                  <th style={{ width: "150px" }}>Quantity</th>
-                  <th style={{ width: "150px" }}>Vat Amount</th>
-                  <th style={{ width: "150px" }}>SD Amount</th>
-                  <th style={{ width: "150px" }}>Total Price</th>
-                  <th style={{ width: "150px" }}>Quantity</th>
-                  <th style={{ width: "150px" }}>VAT Amount</th>
-                  <th style={{ width: "150px" }}>SD Amount</th>
+                  <th style={{ width: '150px' }}>Total Price</th>
+                  <th style={{ width: '150px' }}>Quantity</th>
+                  <th style={{ width: '150px' }}>Vat Amount</th>
+                  <th style={{ width: '150px' }}>SD Amount</th>
+                  <th style={{ width: '150px' }}>Total Price</th>
+                  <th style={{ width: '150px' }}>Quantity</th>
+                  <th style={{ width: '150px' }}>VAT Amount</th>
+                  <th style={{ width: '150px' }}>SD Amount</th>
                 </tr>
               </thead>
               <tbody>
@@ -246,52 +245,53 @@ const CreditNoteView = ({ viewClick, title, redirectAuditLogPage }) => {
                   );
                 })}
                 <tr>
-                  <td colspan="3" style={{ textAlign: "right !important" }}>
+                  <td colspan="3" style={{ textAlign: 'right !important' }}>
                     <b>Total Amount:</b>
                   </td>
                   <td className="text-right">
                     <b>
                       {_fixedPoint(
-                        claculator(singleData?.objRow, "iGrandTotal")
+                        claculator(singleData?.objRow, 'iGrandTotal')
                       )}
                     </b>
                   </td>
                   <td className="text-right">
                     <b>
-                      {_fixedPoint(claculator(singleData?.objRow, "iQuantity"))}
+                      {_fixedPoint(claculator(singleData?.objRow, 'iQuantity'))}
                     </b>
                   </td>
                   <td className="text-right">
-                    <b>{_fixedPoint(claculator(singleData?.objRow, "iVat"))}</b>
+                    <b>{_fixedPoint(claculator(singleData?.objRow, 'iVat'))}</b>
                   </td>
                   <td className="text-right">
-                    <b>{_fixedPoint(claculator(singleData?.objRow, "isd"))}</b>
+                    <b>{_fixedPoint(claculator(singleData?.objRow, 'isd'))}</b>
                   </td>
                   <td className="text-right">
                     <b>
                       {_fixedPoint(
-                        claculator(singleData?.objRow, "grandTotal")
+                        claculator(singleData?.objRow, 'grandTotal')
                       )}
                     </b>
                   </td>
                   <td className="text-right">
                     <b>
-                      {_fixedPoint(claculator(singleData?.objRow, "dQuantity"))}
+                      {_fixedPoint(claculator(singleData?.objRow, 'dQuantity'))}
                     </b>
                   </td>
                   <td className="text-right">
-                    <b>{_fixedPoint(claculator(singleData?.objRow, "dVat"))}</b>
+                    <b>{_fixedPoint(claculator(singleData?.objRow, 'dVat'))}</b>
                   </td>
                   <td className="text-right">
-                    <b>{_fixedPoint(claculator(singleData?.objRow, "isd"))}</b>
+                    <b>{_fixedPoint(claculator(singleData?.objRow, 'isd'))}</b>
                   </td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <td colspan="11">
-                    {`Reason of Credit Note: ${singleData?.objHeader
-                      ?.narration || ""}`}
+                    {`Reason of Credit Note: ${
+                      singleData?.objHeader?.narration || ''
+                    }`}
                   </td>
                 </tr>
               </tfoot>

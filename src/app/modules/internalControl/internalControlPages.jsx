@@ -1,17 +1,17 @@
-import React, { Suspense } from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
-import { InternalControlBudgetPages } from "./budget/budgetPages";
-import BudgetVarianceReportPages from "./budgetVarianceReports/budgetVarianceReportPages";
-import { InternalControlConfigurationPages } from "./configuration/configurationPages";
-import InternalControlRevenueCenterPages from "./revenueCenter/revenueCenterPages";
-import { InternalAuditsPages } from "./internalAudits/internalAuditsPages";
-import CostingPricingModel from "./costingPricingModel/costConfiguration";
-import CostCalculationLanding from "./costingPricingModel/costCalculation/costCalculationMainIndex";
-import CostConfigurationCreateEdit from "./costingPricingModel/costCalculation/createEdit";
-import ProductToFG from "./costingPricingModel/costConfiguration/product/productToFG";
-import ProductToRM from "./costingPricingModel/costConfiguration/product/productToRM";
-import { BudgetBreakdownPages } from "./BudgetBreakdown/budgetBreakdownPages";
+import React, { Suspense } from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute, LayoutSplashScreen } from '../../../_metronic/layout';
+import { InternalControlBudgetPages } from './budget/budgetPages';
+import BudgetVarianceReportPages from './budgetVarianceReports/budgetVarianceReportPages';
+import { InternalControlConfigurationPages } from './configuration/configurationPages';
+import InternalControlRevenueCenterPages from './revenueCenter/revenueCenterPages';
+import { InternalAuditsPages } from './internalAudits/internalAuditsPages';
+import CostingPricingModel from './costingPricingModel/costConfiguration';
+import CostCalculationLanding from './costingPricingModel/costCalculation/costCalculationMainIndex';
+import CostConfigurationCreateEdit from './costingPricingModel/costCalculation/createEdit';
+import ProductToFG from './costingPricingModel/costConfiguration/product/productToFG';
+import ProductToRM from './costingPricingModel/costConfiguration/product/productToRM';
+import { BudgetBreakdownPages } from './BudgetBreakdown/budgetBreakdownPages';
 
 export function InternalControlPages() {
   return (

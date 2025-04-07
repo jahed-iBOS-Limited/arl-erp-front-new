@@ -1,19 +1,30 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import { Card, CardBody, CardHeader, CardHeaderToolbar, ModalProgressBar } from "../../../../../_metronic/_partials/controls";
-import { setShippingBillregisterLandingAction } from "../../../_helper/reduxForLocalStorage/Actions";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IViewModal from "../../../_helper/_viewModal";
-import { GetBillTypeDDL, getCostCenterDDL, getPlantDDL, getSbuDDL } from "../billregister/helper";
-import OthersBillForm from "../billregister/othersBill/Form/addEditForm";
-import NewSelect from "./../../../_helper/_select";
-import GridData from "./grid";
-import { getShippingBillRegisterPagination_api } from "./helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
+} from '../../../../../_metronic/_partials/controls';
+import { setShippingBillregisterLandingAction } from '../../../_helper/reduxForLocalStorage/Actions';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import {
+  GetBillTypeDDL,
+  getCostCenterDDL,
+  getPlantDDL,
+  getSbuDDL,
+} from '../billregister/helper';
+import OthersBillForm from '../billregister/othersBill/Form/addEditForm';
+import NewSelect from './../../../_helper/_select';
+import GridData from './grid';
+import { getShippingBillRegisterPagination_api } from './helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -52,8 +63,8 @@ function ShippingBillregisterLanding() {
         selectedBusinessUnit?.value,
         setPlantDDL
       );
-       GetBillTypeDDL(setBillTypeDDL);
-     }
+      GetBillTypeDDL(setBillTypeDDL);
+    }
   }, [profileData, selectedBusinessUnit]);
 
   const girdDataFunc = (pageNo, pageSize, values) => {
@@ -87,7 +98,6 @@ function ShippingBillregisterLanding() {
         setCostCenterDDL
       );
     }
-
   }, []);
 
   const cb = () => {
@@ -106,7 +116,7 @@ function ShippingBillregisterLanding() {
     );
   };
 
-  const modifyBillTypeDDL = billTypeDDL?.filter((data) => data?.value === 15)
+  const modifyBillTypeDDL = billTypeDDL?.filter((data) => data?.value === 15);
 
   return (
     <>
@@ -116,8 +126,8 @@ function ShippingBillregisterLanding() {
           ...shippingBillRegisterLanding,
           billType: {
             value: modifyBillTypeDDL[0]?.value,
-            label: modifyBillTypeDDL[0]?.label
-          }
+            label: modifyBillTypeDDL[0]?.label,
+          },
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
@@ -134,7 +144,7 @@ function ShippingBillregisterLanding() {
           <div className="">
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Shipping Bill Register"}>
+              <CardHeader title={'Shipping Bill Register'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -166,13 +176,14 @@ function ShippingBillregisterLanding() {
                         value={values?.sbu}
                         label="Select SBU"
                         onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
-                          setFieldValue("costCenter", "");
+                          setFieldValue('sbu', valueOption);
+                          setFieldValue('costCenter', '');
                           setRowDto([]);
                           getCostCenterDDL(
                             profileData.accountId,
                             selectedBusinessUnit.value,
-                            shippingBillRegisterLanding?.sbu?.value || valueOption?.value,
+                            shippingBillRegisterLanding?.sbu?.value ||
+                              valueOption?.value,
                             setCostCenterDDL
                           );
                         }}
@@ -188,7 +199,7 @@ function ShippingBillregisterLanding() {
                         value={values?.plant}
                         label="Select Plant"
                         onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
+                          setFieldValue('plant', valueOption);
                           setRowDto([]);
                         }}
                         placeholder="Select Plant"
@@ -203,7 +214,7 @@ function ShippingBillregisterLanding() {
                         value={values?.billType}
                         label="Bill Type"
                         onChange={(valueOption) => {
-                          setFieldValue("billType", valueOption);
+                          setFieldValue('billType', valueOption);
                           setRowDto([]);
                         }}
                         placeholder="Bill Type"
@@ -235,10 +246,10 @@ function ShippingBillregisterLanding() {
                         <NewSelect
                           name="costCenter"
                           options={costCenterDDL || []}
-                          value={values?.costCenter || ""}
+                          value={values?.costCenter || ''}
                           label="Cost Center"
                           onChange={(valueOption) => {
-                            setFieldValue("costCenter", valueOption);
+                            setFieldValue('costCenter', valueOption);
                             setRowDto([]);
                           }}
                           placeholder="Cost Center"
@@ -250,10 +261,12 @@ function ShippingBillregisterLanding() {
                     <div className="col-lg-1 mr-1">
                       <button
                         onClick={() => {
-                          dispatch(setShippingBillregisterLandingAction(values));
+                          dispatch(
+                            setShippingBillregisterLandingAction(values)
+                          );
                           ViewOnChangeHandler(values);
                         }}
-                        style={{ marginTop: "19px" }}
+                        style={{ marginTop: '19px' }}
                         className="btn btn-primary ml-2 mr-2"
                         type="button"
                         disabled={!values?.plant || !values?.billType}

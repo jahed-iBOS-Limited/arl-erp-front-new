@@ -1,8 +1,8 @@
-import moment from "moment";
-import React from "react";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
+import moment from 'moment';
+import React from 'react';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import { _dateFormatter } from '../../../_chartinghelper/_dateFormatter';
 
 export default function TimeCharterStatement({
   printRef,
@@ -99,21 +99,21 @@ export default function TimeCharterStatement({
             <tr>
               <td className="text-center" colSpan={8}>
                 <h6 className="mb-0">
-                  {" "}
-                  VESSEL NAME & VOYAGE NO:{" "}
-                  <b>{vesselName + " & V" + voyageName}</b>
+                  {' '}
+                  VESSEL NAME & VOYAGE NO:{' '}
+                  <b>{vesselName + ' & V' + voyageName}</b>
                 </h6>
               </td>
             </tr>
             <tr
               style={{
-                backgroundColor: "#C8C6C6",
+                backgroundColor: '#C8C6C6',
               }}
             >
               <td colSpan={8}>
                 <div>
                   <h6 className="font-weight-bold pt-1 pb-1 mb-0 text-center">
-                    Income/Day: {_formatMoney(totalNetIncome / actualDuration)}{" "}
+                    Income/Day: {_formatMoney(totalNetIncome / actualDuration)}{' '}
                     USD
                   </h6>
                 </div>
@@ -121,7 +121,7 @@ export default function TimeCharterStatement({
             </tr>
             <tr className="d-none">
               <td className="text-center" colSpan={8}>
-                <h1 className="font-weight-bold" style={{ color: "#305496" }}>
+                <h1 className="font-weight-bold" style={{ color: '#305496' }}>
                   AKIJ SHIPPING LINE LTD.
                 </h1>
               </td>
@@ -185,7 +185,7 @@ export default function TimeCharterStatement({
               <td className="text-left" colSpan={2}>
                 Delivery Time
               </td>
-              <td>{moment(deliveryTime).format("DD-MMM-yyyy, HH:mm")}</td>
+              <td>{moment(deliveryTime).format('DD-MMM-yyyy, HH:mm')}</td>
               <td>GMT</td>
               <td colSpan={2}>Daily Hire</td>
               <td className="text-right">{_formatMoney(dailyHire)}</td>
@@ -195,7 +195,7 @@ export default function TimeCharterStatement({
               <td className="text-left" colSpan={2}>
                 Redelivery Time
               </td>
-              <td>{moment(reDeliveryTime).format("DD-MMM-yyyy, HH:mm")}</td>
+              <td>{moment(reDeliveryTime).format('DD-MMM-yyyy, HH:mm')}</td>
               <td>GMT</td>
               <td colSpan={2}>ILOHC</td>
               <td className="text-right">{_formatMoney(ilohc)}</td>
@@ -330,10 +330,10 @@ export default function TimeCharterStatement({
               <td colSpan={5}>On & Off Hire Bunker Survey Cost</td>
               {/* <td colSpan={2}>{actualDuration}</td> */}
               <td className="text-right">
-                {" "}
+                {' '}
                 {`-${_formatMoney(
                   additionalCostList?.find((e) => e?.costId === 14)?.costAmount
-                )}`}{" "}
+                )}`}{' '}
               </td>
               <td>USD</td>
             </tr>
@@ -360,8 +360,8 @@ export default function TimeCharterStatement({
               </td>
               <td colSpan={4}>Cost For Days Off Hire</td>
               <td className="text-right">
-                {" "}
-                {`-${_formatMoney(offHireCostForDays)}`}{" "}
+                {' '}
+                {`-${_formatMoney(offHireCostForDays)}`}{' '}
               </td>
               <td>USD</td>
             </tr>
@@ -370,8 +370,8 @@ export default function TimeCharterStatement({
                 Bunker Cost
               </td>
               <td className="text-right">
-                {" "}
-                {`-${_formatMoney(offHireBunkerCost)}`}{" "}
+                {' '}
+                {`-${_formatMoney(offHireBunkerCost)}`}{' '}
               </td>
               <td>USD</td>
             </tr>
@@ -387,8 +387,8 @@ export default function TimeCharterStatement({
                 Broker Commission
               </td>
               <td className="text-right">
-                {" "}
-                {_formatMoney(totalBrokerageComm)}{" "}
+                {' '}
+                {_formatMoney(totalBrokerageComm)}{' '}
               </td>
               <td>USD</td>
             </tr>
@@ -397,8 +397,8 @@ export default function TimeCharterStatement({
                 Others
               </td>
               <td className="text-right">
-                {" "}
-                {`-${_formatMoney(offHireOtherCost)}`}{" "}
+                {' '}
+                {`-${_formatMoney(offHireOtherCost)}`}{' '}
               </td>
               <td>USD</td>
             </tr>
@@ -408,8 +408,8 @@ export default function TimeCharterStatement({
                 className="text-center align-middle"
                 rowSpan={
                   additionalCostList?.length +
-                  !additionalCostList?.filter((e) => e?.costId === 14)
-                    .length ?? 1
+                    !additionalCostList?.filter((e) => e?.costId === 14)
+                      .length ?? 1
                 }
               >
                 10
@@ -418,8 +418,8 @@ export default function TimeCharterStatement({
                 className="text-center align-middle"
                 rowSpan={
                   additionalCostList?.length +
-                  !additionalCostList?.filter((e) => e?.costId === 14)
-                    .length ?? 1
+                    !additionalCostList?.filter((e) => e?.costId === 14)
+                      .length ?? 1
                 }
               >
                 Expense
@@ -458,7 +458,7 @@ export default function TimeCharterStatement({
                 <tr key={index}>
                   <td colSpan={2}>{item?.transactionName}</td>
                   <td>Date</td>
-                  <td>{_dateFormatter(item?.dateTransaction) || ""}</td>
+                  <td>{_dateFormatter(item?.dateTransaction) || ''}</td>
                   <td className="text-right">
                     {_formatMoney(item?.totalValue)}
                   </td>
@@ -492,7 +492,7 @@ export default function TimeCharterStatement({
               );
             })}
 
-            <tr style={{ height: "1px" }}></tr>
+            <tr style={{ height: '1px' }}></tr>
             {additionalCostList?.filter((e, i) => {
               return (
                 e?.costId === 18 && (
@@ -503,7 +503,7 @@ export default function TimeCharterStatement({
                     )}`}</td>
                     <td
                       style={{
-                        width: "10%",
+                        width: '10%',
                       }}
                     >
                       USD
@@ -524,8 +524,8 @@ export default function TimeCharterStatement({
                 Gross Hire/Day
               </td>
               <td className="text-right">
-                {" "}
-                {_formatMoney(totalGrossHire / actualDuration)}{" "}
+                {' '}
+                {_formatMoney(totalGrossHire / actualDuration)}{' '}
               </td>
               <td>USD</td>
             </tr>
@@ -569,8 +569,8 @@ export default function TimeCharterStatement({
                 Income/Day
               </td>
               <td className="text-right">
-                {" "}
-                {_formatMoney(totalNetIncome / actualDuration)}{" "}
+                {' '}
+                {_formatMoney(totalNetIncome / actualDuration)}{' '}
               </td>
               <td>USD</td>
             </tr>

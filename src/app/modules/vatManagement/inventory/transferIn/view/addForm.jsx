@@ -1,33 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { useHistory } from "react-router-dom";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ICard from "../../../../_helper/_card";
-import { getDeliveryDetailsById, getItemTransferInById } from "../helper";
-import Loading from "../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { useHistory } from 'react-router-dom';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ICard from '../../../../_helper/_card';
+import { getDeliveryDetailsById, getItemTransferInById } from '../helper';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  otherBranchName: "",
-  otherBranchAddress: "",
-  transferNo: "",
-  taxItemGroupName: "",
-  uomname: "",
-  quantity: "",
-  invoicePrice: "",
+  otherBranchName: '',
+  otherBranchAddress: '',
+  transferNo: '',
+  taxItemGroupName: '',
+  uomname: '',
+  quantity: '',
+  invoicePrice: '',
   isFree: false,
-  itemType: "",
-  basePrice: "",
+  itemType: '',
+  basePrice: '',
 };
 
 export default function ItemTransferInViewForm({ id, location, typeId }) {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [objProps, setObjprops] = useState({});
 
   // to show data in create page right side
-  const [createPageGrid, setCreatePageGrid] = useState("");
+  const [createPageGrid, setCreatePageGrid] = useState('');
 
   // transfer no ddl
   const [transferNo, setTransferNo] = useState([]);
@@ -56,7 +56,8 @@ export default function ItemTransferInViewForm({ id, location, typeId }) {
     if (
       profileData?.accountId &&
       selectedBusinessUnit?.value &&
-      singleData?.getByIdHeader?.referanceNo && itemTypeId
+      singleData?.getByIdHeader?.referanceNo &&
+      itemTypeId
     ) {
       getDeliveryDetailsById(
         itemTypeId,
@@ -64,7 +65,6 @@ export default function ItemTransferInViewForm({ id, location, typeId }) {
         setCreatePageGrid
       );
     }
-
   }, [profileData, selectedBusinessUnit, singleData]);
 
   useEffect(() => {
@@ -95,7 +95,6 @@ export default function ItemTransferInViewForm({ id, location, typeId }) {
         setRowDto([]);
       }
     }
-
   }, [singleData]);
 
   const backHandler = () => {
@@ -106,7 +105,7 @@ export default function ItemTransferInViewForm({ id, location, typeId }) {
     <ICard
       getProps={setObjprops}
       isDisabled={isDisabled}
-      title={"View Item Transfer-in"}
+      title={'View Item Transfer-in'}
     >
       {isDisabled && <Loading />}
       <Form

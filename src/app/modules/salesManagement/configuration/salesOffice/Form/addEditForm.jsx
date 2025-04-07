@@ -1,22 +1,21 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveSalesOffice,
   saveEditedSalesOffice,
   getSalesOfficeById,
   setSalesOfficeSingleEmpty,
   getSalesOrgDDL,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import { getSalesOrgDDLAction } from "../../../../_helper/_redux/Actions";
-import Loading from "../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import { getSalesOrgDDLAction } from '../../../../_helper/_redux/Actions';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  salesOrganization: "",
-  salesOfficeName: "",
+  salesOrganization: '',
+  salesOfficeName: '',
 };
 
 export default function SalesOfficeForm({
@@ -26,7 +25,7 @@ export default function SalesOfficeForm({
   },
 }) {
   const [isDisabled, setDisabled] = useState(false);
-  const [salesOrgDDL,setOrgDDL] = useState([]);
+  const [salesOrgDDL, setOrgDDL] = useState([]);
   const [objProps, setObjprops] = useState({});
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -56,7 +55,6 @@ export default function SalesOfficeForm({
     } else {
       dispatch(setSalesOfficeSingleEmpty());
     }
-
   }, [id]);
 
   //Dispatch Get SOlist action for get SOlist ddl
@@ -65,9 +63,12 @@ export default function SalesOfficeForm({
       dispatch(
         getSalesOrgDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
-      getSalesOrgDDL(profileData.accountId, selectedBusinessUnit.value,setOrgDDL)
+      getSalesOrgDDL(
+        profileData.accountId,
+        selectedBusinessUnit.value,
+        setOrgDDL
+      );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
@@ -80,7 +81,7 @@ export default function SalesOfficeForm({
           salesOrganizationName: values.salesOrganization.label,
           actionBy: profileData.userId,
         };
-        dispatch(saveEditedSalesOffice(payload,setDisabled));
+        dispatch(saveEditedSalesOffice(payload, setDisabled));
       } else {
         const payload = {
           salesOfficeName: values.salesOfficeName,
@@ -92,16 +93,16 @@ export default function SalesOfficeForm({
           actionBy: profileData.userId,
         };
 
-        dispatch(saveSalesOffice({ data: payload, cb },setDisabled));
+        dispatch(saveSalesOffice({ data: payload, cb }, setDisabled));
       }
     } else {
-      console.log(values)
+      console.log(values);
     }
   };
 
   return (
     <IForm
-      title={id ? "Edit Sales Office" : "Create Sales Office"}
+      title={id ? 'Edit Sales Office' : 'Create Sales Office'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

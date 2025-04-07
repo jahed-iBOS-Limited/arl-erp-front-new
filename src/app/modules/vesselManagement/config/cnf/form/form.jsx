@@ -1,15 +1,14 @@
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import ICustomCard from '../../../../_helper/_customCard';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { editCNF } from '../helper';
 
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import ICustomCard from "../../../../_helper/_customCard";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { editCNF } from "../helper";
-
-const initData = { cnf: "", phoneNo: "" };
+const initData = { cnf: '', phoneNo: '' };
 
 const CNFForm = ({ setShow, getData, formType, singleData }) => {
   const [, postData, isLoading] = useAxiosPost();
@@ -38,9 +37,9 @@ const CNFForm = ({ setShow, getData, formType, singleData }) => {
   };
 
   const saveHandler = (values) => {
-    if (formType === "create") {
+    if (formType === 'create') {
       const cb = () => {
-        getData("", 0, 15);
+        getData('', 0, 15);
         setShow(false);
       };
       postData(`/wms/FertilizerOperation/CreateLighterCNF`, rows, cb, true);
@@ -51,7 +50,7 @@ const CNFForm = ({ setShow, getData, formType, singleData }) => {
         phone: values?.phoneNo,
       };
       const cb = () => {
-        getData("", 0, 15);
+        getData('', 0, 15);
         setShow(false);
       };
       editCNF(payload, setLoading, cb);
@@ -63,7 +62,7 @@ const CNFForm = ({ setShow, getData, formType, singleData }) => {
       <Formik
         enableReinitialize={true}
         initialValues={
-          formType === "edit"
+          formType === 'edit'
             ? {
                 cnf: singleData?.cnfagentName,
                 phoneNo: singleData?.phone,
@@ -75,11 +74,11 @@ const CNFForm = ({ setShow, getData, formType, singleData }) => {
         {({ values, resetForm }) => (
           <>
             <ICustomCard
-              title={`${formType === "edit" ? "Edit" : "Create"} CnF Agency`}
+              title={`${formType === 'edit' ? 'Edit' : 'Create'} CnF Agency`}
               resetHandler={() => resetForm(initData)}
               saveHandler={() => saveHandler(values)}
               saveDisabled={
-                formType === "create"
+                formType === 'create'
                   ? rows?.length < 1
                   : !values?.cnf || !values?.phoneNo
               }
@@ -106,7 +105,7 @@ const CNFForm = ({ setShow, getData, formType, singleData }) => {
                         type="text"
                       />
                     </div>
-                    {formType === "create" && (
+                    {formType === 'create' && (
                       <div className="col-12 mt-3 text-right">
                         <button
                           className="btn btn-primary"
@@ -123,17 +122,17 @@ const CNFForm = ({ setShow, getData, formType, singleData }) => {
                     )}
                   </div>
                 </div>
-                {rows?.length > 0 && formType === "create" && (
+                {rows?.length > 0 && formType === 'create' && (
                   <div className="table-responsive">
                     <table
                       id="table-to-xlsx"
                       className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                       }
                     >
                       <thead>
                         <tr className="cursor-pointer">
-                          {["SL", "CnF Agent Name", "Phone No", "Action"]?.map(
+                          {['SL', 'CnF Agent Name', 'Phone No', 'Action']?.map(
                             (th, index) => {
                               return <th key={index}> {th} </th>;
                             }
@@ -145,7 +144,7 @@ const CNFForm = ({ setShow, getData, formType, singleData }) => {
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "40px" }}
+                                style={{ width: '40px' }}
                                 className="text-center"
                               >
                                 {index + 1}

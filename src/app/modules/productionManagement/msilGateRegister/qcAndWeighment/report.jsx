@@ -1,32 +1,32 @@
-import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { toast } from "react-toastify";
+import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import {
   _dateFormatter,
   _dateTimeFormatter,
-} from "../../../_helper/_dateFormate";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import "./style.css";
+} from '../../../_helper/_dateFormate';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
+import './style.css';
 
 const initData = {
-  fromDateTime: "",
-  toDateTime: "",
-  type: "",
-  businessUnit: "",
-  shipPoint: "",
+  fromDateTime: '',
+  toDateTime: '',
+  type: '',
+  businessUnit: '',
+  shipPoint: '',
 };
 
 function WeightmentReport() {
@@ -59,7 +59,6 @@ function WeightmentReport() {
         setLoading(false);
       }
     );
-
   }, []);
 
   const totalGross = rowData?.reduce(
@@ -92,7 +91,7 @@ function WeightmentReport() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Weightment Report"}>
+              <CardHeader title={'Weightment Report'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -107,18 +106,18 @@ function WeightmentReport() {
                         label="Business Unit"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("businessUnit", valueOption);
+                            setFieldValue('businessUnit', valueOption);
                             getShipPoint(
                               `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
                               (data) => {
                                 if (Array.isArray(data) && data?.length === 0)
-                                  return toast.warn("No Ship Point Found");
-                                setFieldValue("shipPoint", data[0]);
+                                  return toast.warn('No Ship Point Found');
+                                setFieldValue('shipPoint', data[0]);
                               }
                             );
                           } else {
-                            setFieldValue("businessUnit", "");
-                            setFieldValue("shipPoint", "");
+                            setFieldValue('businessUnit', '');
+                            setFieldValue('shipPoint', '');
                           }
                         }}
                       />
@@ -131,9 +130,9 @@ function WeightmentReport() {
                         label="Ship Point"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("shipPoint", valueOption);
+                            setFieldValue('shipPoint', valueOption);
                           } else {
-                            setFieldValue("shipPoint", "");
+                            setFieldValue('shipPoint', '');
                           }
                         }}
                       />
@@ -145,7 +144,7 @@ function WeightmentReport() {
                         name="fromDateTime"
                         type="datetime-local"
                         onChange={(e) => {
-                          setFieldValue("fromDateTime", e.target.value);
+                          setFieldValue('fromDateTime', e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -158,7 +157,7 @@ function WeightmentReport() {
                         name="toDateTime"
                         type="datetime-local"
                         onChange={(e) => {
-                          setFieldValue("toDateTime", e.target.value);
+                          setFieldValue('toDateTime', e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -170,12 +169,12 @@ function WeightmentReport() {
                         label="Type"
                         name="type"
                         options={[
-                          { value: 0, label: "All" },
-                          { value: 1, label: "Bulk" },
-                          { value: 2, label: "Others" },
+                          { value: 0, label: 'All' },
+                          { value: 1, label: 'Bulk' },
+                          { value: 2, label: 'Others' },
                         ]}
                         onChange={(valueOption) => {
-                          setFieldValue("type", valueOption);
+                          setFieldValue('type', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -183,7 +182,7 @@ function WeightmentReport() {
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         className="btn btn-primary"
                         disabled={
                           !values?.fromDateTime ||
@@ -202,7 +201,7 @@ function WeightmentReport() {
                     <div className="mt-4 ml-4">
                       <ReactToPrint
                         pageStyle={
-                          "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important} td,th{font-size: 16px!important}}"
+                          '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important} td,th{font-size: 16px!important}}'
                         }
                         trigger={() => (
                           <button
@@ -231,19 +230,19 @@ function WeightmentReport() {
                       <h2 className="font-weight-bold">Weight Details</h2>
                       <div className="d-flex justify-content-around">
                         <h4>
-                          From Date & Time :{" "}
+                          From Date & Time :{' '}
                           {`${_dateFormatter(
-                            values?.fromDateTime.split("T")[0]
+                            values?.fromDateTime.split('T')[0]
                           )} - ${_timeFormatter(
-                            values?.fromDateTime.split("T")[1] || ""
+                            values?.fromDateTime.split('T')[1] || ''
                           )}`}
                         </h4>
                         <h4>
-                          To Date & Time :{" "}
+                          To Date & Time :{' '}
                           {`${_dateFormatter(
-                            values?.toDateTime.split("T")[0]
+                            values?.toDateTime.split('T')[0]
                           )} - ${_timeFormatter(
-                            values?.toDateTime.split("T")[1] || ""
+                            values?.toDateTime.split('T')[1] || ''
                           )}`}
                         </h4>
                       </div>
@@ -254,10 +253,10 @@ function WeightmentReport() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>Reg. No</th>
                             <th>Vehcile</th>
-                            <th style={{ width: "200px" }}>Challan No</th>
+                            <th style={{ width: '200px' }}>Challan No</th>
                             <th>Material</th>
                             <th>Gross</th>
                             <th>Tare</th>
@@ -288,7 +287,7 @@ function WeightmentReport() {
                                   {item?.secondWeight}
                                 </td>
                                 <td className="text-center">
-                                  {" "}
+                                  {' '}
                                   {item?.netWeight}
                                 </td>
                                 <td className="text-center">
@@ -309,7 +308,7 @@ function WeightmentReport() {
                             <td className="text-center">
                               {totalQuantity.toFixed(2)}
                             </td>
-                            <td>{""}</td>
+                            <td>{''}</td>
                           </tr>
                         </tbody>
                       </table>

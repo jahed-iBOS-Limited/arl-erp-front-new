@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
 import {
   getBusinessPartnersWithoutTerritory,
   getTerritoryList,
   updateTerritory,
-} from "../helper";
+} from '../helper';
 
 export function PartnerTerritoryUpdate({ value }) {
   const [gridData, setGridData] = useState({});
@@ -21,7 +21,7 @@ export function PartnerTerritoryUpdate({ value }) {
     return state?.authData;
   }, shallowEqual);
 
-  const getGridData = (searchValue = "", pageNo = 0, pageSize = 15000) => {
+  const getGridData = (searchValue = '', pageNo = 0, pageSize = 15000) => {
     getBusinessPartnersWithoutTerritory(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -40,8 +40,7 @@ export function PartnerTerritoryUpdate({ value }) {
       value?.channel?.value,
       setTerritoryDDL
     );
-    getGridData("", 0, 15000);
-
+    getGridData('', 0, 15000);
   }, []);
 
   const updatePartnerTerritory = (item) => {
@@ -53,7 +52,7 @@ export function PartnerTerritoryUpdate({ value }) {
       intActionBy: profileData?.userId,
     };
     updateTerritory(payload, setLoading, () => {
-      getGridData("", 0, 15000);
+      getGridData('', 0, 15000);
     });
   };
 
@@ -78,60 +77,62 @@ export function PartnerTerritoryUpdate({ value }) {
       </div>
       {gridData?.data?.length > 0 && (
         <>
-          <div className="table-responsive"><table className="table table-striped table-bordered global-table">
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Code</th>
-                <th style={{ width: "250px" }}>Name</th>
-                <th>Address</th>
-                <th style={{ width: "200px" }}>Territory</th>
-                <th style={{ width: "100px" }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {gridData?.data?.map((item, index) => (
-                <tr key={index}>
-                  <td> {index + 1}</td>
-                  <td>{item?.strBusinessPartnerCode}</td>
-                  <td>{item?.strBusinessPartnerName}</td>
-                  <td>{item?.strBusinessPartnerAddress}</td>
-                  <td>
-                    <NewSelect
-                      name="strTerritoryName"
-                      menuPosition="fixed"
-                      value={item?.strTerritoryName}
-                      onChange={(valueOption) => {
-                        dataChangeHandler(
-                          "strTerritoryName",
-                          index,
-                          valueOption
-                        );
-                      }}
-                      options={territoryDDL}
-                    />
-                  </td>
-
-                  <td>
-                    <div className="d-flex justify-content-around">
-                      <button
-                        style={
-                          !item?.strTerritoryName ? { cursor: "no-drop" } : {}
-                        }
-                        disabled={!item?.strTerritoryName}
-                        className="btn btn-success"
-                        onClick={() => {
-                          updatePartnerTerritory(item);
-                        }}
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </td>
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered global-table">
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Code</th>
+                  <th style={{ width: '250px' }}>Name</th>
+                  <th>Address</th>
+                  <th style={{ width: '200px' }}>Territory</th>
+                  <th style={{ width: '100px' }}>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table></div>
+              </thead>
+              <tbody>
+                {gridData?.data?.map((item, index) => (
+                  <tr key={index}>
+                    <td> {index + 1}</td>
+                    <td>{item?.strBusinessPartnerCode}</td>
+                    <td>{item?.strBusinessPartnerName}</td>
+                    <td>{item?.strBusinessPartnerAddress}</td>
+                    <td>
+                      <NewSelect
+                        name="strTerritoryName"
+                        menuPosition="fixed"
+                        value={item?.strTerritoryName}
+                        onChange={(valueOption) => {
+                          dataChangeHandler(
+                            'strTerritoryName',
+                            index,
+                            valueOption
+                          );
+                        }}
+                        options={territoryDDL}
+                      />
+                    </td>
+
+                    <td>
+                      <div className="d-flex justify-content-around">
+                        <button
+                          style={
+                            !item?.strTerritoryName ? { cursor: 'no-drop' } : {}
+                          }
+                          disabled={!item?.strTerritoryName}
+                          className="btn btn-success"
+                          onClick={() => {
+                            updatePartnerTerritory(item);
+                          }}
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </>
       )}
       {/* {gridData?.data?.length > 0 && (

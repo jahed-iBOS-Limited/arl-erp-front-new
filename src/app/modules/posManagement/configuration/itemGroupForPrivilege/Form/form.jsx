@@ -1,20 +1,20 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import { GetSalesWiseItem_api, getWareHouseDDL } from "../helper";
-import IDelete from "./../../../../_helper/_helperIcons/_delete";
-import InputField from "./../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import { GetSalesWiseItem_api, getWareHouseDDL } from '../helper';
+import IDelete from './../../../../_helper/_helperIcons/_delete';
+import InputField from './../../../../_helper/_inputField';
+import NewSelect from './../../../../_helper/_select';
 // Validation schema
 const validationSchema = Yup.object().shape({
   outletName: Yup.object().shape({
-    label: Yup.string().required("Outlet Name is required"),
-    value: Yup.string().required("Outlet Name is required"),
+    label: Yup.string().required('Outlet Name is required'),
+    value: Yup.string().required('Outlet Name is required'),
   }),
   itemGroupName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .required("Item Group Name no is required"),
+    .min(2, 'Minimum 2 symbols')
+    .required('Item Group Name no is required'),
 });
 
 export default function FormCmp({
@@ -25,7 +25,7 @@ export default function FormCmp({
   rowDto,
   setter,
   remover,
-  setRowDto
+  setRowDto,
 }) {
   const [WareHouseDDL, setWareHouseDDL] = useState([]);
   const [itemDDL, setItemDDL] = useState([]);
@@ -47,7 +47,6 @@ export default function FormCmp({
         setItemDDL
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   return (
@@ -59,7 +58,7 @@ export default function FormCmp({
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
-            setRowDto([])
+            setRowDto([]);
           });
         }}
       >
@@ -81,7 +80,7 @@ export default function FormCmp({
                     options={WareHouseDDL || []}
                     value={values?.outletName}
                     onChange={(valueOption) => {
-                      setFieldValue("outletName", valueOption);
+                      setFieldValue('outletName', valueOption);
                     }}
                     placeholder="Outlet Name"
                     touched={touched}
@@ -107,7 +106,7 @@ export default function FormCmp({
                     options={itemDDL || []}
                     label="Item "
                     onChange={(valueOption) => {
-                      setFieldValue("item", valueOption);
+                      setFieldValue('item', valueOption);
                     }}
                     placeholder="Item "
                     errors={errors}
@@ -164,13 +163,13 @@ export default function FormCmp({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

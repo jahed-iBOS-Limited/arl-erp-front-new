@@ -1,16 +1,16 @@
-import React from "react";
-import { Formik } from "formik";
-import { useHistory } from "react-router";
-import { validationSchema } from "../helper";
+import React from 'react';
+import { Formik } from 'formik';
+import { useHistory } from 'react-router';
+import { validationSchema } from '../helper';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import HeaderForm from "./headerForm";
-import RowForm from "./rowForm";
+} from '../../../../../../_metronic/_partials/controls';
+import HeaderForm from './headerForm';
+import RowForm from './rowForm';
 
 export default function FormCmp({
   initData,
@@ -39,7 +39,7 @@ export default function FormCmp({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
-          if (viewType === "edit") {
+          if (viewType === 'edit') {
             saveHandler(values, () => {
               resetForm(initData);
               setRowData([]);
@@ -63,7 +63,7 @@ export default function FormCmp({
               <CardHeader
                 title={`Partner Product Allocation ${
                   !viewType
-                    ? "Create"
+                    ? 'Create'
                     : viewType[0].toUpperCase() +
                       viewType?.slice(1)?.toLowerCase()
                 }`}
@@ -84,7 +84,7 @@ export default function FormCmp({
                       type="reset"
                       onClick={() => resetForm(initData)}
                       className="btn btn-light ml-2"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     >
                       <i className="fa fa-redo"></i>
                       Reset
@@ -93,7 +93,7 @@ export default function FormCmp({
                       type="submit"
                       className="btn btn-primary ml-2"
                       onClick={() => {
-                        if (viewType === "edit") {
+                        if (viewType === 'edit') {
                           handleSubmit();
                         } else {
                           saveHandler(values, () => {
@@ -102,7 +102,7 @@ export default function FormCmp({
                           });
                         }
                       }}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     >
                       Save
                     </button>

@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { GetCreditNotePasignation, getTaxBranchDDL_api } from "../helper";
-import { Formik, Form } from "formik";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { GetCreditNotePasignation, getTaxBranchDDL_api } from '../helper';
+import { Formik, Form } from 'formik';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import PaginationSearch from "../../../../_helper/_search";
-import Loading from "../../../../_helper/_loading";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { setCreditNoteLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+} from '../../../../../../_metronic/_partials/controls';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import PaginationSearch from '../../../../_helper/_search';
+import Loading from '../../../../_helper/_loading';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { setCreditNoteLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 const initData = {
-  taxbranch: "",
+  taxbranch: '',
   formDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -89,7 +89,6 @@ export function TableRow() {
     if (creditNoteLanding?.taxbranch?.value) {
       girdDataFunc(creditNoteLanding, pageNo, pageSize);
     }
-
   }, [creditNoteLanding, taxbranchDDL]);
 
   return (
@@ -119,7 +118,7 @@ export function TableRow() {
                     disabled={!values?.taxbranch}
                     onClick={() => {
                       history.push({
-                        pathname: "/mngVat/sales/credit-note/add",
+                        pathname: '/mngVat/sales/credit-note/add',
                         state: {
                           transferoutLandingInitData: values?.taxbranch,
                         },
@@ -141,7 +140,7 @@ export function TableRow() {
                         value={values?.taxbranch}
                         label="Tax Branch"
                         onChange={(valueOption) => {
-                          setFieldValue("taxbranch", valueOption);
+                          setFieldValue('taxbranch', valueOption);
                         }}
                         placeholder="Tax Branch"
                         errors={errors}
@@ -192,11 +191,11 @@ export function TableRow() {
                         <table className="table table-striped table-bordered global-table">
                           <thead>
                             <tr>
-                              <th style={{ width: "25px" }}>SL</th>
-                              <th style={{ width: "50px" }}>Partner</th>
-                              <th style={{ width: "50px" }}>Sales Invoice</th>
-                              <th style={{ width: "50px" }}>Fiscal Year</th>
-                              <th style={{ width: "30px" }}>Action</th>
+                              <th style={{ width: '25px' }}>SL</th>
+                              <th style={{ width: '50px' }}>Partner</th>
+                              <th style={{ width: '50px' }}>Sales Invoice</th>
+                              <th style={{ width: '50px' }}>Fiscal Year</th>
+                              <th style={{ width: '30px' }}>Action</th>
                             </tr>
                           </thead>
                           <tbody>

@@ -1,34 +1,34 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "./../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { useState } from "react";
-import { GetBankBranchAdd_Api, GetBankDDL_api } from "./../helper";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from './../../../../_helper/_select';
+import InputField from './../../../../_helper/_inputField';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { useState } from 'react';
+import { GetBankBranchAdd_Api, GetBankDDL_api } from './../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   bankDDL: Yup.object().shape({
-    label: Yup.string().required("Bank Name is required"),
-    value: Yup.string().required("Bank Name is required"),
+    label: Yup.string().required('Bank Name is required'),
+    value: Yup.string().required('Bank Name is required'),
   }),
   branchName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Branch Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Branch Name is required'),
   branchCode: Yup.string()
-    .matches(/^[0-9]+$/, "Must be only number")
-    .min(3, "Minimum 3 symbols")
-    .max(3, "Maximum 3 symbols")
-    .required("Branch Code is required"),
+    .matches(/^[0-9]+$/, 'Must be only number')
+    .min(3, 'Minimum 3 symbols')
+    .max(3, 'Maximum 3 symbols')
+    .required('Branch Code is required'),
   routingNo: Yup.string()
     // .min(9, "Minimum 9 symbols")
     // .max(9, "Maximum 9 symbols")
-    .required("Routing NO is required")
-    .matches(/^(\S{9}|\S{11})$/, "Must be 9/11 number"),
+    .required('Routing NO is required')
+    .matches(/^(\S{9}|\S{11})$/, 'Must be 9/11 number'),
   //
   // .test(
   //   "oneOfRequired",
@@ -53,12 +53,17 @@ const validationSchema = Yup.object().shape({
   //   }
   // ),
   branchAddress: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("District is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('District is required'),
 });
 
-export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) {
+export default function FormCmp({
+  initData,
+  btnRef,
+  saveHandler,
+  resetBtnRef,
+}) {
   const [BankDDL, setBankDDL] = useState([]);
   const [addressDDl, setAddressDDl] = useState([]);
   // get user profile data from store
@@ -76,7 +81,6 @@ export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) 
       GetBankDDL_api(setBankDDL);
       GetBankBranchAdd_Api(setAddressDDl);
     }
-
   }, [selectedBusinessUnit, profileData]);
   return (
     <>
@@ -109,7 +113,7 @@ export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) 
                     value={values?.bankDDL}
                     label="Bank Name"
                     onChange={(valueOption) => {
-                      setFieldValue("bankDDL", valueOption);
+                      setFieldValue('bankDDL', valueOption);
                     }}
                     placeholder="Bank Name"
                     errors={errors}
@@ -123,7 +127,7 @@ export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) 
                     value={values?.branchAddress}
                     label="Address"
                     onChange={(valueOption) => {
-                      setFieldValue("branchAddress", valueOption);
+                      setFieldValue('branchAddress', valueOption);
                     }}
                     placeholder="Address"
                     errors={errors}
@@ -161,7 +165,7 @@ export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) 
               <button
                 type="submit"
                 style={{
-                  display: "none",
+                  display: 'none',
                 }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
@@ -170,7 +174,7 @@ export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) 
               <button
                 type="reset"
                 style={{
-                  display: "none",
+                  display: 'none',
                 }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}

@@ -55,7 +55,7 @@ const LandingTable = ({ obj }) => {
           <tbody>
             {gridData?.data?.map((item, index) => {
               const matchEmployeeId = item?.investigatorAssignByName?.find(
-                (itm) => itm?.investigatorId === employeeId,
+                (itm) => itm?.investigatorId === employeeId
               );
               const defaultEnvEmp = item?.investigatorAssignByName?.[0];
               return (
@@ -73,7 +73,7 @@ const LandingTable = ({ obj }) => {
                   <td>
                     {item?.delegateDateTime &&
                       moment(item?.delegateDateTime).format(
-                        'YYYY-MM-DD, HH:mm A',
+                        'YYYY-MM-DD, HH:mm A'
                       )}
                   </td>
                   <td>{item?.delegateToName}</td>
@@ -96,7 +96,7 @@ const LandingTable = ({ obj }) => {
                                     <>
                                       , Due:
                                       {moment(itm?.investigationDueDate).format(
-                                        'YYYY-MM-DD',
+                                        'YYYY-MM-DD'
                                       )}
                                     </>
                                   )}
@@ -104,7 +104,7 @@ const LandingTable = ({ obj }) => {
                                     <>
                                       , Actual:
                                       {moment(
-                                        itm?.investigationDateTime,
+                                        itm?.investigationDateTime
                                       ).format('YYYY-MM-DD, HH:mm A')}
                                     </>
                                   )}
@@ -124,7 +124,7 @@ const LandingTable = ({ obj }) => {
                           cursor: 'pointer',
                           color: 'blue',
                           textDecoration: 'underline',
-                          fontWeight: 'normal'
+                          fontWeight: 'normal',
                         }}
                       >
                         {(matchEmployeeId?.investigatorName || defaultEnvEmp) &&
@@ -152,7 +152,7 @@ const LandingTable = ({ obj }) => {
                                     <>
                                       , Due:
                                       {moment(itm?.investigationDueDate).format(
-                                        'YYYY-MM-DD',
+                                        'YYYY-MM-DD'
                                       )}
                                     </>
                                   )}
@@ -160,7 +160,7 @@ const LandingTable = ({ obj }) => {
                                     <>
                                       , Actual:
                                       {moment(
-                                        itm?.investigationDateTime,
+                                        itm?.investigationDateTime
                                       ).format('YYYY-MM-DD, HH:mm A')}
                                     </>
                                   )}
@@ -181,10 +181,10 @@ const LandingTable = ({ obj }) => {
                         {(matchEmployeeId?.investigationDateTime ||
                           defaultEnvEmp?.investigationDateTime) &&
                           (moment(
-                            matchEmployeeId?.investigationDateTime,
+                            matchEmployeeId?.investigationDateTime
                           ).format('YYYY-MM-DD, HH:mm A') ||
                             moment(defaultEnvEmp?.investigationDateTime).format(
-                              'YYYY-MM-DD, HH:mm A',
+                              'YYYY-MM-DD, HH:mm A'
                             ))}
                       </div>
                     </OverlayTrigger>
@@ -216,7 +216,7 @@ const LandingTable = ({ obj }) => {
                         <span
                           onClick={() => {
                             history.push(
-                              `/sales-management/complainmanagement/complain/edit/${item?.complainId}`,
+                              `/sales-management/complainmanagement/complain/edit/${item?.complainId}`
                             );
                           }}
                         >

@@ -1,32 +1,31 @@
-
-import React, { useEffect } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import {
   getEmployeeBasicInfoByIdAction,
   getYearDDLAction,
-} from "../../../performanceManagement/_redux/Actions";
-import ICard from "../../../_helper/_card";
-import Select from "react-select";
-import customStyles from "../../../selectCustomStyle";
-import { useState } from "react";
-import { getEmployeeDDLAction } from "../../../performanceManagement/individualKpi/balancedScore/_redux/Actions";
-import { getMonthDDLAction } from "../../../performanceManagement/individualKpi/PerformanceChart/_redux/Actions";
-import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
-import { downloadFile } from "../../../_helper/downloadFile";
-import { currentPyscalYear } from "./utils";
-import { getPmsReportAction } from "../../../performanceManagement/_helper/getReportAction";
-import PmsCommonTable from "../../../performanceManagement/_helper/pmsCommonTable/PmsCommonTable";
-import IViewModal from "../../../_helper/_viewModal";
-import ViewForm from "../View/mainForm";
+} from '../../../performanceManagement/_redux/Actions';
+import ICard from '../../../_helper/_card';
+import Select from 'react-select';
+import customStyles from '../../../selectCustomStyle';
+import { useState } from 'react';
+import { getEmployeeDDLAction } from '../../../performanceManagement/individualKpi/balancedScore/_redux/Actions';
+import { getMonthDDLAction } from '../../../performanceManagement/individualKpi/PerformanceChart/_redux/Actions';
+import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
+import { downloadFile } from '../../../_helper/downloadFile';
+import { currentPyscalYear } from './utils';
+import { getPmsReportAction } from '../../../performanceManagement/_helper/getReportAction';
+import PmsCommonTable from '../../../performanceManagement/_helper/pmsCommonTable/PmsCommonTable';
+import IViewModal from '../../../_helper/_viewModal';
+import ViewForm from '../View/mainForm';
 
 export default function AchievementTable() {
   const dispatch = useDispatch();
-  const [employee, setEmployee] = useState("");
-  const [year, setYear] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [privacyType] = useState("1");
+  const [employee, setEmployee] = useState('');
+  const [year, setYear] = useState('');
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
+  const [privacyType] = useState('1');
 
   let storeData = useSelector(
     (state) => {
@@ -40,13 +39,8 @@ export default function AchievementTable() {
     },
     { shallowEqual }
   );
-  let {
-    profileData,
-    selectedBusinessUnit,
-    yearDDL,
-    monthDDL,
-    empDDL,
-  } = storeData;
+  let { profileData, selectedBusinessUnit, yearDDL, monthDDL, empDDL } =
+    storeData;
 
   // get employee basic info from store
   const employeeBasicInfo = useSelector((state) => {
@@ -69,7 +63,6 @@ export default function AchievementTable() {
       value: profileData?.employeeId,
       label: profileData?.employeeFullName,
     });
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -90,7 +83,7 @@ export default function AchievementTable() {
 
   const [report, setReport] = useState({});
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentItem, setCurrentItem] = useState("");
+  const [currentItem, setCurrentItem] = useState('');
 
   // june = 13;
   // july = 24;
@@ -124,7 +117,7 @@ export default function AchievementTable() {
           <label>Select Employee</label>
           <Select
             onChange={(valueOption) => {}}
-            isDisabled={privacyType === "1"}
+            isDisabled={privacyType === '1'}
             className="mb-3"
             value={employee}
             styles={customStyles}
@@ -223,24 +216,24 @@ export default function AchievementTable() {
       </div>
       {employeeBasicInfo && (
         <p className="mt-3 employee_info">
-          <b> Enroll</b> : {employeeBasicInfo?.employeeId}, <b> Designation</b>{" "}
-          : {employeeBasicInfo?.designationName}, <b> Department</b> :{" "}
-          {employeeBasicInfo?.departmentName}, <b> Supervisor</b> :{" "}
-          {employeeBasicInfo?.supervisorName}, <b> Sbu</b> :{" "}
-          {employeeBasicInfo?.sbuName}, <b> Business Unit</b> :{" "}
+          <b> Enroll</b> : {employeeBasicInfo?.employeeId}, <b> Designation</b>{' '}
+          : {employeeBasicInfo?.designationName}, <b> Department</b> :{' '}
+          {employeeBasicInfo?.departmentName}, <b> Supervisor</b> :{' '}
+          {employeeBasicInfo?.supervisorName}, <b> Sbu</b> :{' '}
+          {employeeBasicInfo?.sbuName}, <b> Business Unit</b> :{' '}
           {employeeBasicInfo?.businessUnitName}
         </p>
       )}
       <div className="text-right mb-1">
         <ButtonStyleOne
           label="Export Excel"
-          style={{ padding: "6px 8px" }}
+          style={{ padding: '6px 8px' }}
           type="button"
           onClick={() => {
             downloadFile(
               `/pms/Kpi2/GetKpiReportDownload?intUnitID=${selectedBusinessUnit?.value}&ReportTypeReffId=${employee?.value}&intYearId=${year?.value}&intFromMonthId=${from?.value}&intToMonthId=${to?.value}&isDashBoard=false&ReportType=1`,
-              "Individual KPI",
-              "xlsx"
+              'Individual KPI',
+              'xlsx'
             );
           }}
         />
@@ -248,16 +241,16 @@ export default function AchievementTable() {
       <div className="achievement">
         <PmsCommonTable
           ths={[
-            { name: "BSC" },
-            { name: "Objective" },
-            { name: "KPI" },
-            { name: "SRF" },
-            { name: "Weight" },
-            { name: "Benchmark" },
-            { name: "Target" },
-            { name: "Ach." },
-            { name: "Progress" },
-            { name: "Score" },
+            { name: 'BSC' },
+            { name: 'Objective' },
+            { name: 'KPI' },
+            { name: 'SRF' },
+            { name: 'Weight' },
+            { name: 'Benchmark' },
+            { name: 'Target' },
+            { name: 'Ach.' },
+            { name: 'Progress' },
+            { name: 'Score' },
           ]}
         >
           {report?.infoList?.map((itm, indx) => (
@@ -274,8 +267,8 @@ export default function AchievementTable() {
                   )}
                   {item?.isParent && (
                     <td className="obj" rowspan={item?.numberOfChild}>
-                      {" "}
-                      {item?.parentName}{" "}
+                      {' '}
+                      {item?.parentName}{' '}
                     </td>
                   )}
                   <td> {item?.label} </td>
@@ -294,10 +287,10 @@ export default function AchievementTable() {
                       >
                         <span
                           style={{
-                            padding: "16px 16px",
-                            cursor: "pointer",
-                            color: "blue",
-                            textDecoration: "underline",
+                            padding: '16px 16px',
+                            cursor: 'pointer',
+                            color: 'blue',
+                            textDecoration: 'underline',
                           }}
                           onClick={() => {
                             setCurrentItem({
@@ -316,12 +309,12 @@ export default function AchievementTable() {
                           {item?.numAchivement}
                         </span>
                       </OverlayTrigger>
-                    )}{" "}
+                    )}{' '}
                   </td>
                   <td>
                     {indx !== report?.infoList.length - 1 && (
                       <div className="text-right">
-                        {item?.progress}%{" "}
+                        {item?.progress}%{' '}
                         <i
                           className={`ml-2 fas fa-arrow-alt-${item?.arrowText}`}
                         ></i>

@@ -1,23 +1,22 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import shortid from "shortid";
-import { toArray } from "lodash";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import shortid from 'shortid';
+import { toArray } from 'lodash';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const initData = {
-  priceStructureCode: "",
-  priceStructureName: "",
-  priceStructureType: { value: "", label: "" },
+  priceStructureCode: '',
+  priceStructureName: '',
+  priceStructureType: { value: '', label: '' },
 };
 
 export default function AddForm({ history }) {
@@ -42,14 +41,14 @@ export default function AddForm({ history }) {
             ?.priceComponentTypeId !== 6
         ) {
           toast.info(
-            "Price Structure last row must be a non contributing type!"
+            'Price Structure last row must be a non contributing type!'
           );
         } else {
           const createPriceStructureRowDTO = rowDtoArray.map((itm, idx) => {
             return {
               priceComponentId: itm?.priceComponent?.value,
               priceComponentTypeId: itm?.priceComponent?.priceComponentTypeId,
-              valueType: itm?.valueType?.value || "amount",
+              valueType: itm?.valueType?.value || 'amount',
               numValue: +itm?.numValue || 0,
               baseComponentId: itm?.baseComponent?.value || 0,
               serialNo: idx + 1,
@@ -74,11 +73,11 @@ export default function AddForm({ history }) {
           try {
             setDisabled(true);
             const res = await Axios.post(
-              "/item/PriceStructure/CreatePriceStructure",
+              '/item/PriceStructure/CreatePriceStructure',
               priceStructureData
             );
             cb(initData);
-            toast.success(res.data?.message || "Submitted successfully", {
+            toast.success(res.data?.message || 'Submitted successfully', {
               toastId: shortid(),
             });
             setDisabled(false);
@@ -90,7 +89,6 @@ export default function AddForm({ history }) {
       }
     } else {
       setDisabled(false);
-
     }
   };
 

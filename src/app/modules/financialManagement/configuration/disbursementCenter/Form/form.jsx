@@ -1,22 +1,22 @@
-import React  from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "./../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from './../../../../_helper/_select';
+import InputField from './../../../../_helper/_inputField';
 // Validation schema
 const validationSchema = Yup.object().shape({
   sbu: Yup.object().shape({
-    label: Yup.string().required("SBU is required"),
-    value: Yup.string().required("SBU is required"),
+    label: Yup.string().required('SBU is required'),
+    value: Yup.string().required('SBU is required'),
   }),
   disbursementCenter: Yup.string()
-    .min(1, "Minimum 8 symbols")
-    .max(1000, "Maximum 1000 symbols")
-    .required("Disbursement Center is required"),
+    .min(1, 'Minimum 8 symbols')
+    .max(1000, 'Maximum 1000 symbols')
+    .required('Disbursement Center is required'),
   disbursementCenterCode: Yup.string()
-    .min(1, "Minimum 8 symbols")
-    .max(1000, "Maximum 1000 symbols")
-    .required("Disbursement Center Code is required"),
+    .min(1, 'Minimum 8 symbols')
+    .max(1000, 'Maximum 1000 symbols')
+    .required('Disbursement Center Code is required'),
 });
 
 export default function FormCmp({
@@ -57,7 +57,7 @@ export default function FormCmp({
                     value={values?.sbu}
                     label="Select SBU"
                     onChange={(valueOption) => {
-                      setFieldValue("sbu", valueOption);
+                      setFieldValue('sbu', valueOption);
                     }}
                     placeholder="Select SBU"
                     errors={errors}
@@ -84,14 +84,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

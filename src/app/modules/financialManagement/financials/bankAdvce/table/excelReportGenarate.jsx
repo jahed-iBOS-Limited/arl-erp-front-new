@@ -17,7 +17,7 @@ const createExcelFile = async (
   bottom3,
   getBlobData,
   fileName,
-  isOldExcelDownload,
+  isOldExcelDownload
 ) => {
   let workbook = new Workbook();
   let worksheet = workbook.addWorksheet('Bank Advice');
@@ -205,7 +205,7 @@ export const generateExcel = (
   isHeaderNeeded,
   getBlobData,
   fileName,
-  isOldExcelDownload,
+  isOldExcelDownload
 ) => {
   row.forEach((item) => {
     item['debitAccount'] = values?.bankAccountNo?.bankAccNo;
@@ -305,7 +305,7 @@ export const generateExcel = (
   const tableDataInfo = getTableData(
     row,
     Object.keys(tableColumnInfo),
-    'numAmount',
+    'numAmount'
   );
   let tableBottom = [];
   let bottom3 = [];
@@ -367,7 +367,7 @@ export const generateExcel = (
       bottom3,
       getBlobData,
       fileName,
-      isOldExcelDownload,
+      isOldExcelDownload
     );
   } else {
     excelGenerator(
@@ -377,7 +377,7 @@ export const generateExcel = (
       total,
       totalInWords,
       null,
-      fileName,
+      fileName
     );
   }
 };

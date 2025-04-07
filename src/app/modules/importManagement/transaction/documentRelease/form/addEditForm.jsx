@@ -1,19 +1,16 @@
-
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   documentReleaseCreate,
   initData,
   documentReleaseGetByShipmentId,
   getDocumentReleaseById,
   getCnfDDL,
-} from "../helper";
-import Form from "./form";
-import IForm from "./../../../../_helper/_form";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
+} from '../helper';
+import Form from './form';
+import IForm from './../../../../_helper/_form';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function DocumentReleaseForm() {
   const [isDisabled, setDisabled] = useState(false);
@@ -34,8 +31,8 @@ export default function DocumentReleaseForm() {
     // values["netAmountFc"] =
     //   Number(values?.paymentAmount) -
     //   (Number(values?.pgAmount) + (Number(values?.otherCharges) || 0));
-    values["sbuId"] = location?.state?.sbuId;
-    values["plantId"] = location?.state?.plantId;
+    values['sbuId'] = location?.state?.sbuId;
+    values['plantId'] = location?.state?.plantId;
 
     // if (values?.paymentAmount < values?.pgAmount) {
     //   return toast.warn("PG Amount can not be greater than Payment Amount");
@@ -48,21 +45,21 @@ export default function DocumentReleaseForm() {
     //   );
     // } else
     if (values?.tenorDays <= 0) {
-      return toast.warn("Tenor Days Must Be Greater Than Zero");
+      return toast.warn('Tenor Days Must Be Greater Than Zero');
     }
 
     // if (values?.tenorDays <= shipmentData?.tenorDaysForRowDto) {
-      if (rowDto?.length > 0) {
-        const lastTenorDays = rowDto[rowDto?.length - 1].tenorDays;
-        if (lastTenorDays < values?.tenorDays) {
-          setRowDto(rowDto)
-          // bankAndLaborRateCalculation(values, rowDto)
-        } else {
-          return toast?.warn(
-            "Tenor Days Must Be Greater then the Last Tenor Days"
-          );
-        }
+    if (rowDto?.length > 0) {
+      const lastTenorDays = rowDto[rowDto?.length - 1].tenorDays;
+      if (lastTenorDays < values?.tenorDays) {
+        setRowDto(rowDto);
+        // bankAndLaborRateCalculation(values, rowDto)
+      } else {
+        return toast?.warn(
+          'Tenor Days Must Be Greater then the Last Tenor Days'
+        );
       }
+    }
     // } else {
     //   return toast.warn("Tenor Days Can not be Greater then LC Tenor Days");
     // }
@@ -85,7 +82,9 @@ export default function DocumentReleaseForm() {
       : 0;
 
     let netPayAmount =
-      bankRate + liborRate + (values?.paymentAmount + (values?.otherCharges || 0));
+      bankRate +
+      liborRate +
+      (values?.paymentAmount + (values?.otherCharges || 0));
 
     //create new object
     const obj = {
@@ -93,12 +92,12 @@ export default function DocumentReleaseForm() {
       pgAmount: values?.pgAmountCheck ? values?.paymentAmount : 0,
       netAmountFc:
         Number(values?.otherCharges || 0) + Number(values?.paymentAmount || 0),
-      pgStatus: values?.pgAmountCheck ? "Yes" : "No",
+      pgStatus: values?.pgAmountCheck ? 'Yes' : 'No',
       otherAmount: Number(values?.otherCharges || 0),
       isPG: values?.pgAmountCheck,
       netPayAmount: netPayAmount,
       bankRate: values?.numBankRate,
-      liborRate: values?.numLiborRate
+      liborRate: values?.numLiborRate,
     };
 
     let newData = [...rowDto, obj];
@@ -109,7 +108,7 @@ export default function DocumentReleaseForm() {
     );
 
     if (values?.invoiceAmount < totalAmount) {
-      return toast.warn("Payment Amount and Invoice Amount must be equal");
+      return toast.warn('Payment Amount and Invoice Amount must be equal');
     } else {
       setRowDto(newData);
       return;
@@ -119,15 +118,15 @@ export default function DocumentReleaseForm() {
   // console.log(location, "location");
   // console.log(location?.state?.lcId, "location?.state?.lcId");
   const saveHandler = async (values, cb) => {
-    values["sbuId"] = location?.state?.sbuId;
-    values["plantId"] = location?.state?.plantId;
-    if (values?.lcType?.label === "At Sight") {
+    values['sbuId'] = location?.state?.sbuId;
+    values['plantId'] = location?.state?.plantId;
+    if (values?.lcType?.label === 'At Sight') {
       if (values?.docReleaseChargeAtSight < values?.vatOnDocReleaseAtSight) {
-        return toast.warn("DOC Release Charge Must be Greater Than VAT Charge");
+        return toast.warn('DOC Release Charge Must be Greater Than VAT Charge');
       }
     } else {
       if (values?.docReleaseCharge < values?.vatOnDocRelease) {
-        return toast.warn("DOC Release Charge Must be Greater Than VAT Charge");
+        return toast.warn('DOC Release Charge Must be Greater Than VAT Charge');
       }
     }
 
@@ -145,13 +144,13 @@ export default function DocumentReleaseForm() {
     );
   };
   useEffect(() => {
-    if (location?.state?.shipmentId && location?.routeState !== "view") {
+    if (location?.state?.shipmentId && location?.routeState !== 'view') {
       documentReleaseGetByShipmentId(
         location?.state?.shipmentId,
         setShipmentData,
         setDisabled
       );
-    } else if (location?.state?.shipmentId && location?.routeState === "view") {
+    } else if (location?.state?.shipmentId && location?.routeState === 'view') {
       getDocumentReleaseById(
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -170,7 +169,7 @@ export default function DocumentReleaseForm() {
   };
 
   useEffect(() => {
-    if (shipmentData?.lcType?.label !== "At Sight") {
+    if (shipmentData?.lcType?.label !== 'At Sight') {
       const totalAmount = rowDto.reduce(
         (accumulator, currentValue) =>
           accumulator + currentValue?.paymentAmount,
@@ -197,9 +196,9 @@ export default function DocumentReleaseForm() {
       getProps={setObjprops}
       // isDisabled={isDisabled}
       isDisabled={isDisabled || isDisabledForAmount}
-      isHiddenReset={location?.routeState === "view"}
+      isHiddenReset={location?.routeState === 'view'}
       // isHiddenBack={location?.routeState === "view"}
-      isHiddenSave={location?.routeState === "view"}
+      isHiddenSave={location?.routeState === 'view'}
     >
       <Form
         {...objProps}

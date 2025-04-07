@@ -1,12 +1,12 @@
-import React from 'react'
-import TableRow from "./tableRow";
+import React from 'react';
+import TableRow from './tableRow';
 
 const ProformaInvoiceLanding = () => {
-    return (
-        <>
-            <TableRow />
-        </>
-    )
-}
+  return (
+    <>
+      <TableRow />
+    </>
+  );
+};
 
-export default ProformaInvoiceLanding
+export default ProformaInvoiceLanding;

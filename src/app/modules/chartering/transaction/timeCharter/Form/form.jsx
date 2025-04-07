@@ -64,7 +64,6 @@ export default function FormCmp({
         voyageTypeId: 1,
       });
     }
-
   }, [preData]);
 
   useEffect(() => {
@@ -243,7 +242,7 @@ export default function FormCmp({
               resetForm(initData);
               setInvoiceHireData([]);
               setRowData([]);
-            },
+            }
           );
         }}
       >
@@ -290,8 +289,8 @@ export default function FormCmp({
                     </button>
                   )}
                   {viewType !== 'view' &&
-                    (invoiceHireData?.vesselId ||
-                      dataForEdit?.objHeader?.vesselId) ? (
+                  (invoiceHireData?.vesselId ||
+                    dataForEdit?.objHeader?.vesselId) ? (
                     <button
                       type="submit"
                       className={'btn btn-primary px-3 py-2 ml-2'}
@@ -429,7 +428,7 @@ export default function FormCmp({
                             });
                           },
                           type,
-                          values?.hireTypeName?.value,
+                          values?.hireTypeName?.value
                         );
                       }}
                       isDisabled={viewType}
@@ -453,7 +452,7 @@ export default function FormCmp({
 
                   {/* if hire is not created yet */}
                   {+invoiceHireData?.objHeader?.tctransactionId === 0 ||
-                    invoiceHireData?.tctransactionId === 0 ? (
+                  invoiceHireData?.tctransactionId === 0 ? (
                     <div className="col-lg-3">
                       <FormikSelect
                         value={values?.beneficiary || ''}
@@ -502,7 +501,7 @@ export default function FormCmp({
                       {/* if any amount of selected hire is not received then show this section */}
 
                       {+invoiceHireData?.objHeader?.totalReceivedAmount ===
-                        0 ? (
+                      0 ? (
                         <>
                           <div className="col-lg-3">
                             <FormikSelect
@@ -561,9 +560,9 @@ export default function FormCmp({
                                           resetForm(initData);
                                           setInvoiceHireData([]);
                                           setRowData([]);
-                                        },
+                                        }
                                       );
-                                    },
+                                    }
                                   );
                                 } else {
                                   toast.warning('Amount Already Received', {
@@ -631,7 +630,7 @@ export default function FormCmp({
                                 buId,
                                 valueOption?.value,
                                 setSalesOrgList,
-                                setLoading,
+                                setLoading
                               );
                             }
                           }}
@@ -713,7 +712,7 @@ export default function FormCmp({
                                   setFieldValue('sbu', '');
                                   setFieldValue('salesOrg', '');
                                   setFieldValue('narration', '');
-                                },
+                                }
                               );
                             }
                           }}
@@ -745,8 +744,8 @@ export default function FormCmp({
               <>
                 {/* Invoice For Owner Create */}
                 {invoiceHireData?.vesselId &&
-                  invoiceHireData?.vesselName &&
-                  rowData?.length > 0 ? (
+                invoiceHireData?.vesselName &&
+                rowData?.length > 0 ? (
                   <InvoiceForOwner
                     invoiceHireData={invoiceHireData}
                     formikprops={{
@@ -769,9 +768,9 @@ export default function FormCmp({
 
                 {/* Invoice For Owner View */}
                 {invoiceHireData?.objRows?.length > 0 ||
-                  (id &&
-                    viewType !== 'edit' &&
-                    singleData?.objRows?.length > 0) ? (
+                (id &&
+                  viewType !== 'edit' &&
+                  singleData?.objRows?.length > 0) ? (
                   <>
                     <InvoiceForOwnerView
                       invoiceHireData={

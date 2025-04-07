@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { bankAccountSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { bankAccountSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = bankAccountSlice;
 
 export const getBankDDLAction = () => (dispatch) => {
@@ -28,13 +28,12 @@ export const saveBankAccount = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
       payload.setDisabled(false);
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       payload.setDisabled(false);
     });
@@ -46,7 +45,7 @@ export const saveEditedBankAccount = (payload, setDisabled) => () => {
     .then((res) => {
       if (res.status === 200) {
         console.log(res.data);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         setDisabled(false);
       }
     })
@@ -57,25 +56,19 @@ export const saveEditedBankAccount = (payload, setDisabled) => () => {
     });
 };
 // action for get grid data
-export const getBankAccountGridData = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res.data));
-    })
-    .catch((err) => {
-     
-      setLoading(false);
-    });
-};
+export const getBankAccountGridData =
+  (accId, buId, setLoading, pageNo, pageSize) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
 // action for get data by id single
 export const getSingleById = (id) => (dispatch) => {
@@ -107,9 +100,7 @@ export const getSingleById = (id) => (dispatch) => {
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 // set single store empty
 export const setBankAccountSingleEmpty = () => async (dispatch) => {
@@ -123,7 +114,5 @@ export const getViewModalData = (id) => (dispatch) => {
     .then((res) => {
       return dispatch(slice.SetViewModalData(res.data));
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };

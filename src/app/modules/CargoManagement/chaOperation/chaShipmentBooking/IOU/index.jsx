@@ -20,14 +20,12 @@ export default function IOU({ clickRowDto, CB }) {
     shippingHeadOfChargesLoading,
     setShippingHeadOfCharges,
   ] = useAxiosGet();
-  const [
-    prviousShippingHeadOfCharges,
-    setPrviousShippingHeadOfCharges,
-  ] = useState([]);
+  const [prviousShippingHeadOfCharges, setPrviousShippingHeadOfCharges] =
+    useState([]);
 
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const [
     singleChaShipmentBooking,
@@ -74,11 +72,10 @@ export default function IOU({ clickRowDto, CB }) {
   useEffect(() => {
     if (clickRowDto?.chabookingId) {
       getSingleChaShipmentBooking(
-        `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${clickRowDto?.chabookingId}`,
+        `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${clickRowDto?.chabookingId}`
       );
       commonGetShippingHeadOfCharges();
     }
-
   }, [clickRowDto]);
   const commonGetShippingHeadOfCharges = () => {
     getShippingHeadOfCharges(
@@ -95,7 +92,7 @@ export default function IOU({ clickRowDto, CB }) {
               if (formikRef.current) {
                 formikRef.current.setFieldValue(
                   'cashReceivedBy',
-                  storeShippingHeadOfCharges?.cashReceivedBy || '',
+                  storeShippingHeadOfCharges?.cashReceivedBy || ''
                 );
               }
 
@@ -114,7 +111,7 @@ export default function IOU({ clickRowDto, CB }) {
                 resShippingHeadOfCharges.forEach((item) => {
                   const saveHeadOfChargeList =
                     parseData?.filter(
-                      (findItem) => findItem?.headOfChargeId === item?.value,
+                      (findItem) => findItem?.headOfChargeId === item?.value
                     ) || [];
 
                   if (saveHeadOfChargeList?.length > 0) {
@@ -156,9 +153,9 @@ export default function IOU({ clickRowDto, CB }) {
             } catch (error) {
               console.log(error, 'error');
             }
-          },
+          }
         );
-      },
+      }
     );
   };
 
@@ -207,7 +204,7 @@ export default function IOU({ clickRowDto, CB }) {
       () => {
         commonGetShippingHeadOfCharges();
         setIsEditModeOn(false);
-      },
+      }
     );
   };
 
@@ -232,7 +229,6 @@ export default function IOU({ clickRowDto, CB }) {
       advanceAmount,
       grandTotal,
     });
-
   }, [shippingHeadOfCharges, prviousShippingHeadOfCharges]);
 
   if (singleChaShipmentBookingLoading) {
@@ -446,11 +442,11 @@ export default function IOU({ clickRowDto, CB }) {
                   <td colSpan="3" style={cellStyle}>
                     {singleChaShipmentBooking?.modeOfTransportName ===
                       'Sea' && (
-                        <>
-                          Container quantity:{' '}
-                          {singleChaShipmentBooking?.containerQty}
-                        </>
-                      )}
+                      <>
+                        Container quantity:{' '}
+                        {singleChaShipmentBooking?.containerQty}
+                      </>
+                    )}
                   </td>
                 </tr>
                 <tr>
@@ -606,7 +602,7 @@ export default function IOU({ clickRowDto, CB }) {
                                 className="btn btn-primary"
                                 onClick={() => {
                                   const hardCopy = JSON.parse(
-                                    JSON.stringify(shippingHeadOfCharges),
+                                    JSON.stringify(shippingHeadOfCharges)
                                   );
                                   const aboveRow = hardCopy?.[index];
                                   // insert new row below the above row
@@ -673,7 +669,7 @@ export default function IOU({ clickRowDto, CB }) {
                     >
                       {totalAmountObj?.grandTotal &&
                         convertNumberToWords(
-                          totalAmountObj?.grandTotal || 0,
+                          totalAmountObj?.grandTotal || 0
                         )}{' '}
                       Taka Only
                     </span>

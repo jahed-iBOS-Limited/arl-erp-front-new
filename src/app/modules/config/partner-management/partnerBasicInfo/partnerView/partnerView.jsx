@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import PartnerBankInfo from "./partnerBankInfo";
-import PartnerBasicInfo from "./partnerBasicInfo";
-import PartnerSalesInfo from "./partnerSelesInfo";
+} from '../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import PartnerBankInfo from './partnerBankInfo';
+import PartnerBasicInfo from './partnerBasicInfo';
+import PartnerSalesInfo from './partnerSelesInfo';
 export default function PartnerView() {
   // const [partnerInfo,setPartnerInfo] = useState()
   const [partnerInfo, getPartnerInfo, loadPartnerInfo] = useAxiosGet();
@@ -43,15 +43,15 @@ export default function PartnerView() {
     getPartnerInfo(
       `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerInformationByPartnerID?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&partnerId=${id}`
     );
-
   }, [businessPartnerIdFromHistory]);
   return (
     <Card>
       {loadPartnerInfo && <Loading />}
       {true && <ModalProgressBar />}
       <CardHeader
-        title={`View partner Info : [${partnerNameFromHistory ||
-          customerTypeFromHistory} - ${businessPartnerCodeFromHistory}]`}
+        title={`View partner Info : [${
+          partnerNameFromHistory || customerTypeFromHistory
+        } - ${businessPartnerCodeFromHistory}]`}
       >
         <CardHeaderToolbar>
           <button

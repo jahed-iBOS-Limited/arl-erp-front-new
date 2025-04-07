@@ -1,7 +1,7 @@
-import React from "react";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { discountFormatDDL, durationTypeDDL, basedOnDDL } from "../helper";
+import React from 'react';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { discountFormatDDL, durationTypeDDL, basedOnDDL } from '../helper';
 
 function RowAddForm({
   setFieldValue,
@@ -11,7 +11,7 @@ function RowAddForm({
   setter,
   setRowDto,
   itemOfferDDL,
-  rowDto
+  rowDto,
 }) {
   return (
     <>
@@ -66,7 +66,7 @@ function RowAddForm({
         {/*  if Scheme Type "Discount select" */}
         {[1].includes(values?.schemeType?.value) && (
           <>
-            {" "}
+            {' '}
             <div className="col-lg-3">
               <NewSelect
                 name="discountFormat"
@@ -74,8 +74,8 @@ function RowAddForm({
                 value={values?.discountFormat}
                 label="Discount Format"
                 onChange={(valueOption) => {
-                  setFieldValue("discountFormat", valueOption);
-                  setFieldValue("discountAmount", "");
+                  setFieldValue('discountFormat', valueOption);
+                  setFieldValue('discountAmount', '');
                 }}
                 placeholder="Discount Format"
                 errors={errors}
@@ -105,15 +105,15 @@ function RowAddForm({
                 value={values?.offerItem}
                 label="Offer Item"
                 onChange={(valueOption) => {
-                  setFieldValue("offerItem", valueOption);
+                  setFieldValue('offerItem', valueOption);
                   setFieldValue(
-                    "itemUoM",
+                    'itemUoM',
                     valueOption?.uom
                       ? {
                           value: valueOption?.uom,
                           label: valueOption?.uomName,
                         }
-                      : ""
+                      : ''
                   );
                 }}
                 placeholder="Offer Item"
@@ -128,7 +128,7 @@ function RowAddForm({
                 value={values?.itemUoM}
                 label="Item UoM"
                 onChange={(valueOption) => {
-                  setFieldValue("itemUoM", valueOption);
+                  setFieldValue('itemUoM', valueOption);
                 }}
                 placeholder="Item UoM"
                 errors={errors}
@@ -144,7 +144,7 @@ function RowAddForm({
                 placeholder="Offer Quantity"
                 type="number"
               />
-            </div>{" "}
+            </div>{' '}
           </>
         )}
 
@@ -155,9 +155,9 @@ function RowAddForm({
             value={values?.durationType}
             label="Duration Type"
             onChange={(valueOption) => {
-              setFieldValue("durationType", valueOption);
-              setFieldValue("monthDuration", "");
-              setFieldValue("basedOn", "");
+              setFieldValue('durationType', valueOption);
+              setFieldValue('monthDuration', '');
+              setFieldValue('basedOn', '');
               if (valueOption?.value === 1) {
                 setRowDto([]);
               }
@@ -173,7 +173,9 @@ function RowAddForm({
           values?.durationType?.value && (
             <>
               <div className="col-lg-3">
-                <label>{values?.durationType?.label} Duration(From Last Month)</label>
+                <label>
+                  {values?.durationType?.label} Duration(From Last Month)
+                </label>
                 <InputField
                   value={values?.monthDuration}
                   name="monthDuration"
@@ -188,7 +190,7 @@ function RowAddForm({
                   value={values?.basedOn}
                   label="Based On"
                   onChange={(valueOption) => {
-                    setFieldValue("basedOn", valueOption);
+                    setFieldValue('basedOn', valueOption);
                   }}
                   placeholder="Based On"
                   errors={errors}

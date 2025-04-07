@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   gridData: [],
   conditionTypeDDL: [],
   roundingTypeDDL: [],
@@ -12,14 +12,13 @@ const initState = {
   salesDDL: [],
   distributionDDL: [],
   salesTerritoryDDL: [],
-  partnerDDL: []
+  partnerDDL: [],
 };
 
 export const tradeOfferSlice = createSlice({
-  name: "tradeOffer",
+  name: 'tradeOffer',
   initialState: initState,
   reducers: {
-
     SetGridData: (state, action) => {
       const { payload } = action;
       state.gridData = payload;
@@ -37,15 +36,13 @@ export const tradeOfferSlice = createSlice({
 
     SetAllDDL: (state, action) => {
       const { payload } = action;
-      Object.keys(payload).forEach(key => {
+      Object.keys(payload).forEach((key) => {
         state[key] = payload[key]?.data;
-      })
+      });
     },
 
-    SetSingleStoreEmpty: state => {
-      state.singleData = "";
+    SetSingleStoreEmpty: (state) => {
+      state.singleData = '';
     },
-
-  }
+  },
 });
-

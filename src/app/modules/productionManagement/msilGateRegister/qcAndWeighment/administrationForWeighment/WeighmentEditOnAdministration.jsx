@@ -1,10 +1,10 @@
-import React from "react";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { onUpdateWeightageInAdministration } from "./helper";
-import { Form, Formik } from "formik";
+import React from 'react';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { onUpdateWeightageInAdministration } from './helper';
+import { Form, Formik } from 'formik';
 
 const WeighmentEditOnAdministration = ({
   businessUnit,
@@ -70,7 +70,7 @@ const WeighmentEditOnAdministration = ({
                     value={
                       values?.dteLastWeightDateTime
                         ? _dateFormatter(values?.dteLastWeightDateTime)
-                        : "N/A"
+                        : 'N/A'
                     }
                     label="তারিখ"
                     type="text"
@@ -112,7 +112,7 @@ const WeighmentEditOnAdministration = ({
                   <InputField
                     value={values?.numFirstWeight}
                     onChange={(e) => {
-                      setFieldValue("numFirstWeight", e.target.value);
+                      setFieldValue('numFirstWeight', e.target.value);
                     }}
                     name="numLastWeight"
                     label="1st Weight"
@@ -125,7 +125,7 @@ const WeighmentEditOnAdministration = ({
                     value={values?.numLastWeight}
                     name="numLastWeight"
                     onChange={(e) => {
-                      setFieldValue("numLastWeight", e.target.value);
+                      setFieldValue('numLastWeight', e.target.value);
                     }}
                     label="2nd Weight"
                     type="number"
@@ -142,7 +142,7 @@ const WeighmentEditOnAdministration = ({
                 <div className="col-md-12">
                   <button
                     type="button"
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     className="btn btn-primary float-right"
                     onClick={handleSubmit}
                   >

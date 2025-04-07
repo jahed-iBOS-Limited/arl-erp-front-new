@@ -1,5 +1,5 @@
-import { isArray } from "lodash";
-import { toast } from "react-toastify";
+import { isArray } from 'lodash';
+import { toast } from 'react-toastify';
 
 /*
 Description
@@ -16,7 +16,7 @@ export const isUniq = (key, param, arr, hideToast) => {
       return true;
     } else {
       !hideToast &&
-        toast.warn("Not allowed to duplicate item!", { toastId: 456 });
+        toast.warn('Not allowed to duplicate item!', { toastId: 456 });
       return false;
     }
   }

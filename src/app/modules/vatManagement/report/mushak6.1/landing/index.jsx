@@ -39,7 +39,7 @@ function MushakSixPointOneLanding() {
       getHeaderData(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setHeaderData,
+        setHeaderData
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -101,7 +101,7 @@ function MushakSixPointOneLanding() {
                             selectedBusinessUnit?.value,
                             values?.fromDate,
                             values?.toDate,
-                            setGridData,
+                            setGridData
                           );
                         }}
                       >

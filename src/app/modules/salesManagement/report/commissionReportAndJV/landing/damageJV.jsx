@@ -104,8 +104,8 @@ const DamangeReportAndJVTable = ({ obj }) => {
                     {item?.isApprovedBySupervisor && item?.isApprovedByAccount
                       ? 'Approved By Supervisor And Account'
                       : item?.isApprovedBySupervisor
-                      ? 'Approved By Supervisor'
-                      : 'Approved By Account'}
+                        ? 'Approved By Supervisor'
+                        : 'Approved By Account'}
                   </td>
                 </tr>
               );

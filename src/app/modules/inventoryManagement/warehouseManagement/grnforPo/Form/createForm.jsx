@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
-import { validationSchema, initData } from "./helper";
-import { shallowEqual, useSelector } from "react-redux";
-import RowDtoTable from "./rowDtoTable";
-import { toast } from "react-toastify";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import InputField from "../../../../_helper/_inputField";
-import ICustomCard from "../../../../_helper/_customCard";
+import React, { useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import { validationSchema, initData } from './helper';
+import { shallowEqual, useSelector } from 'react-redux';
+import RowDtoTable from './rowDtoTable';
+import { toast } from 'react-toastify';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import InputField from '../../../../_helper/_inputField';
+import ICustomCard from '../../../../_helper/_customCard';
 
 export default function ReceiveInvCreateForm({
   btnRef,
@@ -16,7 +16,6 @@ export default function ReceiveInvCreateForm({
   history,
   isEdit,
 }) {
-
   const [isDisabled, setDisabled] = useState(true);
   // const dispatch = useDispatch();
   const [rowDto, setRowDto] = useState([]);
@@ -102,7 +101,7 @@ export default function ReceiveInvCreateForm({
     if (values.isAllItem === false) {
       let data = rowDto?.find((data) => data?.itemId === values?.item?.value);
       if (data) {
-        alert("Item Already added");
+        alert('Item Already added');
       } else {
         setRowDto([
           ...rowDto,
@@ -114,9 +113,9 @@ export default function ReceiveInvCreateForm({
             uoMname: values.item.baseUoMName,
             refQty: values.item.refQty || 0,
             restQty: values.item.restQty || 0,
-            location: "",
-            stockType: "",
-            quantity: "",
+            location: '',
+            stockType: '',
+            quantity: '',
           },
         ]);
       }
@@ -130,9 +129,9 @@ export default function ReceiveInvCreateForm({
           itemCode: data.code,
           refQty: data.refQty || 0,
           restQty: data.restQty || 0,
-          location: "",
-          stockType: "",
-          quantity: "",
+          location: '',
+          stockType: '',
+          quantity: '',
         };
       });
       setRowDto(data);
@@ -149,7 +148,7 @@ export default function ReceiveInvCreateForm({
   const rowDtoHandler = (name, value, sl) => {
     let data = [...rowDto];
     let _sl = data[sl];
-    if (name === "quantity") {
+    if (name === 'quantity') {
       _sl[name] = +value;
     } else {
       _sl[name] = value;
@@ -159,7 +158,7 @@ export default function ReceiveInvCreateForm({
 
   const saveHandler = async (values, cb) => {
     if (rowDto.length === 0) {
-      toast.error("Please Add Item");
+      toast.error('Please Add Item');
     } else {
       setDisabled(true);
       if (values && profileData?.accountId && selectedBusinessUnit?.value) {
@@ -201,10 +200,10 @@ export default function ReceiveInvCreateForm({
                     value={values?.refType}
                     name="refType"
                     onChange={(value) => {
-                      setFieldValue("refType", value);
+                      setFieldValue('refType', value);
                       // onChaneForRefType(value);
-                      setFieldValue("refNo", "");
-                      setFieldValue("transType", "");
+                      setFieldValue('refNo', '');
+                      setFieldValue('transType', '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -217,12 +216,12 @@ export default function ReceiveInvCreateForm({
                     defaultValue={values?.refNo}
                     name="refNo"
                     onChange={(data) => {
-                      setFieldValue("refNo", data);
+                      setFieldValue('refNo', data);
                       // onChangeForRefNo(data,values)
                     }}
                     // setFieldValue={setFieldValue}
                     isDisabled={
-                      values.refType.label === "NA (Without Reference)"
+                      values.refType.label === 'NA (Without Reference)'
                     }
                     errors={errors}
                     touched={touched}
@@ -290,22 +289,22 @@ export default function ReceiveInvCreateForm({
                     component={() => (
                       <input
                         style={{
-                          position: "absolute",
-                          top: "36px",
-                          left: "65px",
+                          position: 'absolute',
+                          top: '36px',
+                          left: '65px',
                         }}
                         disabled={
-                          values.refType.label === "NA (Without Reference)"
+                          values.refType.label === 'NA (Without Reference)'
                         }
                         id="poIsAllItem"
                         type="checkbox"
                         className="ml-2"
-                        value={values.isAllItem || ""}
+                        value={values.isAllItem || ''}
                         checked={values.isAllItem}
                         name="isAllItem"
                         onChange={(e) => {
-                          setFieldValue("isAllItem", e.target.checked);
-                          setFieldValue("item", "");
+                          setFieldValue('isAllItem', e.target.checked);
+                          setFieldValue('item', '');
                         }}
                       />
                     )}
@@ -313,8 +312,8 @@ export default function ReceiveInvCreateForm({
                   />
                   <label
                     style={{
-                      position: "absolute",
-                      top: "28px",
+                      position: 'absolute',
+                      top: '28px',
                     }}
                   >
                     All Item
@@ -322,7 +321,7 @@ export default function ReceiveInvCreateForm({
 
                   <button
                     type="button"
-                    style={{ marginTop: "28px", transform: "translateX(95px)" }}
+                    style={{ marginTop: '28px', transform: 'translateX(95px)' }}
                     className="btn btn-primary ml-2"
                     onClick={() => addRowDtoData(values)}
                   >
@@ -344,14 +343,14 @@ export default function ReceiveInvCreateForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const RowDtoTable = ({ rowDto }) => {
   return (
@@ -25,8 +25,8 @@ const RowDtoTable = ({ rowDto }) => {
                   <tr key={index}>
                     <td className="text-center align-middle"> {index + 1} </td>
                     <td className="text-center align-middle">
-                      {" "}
-                      {item?.itemCode}{" "}
+                      {' '}
+                      {item?.itemCode}{' '}
                     </td>
                     <td className="">{item?.itemName}</td>
                     <td className="text-center align-middle">
@@ -37,7 +37,7 @@ const RowDtoTable = ({ rowDto }) => {
                     </td>
                     <td className="text-center align-middle">{item?.refQty}</td>
                     <td className="text-center align-middle">
-                      {" "}
+                      {' '}
                       {item?.restQty}
                     </td>
 

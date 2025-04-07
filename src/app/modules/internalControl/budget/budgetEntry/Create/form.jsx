@@ -1,14 +1,14 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
-import * as Yup from "yup";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { setInternalControlBudgetInitAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import InputField from "../../../../_helper/_inputField";
-import { getBudgetCreateLanding } from "../helper";
-import ICustomTable from "./../../../../_helper/_customTable";
-import NewSelect from "./../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import ReactHtmlTableToExcel from 'react-html-table-to-excel';
+import * as Yup from 'yup';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { setInternalControlBudgetInitAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import InputField from '../../../../_helper/_inputField';
+import { getBudgetCreateLanding } from '../helper';
+import ICustomTable from './../../../../_helper/_customTable';
+import NewSelect from './../../../../_helper/_select';
 
 const validationSchema = Yup.object().shape({});
 
@@ -28,12 +28,8 @@ export default function FormCmp({
   dispatch,
 }) {
   const [costRevDDL, getCostRevDDL, , setCostRevDDL] = useAxiosGet();
-  const [
-    profitCenterDDL,
-    getProfitCenterDDL,
-    ,
-    setProfitCenterDDL,
-  ] = useAxiosGet();
+  const [profitCenterDDL, getProfitCenterDDL, , setProfitCenterDDL] =
+    useAxiosGet();
 
   useEffect(() => {
     getProfitCenterDDL(
@@ -47,39 +43,38 @@ export default function FormCmp({
         setProfitCenterDDL(result);
       }
     );
-
   }, []);
 
   const tableHeader = (id) => {
     switch (id) {
       case 4:
         return [
-          "SL",
-          "Budget Type Name",
-          "Code",
-          "Description",
-          "Plan/Target Qty",
-          "Plan/Target Amount",
+          'SL',
+          'Budget Type Name',
+          'Code',
+          'Description',
+          'Plan/Target Qty',
+          'Plan/Target Amount',
         ];
 
       case 2:
       case 3:
         return [
-          "SL",
-          "Budget Type Name",
-          "Code",
-          "Cost Revenue Center Name",
-          "Description",
-          "Plan/Target Amount",
+          'SL',
+          'Budget Type Name',
+          'Code',
+          'Cost Revenue Center Name',
+          'Description',
+          'Plan/Target Amount',
         ];
 
       default:
         return [
-          "SL",
-          "Budget Type Name",
-          "Code",
-          "Description",
-          "Plan/Target Amount",
+          'SL',
+          'Budget Type Name',
+          'Code',
+          'Description',
+          'Plan/Target Amount',
         ];
     }
   };
@@ -120,12 +115,12 @@ export default function FormCmp({
                       options={budgetTypeDDL || []}
                       value={values?.budgetType}
                       onChange={(valueOption) => {
-                        setFieldValue("monthId", "");
-                        setFieldValue("yearId", "");
-                        setFieldValue("month", "");
-                        setFieldValue("costRev", "");
-                        setFieldValue("profitCenter", "");
-                        setFieldValue("budgetType", valueOption);
+                        setFieldValue('monthId', '');
+                        setFieldValue('yearId', '');
+                        setFieldValue('month', '');
+                        setFieldValue('costRev', '');
+                        setFieldValue('profitCenter', '');
+                        setFieldValue('budgetType', valueOption);
                         dispatch(
                           setInternalControlBudgetInitAction({
                             ...localStorageData,
@@ -141,59 +136,61 @@ export default function FormCmp({
                   </div>
                   {(values?.budgetType?.value === 2 ||
                     values?.budgetType?.value === 3) && (
-                      <div className="col-md-2">
-                        <NewSelect
-                          label="Profit Center"
-                          placeholder=" "
-                          name="profitCenter"
-                          options={profitCenterDDL || []}
-                          value={values?.profitCenter}
-                          onChange={(valueOption) => {
-                            setFieldValue("costRev", "");
-                            setFieldValue("profitCenter", valueOption);
-                            getCostRevDDL(
-                              `/fino/BudgetFinancial/CostCenterNRevCenterDDL?BudgetTypeId=${values?.budgetType?.value}&BusinessUnitId=${buId}&profitCenterId=${valueOption?.value}`,
-                              (data) => {
-                                const result = data?.map((item) => ({
-                                  ...item,
-                                  value: item.costCenterRevCenterId,
-                                  label: item.costCenterRevCenterName,
-                                }));
-                                if (values?.budgetType?.value === 2) {
-                                  // add new item before result array and set it
-                                  setCostRevDDL([{ value: 0, label: "All" }, ...result]);
-                                } else {
-                                  setCostRevDDL(result);
-                                }
-
+                    <div className="col-md-2">
+                      <NewSelect
+                        label="Profit Center"
+                        placeholder=" "
+                        name="profitCenter"
+                        options={profitCenterDDL || []}
+                        value={values?.profitCenter}
+                        onChange={(valueOption) => {
+                          setFieldValue('costRev', '');
+                          setFieldValue('profitCenter', valueOption);
+                          getCostRevDDL(
+                            `/fino/BudgetFinancial/CostCenterNRevCenterDDL?BudgetTypeId=${values?.budgetType?.value}&BusinessUnitId=${buId}&profitCenterId=${valueOption?.value}`,
+                            (data) => {
+                              const result = data?.map((item) => ({
+                                ...item,
+                                value: item.costCenterRevCenterId,
+                                label: item.costCenterRevCenterName,
+                              }));
+                              if (values?.budgetType?.value === 2) {
+                                // add new item before result array and set it
+                                setCostRevDDL([
+                                  { value: 0, label: 'All' },
+                                  ...result,
+                                ]);
+                              } else {
+                                setCostRevDDL(result);
                               }
-                            );
-                          }}
-                          errors={errors}
-                          touched={touched}
-                          isClearable={false}
-                        />
-                      </div>
-                    )}
+                            }
+                          );
+                        }}
+                        errors={errors}
+                        touched={touched}
+                        isClearable={false}
+                      />
+                    </div>
+                  )}
                   {(values?.budgetType?.value === 2 ||
                     values?.budgetType?.value === 3) && (
-                      <div className="col-md-2">
-                        <NewSelect
-                          label="Cost & Revenue Type"
-                          placeholder=" "
-                          name="costRev"
-                          options={costRevDDL || []}
-                          value={values?.costRev}
-                          onChange={(valueOption) => {
-                            setFieldValue("costRev", valueOption);
-                            setRowDto([]);
-                          }}
-                          errors={errors}
-                          touched={touched}
-                          isClearable={false}
-                        />
-                      </div>
-                    )}
+                    <div className="col-md-2">
+                      <NewSelect
+                        label="Cost & Revenue Type"
+                        placeholder=" "
+                        name="costRev"
+                        options={costRevDDL || []}
+                        value={values?.costRev}
+                        onChange={(valueOption) => {
+                          setFieldValue('costRev', valueOption);
+                          setRowDto([]);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                        isClearable={false}
+                      />
+                    </div>
+                  )}
                   <div className="col-lg-2">
                     <InputField
                       label="Month"
@@ -203,20 +200,14 @@ export default function FormCmp({
                       value={values?.month}
                       onChange={(e) => {
                         setFieldValue(
-                          "monthId",
-                          +e.target.value
-                            .split("")
-                            .slice(-2)
-                            .join("")
+                          'monthId',
+                          +e.target.value.split('').slice(-2).join('')
                         );
                         setFieldValue(
-                          "yearId",
-                          +e.target.value
-                            .split("")
-                            .slice(0, 4)
-                            .join("")
+                          'yearId',
+                          +e.target.value.split('').slice(0, 4).join('')
                         );
-                        setFieldValue("month", e.target.value);
+                        setFieldValue('month', e.target.value);
                         setRowDto([]);
                       }}
                       errors={errors}
@@ -224,11 +215,11 @@ export default function FormCmp({
                     />
                   </div>
                   {values?.budgetType?.value === 2 ||
-                    values?.budgetType?.value === 3 ? (
+                  values?.budgetType?.value === 3 ? (
                     <>
                       <div className="col-md-3">
                         <ButtonStyleOne
-                          style={{ marginTop: "19px" }}
+                          style={{ marginTop: '19px' }}
                           label="View"
                           type="button"
                           disabled={
@@ -264,7 +255,7 @@ export default function FormCmp({
                     <>
                       <div className="col-md-3">
                         <ButtonStyleOne
-                          style={{ marginTop: "19px" }}
+                          style={{ marginTop: '19px' }}
                           label="View"
                           type="button"
                           disabled={!values?.budgetType || !values?.month}
@@ -282,13 +273,14 @@ export default function FormCmp({
                       </div>
                     </>
                   )}
-
                 </div>
               </div>
 
               <div className="row">
                 {values?.month && (
-                  <ICustomTable id={"Create_Budget_Entry_excel"} ths={tableHeader(localStorageData?.budgetType?.value)}
+                  <ICustomTable
+                    id={'Create_Budget_Entry_excel'}
+                    ths={tableHeader(localStorageData?.budgetType?.value)}
                   >
                     {rowDto?.map((item, index) => (
                       <tr key={index}>
@@ -297,12 +289,12 @@ export default function FormCmp({
                         <td className="pl-2">{item?.strElementCode}</td>
                         {(localStorageData?.budgetType?.value === 2 ||
                           localStorageData?.budgetType?.value === 3) && (
-                            <td>{item?.CostRevCenterName}</td>
-                          )}
+                          <td>{item?.CostRevCenterName}</td>
+                        )}
                         <td className="pl-2">{item?.strElementName}</td>
                         {localStorageData?.budgetType?.value === 4 ? (
                           <>
-                            <td style={{ width: "100px" }}>
+                            <td style={{ width: '100px' }}>
                               <input
                                 placeholder=" "
                                 type="number"
@@ -326,7 +318,7 @@ export default function FormCmp({
                                 }
                               />
                             </td>
-                            <td style={{ width: "100px" }}>
+                            <td style={{ width: '100px' }}>
                               <input
                                 placeholder=" "
                                 type="number"
@@ -353,7 +345,7 @@ export default function FormCmp({
                           </>
                         ) : (
                           <>
-                            <td style={{ width: "100px" }}>
+                            <td style={{ width: '100px' }}>
                               <input
                                 placeholder=" "
                                 type="number"
@@ -382,14 +374,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

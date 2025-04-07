@@ -75,8 +75,6 @@ export default function LoanRegisterViewForm({
 
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
-
-
   }, []);
 
   useEffect(() => {
@@ -87,7 +85,7 @@ export default function LoanRegisterViewForm({
           selectedBusinessUnit?.value,
           initData?.bank?.value,
           setAccountDDL,
-          setLoading,
+          setLoading
         );
       };
 
@@ -102,18 +100,17 @@ export default function LoanRegisterViewForm({
               formikRef.current.setFieldValue('facility', facilityFind || '');
               formikRef.current.setFieldValue(
                 'termDays',
-                facilityFind?.tenorDays || 0,
+                facilityFind?.tenorDays || 0
               );
             }
           },
-          setLoading,
+          setLoading
         );
       };
 
       fetchBankAccountDDL();
       fetchFacilityDDL();
     }
-
   }, [initData]);
 
   useEffect(() => {
@@ -174,7 +171,7 @@ export default function LoanRegisterViewForm({
                         selectedBusinessUnit?.value,
                         valueOption?.value,
                         setAccountDDL,
-                        setLoading,
+                        setLoading
                       );
                       getFacilityDLL(
                         selectedBusinessUnit?.value,
@@ -184,17 +181,17 @@ export default function LoanRegisterViewForm({
                           if (!renewId && !isEdit) {
                             if (formikRef.current) {
                               const facilityFind = resData?.find(
-                                (item) => item?.value === 2,
+                                (item) => item?.value === 2
                               );
                               setFieldValue('facility', facilityFind || '');
                               setFieldValue(
                                 'termDays',
-                                facilityFind?.tenorDays || 0,
+                                facilityFind?.tenorDays || 0
                               );
                             }
                           }
                         },
-                        setLoading,
+                        setLoading
                       );
                     }}
                     errors={errors}

@@ -1,20 +1,18 @@
-
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import {
   ExtendTransportOrganization,
   getTransportOrganizationView,
-} from "../helper";
-import Loading from "../../../../_helper/_loading";
-import { toast } from "react-toastify";
+} from '../helper';
+import Loading from '../../../../_helper/_loading';
+import { toast } from 'react-toastify';
 const initData = {
-  businessUnitName: "",
-  transportOrganizationName: "",
+  businessUnitName: '',
+  transportOrganizationName: '',
 };
 export default function TransportOrgExtendForm({
   history,
@@ -25,7 +23,7 @@ export default function TransportOrgExtendForm({
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const params = useParams();
 
   useEffect(() => {
@@ -74,8 +72,8 @@ export default function TransportOrgExtendForm({
     if (checkDuplicate?.length === 0) {
       setRowDto([...rowDto, payload]);
     } else {
-      toast.warning("Business Unit Name Already Exists", {
-        toastId: "Business Unit Name Already Exist",
+      toast.warning('Business Unit Name Already Exists', {
+        toastId: 'Business Unit Name Already Exist',
       });
     }
   };

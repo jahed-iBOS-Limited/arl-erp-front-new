@@ -1,9 +1,9 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import EisenhowerMatrix from "./eisenhowerMatrix/landing/table";
-import ActionPlan from "./ActionPlan";
-import WorkPlanLanding from "./workPlan/landing/table";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import EisenhowerMatrix from './eisenhowerMatrix/landing/table';
+import ActionPlan from './ActionPlan';
+import WorkPlanLanding from './workPlan/landing/table';
 
 export function PerformancePlanningPages() {
   return (
@@ -31,8 +31,6 @@ export function PerformancePlanningPages() {
         from="/MgmtOfPerformance/PerformancePlanning/ActionPlan"
         component={ActionPlan}
       />
-
-
     </Switch>
   );
 }

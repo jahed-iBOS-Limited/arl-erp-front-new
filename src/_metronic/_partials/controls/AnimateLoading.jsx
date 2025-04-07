@@ -1,6 +1,6 @@
-import React from "react";
-import {withRouter} from "react-router-dom";
-import {ProgressBar} from "react-bootstrap";
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { ProgressBar } from 'react-bootstrap';
 
 // TODO: Should be rewrited to pure function
 class AnimateLoading extends React.Component {
@@ -8,7 +8,7 @@ class AnimateLoading extends React.Component {
   stopAnimateTimeout;
   state = {
     width: 0,
-    routeChanged: false
+    routeChanged: false,
   };
 
   componentDidUpdate(nextProps) {
@@ -19,7 +19,7 @@ class AnimateLoading extends React.Component {
   }
 
   scrollToTop() {
-    const scrollToTopBtn = document.getElementById("kt_scrolltop");
+    const scrollToTopBtn = document.getElementById('kt_scrolltop');
     if (scrollToTopBtn) {
       scrollToTopBtn.click();
     }
@@ -53,10 +53,14 @@ class AnimateLoading extends React.Component {
     return (
       <div
         className="header-progress-bar"
-        style={{ height: "3px", width: "100%" }}
+        style={{ height: '3px', width: '100%' }}
       >
         {this.state.width > 0 && (
-          <ProgressBar variant="info" now={this.state.width} style={{ height: "3px" }}  />
+          <ProgressBar
+            variant="info"
+            now={this.state.width}
+            style={{ height: '3px' }}
+          />
         )}
       </div>
     );

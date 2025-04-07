@@ -42,13 +42,12 @@ export default function CheckListView() {
       `/asset/AssetMaintanance/UpdateAssetHealthCheckImage`,
       payload,
       () => getData(id),
-      true,
+      true
     );
   };
 
   useEffect(() => {
     getData(id);
-
   }, [id]);
 
   const [fileObjects, setFileObjects] = useState([]);
@@ -102,44 +101,44 @@ export default function CheckListView() {
                     <tbody>
                       {tableData?.length > 0
                         ? tableData.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.intAssetHealthCheckId}</td>
-                            <td>{item?.strCheckListCriteriaType}</td>
-                            <td>{item?.strCheckListCriteria}</td>
-                            <td>{item?.strStandardValue}</td>
-                            <td className="d-flex justify-content-around">
-                              {item?.strImageUrl ? (
-                                <IView
-                                  title="View Attachment"
-                                  clickHandler={() => {
-                                    dispatch(
-                                      getDownlloadFileView_Action(
-                                        item?.strImageUrl,
-                                      ),
-                                    );
-                                  }}
-                                />
-                              ) : null}
-                              <>
-                                <span
-                                  className="cursor-pointer"
-                                  onClick={() => {
-                                    setOpen(true);
-                                    steRowClickData({
-                                      ...rowClickData,
-                                      rowIdx: index,
-                                    });
-                                  }}
-                                >
-                                  <i class="fa fa-upload" aria-hidden="true">
-                                    upload
-                                  </i>
-                                </span>
-                              </>
-                            </td>
-                          </tr>
-                        ))
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{item?.intAssetHealthCheckId}</td>
+                              <td>{item?.strCheckListCriteriaType}</td>
+                              <td>{item?.strCheckListCriteria}</td>
+                              <td>{item?.strStandardValue}</td>
+                              <td className="d-flex justify-content-around">
+                                {item?.strImageUrl ? (
+                                  <IView
+                                    title="View Attachment"
+                                    clickHandler={() => {
+                                      dispatch(
+                                        getDownlloadFileView_Action(
+                                          item?.strImageUrl
+                                        )
+                                      );
+                                    }}
+                                  />
+                                ) : null}
+                                <>
+                                  <span
+                                    className="cursor-pointer"
+                                    onClick={() => {
+                                      setOpen(true);
+                                      steRowClickData({
+                                        ...rowClickData,
+                                        rowIdx: index,
+                                      });
+                                    }}
+                                  >
+                                    <i class="fa fa-upload" aria-hidden="true">
+                                      upload
+                                    </i>
+                                  </span>
+                                </>
+                              </td>
+                            </tr>
+                          ))
                         : null}
                     </tbody>
                   </table>
@@ -172,7 +171,7 @@ export default function CheckListView() {
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects?.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

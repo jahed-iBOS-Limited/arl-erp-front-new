@@ -1,36 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import {
   BillSubmit_Api,
   getCountry,
   getCurrency,
   getExpensePlantDDLAction,
   getExpenseLandingPagination,
-} from "../helper";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { Formik, Form } from "formik";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
+} from '../helper';
+import { useHistory } from 'react-router-dom';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { Formik, Form } from 'formik';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
 import {
   CardHeaderToolbar,
   Card,
   ModalProgressBar,
   CardBody,
   CardHeader,
-} from "../../../../../../_metronic/_partials/controls";
-import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
-import { setPersonalExpRegLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { useDispatch } from "react-redux";
+} from '../../../../../../_metronic/_partials/controls';
+import * as Yup from 'yup';
+import NewSelect from '../../../../_helper/_select';
+import { setPersonalExpRegLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { useDispatch } from 'react-redux';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
-import FormikError from "../../../../_helper/_formikError";
-import axios from "axios";
-import { getSBU } from "../../../../_helper/_commonApi";
+import FormikError from '../../../../_helper/_formikError';
+import axios from 'axios';
+import { getSBU } from '../../../../_helper/_commonApi';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -38,15 +38,15 @@ const ExpenseRegisterLanding = () => {
   const initData = {
     checkPublic: false,
     internalAccount: false,
-    expenseFor: "",
-    plant: "",
-    sbu: "",
-    country: "",
-    currency: "",
+    expenseFor: '',
+    plant: '',
+    sbu: '',
+    country: '',
+    currency: '',
     unsubmitedExpense: true,
     approval: false,
     billSubmit: false,
-    supervisor: { value: true, label: "Supervisor" },
+    supervisor: { value: true, label: 'Supervisor' },
   };
 
   const dispatch = useDispatch();
@@ -74,11 +74,8 @@ const ExpenseRegisterLanding = () => {
       personalExpRegLanding: state?.localStorage?.personalExpRegLanding,
     };
   }, shallowEqual);
-  const {
-    profileData,
-    selectedBusinessUnit,
-    personalExpRegLanding,
-  } = storeData;
+  const { profileData, selectedBusinessUnit, personalExpRegLanding } =
+    storeData;
   // useEffect for getExpenseFor from helper start
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -176,15 +173,14 @@ const ExpenseRegisterLanding = () => {
       personalExpRegLanding?.expenseFor?.value
     )
       girdDataFunc(personalExpRegLanding, pageNo, pageSize);
-      expenseForDDLFunc();
-
+    expenseForDDLFunc();
   }, [profileData, selectedBusinessUnit]);
 
   // billSubmitlHandler btn submit handler
   const billSubmitlHandler = (setFieldValue, values) => {
     const modifyFilterRowDto = rowDto.filter((itm) => itm.itemCheck === true);
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to post the selected buill submit`,
       yesAlertFunc: () => {
         const payload = modifyFilterRowDto.map((itm) => ({
@@ -211,7 +207,6 @@ const ExpenseRegisterLanding = () => {
     label: `${profileData.userName} (${profileData.employeeId})`,
   };
 
-
   const loadSupervisorAndLineManagerList = (v) => {
     if (v?.length < 2) return [];
     return axios
@@ -236,14 +231,14 @@ const ExpenseRegisterLanding = () => {
             : expenseBy_Default,
           sbu: personalExpRegLanding?.sbu
             ? personalExpRegLanding?.sbu
-            : sbu[0] || "",
+            : sbu[0] || '',
           country: personalExpRegLanding?.country
             ? personalExpRegLanding?.country
-            : country[17] || "",
+            : country[17] || '',
           currency: personalExpRegLanding?.currency
             ? personalExpRegLanding?.currency
-            : currency[0] || "",
-          plant: plantDDL?.[0] || "",
+            : currency[0] || '',
+          plant: plantDDL?.[0] || '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
@@ -252,7 +247,7 @@ const ExpenseRegisterLanding = () => {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Vessel Expense"}>
+              <CardHeader title={'Vessel Expense'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -294,12 +289,12 @@ const ExpenseRegisterLanding = () => {
                           type="checkbox"
                           name="checkPublic"
                           onChange={(e) => {
-                            setFieldValue("checkPublic", e.target.checked);
+                            setFieldValue('checkPublic', e.target.checked);
                             setRowDto([]);
                             if (e.target.checked) {
-                              setFieldValue("expenseFor", "");
+                              setFieldValue('expenseFor', '');
                             } else {
-                              setFieldValue("expenseFor", expenseBy_Default);
+                              setFieldValue('expenseFor', expenseBy_Default);
                             }
                           }}
                           className="ml-2"
@@ -324,11 +319,11 @@ const ExpenseRegisterLanding = () => {
                       />
                     </div> */}
                     <div className="col-lg-2 pr-0">
-                    <label>Expense By</label>
+                      <label>Expense By</label>
                       <SearchAsyncSelect
                         selectedValue={values?.expenseFor}
                         handleChange={(valueOption) => {
-                          setFieldValue("expenseFor", valueOption);
+                          setFieldValue('expenseFor', valueOption);
                           setRowDto([]);
                         }}
                         loadOptions={loadSupervisorAndLineManagerList}
@@ -364,7 +359,7 @@ const ExpenseRegisterLanding = () => {
                         label="SBU"
                         onChange={(valueOption) => {
                           setRowDto([]);
-                          setFieldValue("sbu", valueOption);
+                          setFieldValue('sbu', valueOption);
                         }}
                         placeholder="SBU"
                         errors={errors}
@@ -379,7 +374,7 @@ const ExpenseRegisterLanding = () => {
                         label="Country"
                         onChange={(valueOption) => {
                           setRowDto([]);
-                          setFieldValue("country", valueOption);
+                          setFieldValue('country', valueOption);
                         }}
                         placeholder="Country"
                         errors={errors}
@@ -394,7 +389,7 @@ const ExpenseRegisterLanding = () => {
                         label="Currency"
                         onChange={(valueOption) => {
                           setRowDto([]);
-                          setFieldValue("currency", valueOption);
+                          setFieldValue('currency', valueOption);
                         }}
                         placeholder="Currency"
                         errors={errors}
@@ -416,9 +411,9 @@ const ExpenseRegisterLanding = () => {
                             checked={values?.unsubmitedExpense}
                             onChange={(event) => {
                               setRowDto([]);
-                              setFieldValue("unsubmitedExpense", true);
-                              setFieldValue("approval", false);
-                              setFieldValue("billSubmit", false);
+                              setFieldValue('unsubmitedExpense', true);
+                              setFieldValue('approval', false);
+                              setFieldValue('billSubmit', false);
                               setPageNo(0);
                               setPageSize(20);
                               girdDataFunc(
@@ -448,10 +443,10 @@ const ExpenseRegisterLanding = () => {
                               const unsubmitedExpense = event.target.checked
                                 ? false
                                 : true;
-                              setFieldValue("billSubmit", event.target.checked);
-                              setFieldValue("approval", false);
+                              setFieldValue('billSubmit', event.target.checked);
+                              setFieldValue('approval', false);
                               setFieldValue(
-                                "unsubmitedExpense",
+                                'unsubmitedExpense',
                                 unsubmitedExpense
                               );
                               setPageNo(0);
@@ -484,10 +479,10 @@ const ExpenseRegisterLanding = () => {
                               const unsubmitedExpense = event.target.checked
                                 ? false
                                 : true;
-                              setFieldValue("approval", event.target.checked);
-                              setFieldValue("billSubmit", false);
+                              setFieldValue('approval', event.target.checked);
+                              setFieldValue('billSubmit', false);
                               setFieldValue(
-                                "unsubmitedExpense",
+                                'unsubmitedExpense',
                                 unsubmitedExpense
                               );
                               setPageNo(0);
@@ -515,14 +510,14 @@ const ExpenseRegisterLanding = () => {
                       <NewSelect
                         name="supervisor"
                         options={[
-                          { value: true, label: "Supervisor" },
-                          { value: false, label: "Line Manager" },
+                          { value: true, label: 'Supervisor' },
+                          { value: false, label: 'Line Manager' },
                         ]}
                         value={values?.supervisor}
                         label="View As"
                         onChange={(valueOption) => {
                           setRowDto([]);
-                          setFieldValue("supervisor", valueOption);
+                          setFieldValue('supervisor', valueOption);
                         }}
                         placeholder="View As"
                         errors={errors}
@@ -583,7 +578,7 @@ const ExpenseRegisterLanding = () => {
                           <thead>
                             <tr>
                               {!values?.billSubmit && !values?.approval && (
-                                <th style={{ width: "20px" }}>
+                                <th style={{ width: '20px' }}>
                                   <input
                                     type="checkbox"
                                     id="parent"
@@ -594,22 +589,22 @@ const ExpenseRegisterLanding = () => {
                                 </th>
                               )}
 
-                              <th style={{ width: "40px" }}>SL</th>
-                              <th style={{ width: "100px" }}>Expense Code</th>
-                              <th style={{ width: "100px" }}>Expense By</th>
+                              <th style={{ width: '40px' }}>SL</th>
+                              <th style={{ width: '100px' }}>Expense Code</th>
+                              <th style={{ width: '100px' }}>Expense By</th>
                               {values?.approval && (
-                                <th style={{ width: "100px" }}>Bill Code</th>
+                                <th style={{ width: '100px' }}>Bill Code</th>
                               )}
 
-                              <th style={{ width: "100px" }}>From</th>
-                              <th style={{ width: "100px" }}>To</th>
+                              <th style={{ width: '100px' }}>From</th>
+                              <th style={{ width: '100px' }}>To</th>
                               {/* <th style={{ width: "80px" }}>Employee ID</th> */}
-                              <th style={{ width: "100px" }}>
+                              <th style={{ width: '100px' }}>
                                 Disbursement Center
                               </th>
-                              <th style={{ width: "100px" }}>Payment Type</th>
-                              <th style={{ width: "100px" }}>Total Expense</th>
-                              <th style={{ width: "40px" }}>Actions</th>
+                              <th style={{ width: '100px' }}>Payment Type</th>
+                              <th style={{ width: '100px' }}>Total Expense</th>
+                              <th style={{ width: '40px' }}>Actions</th>
                             </tr>
                           </thead>
                           <tbody className="expenseRegisterTable">
@@ -708,8 +703,8 @@ const ExpenseRegisterLanding = () => {
                                     <span
                                       className={
                                         values?.approval || values?.billSubmit
-                                          ? "d-none"
-                                          : "edit"
+                                          ? 'd-none'
+                                          : 'edit'
                                       }
                                       onClick={() => {
                                         history.push({
@@ -763,14 +758,14 @@ const ExpenseRegisterLanding = () => {
                                           <OverlayTrigger
                                             overlay={
                                               <Tooltip id="cs-icon">
-                                                {"Approval"}
+                                                {'Approval'}
                                               </Tooltip>
                                             }
                                           >
                                             <span>
                                               <i
                                                 class="far fa-check-circle pointer approval"
-                                                style={{ fontSize: "14px" }}
+                                                style={{ fontSize: '14px' }}
                                               ></i>
                                             </span>
                                           </OverlayTrigger>
@@ -798,15 +793,7 @@ const ExpenseRegisterLanding = () => {
                       }}
                       values={values}
                       rowsPerPageOptions={[
-                        5,
-                        10,
-                        20,
-                        50,
-                        100,
-                        200,
-                        300,
-                        400,
-                        500,
+                        5, 10, 20, 50, 100, 200, 300, 400, 500,
                       ]}
                     />
                   )}

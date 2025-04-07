@@ -1,30 +1,26 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../_helper/_form";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
-import { _monthLastDate } from "../../../_helper/_monthLastDate";
-import NewSelect from "../../../_helper/_select";
-import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../_helper/_form';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _monthFirstDate } from '../../../_helper/_monthFirstDate';
+import { _monthLastDate } from '../../../_helper/_monthLastDate';
+import NewSelect from '../../../_helper/_select';
+import { _getCurrentMonthYearForInput } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
   monthYear: _getCurrentMonthYearForInput(),
   fromDate: _monthFirstDate(),
   toDate: _monthLastDate(),
-  currentBusinessUnit: "",
+  currentBusinessUnit: '',
   isForecast: false,
 };
 export default function ProductionVarianceReport() {
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-    setTableData,
-  ] = useAxiosGet();
+  const [tableData, getTableData, tableDataLoader, setTableData] =
+    useAxiosGet();
   const saveHandler = (values, cb) => {};
 
   const businessUnitList = useSelector((state) => {
@@ -35,12 +31,12 @@ export default function ProductionVarianceReport() {
     (acc, item) => acc + (item?.budgetQty ?? 0),
     0
   );
-  
+
   const totalActualQty = tableData?.reduce(
     (acc, item) => acc + (item?.actualQty ?? 0),
     0
   );
-  
+
   const totalVariance = tableData?.reduce(
     (acc, item) => acc + (item?.variance ?? 0),
     0
@@ -87,7 +83,7 @@ export default function ProductionVarianceReport() {
                       label="Business Unit"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("currentBusinessUnit", valueOption);
+                          setFieldValue('currentBusinessUnit', valueOption);
                           setTableData([]);
                         } else {
                           setTableData([]);
@@ -107,7 +103,7 @@ export default function ProductionVarianceReport() {
                       placeholder="From Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -119,29 +115,29 @@ export default function ProductionVarianceReport() {
                       placeholder="From Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
                   <div className="col-lg-1 mt-4">
                     <div className="d-flex align-items-center">
-                    <p className="pr-1 pt-3">
-                      <input
-                        type="checkbox"
-                        checked={values?.isForecast} 
-                      onChange={(e)=>{
-                        setFieldValue("isForecast", e.target.checked);
-                      }}
-                      />
-                    </p>
-                    <p>
-                      <label>Is Forecast</label>
-                    </p>
-                  </div>
+                      <p className="pr-1 pt-3">
+                        <input
+                          type="checkbox"
+                          checked={values?.isForecast}
+                          onChange={(e) => {
+                            setFieldValue('isForecast', e.target.checked);
+                          }}
+                        />
+                      </p>
+                      <p>
+                        <label>Is Forecast</label>
+                      </p>
                     </div>
+                  </div>
                   <div className="col-lg-3">
                     <button
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       type="button"
                       class="btn btn-primary"
                       disabled={!values?.monthYear}
@@ -188,12 +184,20 @@ export default function ProductionVarianceReport() {
                               </td>
                             </tr>
                           ))}
-                          <tr>
-                            <td colSpan={4} className="text-center"><strong>Total</strong></td>
-                            <td className="text-right">{_formatMoney(totalBudgetQty)}</td>
-                            <td className="text-right">{_formatMoney(totalActualQty)}</td>
-                            <td className="text-right">{_formatMoney(totalVariance)}</td>
-                          </tr>
+                        <tr>
+                          <td colSpan={4} className="text-center">
+                            <strong>Total</strong>
+                          </td>
+                          <td className="text-right">
+                            {_formatMoney(totalBudgetQty)}
+                          </td>
+                          <td className="text-right">
+                            {_formatMoney(totalActualQty)}
+                          </td>
+                          <td className="text-right">
+                            {_formatMoney(totalVariance)}
+                          </td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>

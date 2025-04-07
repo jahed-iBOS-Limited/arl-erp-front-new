@@ -1,6 +1,4 @@
-
 'use strict';
-
 
 import { KTUtil } from './../../components/util';
 import KTOffcanvas from './../../components/offcanvas';
@@ -15,7 +13,6 @@ var KTLayoutQuickPanel = (function () {
 
   // Private functions
   var _getContentHeight = function () {
-
     var header = KTUtil.find(_element, '.offcanvas-header');
     var content = KTUtil.find(_element, '.offcanvas-content');
 

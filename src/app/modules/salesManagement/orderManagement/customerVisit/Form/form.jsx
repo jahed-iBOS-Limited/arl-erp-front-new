@@ -1,33 +1,32 @@
-
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useState } from "react";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { getRegionAreaTerritory } from "../../../report/customerSalesTargetReport/helper";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useState } from 'react';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { getRegionAreaTerritory } from '../../../report/customerSalesTargetReport/helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  customerName: Yup.string().required("Customer Name is required"),
+  customerName: Yup.string().required('Customer Name is required'),
   customerPhone: Yup.string()
-    .min(11, "Minimum 11 digit")
-    .max(11, "Maximum 11 digit"),
-  customerAddress: Yup.string().required("Customer Address is required"),
-  contractPersonName: Yup.string().required("Contract Person Name is required"),
+    .min(11, 'Minimum 11 digit')
+    .max(11, 'Maximum 11 digit'),
+  customerAddress: Yup.string().required('Customer Address is required'),
+  contractPersonName: Yup.string().required('Contract Person Name is required'),
   contractPersonPhone: Yup.string()
-    .min(11, "Minimum 11 digit")
-    .max(11, "Maximum 11 digit"),
-  conversionDate: Yup.string().required("Conversion Date is required"),
-  conversionDeadline: Yup.string().required("Conversion Deadline is required"),
+    .min(11, 'Minimum 11 digit')
+    .max(11, 'Maximum 11 digit'),
+  conversionDate: Yup.string().required('Conversion Date is required'),
+  conversionDeadline: Yup.string().required('Conversion Deadline is required'),
   territory: Yup.object().shape({
-    label: Yup.string().required("Territory is required"),
-    value: Yup.string().required("Territory is required"),
+    label: Yup.string().required('Territory is required'),
+    value: Yup.string().required('Territory is required'),
   }),
   category: Yup.object().shape({
-    label: Yup.string().required("Customer Visit Category is required"),
-    value: Yup.string().required("Customer Visit Category is required"),
+    label: Yup.string().required('Customer Visit Category is required'),
+    value: Yup.string().required('Customer Visit Category is required'),
   }),
 });
 
@@ -82,19 +81,19 @@ export default function FormCmp({
                               label="Distribution Channel"
                               onChange={(valueOption) => {
                                 setFieldValue(
-                                  "distributionChannel",
+                                  'distributionChannel',
                                   valueOption
                                 );
-                                setFieldValue("region", "");
-                                setFieldValue("area", "");
-                                setFieldValue("territory", "");
+                                setFieldValue('region', '');
+                                setFieldValue('area', '');
+                                setFieldValue('territory', '');
                                 if (valueOption) {
                                   getRegionAreaTerritory({
                                     channelId: valueOption?.value,
                                     setter: setRegionList,
                                     setLoading: setDisabled,
-                                    value: "regionId",
-                                    label: "regionName",
+                                    value: 'regionId',
+                                    label: 'regionName',
                                   });
                                 }
                               }}
@@ -110,9 +109,9 @@ export default function FormCmp({
                               value={values?.region}
                               label="Region"
                               onChange={(valueOption) => {
-                                setFieldValue("region", valueOption);
-                                setFieldValue("area", "");
-                                setFieldValue("territory", "");
+                                setFieldValue('region', valueOption);
+                                setFieldValue('area', '');
+                                setFieldValue('territory', '');
                                 if (valueOption) {
                                   getRegionAreaTerritory({
                                     channelId:
@@ -120,8 +119,8 @@ export default function FormCmp({
                                     regionId: valueOption?.value,
                                     setter: setAreaList,
                                     setLoading: setDisabled,
-                                    value: "areaId",
-                                    label: "areaName",
+                                    value: 'areaId',
+                                    label: 'areaName',
                                   });
                                 }
                               }}
@@ -141,8 +140,8 @@ export default function FormCmp({
                               value={values?.area}
                               label="Area"
                               onChange={(valueOption) => {
-                                setFieldValue("area", valueOption);
-                                setFieldValue("territory", "");
+                                setFieldValue('area', valueOption);
+                                setFieldValue('territory', '');
                                 if (valueOption) {
                                   getRegionAreaTerritory({
                                     channelId:
@@ -151,8 +150,8 @@ export default function FormCmp({
                                     areaId: valueOption?.value,
                                     setter: setTerritoryList,
                                     setLoading: setDisabled,
-                                    value: "territoryId",
-                                    label: "territoryName",
+                                    value: 'territoryId',
+                                    label: 'territoryName',
                                   });
                                 }
                               }}
@@ -174,7 +173,7 @@ export default function FormCmp({
                           value={values?.territory}
                           label="Territory"
                           onChange={(valueOption) => {
-                            setFieldValue("territory", valueOption);
+                            setFieldValue('territory', valueOption);
                           }}
                           placeholder="Territory"
                           errors={errors}
@@ -195,7 +194,7 @@ export default function FormCmp({
                           value={values?.category}
                           label="Customer Visit Type"
                           onChange={(valueOption) => {
-                            setFieldValue("category", valueOption);
+                            setFieldValue('category', valueOption);
                           }}
                           placeholder="Customer Visit Type"
                           errors={errors}
@@ -276,11 +275,11 @@ export default function FormCmp({
                           label="Conversion Date"
                           value={values?.conversionDate}
                           onChange={(e) => {
-                            setFieldValue("conversionDate", e.target.value);
+                            setFieldValue('conversionDate', e.target.value);
                             setFieldValue(
-                              "conversionDeadline",
+                              'conversionDeadline',
                               _dateFormatter(
-                                moment(e.target.value).add(30, "days")
+                                moment(e.target.value).add(30, 'days')
                               )
                             );
                           }}
@@ -305,13 +304,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

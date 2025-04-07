@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getSbuDDLAction = async (accId, buId, setter) => {
   try {
@@ -20,7 +20,7 @@ export const getPartnerLedgerReport = async (
   fromDate,
   toDate,
   setLoading,
-  setter,
+  setter
 ) => {
   try {
     setLoading(true);

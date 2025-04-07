@@ -1,21 +1,21 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 export const ValidationSchema = Yup.object().shape({
   channel: Yup.object().shape({
-    label: Yup.string().required("Channel is required"),
-    value: Yup.string().required("Channel is required"),
+    label: Yup.string().required('Channel is required'),
+    value: Yup.string().required('Channel is required'),
   }),
   customer: Yup.object().shape({
-    label: Yup.string().required("Customer is required"),
-    value: Yup.string().required("Customer is required"),
+    label: Yup.string().required('Customer is required'),
+    value: Yup.string().required('Customer is required'),
   }),
-  overDueAmount: Yup.string().required("Over Due Amount is required"),
-  reqQty: Yup.string().required("Request Qty is required"),
-  reqAmount: Yup.string().required("Request Amount is required"),
-  presentDebitAmount: Yup.string().required("Present Debit Amount is required"),
-  lastDeliveryDate: Yup.string().required("Last Delivery Date is required"),
+  overDueAmount: Yup.string().required('Over Due Amount is required'),
+  reqQty: Yup.string().required('Request Qty is required'),
+  reqAmount: Yup.string().required('Request Amount is required'),
+  presentDebitAmount: Yup.string().required('Present Debit Amount is required'),
+  lastDeliveryDate: Yup.string().required('Last Delivery Date is required'),
 });
 
 export const getCusterInformation = async (
@@ -116,7 +116,7 @@ export const getOverDueApprovalUserApi = async (
   setLoading
 ) => {
   setLoading(true);
-  setter('')
+  setter('');
   try {
     const res = await axios.get(
       `/oms/TerritoryInfo/GetOverDueApprovalUser?accountId=${accId}&businessUnitId=${buId}&userId=${userId}`

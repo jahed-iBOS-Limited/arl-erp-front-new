@@ -1,6 +1,5 @@
-
-import React from "react";
-import { Formik } from "formik";
+import React from 'react';
+import { Formik } from 'formik';
 
 const HorizonTable = ({ gridData }) => {
   return (
@@ -22,7 +21,7 @@ const HorizonTable = ({ gridData }) => {
                   gridData.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td style={{ width: "30px" }} className="text-center">
+                        <td style={{ width: '30px' }} className="text-center">
                           {item.intSubHorizonId}
                         </td>
                         <td>

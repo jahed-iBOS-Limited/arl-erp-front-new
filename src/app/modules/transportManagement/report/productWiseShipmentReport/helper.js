@@ -1,6 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getSBUDDL = async (accId, buId, setter) => {
   try {
@@ -41,7 +40,7 @@ export const getDistributionChannelDDL = async (accId, buId, setter) => {
     let res = await Axios.get(
       `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
     );
-    setter([{ value: 0, label: "All" }, ...res?.data]);
+    setter([{ value: 0, label: 'All' }, ...res?.data]);
   } catch (err) {
     setter([]);
   }

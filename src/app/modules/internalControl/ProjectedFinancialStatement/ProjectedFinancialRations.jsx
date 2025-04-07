@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { dateFormatWithMonthName } from "../../_helper/_dateFormate";
-import { _formatMoney } from "../../_helper/_formatMoney";
-import BasicModal from "../../_helper/_BasicModal";
-import { toast } from "react-toastify";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React, { useState } from 'react';
+import { dateFormatWithMonthName } from '../../_helper/_dateFormate';
+import { _formatMoney } from '../../_helper/_formatMoney';
+import BasicModal from '../../_helper/_BasicModal';
+import { toast } from 'react-toastify';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 const ProjectedFinancialRations = ({
   ratioTableData,
   componentTableData,
@@ -11,7 +11,7 @@ const ProjectedFinancialRations = ({
   selectedBusinessUnit,
 }) => {
   const [isShowModel, setIsShowModel] = useState(false);
-  const [formula, setFormula] = useState("");
+  const [formula, setFormula] = useState('');
   return (
     <div className="row">
       <div className="col-12 text-center">
@@ -19,8 +19,8 @@ const ProjectedFinancialRations = ({
         <h4 className="text-primary">Projected Financial Ratio</h4>
         <p>
           <strong>
-            For the period from:{" "}
-            <span>{dateFormatWithMonthName(values?.fromDate)}</span> To{" "}
+            For the period from:{' '}
+            <span>{dateFormatWithMonthName(values?.fromDate)}</span> To{' '}
             <span>{dateFormatWithMonthName(values?.toDate)}</span>
           </strong>
         </p>
@@ -53,8 +53,8 @@ const ProjectedFinancialRations = ({
                       key={index}
                       style={{
                         fontWeight: Number.isInteger(item?.numSL || 0)
-                          ? "bold"
-                          : "",
+                          ? 'bold'
+                          : '',
                       }}
                     >
                       <>
@@ -62,13 +62,13 @@ const ProjectedFinancialRations = ({
                         <td className="text-left">{item?.strRarioName}</td>
 
                         <td className="text-right">
-                          {item?.stdRatio ? item?.stdRatio : ""}
+                          {item?.stdRatio ? item?.stdRatio : ''}
                         </td>
                         <td className="text-right">
-                          {item?.numRatio ? item?.lastPeriod : ""}
+                          {item?.numRatio ? item?.lastPeriod : ''}
                         </td>
                         <td className="text-right">
-                          {item?.numRatio ? item?.numRatio : ""}
+                          {item?.numRatio ? item?.numRatio : ''}
                         </td>
                         <td>
                           {item?.strMatric}
@@ -86,11 +86,11 @@ const ProjectedFinancialRations = ({
                                   class="fa fa-info-circle"
                                   aria-hidden="true"
                                   onClick={() => {
-                                    if (item?.strFormula !== "") {
+                                    if (item?.strFormula !== '') {
                                       setFormula(item?.strFormula);
                                       setIsShowModel(true);
                                     } else {
-                                      return toast.warn("No Formula Found");
+                                      return toast.warn('No Formula Found');
                                     }
                                   }}
                                 ></i>
@@ -149,9 +149,9 @@ const ProjectedFinancialRations = ({
           myStyle={{
             width: 300,
             height: 100,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
           hideBackdrop={true}
         >

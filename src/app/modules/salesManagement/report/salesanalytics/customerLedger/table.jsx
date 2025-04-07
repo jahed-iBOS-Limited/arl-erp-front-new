@@ -1,5 +1,5 @@
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 function CustomerLedgerTable({ obj }) {
   const { gridData, printRef, values } = obj;
@@ -8,7 +8,7 @@ function CustomerLedgerTable({ obj }) {
       <div className="react-bootstrap-table table-responsive pendingDeliveryReport">
         <div className="sta-scrollable-table scroll-table-auto">
           <div
-            style={{ maxHeight: "500px" }}
+            style={{ maxHeight: '500px' }}
             className="scroll-table _table scroll-table-auto"
           >
             <table
@@ -64,9 +64,7 @@ function CustomerLedgerTable({ obj }) {
                       <td className="text-right">
                         {_fixedPoint(item?.UnbilledAmount)}
                       </td>
-                      <td className="">
-                        {item?.isExclusive}
-                      </td>
+                      <td className="">{item?.isExclusive}</td>
                     </tr>
                   );
                 })}

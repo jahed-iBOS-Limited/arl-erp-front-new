@@ -1,40 +1,35 @@
-
-import React, { useEffect, useState, useCallback } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
+import React, { useEffect, useState, useCallback } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
 import {
   getFinYearDDLAction,
   getGLDDL,
   getSBUDDL,
   saveBudgetEntry,
-} from "../helper";
-import { toast } from "react-toastify";
-import { excelFileToArray } from "./excelFileToJSON";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { useParams } from "react-router-dom";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+} from '../helper';
+import { toast } from 'react-toastify';
+import { excelFileToArray } from './excelFileToJSON';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { useParams } from 'react-router-dom';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 let initData = {
-  sbu: "",
-  type: "",
-  gl: "",
-  financialYear: "",
-  fromDate: "",
-  toDate: "",
-  amount: "",
+  sbu: '',
+  type: '',
+  gl: '',
+  financialYear: '',
+  fromDate: '',
+  toDate: '',
+  amount: '',
 };
 
 export function BudgetEntryCreate() {
   const [isDisabled, setDisabled] = useState(false);
   const { sbuId, sbuIdView, monthId, yearId } = useParams();
-  const [
-    singleData,
-    getSingleData,
-    singleDataLoading,
-    setSingleData,
-  ] = useAxiosGet();
+  const [singleData, getSingleData, singleDataLoading, setSingleData] =
+    useAxiosGet();
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
@@ -51,12 +46,12 @@ export function BudgetEntryCreate() {
   const typeDDL = [
     {
       value: 1,
-      label: "Yearly by Month",
+      label: 'Yearly by Month',
     },
   ];
 
   const saveHandler = async (values, cb) => {
-    if (rowDtoTwo.length < 1) return toast.warn("Please add at least one row");
+    if (rowDtoTwo.length < 1) return toast.warn('Please add at least one row');
 
     let newData = [];
 
@@ -65,7 +60,7 @@ export function BudgetEntryCreate() {
         sbuid: item?.sbu?.value,
         generalLedgerId: item?.gl?.value,
         generalLedgerName: item?.gl?.label,
-        generalLedgerCode: item?.gl?.code || "",
+        generalLedgerCode: item?.gl?.code || '',
         fromDate: item?.fromDate,
         toDate: item?.toDate,
         financialYear: item?.financialYear?.label,
@@ -81,7 +76,7 @@ export function BudgetEntryCreate() {
             sbuid: item?.sbu?.value,
             generalLedgerId: item?.gl?.value,
             generalLedgerName: item?.gl?.label,
-            generalLedgerCode: item?.gl?.code || "",
+            generalLedgerCode: item?.gl?.code || '',
             fromDate: itemTwo?.fromDate,
             toDate: itemTwo?.toDate,
             financialYear: item?.financialYear?.label,
@@ -110,12 +105,12 @@ export function BudgetEntryCreate() {
   const fileUpload = async (file, values) => {
     if (!values?.sbu || !values?.financialYear) {
       reload();
-      return toast.warn("Please Select Financial Year and SBU, then try again");
+      return toast.warn('Please Select Financial Year and SBU, then try again');
     }
 
     let isValid = true;
-    const data = await excelFileToArray(file, "BudgetFinancial");
-    console.log("data", data);
+    const data = await excelFileToArray(file, 'BudgetFinancial');
+    console.log('data', data);
     let newData = data.map((item) => {
       if (
         !item?.GeneralLedgerName ||
@@ -143,7 +138,7 @@ export function BudgetEntryCreate() {
 
     if (!isValid) {
       reload();
-      return toast.warn("Please enter all fields in excel file");
+      return toast.warn('Please enter all fields in excel file');
     }
 
     const cb = () => {
@@ -174,9 +169,9 @@ export function BudgetEntryCreate() {
         !values?.gl ||
         !values?.type ||
         !values?.financialYear) &&
-      values?.type?.label === "Yearly by Month"
+      values?.type?.label === 'Yearly by Month'
     )
-      return toast.warn("Please select all fields", { toastId: "toastId" });
+      return toast.warn('Please select all fields', { toastId: 'toastId' });
     if (
       (!values?.sbu ||
         !values?.gl ||
@@ -184,22 +179,22 @@ export function BudgetEntryCreate() {
         !values?.financialYear ||
         !values?.fromDate ||
         !values?.toDate) &&
-      values?.type?.label === "Custom"
+      values?.type?.label === 'Custom'
     )
-      return toast.warn("Please select all fields", { toastId: "toastId" });
+      return toast.warn('Please select all fields', { toastId: 'toastId' });
 
     let amount = sbuId ? values?.amount : totalAmount;
 
     if (amount < 1)
-      return toast.warn("Total amount should be greater than zero", {
-        toastId: "toastId",
+      return toast.warn('Total amount should be greater than zero', {
+        toastId: 'toastId',
       });
 
     const found = rowDtoTwo.filter(
       (item) => item?.gl?.label === values?.gl?.label
     );
     if (found.length > 0)
-      return toast.warn("Already exists general ledger", { toastId: "toast" });
+      return toast.warn('Already exists general ledger', { toastId: 'toast' });
 
     let obj = {
       gl: values?.gl,
@@ -228,8 +223,9 @@ export function BudgetEntryCreate() {
   useEffect(() => {
     if (sbuId || sbuIdView) {
       getSingleData(
-        `/fino/FinancialStatement/BudgetDetalisView?sbuId=${sbuId ||
-          sbuIdView}&monthId=${monthId}&yearId=${yearId}`,
+        `/fino/FinancialStatement/BudgetDetalisView?sbuId=${
+          sbuId || sbuIdView
+        }&monthId=${monthId}&yearId=${yearId}`,
         (data) => {
           let modifiedRow = data.map((item) => ({
             fromDate: _dateFormatter(item?.dteFromDate),
@@ -249,7 +245,7 @@ export function BudgetEntryCreate() {
           }));
           setRowDtoTwo(modifiedRow);
           setSingleData({
-            type: { value: 1, label: "Yearly by Month" },
+            type: { value: 1, label: 'Yearly by Month' },
             fromDate: modifiedRow?.[0]?.fromDate,
             toDate: modifiedRow?.[0]?.toDate,
             sbu: modifiedRow?.[0]?.sbu,
@@ -262,7 +258,7 @@ export function BudgetEntryCreate() {
 
   return (
     <IForm
-      title={`${sbuId ? "Edit" : sbuIdView ? "View" : "Create"} Budget Entry`}
+      title={`${sbuId ? 'Edit' : sbuIdView ? 'View' : 'Create'} Budget Entry`}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenSave={sbuIdView}

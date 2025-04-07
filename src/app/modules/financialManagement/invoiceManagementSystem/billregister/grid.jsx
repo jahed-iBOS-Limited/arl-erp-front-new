@@ -56,7 +56,7 @@ const GridData = ({
 
   // Attachment Save actions
   const [, createBillAttachment, createBillAttachmentLoading] = useAxiosPost(
-    [],
+    []
   );
 
   const [attachmentListModal, setAttachmentListModal] = useState(false);
@@ -89,7 +89,7 @@ const GridData = ({
             setFileObjects([]);
             ViewOnChangeHandler(values);
           },
-          true,
+          true
         );
       } else {
         toast.warning('Upload Failed');
@@ -183,7 +183,7 @@ const GridData = ({
                           />
                         )}
                         {tableData?.billType === 5 &&
-                          tableData?.attatchment?.length ? (
+                        tableData?.attatchment?.length ? (
                           <IView
                             title="View Attachment"
                             clickHandler={() => {
@@ -352,9 +352,9 @@ const GridData = ({
               <CustomerViewModal landingValues={values} gridItem={gridItem} />
             )}
 
-            {gridItem?.billType === 35 &&
+            {gridItem?.billType === 35 && (
               <SalesForceIncetiveDetailsModal gridItem={gridItem} />
-            }
+            )}
           </IViewModal>
 
           <IViewModal
@@ -409,7 +409,7 @@ const GridData = ({
             }}
             onDelete={(deleteFileObj) => {
               const newData = fileObjects.filter(
-                (item) => item.file.name !== deleteFileObj.file.name,
+                (item) => item.file.name !== deleteFileObj.file.name
               );
               setFileObjects(newData);
             }}

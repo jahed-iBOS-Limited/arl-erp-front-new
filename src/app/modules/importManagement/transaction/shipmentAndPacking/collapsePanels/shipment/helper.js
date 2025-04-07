@@ -23,11 +23,11 @@ export const getShipmentItemDDL = async (
   buId,
   poNo,
   setter,
-  InitialInvoiceAmountHandler,
+  InitialInvoiceAmountHandler
 ) => {
   try {
     const res = await axios.get(
-      `/imp/ImportCommonDDL/GetItemInfoForShipmentDDL?accountId=${accId}&businessUnitId=${buId}&PONo=${poNo}`,
+      `/imp/ImportCommonDDL/GetItemInfoForShipmentDDL?accountId=${accId}&businessUnitId=${buId}&PONo=${poNo}`
     );
     if (res.status === 200 && res.data) {
       const item = res?.data.map((data) => {
@@ -54,7 +54,7 @@ export const getShipmentItemDDL = async (
       setter(item);
       InitialInvoiceAmountHandler && InitialInvoiceAmountHandler(item);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getCurrencyDDL = async (setter) => {
@@ -63,23 +63,23 @@ export const getCurrencyDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 // https://localhost:44396/imp/Shipment/GetTolerance?accountId=2&businessUnitId=164&search=lc-001
 export const getTollarence = async (
   accountId,
   businessUnitId,
   searchValue,
-  setter,
+  setter
 ) => {
   try {
     const res = await axios.get(
-      `/imp/Shipment/GetTolerance?accountId=${accountId}&businessUnitId=${businessUnitId}&search=${searchValue}`,
+      `/imp/Shipment/GetTolerance?accountId=${accountId}&businessUnitId=${businessUnitId}&search=${searchValue}`
     );
     if (res.status === 200 && res.data) {
       setter(res.data.tolerancePercent);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 // https://localhost:44396/imp/Shipment/GetShipmentInfoByPoNumber?accountId=2&businessUnitId=164&poNumber=PO-420088
 export const getShipmentInfo = async (
@@ -87,11 +87,11 @@ export const getShipmentInfo = async (
   businessUnitId,
   searchValue,
   initFormData,
-  setter,
+  setter
 ) => {
   try {
     const res = await axios.get(
-      `/imp/Shipment/GetShipmentInfoByPoNumber?accountId=${accountId}&businessUnitId=${businessUnitId}&poNumber=${searchValue}`,
+      `/imp/Shipment/GetShipmentInfoByPoNumber?accountId=${accountId}&businessUnitId=${businessUnitId}&poNumber=${searchValue}`
     );
     if (res.status === 200 && res.data) {
       setter({
@@ -103,7 +103,7 @@ export const getShipmentInfo = async (
         currencyId: res?.data?.currencyId,
       });
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getShipmentLandingData = async (
@@ -114,7 +114,7 @@ export const getShipmentLandingData = async (
   setter,
   search,
   fromDate,
-  toDate,
+  toDate
 ) => {
   try {
     const searchTerm = search ? search : '';
@@ -122,21 +122,21 @@ export const getShipmentLandingData = async (
     const ToDate = toDate ? toDate : '';
 
     const res = await axios.get(
-      `/imp/Shipment/GetShipmentLandingPasignation?searchTerm=${searchTerm}&accountId=${accId}&businessUnitId=${buId}&fromDate=${FromDate}&toDate=${ToDate}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=desc`,
+      `/imp/Shipment/GetShipmentLandingPasignation?searchTerm=${searchTerm}&accountId=${accId}&businessUnitId=${buId}&fromDate=${FromDate}&toDate=${ToDate}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=desc`
     );
     setter(res.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getShipmentDataById = async (
   shipmentId,
   headerSetter,
   rowSetter,
-  setTollerence,
+  setTollerence
 ) => {
   try {
     const res = await axios.get(
-      `/imp/Shipment/GetShipmentById?shipmentId=${shipmentId}`,
+      `/imp/Shipment/GetShipmentById?shipmentId=${shipmentId}`
     );
     const response = res.data;
     if (res.status === 200 && res.data) {
@@ -170,10 +170,10 @@ export const getShipmentDataById = async (
       rowSetter(
         response.objRow?.map((item) => {
           return { ...item, shippedQuantity: 0 };
-        }),
+        })
       );
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const EditShipment = async (payload, setDisabled) => {
@@ -194,7 +194,7 @@ export const EditShipment = async (payload, setDisabled) => {
 export const GetCNFAgencyDDL = async (accountId, businessUnitId, setter) => {
   try {
     let res = await axios.get(
-      `/imp/ImportCommonDDL/GetCnFAgencyList?accountId=${accountId}&businessUnitId=${businessUnitId}`,
+      `/imp/ImportCommonDDL/GetCnFAgencyList?accountId=${accountId}&businessUnitId=${businessUnitId}`
     );
     if (res?.status === 200) {
       setter(res?.data);
@@ -227,11 +227,11 @@ export const validationSchema = Yup.object().shape({
 export const cancelShipmentHeaderById = async (id, cb) => {
   try {
     const res = await axios.post(
-      `/imp/Shipment/DeleteShipment?shipmentHeaderId=${id}`,
+      `/imp/Shipment/DeleteShipment?shipmentHeaderId=${id}`
     );
     if (res.status === 200) {
       cb && cb();
       toast.success(res?.data?.message || 'Successfully Deleted');
     }
-  } catch (error) { }
+  } catch (error) {}
 };

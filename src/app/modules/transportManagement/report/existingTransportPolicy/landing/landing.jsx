@@ -1,13 +1,12 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { getexistingTranportPolicyLandingData } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { getexistingTranportPolicyLandingData } from '../helper';
 
 const initData = {};
 
@@ -51,12 +50,12 @@ function ExistingTransportPolicyLanding() {
                           <button
                             type="button"
                             className="btn btn-primary"
-                            style={{ padding: "2px 5px" }}
+                            style={{ padding: '2px 5px' }}
                           >
                             <img
                               style={{
-                                width: "25px",
-                                paddingRight: "5px",
+                                width: '25px',
+                                paddingRight: '5px',
                               }}
                               src={printIcon}
                               alt="print-icon"
@@ -66,7 +65,7 @@ function ExistingTransportPolicyLanding() {
                         )}
                         content={() => printRef.current}
                         pageStyle={
-                          "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}"
+                          '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}'
                         }
                       />
                     </div>
@@ -76,9 +75,9 @@ function ExistingTransportPolicyLanding() {
                         className="p-2 btn btn-primary"
                         table="table-to-xlsx"
                         filename={`Existing Transport Policy`}
-                        sheet={"tablexls"}
+                        sheet={'tablexls'}
                         buttonText="Export to Excel"
-                        style={{ padding: "0px" }}
+                        style={{ padding: '0px' }}
                       />
                     </div>
                   </div>

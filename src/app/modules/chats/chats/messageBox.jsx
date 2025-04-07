@@ -1,12 +1,10 @@
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ChatAppLoading from "./loading";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ChatAppLoading from './loading';
 // import io from "socket.io-client";
-import { getSingleUserMessageList } from "./helper";
-import avatar from "./avatar.png";
-import TypingAnimation from "./typingAnimation";
+import { getSingleUserMessageList } from './helper';
+import avatar from './avatar.png';
+import TypingAnimation from './typingAnimation';
 
 const MessageBox = ({
   setChatList,
@@ -22,9 +20,9 @@ const MessageBox = ({
     return state?.authData?.chatAppInfo;
   }, shallowEqual);
 
-  let [text, setText] = useState("");
+  let [text, setText] = useState('');
   const [typing, setTyping] = useState(false);
-  const [typingInfo, setTypingInfo] = useState("");
+  const [typingInfo, setTypingInfo] = useState('');
 
   // let socket = io(import.meta.REACT_APP_CHAT_BACKEND_URL, {
   //   withCredentials: true,
@@ -58,7 +56,7 @@ const MessageBox = ({
   }, [typingInfo]);
 
   useEffect(() => {
-    if (currentChatUser?.wentFrom === "notifications") {
+    if (currentChatUser?.wentFrom === 'notifications') {
       getSingleUserMessageList(
         userInfo?._id,
         currentChatUser?._id,
@@ -92,14 +90,14 @@ const MessageBox = ({
                   <li
                     className={
                       userInfo?._id === chat?.to
-                        ? "checklist-message-body-other"
-                        : "checklist-message-body-me"
+                        ? 'checklist-message-body-other'
+                        : 'checklist-message-body-me'
                     }
                   >
                     <div className="checklist-msg-inner-body">
                       {userInfo?._id === chat?.to && (
                         <img
-                          style={{ width: "25px", height: "25px" }}
+                          style={{ width: '25px', height: '25px' }}
                           className="mr-2"
                           src={avatar}
                           alt="avatar"
@@ -116,7 +114,7 @@ const MessageBox = ({
 
             <form
               onSubmit={(e) => {
-                setText("");
+                setText('');
                 submitHandler(e, text, setText);
               }}
               className="type-msaage-section"
@@ -134,7 +132,7 @@ const MessageBox = ({
               />
               <div className="message-scroll">
                 <button
-                  style={{ border: "none", background: "transparent" }}
+                  style={{ border: 'none', background: 'transparent' }}
                   type="submit"
                 >
                   <i className="fas fa-paper-plane"></i>

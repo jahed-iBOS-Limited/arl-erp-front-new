@@ -106,7 +106,7 @@ function DeliveryScheduleAssignReport() {
         selectedBusinessUnit?.value,
         0,
         setShipmentTypeDDl,
-        setLoading,
+        setLoading
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -125,7 +125,7 @@ function DeliveryScheduleAssignReport() {
         const filterData = commonfilterGridData(values, restData);
         setGridData(filterData);
         setGridDataWithOutFilter(restData);
-      },
+      }
     );
   };
 
@@ -158,7 +158,7 @@ function DeliveryScheduleAssignReport() {
         const filterData = commonfilterGridData(values, restData);
         setGridData(filterData);
         setGridDataWithOutFilter(restData);
-      },
+      }
     );
   };
 
@@ -171,14 +171,14 @@ function DeliveryScheduleAssignReport() {
     const selectedItem = gridData?.filter((i) => i?.itemCheck);
 
     const emptyItem = selectedItem?.find(
-      (i) => !i?.vehicleId && !i?.supplierId,
+      (i) => !i?.vehicleId && !i?.supplierId
     );
 
     if (emptyItem) {
       toast.warn(
         `Please select ${
           values?.logisticByFilter?.value === 1 ? 'Vehicle' : 'Suppler'
-        } for ${emptyItem?.deliveryCode}`,
+        } for ${emptyItem?.deliveryCode}`
       );
       return;
     }
@@ -335,7 +335,7 @@ function DeliveryScheduleAssignReport() {
                                 ...values,
                                 logisticByFilter: valueOption,
                               },
-                              gridDataWithOutFilter,
+                              gridDataWithOutFilter
                             );
                           }}
                           placeholder="Logistic By"
@@ -441,7 +441,7 @@ function DeliveryScheduleAssignReport() {
                               onChange: (values) =>
                                 filterGridDataFunc(
                                   values,
-                                  gridDataWithOutFilter,
+                                  gridDataWithOutFilter
                                 ),
                             }}
                           />
@@ -532,7 +532,7 @@ function Table({
             Total Qty.:{' '}
             <b>
               {_fixedPoint(
-                gridData?.reduce((acc, curr) => acc + curr?.quantity, 0),
+                gridData?.reduce((acc, curr) => acc + curr?.quantity, 0)
               )}
             </b>
           </div>
@@ -610,7 +610,7 @@ function Table({
                       // deliveryScheduleDate today date check momentjs
                       const todayDate = moment(new Date()).format('DD-MM-YYYY');
                       const deliveryScheduleDate = moment(
-                        item?.deliveryScheduleDate,
+                        item?.deliveryScheduleDate
                       ).format('DD-MM-YYYY');
                       const isToday = todayDate === deliveryScheduleDate;
 
@@ -619,7 +619,7 @@ function Table({
                         .add(1, 'days')
                         .format('YYYY-MM-DD');
                       const nextDayDeliveryScheduleDate = moment(
-                        item?.deliveryScheduleDate,
+                        item?.deliveryScheduleDate
                       ).format('YYYY-MM-DD');
                       const isNextDay =
                         new Date(nextDayDate) <=
@@ -630,7 +630,7 @@ function Table({
                         .subtract(1, 'days')
                         .format('YYYY-MM-DD');
                       const yesterdayDeliveryScheduleDate = moment(
-                        item?.deliveryScheduleDate,
+                        item?.deliveryScheduleDate
                       ).format('YYYY-MM-DD');
 
                       const isYesterday =
@@ -647,7 +647,7 @@ function Table({
                         const margeResult = orderCodeMargeCount(
                           index,
                           item?.salesOrderCode,
-                          item?.quantity,
+                          item?.quantity
                         );
                         rowSpan = margeResult.count;
                         totalQty = margeResult.totalQty;
@@ -660,10 +660,10 @@ function Table({
                             background: isYesterday
                               ? '#ff8a98'
                               : isToday
-                              ? '#e1f0ff'
-                              : isNextDay
-                              ? '#ffff00'
-                              : '',
+                                ? '#e1f0ff'
+                                : isNextDay
+                                  ? '#ffff00'
+                                  : '',
                           }}
                         >
                           {values?.trackingType?.value === 1 &&
@@ -730,7 +730,7 @@ function Table({
                                   loadOptions={(v) => {
                                     if (v?.length < 2) return [];
                                     return Axios.get(
-                                      `/wms/Delivery/GetVehicleByShippointDDL?businessUnitId=${selectedBusinessUnit?.value}&shippointId=${values?.shipPoint?.value}&searchTerm=${v}`,
+                                      `/wms/Delivery/GetVehicleByShippointDDL?businessUnitId=${selectedBusinessUnit?.value}&shippointId=${values?.shipPoint?.value}&searchTerm=${v}`
                                     ).then((res) => {
                                       return res?.data || [];
                                     });
@@ -764,7 +764,7 @@ function Table({
                                   loadOptions={(v) => {
                                     if (v?.length < 2) return [];
                                     return Axios.get(
-                                      `/wms/Delivery/GetSupplierByShipPointDDl?businessUnitId=${selectedBusinessUnit?.value}&shippointId=${values?.shipPoint?.value}&searchTerm=${v}`,
+                                      `/wms/Delivery/GetSupplierByShipPointDDl?businessUnitId=${selectedBusinessUnit?.value}&shippointId=${values?.shipPoint?.value}&searchTerm=${v}`
                                     ).then((res) => {
                                       return res?.data || [];
                                     });
@@ -789,13 +789,13 @@ function Table({
                           <td>
                             {item?.challanDateTime &&
                               moment(item?.challanDateTime).format(
-                                'DD-MM-YYYY hh:mm: A',
+                                'DD-MM-YYYY hh:mm: A'
                               )}
                           </td>
                           <td>
                             {item?.deliveryScheduleDate &&
                               moment(item?.deliveryScheduleDate).format(
-                                'DD-MM-YYYY hh:mm: A',
+                                'DD-MM-YYYY hh:mm: A'
                               )}
                           </td>
                           <td>{item?.leadTimeHr}</td>
@@ -925,7 +925,7 @@ const RestElements = ({
                   area: '',
                   territory: '',
                 },
-                gridDataWithOutFilter,
+                gridDataWithOutFilter
               );
             }}
             type="checkbox"

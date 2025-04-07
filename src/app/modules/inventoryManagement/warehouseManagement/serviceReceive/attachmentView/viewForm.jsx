@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { useDispatch } from 'react-redux';
@@ -12,7 +11,7 @@ import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 import {
   CancelDocumentAction,
   getAttachmentLandingData,
-  saveAttchmentForPo
+  saveAttchmentForPo,
 } from '../helper/Actions';
 
 const ths = ['SL', 'Attachment', 'Action'];
@@ -101,7 +100,7 @@ export default function ViewForm({ poData, setIsShowModal }) {
                         CancelDocumentAction(
                           item?.docId,
                           item?.referenceId,
-                          cb,
+                          cb
                         );
                         // CancelDocumentAction(docId,invId, cb)
                       }
@@ -129,7 +128,7 @@ export default function ViewForm({ poData, setIsShowModal }) {
         }}
         onDelete={(deleteFileObj) => {
           const newData = fileObjects.filter(
-            (item) => item.file.name !== deleteFileObj.file.name,
+            (item) => item.file.name !== deleteFileObj.file.name
           );
           setFileObjects(newData);
         }}

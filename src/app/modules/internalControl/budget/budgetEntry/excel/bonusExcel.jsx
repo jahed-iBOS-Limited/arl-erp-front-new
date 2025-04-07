@@ -1,6 +1,6 @@
-import { Workbook } from "exceljs";
-import * as fs from "file-saver";
-import { alignmentExcelFunc, totalRowWorkSheet } from "../utility/excelColum";
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
+import { alignmentExcelFunc, totalRowWorkSheet } from '../utility/excelColum';
 
 const createExcelFile = (
   comapanyNameHeader,
@@ -18,14 +18,14 @@ const createExcelFile = (
   // busisness Unit
   let businessUnitName = worksheet.addRow([businessUnit]);
   businessUnitName.font = { size: 20, bold: true };
-  worksheet.mergeCells("A1:S1");
-  worksheet.getCell("A1").alignment = { horizontal: "left" };
+  worksheet.mergeCells('A1:S1');
+  worksheet.getCell('A1').alignment = { horizontal: 'left' };
 
   // excel heading name
   let title = worksheet.addRow([comapanyNameHeader]);
   title.font = { size: 16, bold: true };
-  worksheet.mergeCells("A2:S2");
-  worksheet.getCell("A2").alignment = { horizontal: "left" };
+  worksheet.mergeCells('A2:S2');
+  worksheet.getCell('A2').alignment = { horizontal: 'left' };
 
   // form Date
   let companyLocation;
@@ -34,23 +34,23 @@ const createExcelFile = (
       `From Date : ${fromDate}, To Date : ${toDate}`,
     ]);
     companyLocation.font = { size: 14, bold: true };
-    worksheet.mergeCells("A3:S3");
-    worksheet.getCell("A3").alignment = { horizontal: "lefts" };
+    worksheet.mergeCells('A3:S3');
+    worksheet.getCell('A3').alignment = { horizontal: 'lefts' };
   }
 
   // empty cell
-  worksheet.getCell("A4").alignment = { horizontal: "center", wrapText: true };
+  worksheet.getCell('A4').alignment = { horizontal: 'center', wrapText: true };
 
   // table header
   let _tableHeader = worksheet.addRow(tableHeader);
   _tableHeader.font = { bold: true };
   _tableHeader.eachCell((cell) => {
-    cell.alignment = { horizontal: "center" };
+    cell.alignment = { horizontal: 'center' };
     cell.border = {
-      top: { style: "thin", color: { argb: "00000000" } },
-      left: { style: "thin", color: { argb: "00000000" } },
-      bottom: { style: "thin", color: { argb: "00000000" } },
-      right: { style: "thin", color: { argb: "00000000" } },
+      top: { style: 'thin', color: { argb: '00000000' } },
+      left: { style: 'thin', color: { argb: '00000000' } },
+      bottom: { style: 'thin', color: { argb: '00000000' } },
+      right: { style: 'thin', color: { argb: '00000000' } },
     };
   });
 
@@ -58,13 +58,13 @@ const createExcelFile = (
   const _tableData = worksheet.addRows(tableData);
   _tableData.forEach((row, index) => {
     row.eachCell((cell) => {
-      cell.alignment = { horizontal: "left" };
+      cell.alignment = { horizontal: 'left' };
       alignmentExcelFunc(moneyProcessId, worksheet, index);
       cell.border = {
-        top: { style: "thin", color: { argb: "00000000" } },
-        left: { style: "thin", color: { argb: "00000000" } },
-        bottom: { style: "thin", color: { argb: "00000000" } },
-        right: { style: "thin", color: { argb: "00000000" } },
+        top: { style: 'thin', color: { argb: '00000000' } },
+        left: { style: 'thin', color: { argb: '00000000' } },
+        bottom: { style: 'thin', color: { argb: '00000000' } },
+        right: { style: 'thin', color: { argb: '00000000' } },
       };
     });
   });
@@ -73,7 +73,7 @@ const createExcelFile = (
 
   worksheet.columns.forEach((column) => {
     let maxLength = 0;
-    column["eachCell"]({ includeEmpty: true }, function(cell) {
+    column['eachCell']({ includeEmpty: true }, function (cell) {
       maxLength = Math.max(
         maxLength,
         0,
@@ -83,11 +83,11 @@ const createExcelFile = (
     column.width = maxLength + 2;
   });
 
-  worksheet.getColumn("A").width = 6;
+  worksheet.getColumn('A').width = 6;
 
   workbook.xlsx.writeBuffer().then((data) => {
     let blob = new Blob([data], {
-      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     });
     fs.saveAs(blob, `${comapanyNameHeader}.xlsx`);
   });

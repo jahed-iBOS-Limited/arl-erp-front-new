@@ -1,11 +1,12 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getMotherVesselDDL = async (accId, buId, setter, portId) => {
   try {
     const res = await axios.get(
-      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${portId ||
-        0}`
+      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${
+        portId || 0
+      }`
     );
     setter(res.data);
   } catch (error) {
@@ -99,8 +100,7 @@ export const getGhatCostInfoById = async (id, setLoading, cb) => {
   }
 };
 
-export const getVehicleAllColumnTotal = (arrData,setState) => {
- 
+export const getVehicleAllColumnTotal = (arrData, setState) => {
   let toatlValueDemandVehicle = 0;
   let toatlValueReceiveVehicle = 0;
   let toatlValueTruckLoaded = 0;
@@ -111,16 +111,16 @@ export const getVehicleAllColumnTotal = (arrData,setState) => {
   let toatlValueBufferQty = 0;
 
   arrData.forEach((item) => {
-    toatlValueDemandVehicle  += item.demandVehicle || 0;
-    toatlValueReceiveVehicle+= item.receiveVehicle || 0;
+    toatlValueDemandVehicle += item.demandVehicle || 0;
+    toatlValueReceiveVehicle += item.receiveVehicle || 0;
     toatlValueTruckLoaded += item.truckLoaded || 0;
-    toatlValuePackingMt+= item.packingMt || 0;
-    toatlValueLabourRequirement+= item.labourRequired || 0;
+    toatlValuePackingMt += item.packingMt || 0;
+    toatlValueLabourRequirement += item.labourRequired || 0;
     toatlValueLabourPresent += item.labourPresent || 0;
-    toatlValueLighterWaiting+= item.lighterWaiting || 0;
-    toatlValueBufferQty  += item.bufferQty || 0;
+    toatlValueLighterWaiting += item.lighterWaiting || 0;
+    toatlValueBufferQty += item.bufferQty || 0;
   });
-  setState ({
+  setState({
     toatlValueDemandVehicle,
     toatlValueReceiveVehicle,
     toatlValueTruckLoaded,
@@ -128,6 +128,6 @@ export const getVehicleAllColumnTotal = (arrData,setState) => {
     toatlValueLabourRequirement,
     toatlValueLabourPresent,
     toatlValueLighterWaiting,
-    toatlValueBufferQty
-  })
+    toatlValueBufferQty,
+  });
 };

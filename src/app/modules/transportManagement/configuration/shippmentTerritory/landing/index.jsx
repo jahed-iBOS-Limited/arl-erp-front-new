@@ -1,24 +1,23 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
 import {
   ShippingPointTerritoryLanding,
   getShipPointDDL,
   inActiveShippointTerritory,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  shipPoint: "",
+  shipPoint: '',
 };
 
 export function ShippmentTerritory() {
-
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -40,7 +39,6 @@ export function ShippmentTerritory() {
       selectedBusinessUnit?.value,
       setShipPointDDL
     );
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const selectedData = () => {
@@ -56,10 +54,10 @@ export function ShippmentTerritory() {
   const deleteHandler = async (values) => {
     const data = await selectedData();
     if (data.length === 0) {
-      return toast.warning("Please Select Checkbox");
+      return toast.warning('Please Select Checkbox');
     }
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to delete?`,
       yesAlertFunc: () => {
         inActiveShippointTerritory(data, setLoading, () => {
@@ -93,7 +91,7 @@ export function ShippmentTerritory() {
           onClick={() => {
             history.push({
               pathname:
-                "/transport-management/configuration/shipmentTerritoryConfig/create",
+                '/transport-management/configuration/shipmentTerritoryConfig/create',
             });
           }}
         >
@@ -130,7 +128,7 @@ export function ShippmentTerritory() {
                     label="Select Shippoint"
                     onChange={(valueOption) => {
                       setGridData([]);
-                      setFieldValue("shipPoint", valueOption);
+                      setFieldValue('shipPoint', valueOption);
                       ShippingPointTerritoryLanding(
                         valueOption?.value,
                         setGridData,
@@ -155,51 +153,51 @@ export function ShippmentTerritory() {
                 </button>
               )}
               <div className="table-responsive">
-              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Select</th>
-                    <th>Shippoint Name</th>
-                    <th>Region</th>
-                    <th>Area</th>
-                    <th>Territory</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {gridData?.length > 0 &&
-                    gridData?.map((item, index) => (
-                      <tr>
-                        <td className="text-center">{index + 1}</td>
-                        <td
-                          style={{ width: "70px" }}
-                          className="text-center pl-2"
-                        >
-                          <span>
-                            <input
-                              style={{ width: "15px", height: "15px" }}
-                              name="isSelect"
-                              checked={item?.isSelect}
-                              className="form-control ml-8"
-                              type="checkbox"
-                              onChange={(e) => {
-                                if (item?.isSelect) {
-                                  selectIndividualItem(index, false);
-                                } else {
-                                  selectIndividualItem(index, true);
-                                }
-                              }}
-                            />
-                          </span>
-                        </td>
-                        <td>{item?.shippointName}</td>
-                        <td>{item?.regionName}</td>
-                        <td>{item?.areaName}</td>
-                        <td>{item?.territoryName}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Select</th>
+                      <th>Shippoint Name</th>
+                      <th>Region</th>
+                      <th>Area</th>
+                      <th>Territory</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {gridData?.length > 0 &&
+                      gridData?.map((item, index) => (
+                        <tr>
+                          <td className="text-center">{index + 1}</td>
+                          <td
+                            style={{ width: '70px' }}
+                            className="text-center pl-2"
+                          >
+                            <span>
+                              <input
+                                style={{ width: '15px', height: '15px' }}
+                                name="isSelect"
+                                checked={item?.isSelect}
+                                className="form-control ml-8"
+                                type="checkbox"
+                                onChange={(e) => {
+                                  if (item?.isSelect) {
+                                    selectIndividualItem(index, false);
+                                  } else {
+                                    selectIndividualItem(index, true);
+                                  }
+                                }}
+                              />
+                            </span>
+                          </td>
+                          <td>{item?.shippointName}</td>
+                          <td>{item?.regionName}</td>
+                          <td>{item?.areaName}</td>
+                          <td>{item?.territoryName}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </>

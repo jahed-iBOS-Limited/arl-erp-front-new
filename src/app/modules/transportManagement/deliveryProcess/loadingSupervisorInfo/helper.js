@@ -1,72 +1,72 @@
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 // === landing ==== //
 
 // init data
 export const initData = {
-  type: { value: 3, label: "Scan Card/QR Code Scan (IN)" },
-  shipmentId: "",
-  shipmentCode: "",
-  shippingPoint: "",
-  shipPoint: "",
-  vehicleNumber: "",
-  driver: "",
-  deliveryDate: "",
-  packerName: "",
-  tlm: "",
-  viewType: "",
+  type: { value: 3, label: 'Scan Card/QR Code Scan (IN)' },
+  shipmentId: '',
+  shipmentCode: '',
+  shippingPoint: '',
+  shipPoint: '',
+  vehicleNumber: '',
+  driver: '',
+  deliveryDate: '',
+  packerName: '',
+  tlm: '',
+  viewType: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
   // packer forcely complete
-  reportType: { value: 1, label: "Shipment Created" },
+  reportType: { value: 1, label: 'Shipment Created' },
 };
 
 // packer forcely complete report type ddl
-export const packerReportTypeDDL = [{ value: 1, label: "Shipment Created" }];
+export const packerReportTypeDDL = [{ value: 1, label: 'Shipment Created' }];
 
 //
 export const headers_one = [
-  "SL",
-  "Item",
-  "Bag Type",
-  "UoM",
-  "Quantity",
-  "Price",
-  "Actions",
+  'SL',
+  'Item',
+  'Bag Type',
+  'UoM',
+  'Quantity',
+  'Price',
+  'Actions',
 ];
 
 //
 export const headers_two = [
-  "SL",
-  "Shipment Code",
-  "Vehicle",
-  "Bag Type",
-  "Total Qty",
-  "UoM",
-  "Route Name",
-  "Transport Name",
-  "Provider Type",
-  "Shipping Type",
-  "TLM",
-  "Bursting Qty",
-  "Actions",
+  'SL',
+  'Shipment Code',
+  'Vehicle',
+  'Bag Type',
+  'Total Qty',
+  'UoM',
+  'Route Name',
+  'Transport Name',
+  'Provider Type',
+  'Shipping Type',
+  'TLM',
+  'Bursting Qty',
+  'Actions',
 ];
 
 // packer forcely complete table header
 export const packerForcelyCompleteTableHeader = [
-  "SL",
-  "Shipment No",
-  "Contact Date",
-  "Route Name",
-  "Transport Mode",
-  "Provider Type",
-  "Shipping Type Name",
-  "Vehicle Name",
-  "Loading Confirm Date",
-  "Pump",
-  "Total Qty",
-  "Actions",
+  'SL',
+  'Shipment No',
+  'Contact Date',
+  'Route Name',
+  'Transport Mode',
+  'Provider Type',
+  'Shipping Type Name',
+  'Vehicle Name',
+  'Loading Confirm Date',
+  'Pump',
+  'Total Qty',
+  'Actions',
 ];
 
 // choose report table
@@ -121,10 +121,10 @@ export const chooseReportTableHeader = (values, selectedBusinessUnit) => {
 // reportTypeDDL
 export const reportTypeDDL = [
   // { value: 1, label: "Loading Pending" },
-  { value: 1, label: "Delivery Complete" },
-  { value: 3, label: "Scan Card/QR Code Scan (IN)" },
-  { value: 5, label: "Scan Card/QR Code Scan (OUT)" },
-  { value: 6, label: "Packer Forcely Complete" },
+  { value: 1, label: 'Delivery Complete' },
+  { value: 3, label: 'Scan Card/QR Code Scan (IN)' },
+  { value: 5, label: 'Scan Card/QR Code Scan (OUT)' },
+  { value: 6, label: 'Packer Forcely Complete' },
   // { value: 4, label: "Shift wise Packer Information" },
 ];
 
@@ -158,7 +158,7 @@ export const fetchPackerForceCompleteData = (obj) => {
   const { fromDate, toDate, search, shipPoint, reportType } = values;
 
   // search
-  const searchTerm = search ? `&SearchTerm=${search}` : "";
+  const searchTerm = search ? `&SearchTerm=${search}` : '';
 
   // api function
   getPackerForcelyCompleteData(
@@ -175,9 +175,9 @@ export const reportId = `fe886d74-87ab-42e5-8695-b4be96e51aca`;
 // parameter values
 export const parameterValues = (values) => {
   const shiftWisePackerInformation = [
-    { name: "fromdate", value: `${values?.fromDate}` },
-    { name: "todate", value: `${values?.toDate}` },
-    { name: "ViewType", value: `${+values?.viewType?.value}` },
+    { name: 'fromdate', value: `${values?.fromDate}` },
+    { name: 'todate', value: `${values?.toDate}` },
+    { name: 'ViewType', value: `${+values?.viewType?.value}` },
   ];
 
   return shiftWisePackerInformation;
@@ -203,11 +203,11 @@ export const handleCardNumberChange = (obj) => {
   // if screen width is less than 575
   const isMobileDevice = screenWidth < 575 ? true : false;
   // Check if the Enter key is pressed
-  const isEnterKeyPress = e.key === "Enter" || e.keyCode === 13;
+  const isEnterKeyPress = e.key === 'Enter' || e.keyCode === 13;
 
   // handle card number details if enter key press or mobile device button press
   if (isEnterKeyPress || isMobileDevice) {
-    setFieldValue("shipmentCode", e.target.value);
+    setFieldValue('shipmentCode', e.target.value);
 
     // get report data & update formik field
     getReportData(
@@ -245,17 +245,17 @@ export const handleCardNumberChange = (obj) => {
         const { packerName, packerId } = res?.objHeader;
 
         // set formik state value
-        setFieldValue("packerName", {
+        setFieldValue('packerName', {
           value: packerId !== 0 ? packerId : 0,
-          label: packerName !== null ? packerName : "N/A",
+          label: packerName !== null ? packerName : 'N/A',
         });
 
-        setFieldValue("shippingPoint", res?.objHeader?.shipPointName || "");
-        setFieldValue("vehicleNumber", res?.objHeader?.strVehicleName || "");
-        setFieldValue("driver", res?.objHeader?.driverName || "");
+        setFieldValue('shippingPoint', res?.objHeader?.shipPointName || '');
+        setFieldValue('vehicleNumber', res?.objHeader?.strVehicleName || '');
+        setFieldValue('driver', res?.objHeader?.driverName || '');
         setFieldValue(
-          "deliveryDate",
-          _dateFormatter(res?.objHeader?.pricingDate) || ""
+          'deliveryDate',
+          _dateFormatter(res?.objHeader?.pricingDate) || ''
         );
       }
     );

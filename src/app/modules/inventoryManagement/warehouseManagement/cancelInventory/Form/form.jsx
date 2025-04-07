@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from '../../../../_helper/_select';
 import {
   getRefTypeDDL,
   getTransTypeDDL,
   getRowAndHeaderLabelData,
-} from "../helper";
-import InputField from "../../../../_helper/_inputField";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+} from '../helper';
+import InputField from '../../../../_helper/_inputField';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   reftype: Yup.object().shape({
-    label: Yup.string().required("Reference Type is required"),
-    value: Yup.string().required("Reference Type is required"),
+    label: Yup.string().required('Reference Type is required'),
+    value: Yup.string().required('Reference Type is required'),
   }),
-  refNo: Yup.string().required("Refference No is required"),
+  refNo: Yup.string().required('Refference No is required'),
   transType: Yup.object().shape({
-    label: Yup.string().required("Transaction Type is required"),
-    value: Yup.string().required("Transaction Type is required"),
+    label: Yup.string().required('Transaction Type is required'),
+    value: Yup.string().required('Transaction Type is required'),
   }),
 });
 
@@ -75,7 +75,7 @@ export default function FormCmp({
                     value={values?.reftype}
                     label="Reference Type"
                     onChange={(valueOption) => {
-                      setFieldValue("reftype", valueOption);
+                      setFieldValue('reftype', valueOption);
                       getTransTypeDDL(valueOption?.value, setTransTypeDDl);
                     }}
                     placeholder="Reference Type"
@@ -90,7 +90,7 @@ export default function FormCmp({
                     value={values?.transType}
                     label="Transaction Type"
                     onChange={(valueOption) => {
-                      setFieldValue("transType", valueOption);
+                      setFieldValue('transType', valueOption);
                     }}
                     placeholder="Transaction Type"
                     errors={errors}
@@ -108,7 +108,7 @@ export default function FormCmp({
                 </div>
                 <div className="col-lg-2 mt-9">
                   <button
-                    style={{ marginTop: "-7px" }}
+                    style={{ marginTop: '-7px' }}
                     className="btn btn-primary"
                     onClick={(e) =>
                       getRowAndHeaderLabelData(
@@ -140,10 +140,10 @@ export default function FormCmp({
                 </div>
                 <div className="col-lg-3">
                   <h6>
-                    Transaction Date:{" "}
+                    Transaction Date:{' '}
                     {rowDto?.transactionId === 0
-                      ? ""
-                      : _dateFormatter(rowDto?.date)}{" "}
+                      ? ''
+                      : _dateFormatter(rowDto?.date)}{' '}
                   </h6>
                 </div>
               </div>
@@ -154,7 +154,7 @@ export default function FormCmp({
                     {/* Start Table Part */}
                     <div className="table-responsive">
                       <table
-                        style={{ marginTop: "5px" }}
+                        style={{ marginTop: '5px' }}
                         className="table table-striped table-bordered"
                       >
                         <thead>
@@ -202,14 +202,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

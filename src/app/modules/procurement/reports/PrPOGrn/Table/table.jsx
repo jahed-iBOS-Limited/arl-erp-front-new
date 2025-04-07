@@ -1,33 +1,35 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 //import PaginationSearch from './../../../../_helper/_search'
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 // import { useHistory } from 'react-router-dom'
-import { Formik, Form } from "formik";
-import { useDispatch, useSelector } from "react-redux";
+import { Formik, Form } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPOPrGRNLanding } from '../helper';
+import ILoader from '../../../../_helper/loader/_loader';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import NewSelect from '../../../../_helper/_select';
+import * as Yup from 'yup';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ReactToPrint from 'react-to-print';
+import '../prpogrn.css';
+import { SetReportPrPoGrnAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { getTotalAmount } from './utils';
 import {
-  getPOPrGRNLanding,
-} from "../helper";
-import ILoader from "../../../../_helper/loader/_loader";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import NewSelect from "../../../../_helper/_select";
-import * as Yup from "yup";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ReactToPrint from "react-to-print";
-import "../prpogrn.css";
-import { SetReportPrPoGrnAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { getTotalAmount } from "./utils";
-import { getPlantList, getSBU, getWhList } from "../../../../_helper/_commonApi";
+  getPlantList,
+  getSBU,
+  getWhList,
+} from '../../../../_helper/_commonApi';
 // const statusData = [
 //   { label: 'Approved', value: true },
 //   { label: 'Pending', value: false },
 // ]
 
 const validationSchema = Yup.object().shape({
-  toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
-    if (fromDate) return Schema.required("To date is required");
+  toDate: Yup.string().when('fromDate', (fromDate, Schema) => {
+    if (fromDate) return Schema.required('To date is required');
   }),
 });
 
@@ -35,13 +37,13 @@ const POPRGRNTable = () => {
   const { reportPrPoGrn } = useSelector((state) => state?.localStorage);
 
   let initData = {
-    wh: reportPrPoGrn?.wh || "",
-    plant: reportPrPoGrn?.plant || "",
-    sbu: reportPrPoGrn?.sbu || "",
+    wh: reportPrPoGrn?.wh || '',
+    plant: reportPrPoGrn?.plant || '',
+    sbu: reportPrPoGrn?.sbu || '',
     fromDate: reportPrPoGrn?.fromDate || _todayDate(),
     toDate: reportPrPoGrn?.toDate || _todayDate(),
-    type: reportPrPoGrn?.type || "",
-    typeCode: reportPrPoGrn?.typeCode || "",
+    type: reportPrPoGrn?.type || '',
+    typeCode: reportPrPoGrn?.typeCode || '',
   };
 
   const dispatch = useDispatch();
@@ -50,11 +52,11 @@ const POPRGRNTable = () => {
   const [pageSize, setPageSize] = React.useState(20);
 
   // ddl state
-  const [sbuList, setSbuList] = useState("");
-  const [plantList, setPlantList] = useState("");
-  const [whList, setWhList] = useState("");
+  const [sbuList, setSbuList] = useState('');
+  const [plantList, setPlantList] = useState('');
+  const [whList, setWhList] = useState('');
   const printRef = useRef();
-  const [total, setTotal] = useState(null)
+  const [total, setTotal] = useState(null);
 
   // landing
   const [landing, setLanding] = useState([]);
@@ -88,7 +90,6 @@ const POPRGRNTable = () => {
       setTotal(getTotalAmount({ landing }));
     }
   }, [landing]);
-
 
   // const history = useHistory()
 
@@ -148,8 +149,7 @@ const POPRGRNTable = () => {
     );
   };
 
-
-  console.log("total", total)
+  console.log('total', total);
   return (
     <ICustomCard
       title="PR PO GRN"
@@ -186,7 +186,7 @@ const POPRGRNTable = () => {
           validationSchema={validationSchema}
           initialValues={initData}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({
             handleSubmit,
@@ -201,7 +201,7 @@ const POPRGRNTable = () => {
               <Form className="form form-label-left">
                 <div
                   className="row global-form"
-                  style={{ background: " #d6dadd" }}
+                  style={{ background: ' #d6dadd' }}
                 >
                   <div className="col-lg-3">
                     <NewSelect
@@ -210,13 +210,13 @@ const POPRGRNTable = () => {
                       value={values?.sbu}
                       label="SBU"
                       onChange={(v) => {
-                        setFieldValue("sbu", v);
+                        setFieldValue('sbu', v);
                         dispatch(SetReportPrPoGrnAction({ ...values, sbu: v }));
                       }}
                       placeholder="SBU"
                       errors={errors}
                       touched={touched}
-                    />{" "}
+                    />{' '}
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
@@ -236,11 +236,11 @@ const POPRGRNTable = () => {
                           SetReportPrPoGrnAction({
                             ...values,
                             plant: v,
-                            wh: "",
+                            wh: '',
                           })
                         );
-                        setFieldValue("plant", v);
-                        setFieldValue("wh", "");
+                        setFieldValue('plant', v);
+                        setFieldValue('wh', '');
                       }}
                       placeholder="Plant"
                       errors={errors}
@@ -255,7 +255,7 @@ const POPRGRNTable = () => {
                       label="Warehouse"
                       onChange={(v) => {
                         dispatch(SetReportPrPoGrnAction({ ...values, wh: v }));
-                        setFieldValue("wh", v);
+                        setFieldValue('wh', v);
                       }}
                       placeholder="Warehouse"
                       errors={errors}
@@ -266,13 +266,18 @@ const POPRGRNTable = () => {
                     <label>From Date</label>
                     <div className="d-flex">
                       <InputField
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                         value={values?.fromDate}
                         name="fromDate"
                         placeholder="From date"
                         type="date"
                         onChange={(e) => {
-                          dispatch(SetReportPrPoGrnAction({ ...values, fromDate: e?.target?.value }));
+                          dispatch(
+                            SetReportPrPoGrnAction({
+                              ...values,
+                              fromDate: e?.target?.value,
+                            })
+                          );
                         }}
                       />
                     </div>
@@ -281,13 +286,18 @@ const POPRGRNTable = () => {
                     <label>To Date</label>
                     <div className="d-flex">
                       <InputField
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                         value={values?.toDate}
                         name="toDate"
                         placeholder="To Date"
                         type="date"
                         onChange={(e) => {
-                          dispatch(SetReportPrPoGrnAction({ ...values, toDate: e?.target?.value }));
+                          dispatch(
+                            SetReportPrPoGrnAction({
+                              ...values,
+                              toDate: e?.target?.value,
+                            })
+                          );
                         }}
                       />
                     </div>
@@ -296,17 +306,19 @@ const POPRGRNTable = () => {
                     <NewSelect
                       name="type"
                       options={[
-                        { value: 1, label: "Purchase Request" },
-                        { value: 2, label: "Purchase Order" },
-                        { value: 3, label: "Inventory Transaction" },
-                        { value: 4, label: "Item" },
+                        { value: 1, label: 'Purchase Request' },
+                        { value: 2, label: 'Purchase Order' },
+                        { value: 3, label: 'Inventory Transaction' },
+                        { value: 4, label: 'Item' },
                       ]}
                       value={values?.type}
                       label="Type"
                       onChange={(v) => {
-                        setFieldValue("type", v);
-                        setFieldValue("typeCode", "");
-                        dispatch(SetReportPrPoGrnAction({ ...values, type: v }));
+                        setFieldValue('type', v);
+                        setFieldValue('typeCode', '');
+                        dispatch(
+                          SetReportPrPoGrnAction({ ...values, type: v })
+                        );
                       }}
                       placeholder="Type"
                       errors={errors}
@@ -316,30 +328,35 @@ const POPRGRNTable = () => {
                   <div className="col-lg-3">
                     <label>
                       {values?.type?.value === 1
-                        ? "Purchase Request Code"
+                        ? 'Purchase Request Code'
                         : values?.type?.value === 2
-                          ? "Purchase Order Code"
+                          ? 'Purchase Order Code'
                           : values?.type?.value === 3
-                            ? "Transaction Code"
-                            : "Item"}
+                            ? 'Transaction Code'
+                            : 'Item'}
                     </label>
                     <div className="d-flex">
                       <InputField
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                         value={values?.typeCode}
                         name="typeCode"
                         placeholder={
                           values?.type?.value === 1
-                            ? "Purchase Request Code"
+                            ? 'Purchase Request Code'
                             : values?.type?.value === 2
-                              ? "Purchase Order Code"
+                              ? 'Purchase Order Code'
                               : values?.type?.value === 3
-                                ? "Transaction Code"
-                                : "Item"
+                                ? 'Transaction Code'
+                                : 'Item'
                         }
                         type="text"
                         onChange={(e) => {
-                          dispatch(SetReportPrPoGrnAction({ ...values, typeCode: e?.target?.value }));
+                          dispatch(
+                            SetReportPrPoGrnAction({
+                              ...values,
+                              typeCode: e?.target?.value,
+                            })
+                          );
                         }}
                       />
                     </div>
@@ -383,7 +400,10 @@ const POPRGRNTable = () => {
                     values={values}
                   /> */}
                     <div className="table-responsive">
-                      <table className="table table-striped table-bordered global-table table-font-size-sm" id="table-to-xlsx">
+                      <table
+                        className="table table-striped table-bordered global-table table-font-size-sm"
+                        id="table-to-xlsx"
+                      >
                         <thead>
                           <tr>
                             <th>SL</th>
@@ -416,10 +436,21 @@ const POPRGRNTable = () => {
                             ))}
                             {landing?.length ? (
                               <tr>
-                                <td colSpan="5" className="text-right font-weight-bold">Total</td>
-                                <td className="text-center font-weight-bold">{total?.prTotal}</td>
-                                <td className="text-center font-weight-bold">{total?.poTotal}</td>
-                                <td className="text-center font-weight-bold">{total?.invTotal}</td>
+                                <td
+                                  colSpan="5"
+                                  className="text-right font-weight-bold"
+                                >
+                                  Total
+                                </td>
+                                <td className="text-center font-weight-bold">
+                                  {total?.prTotal}
+                                </td>
+                                <td className="text-center font-weight-bold">
+                                  {total?.poTotal}
+                                </td>
+                                <td className="text-center font-weight-bold">
+                                  {total?.invTotal}
+                                </td>
                                 <td></td>
                               </tr>
                             ) : null}

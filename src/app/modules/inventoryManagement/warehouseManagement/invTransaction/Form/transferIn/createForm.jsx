@@ -82,17 +82,17 @@ export default function TransferInForm({
     dispatch(
       getBusinessPartnerDDLAction(
         profileData.accountId,
-        selectedBusinessUnit.value,
-      ),
+        selectedBusinessUnit.value
+      )
     );
     dispatch(
-      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     getPlantDDL(
       profileData.userId,
       profileData.accountId,
       selectedBusinessUnit.value,
-      setPlantDDL,
+      setPlantDDL
     );
     dispatch(getStockDDLAction());
     dispatch(
@@ -100,17 +100,16 @@ export default function TransferInForm({
         profileData.accountId,
         selectedBusinessUnit.value,
         landingData?.plant?.value,
-        landingData?.warehouse?.value,
-      ),
+        landingData?.warehouse?.value
+      )
     );
     onChaneForRefType({ value: 23, label: 'Transfer' });
     return () => dispatch(slice.setItemDDL([]));
-
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   const onChaneForRefType = (refTyp) => {
     dispatch(
-      getTransactionTypeDDLAction(landingData?.transGrup?.value, refTyp.value),
+      getTransactionTypeDDLAction(landingData?.transGrup?.value, refTyp.value)
     );
     dispatch(
       getreferenceNoForTransferInInvDDLAction(
@@ -118,8 +117,8 @@ export default function TransferInForm({
         profileData.accountId,
         selectedBusinessUnit.value,
         landingData?.plant?.value,
-        landingData?.warehouse?.value,
-      ),
+        landingData?.warehouse?.value
+      )
     );
   };
 
@@ -131,7 +130,7 @@ export default function TransferInForm({
       plantId.value,
       landingData?.warehouse?.value,
       landingData?.plant?.value,
-      setWrehouseDDL,
+      setWrehouseDDL
     );
     //dispatch(slice.setItemDDL([]))
   };
@@ -339,16 +338,16 @@ export default function TransferInForm({
             saveInventoryTransactionForTransferInv(
               { data: modifyPlyload, cb },
               setRowDto,
-              setDisabled,
-            ),
+              setDisabled
+            )
           );
         } else {
           dispatch(
             saveInventoryTransactionForTransferInv(
               { data: payload, cb },
               setRowDto,
-              setDisabled,
-            ),
+              setDisabled
+            )
           );
         }
       } else {
@@ -379,7 +378,6 @@ export default function TransferInForm({
               });
             },
           });
-          
         }}
       >
         {({
@@ -580,7 +578,7 @@ export default function TransferInForm({
                               onClick={(e) => {
                                 e.stopPropagation();
                                 dispatch(
-                                  getDownlloadFileView_Action(attachmentFile),
+                                  getDownlloadFileView_Action(attachmentFile)
                                 );
                               }}
                               className="ml-2"
@@ -610,7 +608,7 @@ export default function TransferInForm({
                           if (v?.length < 3) return [];
                           return axios
                             .get(
-                              `/wms/InventoryTransaction/GetItemForWarehouseTransferInventory?AccountId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&fromPlantId=${landingData?.plant?.value}&fromWarehouseId=${landingData?.warehouse?.value}&toPlantId=${values?.transplant?.value}&toWarehouseId=${values?.transWare?.value}&searchTerm=${v}`,
+                              `/wms/InventoryTransaction/GetItemForWarehouseTransferInventory?AccountId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&fromPlantId=${landingData?.plant?.value}&fromWarehouseId=${landingData?.warehouse?.value}&toPlantId=${values?.transplant?.value}&toWarehouseId=${values?.transWare?.value}&searchTerm=${v}`
                             )
                             .then((res) => {
                               const updateList = res?.data.map((item) => ({

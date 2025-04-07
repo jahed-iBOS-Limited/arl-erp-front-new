@@ -20,16 +20,10 @@ const initData = {
   negotiationRate: '',
 };
 export default function ShippingCsDetails() {
-
   const [loading, setLoading] = useState([]);
   const location = useLocation();
-  const [
-    csDetailsList,
-    getCsDetailsList,
-
-    getLoading,
-    setCsDetailsList,
-  ] = useAxiosGet([]);
+  const [csDetailsList, getCsDetailsList, getLoading, setCsDetailsList] =
+    useAxiosGet([]);
   const history = useHistory();
 
   const backHandler = () => {
@@ -47,9 +41,8 @@ export default function ShippingCsDetails() {
 
   useEffect(() => {
     getCsDetailsList(
-      `/procurement/ShipRequestForQuotation/GetComparativeStatementShipById?AccountId=${profileData?.accountId}&BusinessId=${selectedBusinessUnit?.value}&SBUId=80&RequestForQuatationId=${location?.state?.intRequestForQuotationId}`,
+      `/procurement/ShipRequestForQuotation/GetComparativeStatementShipById?AccountId=${profileData?.accountId}&BusinessId=${selectedBusinessUnit?.value}&SBUId=80&RequestForQuatationId=${location?.state?.intRequestForQuotationId}`
     );
-
   }, [location]);
 
   const saveHandler = async (values, cb) => {};
@@ -125,7 +118,7 @@ export default function ShippingCsDetails() {
                     <div className="col-lg-3">
                       RFQ Date:{' '}
                       {_dateFormatter(
-                        location?.state?.dteRfqdate || location?.state?.rfqdate,
+                        location?.state?.dteRfqdate || location?.state?.rfqdate
                       )}
                     </div>
                     <div className="col-lg-3">
@@ -154,11 +147,11 @@ export default function ShippingCsDetails() {
                       {location?.state?.quotationStartDateTime
                         ? `${
                             location?.state?.quotationStartDateTime?.split(
-                              'T',
+                              'T'
                             )[0]
                           } / ${
                             location?.state?.quotationStartDateTime?.split(
-                              'T',
+                              'T'
                             )[1]
                           }`
                         : `${location?.state?.startDate?.split('T')[0]} / ${
@@ -238,7 +231,7 @@ export default function ShippingCsDetails() {
                                       <div>{itm?.strBusinessPartnerName}</div>
                                     </th>
                                   </Fragment>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -270,7 +263,7 @@ export default function ShippingCsDetails() {
                                       <div>{'Attachment'}</div>
                                     </th>
                                   </Fragment>
-                                ),
+                                )
                               )}
                             </tr>
                           </thead>
@@ -366,8 +359,8 @@ export default function ShippingCsDetails() {
                                                       getDownlloadFileView_Action(
                                                         partnerData
                                                           ?.objPartnerRow
-                                                          ?.strAttachment,
-                                                      ),
+                                                          ?.strAttachment
+                                                      )
                                                     );
                                                   }}
                                                 />
@@ -377,7 +370,7 @@ export default function ShippingCsDetails() {
                                             )}
                                           </td>
                                         </Fragment>
-                                      ),
+                                      )
                                     )}
                                   </tr>
                                 </Fragment>
@@ -412,7 +405,7 @@ export default function ShippingCsDetails() {
                                     <td>{''}</td>
                                     <td>{''}</td>
                                   </Fragment>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -440,14 +433,14 @@ export default function ShippingCsDetails() {
                                     >
                                       {itm?.sumValue > 0
                                         ? `${getPercentageValue(itm).toFixed(
-                                            2,
+                                            2
                                           )} (${itm?.numDiscountPercentage}%)`
                                         : ''}
                                     </td>
                                     <td>{''}</td>
                                     <td>{''}</td>
                                   </Fragment>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -483,7 +476,7 @@ export default function ShippingCsDetails() {
                                     <td>{''}</td>
                                     <td>{''}</td>
                                   </Fragment>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -516,7 +509,7 @@ export default function ShippingCsDetails() {
                                     <td>{''}</td>
                                     <td>{''}</td>
                                   </Fragment>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -549,7 +542,7 @@ export default function ShippingCsDetails() {
                                     <td>{''}</td>
                                     <td>{''}</td>
                                   </Fragment>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -587,7 +580,7 @@ export default function ShippingCsDetails() {
                                     <td>{''}</td>
                                     <td>{''}</td>
                                   </Fragment>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -616,7 +609,7 @@ export default function ShippingCsDetails() {
                                       {itm?.strRemarks}
                                     </td>
                                   </Fragment>
-                                ),
+                                )
                               )}
                             </tr>
                           </tbody>

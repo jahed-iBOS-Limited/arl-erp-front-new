@@ -31,7 +31,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
 
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const [billingDataFilterData, setBillingDataFilterData] = React.useState([]);
 
@@ -43,7 +43,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
     if (type === 'invoice') {
       // filter by collectionAmount
       const filterByCollectionAmount = dataList?.filter(
-        (item) => (+item?.collectionAmount || 0) > 0 && !item?.invoiceCode,
+        (item) => (+item?.collectionAmount || 0) > 0 && !item?.invoiceCode
       );
       const newData = filterByCollectionAmount?.map((item) => {
         return {
@@ -58,7 +58,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
 
     if (type === 'billGenerate') {
       const filterByPaymentParty = dataList?.filter(
-        (item) => (+item?.paymentAmount || 0) > 0 && !item?.billRegisterCode,
+        (item) => (+item?.paymentAmount || 0) > 0 && !item?.billRegisterCode
       );
       const newData = filterByPaymentParty?.map((item) => {
         return {
@@ -110,7 +110,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
         (data) => {
           CB();
         },
-        true,
+        true
       );
     }
 
@@ -129,7 +129,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
           dteToDate: new Date(),
           numTotalAmount: billingDataFilterData?.reduce(
             (acc, curr) => acc + (+curr?.amount || 0),
-            0,
+            0
           ),
           comments: values?.narration || '',
           actionBy: profileData?.userId,
@@ -193,7 +193,7 @@ const FinanceModal = ({ clickRowDto, CB }) => {
         (data) => {
           CB();
         },
-        true,
+        true
       );
     }
   };
@@ -212,18 +212,15 @@ const FinanceModal = ({ clickRowDto, CB }) => {
         `${imarineBaseUrl}/domain/CHAShipment/GetChaServiceChargeData?ChabookingId=${clickRowDto?.chabookingId}`,
         (resData) => {
           commonGetByIdHandler(resData, 'invoice');
-        },
+        }
       );
     }
-
-
   }, [clickRowDto]);
 
   useEffect(() => {
     getPaymentPartyListDDL(
-      `${imarineBaseUrl}/domain/CHAShipment/GetChaEmployeeDDL`,
+      `${imarineBaseUrl}/domain/CHAShipment/GetChaEmployeeDDL`
     );
-
   }, []);
 
   const invoiceTypeHandeler = (values) => {
@@ -395,7 +392,7 @@ const BillCmp = ({
                   {' '}
                   {billingDataFilterData?.reduce(
                     (acc, curr) => acc + (+curr?.amount || 0),
-                    0,
+                    0
                   )}
                 </b>
               </td>
@@ -468,7 +465,7 @@ const InvoiceCmp = ({ billingDataFilterData, values, setFieldValue }) => {
                 <b>
                   {billingDataFilterData?.reduce(
                     (acc, curr) => acc + (+curr?.amount || 0),
-                    0,
+                    0
                   )}
                 </b>
               </td>

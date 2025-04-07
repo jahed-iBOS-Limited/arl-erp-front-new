@@ -1,25 +1,23 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import {
   getGroupParentDDL,
   saveCreatedCostCenterGroup,
   saveEditedCostCenterGroup,
   getCostCenterGroupById,
   setCostCenterGroupSingleEmpty,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import Form from "./form";
-import { getControllingUnitDDLAction } from "../../../../_helper/_redux/Actions";
-import Loading from "./../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import Form from './form';
+import { getControllingUnitDDLAction } from '../../../../_helper/_redux/Actions';
+import Loading from './../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  costCenterCenterGroupCode: "",
-  costCenterCenterGroupName: "",
-  controllingUnit: "",
-  costCenterCenterGroupParent: "",
+  costCenterCenterGroupCode: '',
+  costCenterCenterGroupName: '',
+  controllingUnit: '',
+  costCenterCenterGroupParent: '',
 };
 
 export default function CostCenterGroupForm({
@@ -62,7 +60,6 @@ export default function CostCenterGroupForm({
     } else {
       dispatch(setCostCenterGroupSingleEmpty());
     }
-
   }, [id]);
 
   //call groupParentDDL for edit
@@ -88,8 +85,6 @@ export default function CostCenterGroupForm({
         )
       );
     }
-
-
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
@@ -125,7 +120,6 @@ export default function CostCenterGroupForm({
       }
     } else {
       setDisabled(false);
-
     }
   };
 

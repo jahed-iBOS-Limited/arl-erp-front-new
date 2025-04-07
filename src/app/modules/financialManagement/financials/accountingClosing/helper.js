@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const createAccountingClosing = async (data, cb, setDisabled) => {
   setDisabled(true);
@@ -9,14 +9,13 @@ export const createAccountingClosing = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully", {
-        toastId: "createAccountingClosing",
+      toast.success(res?.message || 'Submitted successfully', {
+        toastId: 'createAccountingClosing',
       });
       setDisabled(false);
       cb();
     }
   } catch (error) {
-    
     setDisabled(false);
   }
 };
