@@ -4,13 +4,13 @@ import * as Yup from 'yup';
 import { yearsDDL } from '../../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm';
 import InputField from '../../../../_helper/_inputField';
 import NewSelect from '../../../../_helper/_select';
-import { monthDDL } from '../../salesanalytics/utils';
 import {
   getBusinessUnitSalesOrgApi,
   getRegionAreaTerritory,
   GetSalesTargetEntry,
 } from '../helper';
 import Table from './table';
+import { monthDDL } from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
 
 const validationSchema = Yup.object().shape({
   targetMonth: Yup.object().shape({
