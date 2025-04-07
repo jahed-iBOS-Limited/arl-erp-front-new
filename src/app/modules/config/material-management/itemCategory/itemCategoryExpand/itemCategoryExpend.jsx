@@ -74,35 +74,6 @@ export default function ItemCategoryExpend() {
       }
     }
   };
-
-  // const addRow = (values, callBack) => {
-  //   if (rowData?.businessUnit?.find((item) => item?.supplierId === values?.supplier?.value)) {
-  //     return toast.warn("Supplier already added");
-  //   }
-  //   try {
-  //       const newRow = {
-  //         businessUnitId: values?.businessUnit?.value,
-  //         businessUnitName: values?.businessUnit?.label,
-  //         generalLedgerId: values?.generalLedger?.value,
-  //         generalLedgerName: values?.generalLedger?.label,
-  //         createdBy: userId,
-  //       };
-  //       setRowData({
-  //         sl: rowData?.sl,
-  //         itemMasterCategoryId: rowData?.itemMasterCategoryId,
-  //         accountId: rowData?.accountId,
-  //         itemMasterCategoryCode: rowData?.itemMasterCategoryCode,
-  //         itemMasterCategoryName: rowData?.itemMasterCategoryName,
-  //         itemMasterTypeId: rowData?.itemMasterTypeId,
-  //         itemMasterTypeName: rowData?.itemMasterTypeName,
-  //         businessUnit: [...rowData?.businessUnit, newRow]
-  //       });
-  //         callBack();
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-
   const addRow = (values, callBack) => {
     // Check if the supplier already exists in the rowData
     if (
@@ -136,13 +107,8 @@ export default function ItemCategoryExpend() {
       });
       // Execute the callback after successfully updating the state
       callBack();
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
-
-  console.log('rowData', rowData);
-
   useEffect(() => {
     if (id) {
       const { itemMasterCategoryName } = location?.state || {};
@@ -209,17 +175,8 @@ export default function ItemCategoryExpend() {
         }
       }}
     >
-      {({
-        handleSubmit,
-        resetForm,
-        values,
-        setFieldValue,
-        isValid,
-        errors,
-        touched,
-      }) => (
+      {({ handleSubmit, resetForm, values, setFieldValue }) => (
         <>
-          {/* {console.log("error", errors)} */}
           {(rowDataLoading || isLoading) && <Loading />}
           <IForm customTitle={`Item Category Extend`} getProps={setObjprops}>
             <Form onSubmit={handleSubmit}>
@@ -256,7 +213,6 @@ export default function ItemCategoryExpend() {
                           );
                       setFieldValue('generalLedger', '');
                     }}
-                    // isDisabled={id}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -268,7 +224,6 @@ export default function ItemCategoryExpend() {
                     onChange={(valueOption) => {
                       setFieldValue('generalLedger', valueOption);
                     }}
-                    // isDisabled={id}
                   />
                 </div>
                 <div className="col-lg-3 mt-5">
@@ -323,7 +278,7 @@ export default function ItemCategoryExpend() {
                 style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
-              ></button>
+              />
 
               <button
                 type="reset"

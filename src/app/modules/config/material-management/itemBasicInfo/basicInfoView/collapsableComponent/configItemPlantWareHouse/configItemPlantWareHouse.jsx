@@ -134,8 +134,6 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
               '/wms/ItemPlantWarehouse/EditConfigItemPlantWarehouse',
               editConfigPlantWarehouseData
             );
-
-            // cb();
             getItemPlantWarehouseInfoByItemId(
               profileData?.accountId,
               selectedBusinessUnit?.value,
@@ -152,7 +150,6 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
           setDisabled(false);
         }
       } else {
-        // create part
         const defaultObjRow = defaultRowDto.map((itm) => {
           return {
             itemName: location?.state?.item?.itemName,
@@ -217,12 +214,6 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
             '/wms/ItemPlantWarehouse/CreateConfigItemPlantWarehouse',
             configPlantWarehouseData
           );
-
-          // if (res.status === 200) {
-          //   setRowDto([]);
-          //   setDefaultRowDto([]);
-          // }
-          // cb(initData);
           getItemPlantWarehouseInfoByItemId(
             profileData?.accountId,
             selectedBusinessUnit?.value,
@@ -245,7 +236,7 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
 
   const baseSetter = (payload) => {
     if (isUniq('convertedUom', payload?.convertedUom, rowDto)) {
-      const { accountId, userId: actionBy } = profileData;
+      const { userId: actionBy } = profileData;
       setRowDto([
         {
           ...payload,
@@ -257,7 +248,7 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
 
   const setter = (payload) => {
     if (isUniq('convertedUom', payload?.convertedUom, rowDto)) {
-      const { accountId, userId: actionBy } = profileData;
+      const { userId: actionBy } = profileData;
       setRowDto([
         ...rowDto,
         {
@@ -271,16 +262,11 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
   const defaultSetter = (payload) => {
     if (
       isUniq('inventoryLocationId', payload.inventoryLocationId, defaultRowDto)
-      //  &&
-      // isUniq("warehouseId", payload.warehouseId, defaultRowDto)
     ) {
       const { accountId, userId: actionBy } = profileData;
       const { value: businessunitid, label: businessunitLabel } =
         selectedBusinessUnit;
       setDefaultRowDto([
-        // ...defaultRowDto.filter(
-        //   (itm) => itm.warehouseId !== payload.warehouseId
-        // ),
         ...defaultRowDto,
         {
           itemName: location?.state?.itemName,
@@ -303,21 +289,8 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
   };
 
   const saveBtnRef = useRef();
-  const saveDataClick = () => {
-    if (defaultRowDto.length > 0 && saveBtnRef && saveBtnRef.current) {
-      saveBtnRef.current.click();
-    } else {
-      toast.error('Plant & WearHouse empty !', { toastId: shortid() });
-    }
-  };
 
   const resetBtnRef = useRef();
-  const resetBtnClick = () => {
-    if (resetBtnRef && resetBtnRef.current) {
-      resetBtnRef.current.click();
-    }
-  };
-
   const disableHandler = (cond) => {
     setDisabled(cond);
   };
@@ -330,7 +303,7 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
             ? 'Config Item Plant Warehouse'
             : 'Edit Config Item Plant Warehouse'
         }
-      ></CardHeader>
+      />
       <CardBody>
         <Form
           isViewPage={isViewPage}
