@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { _formatMoney } from '../_formatMoney';
 
 const PrintHeader = ({ singleData }) => {
   const {
