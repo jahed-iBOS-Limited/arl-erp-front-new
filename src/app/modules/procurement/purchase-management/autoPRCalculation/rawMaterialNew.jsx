@@ -22,6 +22,7 @@ import WarehouseStockModal from './rawMaterialModals/warehouseStockModal';
 import RawMaterialAutoPRNewModalView from './rawMaterialModalView';
 import RawMaterialAutoPRNewModalViewVersionTwo from './rawMaterialModalViewV2';
 import { getPlantDDL } from '../../../financialManagement/invoiceManagementSystem/billregister/helper';
+import { getPlantList } from '../../../_helper/_commonApi';
 
 const initData = {
   businessUnit: '',
@@ -61,7 +62,7 @@ export default function RawMaterialAutoPRNew() {
 
   useEffect(() => {
     if (selectedBusinessUnit) {
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -141,7 +142,7 @@ export default function RawMaterialAutoPRNew() {
                       onChange={(valueOption) => {
                         setFieldValue('businessUnit', valueOption || '');
                         setFieldValue('plant', '');
-                        getPlantDDL(
+                        getPlantList(
                           profileData?.userId,
                           profileData?.accountId,
                           valueOption?.value,

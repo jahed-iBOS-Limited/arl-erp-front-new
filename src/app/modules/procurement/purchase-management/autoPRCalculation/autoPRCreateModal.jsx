@@ -21,6 +21,7 @@ import {
 import WarehouseStockModal from './rawMaterialModals/warehouseStockModal';
 import RawMaterialAutoPRNewModalView from './rawMaterialModalView';
 import { getPlantDDL } from '../../../financialManagement/invoiceManagementSystem/billregister/helper';
+import { getPlantList } from '../../../_helper/_commonApi';
 
 export default function AutoPRCreateModal({
   parentValues,
@@ -194,7 +195,7 @@ export default function AutoPRCreateModal({
                       onChange={(valueOption) => {
                         setFieldValue('businessUnit', valueOption || '');
                         setFieldValue('plant', '');
-                        getPlantDDL(
+                        getPlantList(
                           profileData?.userId,
                           profileData?.accountId,
                           valueOption?.value,

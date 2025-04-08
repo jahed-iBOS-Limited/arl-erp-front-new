@@ -9,7 +9,6 @@ import {
   getOrderQuantityDDL,
   getOtherOutputItemDDL,
   getRoutingToBOMDDL,
-  getShopFloorDDL,
   getWorkCenterDDL,
 } from '../helper';
 import { toast } from 'react-toastify';
@@ -17,6 +16,7 @@ import CreateTableRow from '../Table/CreateTableRow';
 import { getItemListForBackCalculation } from './../helper';
 import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
 import { empAttachment_action } from '../../../../_helper/attachmentUpload';
+import { getShopFloorDDL } from '../../../../_helper/_commonApi';
 export default function FormCmp({
   initData,
   btnRef,

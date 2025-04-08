@@ -4,6 +4,7 @@ import Form from './landing';
 // import Loading from "../../../../_helper/_loading";
 import ICustomCard from '../../../../_helper/_customCard';
 import { getSBUDDL, getPlantDDL } from '../helper';
+import { getPlantList } from '../../../../_helper/_commonApi';
 
 let initData = {
   sbu: '',
@@ -27,7 +28,7 @@ export function IssueProduction({ history }) {
 
   useEffect(() => {
     getSBUDDL(profileData?.accountId, selectedBusinessUnit?.value, setSBUDDL);
-    getPlantDDL(
+    getPlantList(
       profileData?.userId,
       profileData?.accountId,
       selectedBusinessUnit?.value,

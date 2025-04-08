@@ -1290,7 +1290,9 @@ export const getPlantList = async (userId, accId, buId, setter) => {
     const res = await axios.get(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
-    setter(res?.data);
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
   } catch (error) {}
 };
 
@@ -1493,6 +1495,73 @@ export function fetchInventoryData(obj) {
     }
   );
 }
+
+export const GetBillofMaterialPagination = async (
+  accId,
+  buId,
+  plantId,
+  shopFloorId,
+  setLoading,
+  setter,
+  pageNo,
+  pageSize,
+  search
+) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      search
+        ? `/mes/BOM/GetBOMPasignation?SearchTerm=${search}&AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ShopFloorId=${shopFloorId}&Status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+        : `/mes/BOM/GetBOMPasignation?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ShopFloorId=${shopFloorId}&Status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+    );
+    if (res.status === 200 && res.data) {
+
+
+export const getShopFloorDDL = async (accId, buId, plantId, setter) => {
+  try {
+    const res = await axios.get(
+      `/mes/MesDDL/GetShopfloorDDL?AccountId=${accId}&BusinessUnitid=${buId}&PlantId=${plantId} `
+    );
+
+    if (res.status === 200 && res.data) {
+      setter(res.data);
+    }
+  } catch (error) {
+    toast.warn(error.message);
+  }
+};
+
+export const saveBillofMaterial = async (data, cb, setDisabled) => {
+  setDisabled(true);
+  try {
+    const res = await axios.post(`/mes/BOM/CreateBillOfMaterial`, data);
+    if (res.status === 200) {
+      toast.success(res.data?.message || 'Submitted successfully');
+      cb();
+      setDisabled(false);
+    }
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setDisabled(false);
+  }
+};
+
+export const getBusinessUnitDDL = async (accId, setter) => {
+  try {
+    const res = await axios.get(
+      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`
+    );
+
+    if (res.status === 200 && res.data) {
+      setter(res.data);
+    }
+  } catch (error) {
+    console.log(error.message);
+
+    toast.error(error?.response?.data?.message);
+  }
+};
+
 export const getGridData = async (
   accountId,
   businessUnitId,
@@ -1516,11 +1585,11 @@ export const getGridData = async (
     );
     // console.log(res);
     if (res.status === 200 && res?.data) {
+
       setter(res?.data);
       setLoading(false);
     }
   } catch (error) {
     setLoading(false);
-    toast.error(error?.response?.data?.message);
   }
-};
+}

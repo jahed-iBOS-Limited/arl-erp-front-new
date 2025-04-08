@@ -19,13 +19,10 @@ import Loading from '../../../../../_helper/_loading';
 import NewSelect from '../../../../../_helper/_select';
 import PaginationTable from '../../../../../_helper/_tablePagination';
 import IViewModal from '../../../../../_helper/_viewModal';
-import {
-  DeleteFundManagementApi,
-  getBusinessUnitDDL,
-  getFundLimitLandingData,
-} from '../../helper';
+import { DeleteFundManagementApi, getFundLimitLandingData } from '../../helper';
 import FundLimitDetailsModal from '../view/FundLimitDetailsModal';
 import IConfirmModal from '../../../../../_helper/_confirmModal';
+import { getBusinessUnitDDL } from '../../../../../_helper/_commonApi';
 // import { ExcelRenderer } from "react-excel-renderer";
 
 // const header = [

@@ -10,6 +10,7 @@ import Loading from './../../../_helper/_loading';
 import NewSelect from './../../../_helper/_select';
 import { getPlantDDL, monthData } from './helper';
 import MonthlyModal from './monthlyModal';
+import { getPlantList } from '../../../_helper/_commonApi';
 
 const initData = {
   plant: '',
@@ -35,7 +36,7 @@ export default function ManufacturingOverheadPlanLanding() {
 
   useEffect(() => {
     getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
-    getPlantDDL(
+    getPlantList(
       profileData?.accountId,
       profileData?.userId,
       selectedBusinessUnit?.value,

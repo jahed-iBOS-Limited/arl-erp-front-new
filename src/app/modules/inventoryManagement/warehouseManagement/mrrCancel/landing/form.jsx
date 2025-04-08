@@ -12,6 +12,7 @@ import InputField from '../../../../_helper/_inputField';
 import PaginationSearch from '../../../../_helper/_search';
 import GridData from './grid';
 import PaginationTable from '../../../../_helper/_tablePagination';
+import { getPlantList } from '../../../../_helper/_commonApi';
 
 const validationSchema = Yup.object().shape({});
 const initData = {
@@ -67,7 +68,7 @@ export default function HeaderForm() {
   useEffect(() => {
     transGrupDDL(settransGroupDDL, profileData?.accountId);
     getSBUDDL(profileData?.accountId, selectedBusinessUnit?.value, setsbuDDL);
-    getPlantDDL(
+    getPlantList(
       profileData?.userId,
       profileData?.accountId,
       selectedBusinessUnit?.value,
