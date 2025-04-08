@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getLandingData } from '../helper';
+
 import Loading from './../../../../_helper/_loading';
 import {
   Card,
@@ -11,6 +11,7 @@ import {
 } from './../../../../../../_metronic/_partials/controls';
 import PaginationTable from './../../../../_helper/_tablePagination';
 import ICustomTable from '../../../../_helper/_customTable';
+import { getChargeLandingData } from '../../../../_helper/_commonApi';
 
 const header = [
   'SL',
@@ -40,7 +41,7 @@ const CnFChargesLanding = () => {
   }, shallowEqual);
 
   useEffect(() => {
-    getLandingData(
+    getChargeLandingData(
       profileData?.accountId,
       setIsLoading,
       setGridData,
@@ -51,7 +52,7 @@ const CnFChargesLanding = () => {
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
-    getLandingData(
+    getChargeLandingData(
       profileData?.accountId,
       setIsLoading,
       setGridData,

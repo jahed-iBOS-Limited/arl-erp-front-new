@@ -1598,3 +1598,392 @@ export const getGridData = async (
     setLoading(false);
   }
 };
+export const getLandingData = async (
+  accountId,
+  businessUnitId,
+  searchTerm,
+  bankId,
+  fromDate,
+  toDate,
+  setter,
+  setLoading,
+  pageNo,
+  pageSize
+) => {
+  try {
+    let query = `/imp/LetterOfCredit/LetterOfCreditLandingPasignation?accountId=${accountId}&businessUnitId=${businessUnitId}`;
+    if (searchTerm) {
+      query += `&searchTerm=${searchTerm}`;
+    }
+    if (bankId) {
+      query += `&bankId=${bankId}`;
+    }
+    if (fromDate) {
+      query += `&fromDate=${fromDate}`;
+    }
+    if (toDate) {
+      query += `&toDate=${toDate}`;
+    }
+    query += `&PageSize=${pageSize}&PageNo=${pageNo}&viewOrder=desc`;
+    setLoading(true);
+    const res = await axios.get(query);
+
+    setLoading(false);
+    setter(res?.data);
+  } catch (error) {
+    setLoading(false);
+    toast.error(error?.response?.data?.message);
+  }
+};
+
+const createPayloadChange = (
+  values,
+  profileData,
+  selectedBusinessUnit,
+  uploadImage
+) => {
+  const payload = {
+    lcTypeName: values?.lcType?.label,
+    countryOriginName: values?.origin?.label,
+    currencyName: values?.currency?.label,
+    description: values?.description,
+    lcafNo: '',
+    applicationDate: _dateFormatter(new Date()),
+    poId: values?.poId,
+    numExchangeRate: values?.exchangeRate,
+    numTotalPiamountFC: +values?.PIAmountFC,
+    numTotalPiamountBDT: +values?.PIAmountBDT,
+    accountId: profileData?.accountId,
+    businessUnitId: selectedBusinessUnit?.value,
+    sbuId: values?.sbuId,
+    plantId: values?.plantId,
+    ponumber: values?.poNo,
+    lcnumber: values?.lcNo,
+    subPonumber: '',
+    incoTerms: values?.encoTerms?.value,
+    materialTypeId: values?.materialType?.value,
+    bankName: values?.bankName?.label,
+    bankId: values?.bankName?.value,
+    lctypeId: values?.lcType?.value,
+    dteLcdate: values?.lcDate,
+    dteLastShipmentDate: _dateFormatter(values?.lastShipmentDate),
+    dteLcexpireDate: _dateFormatter(values?.lcExpiredDate),
+    originId: values?.origin?.value,
+    loadingPortName: values?.loadingPort,
+    numTolarance: +values?.tolarance,
+    currencyId: values?.currency?.value,
+    totalBankCharge: values?.totalBankCharge,
+    vatOnBankCharge: values?.vatOnCharge,
+    lcTenor: values?.lcTenor,
+    numPgamount: +values?.pgAmount,
+    dtePgdueDate: values?.pgDueDate,
+    // indemnityBond: values?.indemnityBond || false,
+    indemnityBond: false,
+    // bondLicense: values?.bondLicense || false,
+    bondLicense: false,
+    // duration: values?.duration,
+    duration: null,
+    openingLcdocumentId: uploadImage[0]?.id || '',
+    lastActionBy: profileData?.userId,
+    finalDestinationId: values?.finalDestination?.value,
+    dueDate: values?.dueDate,
+    bankAccountId: values?.bankAccount?.value || 0,
+    bankAccountNo: values?.bankAccount?.label || '',
+    lcMarginPercentage: +values?.lcMarginPercent || 0,
+    lcMarginValue: +values?.lcMarginValue || 0,
+    lcMarginDueDate: values?.lcMarginDueDate || null,
+    marginType: values?.marginType?.value,
+    numInterestRate: values?.numInterestRate || 0,
+  };
+  return payload;
+};
+export const createLCOpen = async (
+  setDisabled,
+  values,
+  profileData,
+  selectedBusinessUnit,
+  uploadImage,
+  cb
+) => {
+  const obj = createPayloadChange(
+    values,
+    profileData,
+    selectedBusinessUnit,
+    uploadImage
+  );
+  try {
+    setDisabled(true);
+    const res = await axios.post(
+      `/imp/LetterOfCredit/CreateLetterOfCredit`,
+      obj
+    );
+    setDisabled(false);
+    // console.log(res,"res");
+    toast.success(res?.message || 'Create successfully');
+    cb();
+  } catch (error) {
+    setDisabled(false);
+    // console.log(error);
+    toast.error(error?.response?.data?.message);
+  }
+};
+
+const updatePayloadChange = (
+  values,
+  profileData,
+  selectedBusinessUnit,
+  uploadImage
+) => {
+  const payload = {
+    description: values?.description,
+    numPIAmountBDT: values?.PIAmountBDT,
+    numPIAmountFC: values?.PIAmountFC,
+    numExchangeRate: values?.exchangeRate,
+    lcId: values?.lcid,
+    accountId: profileData?.accountId,
+    businessUnitId: selectedBusinessUnit?.value,
+    ponumber: values?.poNo,
+    lcnumber: values?.lcNo,
+    subPonumber: '',
+    incoTerms: values?.encoTerms?.value,
+    materialTypeId: values?.materialType?.value,
+    bankId: values?.bankName?.value,
+    lctypeId: values?.lcType?.value,
+    dteLcdate: values?.lcDate,
+    dteLastShipmentDate: _dateFormatter(values?.lastShipmentDate),
+    dteLcexpireDate: _dateFormatter(values?.lcExpiredDate),
+    originId: values?.origin?.value,
+    loadingPortName: values?.loadingPort,
+    numTolarance: +values?.tolarance,
+    currencyId: values?.currency?.value,
+    totalBankCharge: values?.totalBankCharge,
+    vatOnBankCharge: values?.vatOnCharge,
+    lcTenor: values?.lcTenor,
+    numPgamount: +values?.pgAmount,
+    dtePgdueDate: values?.pgDueDate,
+    // indemnityBond: values?.indemnityBond || false,
+    indemnityBond: false,
+    // bondLicense: values?.bondLicense || false,
+    bondLicense: false,
+    // duration: values?.duration,
+    duration: null,
+    openingLcdocumentId: uploadImage[0]?.id || values?.attachment || '',
+    finalDestinationId: values?.finalDestination?.value,
+    dueDate: values?.dueDate,
+    bankAccountId: values?.bankAccount?.value || 0,
+    bankAccountNo: values?.bankAccount?.label || '',
+    lcMarginPercentage: +values?.lcMarginPercent || 0,
+    lcMarginValue: +values?.lcMarginValue || 0,
+    lcMarginDueDate: values?.lcMarginDueDate || null,
+  };
+  return payload;
+};
+export const updateLCOpen = async (
+  setDisabled,
+  values,
+  profileData,
+  selectedBusinessUnit,
+  uploadImage
+  // cb
+) => {
+  const obj = updatePayloadChange(
+    values,
+    profileData,
+    selectedBusinessUnit,
+    uploadImage
+  );
+  try {
+    setDisabled(true);
+    let res = await axios.put(`/imp/LetterOfCredit/EditLetterOfCredit`, obj);
+    setDisabled(false);
+    toast.success(res?.message || 'Update successfully');
+    // cb();
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+  }
+};
+
+export const LCTypeDDLAction = async (setDisabled, setter) => {
+  try {
+    setDisabled(true);
+    const res = await axios.get(`/imp/ImportCommonDDL/GetLCTypeDDL`);
+    setDisabled(false);
+    setter(res?.data);
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+    setter([]);
+  }
+};
+
+export const currencyTypeDDLAction = async (setter) => {
+  try {
+    const res = await axios.get(`/imp/ImportCommonDDL/GetCurrencyTypeDDL`);
+    setter(res?.data);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setter([]);
+  }
+};
+
+export const originTypeDDLAction = async (setDisabled, setter) => {
+  try {
+    setDisabled(true);
+    const res = await axios.get(`/imp/ImportCommonDDL/GetCountryNameDDL`);
+    setDisabled(false);
+    setter(res?.data);
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+    setter([]);
+  }
+};
+
+export const encoItemDDLAction = async (setDisabled, setter) => {
+  try {
+    setDisabled(true);
+    const res = await axios.get(`/imp/ImportCommonDDL/GetIncoTermsDDL`);
+    setDisabled(false);
+    setter(res?.data);
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+    setter([]);
+  }
+};
+
+export const materialTypeDDLAction = async (setDisabled, setter) => {
+  try {
+    setDisabled(true);
+    const res = await axios.get(`/imp/ImportCommonDDL/GetMaterialTypeDDL`);
+    setDisabled(false);
+    setter(res?.data);
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+    setter([]);
+  }
+};
+
+export const PortDDLAction = async (
+  accId,
+  businessUnitId,
+  setDisabled,
+  setter
+) => {
+  try {
+    setDisabled(true);
+    const res = await axios.get(
+      `/imp/ImportCommonDDL/GetPortName?accountId=${accId}&businessUnitId=${businessUnitId}`
+    );
+    setDisabled(false);
+    setter(res?.data);
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+    setter([]);
+  }
+};
+
+export const GetBankDDL = async (setter, accId, businessUnitId) => {
+  try {
+    const res = await axios.get(
+      `/imp/ImportCommonDDL/GetBankListDDL?accountId=${accId}&businessUnitId=${businessUnitId}`
+    );
+    setter(res?.data);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setter([]);
+  }
+};
+
+export const getCalculationFormLandingForm = async (
+  businessUnitId,
+  values,
+  setter,
+  setLoading
+) => {
+  try {
+    setLoading(true);
+    const res = await axios.get(
+      `/imp/FormulaForCalculation/GetFormulaForLcBankCharge?businessUnitId=${businessUnitId}&poId=${
+        values?.poId
+      }&tenorDays=${
+        values?.lcTenor
+      }&poTotalFc=${+values?.PIAmountFC}&toleranceRate=${
+        values?.tolarance
+      }&excRate=${values?.exchangeRate}&bankId=${
+        values?.bankName?.value
+      }&type=${values?.lcType?.value}`
+    );
+    setLoading(false);
+
+    let newObj = {};
+    for (let index = 0; index < res?.data.length; index++) {
+      const element = res?.data[index];
+      newObj[element.strType] = element.monAmount;
+    }
+    setter(newObj && newObj);
+    setter({
+      swift: newObj['Swift Charge'],
+      stamp: newObj['Stamp Charge'],
+      stationary: newObj['Stationary Charge'],
+      stampChargeforOther: newObj['Others Charge'],
+      lcConfirm: 0,
+      tenorQuarter: 0,
+      vatRate: 0,
+    });
+  } catch (error) {
+    setLoading(false);
+    toast.error(error.response.data.message);
+  }
+};
+
+export const getPoForLcOpen = (accountId, businessUnitId, poId, cb) => {
+  try {
+    let query = `/imp/LetterOfCredit/GetPOForLCOpen?accountId=${accountId}&businessUnitId=${businessUnitId}&POId=${poId}`;
+    return axios.get(query);
+  } catch (error) {}
+};
+
+export const currencyLoadByPoId = async (
+  setter,
+  accId,
+  businessUnitId,
+  poId
+) => {
+  try {
+    const res = await axios.get(
+      `/imp/ImportCommonDDL/GetCurrencyFromInsuranceDDL?accountId=${accId}&businessUnitId=${businessUnitId}&POId=${poId}`
+    );
+    setter({ currency: res?.data[0] });
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setter([]);
+  }
+};
+
+export const getChargeLandingData = async (
+  accId,
+  setDisabled,
+  setter,
+  pageNo,
+  pageSize,
+  search
+) => {
+  setDisabled(true);
+  const searchPath = search ? `Search=${search}&` : '';
+  try {
+    let res = await axios.get(
+      `/domain/CreateRoleManager/GetRoleManagerSearchLandingPasignation?${searchPath}AccountId=${accId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
+    );
+    if (res?.status === 200) {
+      setter(res?.data);
+      setDisabled(false);
+    }
+  } catch (err) {
+    toast.warning(err?.response?.data?.message);
+    setDisabled(false);
+  }
+};

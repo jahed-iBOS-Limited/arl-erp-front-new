@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
-import { getLandingData } from '../helper';
 import Loading from '../../../../_helper/_loading';
 import {
   Card,
@@ -14,6 +13,7 @@ import ICustomTable from '../../../../_helper/_customTable';
 import NewSelect from '../../../../_helper/_select';
 import InputField from '../../../../_helper/_inputField';
 import { Formik } from 'formik';
+import { getChargeLandingData } from '../../../../_helper/_commonApi';
 
 const header = [
   'SL',
@@ -45,7 +45,7 @@ const CnFServiceList = () => {
 
   useEffect(() => {
     if (profileData?.accountId) {
-      getLandingData(
+      getChargeLandingData(
         profileData?.accountId,
         setIsLoading,
         setGridData,
@@ -57,7 +57,7 @@ const CnFServiceList = () => {
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
-    getLandingData(
+    getChargeLandingData(
       profileData?.accountId,
       setIsLoading,
       setGridData,
