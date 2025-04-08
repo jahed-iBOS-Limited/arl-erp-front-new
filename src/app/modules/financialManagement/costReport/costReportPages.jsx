@@ -2,7 +2,6 @@ import React from 'react';
 import { Redirect, Switch } from 'react-router-dom';
 import { ContentRoute } from '../../../../_metronic/layout';
 import CostSheetLanding from '../costReport/costSheet/landing';
-import InventoryAgingLanding from '../report/inventoryAging/landing';
 import { AccountPayableAnalysis } from '../report/accountPayableAnalysis/landing/form';
 import { PartnerAccAnalysisLanding } from '../report/partnerAccAnalysis/landing/form';
 import CostSheetRevisedLanding from './costSheetRevised/landing';
@@ -30,11 +29,6 @@ export function CostReportPages() {
         component={CostSheetRevisedLanding}
       />
 
-      {/* Inventory Analysis Report */}
-      <ContentRoute
-        path="/financial-management/cost-report/inventoryaging"
-        component={InventoryAgingLanding}
-      />
       <ContentRoute
         path="/financial-management/cost-report/payableaging"
         component={AccountPayableAnalysis}
