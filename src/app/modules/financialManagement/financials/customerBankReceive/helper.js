@@ -1,15 +1,6 @@
 import Axios from 'axios';
 import { toast } from 'react-toastify';
 
-export const getPlantList = async (userId, accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
-    );
-    setter(res?.data);
-  } catch (error) {}
-};
-
 export const getCustomerBankRecLanding = async (
   buId,
   accountNo,

@@ -25,6 +25,7 @@ import OthersBillForm from '../billregister/othersBill/Form/addEditForm';
 import NewSelect from './../../../_helper/_select';
 import GridData from './grid';
 import { getShippingBillRegisterPagination_api } from './helper';
+import { getPlantList } from '../../../_helper/_commonApi';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -57,7 +58,7 @@ function ShippingBillregisterLanding() {
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       getSbuDDL(profileData.accountId, selectedBusinessUnit.value, setSBUDDL);
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,

@@ -9,7 +9,6 @@ import {
   getMaterialDDL,
   getGrossWeight,
   getSingleDataById,
-  getShopFloorDDL,
 } from '../helper';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import { _formatMoney } from '../../../../_helper/_formatMoney';
@@ -19,6 +18,7 @@ import {
   bomCreateValiadtion,
   bomEditValidation,
 } from '../../../../_helper/_validationSchema';
+import { getShopFloorDDL } from '../../../../_helper/_commonApi';
 
 export default function FormCmp({
   initData,

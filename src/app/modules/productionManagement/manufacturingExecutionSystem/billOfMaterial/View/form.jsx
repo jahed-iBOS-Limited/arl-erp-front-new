@@ -8,13 +8,13 @@ import {
   getGrossWeight,
   getMaterialDDL,
   getProductDDL,
-  getShopFloorDDL,
   getSingleDataById,
 } from '../helper';
 import {
   bomCreateValiadtion,
   bomEditValidation,
 } from '../../../../_helper/_validationSchema';
+import { getShopFloorDDL } from '../../../../_helper/_commonApi';
 
 export default function FormCmp({
   initData,

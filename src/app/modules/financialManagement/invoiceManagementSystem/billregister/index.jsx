@@ -27,6 +27,7 @@ import {
   getSbuDDL,
 } from './helper';
 import OthersBillForm from './othersBill/Form/addEditForm';
+import { getPlantList } from '../../financials/customerBankReceive/helper';
 const initData = {
   sbu: '',
   billType: '',
@@ -66,7 +67,7 @@ function BillregisterLanding() {
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       getSbuDDL(profileData.accountId, selectedBusinessUnit.value, setSBUDDL);
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,

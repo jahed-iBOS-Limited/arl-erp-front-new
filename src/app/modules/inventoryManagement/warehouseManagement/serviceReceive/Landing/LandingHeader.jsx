@@ -22,6 +22,7 @@ import PaginationTable from './../../../../_helper/_tablePagination';
 import PaginationSearch from '../../../../_helper/_search';
 import { _todayDate } from '../../../../_helper/_todayDate';
 import { setServiceReceiveAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { getPlantList } from '../../../../_helper/_commonApi';
 
 function LandingHeader() {
   const history = useHistory();
@@ -95,7 +96,7 @@ function LandingHeader() {
   useEffect(() => {
     if (selectedBusinessUnit && profileData) {
       getSBUDDL(profileData.accountId, selectedBusinessUnit.value, setSBUDDL);
-      getPlantDDL(
+      getPlantList(
         profileData.userId,
         profileData.accountId,
         selectedBusinessUnit.value,

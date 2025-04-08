@@ -11,9 +11,10 @@ import { SetManufacturePETableLandingAction } from '../../../../_helper/reduxFor
 import customStyles from '../../../../selectCustomStyle';
 import ProductionEntryViewModal from '../View/ViewModal';
 import BackCalculationPEViewModal from '../ViewForBackCalculation/ViewModal';
-import { getGridData, getPlantNameDDL, getShopFloorDDL } from '../helper';
+import { getGridData, getPlantNameDDL } from '../helper';
 import PaginationTable from './../../../../_helper/_tablePagination';
 import NewSelect from '../../../../_helper/_select';
+import { getShopFloorDDL } from '../../../../_helper/_commonApi';
 
 export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
   const { manufacturePETableLanding } = useSelector(

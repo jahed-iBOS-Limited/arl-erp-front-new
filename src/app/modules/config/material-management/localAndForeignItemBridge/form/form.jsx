@@ -21,6 +21,7 @@ import {
 } from '../../../../inventoryManagement/reports/itemTransferTransit/helper';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { getPlantList } from '../../../../_helper/_commonApi';
 
 const header = ['SL', 'Item Type', 'Item Name'];
 
@@ -58,7 +59,7 @@ const LocalAndForeignItemBridgeForm = () => {
     getChannelList(
       `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
     );
-    getPlantDDL(accId, userId, buId, setPlantList);
+    getPlantList(accId, userId, buId, setPlantList);
   }, [accId, buId, userId]);
 
   const createItemVsForeignSalesOffice = (values) => {
