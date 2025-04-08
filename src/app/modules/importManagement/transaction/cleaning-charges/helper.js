@@ -4,23 +4,6 @@ import * as Yup from 'yup';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 //warehouse ddl
-export const getWarehouseDDL = async (
-  setter,
-  accountId,
-  businessUnitId,
-  plantId
-) => {
-  try {
-    const res = await Axios.get(
-      `/wms/PlantWarehouse/GetPlantWarehouseDDL?AccountId=${accountId}&BusinessUnit=${businessUnitId}&PlantId=${plantId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-  }
-};
 
 //create data;
 export const createGetPaseData = async (
