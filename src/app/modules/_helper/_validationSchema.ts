@@ -171,3 +171,12 @@ export const ChangePassValidationSchema = Yup.object().shape({
       ),
     }),
 });
+export const unloadingChargesValidationSchema = Yup.object().shape({
+  receiversName: Yup.string().required('Driver/Receive Name is required'),
+  contactNo: Yup.string()
+    .required('Contact no is required')
+    .matches(/^[0-9]+$/, 'Must be only digits')
+    .min(11, 'Must be exactly 11 digits')
+    .max(11, 'Must be exactly 11 digits'),
+  remarks: Yup.string().required('Remarks is required'),
+});
