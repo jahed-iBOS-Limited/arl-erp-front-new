@@ -37,7 +37,6 @@ export default function MainCollapsePanel() {
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
-    // toast.dismiss(1)
   };
   const history = useHistory();
   const businessPartnerNameFromHistory =

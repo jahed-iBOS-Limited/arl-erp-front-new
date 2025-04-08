@@ -30,7 +30,7 @@ export default function MasterItemView() {
     purchaseOrganizationName,
   } = location?.state || {};
 
-  const saveHandler = (values, cb) => {};
+  const saveHandler = () => {};
   useEffect(() => {
     if (id) {
       const editedInitData = {
@@ -57,8 +57,7 @@ export default function MasterItemView() {
     <Formik
       enableReinitialize={true}
       initialValues={singleData}
-      // validationSchema={}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
+      onSubmit={(values, { resetForm }) => {
         if (rowData?.businessUnit?.length > 0) {
           saveHandler(values, () => {
             resetForm(initData);
@@ -68,17 +67,8 @@ export default function MasterItemView() {
         }
       }}
     >
-      {({
-        handleSubmit,
-        resetForm,
-        values,
-        setFieldValue,
-        isValid,
-        errors,
-        touched,
-      }) => (
+      {({ handleSubmit, values, setFieldValue }) => (
         <>
-          {/* {console.log("error", errors)} */}
           {rowDataLoading && <Loading />}
           <IForm
             customTitle={`Item Extend`}

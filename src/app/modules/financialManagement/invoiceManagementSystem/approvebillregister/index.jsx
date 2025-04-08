@@ -29,6 +29,7 @@ import {
   rejectBillRegister_api,
 } from './helper';
 import styles from './billApprove.module.css';
+import { getPlantList } from '../../../_helper/_commonApi';
 
 const initData = {
   sbu: '',
@@ -215,7 +216,7 @@ function ApproveapprovebillregLanding() {
           SetRedirectHRValues(sbuList);
         }
       );
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,

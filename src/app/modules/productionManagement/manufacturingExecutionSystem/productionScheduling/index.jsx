@@ -13,6 +13,7 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import InputField from '../../../_helper/_inputField';
 import { getPlantDDL } from '../../../financialManagement/invoiceManagementSystem/billregister/helper';
 import { toast } from 'react-toastify';
+import { getPlantList } from '../../../_helper/_commonApi';
 
 const initData = {
   businessUnit: '',
@@ -132,7 +133,7 @@ export default function ProductionScheduling() {
                         'strManagementUomName',
                         valueOption?.strManagementUomName || ''
                       );
-                      getPlantDDL(
+                      getPlantList(
                         profileData?.userId,
                         profileData?.accountId,
                         valueOption?.value,

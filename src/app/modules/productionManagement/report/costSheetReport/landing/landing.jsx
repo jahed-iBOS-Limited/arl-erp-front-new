@@ -6,7 +6,6 @@ import Loading from '../../../../_helper/_loading';
 import InputField from '../../../../_helper/_inputField';
 import {
   getPoBaseReport,
-  getShopFloorDDL,
   GetPlantDDL,
   getItemBaseReport,
   getAllItemBaseReport,
@@ -24,6 +23,7 @@ import {
   CardBody,
 } from '../../../../../../_metronic/_partials/controls/Card';
 import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import { getShopFloorDDL } from '../../../../_helper/_commonApi';
 
 const initData = {
   plant: '',

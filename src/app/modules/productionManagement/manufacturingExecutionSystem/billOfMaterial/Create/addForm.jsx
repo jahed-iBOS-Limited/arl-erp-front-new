@@ -9,13 +9,11 @@ import {
   saveEditedBillofMaterial,
   getPlantDDL,
   getPreviousBomName,
-  getShopFloorDDL,
   getProductDDL,
   getMaterialDDL,
   getCostElementDDL,
   getCostCenterDDL,
   getCostTypeDDL,
-  saveBillofMaterial,
 } from '../helper';
 import { _todayDate } from '../../../../_helper/_todayDate';
 import { _timeFormatter } from '../../../../_helper/_timeFormatter';
@@ -24,6 +22,12 @@ import Loading from './../../../../_helper/_loading';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import moment from 'moment';
 import IConfirmModal from '../../../../_helper/_confirmModal';
+import { bomTypeDDL } from '../../../../_helper/_commonDDL';
+import {
+  getPlantList,
+  getShopFloorDDL,
+  saveBillofMaterial,
+} from '../../../../_helper/_commonApi';
 
 const initData = {
   copyfrombomname: '',
@@ -68,34 +72,16 @@ export default function BillofMaretialCreateForm() {
   const [headerItemUomDDL, setHeaderItemUomDDL] = useState([]);
   const [costTypeDDL, setCostTypeDDL] = useState([]);
   const [confirm, checkConfirmation, loader, set] = useAxiosPost();
-  const bomTypeDDL = [
-    {
-      value: 1,
-      label: 'Main (Paddy to Rice)',
-    },
-    {
-      value: 2,
-      label: 'Conversion (Rice to Rice)',
-    },
-    {
-      value: 3,
-      label: 'Re-Process (Rice to Rice)',
-    },
-  ];
 
   // Cost Element state
   const [costElementDDL, setCostElementDDL] = useState([]);
   const [costElementRowData, setCostElementRowData] = useState([]);
   const [costCenterDDL, setCostCenterDDL] = useState([]);
 
-  const storeData = useSelector((state) => {
-    return {
-      profileData: state?.authData?.profileData,
-      selectedBusinessUnit: state?.authData?.selectedBusinessUnit,
-    };
-  }, shallowEqual);
-
-  const { profileData, selectedBusinessUnit } = storeData;
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   useEffect(() => {
     if (params?.id) {
@@ -111,7 +97,7 @@ export default function BillofMaretialCreateForm() {
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,

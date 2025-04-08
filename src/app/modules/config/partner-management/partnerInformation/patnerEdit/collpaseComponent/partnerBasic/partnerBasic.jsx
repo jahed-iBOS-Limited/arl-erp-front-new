@@ -20,7 +20,6 @@ export default function PartnerBasic() {
   const { id } = useParams();
   const [isDisabled, setDisabled] = useState(false);
   const [warehouseData, setData] = useState('');
-  //fileObjects
   const [fileObjects, setFileObjects] = useState([]);
   const selectedBusinessUnit = useSelector(
     (state) => state.authData.selectedBusinessUnit
@@ -82,17 +81,6 @@ export default function PartnerBasic() {
     };
 
     try {
-      // setDisabled(true);
-      // const res = await Axios.put(
-      //   "/partner/BusinessPartnerBasicInfo/EditBusinessPartner",
-      //   warehouseData
-      // );
-      // cb();
-      // toast.success(res.data?.message || "Submitted successfully", {
-      //   toastId: shortid(),
-      // });
-      // setDisabled(false);
-
       if (fileObjects.length > 0) {
         // attachmentLink  add
         empAttachment_action(fileObjects).then((data) => {
@@ -140,7 +128,7 @@ export default function PartnerBasic() {
 
   return (
     <Card>
-      {true && <ModalProgressBar />}
+      <ModalProgressBar />
       <CardHeader title="Edit Partners Basic Information">
         <CardHeaderToolbar>
           <button

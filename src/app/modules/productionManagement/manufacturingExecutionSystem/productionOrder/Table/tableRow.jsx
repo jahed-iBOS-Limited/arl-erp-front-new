@@ -6,7 +6,6 @@ import ICustomCard from '../../../../_helper/_customCard';
 import {
   getItemTransferInPagination,
   getPlantDDL_api,
-  getShopFloorDDL,
   itemRequest_api,
   productionOrderClose,
 } from '../helper';
@@ -33,6 +32,7 @@ import { SetManufacturePOTableLandingAction } from '../../../../_helper/reduxFor
 import { ItemReqViewTableRow } from '../../../../inventoryManagement/warehouseManagement/itemRequest/report/tableRow';
 import ItemRequestModal from './itemRequestModal';
 import ProductionDetails from './productionDetails';
+import { getShopFloorDDL } from '../../../../_helper/_commonApi';
 
 export function TableRow() {
   const { manufacturePOTableLanding } = useSelector(

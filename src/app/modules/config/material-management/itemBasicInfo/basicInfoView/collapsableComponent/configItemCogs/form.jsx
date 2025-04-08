@@ -6,7 +6,7 @@ import Axios from 'axios';
 import Select from 'react-select';
 import customStyles from '../../../../../../selectCustomStyle';
 
-const DataValiadtionSchema = Yup.object().shape({
+export const DataValiadtionSchema = Yup.object().shape({
   numCostPrice: Yup.number()
     .integer()
     .min(1)
@@ -53,7 +53,7 @@ export default function FormCmp({
         setwarehouseDDL(orgs);
         orgs = null;
       }
-    } catch (error) {}
+    } catch (err) {}
   };
   useEffect(() => {
     if (selectedBusinessUnit && accountId && itemId) {
@@ -77,7 +77,6 @@ export default function FormCmp({
           handleSubmit,
           resetForm,
           values,
-          handleChange,
           errors,
           touched,
           setFieldValue,
@@ -101,11 +100,8 @@ export default function FormCmp({
                           onChange={(valueOption) => {
                             setFieldValue('warehouse', valueOption);
                           }}
-                          // isSearchable={true}
-
                           styles={customStyles}
                           name="org"
-                          // isDisabled={!warehouseDDL}
                         />
                       )}
                       placeholder="Select Warehouse"

@@ -22,7 +22,6 @@ import {
   createLoanRegister,
   getAttachments,
   getBankDDLAll,
-  getBusinessUnitDDL,
   getLoanRegisterLanding,
 } from '../../helper';
 import IClose from '../../../../../_helper/_helperIcons/_close';
@@ -38,6 +37,7 @@ import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 import moment from 'moment';
 import InputField from '../../../../../_helper/_inputField';
 import { generateJsonToExcel } from '../../../../../_helper/excel/jsonToExcel';
+import { getBusinessUnitDDL } from '../../../../../_helper/_commonApi';
 
 const LoanRegisterLanding = () => {
   const history = useHistory();

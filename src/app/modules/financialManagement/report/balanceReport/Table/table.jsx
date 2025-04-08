@@ -24,32 +24,15 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from './../../../../../../_metronic/_partials/controls';
-import html2pdf from 'html2pdf.js';
+import { balanceReportInitData } from '../../../../internalControl/budgetVarianceReports/balanceSheetReport/helper';
+import { pdfExport } from '../../../../_helper/_pdfExport';
 
-const initData = {
-  enterpriseDivision: '',
-  business: '',
-  fromDate: _todayDate(),
-  conversionRate: 1,
-};
 export default function BalancerReportTable() {
   const [enterpriseDivisionDDL, setEnterpriseDivisionDDL] = useState([]);
   const [businessDDL, setBusinessUnitDDL] = useState([]);
   const [rowDto, setRowDto] = useState({});
   const [loading, setLoading] = useState(false);
   const { profileData } = useSelector((store) => store?.authData, shallowEqual);
-
-  const pdfExport = (fileName) => {
-    var element = document.getElementById('pdf-section');
-    var opt = {
-      margin: 1,
-      filename: `${fileName}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 5, dpi: 300, letterRendering: true },
-      jsPDF: { unit: 'px', hotfixes: ['px_scaling'], orientation: 'p' },
-    };
-    html2pdf().set(opt).from(element).save();
-  };
 
   const printRef = useRef();
 
@@ -84,7 +67,7 @@ export default function BalancerReportTable() {
   };
 
   const { errors, touched, setFieldValue, values } = useFormik({
-    initialValues: initData,
+    initialValues: balanceReportInitData,
   });
   useEffect(() => {
     getEnterpriseDivisionDDL(

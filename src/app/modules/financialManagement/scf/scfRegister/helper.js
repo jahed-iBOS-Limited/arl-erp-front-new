@@ -534,15 +534,3 @@ export const getAttachments = async (
     setLoading(false);
   }
 };
-
-export const getBusinessUnitDDL = async (accId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`
-    );
-
-    if (res.status === 200 && res.data) {
-      setter(res.data);
-    }
-  } catch (error) {}
-};

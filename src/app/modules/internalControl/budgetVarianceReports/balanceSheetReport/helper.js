@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 export const getBusinessUnitDDL = async (setter, accountId) => {
   try {
@@ -13,6 +14,13 @@ export const getBusinessUnitDDL = async (setter, accountId) => {
   } catch (error) {
     console.log(error.message);
   }
+};
+
+export const balanceReportInitData = {
+  enterpriseDivision: '',
+  business: '',
+  fromDate: _todayDate(),
+  conversionRate: 1,
 };
 
 export const GetCustomerNameDDL = async (accId, buId, setter) => {

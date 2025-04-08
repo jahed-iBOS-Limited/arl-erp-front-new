@@ -17,8 +17,7 @@ import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import axios from 'axios';
 import ReactHtmlTableToExcel from 'react-html-table-to-excel';
 import { IInput } from '../../../../_helper/_input';
-// import FormikError from "../../../../_helper/_formikError";
-// import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import { getPlantList } from '../../../../_helper/_commonApi';
 
 const MaintenanceReportTable = () => {
   const { assetReportMaintanceReport } = useSelector(
@@ -72,7 +71,7 @@ const MaintenanceReportTable = () => {
 
   useEffect(() => {
     if (profileData && selectedBusinessUnit) {
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,

@@ -149,3 +149,68 @@ export const dataValidationSchema = Yup.object().shape({
   }),
   value: Yup.string().required('Value is required'),
 });
+
+export const bomValidationSchema = {
+  bomName: Yup.string().required('Bom Name is required'),
+  bomVersion: Yup.string().required('Bom Version is required'),
+  lotSize: Yup.number()
+    .min(1, 'Minimum 1 Chracter')
+    .max(10000000, 'Maximum 10000000 Chracter')
+    .required('Lot Size is required'),
+  wastage: Yup.number()
+    .min(0, 'Minimum 0 Chracter')
+    .max(10000000, 'Maximum 10000000 Chracter')
+    .required('Wastage is required'),
+};
+
+export const bomCreateValiadtion = Yup.object().shape({
+  ...bomValidationSchema,
+  plant: Yup.object().shape({
+    label: Yup.string().required('Plant is required'),
+    value: Yup.string().required('Plant is required'),
+  }),
+  shopFloor: Yup.object().shape({
+    label: Yup.string().required('Shop Floor is required'),
+    value: Yup.string().required('Shop Floor is required'),
+  }),
+  // bomCode: Yup.string().required("Bom Code is required"),
+  product: Yup.object().shape({
+    label: Yup.string().required('Item is required'),
+    value: Yup.string().required('Item is required'),
+  }),
+});
+
+export const bomEditValidation = Yup.object().shape({
+  ...bomValidationSchema,
+});
+
+export const ChangePassValidationSchema = Yup.object().shape({
+  oldPassword: Yup.string()
+    .min(6, 'Minimum 6 symbols')
+    .max(50, 'Maximum 100 symbols')
+    .required('Old Password required'),
+  newPassword: Yup.string()
+    .min(6, 'Minimum 6 symbols')
+    .max(50, 'Maximum 100 symbols')
+    .required('New Password required'),
+  confirmPassowrd: Yup.string()
+    .min(6, 'Minimum 6 symbols')
+    .max(50, 'Maximum 100 symbols')
+    .required('Confirm Password required')
+    .when('newPassword', {
+      is: (val) => (val && val.length > 0 ? true : false),
+      then: Yup.string().oneOf(
+        [Yup.ref('newPassword')],
+        'Both password need to be the same'
+      ),
+    }),
+});
+export const unloadingChargesValidationSchema = Yup.object().shape({
+  receiversName: Yup.string().required('Driver/Receive Name is required'),
+  contactNo: Yup.string()
+    .required('Contact no is required')
+    .matches(/^[0-9]+$/, 'Must be only digits')
+    .min(11, 'Must be exactly 11 digits')
+    .max(11, 'Must be exactly 11 digits'),
+  remarks: Yup.string().required('Remarks is required'),
+});

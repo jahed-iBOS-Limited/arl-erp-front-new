@@ -35,6 +35,7 @@ import { saveBOMApproval_api } from './../helper';
 import './approval.css';
 import BillOfMaterialTable from './billOfMaterialTable';
 import DealersBenefits from '../dealersBenefits/landing';
+import { getPlantList } from '../../../../_helper/_commonApi';
 // import CommonJournalApprovalGrid from '../accountAndFinance/commonJournal/index';
 
 export function TableRow(props) {
@@ -103,7 +104,7 @@ export function TableRow(props) {
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,

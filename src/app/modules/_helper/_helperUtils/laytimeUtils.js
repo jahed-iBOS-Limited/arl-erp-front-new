@@ -1,5 +1,14 @@
 import { toast } from 'react-toastify';
-import { _todayDate } from '../../_chartinghelper/_todayDate';
+export const _todayDate = () => {
+  var today = new Date();
+  const todayDate =
+    today.getFullYear() +
+    '-' +
+    ('0' + (today.getMonth() + 1)).slice(-2) +
+    '-' +
+    ('0' + today.getDate()).slice(-2);
+  return todayDate;
+};
 
 /* It Will Call When Traverse the array and then calculate with prev row */
 export const renderPlusUpdateTotalTimeAndRemainingTime = (

@@ -20,8 +20,6 @@ export default function ViewForm({ id }) {
         objGetBusinessUnitLanguageDTO,
         objGetBusinessUnitCurrencyDTO,
       } = data[0];
-      console.log(data[0]);
-      // console.log({ ...objGetBusinessUnitDTO })
       const singleObject = {
         ...objGetBusinessUnitDTO,
         ...objGetBusinessUnitLanguageDTO,

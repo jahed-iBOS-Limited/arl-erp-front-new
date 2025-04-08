@@ -9,46 +9,16 @@ import {
   getMaterialDDL,
   getGrossWeight,
   getSingleDataById,
-  getShopFloorDDL,
 } from '../helper';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import { _formatMoney } from '../../../../_helper/_formatMoney';
 import InputField from '../../../../_helper/_inputField';
 import NewSelect from '../../../../_helper/_select';
-
-const validationSchema = {
-  bomName: Yup.string().required('Bom Name is required'),
-  bomVersion: Yup.string().required('Bom Version is required'),
-  lotSize: Yup.number()
-    .min(1, 'Minimum 1 Chracter')
-    .max(10000000, 'Maximum 10000000 Chracter')
-    .required('Lot Size is required'),
-  wastage: Yup.number()
-    .min(0, 'Minimum 0 Chracter')
-    .max(10000000, 'Maximum 10000000 Chracter')
-    .required('Wastage is required'),
-};
-
-const createValiadtion = Yup.object().shape({
-  ...validationSchema,
-  plant: Yup.object().shape({
-    label: Yup.string().required('Plant is required'),
-    value: Yup.string().required('Plant is required'),
-  }),
-  shopFloor: Yup.object().shape({
-    label: Yup.string().required('Shop Floor is required'),
-    value: Yup.string().required('Shop Floor is required'),
-  }),
-  // bomCode: Yup.string().required("Bom Code is required"),
-  product: Yup.object().shape({
-    label: Yup.string().required('Item is required'),
-    value: Yup.string().required('Item is required'),
-  }),
-});
-
-const editValidation = Yup.object().shape({
-  ...validationSchema,
-});
+import {
+  bomCreateValiadtion,
+  bomEditValidation,
+} from '../../../../_helper/_validationSchema';
+import { getShopFloorDDL } from '../../../../_helper/_commonApi';
 
 export default function FormCmp({
   initData,
@@ -116,7 +86,7 @@ export default function FormCmp({
           },
           quantity: id ? rowDto[0]?.quantity : '',
         }}
-        validationSchema={isEdit ? editValidation : createValiadtion}
+        validationSchema={isEdit ? bomEditValidation : bomCreateValiadtion}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setValid(false);
           saveHandler(values, () => {

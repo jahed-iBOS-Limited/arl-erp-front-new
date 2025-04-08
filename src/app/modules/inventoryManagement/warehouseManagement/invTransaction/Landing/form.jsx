@@ -13,6 +13,7 @@ import PaginationSearch from '../../../../_helper/_search';
 import { _todayDate } from '../../../../_helper/_todayDate';
 import InputField from '../../../../_helper/_inputField';
 import { setInvTransactionAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { getPlantList } from '../../../../_helper/_commonApi';
 // import { values } from "lodash";
 
 // Validation schema
@@ -70,7 +71,7 @@ export default function HeaderForm() {
   useEffect(() => {
     transGrupDDL(settransGroupDDL, profileData?.accountId);
     getSBUDDL(profileData?.accountId, selectedBusinessUnit?.value, setsbuDDL);
-    getPlantDDL(
+    getPlantList(
       profileData?.userId,
       profileData?.accountId,
       selectedBusinessUnit?.value,

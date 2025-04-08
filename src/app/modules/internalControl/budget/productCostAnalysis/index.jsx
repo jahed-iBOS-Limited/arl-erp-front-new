@@ -3,11 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Select from 'react-select';
-import {
-  GetBillofMaterialPagination,
-  getPlantDDL,
-  getShopFloorDDL,
-} from './helper';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import ICustomCard from '../../../_helper/_customCard';
 import Loading from '../../../_helper/_loading';
@@ -20,8 +15,26 @@ import CostView from '../../../personal/approval/commonApproval/Table/_costView'
 import PaginationTable from '../../../_helper/_tablePagination';
 import IViewModal from '../../../_helper/_viewModal';
 import CostViewTable from '../../../personal/approval/commonApproval/Table/CostView/CostView';
+import {
+  GetBillofMaterialPagination,
+  getPlantList,
+  getShopFloorDDL,
+} from '../../../_helper/_commonApi';
 
 export function ProductCostAnalysis() {
+  // hooks
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const { manufactureBOMTableLanding } = useSelector(
+    (state) => state.localStorage
+  );
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
+
+  // state
   const [loading, setLoading] = useState(false);
   const [gridData, setGridData] = useState([]);
   const [plantDDL, setPlantDDL] = useState([]);
@@ -32,26 +45,10 @@ export function ProductCostAnalysis() {
     useAxiosGet();
 
   //paginationState
-  const [pageNo, setPageNo] = React.useState(0);
-  const [pageSize, setPageSize] = React.useState(15);
-  const [selectedDDLItem, setSelectedDDLItem] = React.useState('');
-  const [selectedDDLShop, setselectedDDLShop] = React.useState('');
-
-  const { manufactureBOMTableLanding } = useSelector(
-    (state) => state.localStorage
-  );
-
-  const history = useHistory();
-
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
-
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
-
-  const dispatch = useDispatch();
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
+  const [selectedDDLItem, setSelectedDDLItem] = useState('');
+  const [selectedDDLShop, setselectedDDLShop] = useState('');
 
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
@@ -61,7 +58,7 @@ export function ProductCostAnalysis() {
           setIsBackCalcualtion(data?.isBackCalculation);
         }
       );
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -137,10 +134,8 @@ export function ProductCostAnalysis() {
           <div className="global-form">
             <div className="row">
               <div className="col-lg-4">
-                <label>Plant</label>
                 <Select
                   onChange={(valueOption) => {
-                    // dispatch(setBomLandingAction(valueOption));
                     setSelectedDDLItem(valueOption);
                     setselectedDDLShop('');
                     dispatch(
@@ -150,6 +145,7 @@ export function ProductCostAnalysis() {
                       })
                     );
                   }}
+                  label="Plant"
                   value={selectedDDLItem}
                   options={plantDDL || []}
                   isSearchable={true}

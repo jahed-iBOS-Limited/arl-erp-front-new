@@ -44,7 +44,6 @@ export default function ConfigItemAttribute({ id, isViewPage }) {
     }
   }, [itemId, profileData, selectedBusinessUnit]);
 
-  // Check duplicate for show warning
   function hasDuplicates(a) {
     return (
       uniqBy(a, function (itm) {
@@ -53,7 +52,6 @@ export default function ConfigItemAttribute({ id, isViewPage }) {
     );
   }
 
-  // Remove duplicate from alternateuom list
   const setDataToState = (payload) => {
     const duplicate = hasDuplicates([...data, payload]);
     if (duplicate) {
@@ -84,7 +82,6 @@ export default function ConfigItemAttribute({ id, isViewPage }) {
     } catch (err) {}
   };
 
-  // save business unit data to DB
   const saveData = async (values, cb) => {
     toast.dismiss(1);
     if (isArray(values)) {

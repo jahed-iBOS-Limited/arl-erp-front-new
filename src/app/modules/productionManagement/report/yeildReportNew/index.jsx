@@ -10,6 +10,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import WIPTable from './wipTable';
 import YeildReport from './yeildReport';
 import { toast } from 'react-toastify';
+import { bomTypeDDL } from '../../../_helper/_commonDDL';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -21,20 +22,7 @@ const initData = {
     label: 'Main (Paddy to Rice)',
   },
 };
-const bomTypeDDL = [
-  {
-    value: 1,
-    label: 'Main (Paddy to Rice)',
-  },
-  {
-    value: 2,
-    label: 'Conversion (Rice to Rice)',
-  },
-  {
-    value: 3,
-    label: 'Re-Process (Rice to Rice)',
-  },
-];
+
 export default function Yeildreport() {
   const [gridData, setGridData] = React.useState([]);
   const [, getTableData, tableDataLoader] = useAxiosGet();
@@ -43,9 +31,10 @@ export default function Yeildreport() {
   const [shopFloorDDL, getShopFloorDDL] = useAxiosGet();
   const saveHandler = (values, cb) => {};
 
-  const { selectedBusinessUnit, profileData } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   React.useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {

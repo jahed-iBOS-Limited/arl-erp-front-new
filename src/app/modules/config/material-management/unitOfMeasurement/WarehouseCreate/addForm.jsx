@@ -1,16 +1,16 @@
-import React, { useState, useRef } from 'react';
+import Axios from 'axios';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from '../../../../../../_metronic/_partials/controls';
-import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
-import { useSelector, shallowEqual } from 'react-redux';
 import Form from '../common/form';
-import Axios from 'axios';
-import { toast } from 'react-toastify';
-import shortid from 'shortid';
 import Loading from './../../../../_helper/_loading';
 const initProduct = {
   id: undefined,
@@ -62,14 +62,12 @@ export default function UOMAddForm({
       setDisabled(false);
     }
   };
-
   const btnRef = useRef();
   const saveBtnClicker = () => {
     if (btnRef && btnRef.current) {
       btnRef.current.click();
     }
   };
-
   const resetBtnRef = useRef();
   const ResetProductClick = () => {
     if (resetBtnRef && resetBtnRef.current) {
@@ -80,10 +78,9 @@ export default function UOMAddForm({
   const backToWarehouseList = () => {
     history.push(`/config/material-management/unit-of-measurement/`);
   };
-
   return (
     <Card>
-      {true && <ModalProgressBar />}
+      <ModalProgressBar />
       <CardHeader title="Create Unit Of Measurement">
         <CardHeaderToolbar>
           <button
@@ -94,7 +91,6 @@ export default function UOMAddForm({
             <i className="fa fa-arrow-left"></i>
             Back
           </button>
-          {`  `}
           <button
             type="reset"
             onClick={ResetProductClick}
@@ -104,7 +100,6 @@ export default function UOMAddForm({
             <i className="fa fa-redo"></i>
             Reset
           </button>
-          {`  `}
           <button
             type="submit"
             className="btn btn-primary ml-2"
