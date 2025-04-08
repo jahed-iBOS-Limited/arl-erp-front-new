@@ -9,6 +9,7 @@ import IView from '../../../../_helper/_helperIcons/_view';
 import IViewModal from '../../../../_helper/_viewModal';
 import { SetManufactureBOMTableLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import customStyles from '../../../../selectCustomStyle';
+import { getShopFloorDDL } from '../helper';
 import Loading from './../../../../_helper/_loading';
 import PaginationSearch from './../../../../_helper/_search';
 import PaginationTable from './../../../../_helper/_tablePagination';
@@ -18,7 +19,6 @@ import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import {
   GetBillofMaterialPagination,
   getPlantList,
-  getShopFloorDDL,
 } from '../../../../_helper/_commonApi';
 
 export function TableRow() {
