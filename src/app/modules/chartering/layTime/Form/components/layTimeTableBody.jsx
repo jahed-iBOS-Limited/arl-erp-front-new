@@ -18,7 +18,7 @@ import {
   saveEditRowDataHandler,
   toDDHHMM,
   totalSecondCalculate,
-} from '../utils';
+} from '../../../../_helper/_helperUtils/laytimeUtils';
 import { LayTimeTableHeader } from './layTimeTableHeader';
 
 export default function LayTimeTableBody({
