@@ -194,9 +194,7 @@ const DealersBenefits = ({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: 'Pending Application' },
         }}
-        // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           resetForm(initData);
         }}
@@ -213,7 +211,6 @@ const DealersBenefits = ({
         }) => (
           <>
             {(loader || rejectPuchaseLoading) && <Loading />}
-            {/* Table Start */}
             <Form className="form form-label-right">
               <div className="row">
                 <div className="col-lg-12">

@@ -24,7 +24,6 @@ import {
 import ItemRequestApprovalGrid from '../itemRequest/landing';
 import LeaveApprovalGrid from '../leaveApprovalGrid/landing';
 import LoanApprovalGrid from '../loanApprovalGrid/landing';
-import MovementApprovalGrid from '../moveApprovalGrid/landing';
 import PurchaseOrderApprovalGrid from '../purchaseOrder/landing';
 import PurchaseRequestApprovalGrid from '../purchaseRequest/landing';
 import RequestForQuotationApprovalGrid from '../requestForQuotation/landing';
@@ -422,9 +421,7 @@ export function TableRow(props) {
         activityName?.label === 'Gate Pass' ? (
           <>
             {activityName?.label === 'Leave Approval' && <LeaveApprovalGrid />}
-            {activityName?.label === 'Movement Approval' && (
-              <MovementApprovalGrid />
-            )}
+
             {activityName?.label === 'Loan Approval' && <LoanApprovalGrid />}
             {activityName?.label === 'Purchase Order' && (
               <PurchaseOrderApprovalGrid
