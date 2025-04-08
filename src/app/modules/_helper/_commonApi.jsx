@@ -1555,6 +1555,20 @@ export const saveBillofMaterial = async (data, cb, setDisabled) => {
   }
 };
 
+export const getBusinessUnitDDL = async (accId, setter) => {
+  try {
+    const res = await axios.get(
+      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`
+    );
+
+    if (res.status === 200 && res.data) {
+      setter(res.data);
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const getGridData = async (
   accountId,
   businessUnitId,
