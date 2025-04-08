@@ -1,16 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
-import Form from './form';
-import { toast } from 'react-toastify';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
+  Card,
   CardBody,
+  CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-  Card,
-  CardHeader,
 } from '../../../../../../../../_metronic/_partials/controls';
 import Loading from '../../../../../../_helper/_loading';
 import { GetInsuranceTypeDDL, GetProviderDDL } from '../helper';
+import Form from './form';
 
 const initData = {
   indentNumber: '',
@@ -85,7 +84,6 @@ export default function BasicInformation() {
           <>
             <button
               type="reset"
-              // onClick={resetBtnClick}
               ref={resetBtnRef}
               className="btn btn-light ml-2"
             >
@@ -95,7 +93,6 @@ export default function BasicInformation() {
             <button
               type="submit"
               className="btn btn-primary ml-2"
-              // onClick={saveDataClick}
               ref={saveBtnRef}
               disabled={isDisabled}
             >
@@ -106,17 +103,14 @@ export default function BasicInformation() {
       </CardHeader>
       <CardBody>
         {isDisabled && <Loading />}
-        {/* {data && ( */}
         <div className="mt-0">
           <Form
             {...objProps}
             initData={initData}
             saveHandler={saveHandler}
-            // disableHandler={disableHandler}
             profileData={profileData}
             accountId={profileData?.accountId}
             selectedBusinessUnit={selectedBusinessUnit}
-            // taxBracketDDL={taxBracketDDL}
             setter={setter}
             remover={remover}
             rowDto={rowDto}
@@ -125,10 +119,8 @@ export default function BasicInformation() {
             isDisabled={isDisabled}
             insuranceTypeDDL={insuranceTypeDDL}
             providerDDL={providerDDL}
-            // setDivisionDDL={setDivisionDDL}
           />
         </div>
-        {/* )} */}
       </CardBody>
     </Card>
   );

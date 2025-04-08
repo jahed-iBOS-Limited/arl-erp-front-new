@@ -92,12 +92,6 @@ const TableRow = () => {
         minWidth: '100px',
       },
     },
-    // {
-    //   name: "(%) of Total ",
-    //   style: {
-    //     minWidth: "100px",
-    //   },
-    // },
   ];
 
   const initData = {
@@ -145,15 +139,10 @@ const TableRow = () => {
     );
   };
 
-  // useEffect(() => {
-  //   getReport();
-  // }, []);
-
   const loadPoNumbers = (v) => {
     if (v?.length < 3) return [];
     return axios
       .get(
-        // `/imp/ImportCommonDDL/GetLetterOfCreditDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`
         `/imp/ImportCommonDDL/GetPONoForReport?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`
       )
       .then((res) =>
@@ -201,14 +190,12 @@ const TableRow = () => {
           initialValues={{
             ...initData,
           }}
-          //   validationSchema={LoanApproveSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {
             resetForm(initData);
           }}
         >
           {({ values, errors, touched, setFieldValue, dirty, isValid }) => (
             <>
-              {/*  */}
               <Form className="form form-label-right">
                 <div className="row global-form">
                   <div className="col-lg-3">
@@ -227,7 +214,6 @@ const TableRow = () => {
                         );
                       }}
                       loadOptions={loadPoNumbers || []}
-                      // placeholder="Search by LC ID"
                     />
                   </div>
                   <div className="col-lg-3">
@@ -237,12 +223,6 @@ const TableRow = () => {
                       value={values?.provider}
                       onChange={(valueOption) => {
                         setFieldValue('provider', valueOption);
-                        // getReport(
-                        //   values?.lcNumber?.label,
-                        //   valueOption?.value,
-                        //   values?.fromDate,
-                        //   values?.toDate
-                        // );
                       }}
                       placeholder="Service Provider"
                       label="Service Provider"
@@ -260,14 +240,7 @@ const TableRow = () => {
                       max={values?.toDate}
                       onChange={(e) => {
                         setFieldValue('fromDate', e?.target?.value);
-                        // getReport(
-                        //   values?.lcNumber?.label,
-                        //   values?.provider?.value,
-                        //   e?.target?.value,
-                        //   values?.toDate
-                        // );
                       }}
-                      // disabled={routeState === "view"}
                     />
                   </div>
                   <div className="col-lg-2">
@@ -280,14 +253,7 @@ const TableRow = () => {
                       min={values?.fromDate}
                       onChange={(e) => {
                         setFieldValue('toDate', e?.target?.value);
-                        // getReport(
-                        //   values?.lcNumber?.label,
-                        //   values?.provider?.value,
-                        //   values?.fromDate,
-                        //   e?.target?.value
-                        // );
                       }}
-                      // disabled={routeState === "view"}
                     />
                   </div>
                   <div className="col-lg-2" style={{ marginTop: '18px' }}>
@@ -364,9 +330,6 @@ const TableRow = () => {
                                 <td className="text-right">
                                   {_formatMoney(data?.poAmount, 4)}
                                 </td>
-                                {/* <td className='text-center'>
-                                {data?.monPOTotal}
-                              </td> */}
                               </tr>
                             ))}
                         </tbody>

@@ -1,5 +1,5 @@
+import { Form, Formik } from 'formik';
 import React from 'react';
-import { Formik, Form } from 'formik';
 import InputField from '../../../../_helper/_inputField';
 import NewSelect from '../../../../_helper/_select';
 
@@ -8,7 +8,6 @@ import NewSelect from '../../../../_helper/_select';
 export default function FormCmp({
   initData,
   btnRef,
-  //   saveHandler,
   resetBtnRef,
   disableHandler,
   isEdit,
@@ -23,38 +22,14 @@ export default function FormCmp({
 }) {
   return (
     <>
-      <Formik
-        enableReinitialize={true}
-        initialValues={initData}
-        // validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          // saveHandler(values, () => {
-          //   resetForm(initData);
-          //   setRowDto([]);
-          // });
-        }}
-      >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          isValid,
-        }) => (
+      <Formik enableReinitialize={true} initialValues={initData}>
+        {({ handleSubmit, values, errors, touched }) => (
           <>
-            {/* {disableHandler(!isValid)} */}
-
             <Form className="form form-label-right">
               <div className="row">
                 <div className="col-lg-12">
                   <div className="row global-form">
                     <>
-                      {/* {!isEdit && ( */}
-
-                      {/* )} */}
-                      {/* {!isEdit && ( */}
                       <div className="col-lg-3">
                         <NewSelect
                           name="shipment"
@@ -128,11 +103,6 @@ export default function FormCmp({
                           name="BoE"
                         />
                       </div>
-                      {/* )} */}
-                      {/* {!isEdit && ( */}
-
-                      {/* )} */}
-                      {/* {!isEdit && ( */}
                       <div className="col-lg-3">
                         <InputField
                           value={values?.billNo}
@@ -141,8 +111,6 @@ export default function FormCmp({
                           name="billNo"
                         />
                       </div>
-                      {/* )} */}
-
                       <div className="col-lg-3">
                         <InputField
                           value={values?.portCharges}
@@ -215,7 +183,6 @@ export default function FormCmp({
                 type="reset"
                 style={{ display: 'none' }}
                 ref={resetBtnRef}
-                // onSubmit={() => resetForm(initData)}
               ></button>
             </Form>
           </>

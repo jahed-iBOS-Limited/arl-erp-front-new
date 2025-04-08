@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import Loading from './../../../../_helper/_loading';
-import {
-  Card,
-  CardHeader,
-  CardHeaderToolbar,
-  CardBody,
-} from './../../../../../../_metronic/_partials/controls';
-import PaginationTable from './../../../../_helper/_tablePagination';
+import { getChargeLandingData } from '../../../../_helper/_commonApi';
 import ICustomTable from '../../../../_helper/_customTable';
 import NewSelect from '../../../../_helper/_select';
-import { getChargeLandingData } from '../../../../_helper/_commonApi';
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+} from './../../../../../../_metronic/_partials/controls';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
 
 const header = [
   'SL',
@@ -84,10 +84,7 @@ const InspectionAndSurveyLanding = () => {
             <div className="col-lg-3">
               <NewSelect
                 name="shipment"
-                // value={values?.coverage}
                 label="Shipment"
-                // onChange={(valueOption) => {
-                // }}
                 placeholder="Shipment"
               />
             </div>
