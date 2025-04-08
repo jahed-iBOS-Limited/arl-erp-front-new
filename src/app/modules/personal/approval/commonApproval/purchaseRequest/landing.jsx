@@ -263,18 +263,11 @@ const PurchaseRequestApprovalGrid = ({
                         <td className="text-center">
                           {_dateFormatter(item.transectionDate)}
                         </td>
-                        {/* <td className="text-center">
-                    {_dateFormatter(item.dueDate)}
-                  </td>             */}
                         <td className="text-center">{item.quantity}</td>
                         <td className="text-center">{item.strNarration}</td>
                         <td className="text-center">
                           <span
                             onClick={(e) => {
-                              // history.push(
-                              //   `/mngProcurement/purchase-management/purchase-request/report/${item?.transectionId}`
-                              // );
-                              // dispatch(setPRApprovalId(item?.transectionId));
                               setCurrentRowData(item);
                               setIsShowModal(true);
                             }}

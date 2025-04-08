@@ -242,7 +242,9 @@ const GatePassApprovalGrid = ({
                           {_dateFormatter(item.transectionDate)}
                         </td>
                         <td className="text-center">{item?.whName}</td>
+
                         <td className="text-center">{item.quantity}</td>
+
                         <td className="text-center">{item.plantName}</td>
                         <td className="text-center">{item.strNarration}</td>
                         <td className="text-center">
@@ -251,10 +253,6 @@ const GatePassApprovalGrid = ({
                               clickHandler={() => {
                                 setIsShowModal(true);
                                 setGridDataId(item?.transectionId);
-                                // history.push({
-                                //   pathname: `/inventory-management/gate-pass/gate-pass-application/view/${item?.gatePassId}`,
-                                //   state: item,
-                                // });
                               }}
                             />
                           </span>
@@ -274,6 +272,7 @@ const GatePassApprovalGrid = ({
                 paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
               />
             )}
+
             <>
               <IViewModal
                 show={isShowModal}

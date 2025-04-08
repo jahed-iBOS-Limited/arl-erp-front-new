@@ -277,21 +277,10 @@ const PurchaseOrderApprovalGrid = ({
                         <td className="text-center">
                           {_dateFormatter(item.transectionDate)}
                         </td>
-                        {/* <td className="text-center">
-                      {_dateFormatter(item.dueDate)}
-                    </td> */}
                         <td className="text-center">{item.grandTotalAmount}</td>
                         <td className="text-center">{item.quantity}</td>
                         <td className="text-center">{item.strNarration}</td>
                         <td className="text-center">
-                          {/* <span
-                      className="mr-2"
-                      onClick={(e) => singleApprovalndler(item.transectionId)}
-                    >
-
-                      <IApproval />
-                    </span> */}
-
                           <div className="d-flex align-items-center justify-content-center">
                             <span
                               onClick={(e) => {
