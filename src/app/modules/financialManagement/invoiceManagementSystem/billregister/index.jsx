@@ -27,7 +27,7 @@ import {
   getSbuDDL,
 } from './helper';
 import OthersBillForm from './othersBill/Form/addEditForm';
-import { getPlantList } from '../../financials/customerBankReceive/helper';
+import { getPlantList } from '../../../_helper/_commonApi';
 const initData = {
   sbu: '',
   billType: '',
