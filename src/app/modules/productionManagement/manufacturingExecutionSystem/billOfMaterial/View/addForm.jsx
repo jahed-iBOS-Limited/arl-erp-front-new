@@ -44,7 +44,7 @@ const initData = {
   costElementAmount: '',
 };
 
-export default function BillofMaretialViewForm() {
+export default function BillofMaretialViewForm({ id }) {
   // state
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
@@ -72,10 +72,12 @@ export default function BillofMaretialViewForm() {
     shallowEqual
   );
 
+  const paramId = id || params?.id;
+
   useEffect(() => {
-    if (params?.id) {
+    if (paramId) {
       getSingleDataById(
-        params?.id,
+        paramId,
         setSingleData,
         setRowDto,
         setCostElementRowData,
@@ -107,7 +109,7 @@ export default function BillofMaretialViewForm() {
         }
       );
     }
-  }, [params]);
+  }, [paramId]);
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -157,7 +159,7 @@ export default function BillofMaretialViewForm() {
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       // if id , then this is for edit , else this is for create
-      if (params?.id) {
+      if (paramId) {
         let objRow = rowDto?.map((item) => ({
           itemId: +item?.material?.value,
           itemCode: item?.material?.code || item?.rowItemCode,
@@ -168,7 +170,7 @@ export default function BillofMaretialViewForm() {
         }));
         const payload = {
           editHeaderBOM: {
-            billOfMaterialId: +params?.id,
+            billOfMaterialId: +paramId,
             billOfMaterialCode: values?.bomCode,
             billOfMaterialName: values?.bomName,
             lotSize: +values?.lotSize,
@@ -282,7 +284,7 @@ export default function BillofMaretialViewForm() {
         profileData={profileData}
         selectedBusinessUnit={selectedBusinessUnit}
         plant={plant}
-        bomId={params?.id}
+        bomId={paramId}
         shopFloor={shopFloor}
         setShopFloor={setShopFloor}
         product={product}
@@ -296,9 +298,9 @@ export default function BillofMaretialViewForm() {
         singleData={singleData}
         setSingleData={setSingleData}
         itemSelectHandler={itemSelectHandler}
-        isEdit={params?.id}
+        isEdit={paramId}
         setRowDto={setRowDto}
-        id={params?.id}
+        id={paramId}
         UOMDDL={UOMDDL}
         setUOMDDL={setUOMDDL}
         setDisabled={setDisabled}
