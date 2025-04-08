@@ -23,7 +23,6 @@ export const createPurchaseOrder = async (
     rowDto
   );
   try {
-    // console.log(obj)
     setDisabled(true);
     const res = await axios.post(`/imp/PurchaseOrder/CreatePurchaseOrder`, obj);
     setDisabled(false);
@@ -44,10 +43,6 @@ const createPayloadChange = (
   proformaInvoiceValue,
   rowDto
 ) => {
-  console.log('tamkinrowDto', rowDto);
-  console.log('tamkinrowDtovalues', values);
-
-  console.log('ASWEDRFTGYHUJKJHGTFRDESWAQWSEDRFGH', rowDto);
   let payload = {
     objHeaderDTO: {
       purchaseRequestNo: values?.purchaseRequestNo,
@@ -153,26 +148,11 @@ export const getSingleData = async (id, setter, setDisabled) => {
         value: res?.data?.objHeader?.warehouseId,
         label: res?.data?.objHeader?.warehouseName,
       },
-
-      // deliveryAddress:
     };
     setter(payload);
   } catch (error) {
     setDisabled(false);
     toast.error(error?.response?.data?.message);
-  }
-};
-
-//ddl load
-export const getPaymentTermDDL = async (setter) => {
-  try {
-    let res = await axios.get(
-      '/procurement/PurchaseOrder/GetPaymentTermsListDDL'
-    );
-    setter(res?.data);
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-    setter([]);
   }
 };
 

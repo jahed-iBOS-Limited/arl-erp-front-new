@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import InputField from '../../../../_helper/_inputField';
 import NewSelect from '../../../../_helper/_select';
-import { getPaymentTermDDL, getItemListDDL } from '../helper';
+import { getItemListDDL } from '../helper';
 import ICustomTable from '../../../../_helper/_customTable';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import IDelete from '../../../../_helper/_helperIcons/_delete';
@@ -12,6 +12,7 @@ import {
   validationSchema,
 } from '../utils';
 import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { getPaymentTermDDL } from '../../../../_helper/_commonApi';
 
 const header = [
   'SL',

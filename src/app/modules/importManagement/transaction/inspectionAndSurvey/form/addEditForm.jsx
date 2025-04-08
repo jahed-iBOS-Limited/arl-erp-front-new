@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
-import Form from './form';
-import Loading from '../../../../_helper/_loading';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
@@ -9,7 +8,8 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from '../../../../../../_metronic/_partials/controls';
-import { useHistory } from 'react-router';
+import Loading from '../../../../_helper/_loading';
+import Form from './form';
 
 const initData = {
   reason: '',
@@ -37,17 +37,13 @@ export default function InspectionAndSurveyForm() {
     setRowDto([...rowDto, payload]);
   };
 
-  //   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
 
-  //   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
-
-  const saveHandler = async (values, cb) => {};
 
   const remover = (payload) => {
     const filterArr = rowDto.filter((itm, index) => +index !== +payload);
@@ -64,7 +60,6 @@ export default function InspectionAndSurveyForm() {
     <Card>
       {true && <ModalProgressBar />}
       <CardHeader title="Create Inspection And Survey">
-        {/* <CardHeader  title={isViewPage ? "Item Basic Info" : "Edit Item Basic Info"} >  */}
         <CardHeaderToolbar>
           <>
             <button
@@ -78,7 +73,6 @@ export default function InspectionAndSurveyForm() {
             </button>
             <button
               type="reset"
-              // onClick={resetBtnClick}
               ref={resetBtnRef}
               className="btn btn-light ml-2"
             >
@@ -88,7 +82,6 @@ export default function InspectionAndSurveyForm() {
             <button
               type="submit"
               className="btn btn-primary ml-2"
-              // onClick={saveDataClick}
               ref={saveBtnRef}
               disabled={isDisabled}
             >
@@ -99,27 +92,21 @@ export default function InspectionAndSurveyForm() {
       </CardHeader>
       <CardBody>
         {isDisabled && <Loading />}
-        {/* {data && ( */}
         <div className="mt-0">
           <Form
             {...objProps}
             initData={initData}
-            saveHandler={saveHandler}
-            // disableHandler={disableHandler}
             profileData={profileData}
             accountId={profileData?.accountId}
             selectedBusinessUnit={selectedBusinessUnit}
-            // taxBracketDDL={taxBracketDDL}
             setter={setter}
             remover={remover}
             rowDto={rowDto}
             setRowDto={setRowDto}
             setEdit={setEdit}
             isDisabled={isDisabled}
-            // setDivisionDDL={setDivisionDDL}
           />
         </div>
-        {/* )} */}
       </CardBody>
     </Card>
   );

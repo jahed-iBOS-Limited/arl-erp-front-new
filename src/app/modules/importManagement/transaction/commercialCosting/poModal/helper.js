@@ -152,17 +152,6 @@ export const getSingleData = async (id, setter, setDisabled) => {
 };
 
 //ddl load
-export const getPaymentTermDDL = async (setter) => {
-  try {
-    let res = await axios.get(
-      '/procurement/PurchaseOrder/GetPaymentTermsListDDL'
-    );
-    setter(res?.data);
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-    setter([]);
-  }
-};
 
 //item list ddl
 export const getItemListDDL = async (id, setter) => {

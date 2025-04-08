@@ -22,13 +22,6 @@ export default function PoAddEditForm({ poId, view }) {
 
   const header = ['SL', 'Item', 'HS Code', 'UoM', 'Quantity', 'Rate', 'Amount'];
 
-  // useEffect(() => {
-  //   if (poId) {
-  //     getPaymentTermDDL(setPaymentTermsDDL);
-  //     // getItemListDDL(proformaInvoiceValue?.proformaInvoiceId, setItemDDL);
-  //   }
-  // }, [poId]);
-
   // get data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
