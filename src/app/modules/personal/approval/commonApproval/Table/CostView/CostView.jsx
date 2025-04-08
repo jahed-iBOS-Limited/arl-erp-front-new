@@ -15,17 +15,6 @@ export default function CostViewTable({ item }) {
   let itemId = item?.itemId;
   let bomId = item?.billOfMaterialId;
 
-  // useEffect(() => {
-  //   CostForBOMLanding(
-  //     accountId,
-  //     businessUnitId,
-  //     shopFloorId,
-  //     itemId,
-  //     1,
-  //     setIsDisabled,
-  //     setBomTotalCost
-  //   );
-  // }, [accountId, businessUnitId, shopFloorId, itemId]);
   useEffect(() => {
     getBomTotalCost(
       businessUnitId,

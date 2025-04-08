@@ -11,14 +11,6 @@ import { _todayDate } from '../../../../_helper/_todayDate';
 import { setIBOS_app_activityAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import customStyles from '../../../../selectCustomStyle';
 import GatePassApprovalGrid from '../gatePass/landing';
-import {
-  approvalApi,
-  BOMApprovalLanding,
-  getActivityDDL,
-  getGridData,
-  getModuleNameDDL,
-  getPlantDDL,
-} from '../helper';
 import ItemRequestApprovalGrid from '../itemRequest/landing';
 import LoanApprovalGrid from '../loanApprovalGrid/landing';
 import PurchaseOrderApprovalGrid from '../purchaseOrder/landing';
@@ -26,12 +18,17 @@ import PurchaseRequestApprovalGrid from '../purchaseRequest/landing';
 import PurchaseReturnApprovalGrid from '../returnPo/landing';
 import IConfirmModal from './../../../../_helper/_confirmModal';
 import PaginationTable from './../../../../_helper/_tablePagination';
-import { saveBOMApproval_api } from './../helper';
 import './approval.css';
 import BillOfMaterialTable from './billOfMaterialTable';
 import {
   allGridCheck,
+  approvalApi,
+  BOMApprovalLanding,
   itemSlectedHandler,
+  getGridData,
+  getModuleNameDDL,
+  saveBOMApproval_api,
+  getActivityDDL,
 } from '../../../../personal/approval/commonApproval/helper';
 import { getPlantList } from '../../../../_helper/_commonApi';
 
@@ -94,16 +91,6 @@ export function TableRow(props) {
     ) {
       setActivityChange((prev) => prev + 1);
       return;
-    } else {
-      // getGridData(
-      //   selectedBusinessUnit?.value,
-      //   activity?.label,
-      //   profileData?.userId,
-      //   setGridData,
-      //   setLoading,
-      //   pageNo,
-      //   pageSize
-      // );
     }
   };
 

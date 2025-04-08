@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { CostForBOMLanding } from '../../helper';
+
 import ICustomCard from './../../../../../_helper/_customCard';
 import Loading from './../../../../../_helper/_loading';
+import { CostForBOMLanding } from '../../../../../personal/approval/commonApproval/helper';
 
 export default function CostViewTable({ item }) {
   const [bomTotalCost, setBomTotalCost] = useState('');
