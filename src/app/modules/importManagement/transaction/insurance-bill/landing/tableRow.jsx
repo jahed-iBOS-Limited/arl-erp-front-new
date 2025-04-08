@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { getGridData } from '../helper';
 import Loading from '../../../../_helper/_loading';
 import PaginationTable from '../../../../_helper/_tablePagination';
 
@@ -16,6 +15,7 @@ import NewSelect from '../../../../_helper/_select';
 import PaginationSearch from '../../../../_helper/_search';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import InputField from '../../../../_helper/_inputField';
+import { getGridData } from '../../../../_helper/_commonApi';
 
 export default function TableRow() {
   const [gridData] = useState({});
