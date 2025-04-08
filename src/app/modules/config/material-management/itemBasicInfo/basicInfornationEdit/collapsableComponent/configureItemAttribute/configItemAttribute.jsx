@@ -79,7 +79,7 @@ export default function ConfigItemAttribute({ id, isViewPage }) {
           setConfigId(data[0]?.configId);
         }
       }
-    } catch (err) { }
+    } catch (err) {}
   };
 
   const saveData = async (values, cb) => {

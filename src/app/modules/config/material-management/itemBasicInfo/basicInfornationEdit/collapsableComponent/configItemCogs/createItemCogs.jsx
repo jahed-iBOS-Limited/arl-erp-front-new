@@ -72,7 +72,7 @@ export default function CreateItemPurchaseInfo({
         setExist(true);
         setRowDto(data);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   // save business unit data to DB

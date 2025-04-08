@@ -61,8 +61,9 @@ export default function MainCollapsePanel() {
 
   return (
     <ICustomCard
-      title={`Business Partner Basic Info [${businessPartnerNameFromHistory || businessPartnerNameCollapsed
-        }-${businessPartnerCodeFromHistory || businessPartnerCodeCollapsed}]`}
+      title={`Business Partner Basic Info [${
+        businessPartnerNameFromHistory || businessPartnerNameCollapsed
+      }-${businessPartnerCodeFromHistory || businessPartnerCodeCollapsed}]`}
       backHandler={() =>
         history.push('/config/partner-management/partner-basic-info')
       }
@@ -133,24 +134,24 @@ export default function MainCollapsePanel() {
         {(state?.businessPartnerTypeName === 'Customer' ||
           state?.businessPartnerTypeName === "Customer's Ship To Party" ||
           state?.businessPartnerTypeName === 'Employee') && (
-            <Accordion
-              expanded={expanded === 'panel4'}
-              onChange={handleChange('panel4')}
+          <Accordion
+            expanded={expanded === 'panel4'}
+            onChange={handleChange('panel4')}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel3bh-content"
+              id="panel3bh-header"
             >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel3bh-content"
-                id="panel3bh-header"
-              >
-                <Typography className={classes.heading}>
-                  Partner Sales Information
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <PartnerSales />
-              </AccordionDetails>
-            </Accordion>
-          )}
+              <Typography className={classes.heading}>
+                Partner Sales Information
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <PartnerSales />
+            </AccordionDetails>
+          </Accordion>
+        )}
       </div>
     </ICustomCard>
   );

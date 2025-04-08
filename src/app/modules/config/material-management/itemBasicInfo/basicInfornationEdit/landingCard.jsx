@@ -22,8 +22,9 @@ export default function LandingCard() {
     <Card>
       <ModalProgressBar />
       <CardHeader
-        title={`Edit item Info : [${itemNameFromHistroy || itemNameFromCollapsed
-          } - ${itemCodeFromHistory || itemCodeFromCollapsed}]`}
+        title={`Edit item Info : [${
+          itemNameFromHistroy || itemNameFromCollapsed
+        } - ${itemCodeFromHistory || itemCodeFromCollapsed}]`}
       >
         <CardHeaderToolbar>
           <button

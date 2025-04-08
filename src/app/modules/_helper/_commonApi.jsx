@@ -1592,11 +1592,10 @@ export const getGridData = async (
     );
     // console.log(res);
     if (res.status === 200 && res?.data) {
-
       setter(res?.data);
       setLoading(false);
     }
   } catch (error) {
     setLoading(false);
   }
-}
+};

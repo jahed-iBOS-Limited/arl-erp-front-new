@@ -53,7 +53,7 @@ export default function FormCmp({
         setwarehouseDDL(orgs);
         orgs = null;
       }
-    } catch (err) { }
+    } catch (err) {}
   };
   useEffect(() => {
     if (selectedBusinessUnit && accountId && itemId) {
@@ -117,9 +117,9 @@ export default function FormCmp({
                       className="text-danger"
                     >
                       {errors &&
-                        errors.warehouse &&
-                        touched &&
-                        touched.warehouse
+                      errors.warehouse &&
+                      touched &&
+                      touched.warehouse
                         ? errors.warehouse.value
                         : ''}
                     </p>
