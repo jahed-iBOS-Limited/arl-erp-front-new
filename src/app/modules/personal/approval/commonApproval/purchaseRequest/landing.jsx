@@ -14,6 +14,7 @@ import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import { ItemReqViewTableRow } from '../../../../procurement/purchase-management/purchaseRequestNew/report/tableRow';
 import PaginationSearch from './../../../../_helper/_search';
 import { approvalApi } from '../../../../_helper/_commonApi';
+import ApproveAndRejectBtn from '../../../../_helper/commonComponent/approveAndRejectBtn';
 
 let initData = {};
 
@@ -225,26 +226,12 @@ const PurchaseRequestApprovalGrid = ({
                       <div className="col-lg-9">
                         <h1>Purchase Request</h1>
                       </div>
-                      <div className="col-lg-3">
-                        <div className="d-flex justify-content-end ">
-                          <button
-                            type="button"
-                            className="approvalButton btn btn-primary"
-                            onClick={() => approveSubmitlHandler()}
-                            disabled={billSubmitBtn}
-                          >
-                            Approve
-                          </button>
-                          <button
-                            type="button"
-                            className="approvalButton btn btn-primary mr-1 ml-3"
-                            onClick={() => rejectSubmitlHandler()}
-                            disabled={billSubmitBtn}
-                          >
-                            Reject
-                          </button>
-                        </div>
-                      </div>
+                      <ApproveAndRejectBtn
+                        billSubmitBtn={billSubmitBtn}
+                        approveSubmitlHandler={approveSubmitlHandler}
+                        setBillSubmitBtn={setBillSubmitBtn}
+                        rejectPuchaseLoading={rejectPuchaseLoading}
+                      />
                     </div>
                   </div>
                 </div>

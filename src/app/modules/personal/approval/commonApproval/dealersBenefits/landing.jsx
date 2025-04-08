@@ -11,6 +11,7 @@ import IViewModal from '../../../../_helper/_viewModal';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import PaginationSearch from './../../../../_helper/_search';
 import DelearsBenefotsViewModal from './viewModal';
+import ApproveAndRejectBtn from './../../../../_helper/commonComponent/approveAndRejectBtn';
 
 let initData = {};
 
@@ -209,26 +210,12 @@ const DealersBenefits = ({
                       <div className="col-lg-9">
                         <h1>Dealer's Benefits</h1>
                       </div>
-                      <div className="col-lg-3">
-                        <div className="d-flex justify-content-end ">
-                          <button
-                            type="button"
-                            className="approvalButton btn btn-primary"
-                            onClick={() => approveSubmitlHandler()}
-                            disabled={billSubmitBtn}
-                          >
-                            Approve
-                          </button>
-                          <button
-                            type="button"
-                            className="approvalButton btn btn-primary mr-1 ml-3"
-                            onClick={() => rejectSubmitlHandler()}
-                            disabled={billSubmitBtn}
-                          >
-                            Reject
-                          </button>
-                        </div>
-                      </div>
+                      <ApproveAndRejectBtn
+                        billSubmitBtn={billSubmitBtn}
+                        approveSubmitlHandler={approveSubmitlHandler}
+                        setBillSubmitBtn={setBillSubmitBtn}
+                        rejectPuchaseLoading={rejectPuchaseLoading}
+                      />
                     </div>
                   </div>
                 </div>
