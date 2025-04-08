@@ -173,9 +173,7 @@ const PurchaseReturnApprovalGrid = ({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: 'Pending Application' },
         }}
-        // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           resetForm(initData);
         }}

@@ -112,10 +112,6 @@ export default function FormCmp({
           errors,
           touched,
           setFieldValue,
-          setValues,
-          isValid,
-          handleBlur,
-          handleChange,
         }) => (
           <>
             <Form className="form form-label-right">

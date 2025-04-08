@@ -179,7 +179,6 @@ export function TableRow(props) {
     }
   };
 
-  // All item select
   const allGridCheck = (value) => {
     if (rowDto?.data?.length > 0) {
       const modifyGridData = rowDto?.data?.map((itm) => ({

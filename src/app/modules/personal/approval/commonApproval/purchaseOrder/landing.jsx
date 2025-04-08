@@ -93,7 +93,6 @@ const PurchaseOrderApprovalGrid = ({
     }
   };
 
-  // All item select
   const allGridCheck = (value) => {
     if (rowDto?.data?.length > 0) {
       const modifyGridData = rowDto?.data?.map((itm) => ({
@@ -205,30 +204,18 @@ const PurchaseOrderApprovalGrid = ({
     };
   };
 
-  // All item select
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: 'Pending Application' },
         }}
-        // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           resetForm(initData);
         }}
       >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          setValues,
-          isValid,
-        }) => (
+        {({ values }) => (
           <>
             {(loader || postDataLoading) && <Loading />}
             <Form className="form form-label-right">

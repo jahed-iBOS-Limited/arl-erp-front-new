@@ -85,7 +85,6 @@ const DealersBenefits = ({
     }
   };
 
-  // All item select
   const allGridCheck = (value) => {
     if (rowDto?.data?.length > 0) {
       const modifyGridData = rowDto?.data?.map((itm) => ({
@@ -199,16 +198,7 @@ const DealersBenefits = ({
           resetForm(initData);
         }}
       >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          setValues,
-          isValid,
-        }) => (
+        {({ values }) => (
           <>
             {(loader || rejectPuchaseLoading) && <Loading />}
             <Form className="form form-label-right">

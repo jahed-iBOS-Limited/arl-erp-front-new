@@ -96,7 +96,6 @@ const ItemRequestApprovalGrid = ({
     }
   };
 
-  // All item select
   const allGridCheck = (value) => {
     if (rowDto?.data?.length > 0) {
       const modifyGridData = rowDto?.data?.map((itm) => ({
@@ -165,7 +164,6 @@ const ItemRequestApprovalGrid = ({
     setPageNo(0);
   };
 
-  // All item select
   return (
     <>
       <Formik
@@ -177,16 +175,7 @@ const ItemRequestApprovalGrid = ({
           resetForm(initData);
         }}
       >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          setValues,
-          isValid,
-        }) => (
+        {({ values }) => (
           <>
             {loader && <Loading />}
             {/* Table Start */}
