@@ -107,7 +107,7 @@ export default function PartialChallanTable({ obj }) {
                             name="returnQty"
                             placeholder="Return qty"
                             type="number"
-                            min="0.2"
+                            // min="0.2"
                             onChange={(e) => {
                               if (+e.target.value < 0) {
                                 return toast.warn(
