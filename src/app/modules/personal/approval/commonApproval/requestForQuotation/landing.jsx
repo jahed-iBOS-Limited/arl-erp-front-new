@@ -8,14 +8,12 @@ import IConfirmModal from '../../../../_helper/_confirmModal';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import Loading from '../../../../_helper/_loading';
 import PaginationTable from '../../../../_helper/_tablePagination';
-import { getPurchaseReqGridData } from './helper';
-// import { setPRApprovalId } from "../../../../_helper/reduxForLocalStorage/Actions";
 import IView from '../../../../_helper/_helperIcons/_view';
 import IViewModal from '../../../../_helper/_viewModal';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import PaginationSearch from './../../../../_helper/_search';
-import { approvalApi } from './helper';
 import { ApprovalModal } from './viewModal';
+import { approvalApi, getItemGridData } from '../../../../_helper/_commonApi';
 
 let initData = {};
 
@@ -50,7 +48,7 @@ const RequestForQuotationApprovalGrid = ({
 
   let cb = () => {
     setIsShowModal(false);
-    getPurchaseReqGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -66,7 +64,7 @@ const RequestForQuotationApprovalGrid = ({
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
-    getPurchaseReqGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -145,7 +143,7 @@ const RequestForQuotationApprovalGrid = ({
   };
 
   const paginationSearchHandler = (value) => {
-    getPurchaseReqGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,

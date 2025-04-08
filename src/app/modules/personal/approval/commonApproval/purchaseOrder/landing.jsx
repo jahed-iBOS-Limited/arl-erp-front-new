@@ -8,7 +8,6 @@ import PaginationTable from '../../../../_helper/_tablePagination';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 import IConfirmModal from './../../../../_helper/_confirmModal';
-import { getPurchaseOrderGridData, approvalApi } from './helper';
 import { setPoApprovalId } from '../../../../_helper/reduxForLocalStorage/Actions';
 import PaginationSearch from './../../../../_helper/_search';
 import IViewModal from '../../../../_helper/_viewModal';
@@ -18,6 +17,7 @@ import IClose from '../../../../_helper/_helperIcons/_close';
 import { toast } from 'react-toastify';
 import AttachmentView from './attachmentView';
 import { allGridCheck, itemSlectedHandler } from '../helper';
+import { approvalApi, getItemGridData } from '../../../../_helper/_commonApi';
 
 let initData = {};
 
@@ -61,10 +61,10 @@ const PurchaseOrderApprovalGrid = ({
   }, [activityChange]);
 
   let cb = () => {
-    getPurchaseOrderGridData(
+    getItemGridData(
+      activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      activityName,
       profileData?.userId,
       setRowDto,
       setLoader,
@@ -110,10 +110,10 @@ const PurchaseOrderApprovalGrid = ({
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
-    getPurchaseOrderGridData(
+    getItemGridData(
+      activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      activityName,
       profileData?.userId,
       setRowDto,
       setLoader,
@@ -125,10 +125,10 @@ const PurchaseOrderApprovalGrid = ({
   };
 
   const paginationSearchHandler = (value) => {
-    getPurchaseOrderGridData(
+    getItemGridData(
+      activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      activityName,
       profileData?.userId,
       setRowDto,
       setLoader,

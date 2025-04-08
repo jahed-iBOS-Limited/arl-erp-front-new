@@ -8,13 +8,13 @@ import PaginationTable from '../../../../_helper/_tablePagination';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 import IConfirmModal from './../../../../_helper/_confirmModal';
-import { getPurchaseOrderGridData, approvalApi } from './helper';
 import { setPurchaseReturnId } from '../../../../_helper/reduxForLocalStorage/Actions';
 import PaginationSearch from './../../../../_helper/_search';
 import {
   allGridCheck,
   itemSlectedHandler,
 } from '../../../../personal/approval/commonApproval/helper';
+import { approvalApi, getItemGridData } from '../../../../_helper/_commonApi';
 
 let initData = {};
 
@@ -51,10 +51,10 @@ const PurchaseReturnApprovalGrid = ({
   }, [activityChange]);
 
   let cb = () => {
-    getPurchaseOrderGridData(
+    getItemGridData(
+      activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      activityName?.value,
       profileData?.userId,
       setRowDto,
       setLoader,
@@ -89,9 +89,7 @@ const PurchaseReturnApprovalGrid = ({
           userId: profileData?.userId,
           activityId: activityName?.value,
         };
-        console.log(payload);
         approvalApi(parameter, payload, activityName, cb, setBillSubmitBtn);
-        // setBillSubmitBtn(true);
       },
       noAlertFunc: () => {},
     };
@@ -100,10 +98,10 @@ const PurchaseReturnApprovalGrid = ({
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
-    getPurchaseOrderGridData(
+    getItemGridData(
+      activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      activityName?.value,
       profileData?.userId,
       setRowDto,
       setLoader,
@@ -115,10 +113,10 @@ const PurchaseReturnApprovalGrid = ({
   };
 
   const paginationSearchHandler = (value) => {
-    getPurchaseOrderGridData(
+    getItemGridData(
+      activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      activityName?.value,
       profileData?.userId,
       setRowDto,
       setLoader,

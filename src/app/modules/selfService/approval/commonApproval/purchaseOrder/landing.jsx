@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import { useHistory } from "react-router-dom";
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import { Formik } from 'formik';
@@ -8,7 +7,6 @@ import PaginationTable from '../../../../_helper/_tablePagination';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 import IConfirmModal from './../../../../_helper/_confirmModal';
-import { getPurchaseOrderGridData, approvalApi } from './helper';
 import { setPoApprovalId } from '../../../../_helper/reduxForLocalStorage/Actions';
 import PaginationSearch from './../../../../_helper/_search';
 import IViewModal from '../../../../_helper/_viewModal';
@@ -17,6 +15,7 @@ import {
   allGridCheck,
   itemSlectedHandler,
 } from '../../../../personal/approval/commonApproval/helper';
+import { approvalApi, getItemGridData } from '../../../../_helper/_commonApi';
 
 let initData = {};
 
@@ -26,8 +25,6 @@ const PurchaseOrderApprovalGrid = ({
   activityChange,
   selectedPlant,
 }) => {
-  // const history = useHistory();
-
   const [loader, setLoader] = useState(false);
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
@@ -54,10 +51,10 @@ const PurchaseOrderApprovalGrid = ({
   }, [activityChange]);
 
   let cb = () => {
-    getPurchaseOrderGridData(
+    getItemGridData(
+      activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      activityName,
       profileData?.userId,
       setRowDto,
       setLoader,
@@ -103,10 +100,10 @@ const PurchaseOrderApprovalGrid = ({
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
-    getPurchaseOrderGridData(
+    getItemGridData(
+      activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      activityName,
       profileData?.userId,
       setRowDto,
       setLoader,
@@ -118,10 +115,10 @@ const PurchaseOrderApprovalGrid = ({
   };
 
   const paginationSearchHandler = (value) => {
-    getPurchaseOrderGridData(
+    getItemGridData(
+      activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      activityName,
       profileData?.userId,
       setRowDto,
       setLoader,

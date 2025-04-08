@@ -8,7 +8,6 @@ import IConfirmModal from '../../../../_helper/_confirmModal';
 import Loading from '../../../../_helper/_loading';
 import PaginationTable from '../../../../_helper/_tablePagination';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { getPurchaseReqGridData, approvalApi } from './helper';
 // import { setPRApprovalId } from "../../../../_helper/reduxForLocalStorage/Actions";
 import PaginationSearch from './../../../../_helper/_search';
 import IViewModal from '../../../../_helper/_viewModal';
@@ -17,6 +16,7 @@ import {
   allGridCheck,
   itemSlectedHandler,
 } from '../../../../personal/approval/commonApproval/helper';
+import { approvalApi, getItemGridData } from '../../../../_helper/_commonApi';
 
 let initData = {};
 
@@ -53,7 +53,7 @@ const PurchaseRequestApprovalGrid = ({
   }, [activityChange]);
 
   let cb = () => {
-    getPurchaseReqGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -69,7 +69,7 @@ const PurchaseRequestApprovalGrid = ({
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
-    getPurchaseReqGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -116,7 +116,7 @@ const PurchaseRequestApprovalGrid = ({
   };
 
   const paginationSearchHandler = (value) => {
-    getPurchaseReqGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -249,18 +249,11 @@ const PurchaseRequestApprovalGrid = ({
                         <td className="text-center">
                           {_dateFormatter(item.transectionDate)}
                         </td>
-                        {/* <td className="text-center">
-                    {_dateFormatter(item.dueDate)}
-                  </td>             */}
                         <td className="text-center">{item.quantity}</td>
                         <td className="text-center">{item.strNarration}</td>
                         <td className="text-center">
                           <span
                             onClick={(e) => {
-                              // history.push(
-                              //   `/mngProcurement/purchase-management/purchase-request/report/${item?.transectionId}`
-                              // );
-                              // dispatch(setPRApprovalId(item?.transectionId));
                               setCurrentRowData(item);
                               setIsShowModal(true);
                             }}

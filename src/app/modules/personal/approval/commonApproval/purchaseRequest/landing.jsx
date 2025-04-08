@@ -7,13 +7,11 @@ import IConfirmModal from '../../../../_helper/_confirmModal';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import Loading from '../../../../_helper/_loading';
 import PaginationTable from '../../../../_helper/_tablePagination';
-import { getPurchaseReqGridData } from './helper';
-// import { setPRApprovalId } from "../../../../_helper/reduxForLocalStorage/Actions";
 import IViewModal from '../../../../_helper/_viewModal';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import { ItemReqViewTableRow } from '../../../../procurement/purchase-management/purchaseRequestNew/report/tableRow';
 import PaginationSearch from './../../../../_helper/_search';
-import { approvalApi } from '../../../../_helper/_commonApi';
+import { approvalApi, getItemGridData } from '../../../../_helper/_commonApi';
 import ApproveAndRejectBtn from '../../../../_helper/commonComponent/approveAndRejectBtn';
 import { allGridCheck, itemSlectedHandler } from '../helper';
 
@@ -53,7 +51,7 @@ const PurchaseRequestApprovalGrid = ({
   }, [activityChange]);
 
   let cb = () => {
-    getPurchaseReqGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -69,7 +67,7 @@ const PurchaseRequestApprovalGrid = ({
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
-    getPurchaseReqGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -147,7 +145,7 @@ const PurchaseRequestApprovalGrid = ({
   };
 
   const paginationSearchHandler = (value) => {
-    getPurchaseReqGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,

@@ -221,7 +221,6 @@ export const getItemGridData = async (
   try {
     setLoading(true);
     const res = await axios.get(
-      // `/procurement/Approval/GetItemRequestListForApproval?BusinessUnitId=${buId}&UserId=${userId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
       `/procurement/Approval/CoomonApprovalList?AcountId=${accId}&BusinessUnitId=${buId}&UserId=${userId}&ActivityId=${activityId}&viewOrder=desc&PageNo=${
         pageNo || 1
       }&PageSize=${pageSize}${Search}&plantId=${plantId}`

@@ -6,7 +6,6 @@ import { Form } from 'react-bootstrap';
 import IConfirmModal from '../../../../_helper/_confirmModal';
 import Loading from '../../../../_helper/_loading';
 import PaginationTable from '../../../../_helper/_tablePagination';
-import { getGatePassGridData, approvalApi } from './helper';
 import PaginationSearch from './../../../../_helper/_search';
 import IViewModal from '../../../../_helper/_viewModal';
 import ViewReport from '../../../../inventoryManagement/GatePass/gatePassApplication/View/viewReport';
@@ -15,6 +14,7 @@ import {
   allGridCheck,
   itemSlectedHandler,
 } from '../../../../personal/approval/commonApproval/helper';
+import { approvalApi, getItemGridData } from '../../../../_helper/_commonApi';
 
 let initData = {};
 
@@ -52,7 +52,7 @@ const GatePassApprovalGrid = ({
   }, [activityChange]);
 
   let cb = () => {
-    getGatePassGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -68,7 +68,7 @@ const GatePassApprovalGrid = ({
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
-    getGatePassGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -105,7 +105,7 @@ const GatePassApprovalGrid = ({
           userId: profileData?.userId,
           activityId: activityName?.value,
         };
-        approvalApi(parameter, payload, cb, setBillSubmitBtn);
+        approvalApi(parameter, payload, '', cb, setBillSubmitBtn);
         //setBillSubmitBtn(true);
       },
       noAlertFunc: () => {},
@@ -114,7 +114,7 @@ const GatePassApprovalGrid = ({
   };
 
   const paginationSearchHandler = (value) => {
-    getGatePassGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
