@@ -2,64 +2,12 @@ import Axios from 'axios';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
-//landing api;
 
-// https://localhost:44396/imp/LetterOfCredit/LetterOfCreditLandingPasignation?accountId=2&businessUnitId=164&searchTerm=420071&bankId=2&fromDate=2021-06-26%2000%3A00%3A00.000&toDate=2021-06-27%2000%3A00%3A00.000&PageSize=100&PageNo=1&viewOrder=asc
-export const getLandingData = async (
-  accountId,
-  businessUnitId,
-  searchTerm,
-  bankId,
-  fromDate,
-  toDate,
-  setter,
-  setLoading,
-  pageNo,
-  pageSize
-) => {
-  try {
-    let query = `/imp/LetterOfCredit/LetterOfCreditLandingPasignation?accountId=${accountId}&businessUnitId=${businessUnitId}`;
-    if (searchTerm) {
-      query += `&searchTerm=${searchTerm}`;
-    }
-    if (bankId) {
-      query += `&bankId=${bankId}`;
-    }
-    if (fromDate) {
-      query += `&fromDate=${fromDate}`;
-    }
-    if (toDate) {
-      query += `&toDate=${toDate}`;
-    }
-    query += `&PageSize=${pageSize}&PageNo=${pageNo}&viewOrder=desc`;
-    setLoading(true);
-    const res = await Axios.get(query);
-
-    setLoading(false);
-    setter(res?.data);
-  } catch (error) {
-    setLoading(false);
-    toast.error(error?.response?.data?.message);
-  }
-};
-// https://localhost:44396/imp/LetterOfCredit/GetLetterOfCreditByPOnumberOrLCNumber?accountId=2&businessUnit=164&search=LC-420071
-// export const checkDuplicateLc = async (
-//   accountId,
-//   businessUnit,
-//   searchTerm,
-//   cb
-// ) => {
-//   try {
-//     let query = `/imp/LetterOfCredit/GetLetterOfCreditByPOnumberOrLCNumber?accountId=${accountId}&businessUnit=${businessUnit}&search=${searchTerm}`;
-//     const res = await Axios.get(query);
-//     if (res) {
-//       toast.error("LC is created on this po");
-//     }
-//   } catch (error) {
-//     cb();
-//   }
-// };
-
+export function removeDaysToDate(date, days) {
+  let res = new Date(date);
+  res.setDate(res.getDate() - days);
+  return res;
+}
 export const marginTypeDDLArr = [
   { value: 1, label: 'Cash Margin' },
   { value: 2, label: 'Fdr Margin' },
@@ -121,7 +69,6 @@ export const getSingleData = async (id, setter, setDisabled) => {
       bondLicense: res?.data?.bondLicense,
       duration: _dateFormatter(res?.data?.duration),
       poNo: res?.data?.ponumber,
-      // poNo: { label: res?.data?.ponumber, value: 1 },
       dueDate: _dateFormatter(res?.data?.dueDate),
       bankName: {
         label: res?.data?.bankName,
@@ -134,7 +81,6 @@ export const getSingleData = async (id, setter, setDisabled) => {
           }
         : '',
       description: res?.data?.description,
-      // lcMarginPercent: res?.data?.lcMarginPercentage || "",
       lcMarginValue: res?.data?.lcMarginValue || '',
       lcMarginDueDate: res?.data?.lcMarginDueDate
         ? _dateFormatter(res?.data?.lcMarginDueDate)
@@ -147,17 +93,6 @@ export const getSingleData = async (id, setter, setDisabled) => {
     toast.error(error?.response?.data?.message);
   }
 };
-
-// function addDaysToDate(date, days) {
-//   let res = new Date(date);
-//   res.setDate(res.getDate() + days);
-//   return res;
-// }
-export function removeDaysToDate(date, days) {
-  let res = new Date(date);
-  res.setDate(res.getDate() - days);
-  return res;
-}
 
 //create data;
 export const createLCOpen = async (

@@ -1524,3 +1524,40 @@ export const getGridData = async (
     toast.error(error?.response?.data?.message);
   }
 };
+export const getLandingData = async (
+  accountId,
+  businessUnitId,
+  searchTerm,
+  bankId,
+  fromDate,
+  toDate,
+  setter,
+  setLoading,
+  pageNo,
+  pageSize
+) => {
+  try {
+    let query = `/imp/LetterOfCredit/LetterOfCreditLandingPasignation?accountId=${accountId}&businessUnitId=${businessUnitId}`;
+    if (searchTerm) {
+      query += `&searchTerm=${searchTerm}`;
+    }
+    if (bankId) {
+      query += `&bankId=${bankId}`;
+    }
+    if (fromDate) {
+      query += `&fromDate=${fromDate}`;
+    }
+    if (toDate) {
+      query += `&toDate=${toDate}`;
+    }
+    query += `&PageSize=${pageSize}&PageNo=${pageNo}&viewOrder=desc`;
+    setLoading(true);
+    const res = await axios.get(query);
+
+    setLoading(false);
+    setter(res?.data);
+  } catch (error) {
+    setLoading(false);
+    toast.error(error?.response?.data?.message);
+  }
+};

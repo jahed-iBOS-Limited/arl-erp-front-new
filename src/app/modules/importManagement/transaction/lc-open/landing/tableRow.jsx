@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getLandingData, GetBankDDL, getPoForLcOpen } from '../helper';
+import { GetBankDDL, getPoForLcOpen } from '../helper';
 import Loading from '../../../../_helper/_loading';
 import Axios from 'axios';
 import {
@@ -24,6 +24,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { _firstDateofMonth } from './../../../../_helper/_firstDateOfCurrentMonth';
 import IConfirmModal from '../../../../_helper/_confirmModal';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { getLandingData } from '../../../../_helper/_commonApi';
 
 const header = [
   'PO No',

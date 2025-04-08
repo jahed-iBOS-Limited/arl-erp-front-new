@@ -2,63 +2,6 @@ import Axios from 'axios';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
-//landing api;
-
-// https://localhost:44396/imp/LetterOfCredit/LetterOfCreditLandingPasignation?accountId=2&businessUnitId=164&searchTerm=420071&bankId=2&fromDate=2021-06-26%2000%3A00%3A00.000&toDate=2021-06-27%2000%3A00%3A00.000&PageSize=100&PageNo=1&viewOrder=asc
-export const getLandingData = async (
-  accountId,
-  businessUnitId,
-  searchTerm,
-  bankId,
-  fromDate,
-  toDate,
-  setter,
-  setLoading,
-  pageNo,
-  pageSize
-) => {
-  try {
-    let query = `/imp/LetterOfCredit/LetterOfCreditLandingPasignation?accountId=${accountId}&businessUnitId=${businessUnitId}`;
-    if (searchTerm) {
-      query += `&searchTerm=${searchTerm}`;
-    }
-    if (bankId) {
-      query += `&bankId=${bankId}`;
-    }
-    if (fromDate) {
-      query += `&fromDate=${fromDate}`;
-    }
-    if (toDate) {
-      query += `&toDate=${toDate}`;
-    }
-    query += `&PageSize=${pageSize}&PageNo=${pageNo}&viewOrder=desc`;
-    setLoading(true);
-    const res = await Axios.get(query);
-
-    setLoading(false);
-    setter(res?.data);
-  } catch (error) {
-    setLoading(false);
-    toast.error(error?.response?.data?.message);
-  }
-};
-// https://localhost:44396/imp/LetterOfCredit/GetLetterOfCreditByPOnumberOrLCNumber?accountId=2&businessUnit=164&search=LC-420071
-// export const checkDuplicateLc = async (
-//   accountId,
-//   businessUnit,
-//   searchTerm,
-//   cb
-// ) => {
-//   try {
-//     let query = `/imp/LetterOfCredit/GetLetterOfCreditByPOnumberOrLCNumber?accountId=${accountId}&businessUnit=${businessUnit}&search=${searchTerm}`;
-//     const res = await Axios.get(query);
-//     if (res) {
-//       toast.error("LC is created on this po");
-//     }
-//   } catch (error) {
-//     cb();
-//   }
-// };
 
 //get single data;
 export const getSingleData = async (id, setter, setDisabled) => {
@@ -116,7 +59,6 @@ export const getSingleData = async (id, setter, setDisabled) => {
       bondLicense: res?.data?.bondLicense,
       duration: _dateFormatter(res?.data?.duration),
       poNo: res?.data?.ponumber,
-      // poNo: { label: res?.data?.ponumber, value: 1 },
       dueDate: _dateFormatter(res?.data?.dueDate),
       bankName: {
         label: res?.data?.bankName,
@@ -131,19 +73,68 @@ export const getSingleData = async (id, setter, setDisabled) => {
     toast.error(error?.response?.data?.message);
   }
 };
+const createPayloadChange = (
+  values,
+  profileData,
+  selectedBusinessUnit,
+  uploadImage
+) => {
+  const payload = {
+    lcTypeName: values?.lcType?.label,
+    countryOriginName: values?.origin?.label,
+    currencyName: values?.currency?.label,
+    description: values?.description,
+    lcafNo: '',
+    applicationDate: _dateFormatter(new Date()),
+    poId: values?.poId,
+    numExchangeRate: values?.exchangeRate,
+    numTotalPiamountFC: +values?.PIAmountFC,
+    numTotalPiamountBDT: +values?.PIAmountBDT,
+    accountId: profileData?.accountId,
+    businessUnitId: selectedBusinessUnit?.value,
+    sbuId: values?.sbuId,
+    plantId: values?.plantId,
+    ponumber: values?.poNo,
+    lcnumber: values?.lcNo,
+    subPonumber: '',
+    incoTerms: values?.encoTerms?.value,
+    materialTypeId: values?.materialType?.value,
+    bankName: values?.bankName?.label,
+    bankId: values?.bankName?.value,
+    lctypeId: values?.lcType?.value,
+    dteLcdate: values?.lcDate,
+    dteLastShipmentDate: _dateFormatter(values?.lastShipmentDate),
+    dteLcexpireDate: _dateFormatter(values?.lcExpiredDate),
+    originId: values?.origin?.value,
+    loadingPortName: values?.loadingPort,
+    numTolarance: +values?.tolarance,
+    currencyId: values?.currency?.value,
+    totalBankCharge: values?.totalBankCharge,
+    vatOnBankCharge: values?.vatOnCharge,
+    lcTenor: values?.lcTenor,
+    numPgamount: +values?.pgAmount,
+    dtePgdueDate: values?.pgDueDate,
+    // indemnityBond: values?.indemnityBond || false,
+    indemnityBond: false,
+    // bondLicense: values?.bondLicense || false,
+    bondLicense: false,
+    // duration: values?.duration,
+    duration: null,
+    openingLcdocumentId: uploadImage[0]?.id || '',
+    lastActionBy: profileData?.userId,
+    finalDestinationId: values?.finalDestination?.value,
+    dueDate: values?.dueDate,
+    bankAccountId: values?.bankAccount?.value || 0,
+    bankAccountNo: values?.bankAccount?.label || '',
+    lcMarginPercentage: +values?.lcMarginPercent || 0,
+    lcMarginValue: +values?.lcMarginValue || 0,
+    lcMarginDueDate: values?.lcMarginDueDate || null,
+    marginType: values?.marginType?.value,
+    numInterestRate: values?.numInterestRate || 0,
+  };
+  return payload;
+};
 
-// function addDaysToDate(date, days) {
-//   let res = new Date(date);
-//   res.setDate(res.getDate() + days);
-//   return res;
-// }
-export function removeDaysToDate(date, days) {
-  let res = new Date(date);
-  res.setDate(res.getDate() - days);
-  return res;
-}
-
-//create data;
 export const createLCOpen = async (
   setDisabled,
   values,
@@ -174,58 +165,6 @@ export const createLCOpen = async (
     toast.error(error?.response?.data?.message);
   }
 };
-
-const createPayloadChange = (
-  values,
-  profileData,
-  selectedBusinessUnit,
-  uploadImage
-) => {
-  const payload = {
-    lcTypeName: values?.lcType?.label,
-    countryOriginName: values?.origin?.label,
-    currencyName: values?.currency?.label,
-    description: values?.description,
-    lcafNo: '',
-    applicationDate: _dateFormatter(new Date()),
-    poId: values?.poId,
-    numExchangeRate: values?.exchangeRate,
-    numTotalPiamountFC: +values?.PIAmountFC,
-    numTotalPiamountBDT: +values?.PIAmountBDT,
-    accountId: profileData?.accountId,
-    businessUnitId: selectedBusinessUnit?.value,
-    sbuId: values?.sbuId,
-    plantId: values?.plantId,
-    ponumber: values?.poNo,
-    lcnumber: values?.lcNo,
-    subPonumber: '',
-    incoTerms: values?.encoTerms?.value,
-    materialTypeId: values?.materialType?.value,
-    bankId: values?.bankName?.value,
-    lctypeId: values?.lcType?.value,
-    dteLcdate: values?.lcDate,
-    dteLastShipmentDate: _dateFormatter(values?.lastShipmentDate),
-    dteLcexpireDate: _dateFormatter(values?.lcExpiredDate),
-    originId: values?.origin?.value,
-    loadingPortName: values?.loadingPort,
-    numTolarance: +values?.tolarance,
-    currencyId: values?.currency?.value,
-    totalBankCharge: values?.totalBankCharge,
-    vatOnBankCharge: values?.vatOnCharge,
-    lcTenor: values?.lcTenor,
-    numPgamount: +values?.pgAmount,
-    dtePgdueDate: values?.pgDueDate,
-    indemnityBond: values?.indemnityBond || false,
-    bondLicense: values?.bondLicense || false,
-    duration: values?.duration,
-    openingLcdocumentId: uploadImage[0]?.id || '',
-    lastActionBy: profileData?.userId,
-    finalDestinationId: values?.finalDestination?.value,
-    dueDate: values?.dueDate,
-  };
-  return payload;
-};
-
 //update data;
 export const updateLCOpen = async (
   setDisabled,
@@ -286,17 +225,23 @@ const updatePayloadChange = (
     lcTenor: values?.lcTenor,
     numPgamount: +values?.pgAmount,
     dtePgdueDate: values?.pgDueDate,
-    indemnityBond: values?.indemnityBond || false,
-    bondLicense: values?.bondLicense || false,
-    duration: values?.duration,
-    openingLcdocumentId: uploadImage[0]?.id || '',
+    // indemnityBond: values?.indemnityBond || false,
+    indemnityBond: false,
+    // bondLicense: values?.bondLicense || false,
+    bondLicense: false,
+    // duration: values?.duration,
+    duration: null,
+    openingLcdocumentId: uploadImage[0]?.id || values?.attachment || '',
     finalDestinationId: values?.finalDestination?.value,
     dueDate: values?.dueDate,
+    bankAccountId: values?.bankAccount?.value || 0,
+    bankAccountNo: values?.bankAccount?.label || '',
+    lcMarginPercentage: +values?.lcMarginPercent || 0,
+    lcMarginValue: +values?.lcMarginValue || 0,
+    lcMarginDueDate: values?.lcMarginDueDate || null,
   };
   return payload;
 };
-
-//Dropdown loading start
 
 //LC type ddl
 export const LCTypeDDLAction = async (setDisabled, setter) => {
