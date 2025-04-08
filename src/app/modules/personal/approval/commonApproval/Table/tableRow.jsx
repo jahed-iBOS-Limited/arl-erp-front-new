@@ -22,7 +22,6 @@ import {
   getPlantDDL,
 } from '../helper';
 import ItemRequestApprovalGrid from '../itemRequest/landing';
-import LeaveApprovalGrid from '../leaveApprovalGrid/landing';
 import LoanApprovalGrid from '../loanApprovalGrid/landing';
 import PurchaseOrderApprovalGrid from '../purchaseOrder/landing';
 import PurchaseRequestApprovalGrid from '../purchaseRequest/landing';
@@ -419,8 +418,6 @@ export function TableRow(props) {
         activityName?.label === 'Purchase Return' ||
         activityName?.label === 'Gate Pass' ? (
           <>
-            {activityName?.label === 'Leave Approval' && <LeaveApprovalGrid />}
-
             {activityName?.label === 'Loan Approval' && <LoanApprovalGrid />}
             {activityName?.label === 'Purchase Order' && (
               <PurchaseOrderApprovalGrid
