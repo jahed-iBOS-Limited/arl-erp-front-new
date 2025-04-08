@@ -106,7 +106,7 @@ export function PartnerPages() {
         path="/config/partner-management/partner-registration-approval"
         component={
           (customerPermissions && customerPermissions?.isView) ||
-            (supplierPermission && supplierPermission?.isView)
+          (supplierPermission && supplierPermission?.isView)
             ? PartnerRegApproval
             : NotPermittedPage
         }

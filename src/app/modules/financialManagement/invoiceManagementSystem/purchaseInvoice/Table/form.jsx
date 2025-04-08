@@ -22,6 +22,7 @@ import {
   CardHeader,
   CardHeaderToolbar,
 } from './../../../../../../_metronic/_partials/controls';
+import { getPlantList } from '../../../../_helper/_commonApi';
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
@@ -60,7 +61,7 @@ export default function HeaderForm() {
     //   selectedBusinessUnit.value,
     //   setpurchaseOrg
     // );
-    getPlantDDL(
+    getPlantList(
       profileData.userId,
       profileData.accountId,
       selectedBusinessUnit.value,

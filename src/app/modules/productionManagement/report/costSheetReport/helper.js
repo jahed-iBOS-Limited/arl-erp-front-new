@@ -22,17 +22,6 @@ export const getItemDDL = async (accId, buId, pId, sfId, setter) => {
   } catch (error) {}
 };
 
-export const getShopFloorDDL = async (accId, buId, pId, setter) => {
-  try {
-    const res = await axios.get(
-      `/mes/MesDDL/GetShopfloorDDL?AccountId=${accId}&BusinessUnitid=${buId}&PlantId=${pId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const getPoBaseReport = async (
   accId,
   buId,

@@ -5,11 +5,11 @@ import {
   getWorkCenterNameDDL,
   getItemNameDDL,
   getCreatePageData,
-  getShopFloorDDL,
   getBomNameDDL,
 } from '../helper';
 import * as Yup from 'yup';
 import NewSelect from '../../../../_helper/_select';
+import { getShopFloorDDL } from '../../../../_helper/_commonApi';
 const validationSchema = Yup.object().shape({
   plantName: Yup.object().shape({
     label: Yup.string().required('Plant Name is required'),

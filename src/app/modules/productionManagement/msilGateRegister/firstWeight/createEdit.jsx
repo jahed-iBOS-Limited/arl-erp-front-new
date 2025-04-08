@@ -13,10 +13,8 @@ import { _todayDate } from '../../../_helper/_todayDate';
 import SearchAsyncSelect from './../../../_helper/SearchAsyncSelect';
 import IViewModal from '../../../_helper/_viewModal';
 import QRCodeScanner from '../../../_helper/qrCodeScanner';
-import {
-  getShopFloorDDL,
-  getWorkCenterNameDDL,
-} from '../../configuration/routing/helper';
+import { getWorkCenterNameDDL } from '../../configuration/routing/helper';
+import { getShopFloorDDL } from '../../../_helper/_commonApi';
 
 const initData = {
   firstWeightDate: _todayDate(),

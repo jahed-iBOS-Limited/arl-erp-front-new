@@ -30,6 +30,7 @@ import RowDtoTable from './rowDtoTable';
 import './style.css';
 import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 import { debounce } from 'lodash';
+import { getPlantList } from '../../../../../_helper/_commonApi';
 
 const { actions: slice } = invTransactionSlice;
 
@@ -85,7 +86,7 @@ export default function TransferInvCreateForm({
     dispatch(
       getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
-    getPlantDDL(
+    getPlantList(
       profileData.userId,
       profileData.accountId,
       selectedBusinessUnit.value,

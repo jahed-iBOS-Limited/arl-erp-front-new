@@ -31,6 +31,7 @@ import placeholderImg from '../../../../../_helper/images/placeholderImg.png';
 import { attachmentUpload } from '../../../../../_helper/attachmentUpload';
 import './style.css';
 import { debounce } from 'lodash';
+import { getPlantList } from '../../../../../_helper/_commonApi';
 
 const { actions: slice } = invTransactionSlice;
 
@@ -88,7 +89,7 @@ export default function TransferInForm({
     dispatch(
       getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
-    getPlantDDL(
+    getPlantList(
       profileData.userId,
       profileData.accountId,
       selectedBusinessUnit.value,

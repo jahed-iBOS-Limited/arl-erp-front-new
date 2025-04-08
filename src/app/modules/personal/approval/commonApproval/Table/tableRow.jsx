@@ -15,16 +15,16 @@ import InventoryAdjust from '../InventoryAdjust';
 import GatePassApprovalGrid from '../gatePass/landing';
 import {
   BOMApprovalLanding,
+  allGridCheck,
   approvalApi,
   getActivityDDL,
   getGridData,
   getModuleNameDDL,
   getPlantDDL,
+  itemSlectedHandler,
 } from '../helper';
 import ItemRequestApprovalGrid from '../itemRequest/landing';
-import LeaveApprovalGrid from '../leaveApprovalGrid/landing';
 import LoanApprovalGrid from '../loanApprovalGrid/landing';
-import MovementApprovalGrid from '../moveApprovalGrid/landing';
 import PurchaseOrderApprovalGrid from '../purchaseOrder/landing';
 import PurchaseRequestApprovalGrid from '../purchaseRequest/landing';
 import RequestForQuotationApprovalGrid from '../requestForQuotation/landing';
@@ -35,7 +35,7 @@ import { saveBOMApproval_api } from './../helper';
 import './approval.css';
 import BillOfMaterialTable from './billOfMaterialTable';
 import DealersBenefits from '../dealersBenefits/landing';
-// import CommonJournalApprovalGrid from '../accountAndFinance/commonJournal/index';
+import { getPlantList } from '../../../../_helper/_commonApi';
 
 export function TableRow(props) {
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
@@ -103,7 +103,7 @@ export function TableRow(props) {
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -161,46 +161,6 @@ export function TableRow(props) {
       setRowDto([]);
     }
   }, [gridData]);
-
-  // one item select
-  const itemSlectedHandler = (value, index) => {
-    if (rowDto?.data?.length > 0) {
-      let newRowDto = rowDto?.data;
-      newRowDto[index].isSelect = value;
-      setRowDto({
-        ...rowDto,
-        data: newRowDto,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = newRowDto?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
-  };
-
-  // All item select
-  const allGridCheck = (value) => {
-    if (rowDto?.data?.length > 0) {
-      const modifyGridData = rowDto?.data?.map((itm) => ({
-        ...itm,
-        isSelect: value,
-      }));
-      setRowDto({
-        ...rowDto,
-        data: modifyGridData,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = modifyGridData?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
-  };
 
   const commonBillOfMaterialGridFunc = (pageNo, pageSize) => {
     BOMApprovalLanding(
@@ -422,10 +382,6 @@ export function TableRow(props) {
         activityName?.label === 'Purchase Return' ||
         activityName?.label === 'Gate Pass' ? (
           <>
-            {activityName?.label === 'Leave Approval' && <LeaveApprovalGrid />}
-            {activityName?.label === 'Movement Approval' && (
-              <MovementApprovalGrid />
-            )}
             {activityName?.label === 'Loan Approval' && <LoanApprovalGrid />}
             {activityName?.label === 'Purchase Order' && (
               <PurchaseOrderApprovalGrid
@@ -489,7 +445,12 @@ export function TableRow(props) {
                         type="checkbox"
                         id="parent"
                         onChange={(event) => {
-                          allGridCheck(event.target.checked);
+                          allGridCheck(
+                            event.target.checked,
+                            rowDto,
+                            setRowDto,
+                            setBillSubmitBtn
+                          );
                         }}
                       />
                     </th>
@@ -515,7 +476,13 @@ export function TableRow(props) {
                           value={item?.isSelect}
                           checked={item?.isSelect}
                           onChange={(e) => {
-                            itemSlectedHandler(e.target.checked, i);
+                            itemSlectedHandler(
+                              e.target.checked,
+                              i,
+                              rowDto,
+                              setRowDto,
+                              setBillSubmitBtn
+                            );
                           }}
                         />
                       </td>

@@ -8,7 +8,7 @@ import { _todayDate } from '../../../_helper/_todayDate';
 import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
 import FromDateToDateForm from '../../../_helper/commonInputFieldsGroups/dateForm';
 import IButton from '../../../_helper/iButton';
-import { getBusinessUnitDDL } from '../cashRegisterReport/Form/helper';
+import { getBusinessUnitDDL } from '../../../_helper/_commonApi';
 
 const ReceiveAndPaymentInfoReport = () => {
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
@@ -27,8 +27,8 @@ const ReceiveAndPaymentInfoReport = () => {
   } = useSelector((state) => state?.authData, shallowEqual);
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
   useEffect(() => {
-    getBusinessUnitDDL(accountId, (businessUnitDDLData) => {
-      setBusinessUnitDDL(businessUnitDDLData);
+    getBusinessUnitDDL(accountId, (res) => {
+      setBusinessUnitDDL([{ value: 0, label: 'All' }, ...res]);
     });
   }, [accountId]);
   const parameterValues = (values) => {

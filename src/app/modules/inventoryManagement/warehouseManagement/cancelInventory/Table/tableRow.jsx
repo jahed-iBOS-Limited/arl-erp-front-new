@@ -18,6 +18,7 @@ import IView from '../../../../_helper/_helperIcons/_view';
 import { setCancelInvPPRAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import customStyles from '../../../../selectCustomStyle';
 import NewSelect from '../../../../_helper/_select';
+import { getPlantList } from '../../../../_helper/_commonApi';
 
 const validationSchema = Yup.object().shape({});
 
@@ -51,7 +52,7 @@ export function TableRow(props) {
   //Get Api Data
   useEffect(() => {
     getSBUDDL(profileData.accountId, selectedBusinessUnit.value, setSBUDDL);
-    getPlantDDL(
+    getPlantList(
       profileData.userId,
       profileData.accountId,
       selectedBusinessUnit.value,

@@ -10,11 +10,14 @@ import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import { getPlantList } from '../helper';
 import SummarySheet from './SummarySheet';
 import ItemWise from './itemWise';
 import SupplierWise from './supplierWise';
-import { getSBU, getWhList } from '../../../../_helper/_commonApi';
+import {
+  getPlantList,
+  getSBU,
+  getWhList,
+} from '../../../../_helper/_commonApi';
 const validationSchema = Yup.object().shape({
   supplierName: Yup.object().shape({
     label: Yup.string().required('Responsible Person is required'),
@@ -60,7 +63,9 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setPlantList
+        (res) => {
+          setPlantList([{ value: 0, label: 'All' }, ...res]);
+        }
       );
       getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSBUDDL);
       // getPurchaseOrganizationData(

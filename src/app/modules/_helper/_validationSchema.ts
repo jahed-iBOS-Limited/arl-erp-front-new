@@ -150,6 +150,40 @@ export const dataValidationSchema = Yup.object().shape({
   value: Yup.string().required('Value is required'),
 });
 
+export const bomValidationSchema = {
+  bomName: Yup.string().required('Bom Name is required'),
+  bomVersion: Yup.string().required('Bom Version is required'),
+  lotSize: Yup.number()
+    .min(1, 'Minimum 1 Chracter')
+    .max(10000000, 'Maximum 10000000 Chracter')
+    .required('Lot Size is required'),
+  wastage: Yup.number()
+    .min(0, 'Minimum 0 Chracter')
+    .max(10000000, 'Maximum 10000000 Chracter')
+    .required('Wastage is required'),
+};
+
+export const bomCreateValiadtion = Yup.object().shape({
+  ...bomValidationSchema,
+  plant: Yup.object().shape({
+    label: Yup.string().required('Plant is required'),
+    value: Yup.string().required('Plant is required'),
+  }),
+  shopFloor: Yup.object().shape({
+    label: Yup.string().required('Shop Floor is required'),
+    value: Yup.string().required('Shop Floor is required'),
+  }),
+  // bomCode: Yup.string().required("Bom Code is required"),
+  product: Yup.object().shape({
+    label: Yup.string().required('Item is required'),
+    value: Yup.string().required('Item is required'),
+  }),
+});
+
+export const bomEditValidation = Yup.object().shape({
+  ...bomValidationSchema,
+});
+
 export const ChangePassValidationSchema = Yup.object().shape({
   oldPassword: Yup.string()
     .min(6, 'Minimum 6 symbols')

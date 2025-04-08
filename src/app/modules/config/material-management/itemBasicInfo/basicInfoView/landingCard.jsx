@@ -23,8 +23,9 @@ export default function BasicInformationView() {
     <Card>
       <ModalProgressBar />
       <CardHeader
-        title={`View item Info : [${itemNameFromHistroy || itemNameFromCollapsed
-          } - ${itemCodeFromHistory || itemCodeFromCollapsed}]`}
+        title={`View item Info : [${
+          itemNameFromHistroy || itemNameFromCollapsed
+        } - ${itemCodeFromHistory || itemCodeFromCollapsed}]`}
       >
         <CardHeaderToolbar>
           <button

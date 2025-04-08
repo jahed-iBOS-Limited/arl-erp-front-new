@@ -13,6 +13,7 @@ import { getGridDataAction } from '../_redux/Actions';
 import { getPlantDDL, getSBUDDL, getWareDDL } from '../helper';
 import PaginationTable from './../../../../_helper/_tablePagination';
 import GridData from './grid';
+import { getPlantList } from '../../../../_helper/_commonApi';
 // import { values } from "lodash";
 
 // Validation schema
@@ -70,7 +71,7 @@ export default function HeaderForm() {
   useEffect(() => {
     // transGrupDDL(settransGroupDDL, profileData?.accountId);
     getSBUDDL(profileData?.accountId, selectedBusinessUnit?.value, setsbuDDL);
-    getPlantDDL(
+    getPlantList(
       profileData?.userId,
       profileData?.accountId,
       selectedBusinessUnit?.value,

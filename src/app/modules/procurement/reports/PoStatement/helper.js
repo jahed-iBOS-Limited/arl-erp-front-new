@@ -43,15 +43,6 @@ export const getRefferenceTypeList = async (orderTypeId, setter) => {
   } catch (error) {}
 };
 
-export const getPlantList = async (userId, accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
-    );
-    setter(res?.data);
-  } catch (error) {}
-};
-
 export const getPOStatementLanding = async (
   accId,
   buId,

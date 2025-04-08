@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import { useHistory } from "react-router-dom";
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import { Formik } from 'formik';
@@ -8,11 +7,15 @@ import PaginationTable from '../../../../_helper/_tablePagination';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 import IConfirmModal from './../../../../_helper/_confirmModal';
-import { getPurchaseOrderGridData, approvalApi } from './helper';
 import { setPoApprovalId } from '../../../../_helper/reduxForLocalStorage/Actions';
 import PaginationSearch from './../../../../_helper/_search';
 import IViewModal from '../../../../_helper/_viewModal';
 import { PurchaseOrderViewTableRow } from '../../../../procurement/purchase-management/purchaseOrder/report/tableRow';
+import {
+  allGridCheck,
+  itemSlectedHandler,
+} from '../../../../personal/approval/commonApproval/helper';
+import { approvalApi, getItemGridData } from '../../../../_helper/_commonApi';
 
 let initData = {};
 
@@ -22,8 +25,6 @@ const PurchaseOrderApprovalGrid = ({
   activityChange,
   selectedPlant,
 }) => {
-  // const history = useHistory();
-
   const [loader, setLoader] = useState(false);
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
@@ -50,10 +51,10 @@ const PurchaseOrderApprovalGrid = ({
   }, [activityChange]);
 
   let cb = () => {
-    getPurchaseOrderGridData(
+    getItemGridData(
+      activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      activityName,
       profileData?.userId,
       setRowDto,
       setLoader,
@@ -62,46 +63,6 @@ const PurchaseOrderApprovalGrid = ({
       '',
       selectedPlant?.value
     );
-  };
-
-  // one item select
-  const itemSlectedHandler = (value, index) => {
-    if (rowDto?.data?.length > 0) {
-      let newRowDto = rowDto?.data;
-      newRowDto[index].isSelect = value;
-      setRowDto({
-        ...rowDto,
-        data: newRowDto,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = newRowDto?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
-  };
-
-  // All item select
-  const allGridCheck = (value) => {
-    if (rowDto?.data?.length > 0) {
-      const modifyGridData = rowDto?.data?.map((itm) => ({
-        ...itm,
-        isSelect: value,
-      }));
-      setRowDto({
-        ...rowDto,
-        data: modifyGridData,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = modifyGridData?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
   };
 
   // approveSubmitlHandler btn submit handler
@@ -139,10 +100,10 @@ const PurchaseOrderApprovalGrid = ({
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
-    getPurchaseOrderGridData(
+    getItemGridData(
+      activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      activityName,
       profileData?.userId,
       setRowDto,
       setLoader,
@@ -154,10 +115,10 @@ const PurchaseOrderApprovalGrid = ({
   };
 
   const paginationSearchHandler = (value) => {
-    getPurchaseOrderGridData(
+    getItemGridData(
+      activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      activityName,
       profileData?.userId,
       setRowDto,
       setLoader,
@@ -177,9 +138,7 @@ const PurchaseOrderApprovalGrid = ({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: 'Pending Application' },
         }}
-        // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           resetForm(initData);
         }}
@@ -239,7 +198,12 @@ const PurchaseOrderApprovalGrid = ({
                           type="checkbox"
                           id="parent"
                           onChange={(event) => {
-                            allGridCheck(event.target.checked);
+                            allGridCheck(
+                              event.target.checked,
+                              rowDto,
+                              setRowDto,
+                              setBillSubmitBtn
+                            );
                           }}
                         />
                       </th>
@@ -266,7 +230,13 @@ const PurchaseOrderApprovalGrid = ({
                             value={item?.isSelect}
                             checked={item?.isSelect}
                             onChange={(e) => {
-                              itemSlectedHandler(e.target.checked, i);
+                              itemSlectedHandler(
+                                e.target.checked,
+                                i,
+                                rowDto,
+                                setRowDto,
+                                setBillSubmitBtn
+                              );
                             }}
                           />
                         </td>

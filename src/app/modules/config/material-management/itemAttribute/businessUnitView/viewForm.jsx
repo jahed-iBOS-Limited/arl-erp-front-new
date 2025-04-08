@@ -29,7 +29,7 @@ export default function ViewForm({ id }) {
                   Business Unit Name
                 </Form.Label>
                 <Form.Control
-                  value={businessUnitData.businessUnitName || ""}
+                  value={businessUnitData.businessUnitName || ''}
                   type="text"
                   disabled
                   placeholder="Loading..."
@@ -40,7 +40,7 @@ export default function ViewForm({ id }) {
               <Form.Group controlId="sbucode">
                 <Form.Label>Code</Form.Label>
                 <Form.Control
-                  value={businessUnitData.sbucode || ""}
+                  value={businessUnitData.sbucode || ''}
                   type="text"
                   disabled
                   placeholder="Loading..."
@@ -51,7 +51,7 @@ export default function ViewForm({ id }) {
               <Form.Group controlId="sbuname">
                 <Form.Label>SBU Name</Form.Label>
                 <Form.Control
-                  value={businessUnitData.sbuname || ""}
+                  value={businessUnitData.sbuname || ''}
                   type="text"
                   disabled
                   placeholder="Loading..."

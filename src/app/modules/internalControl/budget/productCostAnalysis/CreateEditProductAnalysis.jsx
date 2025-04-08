@@ -3,21 +3,24 @@ import { useSelector, shallowEqual } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Form from './components/form';
+import { bomTypeDDL } from '../../../_helper/_commonDDL';
 
 import {
   getSingleDataById,
   saveEditedBillofMaterial,
-  getPlantDDL,
   getPreviousBomName,
-  getShopFloorDDL,
   getProductDDL,
   getMaterialDDL,
   getCostElementDDL,
-  saveBillofMaterial,
 } from './helper';
 import { useHistory } from 'react-router-dom';
 import ICustomCard from '../../../_helper/_customCard';
 import Loading from '../../../_helper/_loading';
+import {
+  getPlantList,
+  getShopFloorDDL,
+  saveBillofMaterial,
+} from '../../../_helper/_commonApi';
 
 const initData = {
   copyfrombomname: '',
@@ -42,12 +45,16 @@ const initData = {
 };
 
 export default function CreateEditProductAnalysis() {
+  // hook
+  const location = useLocation();
+  const params = useParams();
+  const history = useHistory();
+
+  // state
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [singleData, setSingleData] = useState('');
   const [objProps, setObjprops] = useState({});
-  const location = useLocation();
-  const params = useParams();
   const [plant, setPlant] = useState([]);
   const [shopFloor, setShopFloor] = useState([]);
   const [product, setProduct] = useState([]);
@@ -55,34 +62,15 @@ export default function CreateEditProductAnalysis() {
   const [material, setMaterial] = useState([]);
   const [copyfrombomname, setCopyfrombomname] = useState([]);
   const [UOMDDL, setUOMDDL] = useState([]);
-  const history = useHistory();
-  const bomTypeDDL = [
-    {
-      value: 1,
-      label: 'Main (Paddy to Rice)',
-    },
-    {
-      value: 2,
-      label: 'Conversion (Rice to Rice)',
-    },
-    {
-      value: 3,
-      label: 'Re-Process (Rice to Rice)',
-    },
-  ];
 
   // Cost Element state
   const [costElementDDL, setCostElementDDL] = useState([]);
   const [costElementRowData, setCostElementRowData] = useState([]);
 
-  const storeData = useSelector((state) => {
-    return {
-      profileData: state?.authData?.profileData,
-      selectedBusinessUnit: state?.authData?.selectedBusinessUnit,
-    };
-  }, shallowEqual);
-
-  const { profileData, selectedBusinessUnit } = storeData;
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   useEffect(() => {
     if (params?.id) {
@@ -96,11 +84,9 @@ export default function CreateEditProductAnalysis() {
     }
   }, [params]);
 
-  console.log(params?.id, 'jj');
-
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,

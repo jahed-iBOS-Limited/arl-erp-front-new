@@ -22,6 +22,7 @@ import { _todayDate } from './../../../_helper/_todayDate';
 import Loading from './../../../_helper/_loading';
 import AdvancesForIntGrid from './advancesForInt/advancesForInt';
 import ClearInvoiceGrid from './clearInvoice/clearInvoice';
+import { getPlantList } from '../../../_helper/_commonApi';
 
 const initData = {
   id: undefined,
@@ -48,7 +49,7 @@ function PaymentrequsetLanding() {
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,

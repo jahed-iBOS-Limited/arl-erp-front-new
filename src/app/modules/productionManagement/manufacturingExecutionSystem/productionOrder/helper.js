@@ -14,17 +14,6 @@ export const GetPlantDDL = async (userId, accId, buId, setter) => {
   } catch (error) {}
 };
 
-export const getShopFloorDDL = async (accId, buId, pId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/mes/MesDDL/GetShopfloorDDL?AccountId=${accId}&BusinessUnitid=${buId}&PlantId=${pId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 // itemName ddl
 export const getItemNameDDL = async (accId, buId, plantId, sid, setter) => {
   try {

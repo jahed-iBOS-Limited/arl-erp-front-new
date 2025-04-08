@@ -61,8 +61,9 @@ export default function MainCollapsePanel() {
 
   return (
     <ICustomCard
-      title={`Partner Information [${businessPartnerNameFromHistory || businessPartnerNameCollapsed
-        }-${businessPartnerCodeFromHistory || businessPartnerCodeCollapsed}]`}
+      title={`Partner Information [${
+        businessPartnerNameFromHistory || businessPartnerNameCollapsed
+      }-${businessPartnerCodeFromHistory || businessPartnerCodeCollapsed}]`}
       backHandler={() =>
         history.push('/config/partner-management/partner-other-info')
       }
@@ -91,26 +92,26 @@ export default function MainCollapsePanel() {
         {/* Partner Bank Information */}
         {(state?.businessPartnerTypeName === 'Supplier' ||
           state?.businessPartnerTypeName === 'Customer') && (
-            <Accordion
-              expanded={expanded === 'panel2'}
-              onChange={handleChange('panel2')}
+          <Accordion
+            expanded={expanded === 'panel2'}
+            onChange={handleChange('panel2')}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
             >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-              >
-                <Typography className={classes.heading}>
-                  Partner Bank Information
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div>
-                  <PartnerBank />
-                </div>
-              </AccordionDetails>
-            </Accordion>
-          )}
+              <Typography className={classes.heading}>
+                Partner Bank Information
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <div>
+                <PartnerBank />
+              </div>
+            </AccordionDetails>
+          </Accordion>
+        )}
 
         {/* Partner Purchase Information  */}
         {state?.businessPartnerTypeName === 'Supplier' && (
@@ -136,24 +137,24 @@ export default function MainCollapsePanel() {
         {(state?.businessPartnerTypeName === 'Customer' ||
           state?.businessPartnerTypeName === "Customer's Ship To Party" ||
           state?.businessPartnerTypeName === 'Employee') && (
-            <Accordion
-              expanded={expanded === 'panel4'}
-              onChange={handleChange('panel4')}
+          <Accordion
+            expanded={expanded === 'panel4'}
+            onChange={handleChange('panel4')}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel3bh-content"
+              id="panel3bh-header"
             >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel3bh-content"
-                id="panel3bh-header"
-              >
-                <Typography className={classes.heading}>
-                  Partner Sales Information
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <PartnerSales />
-              </AccordionDetails>
-            </Accordion>
-          )}
+              <Typography className={classes.heading}>
+                Partner Sales Information
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <PartnerSales />
+            </AccordionDetails>
+          </Accordion>
+        )}
       </div>
     </ICustomCard>
   );
