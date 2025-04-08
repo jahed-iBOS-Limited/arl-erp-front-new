@@ -35,7 +35,6 @@ import { saveBOMApproval_api } from './../helper';
 import './approval.css';
 import BillOfMaterialTable from './billOfMaterialTable';
 import DealersBenefits from '../dealersBenefits/landing';
-// import CommonJournalApprovalGrid from '../accountAndFinance/commonJournal/index';
 
 export function TableRow(props) {
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
