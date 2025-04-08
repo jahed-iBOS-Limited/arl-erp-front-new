@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -41,12 +41,20 @@ const SalesInvoiceLandingTable = ({ obj }) => {
   const [isModalShow, setModalShow] = useState(false);
   const [invoiceDataShow, setInvoiceDataShow] = useState(false);
   const [invoiceData, setInvoiceData] = useState([]);
+  const [shouldOpenPrint, setShouldOpenPrint] = useState(false);
   const [isCancelModalShow, setIsCancelModalShow] = useState(false);
   const [singleRowItem, setSingleRowItem] = useState(null);
   const dispatch = useDispatch();
   const [, onAttachmentUpload] = useAxiosPost();
 
   const history = useHistory();
+
+  useEffect(() => {
+    if (shouldOpenPrint && invoiceData) {
+      handleInvoicePrintCement(); // Now open the modal
+      setShouldOpenPrint(false); // Reset the flag
+    }
+  }, [invoiceData, shouldOpenPrint]);
 
   const { printRefCement, handleInvoicePrintCement } =
     useCementInvoicePrintHandler();
@@ -140,7 +148,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                                         setLoading,
                                         (resData) => {
                                           setInvoiceData(resData);
-                                          handleInvoicePrintCement();
+                                          setShouldOpenPrint(true);
                                         }
                                       );
                                     } else {
