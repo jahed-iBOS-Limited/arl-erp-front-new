@@ -1293,6 +1293,9 @@ export const getPlantList = async (userId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
   } catch (error) {}
 };
 
@@ -1515,7 +1518,13 @@ export const GetBillofMaterialPagination = async (
         : `/mes/BOM/GetBOMPasignation?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ShopFloorId=${shopFloorId}&Status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     if (res.status === 200 && res.data) {
-
+      setter(res?.data);
+      setLoading(false);
+    }
+  } catch (error) {
+    setLoading(false);
+  }
+};
 
 export const getShopFloorDDL = async (accId, buId, plantId, setter) => {
   try {
@@ -1543,22 +1552,6 @@ export const saveBillofMaterial = async (data, cb, setDisabled) => {
   } catch (error) {
     toast.error(error?.response?.data?.message);
     setDisabled(false);
-  }
-};
-
-export const getBusinessUnitDDL = async (accId, setter) => {
-  try {
-    const res = await axios.get(
-      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`
-    );
-
-    if (res.status === 200 && res.data) {
-      setter(res.data);
-    }
-  } catch (error) {
-    console.log(error.message);
-
-    toast.error(error?.response?.data?.message);
   }
 };
 
