@@ -1,12 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import Form from './form';
-import {
-  createLCOpen,
-  currencyLoadByPoId,
-  getSingleData,
-  updateLCOpen,
-} from '../helper';
+import { currencyLoadByPoId, getSingleData } from '../helper';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -14,6 +9,7 @@ import IForm from './../../../../../_helper/_form';
 import Loading from './../../../../../_helper/_loading';
 import { _todayDate } from '../../../../../_helper/_todayDate';
 import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { createLCOpen, updateLCOpen } from '../../../../../_helper/_commonApi';
 
 const initData = {
   poNo: '',

@@ -4,17 +4,13 @@ import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import IForm from '../../../../_helper/_form';
 import Loading from '../../../../_helper/_loading';
 import Form from './form';
-import {
-  createLCOpen,
-  currencyLoadByPoId,
-  getSingleData,
-  updateLCOpen,
-} from '../helper';
+import { currencyLoadByPoId, getSingleData } from '../helper';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { _todayDate } from '../../../../_helper/_todayDate';
 import { toast } from 'react-toastify';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { createLCOpen, updateLCOpen } from '../../../../_helper/_commonApi';
 
 const initData = {
   poNo: '',
