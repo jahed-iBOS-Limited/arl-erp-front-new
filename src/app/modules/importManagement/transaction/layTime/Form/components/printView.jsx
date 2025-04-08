@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import ReactToPrint from 'react-to-print';
 import printIcon from '../../../../../chartering/_chartinghelper/images/print-icon.png';
-import LayTimeTableBody from './layTimeTableBody';
-import PrintHeader from './printHeader';
+import PrintHeader from '../../../../../_helper/_helperJsx/PrintHeader';
+import LayTimeTableBody from '../../../../../chartering/layTime/Form/components/layTimeTableBody';
 
 export default function PrintView({
   id,

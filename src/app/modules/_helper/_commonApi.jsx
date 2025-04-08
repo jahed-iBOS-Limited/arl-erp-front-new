@@ -1495,6 +1495,7 @@ export function fetchInventoryData(obj) {
     }
   );
 }
+<<<<<<< src/app/modules/_helper/_commonApi.jsx
 
 export const GetBillofMaterialPagination = async (
   accId,
@@ -1515,13 +1516,7 @@ export const GetBillofMaterialPagination = async (
         : `/mes/BOM/GetBOMPasignation?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ShopFloorId=${shopFloorId}&Status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     if (res.status === 200 && res.data) {
-      setter(res?.data);
-      setLoading(false);
-    }
-  } catch (error) {
-    setLoading(false);
-  }
-};
+
 
 export const getShopFloorDDL = async (accId, buId, plantId, setter) => {
   try {
@@ -1563,5 +1558,39 @@ export const getBusinessUnitDDL = async (accId, setter) => {
     }
   } catch (error) {
     console.log(error.message);
+
+    toast.error(error?.response?.data?.message);
   }
 };
+
+export const getGridData = async (
+  accountId,
+  businessUnitId,
+  warehouseId,
+  setter,
+  setLoading,
+  pageNo,
+  pageSize,
+  fromDate,
+  toDate,
+  plantId,
+  searchValue = false
+) => {
+  try {
+    setLoading(true);
+    // console.log("plantId", plantId);
+    const res = await axios.get(
+      searchValue
+        ? `/wms/GatePass/GetGatePassLandingPasignation?accountId=${accountId}&businessUnitId=${businessUnitId}&plantId=${plantId}&warehouseId=${warehouseId}&search=${searchValue}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`
+        : `/wms/GatePass/GetGatePassLandingPasignation?accountId=${accountId}&businessUnitId=${businessUnitId}&plantId=${plantId}&warehouseId=${warehouseId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`
+    );
+    // console.log(res);
+    if (res.status === 200 && res?.data) {
+
+      setter(res?.data);
+      setLoading(false);
+    }
+  } catch (error) {
+    setLoading(false);
+  }
+}

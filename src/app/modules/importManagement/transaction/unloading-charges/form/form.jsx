@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik, Form } from 'formik';
 import NewSelect from '../../../../_helper/_select';
 import InputField from '../../../../_helper/_inputField';
-import { validationSchema } from '../helper';
+import { unloadingChargesValidationSchema } from '../../../../_helper/_validationSchema';
 export default function FormCmp({
   initData,
   btnRef,
@@ -21,7 +21,7 @@ export default function FormCmp({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
+        validationSchema={unloadingChargesValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler({ ...values }, () => {
             resetForm(initData);
