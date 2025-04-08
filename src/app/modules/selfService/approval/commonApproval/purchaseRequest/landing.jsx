@@ -8,11 +8,15 @@ import IConfirmModal from '../../../../_helper/_confirmModal';
 import Loading from '../../../../_helper/_loading';
 import PaginationTable from '../../../../_helper/_tablePagination';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { getPurchaseReqGridData, approvalApi } from './helper';
 // import { setPRApprovalId } from "../../../../_helper/reduxForLocalStorage/Actions";
 import PaginationSearch from './../../../../_helper/_search';
 import IViewModal from '../../../../_helper/_viewModal';
 import { ItemReqViewTableRow } from '../../../../procurement/purchase-management/purchaseRequestNew/report/tableRow';
+import {
+  allGridCheck,
+  itemSlectedHandler,
+} from '../../../../personal/approval/commonApproval/helper';
+import { approvalApi, getItemGridData } from '../../../../_helper/_commonApi';
 
 let initData = {};
 
@@ -49,7 +53,7 @@ const PurchaseRequestApprovalGrid = ({
   }, [activityChange]);
 
   let cb = () => {
-    getPurchaseReqGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -65,7 +69,7 @@ const PurchaseRequestApprovalGrid = ({
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
-    getPurchaseReqGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -77,46 +81,6 @@ const PurchaseRequestApprovalGrid = ({
       '',
       selectedPlant.value
     );
-  };
-
-  // one item select
-  const itemSlectedHandler = (value, index) => {
-    if (rowDto?.data?.length > 0) {
-      let newRowDto = rowDto?.data;
-      newRowDto[index].isSelect = value;
-      setRowDto({
-        ...rowDto,
-        data: newRowDto,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = newRowDto?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
-  };
-
-  // All item select
-  const allGridCheck = (value) => {
-    if (rowDto?.data?.length > 0) {
-      const modifyGridData = rowDto?.data?.map((itm) => ({
-        ...itm,
-        isSelect: value,
-      }));
-      setRowDto({
-        ...rowDto,
-        data: modifyGridData,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = modifyGridData?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
   };
 
   // approveSubmitlHandler btn submit handler
@@ -152,7 +116,7 @@ const PurchaseRequestApprovalGrid = ({
   };
 
   const paginationSearchHandler = (value) => {
-    getPurchaseReqGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -176,9 +140,7 @@ const PurchaseRequestApprovalGrid = ({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: 'Pending Application' },
         }}
-        // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           resetForm(initData);
         }}
@@ -238,7 +200,12 @@ const PurchaseRequestApprovalGrid = ({
                           type="checkbox"
                           id="parent"
                           onChange={(event) => {
-                            allGridCheck(event.target.checked);
+                            allGridCheck(
+                              event.target.checked,
+                              rowDto,
+                              setRowDto,
+                              setBillSubmitBtn
+                            );
                           }}
                         />
                       </th>
@@ -262,7 +229,13 @@ const PurchaseRequestApprovalGrid = ({
                             value={item?.isSelect}
                             checked={item?.isSelect}
                             onChange={(e) => {
-                              itemSlectedHandler(e.target.checked, i);
+                              itemSlectedHandler(
+                                e.target.checked,
+                                i,
+                                rowDto,
+                                setRowDto,
+                                setBillSubmitBtn
+                              );
                             }}
                           />
                         </td>
@@ -276,18 +249,11 @@ const PurchaseRequestApprovalGrid = ({
                         <td className="text-center">
                           {_dateFormatter(item.transectionDate)}
                         </td>
-                        {/* <td className="text-center">
-                    {_dateFormatter(item.dueDate)}
-                  </td>             */}
                         <td className="text-center">{item.quantity}</td>
                         <td className="text-center">{item.strNarration}</td>
                         <td className="text-center">
                           <span
                             onClick={(e) => {
-                              // history.push(
-                              //   `/mngProcurement/purchase-management/purchase-request/report/${item?.transectionId}`
-                              // );
-                              // dispatch(setPRApprovalId(item?.transectionId));
                               setCurrentRowData(item);
                               setIsShowModal(true);
                             }}

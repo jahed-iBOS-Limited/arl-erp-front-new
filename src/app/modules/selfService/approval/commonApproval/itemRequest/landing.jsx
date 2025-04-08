@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-// import { useHistory } from "react-router-dom";
 import { Formik } from 'formik';
 import { Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { shallowEqual, useSelector } from 'react-redux';
-import { getItemGridData } from '../../../../_helper/_commonApi';
+import { approvalApi, getItemGridData } from '../../../../_helper/_commonApi';
 import IConfirmModal from '../../../../_helper/_confirmModal';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import Loading from '../../../../_helper/_loading';
@@ -11,7 +10,10 @@ import PaginationTable from '../../../../_helper/_tablePagination';
 import IViewModal from '../../../../_helper/_viewModal';
 import { ItemReqViewTableRow } from '../../../../inventoryManagement/warehouseManagement/itemRequest/report/tableRow';
 import PaginationSearch from './../../../../_helper/_search';
-import { approvalApi } from './helper';
+import {
+  allGridCheck,
+  itemSlectedHandler,
+} from '../../../../personal/approval/commonApproval/helper';
 
 let initData = {};
 
@@ -77,46 +79,6 @@ const ItemRequestApprovalGrid = ({
     );
   };
 
-  // one item select
-  const itemSlectedHandler = (value, index) => {
-    if (rowDto?.data?.length > 0) {
-      let newRowDto = rowDto?.data;
-      newRowDto[index].isSelect = value;
-      setRowDto({
-        ...rowDto,
-        data: newRowDto,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = newRowDto?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
-  };
-
-  // All item select
-  const allGridCheck = (value) => {
-    if (rowDto?.data?.length > 0) {
-      const modifyGridData = rowDto?.data?.map((itm) => ({
-        ...itm,
-        isSelect: value,
-      }));
-      setRowDto({
-        ...rowDto,
-        data: modifyGridData,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = modifyGridData?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
-  };
-
   // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (values) => {
     let confirmObject = {
@@ -164,17 +126,13 @@ const ItemRequestApprovalGrid = ({
     );
     setPageNo(0);
   };
-
-  // All item select
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: 'Pending Application' },
         }}
-        // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           resetForm(initData);
         }}
@@ -233,7 +191,12 @@ const ItemRequestApprovalGrid = ({
                         type="checkbox"
                         id="parent"
                         onChange={(event) => {
-                          allGridCheck(event.target.checked);
+                          allGridCheck(
+                            event.target.checked,
+                            rowDto,
+                            setRowDto,
+                            setBillSubmitBtn
+                          );
                         }}
                       />
                     </th>
@@ -257,7 +220,13 @@ const ItemRequestApprovalGrid = ({
                           value={item?.isSelect}
                           checked={item?.isSelect}
                           onChange={(e) => {
-                            itemSlectedHandler(e.target.checked, i);
+                            itemSlectedHandler(
+                              e.target.checked,
+                              i,
+                              rowDto,
+                              setRowDto,
+                              setBillSubmitBtn
+                            );
                           }}
                         />
                       </td>

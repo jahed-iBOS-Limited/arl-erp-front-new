@@ -11,6 +11,8 @@ import IViewModal from '../../../../_helper/_viewModal';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import PaginationSearch from './../../../../_helper/_search';
 import DelearsBenefotsViewModal from './viewModal';
+import ApproveAndRejectBtn from './../../../../_helper/commonComponent/approveAndRejectBtn';
+import { allGridCheck, itemSlectedHandler } from '../helper';
 
 let initData = {};
 
@@ -64,46 +66,6 @@ const DealersBenefits = ({
       '',
       selectedPlant.value
     );
-  };
-
-  // one item select
-  const itemSlectedHandler = (value, index) => {
-    if (rowDto?.data?.length > 0) {
-      let newRowDto = rowDto?.data;
-      newRowDto[index].isSelect = value;
-      setRowDto({
-        ...rowDto,
-        data: newRowDto,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = newRowDto?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
-  };
-
-  // All item select
-  const allGridCheck = (value) => {
-    if (rowDto?.data?.length > 0) {
-      const modifyGridData = rowDto?.data?.map((itm) => ({
-        ...itm,
-        isSelect: value,
-      }));
-      setRowDto({
-        ...rowDto,
-        data: modifyGridData,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = modifyGridData?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
   };
 
   // approveSubmitlHandler btn submit handler
@@ -194,26 +156,14 @@ const DealersBenefits = ({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: 'Pending Application' },
         }}
-        // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           resetForm(initData);
         }}
       >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          setValues,
-          isValid,
-        }) => (
+        {({ values }) => (
           <>
             {(loader || rejectPuchaseLoading) && <Loading />}
-            {/* Table Start */}
             <Form className="form form-label-right">
               <div className="row">
                 <div className="col-lg-12">
@@ -222,26 +172,12 @@ const DealersBenefits = ({
                       <div className="col-lg-9">
                         <h1>Dealer's Benefits</h1>
                       </div>
-                      <div className="col-lg-3">
-                        <div className="d-flex justify-content-end ">
-                          <button
-                            type="button"
-                            className="approvalButton btn btn-primary"
-                            onClick={() => approveSubmitlHandler()}
-                            disabled={billSubmitBtn}
-                          >
-                            Approve
-                          </button>
-                          <button
-                            type="button"
-                            className="approvalButton btn btn-primary mr-1 ml-3"
-                            onClick={() => rejectSubmitlHandler()}
-                            disabled={billSubmitBtn}
-                          >
-                            Reject
-                          </button>
-                        </div>
-                      </div>
+                      <ApproveAndRejectBtn
+                        billSubmitBtn={billSubmitBtn}
+                        approveSubmitlHandler={approveSubmitlHandler}
+                        setBillSubmitBtn={setBillSubmitBtn}
+                        rejectPuchaseLoading={rejectPuchaseLoading}
+                      />
                     </div>
                   </div>
                 </div>
@@ -264,7 +200,12 @@ const DealersBenefits = ({
                           type="checkbox"
                           id="parent"
                           onChange={(event) => {
-                            allGridCheck(event.target.checked);
+                            allGridCheck(
+                              event.target.checked,
+                              rowDto,
+                              setRowDto,
+                              setBillSubmitBtn
+                            );
                           }}
                         />
                       </th>
@@ -286,7 +227,13 @@ const DealersBenefits = ({
                             value={item?.isSelect}
                             checked={item?.isSelect}
                             onChange={(e) => {
-                              itemSlectedHandler(e.target.checked, i);
+                              itemSlectedHandler(
+                                e.target.checked,
+                                i,
+                                rowDto,
+                                setRowDto,
+                                setBillSubmitBtn
+                              );
                             }}
                           />
                         </td>

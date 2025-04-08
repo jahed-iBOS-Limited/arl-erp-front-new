@@ -23,7 +23,7 @@ function BillOfMaterialTable({ obj }) {
     setPageNo,
     pageNo,
   } = obj;
-  // All item select
+
   const allTableDataCheck = (value) => {
     if (tableData?.data?.length > 0) {
       const modifyTableData = tableData?.data?.map((itm) => ({
