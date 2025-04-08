@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getLandingData } from '../helper';
 import Loading from './../../../../_helper/_loading';
 import {
   Card,
@@ -12,6 +11,7 @@ import {
 import IEdit from '../../../../_helper/_helperIcons/_edit';
 import PaginationTable from './../../../../_helper/_tablePagination';
 import PaginationSearch from '../../../../_helper/_search';
+import { getChargeLandingData } from '../../../../_helper/_commonApi';
 
 const RoleManagerLanding = () => {
   const history = useHistory();
@@ -29,7 +29,7 @@ const RoleManagerLanding = () => {
   }, shallowEqual);
 
   useEffect(() => {
-    getLandingData(
+    getChargeLandingData(
       profileData?.accountId,
       setIsLoading,
       setGridData,
@@ -40,7 +40,7 @@ const RoleManagerLanding = () => {
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
-    getLandingData(
+    getChargeLandingData(
       profileData?.accountId,
       setIsLoading,
       setGridData,

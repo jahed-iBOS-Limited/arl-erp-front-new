@@ -3,9 +3,9 @@ import Loading from './../../../../_helper/_loading';
 import IView from './../../../../_helper/_helperIcons/_view';
 import CostView from './_costView';
 import IViewModal from '../../../../_helper/_viewModal';
-import BillofMaretialViewApproval from './View/addForm';
 import CostViewTable from './CostView/CostView';
 import PaginationTable from './../../../../_helper/_tablePagination';
+import BillofMaretialViewForm from '../../../../productionManagement/manufacturingExecutionSystem/billOfMaterial/View/addForm';
 
 function BillOfMaterialTable({ obj }) {
   const [isShowModal, setisShowModal] = useState(false);
@@ -147,7 +147,7 @@ function BillOfMaterialTable({ obj }) {
 
       {/* modal 1 */}
       <IViewModal show={isShowModal} onHide={() => setisShowModal(false)}>
-        <BillofMaretialViewApproval id={id} />
+        <BillofMaretialViewForm id={id} />
       </IViewModal>
 
       {/* modal 2 */}

@@ -1,1 +1,0 @@
-sonar-scanner.bat -D"sonar.projectKey=arl-erp-front-07-04-25" -D"sonar.sources=." -D"sonar.host.url=https://qube.ibos.io" -D"sonar.token=sqp_6ea6b3c3c016d0771aa8e6ec4898350fc21399cd"

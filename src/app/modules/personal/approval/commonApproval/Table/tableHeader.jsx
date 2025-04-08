@@ -1,6 +1,6 @@
 import React from 'react';
-import { TableRow } from './tableRow';
+import { CommonApprovalTableRow } from './tableRow';
 
 export function CommonApprovalTable() {
-  return <TableRow />;
+  return <CommonApprovalTableRow title={'Common Approval'} />;
 }

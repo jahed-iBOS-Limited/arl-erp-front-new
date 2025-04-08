@@ -4,6 +4,7 @@ import { ContentRoute, LayoutSplashScreen } from '../../../_metronic/layout';
 import CnFDetails from './reports/CnFDetails/landing/tableHeader';
 import ItemWiseStock from './reports/ItemWiseStock/landing/tableHeader';
 import LcCostSheetPartnerWise from './reports/LcCostSheetPartnerWise';
+import ServiceChargesReportPage from './reports/ServiceChargesReport';
 import CnfPaymentDetails from './reports/cnfDetailsReport/landing/tableHeader';
 import CostSummary from './reports/costSummary/landing/tableHeader';
 import DocumentRelease from './reports/documentRelease/landing/tableHeader';
@@ -14,19 +15,22 @@ import InsuranceBill from './reports/insuranceBill/landing/tableHeader';
 import InsuranceCoverNote from './reports/insuranceCoverNote/landing/tableHeader';
 import LCSummary from './reports/lcSummary/landing/tableHeader';
 import OutStandingLc from './reports/outstandingLc/landing/tableHeader';
+import PurchasePlanningAndScheduling from './reports/purchasePlanning';
+import ShipmentTracking from './reports/shipmentTracking';
 import CnFChargesForm from './transaction/CnFCharges/form/addEditForm';
 import CnFChargesLanding from './transaction/CnFCharges/landing/table';
 import CnFServiceList from './transaction/CnFServiceList/landing/table';
 import LCAmendmentForm from './transaction/LCAmendment/form/addEditForm';
 import LCAmendmentLanding from './transaction/LCAmendment/landing/table';
 import LCSummaryCollapsePanel from './transaction/LCSummary/Collapse';
-import CleainingChargeForm from './transaction/cleaning-charges/form/addEditForm';
 import CleaningCharges from './transaction/cleaning-charges/landing/tableHeader';
 import OutstandingPayment from './transaction/commercialCosting/landing/tableHeader';
 import CustomDutyForm from './transaction/customDuty/form/addEditForm';
 import CustomDutyLanding from './transaction/customDuty/landing/table';
 import CustomDutyAdvancePayment from './transaction/customDutyAdvancePay';
 import CustomDutyAdvancePayCreateEdit from './transaction/customDutyAdvancePay/createAndEdit';
+import CustomsRTGSCreate from './transaction/customsRTGS/create';
+import CustomsRTGSLanding from './transaction/customsRTGS/landing';
 import DocumentReleaseForm from './transaction/documentRelease/form/addEditForm';
 import DocumentReleaseLanding from './transaction/documentRelease/landing/table';
 import InspectionAndSurveyForm from './transaction/inspectionAndSurvey/form/addEditForm';
@@ -37,6 +41,10 @@ import InsurancePolicyCollapsePanel from './transaction/insurance/Collapse';
 import InsuranceLanding from './transaction/insurance/landing/table';
 import InsuranceAmendmentForm from './transaction/insuranceAmendment/form/addEditForm';
 import InsuranceAmendmentLanding from './transaction/insuranceAmendment/landing/table';
+import LayTimeForm from './transaction/layTime/Form/addEditForm';
+import { DebitNote } from './transaction/layTime/Form/debitNote';
+import LcEatAddEditForm from './transaction/lc-eta/form/addEditForm';
+import LcEatLanding from './transaction/lc-eta/landing/tableHeader';
 import LCOpenForm from './transaction/lc-open/form/addEditForm';
 import LcOpenLanding from './transaction/lc-open/landing/tableHeader';
 import LCBusinessPartnerForm from './transaction/lcBusinessPartner/form/addEditForm';
@@ -55,15 +63,6 @@ import TransportChargesForm from './transaction/transportCharges/form/addEditFor
 import TransportChargesLanding from './transaction/transportCharges/landing/table';
 import UnloadingChargesForm from './transaction/unloading-charges/form/addEditForm';
 import UnloadingCharges from './transaction/unloading-charges/landing/tableHeader';
-import PurchasePlanningAndScheduling from './reports/purchasePlanning';
-import CustomsRTGSLanding from './transaction/customsRTGS/landing';
-import CustomsRTGSCreate from './transaction/customsRTGS/create';
-import ShipmentTracking from './reports/shipmentTracking';
-import LcEatLanding from './transaction/lc-eta/landing/tableHeader';
-import LcEatAddEditForm from './transaction/lc-eta/form/addEditForm';
-import LayTimeForm from './transaction/layTime/Form/addEditForm';
-import { DebitNote } from './transaction/layTime/Form/debitNote';
-import ServiceChargesReportPage from './reports/ServiceChargesReport';
 
 export function importManagementPages() {
   return (
@@ -216,7 +215,7 @@ export function importManagementPages() {
         {/* washing and cleaing charge start */}
         <ContentRoute
           path="/managementImport/transaction/cleaning-charges/create"
-          component={CleainingChargeForm}
+          component={UnloadingChargesForm}
         />
         <ContentRoute
           path="/managementImport/transaction/cleaning-charges"
