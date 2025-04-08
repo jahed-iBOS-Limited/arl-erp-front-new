@@ -37,7 +37,7 @@ import BillOfMaterialTable from './billOfMaterialTable';
 import DealersBenefits from '../dealersBenefits/landing';
 import { getPlantList } from '../../../../_helper/_commonApi';
 
-export function TableRow(props) {
+export function CommonApprovalTableRow({ title }) {
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
   let history = useHistory();
   const dispatch = useDispatch();
@@ -97,7 +97,6 @@ export function TableRow(props) {
     ) {
       setActivityChange((prev) => prev + 1);
       return;
-    } else {
     }
   };
 
@@ -278,7 +277,7 @@ export function TableRow(props) {
   }, []);
   return (
     <>
-      <ICustomCard title="Common Approval">
+      <ICustomCard title={title}>
         {/* Form & DDL */}
         <div className="row mt-3 m-0 global-form">
           <div className="col-lg-2">
@@ -289,6 +288,7 @@ export function TableRow(props) {
               onChange={(valueOption) => {
                 setRowDto([]);
                 setTableData([]);
+                setActivityName('');
                 setSelectedPlant(valueOption);
               }}
               options={plantDDL}
@@ -363,14 +363,12 @@ export function TableRow(props) {
             </div>
           )}
         </div>
-
         {['Commercial Management'].includes(selectedModule?.label) &&
         ['LC Cost Sheet']?.includes(activityName?.label) ? (
           <div className="mt-5">
             <ImportedTableRow formCommonApproval={true} />
           </div>
-        ) : null}
-
+        ) : null}{' '}
         {/* All Grid */}
         {activityName?.label === 'Loan Approval' ||
         activityName?.label === 'Movement Approval' ||
@@ -399,7 +397,7 @@ export function TableRow(props) {
                 activityChange={activityChange}
                 selectedPlant={selectedPlant}
               />
-            )}
+            )}{' '}
             {activityName?.label === 'Request For Quotation' && (
               <RequestForQuotationApprovalGrid
                 onChangeForActivity={onChangeForActivity}
@@ -611,7 +609,7 @@ export function TableRow(props) {
             activityChange={activityChange}
             selectedPlant={selectedPlant}
           />
-        )}
+        )}{' '}
       </ICustomCard>
     </>
   );

@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { useSelector, shallowEqual } from 'react-redux';
-import { getAssetReceiveReportData } from '../helper';
 import ICustomCard from '../../../../_helper/_customCard';
 import Loading from '../../../../_helper/_loading';
 import PaginationTable from './../../../../_helper/_tablePagination';
 import PaginationSearch from '../../../../_helper/_search';
+import { getAssetReceiveReportData } from '../../../../_helper/_commonApi';
 
 const validationSchema = Yup.object().shape({});
 
@@ -28,16 +28,6 @@ export function TableRow(props) {
 
   const [gridData, setGridData] = useState([]);
   const [empType, setEmpType] = useState([]);
-
-  //Get Api Data
-  // useEffect(() => {
-  //   getAssetReceiveReportData(profileData?.accountId,
-  //     selectedBusinessUnit?.value,
-  //     setGridData,
-  //     setLoading,
-  //     pageNo,
-  //     pageSize)
-  // }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
