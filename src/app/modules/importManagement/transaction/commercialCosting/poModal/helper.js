@@ -152,17 +152,6 @@ export const getSingleData = async (id, setter, setDisabled) => {
 };
 
 //ddl load
-export const getPaymentTermDDL = async (setter) => {
-  try {
-    let res = await axios.get(
-      '/procurement/PurchaseOrder/GetPaymentTermsListDDL'
-    );
-    setter(res?.data);
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-    setter([]);
-  }
-};
 
 //item list ddl
 export const getItemListDDL = async (id, setter) => {
@@ -189,59 +178,6 @@ export const ValidatePoNo = async (accId, buId, purchaseOrderNo, setter) => {
     );
 
     setter(res?.data);
-  } catch (error) {
-    toast.error(error.response.data.message);
-  }
-};
-
-//view po data api
-export const getSingleDataForPoView = async (
-  accId,
-  businessUnitId,
-  poId,
-  settter,
-  setRowDto
-) => {
-  try {
-    const res = await axios.get(
-      `/imp/ProformaInvoice/GetPOInfoByPOId?accountId=${accId}&businessUnitId=${businessUnitId}&poId=${poId}`
-    );
-    let modifyData = {
-      ...res?.data?.objHeader,
-      incoTerm: {
-        value: res?.data?.objHeader?.incotermsId,
-        label: res?.data?.objHeader?.incotermsName,
-      },
-      paymentTerms: {
-        value: res?.data?.objHeader?.paymentTermsId,
-        label: res?.data?.objHeader?.paymentTermsName,
-      },
-      supplierName: {
-        value: res?.data?.objHeader?.businessPartnerId,
-        label: res?.data?.objHeader?.businessPartnerName,
-      },
-      currency: {
-        value: res?.data?.objHeader?.currencyId,
-        label: res?.data?.objHeader?.currencyName,
-      },
-      lastShipmentDate: _dateFormatter(res?.data?.objHeader?.lastShipmentDate),
-      orderDate: _dateFormatter(res?.data?.objHeader?.purchaseOrderDate),
-      PIDate: _dateFormatter(res?.data?.objHeader?.piDate),
-      purchaseRequestNo: res?.data?.objHeader?.purchaseRequestNo,
-    };
-    let modifyArray = res?.data?.objRow?.map((item) => ({
-      label: item?.itemName,
-      uom: { value: item?.uoMid, label: item?.uoMname },
-      quantity: item?.orderQty,
-      rate: item?.basePrice,
-      totalAmount: item?.finalPrice,
-      currency: {
-        value: res?.data?.objHeader?.currencyId,
-        label: res?.data?.objHeader?.currencyName,
-      },
-    }));
-    settter(modifyData);
-    setRowDto(modifyArray);
   } catch (error) {
     toast.error(error.response.data.message);
   }

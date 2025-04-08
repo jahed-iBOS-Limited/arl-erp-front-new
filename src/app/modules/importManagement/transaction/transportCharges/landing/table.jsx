@@ -83,24 +83,13 @@ const TransportChargesLanding = () => {
             <div className="col-lg-3">
               <NewSelect
                 name="shipment"
-                //   options={partnerTypeDDL || []}
-                // value={values?.coverage}
                 label="Shipment"
-                // onChange={(valueOption) => {
-                //   setFieldValue("coverage", valueOption);
-                // }}
                 placeholder="Shipment"
-                // errors={errors}
-                // touched={touched}
-                //   isDisabled={isEdit}
               />
             </div>
           </div>
           {isloading && <Loading />}
           <ICustomTable ths={header}>
-            {/* {gridData?.data?.length > 0 &&
-              gridData?.data?.map((item, index) => { */}
-            {/* return ( */}
             <tr>
               <td style={{ width: '30px' }} className="text-center">
                 1
@@ -123,20 +112,7 @@ const TransportChargesLanding = () => {
               <td>
                 <span className="pl-2">Amendment no</span>
               </td>
-              {/* <td style={{ width: "100px" }} className="text-center">
-                <span
-                  className="edit"
-                  // onClick={(e) =>
-                  //   history.push(`/config/domain-controll/role-manager/edit/`)
-                  // }
-                >
-                  <IEdit />
-                </span>
-              </td> */}
             </tr>
-
-            {/* );
-              })} */}
             <tr>
               <td></td>
               <td>Total</td>

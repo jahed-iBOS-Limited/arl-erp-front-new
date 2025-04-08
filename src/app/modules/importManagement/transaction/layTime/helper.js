@@ -164,7 +164,6 @@ const headerRowmaker = async (header, row, setSingleData, setRowData) => {
     loadUnloadRateSuffix: header?.loadUnloadRateSuffix || '',
   };
 
-  /* Here Used Frequency Counter Algorithm For O(n) Complexity insted of O(n^2) */
   let lookupObj = {};
   for (let i = 0; i < row.length; i++) {
     let item = row[i];
