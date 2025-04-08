@@ -1,27 +1,28 @@
+import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { Formik, Form } from 'formik';
-import { validationSchema, initData } from './helper';
-import InputField from '../../../../../_helper/_inputField';
-import RowDtoTable from './rowDtoTable';
-import { shallowEqual, useSelector, useDispatch } from 'react-redux';
-import { ISelect } from '../../../../../_helper/_inputDropDown';
-import {
-  getreferenceTypeDDLAction,
-  getreferenceNoDDLActionforreturnDeleviry,
-  getTransactionTypeDDLAction,
-  getBusinessPartnerDDLAction,
-  getpersonnelDDLAction,
-  getItemDDLAction,
-  saveInventoryTransactionForPurchaseReturn,
-  getStockDDLAction,
-  getLocationTypeDDLAction,
-  getItemReturnInvAction,
-} from '../../_redux/Actions';
-import { toast } from 'react-toastify';
-import { empAttachment_action } from '../../../../../_helper/attachmentUpload';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
-import { invTransactionSlice } from '../../_redux/Slice';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { ISelect } from '../../../../../_helper/_inputDropDown';
+import InputField from '../../../../../_helper/_inputField';
 import Loading from '../../../../../_helper/_loading';
+import { empAttachment_action } from '../../../../../_helper/attachmentUpload';
+import createDebounceHandler from '../../../../../_helper/debounceForSave';
+import {
+  getBusinessPartnerDDLAction,
+  getItemDDLAction,
+  getItemReturnInvAction,
+  getLocationTypeDDLAction,
+  getpersonnelDDLAction,
+  getreferenceNoDDLActionforreturnDeleviry,
+  getreferenceTypeDDLAction,
+  getStockDDLAction,
+  getTransactionTypeDDLAction,
+  saveInventoryTransactionForPurchaseReturn,
+} from '../../_redux/Actions';
+import { invTransactionSlice } from '../../_redux/Slice';
+import { initData, validationSchema } from './helper';
+import RowDtoTable from './rowDtoTable';
 const { actions: slice } = invTransactionSlice;
 
 export default function CreateForm({
@@ -31,6 +32,7 @@ export default function CreateForm({
   landingData,
 }) {
   const dispatch = useDispatch();
+  const debounceHandler = createDebounceHandler(5000);
 
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
@@ -295,8 +297,14 @@ export default function CreateForm({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setDisabled(true);
+          debounceHandler({
+            setLoading: setDisabled,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
