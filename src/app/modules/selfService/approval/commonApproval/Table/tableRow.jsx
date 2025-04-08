@@ -10,16 +10,8 @@ import NewSelect from '../../../../_helper/_select';
 import { _todayDate } from '../../../../_helper/_todayDate';
 import { setIBOS_app_activityAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import customStyles from '../../../../selectCustomStyle';
-import GatePassApprovalGrid from '../gatePass/landing';
-import ItemRequestApprovalGrid from '../itemRequest/landing';
-import LoanApprovalGrid from '../loanApprovalGrid/landing';
-import PurchaseOrderApprovalGrid from '../purchaseOrder/landing';
-import PurchaseRequestApprovalGrid from '../purchaseRequest/landing';
-import PurchaseReturnApprovalGrid from '../returnPo/landing';
 import IConfirmModal from './../../../../_helper/_confirmModal';
 import PaginationTable from './../../../../_helper/_tablePagination';
-import './approval.css';
-import BillOfMaterialTable from './billOfMaterialTable';
 import {
   allGridCheck,
   approvalApi,
@@ -31,6 +23,13 @@ import {
   getActivityDDL,
 } from '../../../../personal/approval/commonApproval/helper';
 import { getPlantList } from '../../../../_helper/_commonApi';
+import GatePassApprovalGrid from '../../../../personal/approval/commonApproval/gatePass/landing';
+import ItemRequestApprovalGrid from '../../../../personal/approval/commonApproval/itemRequest/landing';
+import LoanApprovalGrid from '../../../../personal/approval/commonApproval/loanApprovalGrid/landing';
+import PurchaseRequestApprovalGrid from '../../../../personal/approval/commonApproval/purchaseRequest/landing';
+import PurchaseReturnApprovalGrid from '../../../../personal/approval/commonApproval/returnPo/landing';
+import PurchaseOrderApprovalGrid from '../../../../personal/approval/commonApproval/purchaseOrder/landing';
+import BillOfMaterialTable from '../../../../personal/approval/commonApproval/Table/billOfMaterialTable';
 
 export function TableRow(props) {
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
@@ -430,14 +429,6 @@ export function TableRow(props) {
                       <td className="text-center">{item.quantity}</td>
                       <td className="text-center">{item.description}</td>
                       <td className="text-center">
-                        {/* <span
-                      className="mr-2"
-                      onClick={(e) => singleApprovalndler(item.transectionId)}
-                    >
-
-                      <IApproval />
-                    </span> */}
-
                         {activityName?.label === 'Purchase Request' && (
                           <span
                             onClick={(e) => {
@@ -501,19 +492,6 @@ export function TableRow(props) {
                             </OverlayTrigger>
                           </span>
                         )}
-
-                        {/* <span>
-                    <OverlayTrigger
-                      overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
-                    >
-                      <span>
-                        <i
-                          className={`fa pointer fa-eye`}
-                          aria-hidden="true"
-                        ></i>
-                      </span>
-                    </OverlayTrigger>
-                  </span> */}
                       </td>
                     </tr>
                   ))}
