@@ -6,11 +6,12 @@ import { Form } from 'react-bootstrap';
 import IConfirmModal from '../../../../_helper/_confirmModal';
 import Loading from '../../../../_helper/_loading';
 import PaginationTable from '../../../../_helper/_tablePagination';
-import { getGatePassGridData, approvalApi } from './helper';
 import PaginationSearch from './../../../../_helper/_search';
 import IViewModal from '../../../../_helper/_viewModal';
 import ViewReport from '../../../../inventoryManagement/GatePass/gatePassApplication/View/viewReport';
 import IView from '../../../../_helper/_helperIcons/_view';
+import { allGridCheck, itemSlectedHandler } from '../helper';
+import { approvalApi, getItemGridData } from '../../../../_helper/_commonApi';
 
 let initData = {};
 
@@ -48,7 +49,7 @@ const GatePassApprovalGrid = ({
   }, [activityChange]);
 
   let cb = () => {
-    getGatePassGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -64,7 +65,7 @@ const GatePassApprovalGrid = ({
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
-    getGatePassGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -76,46 +77,6 @@ const GatePassApprovalGrid = ({
       '',
       selectedPlant?.value
     );
-  };
-
-  // one item select
-  const itemSlectedHandler = (value, index) => {
-    if (rowDto?.data?.length > 0) {
-      let newRowDto = rowDto?.data;
-      newRowDto[index].isSelect = value;
-      setRowDto({
-        ...rowDto,
-        data: newRowDto,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = newRowDto?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
-  };
-
-  // All item select
-  const allGridCheck = (value) => {
-    if (rowDto?.data?.length > 0) {
-      const modifyGridData = rowDto?.data?.map((itm) => ({
-        ...itm,
-        isSelect: value,
-      }));
-      setRowDto({
-        ...rowDto,
-        data: modifyGridData,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = modifyGridData?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
   };
 
   // approveSubmitlHandler btn submit handler
@@ -141,7 +102,7 @@ const GatePassApprovalGrid = ({
           userId: profileData?.userId,
           activityId: activityName?.value,
         };
-        approvalApi(parameter, payload, cb, setBillSubmitBtn);
+        approvalApi(parameter, payload, '', cb, setBillSubmitBtn);
         //setBillSubmitBtn(true);
       },
       noAlertFunc: () => {},
@@ -150,7 +111,7 @@ const GatePassApprovalGrid = ({
   };
 
   const paginationSearchHandler = (value) => {
-    getGatePassGridData(
+    getItemGridData(
       activityName?.value,
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -165,30 +126,18 @@ const GatePassApprovalGrid = ({
     setPageNo(0);
   };
 
-  // All item select
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: 'Pending Application' },
         }}
-        // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           resetForm(initData);
         }}
       >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          setValues,
-          isValid,
-        }) => (
+        {({ values }) => (
           <>
             {loader && <Loading />}
             {/* Table Start */}
@@ -242,7 +191,12 @@ const GatePassApprovalGrid = ({
                           type="checkbox"
                           id="parent"
                           onChange={(event) => {
-                            allGridCheck(event.target.checked);
+                            allGridCheck(
+                              event.target.checked,
+                              rowDto,
+                              setRowDto,
+                              setBillSubmitBtn
+                            );
                           }}
                         />
                       </th>
@@ -266,7 +220,13 @@ const GatePassApprovalGrid = ({
                             value={item?.isSelect}
                             checked={item?.isSelect}
                             onChange={(e) => {
-                              itemSlectedHandler(e.target.checked, i);
+                              itemSlectedHandler(
+                                e.target.checked,
+                                i,
+                                rowDto,
+                                setRowDto,
+                                setBillSubmitBtn
+                              );
                             }}
                           />
                         </td>
