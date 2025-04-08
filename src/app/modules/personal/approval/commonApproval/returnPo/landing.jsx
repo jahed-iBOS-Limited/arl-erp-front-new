@@ -11,6 +11,7 @@ import IConfirmModal from './../../../../_helper/_confirmModal';
 import { getPurchaseOrderGridData, approvalApi } from './helper';
 import { setPurchaseReturnId } from '../../../../_helper/reduxForLocalStorage/Actions';
 import PaginationSearch from './../../../../_helper/_search';
+import { allGridCheck, itemSlectedHandler } from '../helper';
 
 let initData = {};
 
@@ -59,45 +60,6 @@ const PurchaseReturnApprovalGrid = ({
       '',
       selectedPlant?.value
     );
-  };
-
-  // one item select
-  const itemSlectedHandler = (value, index) => {
-    if (rowDto?.data?.length > 0) {
-      let newRowDto = rowDto?.data;
-      newRowDto[index].isSelect = value;
-      setRowDto({
-        ...rowDto,
-        data: newRowDto,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = newRowDto?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
-  };
-
-  const allGridCheck = (value) => {
-    if (rowDto?.data?.length > 0) {
-      const modifyGridData = rowDto?.data?.map((itm) => ({
-        ...itm,
-        isSelect: value,
-      }));
-      setRowDto({
-        ...rowDto,
-        data: modifyGridData,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = modifyGridData?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
   };
 
   // approveSubmitlHandler btn submit handler
@@ -221,7 +183,12 @@ const PurchaseReturnApprovalGrid = ({
                           type="checkbox"
                           id="parent"
                           onChange={(event) => {
-                            allGridCheck(event.target.checked);
+                            allGridCheck(
+                              event.target.checked,
+                              rowDto,
+                              setRowDto,
+                              setBillSubmitBtn
+                            );
                           }}
                         />
                       </th>
@@ -245,7 +212,13 @@ const PurchaseReturnApprovalGrid = ({
                             value={item?.isSelect}
                             checked={item?.isSelect}
                             onChange={(e) => {
-                              itemSlectedHandler(e.target.checked, i);
+                              itemSlectedHandler(
+                                e.target.checked,
+                                i,
+                                rowDto,
+                                setRowDto,
+                                setBillSubmitBtn
+                              );
                             }}
                           />
                         </td>

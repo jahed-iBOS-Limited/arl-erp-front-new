@@ -165,3 +165,48 @@ export const saveBOMApproval_api = async (
     toast.error(error?.response?.data?.message);
   }
 };
+// one item select
+export const itemSlectedHandler = (
+  value,
+  index,
+  rowDto,
+  setRowDto,
+  setBillSubmitBtn
+) => {
+  if (rowDto?.data?.length > 0) {
+    let newRowDto = rowDto?.data;
+    newRowDto[index].isSelect = value;
+    setRowDto({
+      ...rowDto,
+      data: newRowDto,
+    });
+    // btn hide conditon
+    const bllSubmitBtn = newRowDto?.some((itm) => itm.isSelect === true);
+    if (bllSubmitBtn) {
+      setBillSubmitBtn(false);
+    } else {
+      setBillSubmitBtn(true);
+    }
+  }
+};
+
+// All item select
+export const allGridCheck = (value, rowDto, setRowDto, setBillSubmitBtn) => {
+  if (rowDto?.data?.length > 0) {
+    const modifyGridData = rowDto?.data?.map((itm) => ({
+      ...itm,
+      isSelect: value,
+    }));
+    setRowDto({
+      ...rowDto,
+      data: modifyGridData,
+    });
+    // btn hide conditon
+    const bllSubmitBtn = modifyGridData?.some((itm) => itm.isSelect === true);
+    if (bllSubmitBtn) {
+      setBillSubmitBtn(false);
+    } else {
+      setBillSubmitBtn(true);
+    }
+  }
+};

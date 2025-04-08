@@ -17,6 +17,7 @@ import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import IClose from '../../../../_helper/_helperIcons/_close';
 import { toast } from 'react-toastify';
 import AttachmentView from './attachmentView';
+import { allGridCheck, itemSlectedHandler } from '../helper';
 
 let initData = {};
 
@@ -72,45 +73,6 @@ const PurchaseOrderApprovalGrid = ({
       '',
       selectedPlant?.value
     );
-  };
-
-  // one item select
-  const itemSlectedHandler = (value, index) => {
-    if (rowDto?.data?.length > 0) {
-      let newRowDto = rowDto?.data;
-      newRowDto[index].isSelect = value;
-      setRowDto({
-        ...rowDto,
-        data: newRowDto,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = newRowDto?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
-  };
-
-  const allGridCheck = (value) => {
-    if (rowDto?.data?.length > 0) {
-      const modifyGridData = rowDto?.data?.map((itm) => ({
-        ...itm,
-        isSelect: value,
-      }));
-      setRowDto({
-        ...rowDto,
-        data: modifyGridData,
-      });
-      // btn hide conditon
-      const bllSubmitBtn = modifyGridData?.some((itm) => itm.isSelect === true);
-      if (bllSubmitBtn) {
-        setBillSubmitBtn(false);
-      } else {
-        setBillSubmitBtn(true);
-      }
-    }
   };
 
   // approveSubmitlHandler btn submit handler
@@ -261,7 +223,12 @@ const PurchaseOrderApprovalGrid = ({
                           type="checkbox"
                           id="parent"
                           onChange={(event) => {
-                            allGridCheck(event.target.checked);
+                            allGridCheck(
+                              event.target.checked,
+                              rowDto,
+                              setRowDto,
+                              setBillSubmitBtn
+                            );
                           }}
                         />
                       </th>
@@ -288,7 +255,13 @@ const PurchaseOrderApprovalGrid = ({
                             value={item?.isSelect}
                             checked={item?.isSelect}
                             onChange={(e) => {
-                              itemSlectedHandler(e.target.checked, i);
+                              itemSlectedHandler(
+                                e.target.checked,
+                                i,
+                                rowDto,
+                                setRowDto,
+                                setBillSubmitBtn
+                              );
                             }}
                           />
                         </td>
