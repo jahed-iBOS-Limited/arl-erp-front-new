@@ -24,6 +24,7 @@ import IConfirmModal from './../../../../_helper/_confirmModal';
 import { postItemReqCancelAction } from '../helper';
 import IViewModal from '../../../../_helper/_viewModal';
 import { ItemReqViewTableRow } from '../report/tableRow';
+import { getPlantList } from '../../../../_helper/_commonApi';
 
 const statusData = [
   { label: 'Approved', value: true },
@@ -63,7 +64,7 @@ export function TableRow(props) {
 
   useEffect(() => {
     getSBUDDL(profileData.accountId, selectedBusinessUnit.value, setSBUDDL);
-    getPlantDDL(
+    getPlantList(
       profileData.userId,
       profileData.accountId,
       selectedBusinessUnit.value,

@@ -31,6 +31,7 @@ import { setIBOS_app_activityAction } from '../../../../_helper/reduxForLocalSto
 import NewSelect from '../../../../_helper/_select';
 import BillOfMaterialTable from './billOfMaterialTable';
 import { saveBOMApproval_api } from './../helper';
+import { getPlantList } from '../../../../_helper/_commonApi';
 
 export function TableRow(props) {
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
@@ -106,7 +107,7 @@ export function TableRow(props) {
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,

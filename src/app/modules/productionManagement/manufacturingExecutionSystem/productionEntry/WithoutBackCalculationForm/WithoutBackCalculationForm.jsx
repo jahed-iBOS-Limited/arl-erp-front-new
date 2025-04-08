@@ -12,11 +12,11 @@ import {
   getOtherOutputItemDDL,
   getProductionItemQuantity,
   getProductionOrderDDL,
-  getShopFloorDDL,
   getWorkCenterDDL,
 } from '../helper';
 import BackCalculationModal from './backCalculationModal';
 import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { getShopFloorDDL } from '../../../../_helper/_commonApi';
 
 export default function FormCmp({
   initData,

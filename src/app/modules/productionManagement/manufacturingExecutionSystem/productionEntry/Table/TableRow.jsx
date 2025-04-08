@@ -8,12 +8,7 @@ import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import IApproval from '../../../../_helper/_helperIcons/_approval';
 import IEdit from '../../../../_helper/_helperIcons/_edit';
 import IView from '../../../../_helper/_helperIcons/_view';
-import {
-  getGridData,
-  getSingleDataById,
-  getPlantNameDDL,
-  getShopFloorDDL,
-} from '../helper';
+import { getGridData, getSingleDataById, getPlantNameDDL } from '../helper';
 import ProductionEntryViewModal from '../View/ViewModal';
 import Select from 'react-select';
 import Loading from '../../../../_helper/_loading';
@@ -24,6 +19,7 @@ import { getSingleDataByForBackCalculation } from './../helper';
 import { SetManufacturePETableLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import { toast } from 'react-toastify';
 import NewSelect from '../../../../_helper/_select';
+import { getShopFloorDDL } from '../../../../_helper/_commonApi';
 
 export function TableRow({ dataForBackCalculationCheck }) {
   const { manufacturePETableLanding } = useSelector(

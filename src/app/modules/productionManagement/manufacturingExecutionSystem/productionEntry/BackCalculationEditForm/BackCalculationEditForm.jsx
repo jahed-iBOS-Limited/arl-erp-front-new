@@ -4,13 +4,10 @@ import NewSelect from '../../../../_helper/_select';
 import InputField from '../../../../_helper/_inputField';
 import { useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import {
-  getOrderQuantityDDL,
-  getOtherOutputItemDDL,
-  getShopFloorDDL,
-} from '../helper';
+import { getOrderQuantityDDL, getOtherOutputItemDDL } from '../helper';
 import { toast } from 'react-toastify';
 import CreateTableRow from '../Table/CreateTableRow';
+import { getShopFloorDDL } from '../../../../_helper/_commonApi';
 // import { getItemListForBackCalculation } from "../helper";
 
 export default function FormCmp({

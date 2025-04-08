@@ -13,6 +13,7 @@ import {
   getcheckPostItemView,
 } from '../helper';
 import Loading from '../../../../_helper/_loading';
+import { getPlantList } from '../../../../_helper/_commonApi';
 
 const initData = {
   id: undefined,
@@ -71,7 +72,7 @@ export default function CheckPostForm({
         setVehicleNoDDL
       );
       getVehiclePurposeTypeDDL(setPurposeTypeDDL);
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,
