@@ -32,9 +32,7 @@ export default function TableRow() {
   const paginationSearchHandler = (searchValue, values) => {
     setPositionHandler(pageNo, pageSize, searchValue, values);
   };
-  // useEffect(() => {
-  //   getInsurancePolicyDDL(setTest);
-  // }, []);
+
   const header = ['Bill No', 'Payment Date', 'Amount (BDT)'];
   return (
     <>

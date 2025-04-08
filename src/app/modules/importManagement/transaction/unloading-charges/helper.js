@@ -1,19 +1,8 @@
 import Axios from 'axios';
 import { toast } from 'react-toastify';
-import { _dateFormatter } from '../../../_helper/_dateFormate';
 import * as Yup from 'yup';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
-//plant ddl
-export const getInsurancePolicyDDL = async (setter) => {
-  try {
-    const res = await Axios.get(`/imp/InsurancePolicy/GetProviderDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-  }
-};
 //warehouse ddl
 export const getWarehouseDDL = async (
   setter,
