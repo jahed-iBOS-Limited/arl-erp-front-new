@@ -4,13 +4,13 @@ import { useHistory, useLocation } from 'react-router';
 // import { getVoyageDDLFilter } from "../../helper";
 import { getLayTime, validationSchema } from '../helper';
 import { CreateHeaderForm } from './components/createHeaderForm';
-import CreateRowForm from './components/createRowForm';
-import LayTimeTableBody from './components/layTimeTableBody';
 import PrintView from './components/printView';
 import IViewModal from '../../../../chartering/_chartinghelper/_viewModal';
 import { getVoyageDDLFilter } from '../../../../chartering/helper';
 import PrintInvoiceView from './components/printInvoiceView';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import LayTimeTableBody from '../../../../chartering/layTime/Form/components/layTimeTableBody';
+import CreateRowForm from '../../../../chartering/layTime/Form/components/createRowForm';
 
 export default function FormCmp({
   title,
