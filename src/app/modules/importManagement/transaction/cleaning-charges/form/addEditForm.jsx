@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import Loading from './../../../../_helper/_loading';
 import IForm from './../../../../_helper/_form';
-import Form from './form';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import FormCmp from '../../unloading-charges/form/form';
 const initData = {
   shipment: '',
 
@@ -52,7 +52,7 @@ export default function AddEditFrom({
       isDisabled={isDisabled}
     >
       {isDisabled && <Loading />}
-      <Form
+      <FormCmp
         {...objProps}
         initData={initData}
         saveHandler={saveHandler}

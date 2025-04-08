@@ -42,12 +42,10 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
   const [alternateUomList, setAlterUOMList] = useState([]);
   const [basicItemInfo, setBasicItemInfo] = useState([]);
 
-  // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
 
-  // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
@@ -68,7 +66,6 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
     }
   }, [itemId, profileData, selectedBusinessUnit]);
 
-  // Remove duplicate from alternateuom list
   const setAlternateUomList = (data) => {
     var uniq = uniqBy([...alternateUomList, data], function (itm) {
       return itm.convertedUomName;
@@ -84,8 +81,8 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
       const { data, status } = res;
       if (status === 200) {
         const meta = data[0];
-        setExist(meta ? true : false); //set exist property
-        setConfigId(meta.configId); // set configid
+        setExist(meta ? true : false);
+        setConfigId(meta.configId);
         setData({
           ...meta,
           org: {
@@ -133,7 +130,6 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
     }
   };
 
-  // save business unit data to DB
   const saveData = async (values, cb) => {
     toast.dismiss(1);
     if (

@@ -3,7 +3,6 @@ import { Redirect, Switch } from 'react-router-dom';
 import { ContentRoute } from '../../../../_metronic/layout';
 import ExpBookingList from './expBookingList';
 import ImpBookingList from './impBookingList';
-import AirOpsBookingList from '../airOperation/bookingList';
 
 export function OperationPages() {
   return (
@@ -20,10 +19,6 @@ export function OperationPages() {
       <ContentRoute
         path="/cargoManagement/operation/import-bookingList"
         component={ImpBookingList}
-      />
-      <ContentRoute
-        path="/cargoManagement/air-operation/bookingList"
-        component={AirOpsBookingList}
       />
     </Switch>
   );

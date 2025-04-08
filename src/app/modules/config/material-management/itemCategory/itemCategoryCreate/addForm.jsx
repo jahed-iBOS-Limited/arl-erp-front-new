@@ -1,17 +1,17 @@
-import React, { useState, useRef } from 'react';
+import Axios from 'axios';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from '../../../../../../_metronic/_partials/controls';
-import { useSelector, shallowEqual } from 'react-redux';
-import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
-import Form from '../common/form';
-import Axios from 'axios';
-import { toast } from 'react-toastify';
-import shortid from 'shortid';
 import Loading from '../../../../_helper/_loading';
+import Form from '../common/form';
 const initProduct = {
   id: undefined,
   itemCategoryName: '',
@@ -40,18 +40,6 @@ export default function ItemCategoryAddForm({
     console.log('mm m', values, id, profileData);
     setDisabled(true);
     if (!id && values && profileData) {
-      // const warehouseData = {
-      //   accountId: profileData?.accountId,
-      //   itemCategoryName: values?.itemCategoryName,
-      //   businessUnitId: selectedBusinessUnit?.value,
-      //   businessUnitName: selectedBusinessUnit?.label,
-      //   accountName: "Akij",
-      //   generalLedgerId: values?.generalLedger?.value || 0,
-      //   generalLedgerName: values?.generalLedger?.label || "",
-      //   itemTypeId: values?.itemTypeName?.value,
-      //   actionBy: profileData?.userId,
-      // };
-
       const itemCategoryCreatePayload = {
         sl: 0,
         itemMasterCategoryId: 0,
@@ -99,14 +87,9 @@ export default function ItemCategoryAddForm({
   const backToItemCategoryList = () => {
     history.push(`/config/material-management/item-category/`);
   };
-
-  // const disableHandler = (cond) => {
-  //   setDisabled(cond);
-  // };
-
   return (
     <Card>
-      {true && <ModalProgressBar />}
+      <ModalProgressBar />
       <CardHeader title="Create Item Category">
         <CardHeaderToolbar>
           <button

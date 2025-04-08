@@ -112,15 +112,13 @@ export default function AddForm({ history }) {
 
   return (
     <Card>
-      {true && <ModalProgressBar />}
-
+      <ModalProgressBar />
       <CardHeader title="Create Price Structure">
         <CardHeaderToolbar>
           <button type="button" onClick={backHandler} className="btn btn-light">
             <i className="fa fa-arrow-left"></i>
             Back
           </button>
-          {`  `}
           <button
             type="reset"
             onClick={ResetProductClick}
@@ -130,7 +128,6 @@ export default function AddForm({ history }) {
             <i className="fa fa-redo"></i>
             Reset
           </button>
-          {`  `}
           <button
             type="submit"
             className="btn btn-primary ml-2"

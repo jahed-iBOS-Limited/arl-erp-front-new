@@ -289,6 +289,35 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
         `Please enter exchange rate for "${exchangeRateEmpty?.headOfCharges}" Attribute`
       );
     }
+    // Check if any two "paymentPartyId" values are the same but their "currencyId" values differ
+    for (let i = 0; i < payloadList.length; i++) {
+      for (let j = i + 1; j < payloadList.length; j++) {
+        if (payloadList[i].paymentPartyId === payloadList[j].paymentPartyId) {
+          // If paymentPartyId is the same, check if currencyId is the same
+          if (payloadList[i].currencyId !== payloadList[j].currencyId) {
+            return toast.warn(
+              `Warning: "Payment Party" ${payloadList[j].headOfCharges} has different currency: ${payloadList[i].currency} and ${payloadList[j].currency}`
+            );
+          }
+        }
+      }
+    }
+    // Check if any two "collectionPartyId" values are the same but their "currencyId" values differ
+    for (let i = 0; i < payloadList.length; i++) {
+      for (let j = i + 1; j < payloadList.length; j++) {
+        if (
+          payloadList[i].collectionPartyId === payloadList[j].collectionPartyId
+        ) {
+          // If collectionPartyId is the same, check if currencyId is the same
+          if (payloadList[i].currencyId !== payloadList[j].currencyId) {
+            return toast.warn(
+              `Warning: "Collection Party" ${payloadList[j].headOfCharges} has different currency: ${payloadList[i].currency} and ${payloadList[j].currency}`
+            );
+          }
+        }
+      }
+    }
+
     getSaveBookedRequestBilling(
       `${imarineBaseUrl}/domain/ShippingService/SaveBookedRequestBilling`,
       payloadList,
@@ -406,7 +435,7 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                     <th rowspan="2"></th>
                     <th rowspan="2">SL</th>
                     <th rowspan="2">Attribute</th>
-                    <th rowspan="2" style={{ minWidth: '85px' }}>
+                    <th rowspan="2" style={{ minWidth: '110px' }}>
                       Currency
                     </th>
                     <th rowspan="2">Exchange Rate</th>

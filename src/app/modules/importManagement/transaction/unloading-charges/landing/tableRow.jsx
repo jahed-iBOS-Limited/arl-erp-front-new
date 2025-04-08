@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { getGridData } from '../helper';
 import Loading from '../../../../_helper/_loading';
 import PaginationTable from '../../../../_helper/_tablePagination';
 
@@ -14,6 +13,7 @@ import { useHistory } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import PaginationSearch from '../../../../_helper/_search';
 import ICustomTable from '../../../../_helper/_customTable';
+import { getGridData } from '../../../../_helper/_commonApi';
 
 export default function TableRow() {
   const [gridData] = useState({});
@@ -32,9 +32,7 @@ export default function TableRow() {
   const paginationSearchHandler = (searchValue, values) => {
     setPositionHandler(pageNo, pageSize, searchValue, values);
   };
-  // useEffect(() => {
-  //   getInsurancePolicyDDL(setTest);
-  // }, []);
+
   const header = ['Bill No', 'Payment Date', 'Amount (BDT)'];
   return (
     <>

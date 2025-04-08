@@ -21,7 +21,7 @@ export default function BasicInformationView() {
   };
   return (
     <Card>
-      {true && <ModalProgressBar />}
+      <ModalProgressBar />
       <CardHeader
         title={`View item Info : [${
           itemNameFromHistroy || itemNameFromCollapsed
