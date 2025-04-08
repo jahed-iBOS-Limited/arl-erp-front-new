@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { getCargoDDL, getPortDDL } from '../../../../_helper/_commonApi';
+import { daysToDDHHMM } from '../../../../_helper/_helperUtils/laytimeUtils';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
 import {
   getBusinessPartnerNameByVoyageDDL,
   getVoyageDDLNew,
 } from '../../../helper';
-import FormikInput from '../../../_chartinghelper/common/formikInput';
-import FormikSelect from '../../../_chartinghelper/common/formikSelect';
-import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
 import { getLayTime } from '../../helper';
 import { initData } from '../addEditForm';
-import { getCargoDDL, getPortDDL } from '../../../../_helper/_commonApi';
-import { daysToDDHHMM } from '../../../../_helper/_helperUtils/laytimeUtils';
 
 const HeaderLabelComponent = ({ name }) => {
   return (
@@ -59,7 +59,7 @@ export function CreateHeaderForm({
   return (
     <>
       <div className="my-4">
-        <>
+        <React.Fragment>
           <div className="row my-2">
             <HeaderLabelComponent name="Name of Vessel" />
 
@@ -76,12 +76,14 @@ export function CreateHeaderForm({
                 label="Lay Time Type"
                 onChange={(valueOption) => {
                   setRowData([]);
-                  id
-                    ? setSingleData({ ...initData, layTimeType: valueOption })
-                    : setValues({
-                        ...initData,
-                        layTimeType: valueOption,
-                      });
+                  if (id) {
+                    setSingleData({ ...initData, layTimeType: valueOption });
+                  } else {
+                    setValues({
+                      ...initData,
+                      layTimeType: valueOption,
+                    });
+                  }
                 }}
                 errors={errors}
                 touched={touched}
@@ -527,7 +529,7 @@ export function CreateHeaderForm({
               </div>
             </>
           </div>
-        </>
+        </React.Fragment>
       </div>
     </>
   );
