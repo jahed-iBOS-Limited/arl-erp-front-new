@@ -3,24 +3,23 @@ import React, { useEffect, useState } from 'react';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import InputField from '../../../../_helper/_inputField';
-import NewSelect from '../../../../_helper/_select';
-import { _todayDate } from '../../../../_helper/_todayDate';
-import IViewModal from '../../../../_helper/_viewModal';
-import { empAttachment_action } from '../../../../_helper/attachmentUpload';
-import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
 import {
   currencyTypeDDLAction,
   encoItemDDLAction,
   GetBankDDL,
   getCalculationFormLandingForm,
   LCTypeDDLAction,
-  marginTypeDDLArr,
   materialTypeDDLAction,
   originTypeDDLAction,
   PortDDLAction,
-  validationSchema,
-} from '../helper';
+} from '../../../../_helper/_commonApi';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import { marginTypeDDLArr, validationSchema } from '../helper';
 import { getDownlloadFileView_Action } from './../../../../_helper/_redux/Actions';
 import CalculationForm from './calculationForm';
 
