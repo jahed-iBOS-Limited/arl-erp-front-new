@@ -37,7 +37,6 @@ export default function MainCollapsePanel() {
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
-    // toast.dismiss(1)
   };
   const history = useHistory();
   const businessPartnerNameFromHistory =
@@ -90,30 +89,7 @@ export default function MainCollapsePanel() {
             </div>
           </AccordionDetails>
         </Accordion>
-        {/* Partner Bank Information */}
-        {/* changes as per miraj bhai's suggestion */}
-        {/* {(state?.businessPartnerTypeName === "Supplier" ||
-          state?.businessPartnerTypeName === "Customer") && (
-          <Accordion
-            expanded={expanded === "panel2"}
-            onChange={handleChange("panel2")}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1bh-content"
-              id="panel1bh-header"
-            >
-              <Typography className={classes.heading}>
-                Partner Bank Information
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <div>
-                <PartnerBank />
-              </div>
-            </AccordionDetails>
-          </Accordion>
-        )} */}
+
         <Accordion
           expanded={expanded === 'panel2'}
           onChange={handleChange('panel2')}

@@ -18,7 +18,8 @@ import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import PaginationTable from '../../../../_helper/_tablePagination';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import { getBusinessUnitDDL, getLoanRegisterLogs } from '../helper';
+import { getLoanRegisterLogs } from '../helper';
+import { getBusinessUnitDDL } from '../../../../_helper/_commonApi';
 
 const SCFRegisterAutoJournalLog = () => {
   const history = useHistory();

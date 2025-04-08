@@ -1,4 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import Axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 import {
   Card,
   CardBody,
@@ -6,29 +11,24 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from '../../../../../../../../_metronic/_partials/controls';
-import Form from './form';
-import Axios from 'axios';
-import shortid from 'shortid';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { isUniq } from '../../../../../../_helper/uniqChecker';
-import { toast } from 'react-toastify';
-import {
-  getSbuDDLAction,
-  getSalesOrganaizationDDLAction,
-  getDistributionChannelDDLAction,
-  getSalesTerrioryDDLAction,
-  getTransportZoneDDLAction,
-  getSoldToPartyDDLAction,
-  getShippingPointDDLAction,
-  GeneralLedgerDDLAction,
-  getPriceStructureDDLAction,
-  AlternateGeneraleDDLAction,
-  getAlternateShippingPointDDLAction,
-} from './_redux/Actions';
 import { _todayDate } from '../../../../../../_helper/_todayDate';
-import Loading from './../../../../../../_helper/_loading';
+import { isUniq } from '../../../../../../_helper/uniqChecker';
+import {
+  AlternateGeneraleDDLAction,
+  GeneralLedgerDDLAction,
+  getAlternateShippingPointDDLAction,
+  getDistributionChannelDDLAction,
+  getPriceStructureDDLAction,
+  getSalesOrganaizationDDLAction,
+  getSbuDDLAction,
+  getShippingPointDDLAction,
+  getSoldToPartyDDLAction,
+  getTransportZoneDDLAction,
+} from '../../../../partnerBasicInfo/patnerEdit/collpaseComponent/partnerSales/_redux/Actions';
 import { EditBPShippingAddressDefaultById_api } from '../../../helper';
+import Loading from './../../../../../../_helper/_loading';
+import { getSalesTerrioryDDLAction } from './_redux/Actions';
+import Form from './form';
 
 const initProduct = {
   sbu: '',
@@ -405,35 +405,6 @@ export default function PartnerSales() {
           setDisabled(false);
         }
       } else {
-        // create api call
-
-        // const salesData = {
-        //   objSasles: {
-        //     accountId: accountId,
-        //     businessUnitId: businessunitid,
-        //     sbuid: values?.sbu.value,
-        //     businessPartnerId: +id,
-        //     priceStructureId: values?.priceStructure.value,
-        //     salesOrganizationId: values?.salesOrganaization.value,
-        //     ledgerBalance: 0,
-        //     unbilledAmount: 0,
-        //     creditLimit: 0,
-        //     balanceCheckTypeId: 0,
-        //     generalLederId: values?.reconGeneralLedger?.value,
-        //     alternateGlid: values?.alternetGeneralLedger?.value,
-        //     soldToPartnerId: values?.soldToParty?.value,
-        //     soldToPartnerName: values?.soldToParty?.label,
-        //     transportZoneId: values?.transportZone?.value,
-        //     territoryId: values?.salesTerriory?.value,
-        //     distributionChannelId: values?.distributionChannel?.value,
-        //     transportZoneName: values?.transportZone?.label,
-        //     actionBy,
-        //   },
-        //   objListShipPoint: objRow,
-        //   objListMortgage: objMortgageRow,
-        //   objListCrLimit: objCreditRow,
-        // }
-
         const payload = {
           objSasles: {
             accountId: accountId,

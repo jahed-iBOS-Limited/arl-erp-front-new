@@ -8,7 +8,7 @@ import FormikError from '../../../../_helper/_formikError';
 import { useSelector, shallowEqual } from 'react-redux';
 
 // Validation schema
-const ProductEditSchema = Yup.object().shape({
+export const ProductEditSchema = Yup.object().shape({
   userId: Yup.object().shape({
     label: Yup.string().required('User is required'),
     value: Yup.string().required('User is required'),
@@ -24,7 +24,7 @@ const ProductEditSchema = Yup.object().shape({
 });
 
 // Validation schema Edit
-const ProductEditSchemaEdit = Yup.object().shape({
+export const ProductEditSchemaEdit = Yup.object().shape({
   userGroupName: Yup.string()
     .min(2, 'Minimum 2 symbols')
     .max(100, 'Maximum 100 symbols')

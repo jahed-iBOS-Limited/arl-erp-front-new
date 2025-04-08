@@ -5,28 +5,7 @@ import Axios from 'axios';
 import Select from 'react-select';
 import customStyles from '../../../../../../selectCustomStyle';
 import { Input } from '../../../../../../../../_metronic/_partials/controls';
-
-// Validation schema
-const ProductEditSchema = Yup.object().shape({
-  accountName: Yup.string()
-    .min(2, 'Minimum 0 range')
-    .max(1000, 'Maximum 1000 range')
-    .required('Account Name is required'),
-  accountNo: Yup.string()
-    .min(2, 'Minimum 2 range')
-    .required('Account No is required'),
-  bankName: Yup.object().shape({
-    label: Yup.string().required('Bank is required'),
-    value: Yup.string().required('Bank is required'),
-  }),
-  branchName: Yup.object().shape({
-    label: Yup.string().required('Bank is required'),
-    value: Yup.string().required('Bank is required'),
-  }),
-  routingNo: Yup.string()
-    .min(2, 'Minimum 0 range')
-    .required('Routing No is required'),
-});
+import { ProductEditSchema } from '../../../../../../_helper/_validationSchema';
 
 export default function RoleExForm({
   product,
@@ -76,10 +55,10 @@ export default function RoleExForm({
         `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
       );
       const { status, data } = res;
-      if (status === 200 && data.length) {
+      if (status === 200 && data?.length) {
         let ItemType = [];
         data &&
-          data.forEach((item) => {
+          data?.forEach((item) => {
             let items = {
               value: item.businessPartnerId,
               label: item.businessPartnerName,
@@ -97,14 +76,14 @@ export default function RoleExForm({
         `/partner/BusinessPartnerBankInfo/GetBranchDDLInfo?BankId=${id}`
       );
       const { status, data } = res;
-      if (status === 200 && data.length) {
+      if (status === 200 && data?.length) {
         let ItemType = [];
         data &&
-          data.forEach((item) => {
+          data?.forEach((item) => {
             let items = {
               ...item,
-              value: item.bankBranchId,
-              label: item.bankBranchName,
+              value: item?.bankBranchId,
+              label: item?.bankBranchName,
             };
             ItemType.push(items);
           });

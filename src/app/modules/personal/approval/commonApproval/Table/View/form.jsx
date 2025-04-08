@@ -1,44 +1,14 @@
+import { Field, Form, Formik } from 'formik';
 import React, { useState } from 'react';
-import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
-import NewSelect from '../../../../../_helper/_select';
-import InputField from '../../../../../_helper/_inputField';
 import { IInput } from '../../../../../_helper/_input';
-
-const validationSchema = {
-  bomName: Yup.string().required('Bom Name is required'),
-  bomVersion: Yup.string().required('Bom Version is required').nullable(),
-  lotSize: Yup.number()
-    .min(1, 'Minimum 1 Chracter')
-    .max(10000000, 'Maximum 10000000 Chracter')
-    .required('Lot Size is required'),
-  wastage: Yup.number()
-    .min(0, 'Minimum 0 Chracter')
-    .max(10000000, 'Maximum 10000000 Chracter')
-    .required('Wastage is required'),
-};
-
-const createValiadtion = Yup.object().shape({
-  ...validationSchema,
-  plant: Yup.object().shape({
-    label: Yup.string().required('Plant is required'),
-    value: Yup.string().required('Plant is required'),
-  }),
-  shopFloor: Yup.object().shape({
-    label: Yup.string().required('Shop Floor is required'),
-    value: Yup.string().required('Shop Floor is required'),
-  }),
-  // bomCode: Yup.string().required("Bom Code is required"),
-  product: Yup.object().shape({
-    label: Yup.string().required('Item is required'),
-    value: Yup.string().required('Item is required'),
-  }),
-});
-
-const editValidation = Yup.object().shape({
-  ...validationSchema,
-});
+import InputField from '../../../../../_helper/_inputField';
+import NewSelect from '../../../../../_helper/_select';
+import {
+  bomCreateValiadtion,
+  bomEditValidation,
+} from '../../../../../_helper/_validationSchema';
 
 export default function FormCmp({
   initData,
@@ -79,6 +49,7 @@ export default function FormCmp({
   setCostElementRowData,
 }) {
   const [valid, setValid] = useState(true);
+
   //to get materialDDL in Edit
 
   return (
@@ -95,7 +66,7 @@ export default function FormCmp({
           },
           quantity: id ? rowDto[0]?.quantity : '',
         }}
-        validationSchema={isEdit ? editValidation : createValiadtion}
+        validationSchema={isEdit ? bomEditValidation : bomCreateValiadtion}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setValid(false);
           saveHandler(values, () => {
@@ -371,6 +342,8 @@ export default function FormCmp({
                               <th style={{ width: '30px' }}>SL</th>
                               <th style={{ width: '120px' }}>Material</th>
                               <th style={{ width: '100px' }}>Qty</th>
+                              <th style={{ width: '100px' }}>Item Rate</th>
+                              <th style={{ width: '100px' }}>Value</th>
                               <th style={{ width: '100px' }}>UoM</th>
                               {/* <th style={{ width: "50px" }}>Actions</th> */}
                             </tr>
@@ -391,6 +364,16 @@ export default function FormCmp({
                                 </td>
                                 <td>
                                   <div className="text-center">
+                                    {item?.apiItemRate}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.itemValue}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
                                     {item?.uomName ||
                                       item?.material?.description ||
                                       item?.values?.description}
@@ -402,6 +385,36 @@ export default function FormCmp({
                               </td> */}
                               </tr>
                             ))}
+                            {/* Show total of Item Rate */}
+                            {rowDto?.length > 0 && (
+                              <tr className="font-weight-bold">
+                                <td colSpan={4} className="text-right pr-2">
+                                  Total:
+                                </td>
+                                <td className="text-center">
+                                  {rowDto?.reduce(
+                                    (acc, item) => acc + (item?.itemValue || 0),
+                                    0
+                                  )}
+                                </td>
+                                <td></td>
+                              </tr>
+                            )}
+                            {/* // Show Bom Rare = Total Item Rate / Lot Size */}
+                            {rowDto?.length > 0 && (
+                              <tr className="font-weight-bold">
+                                <td colSpan={4} className="text-right pr-2">
+                                  BOM Rate:
+                                </td>
+                                <td className="text-center text-danger">
+                                  {rowDto?.reduce(
+                                    (acc, item) => acc + (item?.itemValue || 0),
+                                    0
+                                  ) / (values?.lotSize || 0)}
+                                </td>
+                                <td></td>
+                              </tr>
+                            )}
                           </tbody>
                         </table>
                       </div>

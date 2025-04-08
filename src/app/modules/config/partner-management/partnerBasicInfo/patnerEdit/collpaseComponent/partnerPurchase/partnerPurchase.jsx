@@ -50,19 +50,12 @@ export default function PartnerPurchase() {
         `/partner/BusinessPartnerPurchaseInfo/GetPartnerPurchaseDatabyId?Id=${id}`
       );
       if (res && res.data[0]?.objdata) {
-        // let newData = res.data[0]?.objRow?.map((item) => ({
-        //   ...item,
-        //   configId: item?.configid,
-        //   itemCategory: { value: item?.categoryId, label: item?.categoryName },
-        // }));
-
         let newobjdata = res.data[0]?.objdata?.map((item) => ({
           ...item,
           shipPointName: item?.strPartnerShippointName,
           isActive: true,
         }));
 
-        //setRowDto([...newData]);
         setShipPointRowDto([...newobjdata]);
         const {
           sbuid,
@@ -137,18 +130,7 @@ export default function PartnerPurchase() {
     if (values && selectedBusinessUnit && profileData) {
       const { accountId, userId: actionBy } = profileData;
       const { value: businessunitid } = selectedBusinessUnit;
-      // let objRow = rowDto?.map((itm) => {
-      //   return {
-      //     configId: itm?.configId || 0,
-      //     businessPartnerId: +id,
-      //     itemCategoryId: itm?.itemCategory?.value,
-      //     itemId: itm?.itemId,
-      //     accountId,
-      //     businessUnitId: businessunitid,
-      //     supplierItemName: itm?.itemName,
-      //     actionBy,
-      //   };
-      // });
+
       let objdata = shipPointRowDto?.map((itm) => {
         return {
           strPartnerShippointName: itm?.shipPointName,
@@ -176,7 +158,6 @@ export default function PartnerPurchase() {
           intTdssupplierTypeId: values?.tdsSupplierType?.value || 0,
           IntVdsSupplierTypeId: values?.natureofBusiness?.value || 0,
         },
-        //objRow: objRow,
         objdata: objdata,
       };
 
@@ -253,7 +234,7 @@ export default function PartnerPurchase() {
 
   return (
     <Card>
-      {true && <ModalProgressBar />}
+      <ModalProgressBar />
       <CardHeader title="Partner Purchase Info">
         <CardHeaderToolbar>
           <button

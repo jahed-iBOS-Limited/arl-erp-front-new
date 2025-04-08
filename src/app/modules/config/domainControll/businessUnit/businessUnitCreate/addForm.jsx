@@ -1,18 +1,18 @@
-import React, { useState, useRef } from 'react';
+import Axios from 'axios';
+import { isObject } from 'lodash';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from '../../../../../../_metronic/_partials/controls';
-import { isObject } from 'lodash';
-import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
-import Form from '../common/form';
-import Axios from 'axios';
-import { toast } from 'react-toastify';
-import shortid from 'shortid';
-import { useSelector, shallowEqual } from 'react-redux';
 import Loading from '../../../../_helper/_loading';
+import Form from '../common/form';
 
 const initData = {
   id: undefined,
@@ -104,7 +104,7 @@ export default function AddForm({
 
   return (
     <Card>
-      {true && <ModalProgressBar />}
+      <ModalProgressBar />
       <CardHeader title="Create Business Unit">
         <CardHeaderToolbar>
           <button type="button" onClick={backHandler} className="btn btn-light">
@@ -143,7 +143,6 @@ export default function AddForm({
             resetBtnRef={resetBtnRef}
             fileObjects={fileObjects}
             setFileObjects={setFileObjects}
-            // disableHandler={disableHandler}
           />
         </div>
       </CardBody>

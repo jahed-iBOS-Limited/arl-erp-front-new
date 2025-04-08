@@ -10,8 +10,8 @@ import FormikSelect from '../../../_chartinghelper/common/formikSelect';
 import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
 import { getLayTime } from '../../helper';
 import { initData } from '../addEditForm';
-import { daysToDDHHMM } from '../utils';
 import { getCargoDDL, getPortDDL } from '../../../../_helper/_commonApi';
+import { daysToDDHHMM } from '../../../../_helper/_helperUtils/laytimeUtils';
 
 const HeaderLabelComponent = ({ name }) => {
   return (

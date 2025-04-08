@@ -23,7 +23,7 @@ import PartnerCheckSubmitTableForCement from './partnerCheckSubmit/forCement/lan
 import ExportPaymentPostingForm from './partnerCheckSubmit/foreignForm/addEditForm';
 import PartnerCheckSubmitForm from './partnerCheckSubmit/form/addEditForm';
 import PartnerCheckSubmitLanding from './partnerCheckSubmit/landing';
-import PartnerInformation from './partnerInformation';
+//src\app\modules\config\partner-management\partnerBasicInfo\index.jsx
 import PartnerInformationCollapsePanel from './partnerInformation/patnerEdit/mainCollapse';
 import PartnerOverDueRequestForm from './partnerOverDueRequest/form/addEditForm';
 import PartnerOverDueRequestTable from './partnerOverDueRequest/landing/table';
@@ -167,7 +167,7 @@ export function PartnerPages() {
 
       <ContentRoute
         from="/config/partner-management/partner-other-info"
-        component={PartnerInformation}
+        component={PartnerBasicInfo}
       />
       {/* Partner Product Allocation */}
       <ContentRoute

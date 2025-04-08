@@ -132,22 +132,15 @@ export default function ItemSubCategoryEditForm({
     history.push(`/config/material-management/item-sub-category/`);
   };
 
-  // const disableHandler = (cond) => {
-  //   setDisabled(cond);
-  // };
-
-  // console.log(businessUnitData);
-
   return (
     <Card>
-      {true && <ModalProgressBar />}
+      <ModalProgressBar />
       <CardHeader title="Edit Item Sub-Category">
         <CardHeaderToolbar>
           <button type="button" onClick={backHandler} className="btn btn-light">
             <i className="fa fa-arrow-left"></i>
             Back
           </button>
-          {`  `}
           <button
             type="reset"
             onClick={ResetProductClick}
@@ -157,7 +150,6 @@ export default function ItemSubCategoryEditForm({
             <i className="fa fa-redo"></i>
             Reset
           </button>
-          {`  `}
           <button
             type="submit"
             className="btn btn-primary ml-2"

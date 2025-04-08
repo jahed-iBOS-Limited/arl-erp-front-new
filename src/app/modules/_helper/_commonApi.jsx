@@ -2,6 +2,7 @@ import { default as axios } from 'axios';
 import { toast } from 'react-toastify';
 import { imarineBaseUrl } from '../../../App';
 import { _dateFormatter } from './_dateFormate';
+import { _todayDate } from './_todayDate';
 
 export const getImageuploadStatus = (accountId) => {
   return axios.get(`/fino/Image/getImageuploadStatus?accountId=${accountId}`);
@@ -1288,7 +1289,12 @@ export const getPlantList = async (userId, accId, buId, setter) => {
     const res = await axios.get(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
-    setter(res?.data);
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
   } catch (error) {}
 };
 
@@ -1449,6 +1455,146 @@ export const saveBunkerCost = async (payload, setLoading, cb) => {
     setLoading(false);
   } catch (error) {
     toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};
+
+export function fetchInventoryData(obj) {
+  // destructure
+  const { getInventoryData, values, updatedData, setTableData } = obj;
+
+  getInventoryData(
+    `/mes/SalesPlanning/GetGlWiseMaterialBalance?unitId=${
+      values?.businessUnit?.value
+    }&dteFromDate=${_todayDate()}`,
+    (invData) => {
+      const updatedDataWithInventory = updatedData?.map((item) => {
+        const invDataItem = invData?.find(
+          (invItem) => invItem?.intGeneralLedgerId === item?.glId
+        );
+        if (invDataItem) {
+          return {
+            ...item,
+            initialAmount: invDataItem?.opnAmount?.toFixed(2),
+            julAmount: invDataItem?.julAmount.toFixed(2),
+            augAmount: invDataItem?.augAmount.toFixed(2),
+            sepAmount: invDataItem?.sepAmount.toFixed(2),
+            octAmount: invDataItem?.octAmount.toFixed(2),
+            novAmount: invDataItem?.novAmount.toFixed(2),
+            decAmount: invDataItem?.decAmount.toFixed(2),
+            janAmount: invDataItem?.janAmount.toFixed(2),
+            febAmount: invDataItem?.febAmount.toFixed(2),
+            marAmount: invDataItem?.marAmount.toFixed(2),
+            aprAmount: invDataItem?.aprAmount.toFixed(2),
+            mayAmount: invDataItem?.mayAmount.toFixed(2),
+            junAmount: invDataItem?.junAmount.toFixed(2),
+          };
+        } else {
+          return item;
+        }
+      });
+      setTableData(updatedDataWithInventory);
+    }
+  );
+}
+
+export const GetBillofMaterialPagination = async (
+  accId,
+  buId,
+  plantId,
+  shopFloorId,
+  setLoading,
+  setter,
+  pageNo,
+  pageSize,
+  search
+) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      search
+        ? `/mes/BOM/GetBOMPasignation?SearchTerm=${search}&AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ShopFloorId=${shopFloorId}&Status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+        : `/mes/BOM/GetBOMPasignation?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ShopFloorId=${shopFloorId}&Status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+    );
+    if (res.status === 200 && res.data) {
+      setter(res?.data);
+      setLoading(false);
+    }
+  } catch (error) {
+    setLoading(false);
+  }
+};
+
+export const getShopFloorDDL = async (accId, buId, plantId, setter) => {
+  try {
+    const res = await axios.get(
+      `/mes/MesDDL/GetShopfloorDDL?AccountId=${accId}&BusinessUnitid=${buId}&PlantId=${plantId} `
+    );
+
+    if (res.status === 200 && res.data) {
+      setter(res.data);
+    }
+  } catch (error) {
+    toast.warn(error.message);
+  }
+};
+
+export const saveBillofMaterial = async (data, cb, setDisabled) => {
+  setDisabled(true);
+  try {
+    const res = await axios.post(`/mes/BOM/CreateBillOfMaterial`, data);
+    if (res.status === 200) {
+      toast.success(res.data?.message || 'Submitted successfully');
+      cb();
+      setDisabled(false);
+    }
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setDisabled(false);
+  }
+};
+
+export const getBusinessUnitDDL = async (accId, setter) => {
+  try {
+    const res = await axios.get(
+      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`
+    );
+
+    if (res.status === 200 && res.data) {
+      setter(res.data);
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const getGridData = async (
+  accountId,
+  businessUnitId,
+  warehouseId,
+  setter,
+  setLoading,
+  pageNo,
+  pageSize,
+  fromDate,
+  toDate,
+  plantId,
+  searchValue = false
+) => {
+  try {
+    setLoading(true);
+    // console.log("plantId", plantId);
+    const res = await axios.get(
+      searchValue
+        ? `/wms/GatePass/GetGatePassLandingPasignation?accountId=${accountId}&businessUnitId=${businessUnitId}&plantId=${plantId}&warehouseId=${warehouseId}&search=${searchValue}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`
+        : `/wms/GatePass/GetGatePassLandingPasignation?accountId=${accountId}&businessUnitId=${businessUnitId}&plantId=${plantId}&warehouseId=${warehouseId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`
+    );
+    // console.log(res);
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+      setLoading(false);
+    }
+  } catch (error) {
     setLoading(false);
   }
 };

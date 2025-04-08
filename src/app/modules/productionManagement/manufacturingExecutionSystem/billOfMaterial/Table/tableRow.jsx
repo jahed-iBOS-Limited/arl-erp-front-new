@@ -9,17 +9,17 @@ import IView from '../../../../_helper/_helperIcons/_view';
 import IViewModal from '../../../../_helper/_viewModal';
 import { SetManufactureBOMTableLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import customStyles from '../../../../selectCustomStyle';
-import {
-  GetBillofMaterialPagination,
-  getPlantDDL,
-  getShopFloorDDL,
-} from '../helper';
 import Loading from './../../../../_helper/_loading';
 import PaginationSearch from './../../../../_helper/_search';
 import PaginationTable from './../../../../_helper/_tablePagination';
 import CostViewTable from './../../../../personal/approval/commonApproval/Table/CostView/CostView';
 import CostView from './../../../../personal/approval/commonApproval/Table/_costView';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import {
+  GetBillofMaterialPagination,
+  getPlantList,
+  getShopFloorDDL,
+} from '../../../../_helper/_commonApi';
 
 export function TableRow() {
   const [loading, setLoading] = useState(false);
@@ -61,7 +61,7 @@ export function TableRow() {
           setIsBackCalcualtion(data?.isBackCalculation);
         }
       );
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -132,8 +132,8 @@ export function TableRow() {
       )}
     >
       <Formik>
-        {loading && <Loading />}
         <>
+          {loading && <Loading />}
           <div className="global-form">
             <div className="row">
               <div className="col-lg-4">

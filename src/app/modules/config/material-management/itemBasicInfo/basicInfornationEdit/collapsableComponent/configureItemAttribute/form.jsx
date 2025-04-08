@@ -5,18 +5,7 @@ import { Input } from '../../../../../../../../_metronic/_partials/controls';
 import Axios from 'axios';
 import Select from 'react-select';
 import customStyles from '../../../../../../selectCustomStyle';
-
-const DataValiadtionSchema = Yup.object().shape({
-  attribute: Yup.object().shape({
-    label: Yup.string().required('Attribute is required'),
-    value: Yup.string().required('Attribute is required'),
-  }),
-  uom: Yup.object().shape({
-    label: Yup.string().required('Uom is required'),
-    value: Yup.string().required('Uom is required'),
-  }),
-  value: Yup.string().required('Value is required'),
-});
+import { dataValidationSchema } from '../../../../../../_helper/_validationSchema';
 
 const intiValue = {
   attribute: '',
@@ -85,26 +74,12 @@ export default function FormCmp({
     attributes = null;
   }, [attributeList]);
 
-  // useEffect(() => {
-  //   let baseUom = [];
-  //   baseUomList &&
-  //     baseUomList.forEach((item) => {
-  //       let items = {
-  //         value: item.uomid,
-  //         label: item.uomName,
-  //       };
-  //       baseUom.push(items);
-  //     });
-  //   setBaseUomOption(baseUom);
-  //   baseUom = null;
-  // }, [baseUomList]);
-
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={intiValue}
-        validationSchema={DataValiadtionSchema}
+        validationSchema={dataValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveData(data, () => {
             resetForm(intiValue);

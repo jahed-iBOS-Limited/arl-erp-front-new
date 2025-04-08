@@ -23,7 +23,6 @@ export default function ItemSubCategoryExpend() {
   const [objProps, setObjprops] = useState({});
   const [, postData, isLoading] = useAxiosPost();
   const [singleData, setSingleData] = useState({});
-  // const [checkCategoryStatus, getCheckCategoryStatus] = useAxiosGet();
   const {
     profileData: { userId },
     businessUnitList: businessUnitDDL,
@@ -78,7 +77,6 @@ export default function ItemSubCategoryExpend() {
   };
 
   const checkFunction = async (buId) => {
-    // getCheckCategoryStatus(`/item/MasterCategory/CheckCategoryByBusinessUnitId?AccountId=${accountId}&BusinessUnitId=${buId}&ItemMasterCategoryId=${itemMasterCategoryId}`)
     try {
       const res = await axios.get(
         `/item/MasterCategory/CheckCategoryByBusinessUnitId?AccountId=${accountId}&BusinessUnitId=${buId}&ItemMasterCategoryId=${itemMasterCategoryId}`
@@ -173,17 +171,8 @@ export default function ItemSubCategoryExpend() {
         }
       }}
     >
-      {({
-        handleSubmit,
-        resetForm,
-        values,
-        setFieldValue,
-        isValid,
-        errors,
-        touched,
-      }) => (
+      {({ handleSubmit, resetForm, values, setFieldValue }) => (
         <>
-          {/* {console.log("error", errors)} */}
           {(rowDataLoading || isLoading) && <Loading />}
           <IForm
             customTitle={`Item Sub Category Extend`}

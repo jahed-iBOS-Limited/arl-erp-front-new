@@ -6,28 +6,7 @@ import Select from 'react-select';
 import customStyles from '../../../../../../selectCustomStyle';
 import { Input } from '../../../../../../../../_metronic/_partials/controls';
 import { IInput } from '../../../../../../_helper/_input';
-
-// Validation schema
-const ProductEditSchema = Yup.object().shape({
-  accountName: Yup.string()
-    .min(2, 'Minimum 0 range')
-    .max(1000, 'Maximum 1000 range')
-    .required('Account Name is required'),
-  accountNo: Yup.string()
-    .min(2, 'Minimum 2 range')
-    .required('Account No is required'),
-  bankName: Yup.object().shape({
-    label: Yup.string().required('Bank is required'),
-    value: Yup.string().required('Bank is required'),
-  }),
-  branchName: Yup.object().shape({
-    label: Yup.string().required('Bank is required'),
-    value: Yup.string().required('Bank is required'),
-  }),
-  routingNo: Yup.string()
-    .min(2, 'Minimum 0 range')
-    .required('Routing No is required'),
-});
+import { ProductEditSchema } from '../../../../../../_helper/_validationSchema';
 
 export default function RoleExForm({
   product,
@@ -88,7 +67,6 @@ export default function RoleExForm({
             };
             ItemType.push(items);
           });
-        // setpartnerListDDL(ItemType);
       }
     } catch (error) {}
   };

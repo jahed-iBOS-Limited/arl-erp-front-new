@@ -2,36 +2,14 @@ import { Form, Formik } from 'formik';
 import React from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { IInput } from '../../../../../_helper/_input';
+import { ChangePassValidationSchema } from '../../../../../_helper/_validationSchema';
 import { updateSupplierPasss } from '../helper';
-import * as Yup from 'yup';
 
 const initData = {
   oldPassword: '',
   newPassword: '',
   confirmPassowrd: '',
 };
-
-const validationSchema = Yup.object().shape({
-  oldPassword: Yup.string()
-    .min(6, 'Minimum 6 symbols')
-    .max(50, 'Maximum 100 symbols')
-    .required('Old Password required'),
-  newPassword: Yup.string()
-    .min(6, 'Minimum 6 symbols')
-    .max(50, 'Maximum 100 symbols')
-    .required('New Password required'),
-  confirmPassowrd: Yup.string()
-    .min(6, 'Minimum 6 symbols')
-    .max(50, 'Maximum 100 symbols')
-    .required('Confirm Password required')
-    .when('newPassword', {
-      is: (val) => (val && val.length > 0 ? true : false),
-      then: Yup.string().oneOf(
-        [Yup.ref('newPassword')],
-        'Both password need to be the same'
-      ),
-    }),
-});
 
 const ChangeSupplierPassword = ({
   isChangePassModal,
@@ -51,7 +29,7 @@ const ChangeSupplierPassword = ({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
+        validationSchema={ChangePassValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({

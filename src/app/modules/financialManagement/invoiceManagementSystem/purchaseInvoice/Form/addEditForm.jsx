@@ -18,6 +18,7 @@ import {
 import '../purchaseInvoice.css';
 import Loading from './../../../../_helper/_loading';
 import Form from './form';
+import { getPlantList } from '../../../../_helper/_commonApi';
 
 const initData = {
   SBU: '',
@@ -93,7 +94,7 @@ export default function PurchaseInvoiceForm({
       );
     }
 
-    getPlantDDL(
+    getPlantList(
       profileData.userId,
       profileData.accountId,
       selectedBusinessUnit.value,

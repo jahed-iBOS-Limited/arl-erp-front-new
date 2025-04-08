@@ -11,7 +11,6 @@ import {
   getEmpTypeDDL,
   getSBUDDL,
   getWorkplaceDDL_api,
-  monthDDL,
 } from './helper';
 import * as Yup from 'yup';
 import NewSelect from '../../../../../../_helper/_select';
@@ -26,6 +25,7 @@ import {
 import SearchAsyncSelect from '../../../../../../_helper/SearchAsyncSelect';
 import FormikError from '../../../../../../_helper/_formikError';
 import { getDepartmentDDL } from '../../../../employeeInformation/helper';
+import { monthDDL } from '../../../../../../_helper/commonInputFieldsGroups/yearMonthForm';
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string()

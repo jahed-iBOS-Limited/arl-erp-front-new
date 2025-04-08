@@ -1,20 +1,6 @@
 import Axios from 'axios';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 
-export const getBusinessUnitDDL = async (setter, accountId) => {
-  try {
-    const res = await Axios.get(
-      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accountId}`
-    );
-    if (res.status === 200 && res?.data) {
-      const modifyResData = [{ value: 0, label: 'All' }, ...res?.data];
-      setter(modifyResData);
-    }
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
 export const GetCustomerNameDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(

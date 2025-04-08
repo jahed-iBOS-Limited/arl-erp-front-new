@@ -17,6 +17,7 @@ import {
   getShopfloorDDL,
 } from '../helper';
 import { getPlantNameDDL_api } from '../../../../_helper/_commonApi';
+import { bomTypeDDL } from '../../../../_helper/_commonDDL';
 
 const initData = {
   plant: '',
@@ -27,22 +28,6 @@ const initData = {
   toDate: _todayDate(),
 };
 
-const bomTypeDDL = [
-  { value: 0, label: 'All' },
-  {
-    value: 1,
-    label: 'Main (Paddy to Rice)',
-  },
-  {
-    value: 2,
-    label: 'Conversion (Rice to Rice)',
-  },
-  {
-    value: 3,
-    label: 'Re-Process (Rice to Rice)',
-  },
-];
-
 function ProductionDataLanding() {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -51,14 +36,10 @@ function ProductionDataLanding() {
   const [shopFloor, setShopFloorDDL] = useState([]);
 
   // get user profile data from store
-  const storeData = useSelector((state) => {
-    return {
-      profileData: state?.authData?.profileData,
-      selectedBusinessUnit: state?.authData?.selectedBusinessUnit,
-    };
-  }, shallowEqual);
-
-  const { profileData, selectedBusinessUnit } = storeData;
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   useEffect(() => {
     getPlantNameDDL_api(
@@ -161,7 +142,9 @@ function ProductionDataLanding() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="bomType"
-                      options={bomTypeDDL || []}
+                      options={
+                        [{ value: 0, label: 'All' }, ...bomTypeDDL] || []
+                      }
                       value={values?.bomType}
                       label="BOM Type"
                       onChange={(valueOption) => {

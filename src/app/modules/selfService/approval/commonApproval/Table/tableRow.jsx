@@ -33,6 +33,7 @@ import {
   allGridCheck,
   itemSlectedHandler,
 } from '../../../../personal/approval/commonApproval/helper';
+import { getPlantList } from '../../../../_helper/_commonApi';
 
 export function TableRow(props) {
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
@@ -108,7 +109,7 @@ export function TableRow(props) {
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,

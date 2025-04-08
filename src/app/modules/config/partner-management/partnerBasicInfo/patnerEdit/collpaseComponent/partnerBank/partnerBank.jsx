@@ -23,11 +23,9 @@ const initProduct = {
 
 export default function PartnerBank() {
   const { id } = useParams();
-  // Get profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
-  // Get Selected Business unit data from store
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
@@ -102,7 +100,7 @@ export default function PartnerBank() {
           setDisabled(false);
         }
       } else {
-        let objRow = rowDto.map((itm) => {
+        let objRow = rowDto.map((item) => {
           return {
             accountId: accountId,
             businessUnitId: businessunitid,
@@ -158,62 +156,6 @@ export default function PartnerBank() {
       toast.error('Submit Unsuccesful!', { toastId: shortid() });
     }
   };
-
-  // const setter = (payload) => {
-  //   if (
-  //     isUniq("bankAccountNo", payload.bankAccountNo, rowDto) ||
-  //     isUniq("bankName", payload.bankName, rowDto)
-  //   ) {
-  //     const { accountId, userId: actionBy } = profileData;
-  //     const { value: businessunitid } = selectedBusinessUnit;
-
-  //     const count = rowDto.filter((itm, idx) => itm.isDefaultAccount === true)
-  //       .length; // true exist 1
-
-  //     if (count > 0) {
-  //       if (payload.isDefaultAccount === true) {
-  //         setRowDto([
-  //           ...rowDto.filter((itm, idx) => itm.isDefaultAccount !== true),
-  //           {
-  //             configId: 0,
-  //             accountId: accountId,
-  //             businessUnitId: businessunitid,
-  //             businessPartnerId: +id,
-  //             actionBy: actionBy,
-  //             isActive: true,
-  //             ...payload,
-  //           },
-  //         ]);
-  //       } else {
-  //         setRowDto([
-  //           ...rowDto,
-  //           {
-  //             configId: 0,
-  //             accountId: accountId,
-  //             businessUnitId: businessunitid,
-  //             businessPartnerId: +id,
-  //             actionBy: actionBy,
-  //             isActive: true,
-  //             ...payload,
-  //           },
-  //         ]);
-  //       }
-  //     } else {
-  //       setRowDto([
-  //         ...rowDto,
-  //         {
-  //           configId: 0,
-  //           accountId: accountId,
-  //           businessUnitId: businessunitid,
-  //           businessPartnerId: +id,
-  //           actionBy: actionBy,
-  //           isActive: true,
-  //           ...payload,
-  //         },
-  //       ]);
-  //     }
-  //   }
-  // };
 
   const setter = (payload) => {
     const duplicate = rowDto.some(
@@ -300,7 +242,7 @@ export default function PartnerBank() {
 
   return (
     <Card>
-      {true && <ModalProgressBar />}
+      <ModalProgressBar />
       <CardHeader title="Edit Partner Bank Info">
         <CardHeaderToolbar>
           <button

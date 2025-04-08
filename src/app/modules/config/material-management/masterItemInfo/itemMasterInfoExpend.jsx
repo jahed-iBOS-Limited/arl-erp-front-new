@@ -118,11 +118,8 @@ export default function MasterItemExpend() {
       });
       // Execute the callback after successfully updating the state
       callBack();
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
-  console.log('ee', uomDTO);
   useEffect(() => {
     if (id) {
       const editedInitData = {
@@ -150,8 +147,7 @@ export default function MasterItemExpend() {
     <Formik
       enableReinitialize={true}
       initialValues={singleData}
-      // validationSchema={}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
+      onSubmit={(values, { resetForm }) => {
         if (rowData?.businessUnit?.length > 0) {
           saveHandler(values, () => {
             resetForm(initData);
@@ -161,17 +157,8 @@ export default function MasterItemExpend() {
         }
       }}
     >
-      {({
-        handleSubmit,
-        resetForm,
-        values,
-        setFieldValue,
-        isValid,
-        errors,
-        touched,
-      }) => (
+      {({ handleSubmit, resetForm, values, setFieldValue }) => (
         <>
-          {/* {console.log("error", errors)} */}
           {(rowDataLoading || isLoading) && <Loading />}
           <IForm customTitle={`Item Extend`} getProps={setObjprops}>
             <Form onSubmit={handleSubmit}>
@@ -296,7 +283,6 @@ export default function MasterItemExpend() {
                     <input
                       type="checkbox"
                       name="isSerialMaintain"
-                      //   value={data?.IsSerialMaintain}
                       checked={values?.isSerialMaintain}
                       id="isSerialMaintain"
                       onChange={(e) => {
@@ -390,7 +376,7 @@ export default function MasterItemExpend() {
                 style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
-              ></button>
+              />
             </Form>
           </IForm>
         </>

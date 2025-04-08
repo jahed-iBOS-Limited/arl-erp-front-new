@@ -13,6 +13,7 @@ import { _todayDate } from '../../../../_helper/_todayDate';
 import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
 import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
 import {
+  balanceReportInitData,
   getBusinessDDLByED,
   getEnterpriseDivisionDDL,
   getReportBalance,
@@ -24,33 +25,19 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from './../../../../../../_metronic/_partials/controls';
-import html2pdf from 'html2pdf.js';
+import { pdfExport } from '../../../../_helper/_pdfExport';
 
-const initData = {
-  enterpriseDivision: '',
-  business: '',
-  fromDate: _todayDate(),
-  conversionRate: 1,
-};
 export default function BalancerReportTable() {
+  // hooks
+  const { profileData } = useSelector((store) => store?.authData, shallowEqual);
+
+  const [isMobile, setIsMobile] = useState(false);
+  const [showRDLC, setShowRDLC] = useState(false);
   const [enterpriseDivisionDDL, setEnterpriseDivisionDDL] = useState([]);
   const [businessDDL, setBusinessUnitDDL] = useState([]);
   const [rowDto, setRowDto] = useState({});
   const [loading, setLoading] = useState(false);
-  const { profileData } = useSelector((store) => store?.authData, shallowEqual);
   const [isTableShow, setIsTableShow] = useState(false);
-
-  const pdfExport = (fileName) => {
-    var element = document.getElementById('pdf-section');
-    var opt = {
-      margin: 1,
-      filename: `${fileName}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 5, dpi: 300, letterRendering: true },
-      jsPDF: { unit: 'px', hotfixes: ['px_scaling'], orientation: 'p' },
-    };
-    html2pdf().set(opt).from(element).save();
-  };
 
   const printRef = useRef();
 
@@ -85,8 +72,9 @@ export default function BalancerReportTable() {
   };
 
   const { errors, touched, setFieldValue, values } = useFormik({
-    initialValues: initData,
+    initialValues: balanceReportInitData,
   });
+
   useEffect(() => {
     getEnterpriseDivisionDDL(
       profileData?.accountId,
@@ -106,7 +94,6 @@ export default function BalancerReportTable() {
       }
     );
   }, [profileData?.accountId]);
-  const [showRDLC, setShowRDLC] = useState(false);
   const groupId = '218e3d7e-f3ea-4f66-8150-bb16eb6fc606';
   const reportId = '1cea2afd-f9aa-4b6b-9f46-5a39fa65ca4a';
   const reportForMultiCol = 'fe376adc-e721-4e73-8c01-701b935f623a';
@@ -137,8 +124,6 @@ export default function BalancerReportTable() {
     console.log(agingParameters, 'agingParameters');
     return agingParameters;
   };
-
-  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {

@@ -5,7 +5,8 @@ import NewSelect from '../../../../_helper/_select';
 import { shallowEqual, useSelector } from 'react-redux';
 import InputField from '../../../../_helper/_inputField';
 import CashRegisterReportTable from '../Table/table';
-import { getBusinessUnitDDL, getCashRegisterReport } from './helper';
+import { getCashRegisterReport } from './helper';
+import { getBusinessUnitDDL } from '../../../../_helper/_commonApi';
 
 const validationSchema = Yup.object().shape({});
 
@@ -18,7 +19,9 @@ export default function FormCmp({ initData }) {
   }, shallowEqual);
 
   useEffect(() => {
-    getBusinessUnitDDL(profileData?.accountId, setBusinessUnitDDL);
+    getBusinessUnitDDL(profileData?.accountId, (res) => {
+      setBusinessUnitDDL([{ value: 0, label: 'All' }, ...res]);
+    });
   }, [profileData?.accountId]);
 
   return (

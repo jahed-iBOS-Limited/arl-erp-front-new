@@ -5,7 +5,8 @@ export const getSingleDataById = async (
   setter,
   setRowDto,
   setCostElementRowData,
-  setDisabled
+  setDisabled,
+  cb
 ) => {
   setDisabled(true);
   try {
@@ -77,6 +78,11 @@ export const getSingleDataById = async (
       setRowDto(newRowData);
       setter(newData);
       setDisabled(false);
+      cb &&
+        cb({
+          response: res?.data,
+          newRowData: newRowData,
+        });
     }
   } catch (error) {
     setDisabled(false);

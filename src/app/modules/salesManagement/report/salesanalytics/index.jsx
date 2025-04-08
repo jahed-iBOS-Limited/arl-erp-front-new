@@ -13,7 +13,6 @@ import {
 import './style.css';
 import NewSelect from './../../../_helper/_select';
 import { YearDDL } from './../../../_helper/_yearDDL';
-import { monthDDL } from './utils';
 import TargetVSSaelsAchievementTable from './targetVSSaelsAchievement/table';
 import SalesforcePerformanceAnalysisTable from './salesforcePerformanceAnalysis/table';
 import CustomerLedgerTable from './customerLedger/table';
@@ -27,7 +26,9 @@ import FactoryProductionVsDeliveryTable from './factoryProductionVsDelivery/tabl
 import CommissionCalculationForm from './commissionCalculation';
 import CommissionCalculationTable from './commissionCalculation/table';
 import RATForm from '../../../_helper/commonInputFieldsGroups/ratForm';
-import YearMonthForm from '../../../_helper/commonInputFieldsGroups/yearMonthForm';
+import YearMonthForm, {
+  monthDDL,
+} from '../../../_helper/commonInputFieldsGroups/yearMonthForm';
 import FromDateToDateForm from '../../../_helper/commonInputFieldsGroups/dateForm';
 
 const newDate = new Date();

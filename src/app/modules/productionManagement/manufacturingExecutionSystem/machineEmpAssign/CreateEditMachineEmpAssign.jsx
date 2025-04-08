@@ -18,6 +18,7 @@ import {
   getShopFloorDDL,
   getWorkCenterNameDDL,
 } from '../../configuration/routing/helper';
+import { getPlantList } from '../../../_helper/_commonApi';
 
 const initData = {
   businessUnit: '',
@@ -190,7 +191,7 @@ export default function CreateEditMachineEmpAssign() {
                     label="Business Unit"
                     onChange={(valueOption) => {
                       setFieldValue('businessUnit', valueOption || '');
-                      getPlantDDL(
+                      getPlantList(
                         userId,
                         accountId,
                         valueOption?.value,

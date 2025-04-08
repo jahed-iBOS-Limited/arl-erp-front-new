@@ -5,18 +5,7 @@ import { Input } from '../../../../../../../../_metronic/_partials/controls';
 import Axios from 'axios';
 import Select from 'react-select';
 import customStyles from '../../../../../../selectCustomStyle';
-
-const DataValiadtionSchema = Yup.object().shape({
-  numCostPrice: Yup.number()
-    .integer()
-    .min(1)
-    .required('Minimum Cost Price is required'),
-
-  warehouse: Yup.object().shape({
-    label: Yup.string().required('Item Organization is required'),
-    value: Yup.string().required('Item Organization is required'),
-  }),
-});
+import { DataValiadtionSchema } from '../../../basicInfoView/collapsableComponent/configItemCogs/form';
 
 export default function FormCmp({
   fetchCostWarehouse,
@@ -40,7 +29,6 @@ export default function FormCmp({
         `/wms/ItemPlantWarehouse/WarehouselistbyItem?AccountId=${accId}&BusinessUnit=${buId}&ItemId=${itemId}`
       );
       const { data: resData, status } = res;
-      console.log('payload ', res);
       if (status === 200 && resData.length) {
         let orgs = [];
         resData.forEach((item) => {
@@ -53,7 +41,7 @@ export default function FormCmp({
         setwarehouseDDL(orgs);
         orgs = null;
       }
-    } catch (error) {}
+    } catch (err) {}
   };
   useEffect(() => {
     if (selectedBusinessUnit && accountId && itemId) {
@@ -77,7 +65,6 @@ export default function FormCmp({
           handleSubmit,
           resetForm,
           values,
-          handleChange,
           errors,
           touched,
           setFieldValue,
@@ -85,7 +72,6 @@ export default function FormCmp({
         }) => (
           <>
             {disableHandler(!isValid)}
-
             <Form className="form form-label-right">
               {!isViewPage && (
                 <div className="form-group row global-form">
@@ -101,11 +87,8 @@ export default function FormCmp({
                           onChange={(valueOption) => {
                             setFieldValue('warehouse', valueOption);
                           }}
-                          // isSearchable={true}
-
                           styles={customStyles}
                           name="org"
-                          // isDisabled={!warehouseDDL}
                         />
                       )}
                       placeholder="Select Warehouse"
@@ -140,29 +123,6 @@ export default function FormCmp({
                     />
                   </div>
 
-                  {/* <div className="col-lg-3 mt-6">
-                  <label htmlFor="is">Manual Costing</label>
-                  <Field
-                    name="isManualCosting"
-                    component={() => (
-                      <input
-                        style={{
-                          position: "absolute",
-                          top: "8px",
-                        }}
-                        id="isManualCosting"
-                        type="checkbox"
-                        className="ml-2"
-                        value={values?.isManualCosting}
-                        checked={values?.isManualCosting}
-                        name="isManualCosting"
-                        onChange={(e) => {
-                          setFieldValue("isManualCosting", e.target.checked);
-                        }}
-                      />
-                    )}
-                  />
-                </div> */}
                   <div className="col-lg-3">
                     <button
                       disabled={!values?.warehouse || !values?.numCostPrice}
@@ -209,11 +169,6 @@ export default function FormCmp({
                               {itm?.numCostPrice}
                             </div>
                           </td>
-                          {/* <td>
-                            <div className="pl-2">
-                              {itm?.isManualCosting ? "Yes" : "No"}
-                            </div>
-                          </td> */}
                         </tr>
                       ))}
                   </tbody>

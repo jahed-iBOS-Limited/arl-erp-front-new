@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
-import Form from './form';
-import IForm from '../../../../_helper/_form';
-import { useLocation, useParams } from 'react-router-dom';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import ICustomCard from '../../../../_helper/_customCard';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import {
-  getSingleDataById,
-  saveEditedBillofMaterial,
+  getCostElementDDL,
+  getMaterialDDL,
   getPlantDDL,
   getPreviousBomName,
-  getShopFloorDDL,
   getProductDDL,
-  getMaterialDDL,
-  getCostElementDDL,
-  saveBillofMaterial,
+  getSingleDataById,
+  saveEditedBillofMaterial,
 } from '../helper';
-import { _todayDate } from '../../../../_helper/_todayDate';
-import { _timeFormatter } from '../../../../_helper/_timeFormatter';
-import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import Loading from './../../../../_helper/_loading';
-import ICustomCard from '../../../../_helper/_customCard';
-import { useHistory } from 'react-router-dom';
+import Form from './form';
+import { bomTypeDDL } from '../../../../_helper/_commonDDL';
+import {
+  getPlantList,
+  getShopFloorDDL,
+  saveBillofMaterial,
+} from '../../../../_helper/_commonApi';
 
 const initData = {
   copyfrombomname: '',
@@ -45,12 +45,11 @@ const initData = {
 };
 
 export default function BillofMaretialViewForm() {
+  // state
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [singleData, setSingleData] = useState('');
   const [objProps, setObjprops] = useState({});
-  const location = useLocation();
-  const params = useParams();
   const [plant, setPlant] = useState([]);
   const [shopFloor, setShopFloor] = useState([]);
   const [product, setProduct] = useState([]);
@@ -58,34 +57,20 @@ export default function BillofMaretialViewForm() {
   const [material, setMaterial] = useState([]);
   const [copyfrombomname, setCopyfrombomname] = useState([]);
   const [UOMDDL, setUOMDDL] = useState([]);
+
+  const location = useLocation();
+  const params = useParams();
   const history = useHistory();
-  const bomTypeDDL = [
-    {
-      value: 1,
-      label: 'Main (Paddy to Rice)',
-    },
-    {
-      value: 2,
-      label: 'Conversion (Rice to Rice)',
-    },
-    {
-      value: 3,
-      label: 'Re-Process (Rice to Rice)',
-    },
-  ];
 
   // Cost Element state
   const [costElementDDL, setCostElementDDL] = useState([]);
   const [costElementRowData, setCostElementRowData] = useState([]);
+  const [, getCurrentRateList] = useAxiosGet();
 
-  const storeData = useSelector((state) => {
-    return {
-      profileData: state?.authData?.profileData,
-      selectedBusinessUnit: state?.authData?.selectedBusinessUnit,
-    };
-  }, shallowEqual);
-
-  const { profileData, selectedBusinessUnit } = storeData;
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   useEffect(() => {
     if (params?.id) {
@@ -94,16 +79,39 @@ export default function BillofMaretialViewForm() {
         setSingleData,
         setRowDto,
         setCostElementRowData,
-        setDisabled
+        setDisabled,
+        (data) => {
+          if (data?.newRowData?.length > 0) {
+            const copyRowDto = [...data?.newRowData];
+            const rowItemIds = copyRowDto.map((item) => item?.material?.value);
+            const makeString = rowItemIds?.join(',');
+            getCurrentRateList(
+              `/wms/InventoryLoan/GetMultipleItemRatesByIds?ItemIds=${makeString}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+              (currentRateList) => {
+                const updatedRowDto = copyRowDto.map((item) => {
+                  const foundItem = currentRateList?.find(
+                    (i) => i.intItemId === item?.rowItemId
+                  );
+                  return {
+                    ...item,
+                    apiItemRate: foundItem ? foundItem?.numAverageRate : 0,
+                    itemValue: foundItem
+                      ? (foundItem?.numAverageRate || 0) * (item?.quantity || 0)
+                      : 0,
+                  };
+                });
+                setRowDto(updatedRowDto);
+              }
+            );
+          }
+        }
       );
     }
   }, [params]);
 
-  console.log(params?.id, 'jj');
-
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getPlantDDL(
+      getPlantList(
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,
