@@ -1495,7 +1495,6 @@ export function fetchInventoryData(obj) {
     }
   );
 }
-<<<<<<< src/app/modules/_helper/_commonApi.jsx
 
 export const GetBillofMaterialPagination = async (
   accId,
