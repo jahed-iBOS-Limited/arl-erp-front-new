@@ -48,9 +48,6 @@ export function TableRow() {
   }, shallowEqual);
 
   useEffect(() => {
-    // getBuDDL(
-    //   `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`
-    // );
     if (selectedBusinessUnit && profileData) {
       dispatch(
         getPriceSetupGridData(
