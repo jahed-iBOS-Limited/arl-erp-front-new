@@ -1493,3 +1493,34 @@ export function fetchInventoryData(obj) {
     }
   );
 }
+export const getGridData = async (
+  accountId,
+  businessUnitId,
+  warehouseId,
+  setter,
+  setLoading,
+  pageNo,
+  pageSize,
+  fromDate,
+  toDate,
+  plantId,
+  searchValue = false
+) => {
+  try {
+    setLoading(true);
+    // console.log("plantId", plantId);
+    const res = await axios.get(
+      searchValue
+        ? `/wms/GatePass/GetGatePassLandingPasignation?accountId=${accountId}&businessUnitId=${businessUnitId}&plantId=${plantId}&warehouseId=${warehouseId}&search=${searchValue}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`
+        : `/wms/GatePass/GetGatePassLandingPasignation?accountId=${accountId}&businessUnitId=${businessUnitId}&plantId=${plantId}&warehouseId=${warehouseId}&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`
+    );
+    // console.log(res);
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+      setLoading(false);
+    }
+  } catch (error) {
+    setLoading(false);
+    toast.error(error?.response?.data?.message);
+  }
+};
