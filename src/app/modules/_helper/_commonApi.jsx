@@ -1704,7 +1704,6 @@ const updatePayloadChange = (
   };
   return payload;
 };
-//update data;
 export const updateLCOpen = async (
   setDisabled,
   values,
@@ -1728,5 +1727,165 @@ export const updateLCOpen = async (
   } catch (error) {
     setDisabled(false);
     toast.error(error?.response?.data?.message);
+  }
+};
+
+export const LCTypeDDLAction = async (setDisabled, setter) => {
+  try {
+    setDisabled(true);
+    const res = await axios.get(`/imp/ImportCommonDDL/GetLCTypeDDL`);
+    setDisabled(false);
+    setter(res?.data);
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+    setter([]);
+  }
+};
+
+export const currencyTypeDDLAction = async (setter) => {
+  try {
+    const res = await axios.get(`/imp/ImportCommonDDL/GetCurrencyTypeDDL`);
+    setter(res?.data);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setter([]);
+  }
+};
+
+export const originTypeDDLAction = async (setDisabled, setter) => {
+  try {
+    setDisabled(true);
+    const res = await axios.get(`/imp/ImportCommonDDL/GetCountryNameDDL`);
+    setDisabled(false);
+    setter(res?.data);
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+    setter([]);
+  }
+};
+
+export const encoItemDDLAction = async (setDisabled, setter) => {
+  try {
+    setDisabled(true);
+    const res = await axios.get(`/imp/ImportCommonDDL/GetIncoTermsDDL`);
+    setDisabled(false);
+    setter(res?.data);
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+    setter([]);
+  }
+};
+
+export const materialTypeDDLAction = async (setDisabled, setter) => {
+  try {
+    setDisabled(true);
+    const res = await axios.get(`/imp/ImportCommonDDL/GetMaterialTypeDDL`);
+    setDisabled(false);
+    setter(res?.data);
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+    setter([]);
+  }
+};
+
+export const PortDDLAction = async (
+  accId,
+  businessUnitId,
+  setDisabled,
+  setter
+) => {
+  try {
+    setDisabled(true);
+    const res = await axios.get(
+      `/imp/ImportCommonDDL/GetPortName?accountId=${accId}&businessUnitId=${businessUnitId}`
+    );
+    setDisabled(false);
+    setter(res?.data);
+  } catch (error) {
+    setDisabled(false);
+    toast.error(error?.response?.data?.message);
+    setter([]);
+  }
+};
+
+export const GetBankDDL = async (setter, accId, businessUnitId) => {
+  try {
+    const res = await axios.get(
+      `/imp/ImportCommonDDL/GetBankListDDL?accountId=${accId}&businessUnitId=${businessUnitId}`
+    );
+    setter(res?.data);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setter([]);
+  }
+};
+
+export const getCalculationFormLandingForm = async (
+  businessUnitId,
+  values,
+  setter,
+  setLoading
+) => {
+  try {
+    setLoading(true);
+    const res = await axios.get(
+      `/imp/FormulaForCalculation/GetFormulaForLcBankCharge?businessUnitId=${businessUnitId}&poId=${
+        values?.poId
+      }&tenorDays=${
+        values?.lcTenor
+      }&poTotalFc=${+values?.PIAmountFC}&toleranceRate=${
+        values?.tolarance
+      }&excRate=${values?.exchangeRate}&bankId=${
+        values?.bankName?.value
+      }&type=${values?.lcType?.value}`
+    );
+    setLoading(false);
+
+    let newObj = {};
+    for (let index = 0; index < res?.data.length; index++) {
+      const element = res?.data[index];
+      newObj[element.strType] = element.monAmount;
+    }
+    setter(newObj && newObj);
+    setter({
+      swift: newObj['Swift Charge'],
+      stamp: newObj['Stamp Charge'],
+      stationary: newObj['Stationary Charge'],
+      stampChargeforOther: newObj['Others Charge'],
+      lcConfirm: 0,
+      tenorQuarter: 0,
+      vatRate: 0,
+    });
+  } catch (error) {
+    setLoading(false);
+    toast.error(error.response.data.message);
+  }
+};
+
+export const getPoForLcOpen = (accountId, businessUnitId, poId, cb) => {
+  try {
+    let query = `/imp/LetterOfCredit/GetPOForLCOpen?accountId=${accountId}&businessUnitId=${businessUnitId}&POId=${poId}`;
+    return axios.get(query);
+  } catch (error) {}
+};
+
+export const currencyLoadByPoId = async (
+  setter,
+  accId,
+  businessUnitId,
+  poId
+) => {
+  try {
+    const res = await axios.get(
+      `/imp/ImportCommonDDL/GetCurrencyFromInsuranceDDL?accountId=${accId}&businessUnitId=${businessUnitId}&POId=${poId}`
+    );
+    setter({ currency: res?.data[0] });
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setter([]);
   }
 };

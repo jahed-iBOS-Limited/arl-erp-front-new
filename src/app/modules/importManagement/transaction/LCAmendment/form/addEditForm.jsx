@@ -1,22 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
-import Form from './form';
-import Loading from '../../../../_helper/_loading';
-import IForm from '../../../../_helper/_form';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
 import { _dateFormatter } from './../../../../_helper/_dateFormate';
 import {
   createLCAmendment,
-  updateLCAmendment,
-  getSingleData,
   GetDataForForm,
   GetItemListDetailsByPOId,
+  getSingleData,
   saveLcDocAmendmentRowApi,
+  updateLCAmendment,
 } from './../helper';
-import { encoItemDDLAction, LCTypeDDLAction } from '../../lc-open/helper';
-import IWarningModal from '../../../../_helper/_warningModal';
+import Form from './form';
+
 import { toast } from 'react-toastify';
+import {
+  encoItemDDLAction,
+  LCTypeDDLAction,
+} from '../../../../_helper/_commonApi';
 
 const initData = {
   lcType: '',
