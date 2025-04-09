@@ -20,7 +20,6 @@ const FormikSelect = (props) => {
       {label && <label> {label} </label>}
       <Select
         isClearable={isClearable === 'false' ? isClearable : true}
-        {...props}
         onChange={onChange}
         options={options || []}
         value={value}
@@ -32,6 +31,7 @@ const FormikSelect = (props) => {
           ...theme,
           borderRadius: 5,
         })}
+        {...props}
       />
       <FormikError errors={errors} name={name} touched={touched} />
     </div>

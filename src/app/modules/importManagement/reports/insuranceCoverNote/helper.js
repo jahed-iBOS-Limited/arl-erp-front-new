@@ -11,14 +11,11 @@ export const validationSchema = Yup.object().shape({
   providor: Yup.string().required('Providor is required'),
 });
 
-// bank ddl
-// /imp/ImportCommonDDL/GetProviderDDL?accountId=2&businessUnitId=164
 export const GetBankDDL = async (setter, accId, businessUnitId) => {
   try {
     const res = await axios.get(
       `/imp/ImportCommonDDL/GetProviderDDL?accountId=${accId}&businessUnitId=${businessUnitId}`
     );
-    // const res = await axios.get(`/imp/ImportCommonDDL/GetBankListDDL`);
     setter(res?.data);
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -47,7 +44,6 @@ export const getInsuranceCoverNoteReport = async (
   setter,
   setLoading
 ) => {
-  // /imp/ImportReport/GetInsuranceReport?accountId=2&businessUnitId=164&poNumber=PO-DBU-JUL21-158&providerId=1310&fromDate=2021-05-01&toDate=2021-08-07
   try {
     let query = `/imp/ImportReport/GetInsuranceReport?accountId=${accId}&businessUnitId=${buId}`;
     if (poNumber) {
