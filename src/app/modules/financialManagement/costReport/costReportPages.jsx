@@ -11,6 +11,7 @@ import { FinencialRatiosAnalysis } from '../report/finencialRatiosAnalysis/Form/
 import BudgetVsSalesVarient from '../../internalControl/budgetVSSalesVarient';
 import PlanningReport from '../report/planningReport';
 import COCReportLandingPage from '../report/cocReport';
+import InventoryAging from '../report/inventoryAging';
 
 export function CostReportPages() {
   return (
@@ -27,6 +28,11 @@ export function CostReportPages() {
       <ContentRoute
         path="/financial-management/cost-report/costsheetrevised"
         component={CostSheetRevisedLanding}
+      />
+
+      <ContentRoute
+        path="/financial-management/cost-report/inventoryaging"
+        component={InventoryAging}
       />
 
       <ContentRoute
