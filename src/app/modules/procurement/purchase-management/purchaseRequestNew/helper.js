@@ -311,6 +311,7 @@ export const getPurchaseRequestbyId = async (prId, setter, setDisabled) => {
       requiredDate,
       purpose,
       purchaseOrganizationId,
+      purchaseOrganizationName,
     } = res?.data[0]?.getPurchaseRequestHeader;
 
     const {
@@ -346,6 +347,10 @@ export const getPurchaseRequestbyId = async (prId, setter, setDisabled) => {
       row: res?.data[0]?.getPurchaseRequestRow,
       warehouseId,
       purchaseOrganizationId,
+      po: {
+        value: purchaseOrganizationId,
+        label: purchaseOrganizationName,
+      },
     };
 
     setter(payload);

@@ -429,6 +429,7 @@ const PurchaseRequestTable = () => {
                                         item,
                                         state: {
                                           ...values,
+                                          poList,
                                         },
                                       })
                                     }
