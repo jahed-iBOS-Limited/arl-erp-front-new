@@ -123,17 +123,6 @@ export const editCreditNote = async (data, setDisabled) => {
   }
 };
 
-export const getTaxBranchDDL_api = async (userId, accid, buid, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/OrganizationalUnitUserPermissionFotVat/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accid}&BusinessUnitId=${buid}&OrgUnitTypeId=15`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const getPartnerNameDDL_api = async (accid, buid, setter) => {
   try {
     const res = await Axios.get(
