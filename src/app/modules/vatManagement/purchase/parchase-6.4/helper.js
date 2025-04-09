@@ -302,12 +302,3 @@ export const getSinglePurchase = async (
     setDisabled && setDisabled(false);
   }
 };
-
-export const getCountryDDL_api = async (setter) => {
-  try {
-    const res = await Axios.get(`/hcm/HCMDDL/GetCountryDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
