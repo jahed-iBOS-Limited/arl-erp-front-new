@@ -18,20 +18,20 @@ const TransferTable = ({ jorunalType, values }) => {
             <tr>
               <td>1</td>
               <td>
-                <div className="pl-2">{values?.cashGLPlus?.label}</div>
+                <div className="pl-2">{values?.cashGLPlus?.label || ''}</div>
               </td>
               <td></td>
               <td>
-                <div className="text-right pr-2">{values?.amount}</div>
+                <div className="text-right pr-2">{values?.amount || ''}</div>
               </td>
             </tr>
             <tr>
               <td>2</td>
               <td>
-                <div className="pl-2">{values?.gLBankAc?.label}</div>
+                <div className="pl-2">{values?.gLBankAc?.label || ''}</div>
               </td>
               <td>
-                <div className="text-right pr-2">{values?.amount}</div>
+                <div className="text-right pr-2">{values?.amount || ''}</div>
               </td>
               <td></td>
             </tr>

@@ -4,26 +4,26 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { Input } from '../../../../../../../_metronic/_partials/controls';
-import customStyles from '../../../../../selectCustomStyle';
-import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
-import FormikError from '../../../../../_helper/_formikError';
-import { IInput } from '../../../../../_helper/_input';
-import {
-  generateAdviceNo,
-  getNextBankCheque,
-  getPartnerTypeDDL,
-} from '../../helper';
-import DebitCredit from '../../form/bankJournal/DebitCredit';
-import ReceiveAndPaymentsTable from '../../form/bankJournal/ReceiveAndPaymentsTable';
-import TransferTable from '../../form/bankJournal/TransferTable';
-import { _todayDate } from '../../../../../_helper/_todayDate';
-import { dateFormatterForInput } from '../../../../../productionManagement/msilProduction/meltingProduction/helper';
 import {
   getBankAc,
   getInstrumentType,
   getSendToGLBank,
 } from '../../../../../_helper/_commonApi';
+import FormikError from '../../../../../_helper/_formikError';
+import { IInput } from '../../../../../_helper/_input';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
 import TextArea from '../../../../../_helper/TextArea';
+import { dateFormatterForInput } from '../../../../../productionManagement/msilProduction/meltingProduction/helper';
+import customStyles from '../../../../../selectCustomStyle';
+import DebitCredit from '../../form/bankJournal/DebitCredit';
+import ReceiveAndPaymentsTable from '../../form/bankJournal/ReceiveAndPaymentsTable';
+import TransferTable from '../../form/bankJournal/TransferTable';
+import {
+  generateAdviceNo,
+  getNextBankCheque,
+  getPartnerTypeDDL,
+} from '../../helper';
 
 export default function FormCmp({
   initData,
@@ -164,7 +164,6 @@ export default function FormCmp({
                       />
                     </div>
 
-                    {/* This dropdown field will be changed based on previous page */}
                     {jorunalType === 6 ? (
                       <div className="col-lg-6 pr pl-1 mb-2">
                         <label>Select Transfer To</label>
@@ -173,10 +172,7 @@ export default function FormCmp({
                             setFieldValue('transferTo', valueOption);
                             setFieldValue('sendToGLBank', '');
                           }}
-                          options={[
-                            // { value: 1, label: "Cash" },
-                            { value: 2, label: 'Bank' },
-                          ]}
+                          options={[{ value: 2, label: 'Bank' }]}
                           value={values?.transferTo}
                           isSearchable={true}
                           styles={customStyles}
@@ -467,7 +463,6 @@ export default function FormCmp({
                               if (!values?.paidTo)
                                 return toast.warn('paid To is required');
                             }
-                            // setFieldValue("transaction", "");
                             setFieldValue('amount', '');
                             setter(values);
                           }}
@@ -569,21 +564,19 @@ export default function FormCmp({
                 </div>
               </div>
 
-              {/* Row Dto Table End */}
-
               <button
                 type="submit"
                 style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
-              ></button>
+              />
 
               <button
                 type="reset"
                 style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
-              ></button>
+              />
             </Form>
           </>
         )}

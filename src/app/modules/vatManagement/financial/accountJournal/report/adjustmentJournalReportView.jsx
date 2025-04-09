@@ -1,17 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react';
 import { Formik, Form as FormikForm } from 'formik';
-import ReactToPrint from 'react-to-print';
-import Loading from './../../../../_helper/loader/_loader';
-import { _dateFormatter } from '../../../../_helper/_dateFormate';
-import ICustomCard from '../../../../_helper/_customCard';
+import React, { useEffect, useRef, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import findIndex from '../../../../_helper/_findIndex';
-import NotPermittedPage from '../../../../_helper/notPermitted/NotPermittedPage';
-import { getTaxAccountingJournal } from './helper';
 import { _formatMoney } from '../../../../_helper/_formatMoney';
-import IViewModal from '../../../../_helper/_viewModal';
-import Attachments from './Attachments';
 import IView from '../../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../../_helper/_viewModal';
+import NotPermittedPage from '../../../../_helper/notPermitted/NotPermittedPage';
+import Loading from './../../../../_helper/loader/_loader';
+import Attachments from './Attachments';
+import { getTaxAccountingJournal } from './helper';
 
 export function AdjustmentJournalReportView({ journalCode, clickRowData }) {
   const [loading, setLoading] = useState(false);
@@ -59,16 +59,6 @@ export function AdjustmentJournalReportView({ journalCode, clickRowData }) {
   const printRef = useRef();
 
   const renderHeadOfAcc = (data) => {
-    // if(data?.businessTransactionName){
-    //   return data?.businessTransactionName
-    // } else if(data?.generalLedgerName && data?.businessPartnerName){
-    //   return  data?.generalLedgerName + "(" +  data?.businessPartnerName + ")"
-    // } else if(data?.generalLedgerName){
-    //   return  data?.generalLedgerName
-    // }
-    // else {
-    //   return data?.businessPartnerName
-    // }
     if (data?.generalLedgerName && data?.businessPartnerName) {
       return data?.generalLedgerName + '(' + data?.businessPartnerName + ')';
     } else {
@@ -91,7 +81,7 @@ export function AdjustmentJournalReportView({ journalCode, clickRowData }) {
   let creditAmount = 0,
     debitAmount = 0;
   return (
-    <>
+    <React.Fragment>
       <ICustomCard
         title=""
         renderProps={() => (
@@ -104,15 +94,11 @@ export function AdjustmentJournalReportView({ journalCode, clickRowData }) {
           </>
         )}
       >
-        <Formik
-          enableReinitialize={true}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
-        >
-          {({ handleSubmit, resetForm, values, errors, touched, isValid }) => (
+        <Formik enableReinitialize={true}>
+          {() => (
             <>
               {loading && <Loading />}
               <FormikForm>
-                {/* {gridItem?.map((adjustmentReport) => ( */}
                 <div className="mt-2">
                   <div ref={printRef}>
                     <div className="m-3 adjustment-journalReport">
@@ -125,9 +111,7 @@ export function AdjustmentJournalReportView({ journalCode, clickRowData }) {
                           <span className="my-2">
                             <h5>Adjustment Journal</h5>
                           </span>
-                          {/* <span>Bank Name And A/C NO.</span> */}
                         </div>
-                        {/* <div></div> */}
                       </div>
                       <div className="my-3 d-flex justify-content-between">
                         <div style={{ transform: 'translateY(21px)' }}>
@@ -162,7 +146,6 @@ export function AdjustmentJournalReportView({ journalCode, clickRowData }) {
                             <th>SL</th>
                             <th>Head Of Accounts</th>
                             <th>Transaction</th>
-                            {/* <th>Narration</th> */}
                             <th>Debit</th>
                             <th>Credit</th>
                           </tr>
@@ -182,7 +165,6 @@ export function AdjustmentJournalReportView({ journalCode, clickRowData }) {
                                   {renderHeadOfAcc(data)}
                                 </td>
                                 <td className="text-left">{data?.subGLName}</td>
-                                {/* <td>{data?.narration}</td> */}
                                 {data?.debitCredit === 'Debit' ? (
                                   <td>
                                     <div className="text-right pr-2">
@@ -210,7 +192,6 @@ export function AdjustmentJournalReportView({ journalCode, clickRowData }) {
                             <td className="font-weight-bold text-center ml-1">
                               Total
                             </td>
-                            {/* <td className="text-center"></td> */}
                             <td className="text-right pr-2">
                               {_formatMoney(Math.abs(debitAmount))}
                             </td>
@@ -222,12 +203,7 @@ export function AdjustmentJournalReportView({ journalCode, clickRowData }) {
                         </tbody>
                       </table>
                       <div className="mt-5">
-                        <div className="d-flex">
-                          {/* <p className="font-weight-bold mr-2">
-                              Sum Of Taka :{" "}
-                            </p>
-                            <p>{headerObj?.amount}</p> */}
-                        </div>
+                        <div className="d-flex"></div>
                         <div className="d-flex">
                           <p className="font-weight-bold mr-2">Narration : </p>
                           <p>{headerObj?.narration}</p>
@@ -255,7 +231,6 @@ export function AdjustmentJournalReportView({ journalCode, clickRowData }) {
                   </div>
                   <div></div>
                 </div>
-                {/* ))} */}
               </FormikForm>
             </>
           )}
@@ -264,6 +239,6 @@ export function AdjustmentJournalReportView({ journalCode, clickRowData }) {
       <IViewModal show={isModal} onHide={() => setIsModal(false)}>
         <Attachments clickRowData={clickRowData} />
       </IViewModal>
-    </>
+    </React.Fragment>
   );
 }
