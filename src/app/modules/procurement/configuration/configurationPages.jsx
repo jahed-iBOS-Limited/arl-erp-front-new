@@ -21,6 +21,9 @@ export function POConfigurationPages() {
   const purchaseOrganization =
     userRole[findIndex(userRole, 'Purchase Organization')];
 
+  const purchaseAgreementPermission =
+    userRole[findIndex(userRole, 'Purchase Agreement')];
+
   return (
     <Switch>
       <Redirect
@@ -69,7 +72,7 @@ export function POConfigurationPages() {
       <ContentRoute
         from="/mngProcurement/purchase-configuration/rate-agreement/edit/:id"
         component={
-          purchaseOrganization?.isCreate
+          purchaseAgreementPermission?.isCreate
             ? RateAgreementCreate
             : NotPermittedPage
         }
@@ -77,7 +80,7 @@ export function POConfigurationPages() {
       <ContentRoute
         from="/mngProcurement/purchase-configuration/rate-agreement/create"
         component={
-          purchaseOrganization?.isCreate
+          purchaseAgreementPermission?.isCreate
             ? RateAgreementCreate
             : NotPermittedPage
         }

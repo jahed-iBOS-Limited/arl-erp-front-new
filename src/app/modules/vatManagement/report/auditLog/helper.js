@@ -370,27 +370,6 @@ export const GetPurchaseLogAllDetails_api = async (
   }
 };
 
-export const GetDebitNoteLogAllDetails_api = async (
-  taxPurchaseId,
-  setter,
-  setLoading
-) => {
-  try {
-    setLoading(true);
-    const res = await axios.get(
-      `/vat/AuditLog/GetDebitNoteLogAllDetails?TaxPurchaseId=${taxPurchaseId}`
-    );
-    if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning('Data Not Found');
-      setter(res?.data);
-      setLoading(false);
-    }
-  } catch (error) {
-    setter([]);
-    setLoading(false);
-  }
-};
-
 export const GetSalesLogSummary_api = async (
   accId,
   buid,
