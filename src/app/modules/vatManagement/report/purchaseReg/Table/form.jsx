@@ -15,13 +15,10 @@ import {
 
 import {
   getHeaderData_api,
+  GetItemNameDDL_api,
   PurchaseRegister_Report_api,
 } from '../../../../_helper/_commonApi';
-import {
-  GetItemNameDDL_api,
-  GetItemTypeDDL_api,
-  getVatBranches_api,
-} from '../helper';
+import { GetItemTypeDDL_api, getVatBranches_api } from '../helper';
 import NewSelect from './../../../../_helper/_select';
 import { _todayDate } from './../../../../_helper/_todayDate';
 

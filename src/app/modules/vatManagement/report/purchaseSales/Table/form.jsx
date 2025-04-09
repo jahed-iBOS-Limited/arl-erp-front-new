@@ -16,11 +16,11 @@ import {
 import NewSelect from './../../../../_helper/_select';
 import {
   GetItemTypeDDL_api,
-  GetItemNameDDL_api,
   getVatBranches_api,
   PurchaseRegister_Report_api,
 } from '../helper';
 import { _todayDate } from './../../../../_helper/_todayDate';
+import { GetItemNameDDL_api } from '../../../../_helper/_commonApi';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});

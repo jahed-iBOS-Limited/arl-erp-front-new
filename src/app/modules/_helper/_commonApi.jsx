@@ -2188,3 +2188,13 @@ export const partnerGeneralLedgerList = async (
     console.log(error);
   }
 };
+export const GetItemNameDDL_api = async (accId, buId, typeId, setter) => {
+  try {
+    const res = await axios.get(
+      `/vat/TaxDDL/GetTaxItemListByItemTypeDDL?AccountId=${accId}&BusinessUnitId=${buId}&TaxItemTypeId=${typeId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};
