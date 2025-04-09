@@ -2024,3 +2024,210 @@ export const getPaymentTermDDL = async (setter) => {
     setter([]);
   }
 };
+export const getHeaderData_api = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/vat/Mushak91/GetTaxPayerInformation?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {
+    setter({});
+  }
+};
+export const getTrailBalanceReport = async (
+  accId,
+  buId,
+  startDate,
+  endDate,
+  balanceType,
+  setter,
+  setLoading
+) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `/fino/TrailBalanceReport/GetTrailBalanceByPamsReport?AccountId=${accId}&BusinessUnitId=${buId}&StartDate=${startDate}&EndDate=${endDate}&ViewType=${balanceType}`
+    );
+    setLoading(false);
+    setter(res?.data);
+  } catch (err) {
+    setLoading(false);
+  }
+};
+
+export const getBusinessUnitYearConfigData = async (
+  accountId,
+  businessUnitId,
+  initData,
+  setter
+) => {
+  try {
+    const res = await axios.get(
+      `/fino/FinanceCommonDDL/GetBusinessUnitYearConfigData?accountId=${accountId}&businessUnitId=${businessUnitId}`
+    );
+    setter({
+      balanceType: '3',
+      toDate: _todayDate(),
+      fromDate: res?.data?.[0]['startDate']
+        ? _dateFormatter(res?.data?.[0]['startDate'])
+        : _dateFormatter(new Date()),
+    });
+    setter(res?.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const PurchaseRegister_Report_api = async (
+  accid,
+  buid,
+  fromDate,
+  toDate,
+  itemId,
+  branch,
+  setter,
+  setLoading
+) => {
+  try {
+    setLoading && setLoading(true);
+    const res = await axios.get(
+      `/vat/VATSP/PurchaseRegister?intAccountId=${accid}&intBusinessUnitId=${buid}&FromDate=${fromDate}&ToDate=${toDate}&ItemId=${itemId}&intBranch=${branch}`
+    );
+    if (res.status === 200 && res?.data) {
+      setLoading && setLoading(false);
+      if (res?.data?.length > 0) {
+        setter(res?.data);
+      } else {
+        toast.warning('Data Not Found');
+        setter([]);
+      }
+    }
+  } catch (error) {
+    setLoading && setLoading(false);
+  }
+};
+
+export const getRegisterDetailsByIdAction = async (
+  buId,
+  bankAccId,
+  fromDate,
+  toDate,
+  setLoading,
+  setter
+) => {
+  try {
+    setLoading(true);
+    const res = await axios.get(
+      `/fino/Account/GetBankBook?BusinessUnitId=${buId}&BankAccountId=${bankAccId}&FromDate=${fromDate}&ToDate=${toDate}`
+    );
+    setLoading(false);
+    setter(res?.data);
+  } catch (error) {
+    setLoading(false);
+    setter([]);
+  }
+};
+
+export const getGeneralLedgerDDL = async (setLoading, setter) => {
+  try {
+    setLoading(true);
+    const res = await axios.get(
+      `/fino/CommonFino/GetGeneralLedgerListScheduleView`
+    );
+    setLoading(false);
+    setter(res?.data);
+  } catch (error) {
+    setLoading(false);
+    setter([]);
+  }
+};
+
+export const getPartnerBook = async (
+  businessUnitId,
+  partnerId,
+  partnerType,
+  fromDate,
+  toDate,
+  setLoading,
+  setter,
+  glId
+) => {
+  try {
+    setLoading(true);
+    let query = `/fino/Account/GetPartnerBook?BusinessUnitId=${businessUnitId}&PartnerId=${partnerId}&PartnerType=${partnerType}&FromDate=${fromDate}&ToDate=${toDate}`;
+    if (glId) {
+      query += `&GeneralId=${glId}`;
+    }
+    const res = await axios.get(query);
+    setLoading(false);
+    setter(res?.data);
+  } catch (error) {
+    setLoading(false);
+    setter([]);
+  }
+};
+export const partnerGeneralLedgerList = async (
+  businessUnitId,
+  partnerTypeId,
+  setter
+) => {
+  try {
+    const res = await axios.get(
+      `/fino/FinanceCommonDDL/PartnerGeneralLedgerList?businessUnitId=${businessUnitId}&partnerTypeId=${partnerTypeId}`
+    );
+    setter(
+      res?.data.map((item) => ({
+        ...item,
+        value: item?.glId,
+        label: item?.glName,
+      }))
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const GetItemNameDDL_api = async (accId, buId, typeId, setter) => {
+  try {
+    const res = await axios.get(
+      `/vat/TaxDDL/GetTaxItemListByItemTypeDDL?AccountId=${accId}&BusinessUnitId=${buId}&TaxItemTypeId=${typeId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};
+export const getDeliveryToDDL = async (soldToPrtnrId, setter) => {
+  try {
+    const res = await axios.get(
+      `/partner/PManagementCommonDDL/GetDeliveredToDDL?SoldToPartnerId=${soldToPrtnrId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};
+export const getTaxPortDDL = async (setter) => {
+  try {
+    const res = await axios.get(`/vat/TaxDDL/GetTaxPortDDL`);
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};
+
+export const GetCustomHouseDDL_api = async (setter) => {
+  try {
+    const res = await axios.get(`/vat/TaxDDL/GetCustomHouseDDL`);
+    if (res.status === 200 && res?.data) {
+      setter(
+        res?.data?.map((itm) => ({
+          ...itm,
+          label: `${itm?.code}: ${itm?.label}`,
+          withOutCodeLabel: itm?.label,
+        }))
+      );
+    }
+  } catch (error) {}
+};

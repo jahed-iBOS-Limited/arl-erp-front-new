@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactToPrint from 'react-to-print';
 import printIcon from '../../../../_helper/images/print-icon.png';
 import IViewModal from '../../../../_helper/_viewModal';
-import { getHeaderData, PurchaseRegister_Report_api } from './helper';
+import { getHeaderData } from './helper';
 import moment from 'moment';
 import { Card, CardBody } from '../../../../../../_metronic/_partials/controls';
 import { getSupplyInputTaxDetails } from './../helper';
@@ -10,6 +10,7 @@ import InputTaxDetailsModal from './../inputTaxDetailsModal/inputTaxDetailsModal
 import Mushak61 from './../../purchaseReg/Table/grid';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import { PurchaseRegister_Report_api } from '../../../../_helper/_commonApi';
 
 export default function InputTaxModal({
   show,

@@ -1,7 +1,7 @@
 import Axios from 'axios';
-import { _dateFormatter } from './../../../_helper/_dateFormate';
 import { toast } from 'react-toastify';
 import shortid from 'shortid';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
 //getTaxBranchDDL_api
 export const getTaxBranchDDL_api = async (userId, accid, buid, setter) => {
   try {
@@ -236,7 +236,6 @@ export const getSalesInvoiceIbosSearchPaginationShippointId = async (
   }
 };
 
-// getDetailTaxPendingDeliveryList
 export const GetDetailTaxPendingDeliveryListAuto = async (
   accId,
   buId,

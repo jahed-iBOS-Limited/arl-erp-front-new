@@ -145,24 +145,3 @@ export const getPartnerBook = async (
     setter([]);
   }
 };
-
-export const partnerGeneralLedgerList = async (
-  businessUnitId,
-  partnerTypeId,
-  setter
-) => {
-  try {
-    const res = await axios.get(
-      `/fino/FinanceCommonDDL/PartnerGeneralLedgerList?businessUnitId=${businessUnitId}&partnerTypeId=${partnerTypeId}`
-    );
-    setter(
-      res?.data.map((item) => ({
-        ...item,
-        value: item?.glId,
-        label: item?.glName,
-      }))
-    );
-  } catch (error) {
-    console.log(error);
-  }
-};

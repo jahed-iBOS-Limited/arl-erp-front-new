@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
-import IViewModal from '../../../../_helper/_viewModal';
 import ReactToPrint from 'react-to-print';
-import printIcon from '../../../../_helper/images/print-icon.png';
+import { Card, CardBody } from '../../../../../../_metronic/_partials/controls';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import { _fixedPoint } from '../../../../_helper/_fixedPoint';
-import { Card, CardBody } from '../../../../../../_metronic/_partials/controls';
+import IViewModal from '../../../../_helper/_viewModal';
+import printIcon from '../../../../_helper/images/print-icon.png';
 
 export default function AdjustmentTaxDetailsModal24({
   show,
@@ -80,11 +80,9 @@ export default function AdjustmentTaxDetailsModal24({
                               <td> {item?.name}</td>
                               <td> {item?.address}</td>
                               <td className="text-right">
-                                {' '}
                                 {_fixedPoint(item?.value)}
                               </td>
                               <td className="text-right">
-                                {' '}
                                 {_fixedPoint(item?.deductedVat)}
                               </td>
                               <td> {item?.invoiceNo}</td>
@@ -93,11 +91,9 @@ export default function AdjustmentTaxDetailsModal24({
                               <td> {item?.certificateDate}</td>
                               <td> {item?.taxDepositAccountCode}</td>
                               <td>
-                                {' '}
                                 {item?.taxDepositSerialNumberOfBookTransfer}
                               </td>
                               <td>
-                                {' '}
                                 {_dateFormatter(item?.treasuryDepositDate)}
                               </td>
                               <td> {item?.notes}</td>
