@@ -3,24 +3,6 @@ import { toast } from 'react-toastify';
 import shortid from 'shortid';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 
-// //vatPercentORTaka calculaion
-// const vatPercentORTakaCalFunc = (item) => {
-//   if (item?.isTariff) {
-//     return +item?.vat;
-//   } else {
-//     return +item?.vat / 100;
-//   }
-// };
-
-// //rebateAmount calculaiton func
-// const rebateAmountCalFunc = (item, vatResult) => {
-//   if (item?.isTariff) {
-//     return +vatResult * +item?.quantity;
-//   } else {
-//     return +vatResult * +item?.amount;
-//   }s
-// };
-
 // rate func calculation
 const rateCalFunc = (item) => {
   if (item?.isFixedRate) {

@@ -5,13 +5,14 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { shallowEqual, useSelector } from 'react-redux';
 import ReactToPrint from 'react-to-print';
 import { _todayDate } from '../../../_helper/_todayDate';
-import { getBusinessUnitYearConfigData, getTrailBalanceReport } from './helper';
+import { getBusinessUnitYearConfigData } from './helper';
 import { fromDateFromApi } from '../../../_helper/_formDateFromApi';
 import ICard from '../../../_helper/_card';
 import InputField from '../../../_helper/_inputField';
 import ILoader from '../../../_helper/loader/_loader';
 import numberWithCommas from '../../../_helper/_numberWithCommas';
 import NewSelect from '../../../_helper/_select';
+import { getTrailBalanceReport } from '../../../_helper/_commonApi';
 
 const TrailBalanceReport = () => {
   const printRef = useRef();

@@ -2024,3 +2024,35 @@ export const getPaymentTermDDL = async (setter) => {
     setter([]);
   }
 };
+export const getHeaderData_api = async (accId, buId, setter) => {
+  try {
+    const res = await axios.get(
+      `/vat/Mushak91/GetTaxPayerInformation?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {
+    setter({});
+  }
+};
+export const getTrailBalanceReport = async (
+  accId,
+  buId,
+  startDate,
+  endDate,
+  balanceType,
+  setter,
+  setLoading
+) => {
+  setLoading(true);
+  try {
+    const res = await axios.get(
+      `/fino/TrailBalanceReport/GetTrailBalanceByPamsReport?AccountId=${accId}&BusinessUnitId=${buId}&StartDate=${startDate}&EndDate=${endDate}&ViewType=${balanceType}`
+    );
+    setLoading(false);
+    setter(res?.data);
+  } catch (err) {
+    setLoading(false);
+  }
+};

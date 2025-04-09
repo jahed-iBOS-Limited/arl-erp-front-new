@@ -24,17 +24,6 @@ export const getTrailBalanceReport = async (
   }
 };
 
-export const getAccountClassDDL = async (accId, setter) => {
-  try {
-    const res = await axios.get(
-      `/costmgmt/GeneralLedger/GetAccountClassDDL?AccountId=${accId}`
-    );
-    setter(res?.data);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 export const getAccountCategoryDDL = async (accId, classId, setter) => {
   try {
     const res = await axios.get(
