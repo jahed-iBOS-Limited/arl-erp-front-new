@@ -1,21 +1,20 @@
+import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { Formik, Form } from 'formik';
-import Loading from './../../../../../_helper/_loading';
-import NewSelect from './../../../../../_helper/_select';
 import { useDispatch } from 'react-redux';
+import InputField from '../../../../../_helper/_inputField';
+import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
 import {
-  getSupplierDDL,
-  getTradeTypeDDL,
   getPaymentTermDDL,
+  getSupplierDDL,
   getTaxConfig,
   getTaxPortDDL,
+  getTradeTypeDDL,
 } from '../helper';
-import InputField from '../../../../../_helper/_inputField';
-import { _dateFormatter } from '../../../../../_helper/_dateFormate';
 import SearchAsyncSelect from './../../../../../_helper/SearchAsyncSelect';
-import FormikError from './../../../../../_helper/_formikError';
-import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
 import { _fixedPoint } from './../../../../../_helper/_fixedPoint';
+import FormikError from './../../../../../_helper/_formikError';
+import Loading from './../../../../../_helper/_loading';
+import NewSelect from './../../../../../_helper/_select';
 import IViewModal from './../../../../../_helper/_viewModal';
 import HSCodeInfoModel from './../Form/HSCodeInfoModel';
 export default function FormCmp({
@@ -30,7 +29,6 @@ export default function FormCmp({
   selectedBusinessUnit,
   isDisabled,
 }) {
-  const [setTaxBranchName] = useState([]);
   const [rowClickData, setRowClickData] = useState('');
   const [supplierDDL, setSupplierDDL] = useState([]);
   const [tradeTypeDDL, setTradeTypeDDL] = useState([]);
@@ -39,7 +37,6 @@ export default function FormCmp({
   const [HSCodeViewModel, setHSCodeViewModel] = useState(false);
   const [taxPortDDL, setTaxPortDDL] = useState([]);
 
-  // const [check, setCheck] = useState(false);
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       getSupplierDDL(
@@ -82,11 +79,11 @@ export default function FormCmp({
   };
 
   return (
-    <>
+    <React.Fragment>
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
+        onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
             setRowDto([]);
@@ -99,9 +96,7 @@ export default function FormCmp({
           values,
           errors,
           touched,
-          setValues,
           setFieldValue,
-          isValid,
         }) => (
           <>
             {isDisabled && <Loading />}
@@ -639,6 +634,6 @@ export default function FormCmp({
           </>
         )}
       </Formik>
-    </>
+    </React.Fragment>
   );
 }

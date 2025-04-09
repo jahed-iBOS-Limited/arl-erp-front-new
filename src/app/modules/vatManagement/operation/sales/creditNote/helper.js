@@ -134,68 +134,6 @@ export const getPartnerNameDDL_api = async (accid, buid, setter) => {
   } catch (error) {}
 };
 
-//getPurchaseInvoiceDDl
-export const getPurchaseInvoiceDDl = async (partnerId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/TaxDDL/SalesInvoiceDDL?partnerId=${partnerId}`
-    );
-    if (res.status === 200 && res.data) {
-      setter(res.data);
-    }
-  } catch (error) {
-    setter([]);
-  }
-};
-
-export const getViewData_api = async (accId, buId, salesId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/CreditNote/GetSalesInfoBySalesId?AccountId=${accId}&BusinessUnitId=${buId}&SalesID=${salesId}`
-    );
-    if (res.status === 200 && res?.data) {
-      // console.log(res)
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
-export const getItemNameDDL_api = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/TaxDDL/ItemNameDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
-export const getFiscalYearDDL_api = async (setter) => {
-  try {
-    const res = await Axios.get(`/vat/TaxDDL/FiscalYearDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
-export const getSalesInvoiceByBranchIdDDL_api = async (
-  accId,
-  buId,
-  taxBranchId,
-  setter
-) => {
-  try {
-    const res = await Axios.get(
-      `/vat/TaxDDL/SalesInvoiceByBranchIdDDL?AccountId=${accId}&BusinessUnitId=${buId}&TaxBranchId=${taxBranchId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const getAmountSdVat = async (grpId, codeValue, setter) => {
   try {
     const res = await Axios.get(
