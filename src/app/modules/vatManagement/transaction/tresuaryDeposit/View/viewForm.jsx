@@ -28,22 +28,12 @@ function TresuaryDepositViewModal({ singleData, id }) {
         enableReinitialize={true}
         initialValues={id ? singleData : initData}
       >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          isValid,
-        }) => (
+        {({ values }) => (
           <>
-            {/* {setInitValue(values,setFieldValue)} */}
             <Form className="form form-label-right">
               <div className="row">
                 <div className="col-lg-12">
                   <div className="row global-form my-4">
-                    {/* ///requested employee */}
                     <div className="col-lg-3">
                       <label>Branch Name</label>
                       <Select
