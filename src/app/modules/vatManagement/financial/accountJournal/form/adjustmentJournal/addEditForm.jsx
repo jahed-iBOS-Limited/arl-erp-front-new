@@ -48,11 +48,9 @@ export default function AdjustmentJournal() {
   useEffect(() => {
     if (singleData) {
       const data = [...singleData];
-      //const row = data?.filter((item) => item?.subGLTypeId!==6)
       setRowDto(data);
     }
   }, [singleData]);
-  //save event Modal (code see)
   const IConfirmModal = (props) => {
     const { title, message, noAlertFunc } = props;
     return confirmAlert({
@@ -67,9 +65,6 @@ export default function AdjustmentJournal() {
     });
   };
   const saveHandler = async (values, cb) => {
-    // const { accountId, userId: actionBy } = profileData;
-    // const { value: businessunitid } = selectedBusinessUnit;
-
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       const debitCalc = () => {
         const debit = rowDto
@@ -137,14 +132,6 @@ export default function AdjustmentJournal() {
       } else {
         if (debitCalc() !== creditCalc())
           return toast.warning('Debit & Credit must be equal');
-        // dispatch(
-        //   // saveAdjustmentJournal({
-        //   //   data: saveAdjustmentJournalData,
-        //   //   cb,
-        //   //   setDisabled,
-        //   //   IConfirmModal,
-        //   // })
-        // );
         if (rowDto?.length === 0) {
           toast.warn('Please add transaction');
         } else {

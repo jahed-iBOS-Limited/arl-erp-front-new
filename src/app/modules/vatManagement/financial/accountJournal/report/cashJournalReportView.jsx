@@ -1,16 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
 import { Formik, Form as FormikForm } from 'formik';
-import ReactToPrint from 'react-to-print';
-import Loading from './../../../../_helper/loader/_loader';
-import { getTaxAccountingJournal } from './helper';
-import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import ReactToPrint from 'react-to-print';
 import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import { _formatMoney } from '../../../../_helper/_formatMoney';
-import { useSelector, shallowEqual } from 'react-redux';
 import IView from '../../../../_helper/_helperIcons/_view';
 import IViewModal from '../../../../_helper/_viewModal';
+import Loading from './../../../../_helper/loader/_loader';
 import Attachments from './Attachments';
+import { getTaxAccountingJournal } from './helper';
 
 export function CashJournalReportView({
   journalCode,
@@ -48,11 +48,8 @@ export function CashJournalReportView({
           </>
         )}
       >
-        <Formik
-          enableReinitialize={true}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
-        >
-          {({ handleSubmit, resetForm, values, errors, touched, isValid }) => (
+        <Formik enableReinitialize={true}>
+          {() => (
             <>
               {loading && <Loading />}
               <FormikForm>
@@ -68,12 +65,7 @@ export function CashJournalReportView({
                           <span className="my-2">
                             <h5>Cash Journal</h5>
                           </span>
-                          {/* <span>Bank Name And A/C NO. {cashJournalReport?.objHeader
-                            ?.bankName} {cashJournalReport?.objHeader
-                              ?.bankAccountNo}</span> */}
                         </div>
-
-                        {/* <div></div> */}
                       </div>
                       <div className="my-3 d-flex justify-content-between">
                         <div style={{ transform: 'translateY(21px)' }}>
@@ -110,7 +102,6 @@ export function CashJournalReportView({
                         <thead>
                           <tr>
                             <th>SL</th>
-                            {/* <th>Account Code No</th> */}
                             <th>Head Of Accounts</th>
                             <th>Transaction</th>
                             <th>Debit</th>
@@ -124,7 +115,6 @@ export function CashJournalReportView({
                             return (
                               <tr>
                                 <td className="text-center">{i + 1}</td>
-                                {/* <td className='text-right'>{data?.itemCode}</td> */}
                                 <td>{data?.generalLedgerName}</td>
                                 <td>{data?.subGLName}</td>
                                 <td>
@@ -161,12 +151,6 @@ export function CashJournalReportView({
                       </table>
                       <div className="mt-5">
                         <div className="d-flex">
-                          {/* <p className="font-weight-bold mr-2">
-                            Sum Of Taka :{" "}
-                          </p>
-                          <p>{cashJournalReport?.objHeader?.amount}</p> */}
-                        </div>
-                        <div className="d-flex">
                           <p className="font-weight-bold mr-2">Narration : </p>
                           <p>{cashJournalReport?.[0]?.narration}</p>
                         </div>
@@ -184,10 +168,6 @@ export function CashJournalReportView({
                           <span className="reportBorder"></span>
                           <span>Authorized Signatory</span>
                         </div>
-                        {/* <div className=' d-flex flex-column'>
-                          <span className="reportBorder"></span>
-                          <span>Authorized Signatory Akij Group</span>
-                        </div> */}
                         <div className=" d-flex flex-column">
                           <span className="reportBorder"></span>
                           <span>Payee</span>

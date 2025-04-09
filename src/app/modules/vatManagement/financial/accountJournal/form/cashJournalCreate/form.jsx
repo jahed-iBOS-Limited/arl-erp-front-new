@@ -5,85 +5,24 @@ import { shallowEqual, useSelector } from 'react-redux';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-import customStyles from '../../../../../selectCustomStyle';
 import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
-import FormikError from '../../../../../_helper/_formikError';
-import { IInput } from '../../../../../_helper/_input';
-import DebitCredit from './DebitCredit';
-import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
-import TransferTable from './TransferTable';
+import TextArea from '../../../../../_helper/TextArea';
 import {
   getBankAccountDDL_api,
   getPartnerTypeDDLAction,
   getSendToGLBank,
 } from '../../../../../_helper/_commonApi';
-import TextArea from '../../../../../_helper/TextArea';
-
-const receiptsJournal = Yup.object().shape({
-  receiveFrom: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(1000, 'Maximum 100 symbols')
-    .required('Receive From required'),
-  narration: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols'),
-  headerNarration: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols')
-    .required('Narration required'),
-  cashGLPlus: Yup.object().shape({
-    label: Yup.string().required('Cash GL is required'),
-    value: Yup.string().required('Cash GL is required'),
-  }),
-  transaction: Yup.object().shape({
-    label: Yup.string(),
-    value: Yup.string(),
-  }),
-});
-
-const paymentsJournal = Yup.object().shape({
-  paidTo: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(
-      1000000000000000000000000000000,
-      'Maximum 1000000000000000000000000000000 symbols'
-    )
-    .required('Paid To required'),
-  narration: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols'),
-  headerNarration: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols')
-    .required('Narration required'),
-  cashGLPlus: Yup.object().shape({
-    label: Yup.string().required('Cash GL is required'),
-    value: Yup.string().required('Cash GL is required'),
-  }),
-  transaction: Yup.object().shape({
-    label: Yup.string(),
-    value: Yup.string(),
-  }),
-});
-
-const transferJournal = Yup.object().shape({
-  headerNarration: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols')
-    .required('Narration required'),
-  cashGLPlus: Yup.object().shape({
-    label: Yup.string().required('Cash GL is required'),
-    value: Yup.string().required('Cash GL is required'),
-  }),
-  gLBankAc: Yup.object().shape({
-    label: Yup.string().required('GL/Bank Ac is required'),
-    value: Yup.string().required('GL/Bank Ac is required'),
-  }),
-  trasferTo: Yup.object().shape({
-    label: Yup.string().required('Trasfer To is required'),
-    value: Yup.string().required('Trasfer To is required'),
-  }),
-});
+import FormikError from '../../../../../_helper/_formikError';
+import { IInput } from '../../../../../_helper/_input';
+import {
+  paymentsJournal,
+  receiptsJournal,
+  transferJournal,
+} from '../../../../../_helper/_validationSchema';
+import customStyles from '../../../../../selectCustomStyle';
+import DebitCredit from './DebitCredit';
+import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
+import TransferTable from './TransferTable';
 
 export default function FormCmp({
   initData,

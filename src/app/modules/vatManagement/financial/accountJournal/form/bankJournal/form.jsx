@@ -173,10 +173,7 @@ export default function FormCmp({
                             setFieldValue('transferTo', valueOption);
                             setFieldValue('sendToGLBank', '');
                           }}
-                          options={[
-                            // { value: 1, label: "Cash" },
-                            { value: 2, label: 'Bank' },
-                          ]}
+                          options={[{ value: 2, label: 'Bank' }]}
                           value={values?.transferTo}
                           isSearchable={true}
                           styles={customStyles}
@@ -195,6 +192,7 @@ export default function FormCmp({
                           <Select
                             onChange={(valueOption) => {
                               setFieldValue('gl', '');
+                              // setFieldValue('gl', '');
                               setFieldValue('partnerType', valueOption);
                               setPartnerType(valueOption);
                               setFieldValue('transaction', '');
@@ -226,6 +224,7 @@ export default function FormCmp({
                             isSearchIcon={true}
                             handleChange={(valueOption) => {
                               setFieldValue('gl', '');
+                              // setFieldValue('gl', '');
                               if (valueOption?.glData?.length === 1) {
                                 setFieldValue('gl', valueOption?.glData[0]);
                               }
@@ -364,7 +363,7 @@ export default function FormCmp({
                             type="number"
                             component={Input}
                             value={values.amount}
-                            min="0"
+                            min={'0'}
                             step="any"
                             placeholder="Amount"
                             label="Amount"
@@ -467,7 +466,6 @@ export default function FormCmp({
                               if (!values?.paidTo)
                                 return toast.warn('paid To is required');
                             }
-                            // setFieldValue("transaction", "");
                             setFieldValue('amount', '');
                             setter(values);
                           }}

@@ -23,72 +23,11 @@ import FormikError from './../../../../_helper/_formikError';
 import { IInput } from './../../../../_helper/_input';
 import customStyles from './../../../../selectCustomStyle';
 import TextArea from '../../../../_helper/TextArea';
-
-const receiptsJournal = Yup.object().shape({
-  receiveFrom: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(1000, 'Maximum 100 symbols')
-    .required('Receive From required'),
-  narration: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols'),
-  headerNarration: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols')
-    .required('Narration required'),
-  cashGLPlus: Yup.object().shape({
-    label: Yup.string().required('Cash GL is required'),
-    value: Yup.string().required('Cash GL is required'),
-  }),
-  transaction: Yup.object().shape({
-    label: Yup.string(),
-    value: Yup.string(),
-  }),
-});
-
-const paymentsJournal = Yup.object().shape({
-  paidTo: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(
-      1000000000000000000000000000000,
-      'Maximum 1000000000000000000000000000000 symbols'
-    )
-    .required('Paid To required'),
-  narration: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols'),
-  headerNarration: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols')
-    .required('Narration required'),
-  cashGLPlus: Yup.object().shape({
-    label: Yup.string().required('Cash GL is required'),
-    value: Yup.string().required('Cash GL is required'),
-  }),
-  transaction: Yup.object().shape({
-    label: Yup.string(),
-    value: Yup.string(),
-  }),
-});
-
-const transferJournal = Yup.object().shape({
-  headerNarration: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols')
-    .required('Narration required'),
-  cashGLPlus: Yup.object().shape({
-    label: Yup.string().required('Cash GL is required'),
-    value: Yup.string().required('Cash GL is required'),
-  }),
-  gLBankAc: Yup.object().shape({
-    label: Yup.string().required('GL/Bank Ac is required'),
-    value: Yup.string().required('GL/Bank Ac is required'),
-  }),
-  trasferTo: Yup.object().shape({
-    label: Yup.string().required('Trasfer To is required'),
-    value: Yup.string().required('Trasfer To is required'),
-  }),
-});
+import {
+  paymentsJournal,
+  receiptsJournal,
+  transferJournal,
+} from '../../../../_helper/_validationSchema';
 
 export default function FormCmp({
   initData,
@@ -204,9 +143,7 @@ export default function FormCmp({
               {
                 label: 'Yes',
                 onClick: () => {
-                  saveHandler(values, () => {
-                    // resetForm(initData);
-                  });
+                  saveHandler(values, () => {});
                 },
               },
               {
