@@ -152,7 +152,6 @@ export const GetTaxSalesInvoiceListApi = async (
   }
 };
 
-// getDetailTaxPendingDeliveryList
 export const getDetailTaxPendingDeliveryList = async (
   accId,
   buId,
