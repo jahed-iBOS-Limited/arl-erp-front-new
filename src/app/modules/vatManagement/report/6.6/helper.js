@@ -65,17 +65,6 @@ export const getPartnerDDL = async (accId, buId, setter) => {
   } catch (error) {}
 };
 
-export const getTradeTypeDDL = async (setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/TaxDDL/GetTradeTypeDDL?TradeGroup=purchase`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const getTreasuryChallanNoDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
@@ -120,22 +109,6 @@ export const getPaymentTermDDL = async (setter) => {
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
-    }
-  } catch (error) {}
-};
-
-export const getItemDDL = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/TaxDDL/GetTaxItemListDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      const modifiedData = res?.data?.map((itm) => ({
-        ...itm,
-        label: `${itm.label} (${itm.uomName})`,
-        withoutlabel: itm.label,
-      }));
-      setter(modifiedData);
     }
   } catch (error) {}
 };

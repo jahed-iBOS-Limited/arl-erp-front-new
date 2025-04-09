@@ -46,17 +46,6 @@ export const getPaymentTermDDL = async (setter) => {
   } catch (error) {}
 };
 
-export const getItemDDL = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/TaxDDL/GetTaxItemForSalesDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const getViewModalDataBySalesId = async (id, setter) => {
   try {
     const res = await Axios.get(`/vat/Mushak69/GetMushak69?ChallanNo=${id}`);

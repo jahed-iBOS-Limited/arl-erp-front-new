@@ -58,15 +58,6 @@ export const getVehicleDDL = async (accId, buId, setter) => {
   }
 };
 
-export const getTradeTypeDDL = async (setter) => {
-  try {
-    const res = await Axios.get(`/vat/TaxDDL/GetTradeTypeSalesDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const getPaymentTermDDL = async (setter) => {
   try {
     const res = await Axios.get(`/vat/TaxDDL/GetPaymentTermsFinoDDL`);
