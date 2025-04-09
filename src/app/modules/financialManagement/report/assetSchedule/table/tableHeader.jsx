@@ -9,9 +9,9 @@ import ICard from '../../../../_helper/_card';
 import ILoader from '../../../../_helper/loader/_loader';
 import numberWithCommas from './../../../../_helper/_numberWithCommas';
 import ReactToPrint from 'react-to-print';
-import { getBusinessUnitYearConfigData } from '../helper';
 import { fromDateFromApi } from '../../../../_helper/_formDateFromApi';
 import { _firstDateOfCurrentFiscalYear } from '../../../../_helper/_firstDateOfCurrentFiscalYear';
+import { getBusinessUnitYearConfigData } from '../../../../_helper/_commonApi';
 
 const AssetSchedule = () => {
   const printRef = useRef();

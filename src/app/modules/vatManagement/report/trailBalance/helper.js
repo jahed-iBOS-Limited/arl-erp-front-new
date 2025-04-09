@@ -50,28 +50,3 @@ export const getGeneralLedgerByCategoryDDL = async (
     console.log(err);
   }
 };
-
-export const getBusinessUnitYearConfigData = async (
-  accountId,
-  businessUnitId,
-  initData,
-  setter
-) => {
-  try {
-    const res = await axios.get(
-      `/fino/FinanceCommonDDL/GetBusinessUnitYearConfigData?accountId=${accountId}&businessUnitId=${businessUnitId}`
-    );
-    setter({
-      balanceType: '3',
-      toDate: _todayDate(),
-      fromDate: res?.data?.[0]['startDate']
-        ? _dateFormatter(res?.data?.[0]['startDate'])
-        : _dateFormatter(new Date()),
-    });
-    setter(res?.data);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-// accId=1,busId=2,gl=94 category =15,33 class =15
