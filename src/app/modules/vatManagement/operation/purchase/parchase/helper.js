@@ -1,35 +1,8 @@
 import Axios from 'axios';
 import { toast } from 'react-toastify';
-import shortid from 'shortid';
+import { rowDtoCalculationFunc } from '../../../report/auditLog/helper';
 import { _dateFormatter } from './../../../../_helper/_dateFormate';
 import { _fixedPoint } from './../../../../_helper/_fixedPoint';
-import { rowDtoCalculationFunc } from '../../../report/auditLog/helper';
-
-export const editPurchase = async (payload, setDisabled) => {
-  try {
-    setDisabled(true);
-    const res = await Axios.put(`/vat/TaxPurchase/EditTaxPurchase`, payload);
-    if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || 'Edited successfully');
-      // cb();
-      setDisabled(false);
-    }
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-    setDisabled(false);
-  }
-};
-
-export const getVatBranches = async (userId, accid, buid, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/OrganizationalUnitUserPermissionFotVat/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accid}&BusinessUnitId=${buid}&OrgUnitTypeId=15`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
 
 export const getSupplierDDL = async (accId, buId, setter) => {
   try {
@@ -73,53 +46,9 @@ export const getPaymentTermDDL = async (setter) => {
   } catch (error) {}
 };
 
-export const getItemDDL = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/TaxDDL/GetTaxItemListDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      const modifiedData = res?.data?.map((itm) => ({
-        ...itm,
-        label: `${itm.label} (${itm.uomName})`,
-        withoutlabel: itm.label,
-      }));
-      setter(modifiedData);
-    }
-  } catch (error) {}
-};
-
-export const getItemTypeDDL = async (setter) => {
-  try {
-    const res = await Axios.get(`/vat/TaxDDL/GetTaxItemTypeDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const getTaxPortDDL = async (setter) => {
   try {
     const res = await Axios.get(`/vat/TaxDDL/GetTaxPortDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
-export const getUomDDL = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/ItemManagementForVat/GetItemUOMDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-export const GetSupplyTypeDDL_api = async (setter) => {
-  try {
-    const res = await Axios.get(`/vat/TaxDDL/GetSupplyTypeDDL`);
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
@@ -505,167 +434,6 @@ export const getSinglePurchase = async (
     }
   } catch (error) {
     setDisabled && setDisabled(false);
-  }
-};
-export const getGridData = async (
-  accId,
-  buId,
-  tbId,
-  fromDate,
-  toDate,
-  setter,
-  setLoading,
-  pageNo,
-  pageSize
-) => {
-  try {
-    setLoading(true);
-    const res = await Axios.get(
-      `/vat/TaxPurchase/GetTaxPurchasePagination?accountId=${accId}&businessUnitId=${buId}&TaxBranchId=${tbId}&TaxTransactionTypeId=1&FromDate=${fromDate}&ToDate=${toDate}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-      setLoading(false);
-    }
-  } catch (error) {
-    setLoading(false);
-  }
-};
-
-export const getVehicleDDL = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/Vehicle/GetVehicleDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    setter([]);
-  }
-};
-
-export const purchaseAttachment_action = async (attachment, setUploadImage) => {
-  let formData = new FormData();
-  attachment.forEach((file) => {
-    formData.append('files', file?.file);
-  });
-  try {
-    let { data } = await Axios.post('/vat/Document/UploadFile', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    toast.success('Upload  successfully');
-    setUploadImage(data);
-  } catch (error) {
-    toast.error('Document not upload');
-  }
-};
-
-export const getCountryDDL_api = async (setter) => {
-  try {
-    const res = await Axios.get(`/vat/OMSForVat/GetCountryDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-export const GetItemVatInfoByHsCodeImport_api = async (
-  accId,
-  buId,
-  hsCode,
-  setter,
-  setDisabled
-) => {
-  setDisabled(true);
-  try {
-    const res = await Axios.get(
-      `/vat/TaxPurchase/GetItemVatInfoByHsCodeImport?AccountId=${accId}&BussinessUnitId=${buId}&HsCode=${hsCode}`
-    );
-    setDisabled(false);
-    setter(res?.data);
-  } catch (error) {
-    setDisabled(false);
-    setter('');
-  }
-};
-export const GetItemVatInfoByHsCodeLocal = async (
-  hsCode,
-  supplyTypeId,
-  setter,
-  setDisabled
-) => {
-  setDisabled(true);
-  try {
-    const res = await Axios.get(
-      `/vat/TaxItemGroup/GetItemVatInfoByHsCodeLocal?HsCode=${hsCode}&SupplyType=${supplyTypeId}`
-    );
-    setDisabled(false);
-    setter(res?.data);
-  } catch (error) {
-    setDisabled(false);
-    setter('');
-  }
-};
-
-export const GetSupplyTypeByHsLocal_api = async (
-  hsCode,
-  setter,
-  setDisabled
-) => {
-  setDisabled(true);
-  try {
-    const res = await Axios.get(
-      `/vat/TaxPurchase/GetSupplyTypeByHsLocal?HsCode=${hsCode}`
-    );
-    setDisabled(false);
-    setter(res?.data);
-  } catch (error) {
-    setDisabled(false);
-    setter([]);
-  }
-};
-export const GetCustomHouseDDL_api = async (setter) => {
-  try {
-    const res = await Axios.get(`/vat/TaxDDL/GetCustomHouseDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(
-        res?.data?.map((itm) => ({
-          ...itm,
-          label: `${itm?.code}: ${itm?.label}`,
-          withOutCodeLabel: itm?.label,
-        }))
-      );
-    }
-  } catch (error) {}
-};
-
-// export const GetItemInfoBySelection_api = async (
-//   accId,
-//   buId,
-//   itemId,
-//   setter
-// ) => {
-//   try {
-//     const res = await Axios.get(
-//       `/vat/TaxItemGroup/GetItemInfoBySelection?AccountId=${accId}&BusinessUnitId=${buId}&ItemId=${itemId}`
-//     );
-//     setter(res?.data);
-//   } catch (error) {
-//     setter("");
-//   }
-// };
-export const GetItemInfoByItemHs_api = async (accId, buId, code, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/TaxItemGroup/GetItemInfoByItemHs?AccountId=${accId}&BusinessUnitId=${buId}&SearchTerm=${code}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    setter('');
   }
 };
 
