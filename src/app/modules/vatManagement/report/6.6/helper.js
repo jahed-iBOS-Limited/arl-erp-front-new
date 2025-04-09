@@ -65,17 +65,6 @@ export const getPartnerDDL = async (accId, buId, setter) => {
   } catch (error) {}
 };
 
-export const getTaxConfig = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/BusinessUnitTaxConfig/GetPurchaseTaxConfig?AccountId=${accId}&BusinessUnitId=${buId}&TradeTypeId=1`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data[0]);
-    }
-  } catch (error) {}
-};
-
 export const getTradeTypeDDL = async (setter) => {
   try {
     const res = await Axios.get(
