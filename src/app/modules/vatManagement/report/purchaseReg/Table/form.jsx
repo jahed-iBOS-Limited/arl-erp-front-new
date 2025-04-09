@@ -13,12 +13,14 @@ import {
   ModalProgressBar,
 } from './../../../../../../_metronic/_partials/controls';
 
-import { getHeaderData_api } from '../../../../_helper/_commonApi';
+import {
+  getHeaderData_api,
+  PurchaseRegister_Report_api,
+} from '../../../../_helper/_commonApi';
 import {
   GetItemNameDDL_api,
   GetItemTypeDDL_api,
   getVatBranches_api,
-  PurchaseRegister_Report_api,
 } from '../helper';
 import NewSelect from './../../../../_helper/_select';
 import { _todayDate } from './../../../../_helper/_todayDate';

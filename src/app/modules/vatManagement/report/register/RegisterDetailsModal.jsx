@@ -1,23 +1,23 @@
-import React, { useState, useRef } from 'react';
-import { getRegisterDetailsByIdAction } from './helper';
-import { Formik, Form } from 'formik';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
-import Loading from '../../../_helper/_loading';
+import { Form, Formik } from 'formik';
+import html2pdf from 'html2pdf.js';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from '../../../../../_metronic/_partials/controls';
-import { _todayDate } from '../../../_helper/_todayDate';
 import InputField from '../../../_helper/_inputField';
-import { _dateFormatter } from './../../../_helper/_dateFormate';
-import ReactToPrint from 'react-to-print';
-import { _formatMoney } from './../../../_helper/_formatMoney';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
 import { SetFinancialManagementReportRegisterAction } from '../../../_helper/reduxForLocalStorage/Actions';
-import html2pdf from 'html2pdf.js';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
+import { _formatMoney } from './../../../_helper/_formatMoney';
+import { getRegisterDetailsByIdAction } from './helper';
 
 const RegisterDetailsModal = ({ tableItem, values }) => {
   const { financialManagementReportRegister } = useSelector(
@@ -49,17 +49,13 @@ const RegisterDetailsModal = ({ tableItem, values }) => {
   };
   const printRef = useRef();
   return (
-    <Formik
-      enableReinitialize={true}
-      initialValues={initData}
-      onSubmit={(values, { setSubmitting, resetForm }) => {}}
-    >
-      {({ errors, touched, setFieldValue, isValid, values }) => (
+    <Formik enableReinitialize={true} initialValues={initData}>
+      {({ setFieldValue, values }) => (
         <>
           <Card>
-            {true && <ModalProgressBar />}
+            <ModalProgressBar />
             <CardHeader title="Register Details">
-              <CardHeaderToolbar></CardHeaderToolbar>
+              <CardHeaderToolbar />
             </CardHeader>
             <CardBody>
               <Form className="form form-label-right">
@@ -74,7 +70,6 @@ const RegisterDetailsModal = ({ tableItem, values }) => {
                       type="date"
                       onChange={(e) => {
                         setFieldValue('fromDate', e.target.value);
-                        // localStorage.setItem("accountReportRegisterFromDate", e.target.value)
                         dispatch(
                           SetFinancialManagementReportRegisterAction({
                             ...values,
@@ -95,7 +90,6 @@ const RegisterDetailsModal = ({ tableItem, values }) => {
                       type="date"
                       onChange={(e) => {
                         setFieldValue('toDate', e.target.value);
-                        // localStorage.setItem("accountReportRegisterToDate", e.target.value)
                         dispatch(
                           SetFinancialManagementReportRegisterAction({
                             ...values,
@@ -199,7 +193,6 @@ const RegisterDetailsModal = ({ tableItem, values }) => {
                           </tr>
                         </thead>
                         <tbody>
-                          {' '}
                           {rowDto?.map((item, index) => (
                             <tr key={index}>
                               <td className="text-center">{index + 1}</td>
