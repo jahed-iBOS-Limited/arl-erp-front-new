@@ -2208,3 +2208,26 @@ export const getDeliveryToDDL = async (soldToPrtnrId, setter) => {
     }
   } catch (error) {}
 };
+export const getTaxPortDDL = async (setter) => {
+  try {
+    const res = await axios.get(`/vat/TaxDDL/GetTaxPortDDL`);
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};
+
+export const GetCustomHouseDDL_api = async (setter) => {
+  try {
+    const res = await axios.get(`/vat/TaxDDL/GetCustomHouseDDL`);
+    if (res.status === 200 && res?.data) {
+      setter(
+        res?.data?.map((itm) => ({
+          ...itm,
+          label: `${itm?.code}: ${itm?.label}`,
+          withOutCodeLabel: itm?.label,
+        }))
+      );
+    }
+  } catch (error) {}
+};
