@@ -31,6 +31,7 @@ const initData = {
   requiredDate: _todayDate(),
   itemName: '',
   quantity: '',
+  po: '',
 };
 
 export default function PurchaseRequestCreateForm({
@@ -129,6 +130,8 @@ export default function PurchaseRequestCreateForm({
             purchaseRequestId: +prId,
             purchaseRequestCode: values?.code,
             businessUnitId: location?.item?.businessUnitId,
+            purchaseOrganizationId: values?.po?.value || 0,
+            purchaseOrganizationNam: values?.po?.label || '',
             actionBy: profileData?.userId,
           },
           objRow,

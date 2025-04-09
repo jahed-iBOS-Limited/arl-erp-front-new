@@ -332,6 +332,22 @@ export default function FormCmp({
                         </div>{' '}
                       </>
                     )}
+                    {location?.state?.poList?.length > 0 && (
+                      <div className="col-lg-12">
+                        <NewSelect
+                          name="po"
+                          options={location?.state?.poList || []}
+                          value={values?.po}
+                          label="Purchase Organization"
+                          onChange={(v) => {
+                            setFieldValue('po', v);
+                          }}
+                          placeholder="Purchase Organization"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                    )}
                     <div className="col-lg-12">
                       <label>Required Date</label>
                       <InputField
