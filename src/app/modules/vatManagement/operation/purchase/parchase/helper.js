@@ -3,72 +3,7 @@ import { toast } from 'react-toastify';
 import shortid from 'shortid';
 import { _dateFormatter } from './../../../../_helper/_dateFormate';
 import { _fixedPoint } from './../../../../_helper/_fixedPoint';
-
-export const rowDtoCalculationFunc = (arr) => {
-  // obj row
-  let objRow = arr?.map((item) => {
-    //rate
-    const rate = +item.amount / +item.quantity;
-
-    //Amount
-    const amount = +item.amount;
-    //cdtotal
-    const cdtotal = (+item.cd / 100) * +amount || 0;
-    //rdtotal
-    const rdtotal = (+item.rd / 100) * +amount || 0;
-    //sdtotal
-    const sdtotal = (+item.sd / 100) * (+amount + +cdtotal + +rdtotal) || 0;
-    //vatTotal
-    const vatTotal =
-      (+item.vat / 100) * (+amount + +cdtotal + +rdtotal + +sdtotal) || 0;
-    //atTotal
-    const atTotal =
-      (+item.at / 100) * (+amount + +cdtotal + +rdtotal + +sdtotal) || 0;
-    //aitTotal
-    const aitTotal = (+item.ait / 100) * +amount || 0;
-    const totalAmount =
-      +amount +
-      +cdtotal +
-      +rdtotal +
-      +sdtotal +
-      +vatTotal +
-      +atTotal +
-      +aitTotal;
-    //rebateAmount
-    const rebateAmount = vatTotal;
-    return {
-      ...item,
-      rate: +rate,
-      rebateAmount: +rebateAmount,
-      cal_cdtotal: +cdtotal,
-      cal_rdtotal: +rdtotal,
-      cal_sdtotal: +sdtotal,
-      cal_vatTotal: +vatTotal,
-      cal_atTotal: +atTotal,
-      cal_aitTotal: +aitTotal,
-      totalAmount: +totalAmount,
-    };
-  });
-  return objRow;
-};
-
-// Real
-export const createPurchase = async (payload, cb, setDisabled) => {
-  try {
-    setDisabled(true);
-    const res = await Axios.post(`/vat/TaxPurchase/CreateTaxPurchase`, payload);
-    if (res.status === 200 && res?.data) {
-      toast.success('Submitted Successfully', {
-        toastId: shortid(),
-      });
-      cb();
-      setDisabled(false);
-    }
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-    setDisabled(false);
-  }
-};
+import { rowDtoCalculationFunc } from '../../../report/auditLog/helper';
 
 export const editPurchase = async (payload, setDisabled) => {
   try {
