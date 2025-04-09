@@ -21,7 +21,7 @@ import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
 import { AdjustmentJournalReportView } from '../../financial/accountJournal/report/adjustmentJournalReportView';
 import { BankJournalReportView } from '../../financial/accountJournal/report/bankJournalReportView';
 import { CashJournalReportView } from '../../financial/accountJournal/report/cashJournalReportView';
-import { getPartnerBook } from './helper';
+import { getPartnerBook } from '../../../_helper/_commonApi';
 
 const SubScheduleModal = ({ tableItem, landingValues }) => {
   const initData = {

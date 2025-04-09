@@ -16,7 +16,6 @@ import {
 } from './../../../../../_metronic/_partials/controls';
 import NewSelect from './../../../_helper/_select';
 import {
-  getGeneralLedgerDDL,
   getRegisterReportAction,
   getSbuDDLAction,
   getPartnerTypeDDL,
@@ -31,6 +30,7 @@ import { _firstDateofMonth } from '../../../_helper/_firstDateOfCurrentMonth';
 import { setRegisterReportAction } from '../../../_helper/reduxForLocalStorage/Actions';
 import { PartnerLedger } from '../../../procurement/reports/partnerLedger';
 import PartnerModal from './partnerModal';
+import { getGeneralLedgerDDL } from '../../../_helper/_commonApi';
 
 const initData = {
   fromDate: _firstDateofMonth(),

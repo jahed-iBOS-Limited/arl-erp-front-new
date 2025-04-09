@@ -54,41 +54,6 @@ export const getRegisterReportAction = async (
   }
 };
 
-export const getRegisterDetailsByIdAction = async (
-  buId,
-  bankAccId,
-  fromDate,
-  toDate,
-  setLoading,
-  setter
-) => {
-  try {
-    setLoading(true);
-    const res = await axios.get(
-      `/fino/Account/GetBankBook?BusinessUnitId=${buId}&BankAccountId=${bankAccId}&FromDate=${fromDate}&ToDate=${toDate}`
-    );
-    setLoading(false);
-    setter(res?.data);
-  } catch (error) {
-    setLoading(false);
-    setter([]);
-  }
-};
-
-export const getGeneralLedgerDDL = async (setLoading, setter) => {
-  try {
-    setLoading(true);
-    const res = await axios.get(
-      `/fino/CommonFino/GetGeneralLedgerListScheduleView`
-    );
-    setLoading(false);
-    setter(res?.data);
-  } catch (error) {
-    setLoading(false);
-    setter([]);
-  }
-};
-
 export const getPartnerTypeDDL = async (setter) => {
   try {
     const res = await axios.get(
@@ -103,52 +68,6 @@ export const getPartnerTypeDDL = async (setter) => {
     });
     list.push({ value: 3, label: 'Employee' });
     setter(list);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getPartnerBook = async (
-  businessUnitId,
-  partnerId,
-  partnerType,
-  fromDate,
-  toDate,
-  setLoading,
-  setter,
-  glId
-) => {
-  try {
-    setLoading(true);
-    let query = `/fino/Account/GetPartnerBook?BusinessUnitId=${businessUnitId}&PartnerId=${partnerId}&PartnerType=${partnerType}&FromDate=${fromDate}&ToDate=${toDate}`;
-    if (glId) {
-      query += `&GeneralId=${glId}`;
-    }
-    const res = await axios.get(query);
-    setLoading(false);
-    setter(res?.data);
-  } catch (error) {
-    setLoading(false);
-    setter([]);
-  }
-};
-
-export const partnerGeneralLedgerList = async (
-  businessUnitId,
-  partnerTypeId,
-  setter
-) => {
-  try {
-    const res = await axios.get(
-      `/fino/FinanceCommonDDL/PartnerGeneralLedgerList?businessUnitId=${businessUnitId}&partnerTypeId=${partnerTypeId}`
-    );
-    setter(
-      res?.data.map((item) => ({
-        ...item,
-        value: item?.glId,
-        label: item?.glName,
-      }))
-    );
   } catch (error) {
     console.log(error);
   }

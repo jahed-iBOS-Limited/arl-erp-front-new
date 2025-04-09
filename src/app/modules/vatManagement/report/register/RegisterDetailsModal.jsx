@@ -17,7 +17,7 @@ import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
 import { SetFinancialManagementReportRegisterAction } from '../../../_helper/reduxForLocalStorage/Actions';
 import { _dateFormatter } from './../../../_helper/_dateFormate';
 import { _formatMoney } from './../../../_helper/_formatMoney';
-import { getRegisterDetailsByIdAction } from './helper';
+import { getRegisterDetailsByIdAction } from '../../../_helper/_commonApi';
 
 const RegisterDetailsModal = ({ tableItem, values }) => {
   const { financialManagementReportRegister } = useSelector(
