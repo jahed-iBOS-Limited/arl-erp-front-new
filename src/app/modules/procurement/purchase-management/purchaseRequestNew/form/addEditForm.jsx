@@ -131,7 +131,7 @@ export default function PurchaseRequestCreateForm({
             purchaseRequestCode: values?.code,
             businessUnitId: location?.item?.businessUnitId,
             purchaseOrganizationId: values?.po?.value || 0,
-            purchaseOrganizationNam: values?.po?.label || '',
+            purchaseOrganizationName: values?.po?.label || '',
             actionBy: profileData?.userId,
           },
           objRow,
