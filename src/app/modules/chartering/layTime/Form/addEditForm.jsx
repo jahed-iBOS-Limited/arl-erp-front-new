@@ -48,12 +48,10 @@ export default function LayTimeForm() {
   const [singleData, setSingleData] = useState({});
   const [id, setId] = useState(0);
 
-  /* DDL */
   const [vesselDDL, setVesselDDL] = useState([]);
   const [stackHolderTypeDDL, setStackHolderTypeDDL] = useState([]);
   const [stackHolderNameDDL, setStackHolderNameDDL] = useState([]);
 
-  // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
@@ -90,7 +88,7 @@ export default function LayTimeForm() {
   };
 
   return (
-    <>
+    <React.Fragment>
       {loading && <Loading />}
       <Form
         title={
@@ -103,13 +101,11 @@ export default function LayTimeForm() {
         initData={initData}
         saveHandler={saveHandler}
         viewType={type}
-        /* DDL */
         vesselDDL={vesselDDL}
         stackHolderTypeDDL={stackHolderTypeDDL}
         setStackHolderTypeDDL={setStackHolderTypeDDL}
         stackHolderNameDDL={stackHolderNameDDL}
         setStackHolderNameDDL={setStackHolderNameDDL}
-        /* Others */
         setLoading={setLoading}
         id={id}
         rowData={rowData}
@@ -118,6 +114,6 @@ export default function LayTimeForm() {
         singleData={singleData}
         setSingleData={setSingleData}
       />
-    </>
+    </React.Fragment>
   );
 }

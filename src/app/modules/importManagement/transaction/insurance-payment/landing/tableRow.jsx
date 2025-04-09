@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import Loading from '../../../../_helper/_loading';
 import PaginationTable from '../../../../_helper/_tablePagination';
 
+import { Form, Formik } from 'formik';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
-  CardHeader,
-  ModalProgressBar,
-  CardHeaderToolbar,
   CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
 } from '../../../../../../_metronic/_partials/controls';
-import { useHistory } from 'react-router-dom';
-import { Formik, Form } from 'formik';
-import NewSelect from '../../../../_helper/_select';
-import PaginationSearch from '../../../../_helper/_search';
+import { getGridData } from '../../../../_helper/_commonApi';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import InputField from '../../../../_helper/_inputField';
-import { getGridData } from '../../../../_helper/_commonApi';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
 
 export default function TableRow() {
   const [gridData] = useState({});
@@ -44,14 +44,11 @@ export default function TableRow() {
           fromDate: _dateFormatter(new Date()),
           toDate: _dateFormatter(new Date()),
         }}
-        // validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
-            {/* {console.log(values)} */}
             <Card>
-              {true && <ModalProgressBar />}
+              <ModalProgressBar />
               <CardHeader title="Insurence Payment">
                 <CardHeaderToolbar>
                   <button
@@ -62,7 +59,6 @@ export default function TableRow() {
                       });
                     }}
                     className="btn btn-primary"
-                    // disabled={}
                   >
                     Create
                   </button>
@@ -133,10 +129,7 @@ export default function TableRow() {
                         </label>
                       </div>
 
-                      <div
-                        className="col-lg-3  mt-4"
-                        // style={{marginLeft: "-95px"}}
-                      >
+                      <div className="col-lg-3  mt-4">
                         <NewSelect
                           name="privicyType"
                           options={[]}
@@ -160,48 +153,7 @@ export default function TableRow() {
                           Show
                         </button>
                       </div>
-
-                      {/* last div */}
                     </div>
-
-                    {/* <div className="col-lg-2">
-                      <NewSelect
-                        name="plant"
-                        options={[]}
-                        value={values?.plant}
-                        label="Plant"
-                        onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
-
-                        }}
-                        placeholder="Plant"
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-
-
-                    <div className="col-lg-2">
-                      <label>To Date</label>
-                      <InputField
-                        value={values?.toDate}
-                        name="toDate"
-                        placeholder="To Date"
-                        type="date"
-                      />
-                    </div> */}
-                    {/* <div className="col-lg-2 mt-5">
-                      <button
-                        className="btn btn-primary"
-                        // disabled={}
-                        type="button"
-                        onClick={() => {
-
-                        }}
-                      >
-                        View
-                      </button>
-                    </div> */}
                   </div>
 
                   <div className="row cash_journal">

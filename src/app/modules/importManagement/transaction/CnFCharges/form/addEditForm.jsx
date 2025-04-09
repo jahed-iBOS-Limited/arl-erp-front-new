@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
-import Form from './form';
-import Loading from '../../../../_helper/_loading';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
@@ -9,8 +8,8 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from '../../../../../../_metronic/_partials/controls';
-import { useHistory } from 'react-router';
-import NewSelect from '../../../../_helper/_select';
+import Loading from '../../../../_helper/_loading';
+import Form from './form';
 
 const initData = {
   reason: '',
@@ -63,9 +62,8 @@ export default function CnFChargesForm() {
 
   return (
     <Card>
-      {true && <ModalProgressBar />}
+      <ModalProgressBar />
       <CardHeader title="C&F Commission And Charges">
-        {/* <CardHeader  title={isViewPage ? "Item Basic Info" : "Edit Item Basic Info"} >  */}
         <CardHeaderToolbar>
           <>
             <button
@@ -79,7 +77,6 @@ export default function CnFChargesForm() {
             </button>
             <button
               type="reset"
-              // onClick={resetBtnClick}
               ref={resetBtnRef}
               className="btn btn-light ml-2"
             >
@@ -89,7 +86,6 @@ export default function CnFChargesForm() {
             <button
               type="submit"
               className="btn btn-primary ml-2"
-              // onClick={saveDataClick}
               ref={saveBtnRef}
               disabled={isDisabled}
             >
@@ -102,44 +98,24 @@ export default function CnFChargesForm() {
         <div className="d-flex justify-content-between justify-content-center pt-2">
           <p className="pt-5">LC Number: 5416485</p>
           <p className="pt-5">LC Number: 5416485</p>
-          {/* <div className="col-lg-3">
-            <NewSelect
-              name="shipment"
-              //   options={partnerTypeDDL || []}
-              // value={values?.coverage}
-              label="Shipment"
-              // onChange={(valueOption) => {
-              //   setFieldValue("coverage", valueOption);
-              // }}
-              placeholder="Shipment"
-              // errors={errors}
-              // touched={touched}
-              //   isDisabled={isEdit}
-            />
-          </div> */}
         </div>
         {isDisabled && <Loading />}
-        {/* {data && ( */}
         <div className="mt-0">
           <Form
             {...objProps}
             initData={initData}
             saveHandler={saveHandler}
-            // disableHandler={disableHandler}
             profileData={profileData}
             accountId={profileData?.accountId}
             selectedBusinessUnit={selectedBusinessUnit}
-            // taxBracketDDL={taxBracketDDL}
             setter={setter}
             remover={remover}
             rowDto={rowDto}
             setRowDto={setRowDto}
             setEdit={setEdit}
             isDisabled={isDisabled}
-            // setDivisionDDL={setDivisionDDL}
           />
         </div>
-        {/* )} */}
       </CardBody>
     </Card>
   );

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import Loading from './../../../../_helper/_loading';
+import { getChargeLandingData } from '../../../../_helper/_commonApi';
+import ICustomTable from '../../../../_helper/_customTable';
 import {
   Card,
+  CardBody,
   CardHeader,
   CardHeaderToolbar,
-  CardBody,
 } from './../../../../../../_metronic/_partials/controls';
+import Loading from './../../../../_helper/_loading';
 import PaginationTable from './../../../../_helper/_tablePagination';
-import ICustomTable from '../../../../_helper/_customTable';
-import { getChargeLandingData } from '../../../../_helper/_commonApi';
 
 const header = [
   'SL',
@@ -50,7 +50,6 @@ const CnFChargesLanding = () => {
     );
   }, []);
 
-  //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
     getChargeLandingData(
       profileData?.accountId,
@@ -108,20 +107,7 @@ const CnFChargesLanding = () => {
               <td>
                 <span className="pl-2">Amendment no</span>
               </td>
-              {/* <td style={{ width: "100px" }} className="text-center">
-                <span
-                  className="edit"
-                  // onClick={(e) =>
-                  //   history.push(`/config/domain-controll/role-manager/edit/`)
-                  // }
-                >
-                  <IEdit />
-                </span>
-              </td> */}
             </tr>
-
-            {/* );
-              })} */}
           </ICustomTable>
 
           {/* Pagination Code */}

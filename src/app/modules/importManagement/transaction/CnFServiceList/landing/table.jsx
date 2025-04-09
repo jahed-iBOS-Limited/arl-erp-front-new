@@ -1,19 +1,18 @@
+import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
-import Loading from '../../../../_helper/_loading';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
+  CardBody,
   CardHeader,
   CardHeaderToolbar,
-  CardBody,
-  // Input,
 } from '../../../../../../_metronic/_partials/controls';
-import PaginationTable from '../../../../_helper/_tablePagination';
-import ICustomTable from '../../../../_helper/_customTable';
-import NewSelect from '../../../../_helper/_select';
-import InputField from '../../../../_helper/_inputField';
-import { Formik } from 'formik';
 import { getChargeLandingData } from '../../../../_helper/_commonApi';
+import ICustomTable from '../../../../_helper/_customTable';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 const header = [
   'SL',
@@ -69,21 +68,10 @@ const CnFServiceList = () => {
   return (
     <>
       <Formik>
-        {({ errors, touched, setFieldValue, isValid, values }) => (
+        {() => (
           <Card>
             <CardHeader title="CnF Service List">
-              <CardHeaderToolbar>
-                {/* <button
-              onClick={() =>
-                history.push(
-                  "/import-management/transaction/transport-charges/create"
-                )
-              }
-              className="btn btn-primary"
-            >
-              Create
-            </button> */}
-              </CardHeaderToolbar>
+              <CardHeaderToolbar />
             </CardHeader>
             <CardBody>
               <div className="row">
@@ -119,9 +107,6 @@ const CnFServiceList = () => {
               </div>
               {isloading && <Loading />}
               <ICustomTable ths={header}>
-                {/* {gridData?.data?.length > 0 &&
-              gridData?.data?.map((item, index) => { */}
-                {/* return ( */}
                 <tr>
                   <td style={{ width: '30px' }} className="text-center">
                     1
@@ -159,16 +144,6 @@ const CnFServiceList = () => {
                   <td>
                     <span className="pl-2">Amendment no</span>
                   </td>
-                  {/* <td style={{ width: "100px" }} className="text-center">
-                <span
-                  className="edit"
-                  // onClick={(e) =>
-                  //   history.push(`/config/domain-controll/role-manager/edit/`)
-                  // }
-                >
-                  <IEdit />
-                </span>
-              </td> */}
                 </tr>
 
                 {/* );

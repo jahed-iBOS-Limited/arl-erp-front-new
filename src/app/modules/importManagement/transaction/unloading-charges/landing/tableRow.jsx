@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import Loading from '../../../../_helper/_loading';
 import PaginationTable from '../../../../_helper/_tablePagination';
 
+import { Form, Formik } from 'formik';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
-  CardHeader,
-  ModalProgressBar,
-  CardHeaderToolbar,
   CardBody,
+  CardHeader,
+  CardHeaderToolbar,
+  ModalProgressBar,
 } from '../../../../../../_metronic/_partials/controls';
-import { useHistory } from 'react-router-dom';
-import { Formik, Form } from 'formik';
-import PaginationSearch from '../../../../_helper/_search';
-import ICustomTable from '../../../../_helper/_customTable';
 import { getGridData } from '../../../../_helper/_commonApi';
+import ICustomTable from '../../../../_helper/_customTable';
+import PaginationSearch from '../../../../_helper/_search';
 
 export default function TableRow() {
   const [gridData] = useState({});
@@ -39,14 +39,12 @@ export default function TableRow() {
       <Formik
         enableReinitialize={true}
         initialValues={{}}
-        // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
-            {/* {console.log(values)} */}
             <Card>
-              {true && <ModalProgressBar />}
+              <ModalProgressBar />
               <CardHeader title="Transport Charges Payment Info">
                 <CardHeaderToolbar>
                   <button
@@ -57,7 +55,6 @@ export default function TableRow() {
                       });
                     }}
                     className="btn btn-primary"
-                    // disabled={}
                   >
                     Create
                   </button>

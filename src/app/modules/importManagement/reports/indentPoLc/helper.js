@@ -16,7 +16,6 @@ export const GetBankDDL = async (setter, accId, businessUnitId) => {
     const res = await axios.get(
       `/imp/ImportCommonDDL/GetBankListDDL?accountId=${accId}&businessUnitId=${businessUnitId}`
     );
-    // const res = await axios.get(`/imp/ImportCommonDDL/GetBankListDDL`);
     setter(res?.data);
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -47,24 +46,12 @@ export const getReport = async (
   setter,
   setLoading
 ) => {
-  // const search = searchValue ?? "";
-  // const FromDate = fromDate ?? "";
-  // const ToDate = toDate ?? "";
-  // const bankID = bankId ?? "";
-  // const beneficiaryID = beneficiaryId ?? "";
-
   setLoading(true);
   try {
-    // let query = `/imp/ImportReport/GetReportLCPO?accountId=${accId}&businessUnitId=${buId}`;
     let query = `/imp/ImportReport/GetLcRegisterReport?&businessUnitId=${buId}&fromDate=${
       fromDate || getFifteenDaysAgoDate()
     }&toDate=${toDate || _todayDate()}`;
-    // if (poLcId) {
-    //   query += `&search=${poLcId}`;
-    // }
-    // if (beneficiaryId) {
-    //   query += `&beneficiaryId=${beneficiaryId}`;
-    // }
+
     if (poNo) {
       query += `&poNo=${poNo}`;
     }
@@ -74,16 +61,9 @@ export const getReport = async (
     if (bankId) {
       query += `&bankId=${bankId}`;
     }
-    // query += fromDate
     //   ? `&fromDate=${fromDate || getFifteenDaysAgoDate()}&toDate=${toDate ||
-    //       _todayDate()}`
-    //   : "";
     setLoading(true);
     const res = await axios.get(query);
-
-    // let res = await axios.get(
-    //   `/imp/ImportReport/GetReportLCPO?accountId=${accId}&businessUnitId=${buId}&search=${search}&fromDate=${FromDate}&toDate=${ToDate}&beneficiaryId=${beneficiaryID}&bankId=${bankID}`
-    //  );
     setter(res?.data);
     setLoading(false);
   } catch (err) {

@@ -25,7 +25,6 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
   const [basicInformation, setBasicInformation] = useState({});
   const [costSummary, setCostSummary] = useState({});
   const [shipmentDDL, setShipmentDDL] = useState([]);
-  // const [poLc, setPoLc] = useState({});
   const [totalLandingCost, setTotalLandingCost] = useState('');
   const [isPrintable, setIsPrintable] = useState(false);
   const [headerInfo, setHeaderInfo] = useState([]);
@@ -39,28 +38,6 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-
-  // const getBasicInformation = poNo => {
-  //    getLCSummaryBasicInformation(
-  //       profileData?.accountId,
-  //       selectedBusinessUnit?.value,
-  //       fundLimitDetails?.strUtilizationBy,
-  //       setBasicInformation,
-  //       setLoader
-  //    );
-  // };
-
-  // const getCostSummary = (poNo, shipmentId) => {
-  //    getLCSummaryCostSummary(
-  //       profileData?.accountId,
-  //       selectedBusinessUnit?.value,
-  //       fundLimitDetails?.strUtilizationBy,
-  //       shipmentId,
-  //       setCostSummary,
-  //       setTotalLandingCost,
-  //       setLoader
-  //    );
-  // };
 
   useEffect(() => {
     getShipmentListForLCSummaryReport(
@@ -119,7 +96,7 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
         <Formik
           enableReinitialize={true}
           initialValues={initData}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          // onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({ values, errors, touched, setFieldValue, dirty, isValid }) => (
             <>
@@ -133,9 +110,7 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
                       setIsShowModal(true);
                     }}
                   >
-                    {basicInformation?.poNumber
-                      ? basicInformation?.poNumber
-                      : ''}
+                    {basicInformation?.poNumber || ''}
                   </span>
                 </div>
 
@@ -148,9 +123,9 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
               <Form className="form form-label-right" ref={printRef}>
                 {isPrintable && (
                   <div className="text-center d-none-print">
-                    <h2> {headerInfo?.businessUnitName} </h2>
-                    <h6> {headerInfo?.businessUnitCode} </h6>
-                    <h6> {headerInfo?.businessUnitAddress} </h6>
+                    <h2> {headerInfo?.businessUnitName || ''} </h2>
+                    <h6> {headerInfo?.businessUnitCode || ''} </h6>
+                    <h6> {headerInfo?.businessUnitAddress || ''} </h6>
                   </div>
                 )}
                 <div className="row">
@@ -164,22 +139,16 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
                           <tr>
                             <td className="text-left w-50">Supplier Name</td>
                             <td className="w-50">
-                              {basicInformation?.supplierName
-                                ? basicInformation.supplierName
-                                : ''}
+                              {basicInformation?.supplierName || ''}
                             </td>
                           </tr>
                           <tr>
                             <td className="text-left">Bank Name</td>
-                            <td>{basicInformation?.bankName}</td>
+                            <td>{basicInformation?.bankName || ''}</td>
                           </tr>
                           <tr>
                             <td className="text-left">LC Number</td>
-                            <td>
-                              {basicInformation?.lcNumber
-                                ? basicInformation?.lcNumber
-                                : ''}
-                            </td>
+                            <td>{basicInformation?.lcNumber || ''}</td>
                           </tr>
                           <tr>
                             <td className="text-left">LC Date</td>
@@ -203,11 +172,7 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
                           </tr>
                           <tr>
                             <td className="text-left">HS Code</td>
-                            <td>
-                              {basicInformation?.hsCode
-                                ? basicInformation.hsCode
-                                : ''}
-                            </td>
+                            <td>{basicInformation?.hsCode || ''}</td>
                           </tr>
                           <tr>
                             <td className="text-left">Loading Port</td>
@@ -257,11 +222,7 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
                           </tr>
                           <tr>
                             <td className="text-left">Cover Note number</td>
-                            <td>
-                              {basicInformation?.coverNoteNumber
-                                ? basicInformation.coverNoteNumber
-                                : ''}
-                            </td>
+                            <td>{basicInformation?.coverNoteNumber || ''}</td>
                           </tr>
                           <tr>
                             <td className="text-left">No of LC Amendments</td>
@@ -330,12 +291,10 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
                                     state: {
                                       ...costSummary,
                                       checkbox: 'shipmentInformation',
-                                      ponumber: basicInformation?.poNumber
-                                        ? basicInformation?.poNumber
-                                        : '',
-                                      lcnumber: basicInformation?.lcNumber
-                                        ? basicInformation?.lcNumber
-                                        : '',
+                                      ponumber:
+                                        basicInformation?.poNumber || '',
+                                      lcnumber:
+                                        basicInformation?.lcNumber || '',
                                     },
                                   });
                                 }}
@@ -433,77 +392,7 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
                             <td className="text-right">
                               <b>{_formatMoney(totalLandingCost)}</b>
                             </td>
-                          </tr>{' '}
-                          {/* </>
-                        ) : (
-                          <>
-                            {" "}
-                            <tr>
-                              <td>BL/AWB/TR No</td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td>BL/AWB/TR Date</td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td>LC Opening Charge</td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td>Insurance Policy</td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td>Total Doc Release Charges</td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td>Payment on Maturity</td>
-                              <td>10,029,009.4548</td>
-                            </tr>
-                            <tr>
-                              <td>PG</td>
-                              <td>10,029,009.4548</td>
-                            </tr>
-                            <tr>
-                              <td>Custome Duty and Taxes</td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td>Port Charges</td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td>Shipping Charges</td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td>Transport Charges</td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td>C&F Charges</td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td>Survey Charges</td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td>Cleaning Charges</td>
-                              <td></td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <b>Total Landing Cost</b>
-                              </td>
-                              <td>
-                                <b>{totalLandingCost}</b>
-                              </td>
-                            </tr>{" "}
-                          </>
-                        )} */}
+                          </tr>
                         </tbody>
                       </table>
                     </div>

@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
-import Form from './form';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
@@ -9,6 +8,7 @@ import {
   ModalProgressBar,
 } from '../../../../../../../../_metronic/_partials/controls';
 import Loading from '../../../../../../_helper/_loading';
+import Form from './form';
 
 const initData = {
   shipment: '',
@@ -40,17 +40,14 @@ export default function CostSummary() {
     setRowDto([...rowDto, payload]);
   };
 
-  //   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
 
-  //   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  //   // get singleData
   const saveHandler = async (values, cb) => {};
 
   const remover = (payload) => {
@@ -60,13 +57,12 @@ export default function CostSummary() {
 
   return (
     <Card>
-      {true && <ModalProgressBar />}
+      <ModalProgressBar />
       <CardHeader title="Cost Summary (BDT)">
         <CardHeaderToolbar>
           <>
             <button
               type="reset"
-              // onClick={resetBtnClick}
               ref={resetBtnRef}
               className="btn btn-light ml-2"
             >
@@ -76,7 +72,6 @@ export default function CostSummary() {
             <button
               type="submit"
               className="btn btn-primary ml-2"
-              // onClick={saveDataClick}
               ref={saveBtnRef}
               disabled={isDisabled}
             >
@@ -93,20 +88,16 @@ export default function CostSummary() {
             {...objProps}
             initData={initData}
             saveHandler={saveHandler}
-            // disableHandler={disableHandler}
             profileData={profileData}
             accountId={profileData?.accountId}
             selectedBusinessUnit={selectedBusinessUnit}
-            // taxBracketDDL={taxBracketDDL}
             setter={setter}
             remover={remover}
             rowDto={rowDto}
             setRowDto={setRowDto}
             isDisabled={isDisabled}
-            // setDivisionDDL={setDivisionDDL}
           />
         </div>
-        {/* )} */}
       </CardBody>
     </Card>
   );
