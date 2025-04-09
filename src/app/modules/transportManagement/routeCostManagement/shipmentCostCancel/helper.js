@@ -93,45 +93,6 @@ export const getPaymentTermDDL = async (setter) => {
   } catch (error) {}
 };
 
-export const getUomDDL = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/item/ItemUOM/GetItemUOMDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
-export const getItemAmounts = (item, selectedItemInfo) => {
-  const extraItemInfo = selectedItemInfo ? selectedItemInfo : item;
-
-  // extract all percentage
-  const vatPercent = extraItemInfo.vatpercentage || extraItemInfo.vat;
-  const sdPercent = extraItemInfo.sdpercentage || extraItemInfo.sd;
-  const surchargePercent =
-    extraItemInfo.surchargePercentage || extraItemInfo.surcharge;
-
-  const totalPrice = item.quantity * (item.rate || item.basePrice);
-  // get sd amount and sum with total price
-  const sdAmount = (totalPrice * sdPercent) / 100;
-  const sdTotal = sdAmount + totalPrice;
-  // get vat amount and sum with total price
-  const vatAmount = (sdTotal * vatPercent) / 100;
-  const vatTotal = sdTotal + vatAmount;
-  // get surchargeAmount amount and sum with total price
-  const surchargeAmount = (vatTotal * surchargePercent) / 100;
-
-  const finalTotal = vatTotal + surchargeAmount;
-
-  return {
-    totalAmount: finalTotal,
-    sdAmount,
-    vatAmount,
-    surchargeAmount,
-  };
-};
 const attachmentFileIdGroup = (arr) => {
   const result = [];
   if (arr?.length > 0) {
