@@ -11,7 +11,6 @@ import {
   getItemDDL,
   getUomDDL,
   getTaxConfig,
-  getDeliveryToDDL,
   getSelectedItemInfo,
   getTaxPortDDL,
   GetHSCodeByTarrifSchedule_api,
@@ -21,6 +20,7 @@ import * as Yup from 'yup';
 import { NegetiveCheck } from '../../../../_helper/_negitiveCheck';
 import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
 import FormikError from './../../../../_helper/_formikError';
+import { getDeliveryToDDL } from '../../../../_helper/_commonApi';
 
 const validationSchema = Yup.object().shape({
   deliveryTo: Yup.object().shape({
@@ -155,25 +155,6 @@ export default function FormCmp({
                         isDisabled={isEdit}
                       />
                     </div>
-
-                    {/* <div className="col-lg-3 pl pr-1 mb-1">
-                      <NewSelect
-                        name="supplier"
-                        options={supplierDDL}
-                        value={values?.supplier}
-                        label="Customer Name/Bin No"
-                        onChange={(valueOption) => {
-                          setFieldValue("supplier", valueOption);
-                          setFieldValue("deliveryTo", "");
-                          setFieldValue("address", valueOption?.address);
-                          getDeliveryToDDL(valueOption?.value, setDeliveryToDDL);
-                        }}
-                        placeholder="Customer Name/Bin No"
-                        errors={errors}
-                        touched={touched}
-                        isDisabled={isEdit}
-                      />
-                    </div> */}
 
                     <div className="col-lg-3 mb-1">
                       <label>Customer Name/Bin No</label>

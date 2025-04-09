@@ -2198,3 +2198,13 @@ export const GetItemNameDDL_api = async (accId, buId, typeId, setter) => {
     }
   } catch (error) {}
 };
+export const getDeliveryToDDL = async (soldToPrtnrId, setter) => {
+  try {
+    const res = await axios.get(
+      `/partner/PManagementCommonDDL/GetDeliveredToDDL?SoldToPartnerId=${soldToPrtnrId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};

@@ -652,17 +652,3 @@ export const getCountryDDL_api = async (setter) => {
     }
   } catch (error) {}
 };
-
-export const GetHSCodeByTarrifSchedule_api = async (hsCode, type, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/TaxItemGroup/GetHSCodeByTarrifSchedule?Code=${hsCode}&Type=${type}
-      `
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    setter([]);
-  }
-};
