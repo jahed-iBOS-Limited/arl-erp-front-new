@@ -2,21 +2,18 @@ import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-import Loading from '../../../_helper/_loading';
-import IForm from '../../../_helper/_form';
-import NewSelect from '../../../_helper/_select';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
-import { _todayDate } from '../../../_helper/_todayDate';
+import IForm from '../../../_helper/_form';
 import InputField from '../../../_helper/_inputField';
-import { values } from 'lodash';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
   businessUnit: '',
   itemType: { value: 0, label: 'All' },
   itemCategory: { value: 0, label: 'All' },
-  // itemSubCategory: { value: 0, label: "All" },
-  // plant: { value: 0, label: "All" },
   warehouse: { value: 0, label: 'All' },
   date: _todayDate(),
 };
@@ -30,22 +27,12 @@ export default function InventoryAging() {
   const [itemList, getItemList, , setItemList] = useAxiosGet();
   const [itemCategoryList, getItemCategoryList, , setItemCategoryList] =
     useAxiosGet();
-  // const [
-  //     itemSubCategoryList,
-  //     getItemSubCategoryList,
-  //     ,
-  //     setItemSubCategoryList,
-  // ] = useAxiosGet();
 
-  // const [plantList, getPlantList, plantLoading, setPlantList] = useAxiosGet();
   const [warehouseList, getWarehouseList, , setWarehouseList] = useAxiosGet();
 
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
-  const [isShowUpdateModal, setIsShowUpdateModal] = useState(false);
-  const [isShowHistoryModal, setIsShowHistoryModal] = useState(false);
-  const [singleData, setSingleData] = useState(null);
 
   useEffect(() => {
     getItemList(`/item/ItemCategory/GetItemTypeListDDL`, (res) => {
@@ -56,24 +43,19 @@ export default function InventoryAging() {
       }));
       setItemList(modiFyData);
     });
+    getWarehouseList(
+      `/wms/InventoryTransaction/GetWarehouseDropdownByUnitId?businessUnitId=${selectedBusinessUnit?.value}`
+    );
   }, []);
   const saveHandler = (values, cb) => {};
   const history = useHistory();
 
-  const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
-    const searchTearm = searchValue ? `&search=${searchValue}` : '';
+  const getLandingData = (values) => {
     getGridData(
-      `/wms/WmsReport/GetInventoryAgingReport?BusinessUnitId=${values?.businessUnit?.value}&IntItemTypeId=${values?.itemType?.value || 0}&IntWarehouseId=${values?.warehouse?.value || 0}&ToDate=${values?.date}&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
+      `/wms/WmsReport/GetInventoryAgingReport?BusinessUnitId=${values?.businessUnit?.value || 0}&IntItemTypeId=${values?.itemType?.value || 0}&IntWarehouseId=${values?.warehouse?.value || 0}&IntItemCategoryId=${values?.itemCategory?.value}&ToDate=${_dateFormatter(values?.date)}`
     );
   };
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
-    getLandingData(values, pageNo, pageSize, searchValue);
-  };
-
-  const paginationSearchHandler = (searchValue, values) => {
-    setPositionHandler(pageNo, pageSize, values, searchValue);
-  };
   return (
     <Formik
       enableReinitialize={true}
@@ -114,26 +96,19 @@ export default function InventoryAging() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="businessUnit"
-                      options={[businessUnitList || []]}
+                      options={businessUnitList || []}
                       value={values?.businessUnit}
                       label="Business Unit"
                       onChange={(valueOption) => {
+                        setGridData([]);
                         setFieldValue('businessUnit', valueOption || '');
-                        // setFieldValue("plant", "");
                         setFieldValue('warehouse', '');
-                        setFieldValue('itemType', '');
-                        setFieldValue('itemCategory', '');
-                        // setFieldValue("itemSubCategory", "");
-                        setItemCategoryList([]);
-                        // setItemSubCategoryList([]);
                         setWarehouseList([]);
-                        // setPlantList([]);
-
-                        // if (valueOption) {
-                        //     getPlantList(
-                        //         `/wms/Plant/GetPlantDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}`
-                        //     );
-                        // }
+                        if (valueOption) {
+                          getWarehouseList(
+                            `/wms/InventoryTransaction/GetWarehouseDropdownByUnitId?businessUnitId=${valueOption?.value}`
+                          );
+                        }
                       }}
                       errors={errors}
                       touched={touched}
@@ -149,6 +124,7 @@ export default function InventoryAging() {
                       value={values?.warehouse}
                       label="Warehouse"
                       onChange={(valueOption) => {
+                        setGridData([]);
                         setFieldValue('warehouse', valueOption);
                       }}
                       errors={errors}
@@ -163,11 +139,10 @@ export default function InventoryAging() {
                       value={values?.itemType}
                       label="Item Type"
                       onChange={(valueOption) => {
+                        setGridData([]);
                         setFieldValue('itemType', valueOption || '');
                         setFieldValue('itemCategory', '');
-                        // setFieldValue("itemSubCategory", "");
                         setItemCategoryList([]);
-                        // setItemSubCategoryList([]);
                         if (valueOption) {
                           getItemCategoryList(
                             `/item/ItemCategory/GetItemCategoryDDLByTypeId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ItemTypeId=${valueOption?.value}`,
@@ -195,63 +170,14 @@ export default function InventoryAging() {
                       value={values?.itemCategory}
                       label="Item Category"
                       onChange={(valueOption) => {
+                        setGridData([]);
                         setFieldValue('itemCategory', valueOption);
-                        // setFieldValue("itemSubCategory", "");
-                        // setItemSubCategoryList([]);
-                        // if (valueOption) {
-                        //     getItemSubCategoryList(
-                        //         `/item/ItemSubCategory/GetItemSubCategoryDDLByCategoryId?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&itemCategoryId=${valueOption?.value}&typeId=${values?.itemType?.value}`,
-                        //         (res) => {
-                        //             const modiFyData = res.map((item) => ({
-                        //                 ...item,
-                        //                 value: item?.id,
-                        //                 label: item?.itemSubCategoryName,
-                        //             }));
-                        //             setItemSubCategoryList(modiFyData);
-                        //         }
-                        //     );
-                        // }
                       }}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  {/* <div className="col-lg-3">
-                                        <NewSelect
-                                            name="itemSubCategory"
-                                            options={
-                                                [{ value: 0, label: "All" }, ...itemSubCategoryList] ||
-                                                []
-                                            }
-                                            value={values?.itemSubCategory}
-                                            label="Item Sub Category"
-                                            onChange={(valueOption) => {
-                                                setFieldValue("itemSubCategory", valueOption || "");
-                                            }}
-                                            errors={errors}
-                                            touched={touched}
-                                        />
-                                    </div> */}
-                  {/* <div className="col-lg-3">
-                                        <NewSelect
-                                            name="plant"
-                                            options={[{ value: 0, label: "All" }, ...plantList] || []}
-                                            value={values?.plant}
-                                            label="Plant"
-                                            onChange={(valueOption) => {
-                                                setFieldValue("plant", valueOption);
-                                                setFieldValue("warehouse", "");
-                                                setWarehouseList([]);
-                                                if (valueOption) {
-                                                    getWarehouseList(
-                                                        `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`
-                                                    );
-                                                }
-                                            }}
-                                            errors={errors}
-                                            touched={touched}
-                                        />
-                                    </div> */}
+
                   <div className="col-lg-3">
                     <InputField
                       value={values?.date}
@@ -259,6 +185,7 @@ export default function InventoryAging() {
                       type="date"
                       label="Date"
                       onChange={(e) => {
+                        setGridData([]);
                         setFieldValue('date', e.target.value);
                       }}
                       errors={errors}
@@ -278,7 +205,7 @@ export default function InventoryAging() {
                   </div>
                 </div>
 
-                {gridData?.itemList?.length > 0 && (
+                {gridData?.length > 0 && (
                   <div className="table-responsive">
                     <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                       <thead>
@@ -286,26 +213,33 @@ export default function InventoryAging() {
                           <th>SL</th>
                           <th>Item Code</th>
                           <th>Item Name</th>
-                          <th>Uom</th>
-                          <th>Effective Date</th>
-                          <th>Rate (Dhaka)</th>
-                          <th>Rate (Chittagong)</th>
-                          <th>Action</th>
+                          <th>Item Type</th>
+                          <th>Item Category</th>
+                          <th>Item Sub-Category</th>
+                          <th>0-30 Days</th>
+                          <th>31-60 Days</th>
+                          <th>61-90 Days</th>
+                          <th>91-180 Days</th>
+                          <th>181-365 Days</th>
+                          <th>365+ Days</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {gridData?.itemList?.map((item, index) => (
+                        {gridData?.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td className="text-center">{item?.itemCode}</td>
-                            <td>{item?.itemName}</td>
-                            <td className="text-center">{item?.uomName}</td>
+                            <td className="text-center">{item?.strItemCode}</td>
+                            <td>{item?.strItemName}</td>
+                            <td>{item?.strItemTypeName}</td>
+                            <td>{item?.strItemCategoryName}</td>
+                            <td>{item?.strItemSubCategoryName}</td>
+                            <td className="text-center">{item?.num0_30}</td>
+                            <td className="text-center">{item?.num31_60}</td>
+                            <td className="text-center">{item?.num61_90}</td>
+                            <td className="text-center">{item?.num91_180}</td>
+                            <td className="text-center">{item?.num181_365}</td>
                             <td className="text-center">
-                              {_dateFormatter(item?.effectiveDate)}
-                            </td>
-                            <td className="text-center">{item?.itemRate}</td>
-                            <td className="text-center">
-                              {item?.itemOthersRate}
+                              {item?.num365_Above}
                             </td>
                           </tr>
                         ))}
