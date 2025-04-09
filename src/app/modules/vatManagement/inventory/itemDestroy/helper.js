@@ -110,17 +110,6 @@ export const saveEditedProduction = async (data, setDisabled) => {
   }
 };
 
-export const getTaxBranchDDL_api = async (userId, accid, buid, setter) => {
-  try {
-    const res = await Axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accid}&BusinessUnitId=${buid}&OrgUnitTypeId=15`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const getItemTypeDDL_api = async (setter) => {
   try {
     const res = await Axios.get(`/vat/TaxDDL/GetTaxItemTypeDDL`);

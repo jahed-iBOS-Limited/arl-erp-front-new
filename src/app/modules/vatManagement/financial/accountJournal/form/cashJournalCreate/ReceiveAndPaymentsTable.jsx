@@ -74,8 +74,6 @@ const ReceiveAndPaymentsTable = ({
                 </td>
                 <td>
                   <div className="text-left pl-2">
-                    {/* letter it will be modified like this => {isEdit ? item?.subGLName : item?.transaction?.label} */}
-
                     {item?.subGLName || item?.transaction?.label}
                   </div>
                 </td>

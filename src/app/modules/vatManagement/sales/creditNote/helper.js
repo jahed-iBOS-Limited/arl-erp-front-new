@@ -169,36 +169,9 @@ export const getViewData_api = async (accId, buId, salesId, setter) => {
   } catch (error) {}
 };
 
-export const getItemNameDDL_api = async (accId, buId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/vat/TaxDDL/ItemNameDDL?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const getFiscalYearDDL_api = async (setter) => {
   try {
     const res = await Axios.get(`/vat/TaxDDL/FiscalYearDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
-export const getSalesInvoiceByBranchIdDDL_api = async (
-  accId,
-  buId,
-  taxBranchId,
-  setter
-) => {
-  try {
-    const res = await Axios.get(
-      `/vat/TaxDDL/SalesInvoiceByBranchIdDDL?AccountId=${accId}&BusinessUnitId=${buId}&TaxBranchId=${taxBranchId}`
-    );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }

@@ -19,81 +19,19 @@ import {
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import { attachmentUpload } from '../../../../_helper/attachmentUpload';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import TextArea from '../../../../_helper/TextArea';
 import FormikError from './../../../../_helper/_formikError';
 import { IInput } from './../../../../_helper/_input';
 import placeholderImg from './../../../../_helper/images/placeholderImg.png';
 import customStyles from './../../../../selectCustomStyle';
-import { getCostElementDDL } from './../helper';
 import DebitCredit from './DebitCredit';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import TransferTable from './TransferTable';
-import TextArea from '../../../../_helper/TextArea';
-
-const receiptsJournal = Yup.object().shape({
-  receiveFrom: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(1000, 'Maximum 100 symbols')
-    .required('Receive From required'),
-  narration: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols'),
-  headerNarration: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols')
-    .required('Narration required'),
-  cashGLPlus: Yup.object().shape({
-    label: Yup.string().required('Cash GL is required'),
-    value: Yup.string().required('Cash GL is required'),
-  }),
-  transaction: Yup.object().shape({
-    label: Yup.string(),
-    value: Yup.string(),
-  }),
-});
-
-const paymentsJournal = Yup.object().shape({
-  paidTo: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(
-      1000000000000000000000000000000,
-      'Maximum 1000000000000000000000000000000 symbols'
-    )
-    .required('Paid To required'),
-  narration: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols'),
-  headerNarration: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols')
-    .required('Narration required'),
-  cashGLPlus: Yup.object().shape({
-    label: Yup.string().required('Cash GL is required'),
-    value: Yup.string().required('Cash GL is required'),
-  }),
-  transaction: Yup.object().shape({
-    label: Yup.string(),
-    value: Yup.string(),
-  }),
-});
-
-const transferJournal = Yup.object().shape({
-  headerNarration: Yup.string()
-    .min(1, 'Minimum 1 symbols')
-    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols')
-    .required('Narration required'),
-  cashGLPlus: Yup.object().shape({
-    label: Yup.string().required('Cash GL is required'),
-    value: Yup.string().required('Cash GL is required'),
-  }),
-  gLBankAc: Yup.object().shape({
-    label: Yup.string().required('GL/Bank Ac is required'),
-    value: Yup.string().required('GL/Bank Ac is required'),
-  }),
-  trasferTo: Yup.object().shape({
-    label: Yup.string().required('Trasfer To is required'),
-    value: Yup.string().required('Trasfer To is required'),
-  }),
-});
+import {
+  paymentsJournal,
+  receiptsJournal,
+  transferJournal,
+} from '../../../../_helper/_validationSchema';
 
 export default function FormCmp({
   initData,
@@ -193,7 +131,7 @@ export default function FormCmp({
               ? paymentsJournal
               : transferJournal
         }
-        onSubmit={(values, { setSubmitting, resetForm }) => {
+        onSubmit={(values, { resetForm }) => {
           return confirmAlert({
             title: 'Are you sure?',
             message: '',
@@ -603,7 +541,7 @@ export default function FormCmp({
                         </div>
                       </>
                     )}
-                    {headerData?.accountingJournalTypeId === 2 && !isEdit ? (
+                    {headerData?.accountingJournalTypeId === 2 && !isEdit && (
                       <div className="col-lg-12">
                         <label>Attachment </label>
                         <div
@@ -688,7 +626,7 @@ export default function FormCmp({
                           )}
                         </div>
                       </div>
-                    ) : null}
+                    )}
                     {headerData?.accountingJournalTypeId !== 3 && (
                       <div className="col-lg-12 text-right pl-0 bank-journal">
                         <button
@@ -714,7 +652,6 @@ export default function FormCmp({
                             if (!values?.headerNarration)
                               return toast.warn('Please add header narration');
                             setter(values);
-                            // setFieldValue("transaction", "");
                             setFieldValue('amount', '');
                           }}
                         >
@@ -742,14 +679,6 @@ export default function FormCmp({
                     </div>
                   </div>
 
-                  {/* <div className="row">
-                    <div
-                      style={{ paddingLeft: "8px" }}
-                      className="col-lg-12 p-0 pl-1 m-0"
-                    >
-
-                    </div>
-                  </div> */}
                   <ReceiveAndPaymentsTable
                     jorunalType={headerData?.accountingJournalTypeId}
                     rowDto={rowDto}
@@ -764,15 +693,14 @@ export default function FormCmp({
                 </div>
               </div>
 
-              {/* Row Dto Table End */}
-
+              {/* submit */}
               <button
                 type="submit"
                 style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
-
+              {/* reset */}
               <button
                 type="reset"
                 style={{ display: 'none' }}

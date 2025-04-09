@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
@@ -8,10 +8,6 @@ import Loading from '../../../../../_helper/_loading';
 import { _todayDate } from '../../../../../_helper/_todayDate';
 import { saveAccountingJournal } from '../../helper';
 import Form from './form';
-
-// const initData = {
-
-// };
 
 export default function BankJournalCreate() {
   const [isDisabled, setDisabled] = useState(false);
@@ -55,7 +51,6 @@ export default function BankJournalCreate() {
   const dispatch = useDispatch();
 
   const saveHandler = async (values, cb) => {
-    // dispatch(setBankJournalCreateAction(values));
     console.log('values', values);
     console.log('rowDto', rowDto);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
@@ -63,9 +58,6 @@ export default function BankJournalCreate() {
         toast.warn('Please add transaction');
       } else {
         const objRow = rowDto.map((item) => {
-          // let negAmount = 1 * -+item?.amount;
-          // let numAmount =
-          //   item?.debitCredit === "Credit" ? negAmount : item?.debitCredit === "Debit" ? +item?.amount : location?.state?.accountingJournalTypeId !== 1 ? negAmount : +item?.amount;
           return {
             journalId: 0,
             journalCode: '',
@@ -104,7 +96,6 @@ export default function BankJournalCreate() {
                 : 0,
           };
         });
-        // console.log("payload",objRow)
         objRow.unshift({
           subGLTypeId: 6,
           subGLTypeName: 'Bank',
@@ -165,12 +156,6 @@ export default function BankJournalCreate() {
     const filterArr = rowDto.filter((itm, idx) => idx !== index);
     setRowDto(filterArr);
   };
-  console.log(rowDto);
-
-  useEffect(() => {
-    // if not id, that means this is for create form, then we will check this..
-  }, []);
-
   const [objProps, setObjprops] = useState({});
 
   console.log('bankJournalCreate', bankJournalCreate);
@@ -180,8 +165,6 @@ export default function BankJournalCreate() {
     data[index][name] = value;
     setRowDto(data);
   };
-
-  // console.log("rowDto", rowDto);
 
   return (
     <IForm

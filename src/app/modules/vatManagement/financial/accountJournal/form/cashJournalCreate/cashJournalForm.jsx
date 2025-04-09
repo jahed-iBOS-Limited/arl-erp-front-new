@@ -68,7 +68,6 @@ export default function CashJournalForm({
   };
 
   const saveHandler = async (values, cb) => {
-    // dispatch(setBankJournalCreateAction(values));
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (rowDto?.length === 0) {
         toast.warn('Please add transaction');
@@ -155,19 +154,6 @@ export default function CashJournalForm({
           cb,
           IConfirmModal,
         });
-
-        // saveAccountingJournal({
-        //   profileData,
-        //   selectedBusinessUnit,
-        //   location,
-        //   values,
-        //   // rowDto,
-        //   payload:{row:rowDto},
-        //   cb,
-        //   setRowDto,
-        //   setDisabled,
-        //   IConfirmModal,
-        // });
       }
     } else {
       setDisabled(false);

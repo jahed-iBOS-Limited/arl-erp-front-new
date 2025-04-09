@@ -2,37 +2,6 @@ import Axios from 'axios';
 import { toast } from 'react-toastify';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 
-// Real
-
-export const getSalesInvoicePagination = async (
-  accId,
-  buId,
-  taxBranchId,
-  startDate,
-  endDate,
-  pageNo,
-  pageSize,
-  setter,
-  search,
-  setDisabled
-) => {
-  // setDisabled(true);
-  const searchPath = search ? `searchTerm=${search}&` : '';
-  try {
-    const res = await Axios.get(
-      `/vat/TaxSalesInvoice/GetTaxSalesInvoiceSearchPagination?${searchPath}accountId=${accId}&businessUnitId=${buId}&taxBranchId=${taxBranchId}&startDate=${startDate}&endDate=${endDate}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-
-      // setDisabled(false);
-    }
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-    // setDisabled(false);
-  }
-};
-
 export const createSales = async (payload, cb, setDisabled) => {
   setDisabled(true);
   try {
