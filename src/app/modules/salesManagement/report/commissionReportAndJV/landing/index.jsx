@@ -99,7 +99,7 @@ const CommissionReportAndJV = () => {
         });
       } else if (
         [5, 3, 6, 7, ...allIds].includes(values?.type?.value) ||
-        ([35, 36, 37, 38, 39].includes(values?.type?.value) && buId === 144)
+        ([35, 36, 37, 38, 39, 52].includes(values?.type?.value) && buId === 144)
       ) {
         getTradeCommissionData(
           // values?.type?.value,
@@ -217,7 +217,7 @@ const CommissionReportAndJV = () => {
 
       createTradeDamageJV(payload, setLoading);
     } else if (
-      [5, 7, ...allIds, 35, 36, 37, 38, 39].includes(values?.type?.value)
+      [5, 7, ...allIds, 35, 36, 37, 38, 39, 52].includes(values?.type?.value)
     ) {
       if (
         !values?.sbu?.value &&

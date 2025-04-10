@@ -24,6 +24,7 @@ export default function FormCmp({
   desginationList,
   akijAgroFeedCommissionTypeList,
   customerTypeDDL,
+  obj,
 }) {
   const history = useHistory();
   const { selectedBusinessUnit, profileData } = useSelector(
@@ -31,6 +32,8 @@ export default function FormCmp({
     shallowEqual
   );
 
+  // destructure
+  const { getItemDDL, itemDDL } = obj;
   const [itemGroupDDL, getItemGroupDDL] = useAxiosGet();
   const [businessPartnerList, getBusinessPartnerList] = useAxiosGet();
 
@@ -83,7 +86,7 @@ export default function FormCmp({
                     />
                   </div>
 
-                  {[46].includes(values?.commissionType?.value) && (
+                  {[46, 52].includes(values?.commissionType?.value) && (
                     <div className="col-lg-3">
                       <NewSelect
                         name="businessPartner"
@@ -121,7 +124,7 @@ export default function FormCmp({
                       setFieldValue,
                       area: [
                         14, 16, 20, 23, 17, 18, 25, 27, 22, 35, 36, 37, 38, 39,
-                        40, 41, 46,
+                        40, 41, 46, 52,
                       ].includes(values?.commissionType?.value),
                       territory: false,
                       allElement: true,
@@ -135,13 +138,22 @@ export default function FormCmp({
                       territoryDisable: [46].includes(
                         values?.commissionType?.value
                       ),
-                      onChange: () => {
+                      onChange: ({ channel }) => {
                         if (
                           ![
-                            17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40, 46,
+                            17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40, 46, 52,
                           ].includes(values?.commissionType?.value)
                         ) {
                           setRowData([]);
+                        }
+
+                        if ([52].includes(values?.commissionType?.value)) {
+                          // getCustomerDDL(
+                          //   `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&channelId=${channel?.value}`
+                          // );
+                          getItemDDL(
+                            `/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&DistributionChannelId=${channel?.value}&SalesOrgId=6` // 6 Local Sales
+                          );
                         }
                       },
                     }}
@@ -175,6 +187,7 @@ export default function FormCmp({
                     39,
                     40,
                     41,
+                    52,
                     ...akijAgroFeedCommissionTypeList,
                   ].includes(values?.commissionType?.value) && (
                     <>
@@ -225,7 +238,7 @@ export default function FormCmp({
                       type={`text`}
                     />
                   </div>
-                  {[35, 36, 37, 38, 39, 40, 41].includes(
+                  {[35, 36, 37, 38, 39, 40, 41, 52].includes(
                     values?.commissionType?.value
                   ) && (
                     <div className="col-lg-3">
@@ -239,6 +252,32 @@ export default function FormCmp({
                         }}
                       />
                     </div>
+                  )}
+                  {[52].includes(values?.commissionType?.value) && (
+                    <>
+                      {/* <div className="col-lg-3">
+                        <NewSelect
+                          name="customer"
+                          options={customerDDL || []}
+                          value={values?.customer}
+                          label="Customer"
+                          onChange={(valueOption) => {
+                            setFieldValue('customer', valueOption);
+                          }}
+                        />
+                      </div> */}
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="item"
+                          options={itemDDL || []}
+                          value={values?.item}
+                          label="Item"
+                          onChange={(valueOption) => {
+                            setFieldValue('item', valueOption);
+                          }}
+                        />
+                      </div>
+                    </>
                   )}
                   {[40].includes(values?.commissionType?.value) && (
                     <div className="col-lg-3">
@@ -268,6 +307,7 @@ export default function FormCmp({
                         39,
                         40,
                         41,
+                        52,
                         ...akijAgroFeedCommissionTypeList,
                       ].includes(values?.commissionType?.value)
                         ? 'Add'
@@ -278,6 +318,7 @@ export default function FormCmp({
                         if (
                           [
                             17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40, 41, 46,
+                            52,
                           ].includes(values?.commissionType?.value)
                         ) {
                           setFieldValue('channel', '');
