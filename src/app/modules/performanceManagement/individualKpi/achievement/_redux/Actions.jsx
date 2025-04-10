@@ -1,5 +1,5 @@
+import { indPmsAchievementSlice } from '../../../../_helper/_commonSlice/indPmsAchievementSlice';
 import * as requestFromServer from './Api';
-import { indPmsAchievementSlice } from './Slice';
 import { toast } from 'react-toastify';
 const { actions: slice } = indPmsAchievementSlice;
 
