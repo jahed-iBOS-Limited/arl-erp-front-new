@@ -13,6 +13,7 @@ import { CostReportPages } from './costReport/costReportPages';
 import { RegisterReportPages } from './report/register/RegisterReportPages';
 import ProjectAccountingPages from './projectAccounting/projectAccountingPages';
 const SCFPages = lazy(() => import('./scf/scfPages'));
+const MonthClosingPage = lazy(() => import('./monthClosing/monthClosingPages'));
 
 export function financialManagementPages() {
   return (
@@ -69,6 +70,11 @@ export function financialManagementPages() {
         />
 
         <ContentRoute path="/financial-management/scf" component={SCFPages} />
+
+        <ContentRoute
+          path="/financial-management/MonthClosing"
+          component={MonthClosingPage}
+        />
       </Switch>
     </Suspense>
   );
