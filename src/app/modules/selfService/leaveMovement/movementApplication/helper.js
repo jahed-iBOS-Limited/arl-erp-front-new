@@ -79,24 +79,6 @@ export const OfficialMoveLandingPagination_api = async (
   }
 };
 
-export const getEmployeeDDL = async (accId, busId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/hcm/HCMDDL/EmployeeInfoDDL?AccountId=${accId}&BusinessUnitId=${busId}`
-    );
-    const data = res?.data.map((itm) => {
-      return {
-        ...itm,
-        value: itm?.value,
-        label: itm?.label,
-      };
-    });
-    setter(data);
-  } catch (error) {
-    setter([]);
-  }
-};
-
 export const getLeaveTypeDDL = async (checkId, empId, setter) => {
   try {
     // const res = await Axios.get(
@@ -136,12 +118,14 @@ export const saveLeaveMovementAction = async (data, cb, setDisabled) => {
     let fromModifiedTime = tmStart || null;
     let toModifiedTime = tmEnd || null;
 
-    let url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${documentFile ? documentFile : ''
-      }`;
+    let url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${
+      documentFile ? documentFile : ''
+    }`;
 
     if (fromModifiedTime && toModifiedTime) {
-      url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${documentFile ? documentFile : ''
-        }&startTime=${fromModifiedTime}&endTime=${toModifiedTime}`;
+      url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${
+        documentFile ? documentFile : ''
+      }&startTime=${fromModifiedTime}&endTime=${toModifiedTime}`;
     }
     let res = await Axios.post(url);
     // do not remove this status code check, this is mendatory
@@ -176,24 +160,6 @@ export const saveMovementAction = async (data, cb, setDisabled) => {
 };
 
 // Update Remove leave Move data
-export const removeLeaveMoveAction = async (
-  payload,
-  updateRowDto,
-  setRowDto
-) => {
-  try {
-    const res = await Axios.put(
-      `/hcm/LeaveAndMovement/RemoveLeaveOrMovement`,
-      payload?.data
-    );
-    toast.success(res.data?.message || 'Leave/Movement remove successfully');
-    setRowDto(updateRowDto);
-    payload.cb();
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-  }
-};
-// Update Remove leave Move data
 export const removeOfficialMovement_api = async (
   payload,
   updateRowDto,
@@ -226,4 +192,3 @@ export const getLeaveSummarySelfData = (employeeId, setter, setLoader) => {
       setLoader(false);
     });
 };
-

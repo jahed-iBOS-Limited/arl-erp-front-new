@@ -79,24 +79,6 @@ export const OfficialMoveLandingPagination_api = async (
   }
 };
 
-export const getEmployeeDDL = async (accId, busId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/hcm/HCMDDL/EmployeeInfoDDL?AccountId=${accId}&BusinessUnitId=${busId}`
-    );
-    const data = res?.data.map((itm) => {
-      return {
-        ...itm,
-        value: itm?.value,
-        label: itm?.label,
-      };
-    });
-    setter(data);
-  } catch (error) {
-    setter([]);
-  }
-};
-
 export const getLeaveTypeDDL = async (checkId, empId, setter) => {
   try {
     // const res = await Axios.get(
@@ -195,44 +177,6 @@ export const removeLeaveMoveAction = async (
     toast.error(error?.response?.data?.message);
   }
 };
-// Update Remove leave Move data
-export const removeOfficialMovement_api = async (
-  payload,
-  updateRowDto,
-  setRowDto
-) => {
-  try {
-    const res = await Axios.put(
-      `/hcm/OfficialMovement/RemoveOfficialMovement`,
-      payload?.data
-    );
-    toast.success(res.data?.message || 'Leave/Movement remove successfully');
-    setRowDto(updateRowDto);
-    payload.cb();
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-  }
-};
-
-export const getLeaveMovementSelfData = (employeeId, accId, busId, setter) => {
-  Axios.get(
-    `/hcm/LeaveAndMovement/LeaveAndMovementLandingPagination?EmployeeId=${employeeId}&AccountId=${accId}&BusinessUnitId=${busId}&viewOrder=desc&PageNo=1&PageSize=1000`
-  )
-    .then((res) => {
-      setter(res?.data?.data);
-    })
-    .catch((err) => setter([]));
-};
-
-export const getMovementSelfData = (employeeId, setter) => {
-  Axios.get(
-    `/hcm/OfficialMovement/OfficialMovementLandingPagination?EmployeeId=${employeeId}&PageNo=1&PageSize=123&viewOrder=desc`
-  )
-    .then((res) => {
-      setter(res?.data?.data);
-    })
-    .catch((err) => setter([]));
-};
 
 export const getLeaveSummarySelfData = (employeeId, setter, setLoader) => {
   setLoader(true);
@@ -246,17 +190,5 @@ export const getLeaveSummarySelfData = (employeeId, setter, setLoader) => {
     .catch((err) => {
       setter([]);
       setLoader(false);
-    });
-};
-
-export const getMovementSummarySelfData = (MoveTypeId, EmployeeId, setter) => {
-  Axios.get(
-    `/hcm/OfficialMovement/GetOfficialMovementByMoveTypeId?MoveTypeId=${MoveTypeId}&EmployeeId=${EmployeeId}`
-  )
-    .then((res) => {
-      setter(res?.data);
-    })
-    .catch((err) => {
-      setter([]);
     });
 };
