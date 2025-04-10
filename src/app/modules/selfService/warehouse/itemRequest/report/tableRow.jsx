@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
 import { Formik, Form as FormikForm } from 'formik';
-import * as Yup from 'yup';
-import ReactToPrint from 'react-to-print';
-import Loading from './../../../../_helper/loader/_loader';
-import { getReportItemReq } from '../helper';
-import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import * as Yup from 'yup';
 import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import iMarineIcon from '../../../../_helper/images/imageakijpoly.png';
+import { getReportItemReq } from '../helper';
+import Loading from './../../../../_helper/loader/_loader';
 
 let imageObj = {
   8: iMarineIcon,
@@ -66,7 +66,7 @@ export function ItemReqViewTableRow({ IrId }) {
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
-          {({ handleSubmit, resetForm, values, errors, touched, isValid }) => (
+          {() => (
             <>
               {loading && <Loading />}
               <FormikForm>

@@ -1,42 +1,26 @@
+import Axios from 'axios';
+import { Form, Formik } from 'formik';
 import React, { useState } from 'react';
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
 import { ISelect } from '../../../../_helper/_inputDropDown';
 import InputField from '../../../../_helper/_inputField';
-import IDelete from '../../../../_helper/_helperIcons/_delete';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { itemRequestValidationSchema } from '../../../../_helper/_validationSchema';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import { getUOMList } from '../helper';
-import Axios from 'axios';
 import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
 import FormikError from './../../../../_helper/_formikError';
-import NewSelect from '../../../../_helper/_select';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import Loading from '../../../../_helper/_loading';
-// import { getCostElement } from "../helper"
-// Validation schema
-const validationSchema = Yup.object().shape({
-  requestDate: Yup.string().required('Request Date is required'),
-  validTill: Yup.string().required('Valid Till Date is required'),
-  dueDate: Yup.string().required('Due Date is required'),
-  // quantity: Yup.number().required('Quantity is required').min(1),
-  actionType: Yup.object().shape({
-    value: Yup.number().required('Action For is required'),
-    label: Yup.string().required('Action For is required'),
-  }),
-});
 
 export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
   resetBtnRef,
-  //disableHandler,
-  itemDDL,
   remover,
   addItemtoTheGrid,
   rowlebelData,
   id,
-  location,
-  onChangeForItemGroup,
   accountId,
   selectedBusinessUnit,
   plantId,
@@ -82,7 +66,7 @@ export default function FormCmp({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
+        validationSchema={itemRequestValidationSchema}
         onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
@@ -316,10 +300,7 @@ export default function FormCmp({
                     </div>
                   </div>
                   <div className="table-responsive">
-                    <table
-                      // style={{ marginTop: "20px" }}
-                      className="global-table table"
-                    >
+                    <table className="global-table table">
                       <thead>
                         <tr>
                           <th>SL</th>

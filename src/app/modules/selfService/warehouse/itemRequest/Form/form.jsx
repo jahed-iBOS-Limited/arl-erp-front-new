@@ -1,42 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
+import Axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
 import { ISelect } from '../../../../_helper/_inputDropDown';
 import InputField from '../../../../_helper/_inputField';
-import IDelete from '../../../../_helper/_helperIcons/_delete';
-import { getUOMList } from '../helper';
-import Axios from 'axios';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { itemRequestValidationSchema } from '../../../../_helper/_validationSchema';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getCostElement, getUOMList } from '../helper';
 import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
 import FormikError from './../../../../_helper/_formikError';
-import NewSelect from '../../../../_helper/_select';
-import { getCostElement } from '../helper';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import Loading from '../../../../_helper/_loading';
-// Validation schema
-const validationSchema = Yup.object().shape({
-  requestDate: Yup.string().required('Request Date is required'),
-  validTill: Yup.string().required('Valid Till Date is required'),
-  dueDate: Yup.string().required('Due Date is required'),
-  // quantity: Yup.number().required('Quantity is required').min(1),
-  actionType: Yup.object().shape({
-    value: Yup.number().required('Action For is required'),
-    label: Yup.string().required('Action For is required'),
-  }),
-});
 
 export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
   resetBtnRef,
-  //disableHandler,
   itemDDL,
   remover,
   addItemtoTheGrid,
   rowlebelData,
   id,
-  location,
-  onChangeForItemGroup,
   accountId,
   selectedBusinessUnit,
   plantId,
@@ -56,7 +41,6 @@ export default function FormCmp({
   }, [selectedBusinessUnit, id]);
 
   const loadUserList = (v, resolve) => {
-    //if (v?.length < 1) return []
     return Axios.get(
       itemType === 1
         ? `/wms/ItemRequestDDL/GetItemForAssetTypeDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${plantId || initData?.intPlantId}&WarehouseId=${whId || initData?.intWarehouseId}&searchTerm=${v}`
@@ -70,7 +54,6 @@ export default function FormCmp({
         ...item,
         label: item?.labelAndCode,
       }));
-      // return updateList
       resolve(updateList);
     });
   };
@@ -80,8 +63,8 @@ export default function FormCmp({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
+        validationSchema={itemRequestValidationSchema}
+        onSubmit={(values, { resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
           });
@@ -94,7 +77,6 @@ export default function FormCmp({
           errors,
           touched,
           setFieldValue,
-          isValid,
         }) => (
           <>
             {itemQuantityLoader && <Loading />}
@@ -125,7 +107,6 @@ export default function FormCmp({
                         label="Select Item Group"
                         options={[
                           { label: 'Assets Item', value: 1 },
-                          // { label: "Service Item", value: 2 },
                           { label: 'Others Item', value: 3 },
                         ]}
                         value={values?.itemGroup}
@@ -134,11 +115,8 @@ export default function FormCmp({
                         onChange={(valueOption) => {
                           setFieldValue('itemGroup', valueOption);
                           setFieldValue('item', '');
-                          //loadUserList(valueOption?.label)
-                          // onChangeForItemGroup(valueOption);
                           setItemType(valueOption?.value);
                         }}
-                        //setFieldValue={setFieldValue}
                         errors={errors}
                         touched={touched}
                       />
@@ -326,10 +304,8 @@ export default function FormCmp({
                           addItemtoTheGrid(values);
                           setFieldValue('item', '');
                           setFieldValue('itemUom', '');
-                          // setFieldValue('remarks', "")
                           setFieldValue('quantity', '');
                         }}
-                        // type="button"
                         type="submit"
                         disabled={
                           !values?.remarks || !values?.item || !values?.quantity
@@ -339,14 +315,10 @@ export default function FormCmp({
                       </button>
                     </div>
                   </div>
-                  <table
-                    // style={{ marginTop: "20px" }}
-                    className="global-table table"
-                  >
+                  <table className="global-table table">
                     <thead>
                       <tr>
                         <th>SL</th>
-                        {/* <th>Item Code</th> */}
                         <th>Item Name</th>
                         <th>Uom</th>
                         <th>Ref. No.</th>
@@ -361,10 +333,6 @@ export default function FormCmp({
                           <td className="text-center align-middle">
                             {index + 1}
                           </td>
-                          {/* <td className="text-center align-middle">
-                              {item.itemCode}
-                            </td> */}
-
                           <td className="">{item.itemName}</td>
                           <td className="">{item.uoMname}</td>
                           <td className="text-center align-middle table-input">
