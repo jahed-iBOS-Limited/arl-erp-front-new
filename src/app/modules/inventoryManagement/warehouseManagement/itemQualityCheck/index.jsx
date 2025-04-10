@@ -18,6 +18,7 @@ import QualityCheckViewModal from './modal/viewModal';
 import IDelete from '../../../_helper/_helperIcons/_delete';
 import IConfirmModal from '../../../_helper/_confirmModal';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 
 export default function ItemQualityCheckLanding() {
   const initData = useSelector((state) => {
@@ -43,6 +44,8 @@ export default function ItemQualityCheckLanding() {
   const [isShowModalTwo, setIsShowModalTwo] = useState(false);
   const [currentRowData, setCurrentRowData] = useState('');
   const [, onDelete] = useAxiosPost();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     handleGetLandingData(pageNo, pageSize, initData);
@@ -96,8 +99,14 @@ export default function ItemQualityCheckLanding() {
       initialValues={initData}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          },
         });
       }}
     >
@@ -111,7 +120,7 @@ export default function ItemQualityCheckLanding() {
         touched,
       }) => (
         <>
-          {loadingLandingData && <Loading />}
+          {(loadingLandingData || isLoading) && <Loading />}
           <IForm
             title="Item Quality Check"
             isHiddenReset

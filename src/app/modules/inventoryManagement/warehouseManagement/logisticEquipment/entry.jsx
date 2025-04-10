@@ -11,6 +11,7 @@ import NewSelect from '../../../_helper/_select';
 import { _todayDate } from '../../../_helper/_todayDate';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 
 const initData = {
   castingDate: _todayDate(),
@@ -41,6 +42,8 @@ export default function LogisticEquipmentEntry() {
   const [formList, setFormList] = useState([]);
   const [, onSaveHandler, loading] = useAxiosPost();
   const location = useLocation();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     getShipPointList(
@@ -69,16 +72,22 @@ export default function LogisticEquipmentEntry() {
       getProps={setObjprops}
       isHiddenReset={true}
     >
-      {(shipPointLoader || loading) && <Loading />}
+      {(shipPointLoader || loading || isLoading) && <Loading />}
       <>
         <Formik
           enableReinitialize={true}
           initialValues={initData}
           // validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {
-            saveHandler(values, () => {
-              resetForm(initData);
-              setFormList([]);
+            setLoading(true);
+            debounceHandler({
+              setLoading: setLoading,
+              CB: () => {
+                saveHandler(values, () => {
+                  resetForm(initData);
+                  setFormList([]);
+                });
+              },
             });
           }}
         >

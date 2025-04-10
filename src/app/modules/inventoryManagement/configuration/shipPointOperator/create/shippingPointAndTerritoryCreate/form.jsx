@@ -6,6 +6,7 @@ import Loading from '../../../../../_helper/_loading';
 import NewSelect from '../../../../../_helper/_select';
 import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
+import createDebounceHandler from '../../../../../_helper/debounceForSave';
 
 const initData = {
   shipPoint: '',
@@ -21,6 +22,9 @@ const ShippingPointAndTerritoryCreateForm = () => {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
+
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const [channelDDL, getChannelDDL, isChannelDDLLoading] = useAxiosGet();
   const [regionDDL, getRegionDDL, isRegionDDLLoading, setRegionDDL] =
@@ -97,14 +101,21 @@ const ShippingPointAndTerritoryCreateForm = () => {
         {(isChannelDDLLoading ||
           isRegionDDLLoading ||
           shipPointDDLLoading ||
-          isAreaDDLLoading) && <Loading />}
+          isAreaDDLLoading ||
+          isLoading) && <Loading />}
         <Formik
           enableReinitialize={true}
           initialValues={initData}
           onSubmit={(values, { resetForm }) => {
-            saveHandler(values, () => {
-              resetForm(initData);
-              console.log({ values });
+            setLoading(true);
+            debounceHandler({
+              setLoading: setLoading,
+              CB: () => {
+                saveHandler(values, () => {
+                  resetForm(initData);
+                  console.log({ values });
+                });
+              },
             });
           }}
         >

@@ -12,6 +12,7 @@ import {
 } from '../helper';
 import { Formik } from 'formik';
 import { toast } from 'react-toastify';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
 
 const initData = {
   toDate: _todayDate(),
@@ -28,6 +29,8 @@ export default function CastingScheduleApproveLanding() {
   const [isDisabled, setIsDisabled] = useState(false);
   const [shipPointDDL, setShipPointDDL] = useState([]);
   const [rowData, setRowData] = useState([]);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     getShipPointist(
@@ -150,11 +153,18 @@ export default function CastingScheduleApproveLanding() {
         enableReinitialize={true}
         initialValues={{ ...initData }}
         onSubmit={(values) => {
-          saveHandler(values);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values);
+            },
+          });
         }}
       >
         {({ values, errors, touched, setFieldValue, handleSubmit }) => (
           <>
+            {(isLoading || isDisabled) && <Loading />}
             <IForm
               isHiddenReset={true}
               title={'Casting Schedule Approve'}
@@ -180,7 +190,6 @@ export default function CastingScheduleApproveLanding() {
                 </button>
               )}
             >
-              {isDisabled && <Loading />}
               <Form
                 {...objProps}
                 formikprops={{

@@ -6,6 +6,7 @@ import IForm from '../../../_helper/_form';
 import InputField from '../../../_helper/_inputField';
 import Loading from '../../../_helper/_loading';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 
 const initData = {
   receiverName: '',
@@ -15,6 +16,8 @@ const initData = {
 export default function OwnerSendModal({ handleGetRowData, propsObj }) {
   const [objProps, setObjprops] = useState({});
   const { status, pageNo, pageSize, singleItem } = propsObj;
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const {
     profileData: { userId },
@@ -41,8 +44,14 @@ export default function OwnerSendModal({ handleGetRowData, propsObj }) {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         if (!values?.receiverName)
           return toast.warn('Receiver name is required');
-        saveHandler(values, () => {
-          resetForm(initData);
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          },
         });
       }}
     >
@@ -57,7 +66,7 @@ export default function OwnerSendModal({ handleGetRowData, propsObj }) {
         touched,
       }) => (
         <>
-          {false && <Loading />}
+          {isLoading && <Loading />}
           <IForm
             title="Send To Owner"
             isHiddenBack={true}

@@ -7,6 +7,7 @@ import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import IForm from './../../../_helper/_form';
 import Loading from './../../../_helper/_loading';
 import ApprovalView from './approvalView';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 const initData = {};
 export default function InventoryAdjustApprove() {
   const { selectedBusinessUnit } = useSelector((state) => {
@@ -16,6 +17,8 @@ export default function InventoryAdjustApprove() {
   const [rowData, getRowData, loadar] = useAxiosGet();
   const [isShowModal, setIsShowModal] = useState(false);
   const [singleData, setSingleData] = useState({});
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     getRowData(
@@ -30,8 +33,14 @@ export default function InventoryAdjustApprove() {
       initialValues={{}}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          },
         });
       }}
     >
@@ -45,7 +54,7 @@ export default function InventoryAdjustApprove() {
         touched,
       }) => (
         <>
-          {loadar && <Loading />}
+          {(loadar || isLoading) && <Loading />}
           <IForm
             title="Inventory Adjust Approve"
             isHiddenReset

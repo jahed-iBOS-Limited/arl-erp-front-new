@@ -12,6 +12,8 @@ import {
   getWarehouseDDL,
   SaveInventoryLoanValidationSchema,
 } from '../helper';
+import createDebounceHandler from '../../../_helper/debounceForSave';
+import Loading from '../../../_helper/_loading';
 
 export default function FormCmp({
   initData,
@@ -27,6 +29,9 @@ export default function FormCmp({
   const [warehouseDDL, setWarehouseDDL] = useState([]);
   const [partnerDDL, setPartnerDDL] = useState([]);
   const [sbuDDL, setsbuDDL] = useState([]);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
+
   const polcList = (v) => {
     if (v?.length < 3) return [];
     return Axios.get(
@@ -61,8 +66,14 @@ export default function FormCmp({
         }
         validationSchema={SaveInventoryLoanValidationSchema}
         onSubmit={(values, { resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -76,6 +87,7 @@ export default function FormCmp({
           setValues,
         }) => (
           <>
+            {isLoading && <Loading />}
             <Form className="form form-label-right">
               <div className="global-form">
                 <div className="row mb-2">

@@ -103,10 +103,10 @@ function BillOfMaterialTable({ obj }) {
                   />
                 </td>
                 <td>{index + 1}</td>
-                <td>{item?.billOfMaterialName}</td>
-                <td>{item?.boMItemVersionName}</td>
-                <td>{item?.uoMName}</td>
-                <td className="text-center">{item?.lotSize}</td>
+                <td>{item?.BillOfMaterialName}</td>
+                <td>{item?.strNarration}</td>
+                <td>{item?.UomName}</td>
+                <td className="text-center">{item?.Quantity}</td>
                 <td>
                   <div className="d-flex justify-content-center">
                     <span className="view mr-3">

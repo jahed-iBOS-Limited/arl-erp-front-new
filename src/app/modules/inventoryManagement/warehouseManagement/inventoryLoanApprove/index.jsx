@@ -12,8 +12,8 @@ import NewSelect from '../../../_helper/_select';
 import PaginationTable from '../../../_helper/_tablePagination';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 import './style.css';
-import { debounce } from 'lodash';
 const initData = {
   fromDate: _monthFirstDate(),
   toDate: _monthLastDate(),
@@ -32,7 +32,8 @@ export default function InventoryLoanApproveLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  const [isDisabled, setDisabled] = useState(false);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const getLandingData = (values, pageNo, pageSize) => {
     getRowData(
@@ -63,19 +64,20 @@ export default function InventoryLoanApproveLanding() {
     );
   }, []);
 
-  const debounceHandelar = debounce(({ setLoading, CB }) => {
-    setLoading(false);
-    CB();
-  }, 5000);
-
   return (
     <Formik
       enableReinitialize={true}
       initialValues={initData}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          },
         });
       }}
     >
@@ -89,7 +91,7 @@ export default function InventoryLoanApproveLanding() {
         touched,
       }) => (
         <>
-          {(rowDataLoader || approveLoanLoading || isDisabled) && <Loading />}
+          {(rowDataLoader || approveLoanLoading || isLoading) && <Loading />}
           <IForm
             title="Inventory Loan Rate Approve"
             isHiddenReset
@@ -322,9 +324,9 @@ export default function InventoryLoanApproveLanding() {
                                     type="button"
                                     className="btn btn-primary"
                                     onClick={() => {
-                                      setDisabled(true);
-                                      debounceHandelar({
-                                        setLoading: setDisabled,
+                                      setLoading(true);
+                                      debounceHandler({
+                                        setLoading: setLoading,
                                         CB: () => {
                                           approveLoan(
                                             `/wms/InventoryLoan/ItemInventoryLoanTransaction?LoanId=${item?.loanId}&ItemRate=${item?.itemRate}&NumAmount=${item?.itemAmount}&ActionById=${profileData?.accountId}`,

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import InputField from '../../../../_helper/_inputField';
 import ICustomTable from '../../../../_helper/_customTable';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
+import Loading from '../../../../_helper/_loading';
 
 const validationSchema = Yup.object().shape({});
 
@@ -12,6 +14,9 @@ export default function FormCmp({
   saveHandler,
   resetBtnRef,
 }) {
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
+
   let ths = [
     'SL',
     'Transaction Code',
@@ -27,8 +32,14 @@ export default function FormCmp({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -42,6 +53,7 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
+            {isLoading && <Loading />}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
                 <div className="col-lg-3">

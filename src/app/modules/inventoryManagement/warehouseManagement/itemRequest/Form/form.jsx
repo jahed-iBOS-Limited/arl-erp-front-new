@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import { Form, Formik } from 'formik';
 import React, { useState } from 'react';
+import { getUOMList } from '../../../../_helper/_commonApi';
 import IDelete from '../../../../_helper/_helperIcons/_delete';
 import { ISelect } from '../../../../_helper/_inputDropDown';
 import InputField from '../../../../_helper/_inputField';
@@ -8,9 +9,9 @@ import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import { itemRequestValidationSchema } from '../../../../_helper/_validationSchema';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
 import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
 import FormikError from './../../../../_helper/_formikError';
-import { getUOMList } from '../../../../_helper/_commonApi';
 
 export default function FormCmp({
   initData,
@@ -29,6 +30,8 @@ export default function FormCmp({
 }) {
   const [uomList, setUOMList] = useState([]);
   const [itemType, setItemType] = useState('');
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const [, getStockQty, stockQtyLoader] = useAxiosGet();
 
@@ -68,8 +71,14 @@ export default function FormCmp({
         initialValues={initData}
         validationSchema={itemRequestValidationSchema}
         onSubmit={(values, { resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -82,7 +91,7 @@ export default function FormCmp({
           setFieldValue,
         }) => (
           <>
-            {stockQtyLoader && <Loading />}
+            {(stockQtyLoader || isLoading) && <Loading />}
             <Form className="form form-label-right">
               <div className="form-group row">
                 <div className="col-lg-3">

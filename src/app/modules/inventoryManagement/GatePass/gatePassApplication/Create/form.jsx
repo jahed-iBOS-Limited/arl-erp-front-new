@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import NewSelect from '../../../../_helper/_select';
 import InputField from '../../../../_helper/_inputField';
@@ -10,6 +10,7 @@ import FormikError from '../../../../_helper/_formikError';
 import { useLocation } from 'react-router-dom';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import Loading from '../../../../_helper/_loading';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
 
 export default function FormCmp({
   initData,
@@ -27,6 +28,8 @@ export default function FormCmp({
   const location = useLocation();
   const { warehouse, plant } = location?.state;
   const [vehicleDDL, getVehicleDDL, vehicleDDLloader] = useAxiosGet();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     if (pId) {
@@ -55,9 +58,15 @@ export default function FormCmp({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler({ ...values, plant, warehouse }, () => {
-            resetForm(initData);
-            setRowDto([]);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler({ ...values, plant, warehouse }, () => {
+                resetForm(initData);
+                setRowDto([]);
+              });
+            },
           });
         }}
       >
@@ -73,7 +82,7 @@ export default function FormCmp({
           <>
             {/*  */}
             <Form className="form form-label-right">
-              {vehicleDDLloader && <Loading />}
+              {(vehicleDDLloader || isLoading) && <Loading />}
               <div className="global-form">
                 <div className="row">
                   <div className="col-lg-4">

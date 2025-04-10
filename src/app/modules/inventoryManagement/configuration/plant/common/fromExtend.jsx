@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { Input } from '../../../../../../_metronic/_partials/controls';
 import Select from 'react-select';
 import customStyles from '../../../../selectCustomStyle';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
+import Loading from '../../../../_helper/_loading';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
@@ -38,18 +40,28 @@ export default function FormExtend({
   remover,
   getGridData,
 }) {
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
+
   useEffect(() => {
     getGridData(id);
   }, [id]);
   return (
     <>
+      {isLoading && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={product}
         validationSchema={ProductEditSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveWarehouse(values, () => {
-            resetForm(product);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveWarehouse(values, () => {
+                resetForm(product);
+              });
+            },
           });
         }}
       >

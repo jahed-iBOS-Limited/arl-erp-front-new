@@ -8,6 +8,7 @@ import NewSelect from '../../../_helper/_select';
 import PaginationTable from '../../../_helper/_tablePagination';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import { insertDataInExcel } from './helper';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 const initData = {
   plant: '',
   wareHouse: '',
@@ -28,6 +29,8 @@ export default function ItemAnalytics() {
   const [itemTypeDDL, getItemTypeDDL] = useAxiosGet();
   const [itemCategoryDDL, getItemCategoryDDL] = useAxiosGet();
   const [itemSubCategoryDDL, getItemSubCategoryDDL] = useAxiosGet();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const {
     profileData: { accountId: accId, userId },
@@ -84,8 +87,14 @@ export default function ItemAnalytics() {
       initialValues={{}}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          },
         });
       }}
     >
@@ -99,7 +108,7 @@ export default function ItemAnalytics() {
         touched,
       }) => (
         <>
-          {itemAnalyticsReportLoader && <Loading />}
+          {(itemAnalyticsReportLoader || isLoading) && <Loading />}
           <IForm
             title="Item Analytics Report"
             isHiddenReset

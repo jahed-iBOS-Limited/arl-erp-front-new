@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import InputField from '../../../_helper/_inputField';
 import NewSelect from '../../../_helper/_select';
 import IForm from './../../../_helper/_form';
@@ -9,6 +9,7 @@ import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import { shallowEqual, useSelector } from 'react-redux';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 import PaginationSearch from '../../../_helper/_search';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -21,6 +22,8 @@ export default function DispatchReport() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const getLandingData = (values, searchTerm = '') => {
     const strStatus = values?.status?.label
@@ -53,8 +56,14 @@ export default function DispatchReport() {
       initialValues={{}}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          },
         });
       }}
     >
@@ -68,7 +77,7 @@ export default function DispatchReport() {
         touched,
       }) => (
         <>
-          {loader && <Loading />}
+          {(loader || isLoading) && <Loading />}
           <IForm
             title="Dispatch Report"
             isHiddenReset

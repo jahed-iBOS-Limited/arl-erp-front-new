@@ -10,6 +10,7 @@ import IForm from '../../../_helper/_form';
 import { IInput } from '../../../_helper/_input';
 import Loading from '../../../_helper/_loading';
 import { _todayDate } from '../../../_helper/_todayDate';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 
 const initData = {};
 export default function ItemWiseSerialEdit() {
@@ -17,6 +18,8 @@ export default function ItemWiseSerialEdit() {
   const [rowData, getRowData, , setRowData] = useAxiosGet();
   const [chalanNoDDL, getChallanNoDDL] = useAxiosGet();
   const [, saveData] = useAxiosPost();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const { id } = useParams();
   //const location = useLocation();
@@ -90,15 +93,21 @@ export default function ItemWiseSerialEdit() {
 
   return (
     <IForm title="Edit Item Wise Serial" getProps={setObjprops}>
-      {false && <Loading />}
+      {isLoading && <Loading />}
       <>
         <Formik
           enableReinitialize={true}
           initialValues={initData}
           onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-            saveHandler(values, () => {
-              resetForm(initData);
-              //setItemList([]);
+            setLoading(true);
+            debounceHandler({
+              setLoading: setLoading,
+              CB: () => {
+                saveHandler(values, () => {
+                  resetForm(initData);
+                  //setItemList([]);
+                });
+              },
             });
           }}
         >
