@@ -60,30 +60,6 @@ export const leaveAppLandingPagintaion_api = async (
   }
 };
 
-export const changeReqSaveAction = async (
-  payload,
-  setLoader,
-  changeReqDateCb,
-  PrevValues,
-  setIsShowModal
-) => {
-  setLoader(true);
-  try {
-    const res = await Axios.post(
-      `/hcm/HCMLeaveApplication/PLChangeRequest`,
-      payload
-    );
-    // callback for leave application, it will be called from modal, when user save req date
-    changeReqDateCb(PrevValues);
-    setIsShowModal(false);
-    toast.success(res.data?.message || 'Updated successfully');
-    setLoader(false);
-  } catch (error) {
-    toast.warn(error?.response?.data?.message || 'Please try again');
-    setLoader(false);
-  }
-};
-
 export const OfficialMoveLandingPagination_api = async (
   empId,
   setter,
@@ -160,14 +136,12 @@ export const saveLeaveMovementAction = async (data, cb, setDisabled) => {
     let fromModifiedTime = tmStart || null;
     let toModifiedTime = tmEnd || null;
 
-    let url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${
-      documentFile ? documentFile : ''
-    }`;
+    let url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${documentFile ? documentFile : ''
+      }`;
 
     if (fromModifiedTime && toModifiedTime) {
-      url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${
-        documentFile ? documentFile : ''
-      }&startTime=${fromModifiedTime}&endTime=${toModifiedTime}`;
+      url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${documentFile ? documentFile : ''
+        }&startTime=${fromModifiedTime}&endTime=${toModifiedTime}`;
     }
     let res = await Axios.post(url);
     // do not remove this status code check, this is mendatory
@@ -238,26 +212,6 @@ export const removeOfficialMovement_api = async (
   }
 };
 
-export const getLeaveMovementSelfData = (employeeId, accId, busId, setter) => {
-  Axios.get(
-    `/hcm/LeaveAndMovement/LeaveAndMovementLandingPagination?EmployeeId=${employeeId}&AccountId=${accId}&BusinessUnitId=${busId}&viewOrder=desc&PageNo=1&PageSize=1000`
-  )
-    .then((res) => {
-      setter(res?.data?.data);
-    })
-    .catch((err) => setter([]));
-};
-
-export const getMovementSelfData = (employeeId, setter) => {
-  Axios.get(
-    `/hcm/OfficialMovement/OfficialMovementLandingPagination?EmployeeId=${employeeId}&PageNo=1&PageSize=123&viewOrder=desc`
-  )
-    .then((res) => {
-      setter(res?.data?.data);
-    })
-    .catch((err) => setter([]));
-};
-
 export const getLeaveSummarySelfData = (employeeId, setter, setLoader) => {
   setLoader(true);
   Axios.get(
@@ -273,14 +227,3 @@ export const getLeaveSummarySelfData = (employeeId, setter, setLoader) => {
     });
 };
 
-export const getMovementSummarySelfData = (MoveTypeId, EmployeeId, setter) => {
-  Axios.get(
-    `/hcm/OfficialMovement/GetOfficialMovementByMoveTypeId?MoveTypeId=${MoveTypeId}&EmployeeId=${EmployeeId}`
-  )
-    .then((res) => {
-      setter(res?.data);
-    })
-    .catch((err) => {
-      setter([]);
-    });
-};

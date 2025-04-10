@@ -20,7 +20,7 @@ import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import axios from 'axios';
 import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
 import IViewModal from '../../../../_helper/_viewModal';
-import ViewForPLLeave from './ViewForPLLeave';
+import ViewForPLLeave from '../../../../_helper/_helperJsx/ViewForPLLeave';
 
 // Validation schema
 const validationSchema = Yup.object().shape({

@@ -60,30 +60,6 @@ export const leaveAppLandingPagintaion_api = async (
   }
 };
 
-export const changeReqSaveAction = async (
-  payload,
-  setLoader,
-  changeReqDateCb,
-  PrevValues,
-  setIsShowModal
-) => {
-  setLoader(true);
-  try {
-    const res = await Axios.post(
-      `/hcm/HCMLeaveApplication/PLChangeRequest`,
-      payload
-    );
-    // callback for leave application, it will be called from modal, when user save req date
-    changeReqDateCb(PrevValues);
-    setIsShowModal(false);
-    toast.success(res.data?.message || 'Updated successfully');
-    setLoader(false);
-  } catch (error) {
-    toast.warn(error?.response?.data?.message || 'Please try again');
-    setLoader(false);
-  }
-};
-
 export const OfficialMoveLandingPagination_api = async (
   empId,
   setter,

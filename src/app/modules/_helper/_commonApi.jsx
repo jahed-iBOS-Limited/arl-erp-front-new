@@ -2497,3 +2497,26 @@ export const saveItemRequest = async (data, cb, setGridData, setDisabled) => {
     setDisabled(false);
   }
 };
+export const changeReqSaveAction = async (
+  payload,
+  setLoader,
+  changeReqDateCb,
+  PrevValues,
+  setIsShowModal
+) => {
+  setLoader(true);
+  try {
+    const res = await axios.post(
+      `/hcm/HCMLeaveApplication/PLChangeRequest`,
+      payload
+    );
+    // callback for leave application, it will be called from modal, when user save req date
+    changeReqDateCb(PrevValues);
+    setIsShowModal(false);
+    toast.success(res.data?.message || 'Updated successfully');
+    setLoader(false);
+  } catch (error) {
+    toast.warn(error?.response?.data?.message || 'Please try again');
+    setLoader(false);
+  }
+};
