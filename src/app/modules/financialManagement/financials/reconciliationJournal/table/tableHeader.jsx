@@ -71,12 +71,29 @@ const ReconciliationJournal = () => {
     profileData: { accountId },
   } = useSelector((state) => state.authData, shallowEqual);
 
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
   const [
     baddebtRowData,
     getBaddebtRowData,
     isGetBaddebtRowDataLoading,
     setBaddebtRowData,
   ] = useAxiosGet();
+
+  const [
+    incentiveProvisionData,
+    getIncentiveProvisionData,
+    getIncentiveProvisionDataLoading,
+    setIncentiveProvisionData,
+  ] = useAxiosGet();
+
+  const [
+    ,
+    createIncentiveProvisionJounral,
+    createIncentiveProvisionJounralLoading,
+  ] = useAxiosPost();
 
   const handleGetBaddebtRowData = (values) => {
     const [year, month] = values?.monthYear?.split('-')?.map(Number) || [];
@@ -127,7 +144,7 @@ const ReconciliationJournal = () => {
   const [expanded, setExpanded] = useState(false);
   const [fileObject, setFileObject] = useState('');
   const [sbuDDL, setSbuDDL] = useState([]);
-  const [typeDDL] = useState(getType());
+  const [typeDDL] = useState(getType(selectedBusinessUnit));
 
   const [loading, setLoading] = useState(false);
   //storingData
@@ -145,10 +162,6 @@ const ReconciliationJournal = () => {
     incomeTaxProvisionViewCreateLoading,
     setIncomeTaxProvisionViewCreateData,
   ] = useAxiosPost();
-
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -207,6 +220,12 @@ const ReconciliationJournal = () => {
         setExpanded,
       });
       setJVSalaryJournal([]);
+    } else if (values?.type?.value === 7) {
+      const [year, month] = values?.monthYear?.split('-')?.map(Number) || [];
+
+      getIncentiveProvisionData(
+        `/fino/Report/GetIncentiveProvisionLanding?businessUnitId=${selectedBusinessUnit?.value}&monthId=${month}&yearId=${year}`
+      );
     } else if (values?.type?.value === 3) {
       const [year, month] = values?.taxMonth?.split('-')?.map(Number) || [];
       let customDate;
@@ -303,6 +322,7 @@ const ReconciliationJournal = () => {
       setLoading(false);
     }
   };
+
   const totalJournalAmount = useMemo(() => {
     if (jounalLedgerData?.length > 0) {
       return _formatMoney(
@@ -312,6 +332,15 @@ const ReconciliationJournal = () => {
       return 0;
     }
   }, [jounalLedgerData]);
+
+  const totalIncentiveProvisionQty = useMemo(() => {
+    if (incentiveProvisionData?.length > 0) {
+      return incentiveProvisionData?.reduce(
+        (acc, item) => (acc += item?.deliveryQty),
+        0
+      );
+    } else return 0;
+  }, [incentiveProvisionData]);
 
   return (
     <>
@@ -363,10 +392,12 @@ const ReconciliationJournal = () => {
           <div className="">
             {(loading ||
               isGetBaddebtRowDataLoading ||
-              incomeTaxProvisionViewCreateLoading) && <Loading />}
+              incomeTaxProvisionViewCreateLoading ||
+              getIncentiveProvisionDataLoading ||
+              createIncentiveProvisionJounralLoading) && <Loading />}
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={'Reconciliation Journal'}>
+              <CardHeader title={'Month End Journal'}>
                 <CardHeaderToolbar>
                   {/* Salary Journal */}
                   {values?.type?.value === 6 && (
@@ -384,6 +415,37 @@ const ReconciliationJournal = () => {
                       }
                       className="btn btn-primary ml-2"
                       type="submit"
+                    >
+                      Create Journal
+                    </button>
+                  )}
+
+                  {/* Incentive Provision */}
+                  {values?.type?.value === 7 && (
+                    <button
+                      onClick={() => {
+                        const [year, month] =
+                          values?.monthYear?.split('-')?.map(Number) || [];
+                        createIncentiveProvisionJounral(
+                          `/fino/Report/GetIncentiveProvisionLanding?businessUnitId=${selectedBusinessUnit?.value}&yearId=${year}&monthId=${month}&totalValue=${totalIncentiveProvisionQty * values?.totalAmount}&actionBy=${profileData?.userId}`,
+                          null,
+                          (response) => {
+                            // status code
+                            // const statusCode = response?.[0]?.statusCode;
+                            // const message = response?.[0]?.message;
+                            // if (statusCode === 500 || statusCode !== 200) {
+                            //   toast.warn(message);
+                            // }
+                            // if (statusCode === 200) {
+                            //   toast.success(message);
+                            // }
+                          },
+                          true
+                        );
+                      }}
+                      className="btn btn-primary ml-2"
+                      type="submit"
+                      disabled={incentiveProvisionData.length < 1}
                     >
                       Create Journal
                     </button>
@@ -425,6 +487,7 @@ const ReconciliationJournal = () => {
                   {/* For Type 1 COGS */}
                   {values?.type?.value !== 4 &&
                     values?.type?.value !== 6 &&
+                    values?.type?.value !== 7 &&
                     values?.type?.value !== 3 && (
                       <button
                         onClick={handleSubmit}
@@ -520,6 +583,9 @@ const ReconciliationJournal = () => {
                               type: valueOption,
                             })
                           );
+                          if (values?.type?.value === 7) {
+                            setIncentiveProvisionData([]);
+                          }
                         }}
                         placeholder="Type"
                         errors={errors}
@@ -701,7 +767,7 @@ const ReconciliationJournal = () => {
                         disabled={true}
                       />
                     )}
-                    {values?.type?.value === 6 && (
+                    {[6, 7].includes(values?.type?.value) && (
                       <div className="col-lg-3">
                         <label>Month-Year</label>
                         <InputField
@@ -711,6 +777,9 @@ const ReconciliationJournal = () => {
                           type="month"
                           onChange={(e) => {
                             setFieldValue('monthYear', e?.target?.value);
+                            if (values?.type?.value === 7) {
+                              setIncentiveProvisionData([]);
+                            }
                           }}
                         />
                       </div>
@@ -1087,6 +1156,69 @@ const ReconciliationJournal = () => {
                         </tbody>
                       </table>
                     </div>
+                  ) : (
+                    <></>
+                  )}
+
+                  {/* Incentive Provision */}
+                  {incentiveProvisionData?.length > 0 &&
+                  [7].includes(values?.type?.value) ? (
+                    <>
+                      <div className="float-right my-2">
+                        <InputField
+                          value={values?.totalAmount}
+                          name="totalAmount"
+                          label="Total Amount"
+                          type="number"
+                          min={1}
+                          onChange={(e) => {
+                            setFieldValue('totalAmount', e?.target?.value);
+                          }}
+                        />
+                      </div>
+                      <section className="table-responsive">
+                        <table
+                          id="table-to-xlsx"
+                          className={
+                            'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table'
+                          }
+                        >
+                          <thead>
+                            <tr className="cursor-pointer">
+                              <th>SL</th>
+                              <th>Customer Name</th>
+                              <th>Delivery Qty</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {incentiveProvisionData?.map((item, index) => {
+                              return (
+                                <tr key={index}>
+                                  <td
+                                    style={{ width: '40px' }}
+                                    className="text-center"
+                                  >
+                                    {index + 1}
+                                  </td>
+                                  <td>{item?.customerName}</td>
+                                  <td className="text-right">
+                                    {item?.deliveryQty}
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                          <tr>
+                            <td colSpan={2} className="text-center">
+                              Total
+                            </td>
+                            <td className="text-right">
+                              {totalIncentiveProvisionQty || 0}
+                            </td>
+                          </tr>
+                        </table>
+                      </section>
+                    </>
                   ) : (
                     <></>
                   )}
