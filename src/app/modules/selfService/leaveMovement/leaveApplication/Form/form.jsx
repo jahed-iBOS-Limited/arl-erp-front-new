@@ -12,14 +12,15 @@ import {
   validationSchemaForMovement,
 } from '../../../../_helper/_validationSchema';
 import { nextMonth } from '../../../../_helper/nextMonth';
+import {} from '../helper';
+import Loading from './../../../../_helper/_loading';
+import ApplicationTable from './ApplicationTable';
 import {
   getCountryDDL,
   getDistrictDDLAction,
   getLeaveSummarySelfData,
   getLeaveTypeDDL,
-} from '../helper';
-import Loading from './../../../../_helper/_loading';
-import ApplicationTable from './ApplicationTable';
+} from '../../../../_helper/_commonApi';
 
 export default function FormCmp({
   initData,
@@ -51,10 +52,6 @@ export default function FormCmp({
         location?.state?.division?.value,
         setDistrictDDL
       );
-      // setEmployeeValue({
-      //   label: location?.state?.employee?.label,
-      //   value: location?.state?.employee?.value,
-      // });
     }
   }, [selectedBusinessUnit, profileData]);
 
