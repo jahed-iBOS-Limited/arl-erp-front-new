@@ -265,10 +265,10 @@ export function FinalcialPages() {
         path="/financial-management/financials/budget-entry"
         component={BudgetEntryLanding}
       />
-      <ContentRoute
+      {/* <ContentRoute
         path="/financial-management/financials/reconciliation-journal"
         component={ReconciliationJournal}
-      />
+      /> */}
 
       {/* Bulk JV */}
       <ContentRoute
