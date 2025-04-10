@@ -10,6 +10,7 @@ import IForm from './../../../_helper/_form';
 import Loading from './../../../_helper/_loading';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 import InputField from '../../../_helper/_inputField';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 const initData = {
   shipPoint: { value: 0, label: 'All' },
   shift: { value: 1, label: 'Day' },
@@ -26,6 +27,8 @@ export default function LogisticEquipment() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loading] = useAxiosGet();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     getShipPointList(
@@ -62,8 +65,14 @@ export default function LogisticEquipment() {
       initialValues={initData}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          },
         });
       }}
     >
@@ -77,7 +86,7 @@ export default function LogisticEquipment() {
         touched,
       }) => (
         <>
-          {loading && <Loading />}
+          {(loading || isLoading) && <Loading />}
           <IForm
             title="Logistic Equipment Availability"
             isHiddenReset

@@ -20,6 +20,7 @@ import {
 } from './helper';
 import { QcManagementContext } from './qcManagementContext';
 import { toast } from 'react-toastify';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 const initData = {
   po: '',
   poType: '',
@@ -40,6 +41,9 @@ export default function QualityCheckCreateForm() {
   const [, saveQcItem, loadQcITem] = useAxiosPost();
   const [headerData, getHeaderData, loadHeaderData, setHeaderData] =
     useAxiosGet([]);
+
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   //general handler
   const handleHeaderData = (values) => {
@@ -454,8 +458,14 @@ export default function QualityCheckCreateForm() {
       enableReinitialize={true}
       initialValues={initData}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          },
         });
       }}
     >
@@ -469,7 +479,7 @@ export default function QualityCheckCreateForm() {
         touched,
       }) => (
         <>
-          {(loadHeaderData || loadQcITem) && <Loading />}
+          {(loadHeaderData || loadQcITem || isLoading) && <Loading />}
           <IForm title="Create Item Quality Check" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">

@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 import { ISelect } from '../../../../_helper/_inputDropDown';
 import InputField from '../../../../_helper/_inputField';
 import ICustomCard from '../../../../_helper/_customCard';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
+import Loading from '../../../../_helper/_loading';
 
 export default function ReceiveInvCreateForm({
   btnRef,
@@ -19,6 +21,8 @@ export default function ReceiveInvCreateForm({
   const [isDisabled, setDisabled] = useState(true);
   // const dispatch = useDispatch();
   const [rowDto, setRowDto] = useState([]);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -175,8 +179,14 @@ export default function ReceiveInvCreateForm({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -190,6 +200,7 @@ export default function ReceiveInvCreateForm({
           isValid,
         }) => (
           <>
+            {isLoading && <Loading />}
             {disableHandler && disableHandler(!isValid)}
             <Form className="form form-label-right">
               <div className="form-group row">

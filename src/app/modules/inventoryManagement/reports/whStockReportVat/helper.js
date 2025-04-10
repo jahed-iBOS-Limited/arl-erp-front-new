@@ -74,19 +74,6 @@ export const PurchaseRegister_Report_api = async (
   }
 };
 
-export const getHeaderData_api = async (accId, buId, setter) => {
-  try {
-    const res = await axios.get(
-      `/vat/Mushak91/GetTaxPayerInformation?AccountId=${accId}&BusinessUnitId=${buId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {
-    setter({});
-  }
-};
-
 export const SalesRegister_Report_api = async (
   accid,
   buid,

@@ -18,10 +18,10 @@ import {
   GetItemTypeDDLSales_api,
   PurchaseRegister_Report_api,
   SalesRegister_Report_api,
-  getHeaderData_api,
   getVatBranches_api,
 } from './helper';
 
+import { getHeaderData_api } from '../../../_helper/_commonApi';
 import Loading from '../../../_helper/_loading';
 import PurchaseRegSummary from './purchaseRegSummary';
 import SalesRegSummary from './salesRegSummary';

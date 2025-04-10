@@ -1,7 +1,5 @@
-import React, { useRef } from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 import ISpinner from '../../../../_helper/_spinner';
 import PrintViewSixPointThree from '../../createSales/printView';
@@ -30,13 +28,13 @@ function ModalDateRangeModal({ values }) {
     content: () => componentRef.current,
   });
   return (
-    <>
-      {loading && <ISpinner isShow={loading} />}
+    <React.Fragment>
       <>
+        {loading && <ISpinner isShow={loading} />}
         {gridData?.length > 0 && (
-          <>
+          <React.Fragment>
             <div className="d-flex justify-content-end align-items-center">
-              <b className="pr-5">Total Count: {gridData?.length}</b>
+              <b className="pr-5">Total Count: {gridData?.length || ''}</b>
               <button
                 type="button"
                 className="btn btn-primary"
@@ -59,22 +57,22 @@ function ModalDateRangeModal({ values }) {
   }
 }`}
               </style>
-              {gridData?.map((item, index) => {
+              {gridData?.map((item) => {
                 return (
-                  <>
+                  <React.Fragment>
                     <PrintViewSixPointThree
                       salesInvoicePrintStatus={item?.objHeader?.isPrint}
                       singleData={item}
                     />
-                    <div class="page-break-salesInvoice"></div>
-                  </>
+                    <div class="page-break-salesInvoice" />
+                  </React.Fragment>
                 );
               })}
             </div>
-          </>
+          </React.Fragment>
         )}
       </>
-    </>
+    </React.Fragment>
   );
 }
 

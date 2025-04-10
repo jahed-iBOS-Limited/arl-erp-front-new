@@ -12,24 +12,6 @@ const DebitNoteModel = ({ rowDto, parentRowClickData }) => {
   const [viewClick, setViewClick] = useState({});
   return (
     <>
-      {/* <OverlayTrigger
-        overlay={<Tooltip id="cs-icon">{"Details All Log"}</Tooltip>}
-      >
-        <img
-          src={document}
-          alt={"document"}
-          onClick={() => {
-            // setModelShowAll(true);
-          }}
-          style={{
-            width: "18px",
-            position: "absolute",
-            top: "1px",
-            right: "22px",
-            cursor: "pointer",
-          }}
-        />
-      </OverlayTrigger> */}
       <div>
         <div className="row global-table">
           <div className="col-lg-12 pr-0 pl-0">
@@ -67,9 +49,9 @@ const DebitNoteModel = ({ rowDto, parentRowClickData }) => {
                         {' '}
                         {_fixedPoint(tableData?.grandTotal)}{' '}
                       </td>
-                      <td> {tableData?.createdBy} </td>
-                      <td> {tableData?.activity} </td>
-                      <td> {tableData?.modifyNo} </td>
+                      <td> {tableData?.createdBy || ''} </td>
+                      <td> {tableData?.activity || ''} </td>
+                      <td> {tableData?.modifyNo || ''} </td>
                       <td>
                         <span className="d-flex justify-content-center align-items-center">
                           <span

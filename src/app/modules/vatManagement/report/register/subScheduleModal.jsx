@@ -1,29 +1,27 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
-import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
-import Loading from '../../../_helper/_loading';
+import { Form, Formik } from 'formik';
+import html2pdf from 'html2pdf.js';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from '../../../../../_metronic/_partials/controls';
-// import { _todayDate } from "../../../_helper/_todayDate";
-// import InputField from "../../../_helper/_inputField";
 import { _dateFormatter } from '../../../_helper/_dateFormate';
-import ReactToPrint from 'react-to-print';
 import { _formatMoney } from '../../../_helper/_formatMoney';
-import { getPartnerBook } from './helper';
-import { Formik, Form } from 'formik';
-import { _todayDate } from '../../../_helper/_todayDate';
 import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
 import { _todayPreviousMonthDate } from '../../../_helper/_todayPreviousMonthDate';
 import IViewModal from '../../../_helper/_viewModal';
-import { CashJournalReportView } from '../../financial/accountJournal/report/cashJournalReportView';
-import { BankJournalReportView } from '../../financial/accountJournal/report/bankJournalReportView';
+import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
 import { AdjustmentJournalReportView } from '../../financial/accountJournal/report/adjustmentJournalReportView';
-import html2pdf from 'html2pdf.js';
+import { BankJournalReportView } from '../../financial/accountJournal/report/bankJournalReportView';
+import { CashJournalReportView } from '../../financial/accountJournal/report/cashJournalReportView';
+import { getPartnerBook } from '../../../_helper/_commonApi';
 
 const SubScheduleModal = ({ tableItem, landingValues }) => {
   const initData = {
@@ -39,7 +37,6 @@ const SubScheduleModal = ({ tableItem, landingValues }) => {
   const [clickRowData, setClickRowData] = useState('');
   const [modelShow, setModelShow] = useState(false);
   useEffect(() => {
-    // console.log(landingValues)
     if (tableItem && landingValues) {
       getPartnerBook(
         selectedBusinessUnit?.value,
@@ -81,9 +78,9 @@ const SubScheduleModal = ({ tableItem, landingValues }) => {
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
             <Card>
-              {true && <ModalProgressBar />}
+              <ModalProgressBar />
               <CardHeader title="Register Details">
-                <CardHeaderToolbar></CardHeaderToolbar>
+                <CardHeaderToolbar />
               </CardHeader>
               <CardBody>
                 <Form className="form form-label-right">
@@ -98,11 +95,6 @@ const SubScheduleModal = ({ tableItem, landingValues }) => {
                         type="date"
                         onChange={(e) => {
                           setFieldValue('fromDate', e.target.value);
-                          // localStorage.setItem("accountReportRegisterFromDate", e.target.value)
-                          // dispatch(SetFinancialManagementReportRegisterAction({
-                          //   ...values,
-                          //   fromDate:e.target.value
-                          // }))
                           setRowDto([]);
                         }}
                       />
@@ -117,11 +109,6 @@ const SubScheduleModal = ({ tableItem, landingValues }) => {
                         type="date"
                         onChange={(e) => {
                           setFieldValue('toDate', e.target.value);
-                          // localStorage.setItem("accountReportRegisterToDate", e.target.value)
-                          // dispatch(SetFinancialManagementReportRegisterAction({
-                          //   ...values,
-                          //   toDate:e.target.value
-                          // }))
                           setRowDto([]);
                         }}
                       />
@@ -187,20 +174,7 @@ const SubScheduleModal = ({ tableItem, landingValues }) => {
                       >
                         {selectedBusinessUnit?.address}
                       </h6>
-                      {/* {console.log(landingValues)} */}
-                      <h3 className="m-0">
-                        {tableItem?.strSubGlName}
-                        {/* {landingValues?.generalLedger?.label} Ladger */}
-                      </h3>
-                      {/* <p className="m-0">
-                        <strong className="mr-5">
-                          {tableItem?.strSubGlName}
-                        </strong>
-                      </p> */}
-                      {/* <div className="row justify-content-center">
-                    <strong className="mr-5">From: {values?.fromDate}</strong>
-                    <strong>To: {values?.toDate}</strong>
-                  </div> */}
+                      <h3 className="m-0">{tableItem?.strSubGlName}</h3>
                     </div>
 
                     <div className="react-bootstrap-table table-responsive">

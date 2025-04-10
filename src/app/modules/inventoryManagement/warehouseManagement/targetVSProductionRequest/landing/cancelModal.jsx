@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import TextArea from '../../../../_helper/TextArea';
 import Loading from '../../../../_helper/_loading';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
 const initData = {
   remarks: '',
 };
 
 export default function CancelProductionRequest({ cancelHandler, id, value }) {
   const [loading, setLoading] = useState(false);
+  const debounceHandler = createDebounceHandler(5000);
 
   return (
     <>
@@ -16,7 +18,13 @@ export default function CancelProductionRequest({ cancelHandler, id, value }) {
         enableReinitialize={true}
         initialValues={initData}
         onSubmit={(values) => {
-          cancelHandler(id, { ...values, ...value }, setLoading);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              cancelHandler(id, { ...values, ...value }, setLoading);
+            },
+          });
         }}
       >
         {({ values, errors, touched, setFieldValue, handleSubmit }) => (

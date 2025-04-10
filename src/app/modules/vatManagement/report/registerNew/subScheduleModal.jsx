@@ -14,12 +14,12 @@ import {
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 import ReactToPrint from 'react-to-print';
 import { _formatMoney } from '../../../_helper/_formatMoney';
-import { getPartnerBook } from './helper';
 import { Formik, Form } from 'formik';
 import { _todayDate } from '../../../_helper/_todayDate';
 import InputField from '../../../_helper/_inputField';
 import { _todayPreviousMonthDate } from '../../../_helper/_todayPreviousMonthDate';
 import html2pdf from 'html2pdf.js';
+import { getPartnerBook } from '../../../_helper/_commonApi';
 
 const SubScheduleModal = ({ tableItem, landingValues }) => {
   const initData = {

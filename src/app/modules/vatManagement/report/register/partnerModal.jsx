@@ -12,7 +12,6 @@ import {
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 import ReactToPrint from 'react-to-print';
 import { _formatMoney } from '../../../_helper/_formatMoney';
-import { getPartnerBook, partnerGeneralLedgerList } from './helper';
 import { Formik, Form } from 'formik';
 import { _todayDate } from '../../../_helper/_todayDate';
 import InputField from '../../../_helper/_inputField';
@@ -23,6 +22,10 @@ import { BankJournalReportView } from '../../financial/accountJournal/report/ban
 import { AdjustmentJournalReportView } from '../../financial/accountJournal/report/adjustmentJournalReportView';
 
 import html2pdf from 'html2pdf.js';
+import {
+  getPartnerBook,
+  partnerGeneralLedgerList,
+} from '../../../_helper/_commonApi';
 
 const PartnerModal = ({ tableItem, landingValues }) => {
   const initData = {

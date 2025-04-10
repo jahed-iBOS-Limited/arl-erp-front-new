@@ -10,6 +10,7 @@ import FormikError from '../../../../_helper/_formikError';
 import { removeRowData, rowDataAddHandler } from '../landing/utils';
 import IDelete from '../../../../_helper/_helperIcons/_delete';
 import { useParams } from 'react-router-dom';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
 
 export default function FormCmp({
   btnRef,
@@ -29,6 +30,8 @@ export default function FormCmp({
 }) {
   const [itemList, setItemList] = useState([]);
   const params = useParams();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadUserList = (v) => {
     if (v?.length < 3) return [];
@@ -52,13 +55,19 @@ export default function FormCmp({
 
   return (
     <>
-      {loading && <Loading />}
+      {(loading || isLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{ ...initData }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          saveHandler(values);
+          setIsLoading(true);
+          debounceHandler({
+            setLoading: setIsLoading,
+            CB: () => {
+              saveHandler(values);
+            },
+          });
         }}
       >
         {({ values, errors, touched, setFieldValue, handleSubmit }) => (

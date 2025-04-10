@@ -70,28 +70,6 @@ export const getSupplierDDL = async (accId, buId, setter) => {
   } catch (error) {}
 };
 
-export const getDeliveryToDDL = async (soldToPrtnrId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/partner/PManagementCommonDDL/GetDeliveredToDDL?SoldToPartnerId=${soldToPrtnrId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
-export const getPaymentTermDDL = async (setter) => {
-  try {
-    const res = await Axios.get(
-      `/fino/BusinessTransaction/GetPaymentTermsFinoDDL`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 const attachmentFileIdGroup = (arr) => {
   const result = [];
   if (arr?.length > 0) {

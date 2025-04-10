@@ -37,43 +37,7 @@ export const getShipPointByBranchId_api = async (
     }
   } catch (error) {}
 };
-//getTaxPendingDeliveryList_api
-export const getTaxPendingDeliveryList_api = async (
-  accId,
-  buId,
-  shippointId,
-  setter
-) => {
-  try {
-    const res = await Axios.get(
-      `/vat/TaxDDL/getTaxPendingDeliveryList?AccountId=${accId}&BusinessUnitId=${buId}&ShippointId=${shippointId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-//GetDeliveryInfoByDeliveryNum
-export const getDeliveryInfoByDeliveryNum_api = async (
-  accId,
-  buId,
-  deliveryCode,
-  setFieldValue
-) => {
-  try {
-    const res = await Axios.get(
-      `/vat/TaxSalesInvoiceIbos/GetDeliveryInfoByDeliveryNum?AccountId=${accId}&BusinessUnitId=${buId}&DeliveryCode=${deliveryCode}`
-    );
-    if (res.status === 200 && res?.data) {
-      setFieldValue('shiptoPartnerAddress', res?.data[0]?.shipToPartnerAddress);
-      setFieldValue('vehicleNo', res?.data[0]?.deliveryCode);
-      setFieldValue(
-        'actualDeliveryDate',
-        _dateFormatter(res?.data[0]?.deliveryDate)
-      );
-    }
-  } catch (error) {}
-};
+
 //GetTaxSalesInvoiceById
 export const GetTaxSalesInvoiceById = async (taxSalesId, setter) => {
   try {
@@ -86,30 +50,6 @@ export const GetTaxSalesInvoiceById = async (taxSalesId, setter) => {
   } catch (error) {}
 };
 
-//create CreateSalesInvoiceIbos_api
-export const createSalesInvoiceIbos_api = async (
-  data,
-  cb,
-  setTaxSalesInvoiceById,
-  setModelShow
-) => {
-  try {
-    const res = await Axios.post(
-      `/vat/TaxSalesInvoiceIbos/CreateSalesInvoiceIbos`,
-      data
-    );
-    if (res.status === 200) {
-      toast.success('Submitted Successfully', {
-        toastId: shortid(),
-      });
-      cb();
-      GetTaxSalesInvoiceById(res?.data?.key, setTaxSalesInvoiceById);
-      setModelShow(true);
-    }
-  } catch (error) {
-    toast.error(error?.response?.data?.message);
-  }
-};
 export const AutoTaxCompleteApi = async (deliveryId, buid, setLoading, cb) => {
   try {
     setLoading(true);
@@ -212,33 +152,6 @@ export const GetTaxSalesInvoiceListApi = async (
   }
 };
 
-export const getSalesInvoiceIbosSearchPaginationShippointId = async (
-  accId,
-  buId,
-  shippointId,
-  setter,
-  setLoading,
-  pageNo,
-  pageSize,
-  search
-) => {
-  try {
-    setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : '';
-
-    const res = await Axios.get(
-      `/vat/TaxSalesInvoiceIbos/GetSalesInvoiceIbosSearchPaginationShippointId?${searchPath}accountId=${accId}&businessUnitId=${buId}&shippointId=${shippointId}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-      setLoading(false);
-    }
-  } catch (error) {
-    setLoading(false);
-  }
-};
-
-// getDetailTaxPendingDeliveryList
 export const getDetailTaxPendingDeliveryList = async (
   accId,
   buId,

@@ -60,17 +60,6 @@ export const getSupplierDDL = async (accId, buId, setter) => {
   } catch (error) {}
 };
 
-export const getDeliveryToDDL = async (soldToPrtnrId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/partner/PManagementCommonDDL/GetDeliveredToDDL?SoldToPartnerId=${soldToPrtnrId}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const getTaxConfig = async (buId, setter) => {
   try {
     const res = await Axios.get(
@@ -342,29 +331,6 @@ export const getPartnerDDL = async (accId, buId, setter) => {
       `/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${accId}&BusinessUnitId=${buId}&PartnerTypeId=2`
     );
     if (res.status === 200) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
-export const GetCustomHouseDDL_api = async (setter) => {
-  try {
-    const res = await Axios.get(`/vat/TaxDDL/GetCustomHouseDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(
-        res?.data?.map((itm) => ({
-          ...itm,
-          label: `${itm?.code}: ${itm?.label}`,
-          withOutCodeLabel: itm?.label,
-        }))
-      );
-    }
-  } catch (error) {}
-};
-export const getTaxPortDDL = async (setter) => {
-  try {
-    const res = await Axios.get(`/vat/TaxDDL/GetTaxPortDDL`);
-    if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
   } catch (error) {}

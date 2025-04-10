@@ -13,25 +13,6 @@ const CrediteNoteModel = ({ rowDto, parentRowClickData }) => {
   const [viewClick, setViewClick] = useState({});
   return (
     <>
-      {/* <OverlayTrigger
-        overlay={<Tooltip id="cs-icon">{"Details All Log"}</Tooltip>}
-      >
-        <img
-          src={document}
-          alt={"document"}
-          onClick={() => {
-            // setModelShowAll(true);
-          }}
-          style={{
-            width: "18px",
-            position: "absolute",
-            top: "1px",
-            right: "22px",
-            cursor: "pointer",
-          }}
-        />
-      </OverlayTrigger> */}
-
       <div>
         <div className="row global-table">
           <div className="col-lg-12 pr-0 pl-0">

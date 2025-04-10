@@ -8,6 +8,7 @@ import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import InputField from '../../../_helper/_inputField';
 import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
 import { _todayDate } from '../../../_helper/_todayDate';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 
 const initData = {
   businessUnit: '',
@@ -28,6 +29,8 @@ export default function InventoryStatementRDLC() {
     setWarehouseListDDL,
   ] = useAxiosGet();
   const [showRdlc, setShowRdlc] = useState(false);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -61,8 +64,14 @@ export default function InventoryStatementRDLC() {
       enableReinitialize={true}
       initialValues={initData}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          },
         });
       }}
     >
@@ -78,7 +87,8 @@ export default function InventoryStatementRDLC() {
         <>
           {(itemTypeDDLloader ||
             plantListDDLloader ||
-            warehouseListDDLloader) && <Loading />}
+            warehouseListDDLloader ||
+            isLoading) && <Loading />}
           <IForm
             title="Inventory Statement RDLC"
             isHiddenReset

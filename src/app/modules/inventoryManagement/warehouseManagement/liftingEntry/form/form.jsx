@@ -7,6 +7,7 @@ import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import { getAreaList, getItemList, getRegionList } from '../helper';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
 
 export default function FormCmp({
   initData,
@@ -35,6 +36,10 @@ export default function FormCmp({
     profileData: { userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
+
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <>
       {loading && <Loading />}
@@ -43,7 +48,13 @@ export default function FormCmp({
         initialValues={{ ...initData, salesOrg: salesOrgs[0] }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          saveHandler(values);
+          setIsLoading(true);
+          debounceHandler({
+            setLoading: setIsLoading,
+            CB: () => {
+              saveHandler(values);
+            },
+          });
         }}
       >
         {({ values, errors, touched, setFieldValue, handleSubmit }) => (

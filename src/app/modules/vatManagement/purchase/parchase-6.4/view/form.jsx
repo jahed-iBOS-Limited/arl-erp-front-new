@@ -9,11 +9,11 @@ import {
   getTradeTypeDDL,
   getPaymentTermDDL,
   getTaxConfig,
-  getTaxPortDDL,
 } from '../helper';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import Loading from '../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import { getTaxPortDDL } from '../../../../_helper/_commonApi';
 
 export default function FormCmp({
   initData,

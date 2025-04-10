@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Form, Formik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
 import { _formatMoney } from '../../../_helper/_formatMoney';
@@ -9,6 +9,7 @@ import { _todayDate } from '../../../_helper/_todayDate';
 import useAxiosGet from './../../../_helper/customHooks/useAxiosGet';
 import IForm from './../../../_helper/_form';
 import Loading from './../../../_helper/_loading';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -16,6 +17,8 @@ const initData = {
 };
 export default function SupplierWisePurchase() {
   const [rowData, getRowDto, loading, setRowDto] = useAxiosGet();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -28,8 +31,14 @@ export default function SupplierWisePurchase() {
       initialValues={{}}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          },
         });
       }}
     >
@@ -43,8 +52,8 @@ export default function SupplierWisePurchase() {
         touched,
       }) => (
         <>
+          {(loading || isLoading) && <Loading />}
           <Form className="form form-label-right">
-            {loading && <Loading />}
             <IForm
               title="Supplier Wise Purchase"
               isHiddenReset
