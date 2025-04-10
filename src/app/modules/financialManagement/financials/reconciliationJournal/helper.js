@@ -11,6 +11,7 @@ export const getType = () => {
     { value: 4, label: 'Year Closing' },
     { value: 5, label: 'Baddebet Interest Provision' },
     { value: 6, label: 'Salary Journal' },
+    { value: 7, label: 'Incentive Provision' },
   ];
 };
 
