@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import Form from './form';
+import { toArray } from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import IForm from '../../../_helper/_form';
 import { getTargetAction, saveAchievementAction } from '../_redux/Actions';
-import { toArray } from 'lodash';
-import { getEmployeeApproveAndActiveByKPIId } from './helper';
-
-const initData = {};
+import Form from './form';
+import { getEmployeeApproveAndActiveByKPIId } from '../../../_helper/_commonApi';
 
 export default function ViewForm({ currentItem }) {
   const [isDisabled, setDisabled] = useState(false);
@@ -73,7 +71,6 @@ export default function ViewForm({ currentItem }) {
     <IForm title={''} getProps={setObjprops} isDisabled={isDisabled}>
       <Form
         {...objProps}
-        initData={initData}
         saveHandler={saveHandler}
         accountId={profileData?.accountId}
         selectedBusinessUnit={selectedBusinessUnit}

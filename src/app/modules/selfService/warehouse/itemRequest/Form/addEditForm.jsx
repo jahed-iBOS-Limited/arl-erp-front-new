@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
-import Form from './form';
-import {
-  getSingleDataForEdit,
-  saveItemRequest,
-  saveItemReqEdit,
-  getItemAssetDDL,
-  getItemforServiceItemDDL,
-  getItemForOthersDDL,
-} from '../helper';
-import IForm from '../../../../_helper/_form';
-import { _todayDate } from '../../../../_helper/_todayDate';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import {
+  getItemAssetDDL,
+  getItemForOthersDDL,
+  getItemforServiceItemDDL,
+  getSingleDataForEdit,
+  saveItemReqEdit,
+  saveItemRequest,
+} from '../../../../_helper/_commonApi';
+import IForm from '../../../../_helper/_form';
 import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import {} from '../helper';
+import Form from './form';
 
 const initData = {
   requestDate: _todayDate(),
@@ -151,10 +152,7 @@ export default function ItemRequestForm({
             requestDate: values?.requestDate,
             validTill: values?.validTill,
             dueDate: values?.dueDate,
-            // itemId: values.item.value,
             purpose: values?.remarks,
-            // remarks: values.remarks,
-            //itemRequestTypeId: 1,//location.state.selectrequestType.value,
             referenceTypeId: 1,
             sbuid: location?.state?.sbu?.value,
             sbuname: location?.state?.sbu?.label,
@@ -168,7 +166,6 @@ export default function ItemRequestForm({
           },
           objRow: rowDataForsave,
         };
-        //window.payload = payload
 
         if (rowlebelData.length) {
           saveItemRequest(payload, cb, setrowlebelData, setDisabled);
@@ -179,8 +176,6 @@ export default function ItemRequestForm({
     } else {
     }
   };
-
-  console.log(location);
 
   const [objProps, setObjprops] = useState({});
 

@@ -2231,3 +2231,465 @@ export const GetCustomHouseDDL_api = async (setter) => {
     }
   } catch (error) {}
 };
+
+export const saveDailyTargetRow = async (data, cb) => {
+  const newData = data?.map((item) => ({ ...item, amount: +item?.amount }));
+
+  try {
+    const res = await axios.put(
+      `/pms/KPI/UpdateEmployeeDailyAchivement`,
+      newData
+    );
+    if (res?.status === 200) {
+      // cb = when save daily target, dispatch header target Again,
+      cb();
+      toast.success(res.data?.message || 'Submitted successfully');
+    }
+  } catch (error) {
+    toast.warn(error?.response?.data?.message || 'Something went wrong');
+  }
+};
+export const getDailyTargetData = async (kpiId, monthId, setter) => {
+  // set empty initially
+  setter([]);
+  try {
+    const res = await axios.get(
+      `/pms/KPI/GetEmployeeDailyAchivemenById?kpiid=${kpiId}&monthid=${monthId}`
+    );
+    if (res?.status === 200) {
+      const newData = res?.data?.map((item) => ({
+        ...item,
+        amount: item?.amount,
+      }));
+
+      setter(newData);
+    }
+  } catch (error) {
+    setter([]);
+  }
+};
+
+export const getEmployeeApproveAndActiveByKPIId = async (
+  kpiId,
+  setDisabled
+) => {
+  try {
+    const res = await axios.get(
+      `/pms/KPI/GetEmployeeApproveAndActiveByKPIId?KpiId=${kpiId}`
+    );
+    if (res.status === 200 && res?.data) {
+      // setDisabled(res?.data?.approved ==="false");
+      setDisabled(res?.data?.approved);
+    }
+  } catch (error) {}
+};
+
+export const getSingleData = async (id, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/ItemRequest/GetItemRequestDatabyId?requestid=${id}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};
+export const sendEmailPostApi = async (dataObj) => {
+  let formData = new FormData();
+  formData.append('to', dataObj?.toMail);
+  formData.append('cc', dataObj?.toCC);
+  formData.append('bcc', dataObj?.toBCC);
+  formData.append('subject', dataObj?.subject);
+  formData.append('body', dataObj?.message);
+  formData.append('file', dataObj?.attachment);
+  try {
+    let { data } = await axios.post('/domain/MailSender/SendMail', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    toast.success('Mail Send Successfully');
+    return data;
+  } catch (error) {
+    toast.error(
+      error?.response?.data?.message || 'Mail cant not send successfully'
+    );
+  }
+};
+export const postItemReqCancelAction = async (iId) => {
+  try {
+    const res = await axios.put(
+      `/wms/ItemRequest/CancelItemRequestDatabyId?ItemRequest=${iId}`
+    );
+    if (res.status === 200) {
+      toast.success(res?.data?.message || 'Cancel Successfully');
+    }
+  } catch (error) {
+    toast.error(error?.response?.data?.message || 'Cancel Failed');
+  }
+};
+export const getReportItemReq = async (prId, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/InventoryView/GetItemRequestViewById?requestid=${prId}`
+    );
+    setter(res?.data[0]);
+  } catch (error) {}
+};
+export const getUOMList = async (
+  itemId,
+  buId,
+  accId,
+  setter,
+  setFieldValue
+) => {
+  try {
+    const res = await axios.get(
+      `/wms/ItemPlantWarehouse/GetItemUomconversionData?ItemId=${itemId}&BusinessUnitId=${buId}&AccountId=${accId}`
+    );
+    const data = res?.data?.convertedList;
+    const newData = data?.map((item) => {
+      return {
+        value: item?.value,
+        label: item?.label,
+      };
+    });
+    setFieldValue('itemUom', {
+      value: res?.data?.value,
+      label: res?.data?.label,
+    });
+    setter(newData);
+  } catch (error) {}
+};
+export const getItemForOthersDDL = async (accId, buId, plnId, whId, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/ItemRequestDDL/GetItemForOthersTypeDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plnId}&WarehouseId=${whId}`
+    );
+    if (res.status === 200 && res?.data) {
+      let itemData = res?.data?.map((data) => {
+        return {
+          ...data,
+          label: `${data?.label} [${data?.value}]`,
+        };
+      });
+      setter(itemData);
+      // setter(res?.data)
+    }
+  } catch (error) {}
+};
+
+export const getItemforServiceItemDDL = async (
+  accId,
+  buId,
+  plnId,
+  whId,
+  setter
+) => {
+  try {
+    const res = await axios.get(
+      `/wms/ItemRequestDDL/GetItemForServiceTypeDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plnId}&WarehouseId=${whId}`
+    );
+    if (res.status === 200 && res?.data) {
+      let itemData = res?.data?.map((data) => {
+        return {
+          ...data,
+          label: `${data?.label} [${data?.value}]`,
+        };
+      });
+      setter(itemData);
+    }
+  } catch (error) {}
+};
+
+export const getItemAssetDDL = async (accId, buId, plnId, whId, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/ItemRequestDDL/GetItemForAssetTypeDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plnId}&WarehouseId=${whId}`
+    );
+    if (res.status === 200 && res?.data) {
+      let itemData = res?.data?.map((data) => {
+        return {
+          ...data,
+          label: `${data.label} [${data.code}]`,
+        };
+      });
+      setter(itemData);
+    }
+  } catch (error) {}
+};
+
+export const saveItemReqEdit = async (data, cb, setDisabled) => {
+  setDisabled(true);
+  try {
+    const res = await axios.put(`/wms/ItemRequest/EditItemRequest`, data);
+    if (res.status === 200) {
+      toast.success(res?.message || 'Submitted successfully');
+      //cb()
+      setDisabled(false);
+    }
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setDisabled(false);
+  }
+};
+
+export const getSingleDataForEdit = async (id, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/ItemRequest/GetItemRequestDatabyId?requestid=${id}`
+    );
+    if (res.status === 200 && res?.data) {
+      let setDtoValue = res?.data[0];
+      let newData = {
+        objHeader: {
+          ...setDtoValue.objHeader,
+          requestDate: _dateFormatter(setDtoValue.objHeader.dteRequestDate),
+          validTill: _dateFormatter(setDtoValue.objHeader.validTill),
+          dueDate: _dateFormatter(setDtoValue.objHeader.dteDueDate),
+          actionType:
+            setDtoValue?.objHeader?.intProjectId > 0
+              ? { label: 'Project', value: 1 }
+              : { label: 'Operation', value: 2 },
+          project:
+            setDtoValue?.objHeader?.intProjectId > 0
+              ? {
+                  value: setDtoValue?.objHeader?.intProjectId,
+                  label: setDtoValue?.objHeader?.strProject,
+                }
+              : null,
+          referenceId: '',
+          quantity: '',
+          remarks: '',
+          item: '',
+        },
+        objRow: [...setDtoValue?.objRow],
+      };
+      setter(newData);
+    }
+  } catch (error) {}
+};
+
+export const getWarehouseDDL = async (userId, accId, buId, plantId, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};
+
+export const saveItemRequest = async (data, cb, setGridData, setDisabled) => {
+  setDisabled(true);
+  try {
+    const res = await axios.post(`/wms/ItemRequest/CreateItemRequest`, data);
+    if (res.status === 200) {
+      setGridData([]);
+      toast.success(res?.message || 'Submitted successfully');
+      cb();
+      setDisabled(false);
+    }
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setDisabled(false);
+  }
+};
+export const changeReqSaveAction = async (
+  payload,
+  setLoader,
+  changeReqDateCb,
+  PrevValues,
+  setIsShowModal
+) => {
+  setLoader(true);
+  try {
+    const res = await axios.post(
+      `/hcm/HCMLeaveApplication/PLChangeRequest`,
+      payload
+    );
+    // callback for leave application, it will be called from modal, when user save req date
+    changeReqDateCb(PrevValues);
+    setIsShowModal(false);
+    toast.success(res.data?.message || 'Updated successfully');
+    setLoader(false);
+  } catch (error) {
+    toast.warn(error?.response?.data?.message || 'Please try again');
+    setLoader(false);
+  }
+};
+//aa
+export const getEmpInfoById = async (valueOption, setFieldValue, fieldName) => {
+  try {
+    let res = await axios.get(
+      `/hcm/HCMDDL/GetEmployeeDetailsByEmpId?EmpId=${valueOption?.value}`
+    );
+    let {
+      employeeInfoDesignation,
+      employeeBusinessUnit,
+      employeeInfoDepartment,
+    } = res?.data;
+    setFieldValue(
+      'employeeInfo',
+      `${employeeInfoDesignation},${employeeInfoDepartment},${employeeBusinessUnit}`
+    );
+    setFieldValue(fieldName, { ...valueOption, ...res?.data });
+  } catch (error) {
+    return null;
+  }
+};
+
+export const getCountryDDL = async (setter) => {
+  try {
+    const res = await axios.get(`/hcm/HCMDDL/GetCountryDDL`);
+    const data = res?.data;
+    setter(data);
+  } catch (error) {
+    setter([]);
+  }
+};
+
+export const getDistrictDDLAction = async (countryId, divisionId, setter) => {
+  try {
+    const res = await axios.get(`/hcm/HCMDDL/GetBDAllDistrictDDL`);
+    setter(res?.data);
+  } catch (error) {
+    setter([]);
+  }
+};
+
+export const leaveAppLandingPagintaion_api = async (
+  empId,
+  setter,
+  setLoader
+) => {
+  setLoader(true);
+  try {
+    const res = await axios.get(
+      `/hcm/LeaveApplication/LeaveApplicationLandingPagintaion?EmployeeId=${empId}&PageNo=1&PageSize=1000&viewOrder=desc`
+    );
+    const data = res?.data;
+    console.log(res?.data, 'res?.data');
+    setter(data?.data);
+    setLoader(false);
+  } catch (error) {
+    setter([]);
+    setLoader(false);
+  }
+};
+
+export const OfficialMoveLandingPagination_api = async (
+  empId,
+  setter,
+  setLoader
+) => {
+  setLoader(true);
+  try {
+    const res = await axios.get(
+      `/hcm/OfficialMovement/OfficialMovementLandingPagination?EmployeeId=${empId}&PageNo=1&PageSize=100&viewOrder=desc`
+    );
+    const data = res?.data;
+    setter(data?.data);
+    setLoader(false);
+  } catch (error) {
+    setter([]);
+    setLoader(false);
+  }
+};
+
+export const getLeaveTypeDDL = async (checkId, empId, setter) => {
+  try {
+    // const res = await axios.get(
+    //   `/hcm/HCMDDL/GetLeaveTypeDDL?check=${checkId}&accountId=${accId}`
+    // );
+    const res = await axios.get(
+      `/hcm/HCMDDL/GetEmpWiseLeaveTypeDDL?check=${checkId}&employeeId=${empId}`
+    );
+    const data = res?.data;
+    setter(data);
+  } catch (error) {
+    setter([]);
+  }
+};
+
+export const saveLeaveMovementAction = async (data, cb, setDisabled) => {
+  let {
+    typeId,
+    employeeId,
+    accountId,
+    businessUnitId,
+    applicationDate,
+    appliedFromDate,
+    appliedToDate,
+    documentFile,
+    reason,
+    addressDueToLeaveMove,
+    actionBy,
+    tmStart,
+    tmEnd,
+  } = data;
+  try {
+    if ((typeId === 10 || typeId === 8) && (!tmStart || !tmEnd))
+      return toast.warn('Time is required');
+    setDisabled(true);
+
+    let fromModifiedTime = tmStart || null;
+    let toModifiedTime = tmEnd || null;
+
+    let url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${
+      documentFile ? documentFile : ''
+    }`;
+
+    if (fromModifiedTime && toModifiedTime) {
+      url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${
+        documentFile ? documentFile : ''
+      }&startTime=${fromModifiedTime}&endTime=${toModifiedTime}`;
+    }
+    let res = await axios.post(url);
+    // do not remove this status code check, this is mendatory
+    if (res?.data?.statuscode === 500) {
+      setDisabled(false);
+      return toast.warn(res?.data?.message);
+    }
+
+    toast.success(res?.data?.message);
+    cb();
+    setDisabled(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setDisabled(false);
+  }
+};
+
+export const saveMovementAction = async (data, cb, setDisabled) => {
+  setDisabled(true);
+  try {
+    await axios.post(
+      `/hcm/HCMMovementApplication/CreateMovementApplication`,
+      data
+    );
+    toast.success('Submitted successfully');
+    cb();
+    setDisabled(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    setDisabled(false);
+  }
+};
+export const getLeaveSummarySelfData = (employeeId, setter, setLoader) => {
+  setLoader(true);
+  axios
+    .get(
+      `/hcm/LeaveAndMovement/GetEmployeeWiseLeaveBalance?EmployeeId=${employeeId}`
+    )
+    .then((res) => {
+      setter(res?.data);
+      setLoader(false);
+    })
+    .catch((err) => {
+      setter([]);
+      setLoader(false);
+    });
+};

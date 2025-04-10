@@ -1,39 +1,21 @@
+import axios from 'axios';
+import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { Formik, Form, Field } from 'formik';
+import { shallowEqual, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { Input } from '../../../../../../../_metronic/_partials/controls';
 import NewSelect from '../../../../../_helper/_select';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
 import {
   fetchEmpBasicInfo,
   fetchPartOneMealDetails,
   fetchPartTwoMealDetails,
   getMealConsumePlaceDDL,
 } from '../../helper/action';
-import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
-import axios from 'axios';
-import { shallowEqual, useSelector } from 'react-redux';
-import { _todayDate } from '../../../../../_helper/_todayDate';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  ToDate: Yup.string().required('Date is required'),
-  CountMeal: Yup.string().required('Number of meal is required'),
-  TypeId: Yup.object()
-    .shape({
-      value: Yup.string().required('Type is required'),
-      label: Yup.string().required('Type is required'),
-    })
-    .typeError('Type is required'),
-  consumePlace: Yup.object()
-    .shape({
-      value: Yup.string().required('Meal consume place is required'),
-      label: Yup.string().required('Meal consume place is required'),
-    })
-    .typeError('Meal consume place is required'),
-});
-
-// Is Public Validation Schema
-const validationSchemaForPublic = Yup.object().shape({
   ToDate: Yup.string().required('Date is required'),
   CountMeal: Yup.string().required('Number of meal is required'),
   TypeId: Yup.object()
@@ -61,7 +43,6 @@ export default function FormCmp({
   setEmpId,
 }) {
   const [basicInfo, setbasicInfo] = useState(null);
-  const [isPublic] = useState(false);
   const [mealConsumePlaceDDL, setmealConsumePlaceDDL] = useState([]);
 
   useEffect(() => {
@@ -99,9 +80,7 @@ export default function FormCmp({
             label: 'Irregular',
           },
         }}
-        validationSchema={
-          isPublic ? validationSchemaForPublic : validationSchema
-        }
+        validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
           saveHandler(values, () => {
             let selectType = values?.selectType;

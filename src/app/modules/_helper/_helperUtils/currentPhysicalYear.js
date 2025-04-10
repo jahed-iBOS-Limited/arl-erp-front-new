@@ -1,6 +1,4 @@
-// get current pyscal year from yearDDL which format is [{value : 2020-2021, label: 2020-2021}]
-
-export const currentPyscalYear = (yearDDL) => {
+export const currentPhysicalYear = (yearDDL) => {
   let date = new Date();
   let cYear = date.getFullYear();
   let cMonth = date.getMonth();

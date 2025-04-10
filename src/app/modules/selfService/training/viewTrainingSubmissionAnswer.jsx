@@ -1,10 +1,10 @@
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import useAxiosGet from '../../_helper/customHooks/useAxiosGet';
 import { _dateFormatter } from '../../_helper/_dateFormate';
 import IForm from '../../_helper/_form';
 import Loading from '../../_helper/_loading';
+import useAxiosGet from '../../_helper/customHooks/useAxiosGet';
 const initData = {};
 const ViewTrainingSubmission = ({ currentUserMarks, assesment }) => {
   console.log(currentUserMarks, assesment);
@@ -21,8 +21,6 @@ const ViewTrainingSubmission = ({ currentUserMarks, assesment }) => {
     );
   }, []);
 
-  const saveHandler = (values) => {};
-
   return (
     <IForm
       customTitle={
@@ -37,25 +35,10 @@ const ViewTrainingSubmission = ({ currentUserMarks, assesment }) => {
     >
       {isDisabled && <Loading />}
       <>
-        <Formik
-          enableReinitialize={true}
-          initialValues={initData}
-          onSubmit={(values, { setSubmitting, resetForm }) => {
-            saveHandler(values, () => {});
-          }}
-        >
-          {({
-            handleSubmit,
-            resetForm,
-            values,
-            setFieldValue,
-            isValid,
-            errors,
-            touched,
-          }) => (
+        <Formik enableReinitialize={true} initialValues={initData}>
+          {({ handleSubmit, resetForm }) => (
             <>
               <Form className="form form-label-right">
-                {false && <Loading />}
                 <div className="">
                   <div style={{ width: '800px', margin: '0 auto' }}>
                     <h1 className="text-center">{currentUserMarks?.name}</h1>

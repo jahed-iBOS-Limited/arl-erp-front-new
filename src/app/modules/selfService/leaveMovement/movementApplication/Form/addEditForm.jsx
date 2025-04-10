@@ -6,8 +6,11 @@ import IForm from '../../../../_helper/_form';
 import Loading from '../../../../_helper/_loading';
 import { _todayDate } from '../../../../_helper/_todayDate';
 import { empAttachment_action } from '../../../../_helper/attachmentUpload';
-import { saveLeaveMovementAction, saveMovementAction } from '../helper';
 import Form from './form';
+import {
+  saveLeaveMovementAction,
+  saveMovementAction,
+} from '../../../../_helper/_commonApi';
 
 const initData = {
   id: undefined,

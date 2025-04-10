@@ -50,7 +50,7 @@ import { competencyTwoSlice } from '../app/modules/performanceManagement/compete
 import { measuringScaleTwoSlice } from '../app/modules/performanceManagement/measuringScale/_redux/Slice';
 import { customerInvoiceSlice } from '../app/modules/financialManagement/invoiceManagementSystem/customerSalesInvoice/_redux/Slice';
 
-import { indPmsAchievementSlice } from '../app/modules/performanceManagement/individualKpi/achievement/_redux/Slice';
+import { indPmsAchievementSlice } from '../app/modules/_helper/_commonSlice/indPmsAchievementSlice';
 import { pmsDimensionTwoSlice } from '../app/modules/performanceManagement/pmsDimension/_redux/Slice';
 import { strategicParticularsTwoSlice } from '../app/modules/performanceManagement/strategicParticulars/_redux/Slice';
 // import { vehicleUnitSlice } from "../app/modules/salesManagement/transportManagementSystem/vehicle/_redux/Slice";

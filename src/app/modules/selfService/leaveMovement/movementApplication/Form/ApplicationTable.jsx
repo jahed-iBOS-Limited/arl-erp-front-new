@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import Loading from '../../../../_helper/_loading';
 import { _timeFormatter } from '../../../../_helper/_timeFormatter';
+
 import {
   leaveAppLandingPagintaion_api,
   OfficialMoveLandingPagination_api,
-} from '../helper';
+} from '../../../../_helper/_commonApi';
 
 const ApplicationTable = ({ empId }) => {
   const [loading, setLoading] = useState(false);

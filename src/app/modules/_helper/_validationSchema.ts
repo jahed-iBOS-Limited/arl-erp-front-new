@@ -279,3 +279,54 @@ export const transferJournal = Yup.object().shape({
     value: Yup.string().required('Trasfer To is required'),
   }),
 });
+export const itemRequestValidationSchema = Yup.object().shape({
+  requestDate: Yup.string().required('Request Date is required'),
+  validTill: Yup.string().required('Valid Till Date is required'),
+  dueDate: Yup.string().required('Due Date is required'),
+  actionType: Yup.object().shape({
+    value: Yup.number().required('Action For is required'),
+    label: Yup.string().required('Action For is required'),
+  }),
+});
+
+export const validationSchemaForMovement = Yup.object().shape({
+  leaveType: Yup.string().required('Leave Type is required'),
+  reasonType: Yup.object()
+    .shape({
+      label: Yup.string().required('Movement type is required'),
+      value: Yup.string().required('Movement type is required'),
+    })
+    .typeError('Movement type is required'),
+  fromTime: Yup.string().required('From Time required'),
+  toTime: Yup.string().required('To Time required'),
+  fromDate: Yup.date().required('From Date required'),
+  toDate: Yup.date().required('To Date required'),
+  reason: Yup.string()
+    .min(2, 'Minimum 2 symbols')
+    .required('Reason is required'),
+  address: Yup.string()
+    .min(2, 'Minimum 2 symbols')
+    .required('Address is required'),
+});
+
+export const leaveValidationSchema = Yup.object().shape({
+  leaveType: Yup.string().required('Leave Type is required'),
+  reasonType: Yup.object()
+    .shape({
+      label: Yup.string().required('Leave type is required'),
+      value: Yup.string().required('Leave type is required'),
+    })
+    .typeError('Leave type is required'),
+  fromDate: Yup.string()
+    .required('From date is required')
+    .typeError('From date is required'),
+  toDate: Yup.string()
+    .required('To date is required')
+    .typeError('To date is required'),
+  reason: Yup.string()
+    .min(2, 'Minimum 2 symbols')
+    .required('Reason is required'),
+  address: Yup.string()
+    .min(2, 'Minimum 2 symbols')
+    .required('Address is required'),
+});
