@@ -7,8 +7,8 @@ import * as Yup from 'yup';
 import ICustomCard from '../../../../_helper/_customCard';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import iMarineIcon from '../../../../_helper/images/imageakijpoly.png';
-import { getReportItemReq } from '../helper';
 import Loading from './../../../../_helper/loader/_loader';
+import { getReportItemReq } from '../../../../_helper/_commonApi';
 
 let imageObj = {
   8: iMarineIcon,

@@ -8,9 +8,9 @@ import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import { itemRequestValidationSchema } from '../../../../_helper/_validationSchema';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import { getUOMList } from '../helper';
 import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
 import FormikError from './../../../../_helper/_formikError';
+import { getUOMList } from '../../../../_helper/_commonApi';
 
 export default function FormCmp({
   initData,
