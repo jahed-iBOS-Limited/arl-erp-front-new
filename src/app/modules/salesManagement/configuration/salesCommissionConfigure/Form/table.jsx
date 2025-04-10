@@ -58,6 +58,7 @@ const SalesCommissionConfigureFormTable = ({ obj }) => {
         39,
         40,
         41,
+        52,
         ...akijAgroFeedCommissionTypeList,
       ].includes(values?.commissionType?.value) && (
         <TableThree
@@ -396,9 +397,12 @@ const TableThree = ({ obj }) => {
                 <th rowSpan={2}>Business Partner</th>
               )}
               <th rowSpan={2}>Area Name</th>
+              {[52].includes(values?.commissionType?.value) && (
+                <th rowSpan={2}>Item Name</th>
+              )}
               <th colSpan={2}>Achievement</th>
               <th colSpan={2}>Quantity</th>
-              {![35, 36, 37, 38, 39, 40, 46, 43].includes(
+              {![35, 36, 37, 38, 39, 40, 46, 43, 52].includes(
                 values?.commissionType?.value
               ) && (
                 <>
@@ -411,7 +415,7 @@ const TableThree = ({ obj }) => {
               {[43].includes(values?.commissionType?.value) && (
                 <th rowSpan={2}>Customer Type</th>
               )}
-              {[35, 36, 37, 38, 39, 40, 46, 43].includes(
+              {[35, 36, 37, 38, 39, 40, 46, 43, 52].includes(
                 values?.commissionType?.value
               ) && <th rowSpan={2}>Common Rate</th>}
 
@@ -449,11 +453,13 @@ const TableThree = ({ obj }) => {
                     <td>{item?.customerName}</td>
                   )}
                   <td>{item?.areaName}</td>
+                  {[52].includes(values?.commissionType?.value) &&
+                    item?.itemName}
                   <td>{item?.achievementFrom}</td>
                   <td>{item?.achievementTo}</td>
                   <td>{item?.offerQntFrom}</td>
                   <td>{item?.offerQntTo}</td>
-                  {![35, 36, 37, 38, 39, 40, 46, 43].includes(
+                  {![35, 36, 37, 38, 39, 40, 46, 43, 52].includes(
                     values?.commissionType?.value
                   ) && (
                     <>
@@ -523,7 +529,7 @@ const TableThree = ({ obj }) => {
                     <td>{item?.customerPartyStatusLabel}</td>
                   )}
 
-                  {[35, 36, 37, 38, 39, 40, 46, 43].includes(
+                  {[35, 36, 37, 38, 39, 40, 46, 43, 52].includes(
                     values?.commissionType?.value
                   ) && (
                     <td>

@@ -45,6 +45,8 @@ export default function SalesCommissionConfigureEntryForm() {
   // customer party
   const [customerTypeDDL, getCustomerTypeDDL, getCustomerTypeDDLLoading] =
     useAxiosGet();
+  // const [customerDDL, getCustomerDDL, getCustomerDDLLoading] = useAxiosGet();
+  const [itemDDL, getItemDDL, getItemDDLLoading] = useAxiosGet();
 
   useEffect(() => {
     getDesignationList(
@@ -121,12 +123,13 @@ export default function SalesCommissionConfigureEntryForm() {
         39,
         40,
         41,
+        52,
         ...akijAgroFeedCommissionTypeList,
       ].includes(commissionTypeId)
     ) {
-      const isCommonRateApplicable = [35, 36, 37, 38, 39, 40, 46, 43].includes(
-        commissionTypeId
-      );
+      const isCommonRateApplicable = [
+        35, 36, 37, 38, 39, 40, 46, 43, 52,
+      ].includes(commissionTypeId);
       const commissionRate = commonRate || 0;
 
       const newRow = {
@@ -134,6 +137,8 @@ export default function SalesCommissionConfigureEntryForm() {
         label: values?.area?.label,
         areaId: values?.area?.value,
         areaName: values?.area?.label,
+        itemName: values?.item?.label || '',
+        itemId: values?.item?.label || 0,
         commissionDate: '',
         commissionRate: isCommonRateApplicable ? commissionRate : 0,
         salesQty: '',
@@ -145,7 +150,6 @@ export default function SalesCommissionConfigureEntryForm() {
         firstSlabCommissionRate: 0,
         secondSlabCommissionRate: 0,
         thirdSlabCommissionRate: 0,
-
         offerQntFrom: +values?.fromQuantity,
         offerQntTo: +values?.toQuantity,
         achievementFrom: +values?.fromAchievement,
@@ -217,15 +221,13 @@ export default function SalesCommissionConfigureEntryForm() {
         secondSlabCommissionRate: +item?.secondSlabCommissionRate || 0,
         thirdSlabCommissionRate: +item?.thirdSlabCommissionRate || 0,
         actionBy: userId,
-
         sl: 0,
-
         areaName: item?.areaName,
-
         actionName: userName,
         commissionDayId: date?.getDate(),
         commissionMonthId: date?.getMonth() + 1,
         commissionYearId: date?.getFullYear(),
+        itemId: values?.item?.value || 0,
       };
     });
 
@@ -247,7 +249,11 @@ export default function SalesCommissionConfigureEntryForm() {
   };
 
   const isLoading =
-    loading || loader || saveLoader || getCustomerTypeDDLLoading;
+    loading ||
+    loader ||
+    saveLoader ||
+    getCustomerTypeDDLLoading ||
+    getItemDDLLoading;
 
   return (
     <>
@@ -265,6 +271,7 @@ export default function SalesCommissionConfigureEntryForm() {
         desginationList={desginationList}
         akijAgroFeedCommissionTypeList={akijAgroFeedCommissionTypeList}
         customerTypeDDL={customerTypeDDL}
+        obj={{ getItemDDL, itemDDL }}
       />
     </>
   );
