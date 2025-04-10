@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactSpeechRecognition from './react-speech-recognition';
 import { debounce } from 'lodash';
+import ReactSpeechRecognition from './ReactSpeechRecognition';
 
 const search = debounce((paginationSearchHandler, value) => {
   paginationSearchHandler(value);
