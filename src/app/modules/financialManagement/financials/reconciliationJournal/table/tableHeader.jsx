@@ -78,19 +78,6 @@ const ReconciliationJournal = () => {
     setBaddebtRowData,
   ] = useAxiosGet();
 
-  const [
-    incentiveProvisionData,
-    getIncentiveProvisionData,
-    getIncentiveProvisionDataLoading,
-    setIncentiveProvisionData,
-  ] = useAxiosGet();
-
-  const [
-    ,
-    createIncentiveProvisionJounral,
-    createIncentiveProvisionJounralLoading,
-  ] = useAxiosPost();
-
   const handleGetBaddebtRowData = (values) => {
     const [year, month] = values?.monthYear?.split('-')?.map(Number) || [];
     let startDate;
@@ -220,12 +207,6 @@ const ReconciliationJournal = () => {
         setExpanded,
       });
       setJVSalaryJournal([]);
-    } else if (values?.type?.value === 7) {
-      const [year, month] = values?.monthYear?.split('-')?.map(Number) || [];
-
-      getIncentiveProvisionData(
-        `/fino/Report/GetIncentiveProvisionLanding?businessUnitId=${selectedBusinessUnit?.value}&monthId=${month}&yearId=${year}`
-      );
     } else if (values?.type?.value === 3) {
       const [year, month] = values?.taxMonth?.split('-')?.map(Number) || [];
       let customDate;
@@ -322,7 +303,6 @@ const ReconciliationJournal = () => {
       setLoading(false);
     }
   };
-
   const totalJournalAmount = useMemo(() => {
     if (jounalLedgerData?.length > 0) {
       return _formatMoney(
@@ -332,15 +312,6 @@ const ReconciliationJournal = () => {
       return 0;
     }
   }, [jounalLedgerData]);
-
-  const totalIncentiveProvisionQty = useMemo(() => {
-    if (incentiveProvisionData?.length > 0) {
-      return incentiveProvisionData?.reduce(
-        (acc, item) => (acc += item?.deliveryQty),
-        0
-      );
-    } else return 0;
-  }, [incentiveProvisionData]);
 
   return (
     <>
@@ -392,9 +363,7 @@ const ReconciliationJournal = () => {
           <div className="">
             {(loading ||
               isGetBaddebtRowDataLoading ||
-              incomeTaxProvisionViewCreateLoading ||
-              getIncentiveProvisionDataLoading ||
-              createIncentiveProvisionJounralLoading) && <Loading />}
+              incomeTaxProvisionViewCreateLoading) && <Loading />}
             <Card>
               {true && <ModalProgressBar />}
               <CardHeader title={'Reconciliation Journal'}>
@@ -415,37 +384,6 @@ const ReconciliationJournal = () => {
                       }
                       className="btn btn-primary ml-2"
                       type="submit"
-                    >
-                      Create Journal
-                    </button>
-                  )}
-
-                  {/* Incentive Provision */}
-                  {values?.type?.value === 7 && (
-                    <button
-                      onClick={() => {
-                        const [year, month] =
-                          values?.monthYear?.split('-')?.map(Number) || [];
-                        createIncentiveProvisionJounral(
-                          `/fino/Report/GetIncentiveProvisionLanding?businessUnitId=${selectedBusinessUnit?.value}&yearId=${year}&monthId=${month}&totalValue=${totalIncentiveProvisionQty * values?.totalAmount}&actionBy=${profileData?.userId}`,
-                          null,
-                          (response) => {
-                            // status code
-                            // const statusCode = response?.[0]?.statusCode;
-                            // const message = response?.[0]?.message;
-                            // if (statusCode === 500 || statusCode !== 200) {
-                            //   toast.warn(message);
-                            // }
-                            // if (statusCode === 200) {
-                            //   toast.success(message);
-                            // }
-                          },
-                          true
-                        );
-                      }}
-                      className="btn btn-primary ml-2"
-                      type="submit"
-                      disabled={incentiveProvisionData.length < 1}
                     >
                       Create Journal
                     </button>
@@ -487,7 +425,6 @@ const ReconciliationJournal = () => {
                   {/* For Type 1 COGS */}
                   {values?.type?.value !== 4 &&
                     values?.type?.value !== 6 &&
-                    values?.type?.value !== 7 &&
                     values?.type?.value !== 3 && (
                       <button
                         onClick={handleSubmit}
@@ -583,9 +520,6 @@ const ReconciliationJournal = () => {
                               type: valueOption,
                             })
                           );
-                          if (values?.type?.value === 7) {
-                            setIncentiveProvisionData([]);
-                          }
                         }}
                         placeholder="Type"
                         errors={errors}
@@ -767,7 +701,7 @@ const ReconciliationJournal = () => {
                         disabled={true}
                       />
                     )}
-                    {[6, 7].includes(values?.type?.value) && (
+                    {values?.type?.value === 6 && (
                       <div className="col-lg-3">
                         <label>Month-Year</label>
                         <InputField
@@ -777,9 +711,6 @@ const ReconciliationJournal = () => {
                           type="month"
                           onChange={(e) => {
                             setFieldValue('monthYear', e?.target?.value);
-                            if (values?.type?.value === 7) {
-                              setIncentiveProvisionData([]);
-                            }
                           }}
                         />
                       </div>
@@ -1156,69 +1087,6 @@ const ReconciliationJournal = () => {
                         </tbody>
                       </table>
                     </div>
-                  ) : (
-                    <></>
-                  )}
-
-                  {/* Incentive Provision */}
-                  {incentiveProvisionData?.length > 0 &&
-                  [7].includes(values?.type?.value) ? (
-                    <>
-                      <div className="float-right my-2">
-                        <InputField
-                          value={values?.totalAmount}
-                          name="totalAmount"
-                          label="Total Amount"
-                          type="number"
-                          min={1}
-                          onChange={(e) => {
-                            setFieldValue('totalAmount', e?.target?.value);
-                          }}
-                        />
-                      </div>
-                      <section className="table-responsive">
-                        <table
-                          id="table-to-xlsx"
-                          className={
-                            'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table'
-                          }
-                        >
-                          <thead>
-                            <tr className="cursor-pointer">
-                              <th>SL</th>
-                              <th>Customer Name</th>
-                              <th>Delivery Qty</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {incentiveProvisionData?.map((item, index) => {
-                              return (
-                                <tr key={index}>
-                                  <td
-                                    style={{ width: '40px' }}
-                                    className="text-center"
-                                  >
-                                    {index + 1}
-                                  </td>
-                                  <td>{item?.customerName}</td>
-                                  <td className="text-right">
-                                    {item?.deliveryQty}
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                          <tr>
-                            <td colSpan={2} className="text-center">
-                              Total
-                            </td>
-                            <td className="text-right">
-                              {totalIncentiveProvisionQty || 0}
-                            </td>
-                          </tr>
-                        </table>
-                      </section>
-                    </>
                   ) : (
                     <></>
                   )}
