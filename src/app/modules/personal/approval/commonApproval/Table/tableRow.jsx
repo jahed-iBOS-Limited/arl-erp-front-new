@@ -35,7 +35,7 @@ import { saveBOMApproval_api } from './../helper';
 import './approval.css';
 import BillOfMaterialTable from './billOfMaterialTable';
 import DealersBenefits from '../dealersBenefits/landing';
-import { getPlantList } from '../../../../_helper/_commonApi';
+import { getItemGridData, getPlantList } from '../../../../_helper/_commonApi';
 
 export function CommonApprovalTableRow({ title }) {
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
@@ -162,15 +162,28 @@ export function CommonApprovalTableRow({ title }) {
   }, [gridData]);
 
   const commonBillOfMaterialGridFunc = (pageNo, pageSize) => {
-    BOMApprovalLanding(
+    // BOMApprovalLanding(
+    //   profileData?.accountId,
+    //   selectedBusinessUnit?.value,
+    //   selectedPlant?.value,
+    //   profileData?.userId,
+    //   pageNo,
+    //   pageSize,
+    //   setLoading,
+    //   setTableData
+    // );
+
+    getItemGridData(
+      activityName?.value || 77,
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      selectedPlant?.value,
       profileData?.userId,
+      setTableData,
+      setLoading,
       pageNo,
       pageSize,
-      setLoading,
-      setTableData
+      '',
+      selectedPlant?.value
     );
   };
 
@@ -201,8 +214,10 @@ export function CommonApprovalTableRow({ title }) {
             (item) => item?.isSelected
           );
           const billofmaterialpayload = filterSelectedData?.map((itm) => ({
-            billOfMaterialId: itm?.billOfMaterialId || 0,
-            actionBy: profileData?.userId,
+            approvalId: itm?.ApprovalId,
+            isApprove: true,
+            quantity: 0,
+            reffId: itm?.TransectionId,
           }));
           saveBOMApproval_api(billofmaterialpayload, () => {
             commonBillOfMaterialGridFunc(pageNo, pageSize);
@@ -262,15 +277,27 @@ export function CommonApprovalTableRow({ title }) {
         })
       );
       if (activityName?.label === 'Bill Of Material') {
-        BOMApprovalLanding(
+        // BOMApprovalLanding(
+        //   profileData?.accountId,
+        //   selectedBusinessUnit?.value,
+        //   peopleDeskPlant?.value,
+        //   profileData?.userId,
+        //   pageNo,
+        //   pageSize,
+        //   setLoading,
+        //   setTableData
+        // );
+        getItemGridData(
+          activityName?.value || 77,
           profileData?.accountId,
           selectedBusinessUnit?.value,
-          peopleDeskPlant?.value,
           profileData?.userId,
+          setTableData,
+          setLoading,
           pageNo,
           pageSize,
-          setLoading,
-          setTableData
+          '',
+          selectedPlant?.value
         );
       }
     }
