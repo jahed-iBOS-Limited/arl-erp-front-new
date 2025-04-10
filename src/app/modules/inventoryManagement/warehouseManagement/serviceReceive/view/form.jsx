@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
@@ -8,6 +8,8 @@ import { ISelect } from '../../../../_helper/_inputDropDown';
 import { useParams, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
+import Loading from '../../../../_helper/_loading';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -32,6 +34,8 @@ export default function FormCmp({
   const dispatch = useDispatch();
   const { id } = useParams();
   const { state } = useLocation();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   return (
     <>
@@ -40,8 +44,14 @@ export default function FormCmp({
         initialValues={initData}
         validationSchema={isEdit ? editValidationSchema : validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -55,6 +65,7 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
+            {isLoading && <Loading />}
             {disableHandler(!isValid)}
             <Form className="form form-label-right">
               <div className="form-group row global-form">

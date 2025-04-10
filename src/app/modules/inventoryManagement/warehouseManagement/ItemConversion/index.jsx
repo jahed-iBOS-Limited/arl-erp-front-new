@@ -12,6 +12,7 @@ import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
 import IForm from '../../../_helper/_form';
 import Loading from '../../../_helper/_loading';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 
 const initData = {
   plant: '',
@@ -38,6 +39,9 @@ export default function ItemConversionLanding() {
   const [currentItemRate, getItemCurrentRate, itemCurrentRateLoader] =
     useAxiosGet();
   const [isAdding, setIsAdding] = useState(false);
+
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     getPlantDDL(
@@ -202,8 +206,14 @@ export default function ItemConversionLanding() {
       initialValues={initData}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          },
         });
       }}
     >
@@ -217,7 +227,7 @@ export default function ItemConversionLanding() {
         touched,
       }) => (
         <>
-          {loader && <Loading />}
+          {(loader || isLoading) && <Loading />}
           <IForm
             title="Item Conversion"
             isHiddenReset

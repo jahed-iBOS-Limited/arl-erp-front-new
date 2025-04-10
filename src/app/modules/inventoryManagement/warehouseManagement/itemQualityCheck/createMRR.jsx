@@ -32,6 +32,7 @@ import {
   initData,
   validationSchemaForMRR,
 } from './helper';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 const { actions: slice } = invTransactionSlice;
 export default function CreateMRR() {
   const [isDisabled, setDisabled] = useState(false);
@@ -46,6 +47,8 @@ export default function CreateMRR() {
   const [qcInformationForMRR, getQcInformationForMRR] = useAxiosGet();
   const [modifiedIntiData, setModifiedInitData] = useState();
   const [itemsDDL] = useState([]);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
@@ -496,14 +499,20 @@ export default function CreateMRR() {
 
   return (
     <>
-      {isDisabled && <Loading />}
+      {(isDisabled || isLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={modifiedIntiData ? modifiedIntiData : initData}
         validationSchema={validationSchemaForMRR}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >

@@ -1,5 +1,5 @@
 import { Formik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import IButton from '../../../../_helper/iButton';
 import ICustomCard from '../../../../_helper/_customCard';
@@ -7,6 +7,8 @@ import InputField from '../../../../_helper/_inputField';
 import NewSelect from '../../../../_helper/_select';
 import { validationSchema } from '../../delivery/Form/form';
 import { bagType, carType, deliveryMode, mode } from '../../delivery/utils';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
+import Loading from '../../../../_helper/_loading';
 
 const Form = ({
   rows,
@@ -28,6 +30,8 @@ const Form = ({
   viewType,
 }) => {
   const history = useHistory();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const totalAmountCalFunc = (array, name) => {
     const totalQty = array?.reduce((acc, cur) => acc + +cur?.[name], 0);
@@ -40,13 +44,20 @@ const Form = ({
 
   return (
     <>
+      {isLoading && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >

@@ -9,6 +9,7 @@ import { _todayDate } from '../../../_helper/_todayDate';
 import CommonTable from '../../../_helper/commonTable';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 
 const initData = {
   sendVia: '',
@@ -27,6 +28,8 @@ export default function SendModal({ singleItem, onHide, handleGetRowData }) {
   const [objProps, setObjprops] = useState({});
   const [rowData, getRowData, loadRowData] = useAxiosGet();
   const [, sendDocument, loadSendDocument] = useAxiosPost();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
   const {
     profileData: { accountId: employeeFullName, userId },
   } = useSelector((state) => state?.authData, shallowEqual);
@@ -80,9 +83,15 @@ export default function SendModal({ singleItem, onHide, handleGetRowData }) {
       initialValues={initData}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
-          onHide();
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+              onHide();
+            });
+          },
         });
       }}
     >
@@ -96,7 +105,7 @@ export default function SendModal({ singleItem, onHide, handleGetRowData }) {
         touched,
       }) => (
         <>
-          {(loadRowData || loadSendDocument) && <Loading />}
+          {(loadRowData || loadSendDocument || isLoading) && <Loading />}
           <IForm isHiddenBack={true} title="Send " getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">

@@ -1,10 +1,12 @@
 import { Form, Formik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
 import IDelete from '../../../../../_helper/_helperIcons/_delete';
 import NewSelect from '../../../../../_helper/_select';
 import IButton from '../../../../../_helper/iButton';
 import { loadUserList } from '../../helper';
+import createDebounceHandler from '../../../../../_helper/debounceForSave';
+import Loading from '../../../../../_helper/_loading';
 
 export default function FormCmp({
   accId,
@@ -18,14 +20,24 @@ export default function FormCmp({
   removeRow,
   rowData,
 }) {
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
+
   return (
     <>
+      {isLoading && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
         onSubmit={({ resetForm }) => {
-          saveHandler(() => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(() => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >

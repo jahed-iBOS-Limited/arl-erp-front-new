@@ -9,6 +9,7 @@ import { _todayDate } from '../../../_helper/_todayDate';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import PaginationTable from '../../../_helper/_tablePagination';
 import { generateExcel } from './helper';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 const initData = {
   date: _todayDate(),
   reportType: '',
@@ -28,6 +29,8 @@ export default function GLWiseBalance() {
   const [wareHouseDDL, getWareHouseDDL, , setWareHouseDDL] = useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     getBuDDL(`/hcm/HCMDDL/GetBusinessunitDDL`);
@@ -62,8 +65,14 @@ export default function GLWiseBalance() {
       initialValues={initData}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          },
         });
       }}
     >
@@ -77,7 +86,7 @@ export default function GLWiseBalance() {
         touched,
       }) => (
         <>
-          {loading && <Loading />}
+          {(loading || isLoading) && <Loading />}
           <IForm
             title="GL Wise Balance"
             isHiddenReset

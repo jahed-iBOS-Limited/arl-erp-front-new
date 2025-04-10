@@ -9,6 +9,8 @@ import {
 } from '../helper';
 import InputField from '../../../../_helper/_inputField';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
+import Loading from '../../../../_helper/_loading';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -38,6 +40,8 @@ export default function FormCmp({
   //DDL State
   const [refTypeDDl, setRefTypeDDl] = useState([]);
   const [transTypeDDl, setTransTypeDDl] = useState([]);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     getRefTypeDDL(setRefTypeDDl);
@@ -50,9 +54,15 @@ export default function FormCmp({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
-            setRowDto([]);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+                setRowDto([]);
+              });
+            },
           });
         }}
       >
@@ -66,6 +76,7 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
+            {isLoading && <Loading />}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
                 <div className="col-lg-3">
