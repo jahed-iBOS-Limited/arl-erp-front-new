@@ -1,11 +1,13 @@
+import Axios from 'axios';
+import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { Formik, Form, Field } from 'formik';
+import { shallowEqual, useSelector } from 'react-redux';
+import Select from 'react-select';
 import * as Yup from 'yup';
 import { Input } from '../../../../../../_metronic/_partials/controls';
-import Axios from 'axios';
-import Select from 'react-select';
+import Loading from '../../../../_helper/_loading';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
 import customStyles from '../../../../selectCustomStyle';
-import { useSelector, shallowEqual } from 'react-redux';
 import { PlantWarehouseTable } from '../plantWarehouseTable/plantWarehouseTableCard';
 
 // Validation schema
@@ -30,6 +32,8 @@ export default function FormCmp({
 }) {
   const [lngList, setLng] = useState('');
   const [currencyList, setCurrency] = useState('');
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -85,13 +89,20 @@ export default function FormCmp({
 
   return (
     <>
+      {isLoading && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={product}
         validationSchema={ProductEditSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveBusinessUnit(values, () => {
-            resetForm(product);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveBusinessUnit(values, () => {
+                resetForm(product);
+              });
+            },
           });
         }}
       >

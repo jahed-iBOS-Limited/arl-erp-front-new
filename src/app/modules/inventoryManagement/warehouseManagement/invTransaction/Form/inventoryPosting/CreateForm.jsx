@@ -22,6 +22,7 @@ import { DropzoneDialogBase } from 'react-mui-dropzone';
 import Loading from '../../../../../_helper/_loading';
 import { invTransactionSlice } from '../../_redux/Slice';
 import { empAttachment_action } from '../../../../../_helper/attachmentUpload';
+import createDebounceHandler from '../../../../../_helper/debounceForSave';
 const { actions: slice } = invTransactionSlice;
 
 export default function CreateForm({
@@ -48,6 +49,8 @@ export default function CreateForm({
   const [transType, setTransaType] = useState('');
   const [fileObjects, setFileObjects] = useState([]);
   const [open, setOpen] = useState(false);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   // redux store data
   const {
@@ -252,14 +255,20 @@ export default function CreateForm({
 
   return (
     <>
-      {isDisabled && <Loading />}
+      {(isDisabled || isLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >

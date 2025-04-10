@@ -10,6 +10,7 @@ import {
 } from '../helper';
 import { ApprovedList } from './components/approvedList';
 import { UnApprovedList } from './components/unApprovedList';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
 
 export default function FormCmp({
   initData,
@@ -36,6 +37,8 @@ export default function FormCmp({
   const [regionList, setRegionList] = useState([]);
   const [areaList, setAreaList] = useState([]);
   const [gridData, setGridData] = useState([]);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getApprovedData = (values) => {
     getApproveLiftingEntryList(
@@ -52,13 +55,19 @@ export default function FormCmp({
 
   return (
     <>
-      {loading && <Loading />}
+      {(loading || isLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{ ...initData, salesOrg: salesOrgs[0] }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          saveHandler(values);
+          setIsLoading(true);
+          debounceHandler({
+            setLoading: setIsLoading,
+            CB: () => {
+              saveHandler(values);
+            },
+          });
         }}
       >
         {({ values, errors, touched, setFieldValue, handleSubmit }) => (

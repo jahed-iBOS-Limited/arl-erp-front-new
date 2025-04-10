@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { IInput } from '../../../../_helper/_input';
 import { ISelect } from '../../../../_helper/_inputDropDown';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
+import Loading from '../../../../_helper/_loading';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -23,15 +25,25 @@ export default function FormCmp({
   modifiedValues,
   zoneDDL,
 }) {
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
+
   return (
     <>
+      {isLoading && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{ ...initData, ...modifiedValues }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >

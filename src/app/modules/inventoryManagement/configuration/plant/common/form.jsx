@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { Input } from '../../../../../../_metronic/_partials/controls';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
+import Loading from '../../../../_helper/_loading';
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
   plantName: Yup.string()
@@ -29,15 +31,25 @@ export default function FormCmp({
   accountId,
   selectedBusinessUnit,
 }) {
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
+
   return (
     <>
+      {isLoading && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={product}
         validationSchema={ProductEditSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveWarehouse(values, () => {
-            resetForm(product);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveWarehouse(values, () => {
+                resetForm(product);
+              });
+            },
           });
         }}
       >

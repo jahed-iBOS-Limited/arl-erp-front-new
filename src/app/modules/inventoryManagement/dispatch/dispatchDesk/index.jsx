@@ -16,6 +16,7 @@ import PaginationSearch from '../../../_helper/_search';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import IConfirmModal from '../../../_helper/_confirmModal';
 import OwnerSendModal from './ownerSendModal';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 const initData = {
   requisition: 'send',
 };
@@ -35,6 +36,8 @@ export default function DispatchDeskLanding() {
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loadGridData, setGridData] = useAxiosGet();
   const [, receiveHandler, receiveLoader] = useAxiosPost();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const handleGetRowData = (status, pageNo, pageSize, searchValue) => {
     const searchParam = searchValue ? `&search=${searchValue}` : '';
@@ -113,8 +116,14 @@ export default function DispatchDeskLanding() {
       initialValues={initData}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          },
         });
       }}
     >
@@ -128,7 +137,7 @@ export default function DispatchDeskLanding() {
         touched,
       }) => (
         <>
-          {(loadGridData || receiveLoader) && <Loading />}
+          {(loadGridData || receiveLoader || isLoading) && <Loading />}
           <IForm
             title="Dispatch Desk"
             isHiddenReset

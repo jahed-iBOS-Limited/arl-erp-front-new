@@ -28,6 +28,7 @@ import FormikError from './../../../../../_helper/_formikError';
 import { getSupplierDDL, initData, validationSchema } from './helper';
 import RowDtoTable from './rowDtoTable';
 import { uploadAttachment } from '../../../../../_helper/attachmentUpload';
+import createDebounceHandler from '../../../../../_helper/debounceForSave';
 const { actions: slice } = invTransactionSlice;
 
 export default function ReceiveInvCreateForm({
@@ -44,6 +45,8 @@ export default function ReceiveInvCreateForm({
   const [open, setOpen] = useState(false);
   const [supplierDDL, setSupplierDDL] = useState(false);
   const [foreignPurchaseDDL, setForeginPurchase] = useState([]);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
@@ -453,14 +456,20 @@ export default function ReceiveInvCreateForm({
 
   return (
     <>
-      {isDisabled && <Loading />}
+      {(isDisabled || isLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >

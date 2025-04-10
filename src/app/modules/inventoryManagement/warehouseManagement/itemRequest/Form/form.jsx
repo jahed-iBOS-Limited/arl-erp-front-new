@@ -11,6 +11,7 @@ import FormikError from './../../../../_helper/_formikError';
 import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import Loading from '../../../../_helper/_loading';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
 // import { getCostElement } from "../helper"
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -45,6 +46,8 @@ export default function FormCmp({
 }) {
   const [uomList, setUOMList] = useState([]);
   const [itemType, setItemType] = useState('');
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const [, getStockQty, stockQtyLoader] = useAxiosGet();
 
@@ -84,8 +87,14 @@ export default function FormCmp({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -98,7 +107,7 @@ export default function FormCmp({
           setFieldValue,
         }) => (
           <>
-            {stockQtyLoader && <Loading />}
+            {(stockQtyLoader || isLoading) && <Loading />}
             <Form className="form form-label-right">
               <div className="form-group row">
                 <div className="col-lg-3">

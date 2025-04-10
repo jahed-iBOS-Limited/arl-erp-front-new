@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import PaginationTable from '../../../../_helper/_tablePagination';
 import Loading from '../../../../_helper/_loading';
@@ -6,6 +6,7 @@ import InputField from '../../../../_helper/_inputField';
 import NewSelect from '../../../../_helper/_select';
 import { getMonth } from '../../../../salesManagement/report/customerSalesTarget/utils';
 import { toast } from 'react-toastify';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
 
 export default function FormCmp({
   initData,
@@ -21,14 +22,23 @@ export default function FormCmp({
   dataChangeHandler,
   saveHandler,
 }) {
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
+
   return (
     <>
-      {loading && <Loading />}
+      {(loading || isLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
         onSubmit={(values) => {
-          saveHandler(values);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values);
+            },
+          });
         }}
       >
         {({ values, errors, touched, setFieldValue, handleSubmit }) => (

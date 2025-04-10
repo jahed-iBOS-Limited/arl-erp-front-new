@@ -23,6 +23,7 @@ import { toast } from 'react-toastify';
 import Loading from '../../../../../_helper/_loading';
 import { invTransactionSlice } from '../../_redux/Slice';
 import axios from 'axios';
+import createDebounceHandler from '../../../../../_helper/debounceForSave';
 const { actions: slice } = invTransactionSlice;
 
 export default function CreateForm({
@@ -35,6 +36,8 @@ export default function CreateForm({
   const dispatch = useDispatch();
 
   const [isDisabled, setDisabled] = useState(false);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -263,15 +266,21 @@ export default function CreateForm({
 
   return (
     <>
-      {isDisabled && <Loading />}
+      {(isDisabled || isLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{ ...initData, refType: referenceTypeDDL[0] }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
-            setRowDto([]);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+                setRowDto([]);
+              });
+            },
           });
         }}
       >

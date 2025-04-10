@@ -23,6 +23,7 @@ import { invTransactionSlice } from '../../_redux/Slice';
 import Loading from '../../../../../_helper/_loading';
 const { actions: slice } = invTransactionSlice;
 import { empAttachment_action } from '../../../../../_helper/attachmentUpload';
+import createDebounceHandler from '../../../../../_helper/debounceForSave';
 export default function CreateForm({
   btnRef,
   resetBtnRef,
@@ -33,6 +34,8 @@ export default function CreateForm({
   const dispatch = useDispatch();
 
   const [isDisabled, setDisabled] = useState(false);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const [fileObjects, setFileObjects] = useState([]);
   const [open, setOpen] = useState(false);
@@ -304,14 +307,20 @@ export default function CreateForm({
 
   return (
     <>
-      {isDisabled && <Loading />}
+      {(isDisabled || isLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >

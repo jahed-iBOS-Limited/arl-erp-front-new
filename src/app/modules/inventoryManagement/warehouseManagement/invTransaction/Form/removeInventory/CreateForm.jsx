@@ -21,6 +21,7 @@ import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { invTransactionSlice } from '../../_redux/Slice';
 import Loading from '../../../../../_helper/_loading';
 import { empAttachment_action } from '../../../../../_helper/attachmentUpload';
+import createDebounceHandler from '../../../../../_helper/debounceForSave';
 const { actions: slice } = invTransactionSlice;
 
 export default function CreateForm({
@@ -34,6 +35,8 @@ export default function CreateForm({
   const dispatch = useDispatch();
 
   const [isDisabled, setDisabled] = useState(false);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const [fileObjects, setFileObjects] = useState([]);
   const [open, setOpen] = useState(false);
@@ -272,8 +275,14 @@ export default function CreateForm({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -287,7 +296,7 @@ export default function CreateForm({
           isValid,
         }) => (
           <>
-            {isDisabled && <Loading />}
+            {(isDisabled || isLoading) && <Loading />}
             {disableHandler && disableHandler(!isValid)}
             <Form className="form form-label-right">
               <div className="form-group row global-form">

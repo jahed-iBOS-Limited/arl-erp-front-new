@@ -14,6 +14,7 @@ import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import { dispatchReceiveValidationSchema } from './helper';
 import FormikError from '../../../_helper/_formikError';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 
 const initData = {
   receiveType: '',
@@ -44,6 +45,8 @@ export default function ReceiveModal() {
   const [, saveDocumentReceive, loadDocumentReceive] = useAxiosPost();
   const [locationDDL, getLocationDDL] = useAxiosGet();
   const [singleData, getSingleData] = useAxiosGet();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
   const {
     profileData: { accountId: accId, employeeFullName, employeeId, userId },
     selectedBusinessUnit: { value: buId, label: buName },
@@ -193,8 +196,14 @@ export default function ReceiveModal() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         if (!values?.receiverName)
           return toast.warn('Receiver name is required');
-        saveHandler(values, () => {
-          resetForm(initData);
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          },
         });
       }}
     >
@@ -209,7 +218,7 @@ export default function ReceiveModal() {
         touched,
       }) => (
         <>
-          {loadDocumentReceive && <Loading />}
+          {(loadDocumentReceive || isLoading) && <Loading />}
           <IForm
             title="Dispatch Receive"
             isHiddenBack={true}

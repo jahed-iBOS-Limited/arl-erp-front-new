@@ -10,6 +10,7 @@ import FormikError from '../../../_helper/_formikError';
 import Loading from '../../../_helper/_loading';
 import NewSelect from '../../../_helper/_select';
 import { _todayDate } from '../../../_helper/_todayDate';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 
 const initData = {};
 export default function ItemWiseSerialCreate() {
@@ -22,6 +23,8 @@ export default function ItemWiseSerialCreate() {
   const [rowData, getRowData, , setRowData] = useAxiosGet();
   const [, saveData] = useAxiosPost();
   //const [modifyData, setModifyData] = useState(initData);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const { profileData } = useSelector((state) => {
     return state.authData;
@@ -86,15 +89,21 @@ export default function ItemWiseSerialCreate() {
 
   return (
     <IForm title="Create Item Wise Serial Update" getProps={setObjprops}>
-      {false && <Loading />}
+      {isLoading && <Loading />}
       <>
         <Formik
           enableReinitialize={true}
           initialValues={initData}
           onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-            saveHandler(values, () => {
-              resetForm(initData);
-              setRowData([]);
+            setLoading(true);
+            debounceHandler({
+              setLoading: setLoading,
+              CB: () => {
+                saveHandler(values, () => {
+                  resetForm(initData);
+                  setRowData([]);
+                });
+              },
             });
           }}
         >

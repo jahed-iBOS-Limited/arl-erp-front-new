@@ -6,6 +6,8 @@ import Axios from 'axios';
 import Select from 'react-select';
 import { useSelector, shallowEqual } from 'react-redux';
 import customStyles from '../../../../selectCustomStyle';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
+import Loading from '../../../../_helper/_loading';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
@@ -36,6 +38,8 @@ export default function FormCmp({
 }) {
   const [lngList, setLng] = useState('');
   const [currencyList, setCurrency] = useState([]);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -85,13 +89,20 @@ export default function FormCmp({
 
   return (
     <>
+      {isLoading && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={product}
         validationSchema={ProductEditSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveBusinessUnit(values, () => {
-            resetForm(product);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveBusinessUnit(values, () => {
+                resetForm(product);
+              });
+            },
           });
         }}
       >
