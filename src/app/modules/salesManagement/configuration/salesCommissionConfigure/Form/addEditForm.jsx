@@ -133,6 +133,7 @@ export default function SalesCommissionConfigureEntryForm() {
       const commissionRate = commonRate || 0;
 
       const newRow = {
+        channelId: channelId,
         value: values?.area?.value,
         label: values?.area?.label,
         areaId: values?.area?.value,
@@ -206,7 +207,7 @@ export default function SalesCommissionConfigureEntryForm() {
         toDateTime: values?.toDate,
         commissionDate: item?.commissionDate || _todayDate(),
         levelId: 0,
-        channelId: values?.channel?.value,
+        channelId: values?.channel?.value || item?.channelId,
         regionId: values?.region?.value,
         areaId: item?.areaId,
         territoryId: 0,
