@@ -1,22 +1,21 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
+import ICard from '../../../../_helper/_card';
+import { currentPhysicalYear } from '../../../../_helper/_helperUtils/currentPhysicalYear';
+import IViewModal from '../../../../_helper/_viewModal';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import { downloadFile } from '../../../../_helper/downloadFile';
+import customStyles from '../../../../selectCustomStyle';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
+import PmsCommonTable from '../../../_helper/pmsCommonTable/PmsCommonTable';
 import {
   getEmployeeBasicInfoByIdAction,
   getYearDDLAction,
 } from '../../../_redux/Actions';
-import ICard from '../../../../_helper/_card';
-import Select from 'react-select';
-import customStyles from '../../../../selectCustomStyle';
-import { useState } from 'react';
 import { getEmployeeDDLAction } from '../../balancedScore/_redux/Actions';
 import { getMonthDDLAction } from '../../PerformanceChart/_redux/Actions';
-import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
-import { downloadFile } from '../../../../_helper/downloadFile';
-import { currentPyscalYear } from './utils';
-import { getPmsReportAction } from '../../../_helper/getReportAction';
-import PmsCommonTable from '../../../_helper/pmsCommonTable/PmsCommonTable';
-import IViewModal from '../../../../_helper/_viewModal';
 import ViewForm from '../View/mainForm';
 
 export default function AchievementTable() {
@@ -69,7 +68,7 @@ export default function AchievementTable() {
     if (yearDDL?.length > 0) {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
-    let pyscalYear = currentPyscalYear(yearDDL);
+    let pyscalYear = currentPhysicalYear(yearDDL);
     setYear(pyscalYear);
   }, [yearDDL]);
 
@@ -89,7 +88,7 @@ export default function AchievementTable() {
   // july = 24;
   useEffect(() => {
     if (employee?.value && yearDDL.length > 0) {
-      let pyscalYear = currentPyscalYear(yearDDL);
+      let pyscalYear = currentPhysicalYear(yearDDL);
 
       getPmsReportAction(
         setReport,
