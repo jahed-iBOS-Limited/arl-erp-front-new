@@ -1,65 +1,27 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
-import NewSelect from '../../../../_helper/_select';
-import InputField from '../../../../_helper/_inputField';
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useCallback, useEffect, useState } from 'react';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
+import { toast } from 'react-toastify';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import {
-  getCountryDDL,
   getDistrictDDLAction,
+  getEmpInfoById,
   getLeaveSummarySelfData,
   getLeaveTypeDDL,
-  getEmpInfoById,
-} from '../helper';
-import Loading from './../../../../_helper/_loading';
-import { DropzoneDialogBase } from 'react-mui-dropzone';
-import axios from 'axios';
-import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+} from '../../../../_helper/_commonApi';
 import { addDaysToADate } from '../../../../_helper/_dateFormate';
-import { toast } from 'react-toastify';
+import InputField from '../../../../_helper/_inputField';
+import { getCountryDDL } from '../../../../_helper/_redux/Api';
+import NewSelect from '../../../../_helper/_select';
+import {
+  leaveValidationSchema,
+  validationSchemaForMovement,
+} from '../../../../_helper/_validationSchema';
 import { nextMonth } from '../../../../_helper/nextMonth';
+
+import Loading from './../../../../_helper/_loading';
 import ApplicationTable from './ApplicationTable';
-
-const validationSchemaForMovement = Yup.object().shape({
-  leaveType: Yup.string().required('Leave Type is required'),
-  reasonType: Yup.object()
-    .shape({
-      label: Yup.string().required('Movement type is required'),
-      value: Yup.string().required('Movement type is required'),
-    })
-    .typeError('Movement type is required'),
-  fromTime: Yup.string().required('From Time required'),
-  toTime: Yup.string().required('To Time required'),
-  fromDate: Yup.date().required('From Date required'),
-  toDate: Yup.date().required('To Date required'),
-  reason: Yup.string()
-    .min(2, 'Minimum 2 symbols')
-    .required('Reason is required'),
-  address: Yup.string()
-    .min(2, 'Minimum 2 symbols')
-    .required('Address is required'),
-});
-
-const validationSchema = Yup.object().shape({
-  leaveType: Yup.string().required('Leave Type is required'),
-  reasonType: Yup.object()
-    .shape({
-      label: Yup.string().required('Leave type is required'),
-      value: Yup.string().required('Leave type is required'),
-    })
-    .typeError('Leave type is required'),
-  fromDate: Yup.string()
-    .required('From date is required')
-    .typeError('From date is required'),
-  toDate: Yup.string()
-    .required('To date is required')
-    .typeError('To date is required'),
-  reason: Yup.string()
-    .min(2, 'Minimum 2 symbols')
-    .required('Reason is required'),
-  address: Yup.string()
-    .min(2, 'Minimum 2 symbols')
-    .required('Address is required'),
-});
 
 export default function FormCmp({
   initData,
@@ -187,7 +149,7 @@ export default function FormCmp({
         validationSchema={
           selectedLeaveType === 0
             ? validationSchemaForMovement
-            : validationSchema
+            : leaveValidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
           saveHandler(values, () => {
@@ -208,7 +170,6 @@ export default function FormCmp({
         }) => (
           <>
             <Form className="form form-label-right">
-              {console.log('values', values)}
               <div className="row">
                 <div className="col-lg-6">
                   <div className="row bank-journal bank-journal-custom bj-left mr-1">
@@ -266,7 +227,6 @@ export default function FormCmp({
                                 setLeaveSummaryRowDto,
                                 setLoader
                               );
-                              // setEmployeeValue(valueOption);
                               getLeaveTypeDDL(
                                 values?.leaveType,
                                 valueOption?.value,
