@@ -2283,3 +2283,14 @@ export const getEmployeeApproveAndActiveByKPIId = async (
     }
   } catch (error) {}
 };
+
+export const getSingleData = async (id, setter) => {
+  try {
+    const res = await axios.get(
+      `/wms/ItemRequest/GetItemRequestDatabyId?requestid=${id}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};

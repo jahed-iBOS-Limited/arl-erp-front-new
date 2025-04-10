@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Form from './form';
 import { _todayDate } from '../../../../_helper/_todayDate';
 import ICustomCard from '../../../../_helper/_customCard';
-import { getSingleData } from '../helper';
+import { getSingleData } from '../../../../_helper/_commonApi';
 
 const initData = {
   requestDate: '',

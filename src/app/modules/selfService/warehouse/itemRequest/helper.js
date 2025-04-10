@@ -164,17 +164,6 @@ export const getSingleDataForEdit = async (id, setter) => {
   } catch (error) {}
 };
 
-export const getSingleData = async (id, setter) => {
-  try {
-    const res = await Axios.get(
-      `/wms/ItemRequest/GetItemRequestDatabyId?requestid=${id}`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const saveItemReqEdit = async (data, cb, setDisabled) => {
   setDisabled(true);
   try {

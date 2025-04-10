@@ -60,28 +60,6 @@ export default function FormCmp({
                     name="requestDate"
                   />
                 </div>
-                {/* <div className="col-lg-3">
-                  <div className="my-1">
-                    <span>Validity</span>
-                  </div>
-                  <InputField
-                    value={_dateFormatter(values?.objHeader.validTill)}
-                    disabled={true}
-                    type="date"
-                    name="validTill"
-                  />
-                </div> */}
-                {/* <div className="col-lg-3">
-                  <div className="my-1">
-                    <span>Due Date</span>
-                  </div>
-                  <InputField
-                    value={_dateFormatter(values?.objHeader.dteDueDate)}
-                    disabled={true}
-                    type="date"
-                    name="dueDate"
-                  />
-                </div> */}
               </div>
 
               <div className="form-group row mt-2">

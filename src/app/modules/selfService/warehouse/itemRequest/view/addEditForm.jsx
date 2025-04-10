@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import Form from './form';
-import { _todayDate } from '../../../../_helper/_todayDate';
+import React, { useEffect, useState } from 'react';
+import { getSingleData } from '../../../../_helper/_commonApi';
 import ICustomCard from '../../../../_helper/_customCard';
-import { getSingleData } from '../helper';
+import Form from './form';
 
 const initData = {
   requestDate: '',
@@ -32,8 +31,6 @@ export default function ViewItemRequestForm({
     setDisabled(cond);
   };
 
-  const [objProps, setObjprops] = useState({});
-
   return (
     <div className="purchaseInvoice">
       <ICustomCard
@@ -44,7 +41,6 @@ export default function ViewItemRequestForm({
         renderProps={() => {}}
       >
         <Form
-          {...objProps}
           initData={id ? singleData[0] : initData}
           disableHandler={disableHandler}
           singleData={singleData}
