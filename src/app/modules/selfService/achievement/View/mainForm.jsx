@@ -4,7 +4,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import IForm from '../../../_helper/_form';
 import { getTargetAction, saveAchievementAction } from '../_redux/Actions';
 import Form from './form';
-import { getEmployeeApproveAndActiveByKPIId } from './helper';
+import { getEmployeeApproveAndActiveByKPIId } from '../../../_helper/_commonApi';
 
 export default function ViewForm({ currentItem }) {
   const [isDisabled, setDisabled] = useState(false);
