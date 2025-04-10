@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { _dateFormatter } from './../../../_helper/_dateFormate';
 
-export const getType = () => {
+export const getType = (selectedBusinessUnit) => {
   return [
     { value: 1, label: 'Inventory, Overhead and COGS' },
     { value: 2, label: 'Depreciation' },
@@ -11,7 +11,9 @@ export const getType = () => {
     { value: 4, label: 'Year Closing' },
     { value: 5, label: 'Baddebet Interest Provision' },
     { value: 6, label: 'Salary Journal' },
-    { value: 7, label: 'Incentive Provision' },
+    ...(selectedBusinessUnit?.value === 224
+      ? [{ value: 7, label: 'Incentive Provision' }]
+      : []),
   ];
 };
 

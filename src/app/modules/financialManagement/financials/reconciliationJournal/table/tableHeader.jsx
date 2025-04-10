@@ -71,6 +71,10 @@ const ReconciliationJournal = () => {
     profileData: { accountId },
   } = useSelector((state) => state.authData, shallowEqual);
 
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
   const [
     baddebtRowData,
     getBaddebtRowData,
@@ -140,7 +144,7 @@ const ReconciliationJournal = () => {
   const [expanded, setExpanded] = useState(false);
   const [fileObject, setFileObject] = useState('');
   const [sbuDDL, setSbuDDL] = useState([]);
-  const [typeDDL] = useState(getType());
+  const [typeDDL] = useState(getType(selectedBusinessUnit));
 
   const [loading, setLoading] = useState(false);
   //storingData
@@ -158,10 +162,6 @@ const ReconciliationJournal = () => {
     incomeTaxProvisionViewCreateLoading,
     setIncomeTaxProvisionViewCreateData,
   ] = useAxiosPost();
-
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -397,7 +397,7 @@ const ReconciliationJournal = () => {
               createIncentiveProvisionJounralLoading) && <Loading />}
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={'Reconciliation Journal'}>
+              <CardHeader title={'Month End Journal'}>
                 <CardHeaderToolbar>
                   {/* Salary Journal */}
                   {values?.type?.value === 6 && (
