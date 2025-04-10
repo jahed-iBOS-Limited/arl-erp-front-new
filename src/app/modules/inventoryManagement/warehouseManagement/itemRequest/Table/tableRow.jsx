@@ -1,30 +1,29 @@
+import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import InputField from '../../../../_helper/_inputField';
-import {
-  getItemRequestGridData,
-  getSBUDDL,
-  getPlantDDL,
-  getWarehouseDDL,
-} from '../helper';
-import customStyles from '../../../../selectCustomStyle';
-import ICustomCard from '../../../../_helper/_customCard';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import Loading from '../../../../_helper/_loading';
-import PaginationTable from './../../../../_helper/_tablePagination';
-import PaginationSearch from '../../../../_helper/_search';
-import IEdit from '../../../../_helper/_helperIcons/_edit';
-import NewSelect from '../../../../_helper/_select';
-import IView from '../../../../_helper/_helperIcons/_view';
-import { setItemRequestPPRAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import * as Yup from 'yup';
+import {
+  getPlantList,
+  getSBU,
+  getWarehouseDDL,
+  postItemReqCancelAction,
+} from '../../../../_helper/_commonApi';
+import ICustomCard from '../../../../_helper/_customCard';
 import IClose from '../../../../_helper/_helperIcons/_close';
-import IConfirmModal from './../../../../_helper/_confirmModal';
-import { postItemReqCancelAction } from '../helper';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
 import IViewModal from '../../../../_helper/_viewModal';
+import { setItemRequestPPRAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import customStyles from '../../../../selectCustomStyle';
+import { getItemRequestGridData } from '../helper';
 import { ItemReqViewTableRow } from '../report/tableRow';
-import { getPlantList } from '../../../../_helper/_commonApi';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import PaginationTable from './../../../../_helper/_tablePagination';
 
 const statusData = [
   { label: 'Approved', value: true },
@@ -62,7 +61,7 @@ export function TableRow(props) {
   );
 
   useEffect(() => {
-    getSBUDDL(profileData.accountId, selectedBusinessUnit.value, setSBUDDL);
+    getSBU(profileData.accountId, selectedBusinessUnit.value, setSBUDDL);
     getPlantList(
       profileData.userId,
       profileData.accountId,

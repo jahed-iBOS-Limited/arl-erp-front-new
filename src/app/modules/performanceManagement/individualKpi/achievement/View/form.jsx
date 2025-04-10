@@ -4,7 +4,6 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { getDailyTargetData, saveDailyTargetRow } from './helper';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
@@ -13,6 +12,10 @@ import IView from '../../../../_helper/_helperIcons/_view';
 import { getPmsReportAction } from '../../../_helper/getReportAction';
 import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 import TextArea from '../../../../_helper/TextArea';
+import {
+  getDailyTargetData,
+  saveDailyTargetRow,
+} from '../../../../_helper/_commonApi';
 // Validation schema
 const validationSchema = Yup.object().shape({});
 

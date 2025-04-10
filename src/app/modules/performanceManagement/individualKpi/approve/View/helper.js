@@ -18,27 +18,6 @@ export const saveDailyTargetRow = async (data, cb) => {
     toast.warn(error?.response?.data?.message || 'Something went wrong');
   }
 };
-
-export const getDailyTargetData = async (kpiId, monthId, setter) => {
-  // set empty initially
-  setter([]);
-  try {
-    const res = await Axios.get(
-      `/pms/KPI/GetEmployeeDailyAchivemenById?kpiid=${kpiId}&monthid=${monthId}`
-    );
-    if (res?.status === 200) {
-      const newData = res?.data?.map((item) => ({
-        ...item,
-        amount: item?.amount,
-      }));
-
-      setter(newData);
-    }
-  } catch (error) {
-    setter([]);
-  }
-};
-
 export const getEmployeeNameBySupervisorDDL_api = async (
   accountId,
   buId,

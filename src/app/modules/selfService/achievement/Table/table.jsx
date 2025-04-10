@@ -1,22 +1,22 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
+import ICard from '../../../_helper/_card';
+import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
+import { downloadFile } from '../../../_helper/downloadFile';
 import {
   getEmployeeBasicInfoByIdAction,
   getYearDDLAction,
 } from '../../../performanceManagement/_redux/Actions';
-import ICard from '../../../_helper/_card';
-import Select from 'react-select';
-import customStyles from '../../../selectCustomStyle';
-import { useState } from 'react';
 import { getEmployeeDDLAction } from '../../../performanceManagement/individualKpi/balancedScore/_redux/Actions';
 import { getMonthDDLAction } from '../../../performanceManagement/individualKpi/PerformanceChart/_redux/Actions';
-import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
-import { downloadFile } from '../../../_helper/downloadFile';
-import { currentPyscalYear } from './utils';
+import customStyles from '../../../selectCustomStyle';
+
+import { currentPhysicalYear } from '../../../_helper/_helperUtils/currentPhysicalYear';
+import IViewModal from '../../../_helper/_viewModal';
 import { getPmsReportAction } from '../../../performanceManagement/_helper/getReportAction';
 import PmsCommonTable from '../../../performanceManagement/_helper/pmsCommonTable/PmsCommonTable';
-import IViewModal from '../../../_helper/_viewModal';
 import ViewForm from '../View/mainForm';
 
 export default function AchievementTable() {
@@ -26,6 +26,10 @@ export default function AchievementTable() {
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [privacyType] = useState('1');
+  // get employee basic info from store
+  const employeeBasicInfo = useSelector((state) => {
+    return state?.performanceMgt?.employeeBasicInfo;
+  }, shallowEqual);
 
   let storeData = useSelector(
     (state) => {
@@ -41,11 +45,6 @@ export default function AchievementTable() {
   );
   let { profileData, selectedBusinessUnit, yearDDL, monthDDL, empDDL } =
     storeData;
-
-  // get employee basic info from store
-  const employeeBasicInfo = useSelector((state) => {
-    return state?.performanceMgt?.employeeBasicInfo;
-  }, shallowEqual);
 
   useEffect(() => {
     if (profileData && selectedBusinessUnit) {
@@ -69,7 +68,7 @@ export default function AchievementTable() {
     if (yearDDL?.length > 0) {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
-    let pyscalYear = currentPyscalYear(yearDDL);
+    let pyscalYear = currentPhysicalYear(yearDDL);
     setYear(pyscalYear);
   }, [yearDDL]);
 
@@ -85,11 +84,9 @@ export default function AchievementTable() {
   const [isShowModal, setIsShowModal] = useState(false);
   const [currentItem, setCurrentItem] = useState('');
 
-  // june = 13;
-  // july = 24;
   useEffect(() => {
     if (employee?.value && yearDDL.length > 0) {
-      let pyscalYear = currentPyscalYear(yearDDL);
+      let pyscalYear = currentPhysicalYear(yearDDL);
 
       getPmsReportAction(
         setReport,
@@ -216,12 +213,12 @@ export default function AchievementTable() {
       </div>
       {employeeBasicInfo && (
         <p className="mt-3 employee_info">
-          <b> Enroll</b> : {employeeBasicInfo?.employeeId}, <b> Designation</b>{' '}
-          : {employeeBasicInfo?.designationName}, <b> Department</b> :{' '}
-          {employeeBasicInfo?.departmentName}, <b> Supervisor</b> :{' '}
-          {employeeBasicInfo?.supervisorName}, <b> Sbu</b> :{' '}
-          {employeeBasicInfo?.sbuName}, <b> Business Unit</b> :{' '}
-          {employeeBasicInfo?.businessUnitName}
+          <b> Enroll</b> : {employeeBasicInfo?.employeeId || ''},{' '}
+          <b> Designation</b> : {employeeBasicInfo?.designationName || ''},{' '}
+          <b> Department</b> : {employeeBasicInfo?.departmentName || ''},{' '}
+          <b> Supervisor</b> : {employeeBasicInfo?.supervisorName || ''},{' '}
+          <b> Sbu</b> : {employeeBasicInfo?.sbuName || ''},{' '}
+          <b> Business Unit</b> : {employeeBasicInfo?.businessUnitName || ''}
         </p>
       )}
       <div className="text-right mb-1">
@@ -260,22 +257,21 @@ export default function AchievementTable() {
                   {index === 0 && (
                     <td
                       className={`bsc bsc${indx}`}
-                      rowspan={itm.dynamicList.length}
+                      rowspan={itm.dynamicList.length || ''}
                     >
-                      <div>{itm?.bsc}</div>
+                      <div>{itm?.bsc || ''}</div>
                     </td>
                   )}
                   {item?.isParent && (
                     <td className="obj" rowspan={item?.numberOfChild}>
-                      {' '}
-                      {item?.parentName}{' '}
+                      {item?.parentName || ''}
                     </td>
                   )}
-                  <td> {item?.label} </td>
-                  <td> {item?.strFrequency} </td>
-                  <td> {item?.numWeight} </td>
-                  <td> {item?.benchmark} </td>
-                  <td> {item?.numTarget} </td>
+                  <td> {item?.label || ''} </td>
+                  <td> {item?.strFrequency || ''} </td>
+                  <td> {item?.numWeight || ''} </td>
+                  <td> {item?.benchmark || ''} </td>
+                  <td> {item?.numTarget || ''} </td>
                   <td>
                     {indx !== report?.infoList.length - 1 && (
                       <OverlayTrigger
@@ -306,7 +302,7 @@ export default function AchievementTable() {
                             setIsShowModal(true);
                           }}
                         >
-                          {item?.numAchivement}
+                          {item?.numAchivement || ''}
                         </span>
                       </OverlayTrigger>
                     )}{' '}

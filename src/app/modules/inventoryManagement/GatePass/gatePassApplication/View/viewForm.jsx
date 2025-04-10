@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { sendEmailPostApi } from '../helper';
+import { sendEmailPostApi } from '../../../../_helper/_commonApi';
 
 export default function ViewForm({
   subject,

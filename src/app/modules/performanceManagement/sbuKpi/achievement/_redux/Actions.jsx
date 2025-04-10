@@ -1,6 +1,6 @@
-import * as requestFromServer from './Api';
-import { indPmsAchievementSlice } from './Slice';
 import { toast } from 'react-toastify';
+import { indPmsAchievementSlice } from '../../../../_helper/_commonSlice/indPmsAchievementSlice';
+import * as requestFromServer from './Api';
 const { actions: slice } = indPmsAchievementSlice;
 
 // action for save created data

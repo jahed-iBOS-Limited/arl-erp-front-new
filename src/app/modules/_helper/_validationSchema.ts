@@ -279,3 +279,12 @@ export const transferJournal = Yup.object().shape({
     value: Yup.string().required('Trasfer To is required'),
   }),
 });
+export const itemRequestValidationSchema = Yup.object().shape({
+  requestDate: Yup.string().required('Request Date is required'),
+  validTill: Yup.string().required('Valid Till Date is required'),
+  dueDate: Yup.string().required('Due Date is required'),
+  actionType: Yup.object().shape({
+    value: Yup.number().required('Action For is required'),
+    label: Yup.string().required('Action For is required'),
+  }),
+});
