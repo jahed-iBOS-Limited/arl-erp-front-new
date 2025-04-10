@@ -4,10 +4,11 @@ import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import IView from '../../../../_helper/_helperIcons/_view';
 import Loading from '../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import {} from '../helper';
 import {
   leaveAppLandingPagintaion_api,
   OfficialMoveLandingPagination_api,
-} from '../helper';
+} from '../../../../_helper/_commonApi';
 
 const ApplicationTable = ({ empId }) => {
   const [loading, setLoading] = useState(false);
