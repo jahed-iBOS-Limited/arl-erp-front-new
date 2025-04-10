@@ -195,6 +195,7 @@ export default function CommissionReportAndJVForm({ obj }) {
                   38,
                   39,
                   41,
+                  52,
                   ...akijAgroFeedCommissionTypeList,
                 ].includes(values?.type?.value) && (
                   <>
