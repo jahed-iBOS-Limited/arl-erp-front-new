@@ -51,16 +51,6 @@ export const getItemRequestGridData = async (
   }
 };
 
-//get request type
-export const getRequestType = async (setter) => {
-  try {
-    const res = await Axios.get(`/wms/ItemRequest/GetItemRequestTypeDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const getSBUDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
@@ -86,17 +76,6 @@ export const saveItemRequest = async (data, cb, setGridData, setDisabled) => {
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
-};
-
-export const getReferenceTypeDDL = async (setter) => {
-  try {
-    const res = await Axios.get(
-      `/wms/ItemRequest/GetItemRequestReferenceTypeDDL`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
 };
 
 export const getPlantDDL = async (userId, accId, buId, setter) => {
@@ -264,26 +243,6 @@ export const getReportItemReq = async (prId, setter) => {
       `/wms/InventoryView/GetItemRequestViewById?requestid=${prId}`
     );
     setter(res?.data[0]);
-  } catch (error) {}
-};
-
-export const getCostElement = async (unId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/wms/ItemRequest/GetCostElementByUnitId?businessUnitId=${unId}`
-    );
-
-    if (res.status === 200) {
-      let newData = res?.data.map((data) => {
-        return {
-          ...data,
-          value: data?.costElementId,
-          label: data?.costElementName,
-        };
-      });
-
-      setter(newData);
-    }
   } catch (error) {}
 };
 

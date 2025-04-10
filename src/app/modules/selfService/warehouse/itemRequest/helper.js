@@ -58,16 +58,6 @@ export const getItemRequestGridData = async (
   }
 };
 
-//get request type
-export const getRequestType = async (setter) => {
-  try {
-    const res = await Axios.get(`/wms/ItemRequest/GetItemRequestTypeDDL`);
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const getSBUDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
@@ -93,17 +83,6 @@ export const saveItemRequest = async (data, cb, setGridData, setDisabled) => {
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
-};
-
-export const getReferenceTypeDDL = async (setter) => {
-  try {
-    const res = await Axios.get(
-      `/wms/ItemRequest/GetItemRequestReferenceTypeDDL`
-    );
-    if (res.status === 200 && res?.data) {
-      setter(res?.data);
-    }
-  } catch (error) {}
 };
 
 export const getPlantDDL = async (userId, accId, buId, setter) => {
