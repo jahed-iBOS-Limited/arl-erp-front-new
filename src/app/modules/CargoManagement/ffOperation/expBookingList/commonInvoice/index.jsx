@@ -110,6 +110,8 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
       bookingNumber: bookingData?.bookingRequestCode || '',
       paymentTerms: '',
       actionBy: profileData?.userId || 0,
+      isAirOperation: isAirOperation || false,
+      isEmailSend: false,
       rowString: billingDataFilterData?.map((item) => {
         return {
           intHeadOfChargeid: item?.headOfChargeId,
