@@ -173,7 +173,7 @@ export default function CreateApprovePartner() {
                             attachmentLink: '',
                             PurchaseOrganizationId: values?.supplyOrg?.value,
                             // isCreateUser: false,
-                            propitor: profileData?.employeeFullName,
+                            propitor: state?.propeietorName || '',
                             contactPerson: '',
                             contactNumber2: '',
                             contactNumber3: '',
