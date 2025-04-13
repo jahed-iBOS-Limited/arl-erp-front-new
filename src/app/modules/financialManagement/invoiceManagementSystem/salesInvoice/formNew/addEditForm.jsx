@@ -59,6 +59,7 @@ const SalesInvoiceForm = () => {
   const [SOList, getSOList, soLoading, setSOList] = useAxiosGet();
   const [, getRowsBySO, loading] = useAxiosGet();
   const [, getSOInfo] = useAxiosGet();
+  const [shouldPrint, setShouldPrint] = useState(false);
 
   // get user profile data from store
   const {
@@ -72,6 +73,13 @@ const SalesInvoiceForm = () => {
       getEmployeeList(accId, buId, setEmployeeList, setDisabled);
     }
   }, [buId, accId]);
+
+  useEffect(() => {
+    if (shouldPrint && invoiceData?.length > 0) {
+      handleInvoicePrintCement();
+      setShouldPrint(false); // reset the flag
+    }
+  }, [invoiceData, shouldPrint]);
 
   const { printRefCement, handleInvoicePrintCement } =
     useCementInvoicePrintHandler();
@@ -191,6 +199,7 @@ const SalesInvoiceForm = () => {
     createSalesInvoiceNew(payload, setDisabled, setInvoiceData, () => {
       cb();
       handleInvoicePrintCement();
+      setShouldPrint(true);
     });
   };
 
