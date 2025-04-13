@@ -42,10 +42,10 @@ const validationSchema = Yup.object().shape({
   }),
   expenseFrom: Yup.date().required('Amount is required'),
   expenseTo: Yup.date().required('Instrument no is required'),
-  disbursmentCenter: Yup.object().shape({
-    label: Yup.string().required('disbursmentCenter type is required'),
-    value: Yup.string().required('disbursmentCenter type is required'),
-  }),
+  // disbursmentCenter: Yup.object().shape({
+  //   label: Yup.string().required('disbursmentCenter type is required'),
+  //   value: Yup.string().required('disbursmentCenter type is required'),
+  // }),
   comments1: Yup.string(),
 });
 
@@ -189,13 +189,13 @@ export default function FormCmp({
                   value: vehicleDDL[0]?.value,
                   label: vehicleDDL[0]?.label,
                 },
-                disbursmentCenter:
-                  disbustmentCenter?.length > 0
-                    ? {
-                        value: disbustmentCenter[0]?.value,
-                        label: disbustmentCenter[0]?.label,
-                      }
-                    : '',
+                // disbursmentCenter:
+                //   disbustmentCenter?.length > 0
+                //     ? {
+                //         value: disbustmentCenter[0]?.value,
+                //         label: disbustmentCenter[0]?.label,
+                //       }
+                //     : '',
               }
         }
         validationSchema={validationSchema}
@@ -283,7 +283,7 @@ export default function FormCmp({
                       />
                     </div>
 
-                    <div className="col-lg-12 pr-1 pl mb-1">
+                    {/* <div className="col-lg-12 pr-1 pl mb-1">
                       <label>Disbursement Center</label>
                       <Select
                         onChange={(valueOption) => {
@@ -302,7 +302,7 @@ export default function FormCmp({
                         name="disbursmentCenter"
                         touched={touched}
                       />
-                    </div>
+                    </div> */}
                     <div className="col-lg-12 pr-1 pl mb-1">
                       <div>Expense Period From</div>
                       <input
