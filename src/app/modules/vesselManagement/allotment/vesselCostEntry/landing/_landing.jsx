@@ -123,7 +123,8 @@ const VesselCostEntry = () => {
     saveVesselData(
       `/oms/SalesInformation/PostsprG2GStandardCostingGenerateAll?BusinessUnitId=${buId}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intrPart=${values?.type?.value}&Message=${'""'}&isGenerate=${true}`,
       null,
-      cb
+      cb,
+      true
     );
   };
 
@@ -141,6 +142,7 @@ const VesselCostEntry = () => {
               saveHandler={() => {
                 saveHandler(values, () => {
                   resetForm();
+                  setGridData([]);
                 });
               }}
               saveDisabled={gridData?.length < 1}
