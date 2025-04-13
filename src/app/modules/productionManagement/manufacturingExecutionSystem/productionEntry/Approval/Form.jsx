@@ -1,11 +1,13 @@
 import { Form, Formik } from 'formik';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import InputField from '../../../../_helper/_inputField';
 import NewSelect from '../../../../_helper/_select';
 // import CreateTableRow from "../Table/CreateTableRow";
 import { shallowEqual, useSelector } from 'react-redux';
 import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
+import Loading from '../../../../_helper/_loading';
 
 export default function FormCmp({
   initData,
@@ -30,6 +32,9 @@ export default function FormCmp({
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
+
   useEffect(() => {
     if (initData?.plantName?.value) {
       getwareHouseDDL(
@@ -45,8 +50,14 @@ export default function FormCmp({
         initialValues={initData}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -60,6 +71,7 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
+            {isLoading && <Loading />}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
                 <div className="col-lg-3">

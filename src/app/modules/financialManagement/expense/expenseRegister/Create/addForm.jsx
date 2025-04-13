@@ -34,7 +34,7 @@ const initData = {
   expenseAmount: '',
   location: '',
   comments2: '',
-  disbursmentCenter: '',
+  // disbursmentCenter: '',
   paymentType: '',
   file: '',
   driverExp: false,
@@ -137,8 +137,8 @@ export default function ExpenseRegisterCreateForm() {
             costCenterName: '',
             instrumentId: values.paymentType.value || 0,
             instrumentName: values.paymentType.label || '',
-            disbursementCenterId: values?.disbursmentCenter?.value || 0,
-            disbursementCenterName: values?.disbursmentCenter?.label || '',
+            disbursementCenterId: 0,
+            disbursementCenterName: '',
             // vehicle ddl
             vehicleId:
               values.vehicle?.value === 1 ? '' : values.vehicle?.label || '',
@@ -206,8 +206,8 @@ export default function ExpenseRegisterCreateForm() {
             costCenterName: '',
             instrumentId: values.paymentType.value || 0,
             instrumentName: values.paymentType.label || '',
-            disbursementCenterId: values.disbursmentCenter.value || 0,
-            disbursementCenterName: values.disbursmentCenter.label || '',
+            disbursementCenterId: 0,
+            disbursementCenterName: '',
             // vehicle ddl
             vehicleId:
               values.vehicle?.value === 1 ? '' : values.vehicle?.label || '',
