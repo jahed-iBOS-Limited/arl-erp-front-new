@@ -145,7 +145,7 @@ export default function CHABusinessReport() {
                     </button>
                   </div>
                 </div>
-                <div className="col-lg-12">
+                <div className="col-lg-12 p-0">
                   <div className="table-responsive" ref={printRef}>
                     <div className="text-center mb-3 d-none-print">
                       <h1>Akij Logistics Ltd.</h1>
