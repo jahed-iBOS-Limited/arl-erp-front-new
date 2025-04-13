@@ -17,8 +17,7 @@ import { _formatMoney } from '../../../_helper/_formatMoney';
 const initialValues = {
   fromDate: moment().startOf('month').format('YYYY-MM-DD'),
   toDate: moment().endOf('month').format('YYYY-MM-DD'),
-  shipmentType: null, // New field for Shipment Type
-  concernSalesPerson: '',
+  shipmentType: null,
   modeOfTransport: null,
 };
 const validationSchema = Yup.object().shape({
@@ -27,7 +26,7 @@ const validationSchema = Yup.object().shape({
   shipmentType: Yup.object().nullable().required('Shipment Type is required'),
   modeOfTransport: Yup.object().nullable().required('Booking Type is required'),
 });
-export default function LiftingReport() {
+export default function PLReport() {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
     shallowEqual
@@ -46,12 +45,9 @@ export default function LiftingReport() {
   const commonGetApi = (values) => {
     const startDate = moment(values?.fromDate).format('YYYY-MM-DD');
     const endDate = moment(values?.toDate).format('YYYY-MM-DD');
-    const SalesPerson = values?.concernSalesPerson?.value
-      ? `&SalesPersonId=${values?.concernSalesPerson?.value}`
-      : '';
-    const query = `fromDate=${startDate}&toDate=${endDate}&tradeTypeId=${values?.shipmentType?.value}&modeOfTransPortId=${values?.modeOfTransport?.value}${SalesPerson}`;
+    const query = `fromDate=${startDate}&toDate=${endDate}&tradeTypeId=${values?.shipmentType?.value}&modeOfTransPortId=${values?.modeOfTransport?.value}`;
     getACLedgerforPaymentReport(
-      `${imarineBaseUrl}/domain/ShippingService/GetLiftingReport?${query}`
+      `${imarineBaseUrl}/domain/ShippingService/GetProfitLossReport?${query}`
     );
   };
 
@@ -107,12 +103,11 @@ export default function LiftingReport() {
   const getTransportOptions = (shipmentType) =>
     transportOptions[shipmentType] || [];
 
-  // SL.	SHIPMENT TYPE	Booking No	Shipper	MBL/MAWB	HAWB/HBL	Flight No/Voyage No	GSA	Destination	Sales person	ETD	Buying Rate	Selling Rate	Total CBM	TOTAL CTNs	Total Chargable weight (kgs)	Revenue (BDT)	Expense (BDT)	GP (BDT)
   return (
     <>
       {isLoading && <Loading />}
       <ICustomCard
-        title="Lifting Report"
+        title="P & L Report"
         renderProps={() => {
           return (
             <button
@@ -202,27 +197,7 @@ export default function LiftingReport() {
                       touched={touched}
                     />
                   </div>
-
-                  <div className="col-lg-3">
-                    <label>Concern Sales Person</label>
-                    <SearchAsyncSelect
-                      selectedValue={values?.concernSalesPerson}
-                      isSearchIcon={true}
-                      handleChange={(valueOption) => {
-                        setFieldValue('concernSalesPerson', valueOption);
-                        setACLedgerforPaymentReport([]);
-                      }}
-                      loadOptions={loadEmp}
-                      errors={errors}
-                      touched={touched}
-                    />
-                    <FormikError
-                      errors={errors}
-                      name="concernSalesPerson"
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="pt-4">
+                  <div className="pt-4 text-right col-lg-12">
                     {/* Search */}
                     <button type="submit" className="btn btn-primary mt-2">
                       View
@@ -233,7 +208,7 @@ export default function LiftingReport() {
                   <div className="table-responsive" ref={printRef}>
                     <div className="text-center mb-3 d-none-print">
                       <h2>Akij Logistics Ltd.</h2>
-                      <h6>Lifting Report Report</h6>
+                      <h6>P & L Report</h6>
                       <p className="p-0 m-0">
                         {/* formdate to todate */}
                         {`From ${moment(values?.fromDate).format(
@@ -242,97 +217,69 @@ export default function LiftingReport() {
                       </p>
                       <p className="p-0 m-0">{`Shipment Type: ${values?.shipmentType?.label}`}</p>
                       <p className="p-0 m-0">{`Booking Type: ${values?.modeOfTransport?.label}`}</p>
-                      {values?.concernSalesPerson?.label && (
-                        <p className="p-0 m-0">{`Concern Sales Person: ${values?.concernSalesPerson?.label}`}</p>
-                      )}
                     </div>
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
                           <th>SL</th>
-                          <th>Shipment Type</th>
                           <th>Booking No</th>
-                          <th>Shipper</th>
-                          <th>MBL/MAWB</th>
-                          <th>HAWB/HBL</th>
-                          <th>Flight No/Voyage No</th>
-                          <th>GSA</th>
-                          <th>Destination</th>
-                          <th>Sales person</th>
-                          <th>ETD</th>
-                          <th>Buying Rate</th>
-                          <th>Selling Rate</th>
-                          <th>Total CBM</th>
-                          <th>TOTAL CTNs</th>
-                          <th>Total Chargable weight (kgs)</th>
-                          <th>Revenue (BDT)</th>
-                          <th>Expense (BDT)</th>
-                          <th>GP (BDT)</th>
+                          <th>Consignee</th>
+                          <th>Agent</th>
+                          <th>Shipment Date</th>
+                          <th>HAWB/HBL NO</th>
+                          <th>MAWB/MBL NO</th>
+                          <th>POL</th>
+                          <th>POD</th>
+                          <th>Freight Payable in BDT</th>
+                          <th>DO Cost</th>
+                          <th>DO/HBL Charge</th>
+                          <th>Commission</th>
+                          <th>Freight Receivable in BDT</th>
+                          <th>Gross Revenue</th>
+                          <th>Net Income</th>
                         </tr>
                       </thead>
                       <tbody>
                         {acLedgerforPaymentReport?.length > 0 &&
-                          acLedgerforPaymentReport?.map((item, i) => {
-                            const receivable = +item?.grossRevenue || 0;
-                            const payable = +item?.netConst || 0;
-                            const qty = +item?.totalNumberOfPackages || 0;
-
-                            const buyingRate = payable / qty;
-                            const sellingRate = receivable / qty;
-
-                            const totalGrossWeightKg =
-                              +item?.totalGrossWeightKg || 0;
-                            const totalVolumetricWeight =
-                              +item?.totalVolumetricWeight || 0;
-
-                            const chargableWeight =
-                              totalGrossWeightKg > totalVolumetricWeight
-                                ? totalGrossWeightKg
-                                : totalVolumetricWeight;
-
-                            return (
-                              <tr key={i + 1}>
-                                <td className="text-center">{i + 1}</td>
-                                <td className="">{item?.tradeType}</td>
-                                <td className="">{item?.requestCode}</td>
-                                <td className="">{item?.shipperName}</td>
-                                <td className="">{item?.masterBlCode}</td>
-                                <td className="">{item?.hblnumber}</td>
-                                <td className="">
-                                  {item?.flightNumber?.join(', ')}
-                                </td>
-                                <td className="">{item?.gsa}</td>
-                                <td className="">{item?.destination}</td>
-                                <td className="">{item?.concernSalesPerson}</td>
-                                <td className="text-center">
-                                  {item?.etd &&
-                                    moment(item?.etd).format('YYYY-MM-DD')}
-                                </td>
-                                <td className="text-right">
-                                  {Number(buyingRate.toFixed(2))}
-                                </td>
-                                <td className="text-right">
-                                  {Number(sellingRate.toFixed(2))}
-                                </td>
-                                <td className="text-right">
-                                  {item?.totalVolumeCbm}
-                                </td>
-                                <td className="text-right">
-                                  {item?.totalNumberOfPackages}
-                                </td>
-                                <td className="text-right">
-                                  {chargableWeight}
-                                </td>
-                                <td className="text-right">
-                                  {item?.grossRevenue}
-                                </td>
-                                <td className="text-right">{item?.netConst}</td>
-                                <td className="text-right">
-                                  {item?.grossRevenue - item?.netConst}
-                                </td>
-                              </tr>
-                            );
-                          })}
+                          acLedgerforPaymentReport?.map((item, i) => (
+                            <tr key={i + 1}>
+                              <td className="text-center">{i + 1}</td>
+                              <td>{item?.requestCode || ''}</td>
+                              <td>{item?.consigneesName || ''}</td>
+                              <td>{item?.freightAgentReference || ''}</td>
+                              <td className="text-center">
+                                {item?.shipmentDate &&
+                                  moment(item?.shipmentDate).format(
+                                    'YYYY-MM-DD'
+                                  )}
+                              </td>
+                              <td>{item?.hblnumber || ''}</td>
+                              <td>{item?.mblNo || ''}</td>
+                              <td>{item?.portOfLoading || ''}</td>
+                              <td>{item?.portOfDelivery || ''}</td>
+                              <td className="text-right">
+                                {item?.frieghtPayableBDT || ''}
+                              </td>
+                              <td className="text-right">
+                                {item?.doCost || ''}
+                              </td>
+                              <td className="text-right">
+                                {item?.dohblCharge || ''}
+                              </td>
+                              <td className="text-right">
+                                {item?.commission || ''}
+                              </td>
+                              <td className="text-right">
+                                {item?.frieghtRecivableBDT || ''}
+                              </td>
+                              <td className="text-right">
+                                {item?.grossRevenue || ''}
+                              </td>
+                              <td className="text-right">
+                                {item?.grossRevenue - item?.netCost}
+                              </td>
+                            </tr>
+                          ))}
                       </tbody>
                     </table>
                   </div>
