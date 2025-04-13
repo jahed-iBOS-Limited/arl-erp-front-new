@@ -5,6 +5,7 @@ import ExpenseReport from './expenseReport';
 import MasterBLLanding from './masterBl/landing';
 import ProfitAndLoss from './profitAndLoss';
 import CHAReport from './cha-report';
+import CHABusinessReport from './cha-business-report';
 
 export function ReportPages() {
   return (
@@ -29,6 +30,10 @@ export function ReportPages() {
       <ContentRoute
         path="/cargoManagement/report/cha-report"
         component={CHAReport}
+      />
+      <ContentRoute
+        path="/cargoManagement/report/chabusiness-report"
+        component={CHABusinessReport}
       />
     </Switch>
   );
