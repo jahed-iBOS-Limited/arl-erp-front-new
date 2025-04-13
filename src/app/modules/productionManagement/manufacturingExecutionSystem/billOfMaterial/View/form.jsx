@@ -15,6 +15,8 @@ import {
   bomEditValidation,
 } from '../../../../_helper/_validationSchema';
 import { getShopFloorDDL } from '../../../../_helper/_commonApi';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
+import Loading from '../../../../_helper/_loading';
 
 export default function FormCmp({
   initData,
@@ -56,6 +58,8 @@ export default function FormCmp({
   bomTypeDDL,
 }) {
   const [valid, setValid] = useState(true);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
   //to get materialDDL in Edit
   useEffect(() => {
     if (plantId) {
@@ -85,10 +89,17 @@ export default function FormCmp({
         validationSchema={isEdit ? bomEditValidation : bomCreateValiadtion}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setValid(false);
-          saveHandler(values, () => {
-            resetForm(initData);
-            setRowDto([]);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+                setRowDto([]);
+              });
+            },
           });
+
           setValid(true);
         }}
       >
@@ -105,6 +116,7 @@ export default function FormCmp({
           handleChange,
         }) => (
           <>
+            {isLoading && <Loading />}
             <Form className="form form-label-right">
               <div className="row mt-2">
                 <div className="col-lg-4 mb-2">

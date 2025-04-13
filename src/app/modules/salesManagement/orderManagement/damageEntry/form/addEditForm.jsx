@@ -133,7 +133,7 @@ function DamageEntryForm() {
         // }),
         //! filter if not returnQty
         row: header?.rowData
-          ?.filter((row) => row?.returnQty)
+          ?.filter((row) => row?.returnQty || row?.returnQty === 0)
           .map((row) => {
             return {
               referenceId: 0,
