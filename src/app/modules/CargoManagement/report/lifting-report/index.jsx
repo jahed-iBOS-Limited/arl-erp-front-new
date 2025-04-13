@@ -9,27 +9,29 @@ import Loading from '../../../_helper/_loading';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import NewSelect from '../../../_helper/_select';
 import { useReactToPrint } from 'react-to-print';
+import axios from 'axios';
+import { shallowEqual, useSelector } from 'react-redux';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../_helper/_formikError';
+import { _formatMoney } from '../../../_helper/_formatMoney';
 const initialValues = {
   fromDate: moment().startOf('month').format('YYYY-MM-DD'),
   toDate: moment().endOf('month').format('YYYY-MM-DD'),
-  chaType: {
-    value: 1,
-    label: 'Export',
-  },
-  transportMode: null, // New field for Transport Mode
   shipmentType: null, // New field for Shipment Type
+  concernSalesPerson: '',
+  modeOfTransport: null,
 };
 const validationSchema = Yup.object().shape({
   fromDate: Yup.date().required('From Date is required'),
   toDate: Yup.date().required('To Date is required'),
-  chaType: Yup.object().shape({
-    value: Yup.string().required('CHA Type is required'),
-    label: Yup.string().required('CHA Type is required'),
-  }),
-  transportMode: Yup.object().nullable().required('Transport Mode is required'),
   shipmentType: Yup.object().nullable().required('Shipment Type is required'),
+  modeOfTransport: Yup.object().nullable().required('Booking Type is required'),
 });
 export default function LiftingReport() {
+  const { profileData } = useSelector(
+    (state) => state?.authData || {},
+    shallowEqual
+  );
   const [acLedgerforPaymentReport, getACLedgerforPaymentReport, isLoading] =
     useAxiosGet();
 
@@ -40,9 +42,12 @@ export default function LiftingReport() {
   const commonGetApi = (values) => {
     const startDate = moment(values?.fromDate).format('YYYY-MM-DD');
     const endDate = moment(values?.toDate).format('YYYY-MM-DD');
-    const query = `fromDate=${startDate}&toDate=${endDate}`;
+    const SalesPerson = values?.concernSalesPerson?.value
+      ? `&SalesPersonId=${values?.concernSalesPerson?.value}`
+      : '';
+    const query = `fromDate=${startDate}&toDate=${endDate}&tradeTypeId=${values?.shipmentType?.value}&modeOfTransPortId=${values?.modeOfTransport?.value}${SalesPerson}`;
     getACLedgerforPaymentReport(
-      `${imarineBaseUrl}/domain/CHAShipment/GetChaBusinessReport?tradeTypeId=${values?.chaType?.value}&${query}`
+      `${imarineBaseUrl}/domain/ShippingService/GetLiftingReport?${query}`
     );
   };
 
@@ -67,6 +72,38 @@ export default function LiftingReport() {
               }
             }`,
   });
+
+  const loadEmp = (v) => {
+    if (v?.length < 2) return [];
+    return axios
+      .get(
+        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${
+          profileData?.accountId
+        }&BusinessUnitId=${225}&Search=${v}`
+      )
+      .then((res) => {
+        return res?.data;
+      });
+  };
+
+  const transportOptions = {
+    1: [
+      { value: 1, label: 'Air' },
+      { value: 2, label: 'Sea' },
+      { value: 3, label: 'Sea-Air' },
+    ],
+    2: [
+      { value: 1, label: 'Air' },
+      { value: 2, label: 'Sea' },
+      { value: 4, label: 'Land' },
+    ],
+    3: [{ value: 6, label: 'Air Import' }],
+  };
+
+  const getTransportOptions = (shipmentType) =>
+    transportOptions[shipmentType] || [];
+
+  // SL.	SHIPMENT TYPE	Booking No	Shipper	MBL/MAWB	HAWB/HBL	Flight No/Voyage No	GSA	Destination	Sales person	ETD	Buying Rate	Selling Rate	Total CBM	TOTAL CTNs	Total Chargable weight (kgs)	Revenue (BDT)	Expense (BDT)	GP (BDT)
   return (
     <>
       {isLoading && <Loading />}
@@ -125,36 +162,55 @@ export default function LiftingReport() {
                       options={[
                         { value: 1, label: 'Export' },
                         { value: 2, label: 'Import' },
+                        {
+                          value: 3,
+                          label: 'Air Ops',
+                        },
                       ]}
                       value={values?.shipmentType}
                       label="Shipment Type"
-                      onChange={(valueOption) =>
-                        setFieldValue('shipmentType', valueOption)
-                      }
+                      onChange={(valueOption) => {
+                        setFieldValue('shipmentType', valueOption);
+                        setFieldValue('modeOfTransport', '');
+                      }}
                       placeholder="Select Shipment Type"
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div className="col-sm-3">
+                  <div className="col-lg-3">
                     <NewSelect
-                      name="transportMode"
-                      options={[
-                        { value: 'Air', label: 'Air' },
-                        { value: 'Sea', label: 'Sea' },
-                        { value: 'Land', label: 'Land' },
-                      ]}
-                      value={values?.transportMode}
-                      label="Transport Mode"
-                      onChange={(valueOption) =>
-                        setFieldValue('transportMode', valueOption)
-                      }
-                      placeholder="Select Transport Mode"
+                      name="modeOfTransport"
+                      options={getTransportOptions(values?.shipmentType?.value)}
+                      value={values?.modeOfTransport || ''}
+                      label="Booking Type"
+                      onChange={(valueOption) => {
+                        setFieldValue('modeOfTransport', valueOption);
+                      }}
+                      placeholder="Booking Type"
                       errors={errors}
                       touched={touched}
                     />
                   </div>
 
+                  <div className="col-lg-3">
+                    <label>Concern Sales Person</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.concernSalesPerson}
+                      isSearchIcon={true}
+                      handleChange={(valueOption) => {
+                        setFieldValue('concernSalesPerson', valueOption);
+                      }}
+                      loadOptions={loadEmp}
+                      errors={errors}
+                      touched={touched}
+                    />
+                    <FormikError
+                      errors={errors}
+                      name="concernSalesPerson"
+                      touched={touched}
+                    />
+                  </div>
                   <div className="pt-4">
                     {/* Search */}
                     <button type="submit" className="btn btn-primary mt-2">
@@ -166,7 +222,7 @@ export default function LiftingReport() {
                   <div className="table-responsive" ref={printRef}>
                     <div className="text-center mb-3 d-none-print">
                       <h1>Akij Logistics Ltd.</h1>
-                      <h6>CHA Business Report</h6>
+                      <h6>Lifting Report Report</h6>
                       <p>
                         <b>
                           {values?.chaType?.label
@@ -179,78 +235,102 @@ export default function LiftingReport() {
                       <thead>
                         <tr>
                           <th>SL</th>
-                          <th>Job No.</th>
-                          <th>HBL/HAWB</th>
-                          <th>Transport Mode</th>
-                          <th>Customer</th>
+                          <th>Shipment Type</th>
+                          <th>Booking No</th>
                           <th>Shipper</th>
-                          <th>Consignee</th>
-                          <th>FFW</th>
-                          <th>FCL/LCL</th>
-                          <th>Port of Delivery</th>
-                          <th>CS/Sales PIC</th>
-                          <th>Commodity</th>
-                          <th>Copy Doc RCV</th>
-                          <th>Invoice Value</th>
-                          <th>Com. Invoice No</th>
-                          <th>Invoice Date</th>
-                          <th>LC Date</th>
-                          <th>LC No</th>
-                          <th>Quantity</th>
-                          <th>Bill of /E</th>
-                          <th>Bill of /E Date</th>
-                          <th>Gross Weight</th>
-                          <th>CBM</th>
+                          <th>MBL/MAWB</th>
+                          <th>HAWB/HBL</th>
+                          <th>Flight No/Voyage No</th>
+                          <th>GSA</th>
+                          <th>Destination</th>
+                          <th>Sales person</th>
+                          <th>ETD</th>
+                          <th>Buying Rate</th>
+                          <th>Selling Rate</th>
+                          <th>Total CBM</th>
+                          <th>TOTAL CTNs</th>
+                          <th>Total Chargable weight (kgs)</th>
+                          <th>Revenue (BDT)</th>
+                          <th>Expense (BDT)</th>
+                          <th>GP (BDT)</th>
                         </tr>
                       </thead>
                       <tbody>
                         {acLedgerforPaymentReport?.length > 0 &&
                           acLedgerforPaymentReport?.map((item, i) => {
+                            const receivable = +item?.grossRevenue || 0;
+                            const payable = +item?.netConst || 0;
+                            const qty = +item?.totalNumberOfPackages || 0;
+
+                            const buyingRate = payable / qty;
+                            const sellingRate = receivable / qty;
+
+                            const totalGrossWeightKg =
+                              +item?.totalGrossWeightKg || 0;
+                            const totalVolumetricWeight =
+                              +item?.totalVolumetricWeight || 0;
+
+                            const chargableWeight =
+                              totalGrossWeightKg > totalVolumetricWeight
+                                ? totalGrossWeightKg
+                                : totalVolumetricWeight;
+
                             return (
                               <tr key={i + 1}>
                                 <td className="text-center">{i + 1}</td>
-                                <td className="">{item?.jobNo}</td>
-                                <td className="">{item?.hblno}</td>
-                                <td className="">{item?.modeOfTransport}</td>
-                                <td className="">{item?.customer}</td>
-                                <td className="">{item?.shipper}</td>
-                                <td className="">{item?.consignee}</td>
-                                <td className="">{item?.ffw}</td>
-                                <td className="">{item?.fclLcl}</td>
-                                <td className="">{item?.portOfDelivery}</td>
-                                <td className="">{item?.cssalesPic}</td>
-                                <td className="">{item?.commodity}</td>
-                                <td className="">
-                                  {item?.copyDocRcv &&
-                                    moment(item?.copyDocRcv).format(
-                                      'YYYY-MM-DD'
-                                    )}
-                                </td>
-                                <td className="">{item?.invoiceValue}</td>
-                                <td className="">{item?.comInvoiceNo}</td>
                                 <td className="text-center">
-                                  {moment(item?.invoiceDate).format(
-                                    'YYYY-MM-DD'
-                                  )}
+                                  {item?.shipmentType}
                                 </td>
                                 <td className="text-center">
-                                  {item?.lcDate
-                                    ? moment(item?.lcDate).format('YYYY-MM-DD')
-                                    : ''}
+                                  {item?.requestCode}
                                 </td>
-                                <td className="">{item?.lcNo}</td>
-                                <td className="text-right">{item?.quantity}</td>
-                                <td className="">{item?.billOfEntry}</td>
                                 <td className="text-center">
-                                  {item?.billOfEntryDate &&
-                                    moment(item?.billOfEntryDate).format(
-                                      'YYYY-MM-DD'
-                                    )}
+                                  {item?.shipperName}
                                 </td>
-                                <td className="text-right">
-                                  {item?.grossWeight}
+                                <td className="text-center">
+                                  {item?.masterBlCode}
                                 </td>
-                                <td className="text-right">{item?.cbm}</td>
+                                <td className="text-center">
+                                  {item?.hblnumber}
+                                </td>
+                                <td className="text-center">
+                                  {item?.flightNumber?.join(', ')}
+                                </td>
+                                <td className="text-center">{item?.gsa}</td>
+                                <td className="text-center">
+                                  {item?.destination}
+                                </td>
+                                <td className="text-center">
+                                  {item?.concernSalesPerson}
+                                </td>
+                                <td className="text-center">
+                                  {item?.etd &&
+                                    moment(item?.etd).format('YYYY-MM-DD')}
+                                </td>
+                                <td className="text-center">
+                                  {Number(buyingRate.toFixed(2))}
+                                </td>
+                                <td className="text-center">
+                                  {Number(sellingRate.toFixed(2))}
+                                </td>
+                                <td className="text-center">
+                                  {item?.totalVolumeCbm}
+                                </td>
+                                <td className="text-center">
+                                  {item?.totalNumberOfPackages}
+                                </td>
+                                <td className="text-center">
+                                  {chargableWeight}
+                                </td>
+                                <td className="text-center">
+                                  {item?.grossRevenue}
+                                </td>
+                                <td className="text-center">
+                                  {item?.netConst}
+                                </td>
+                                <td className="text-center">
+                                  {item?.grossRevenue - item?.netConst}
+                                </td>
                               </tr>
                             );
                           })}
