@@ -145,91 +145,106 @@ export default function CHABusinessReport() {
                     </button>
                   </div>
                 </div>
+                <div className="col-lg-12">
+                  <div className="table-responsive" ref={printRef}>
+                    <div className="text-center mb-3 d-none-print">
+                      <h1>Akij Logistics Ltd.</h1>
+                      <h6>CHA Business Report</h6>
+                      <p>
+                        <b>
+                          {values?.chaType?.label
+                            ? `CHA Type: ${values?.chaType?.label}`
+                            : ''}
+                        </b>
+                      </p>
+                    </div>
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Job No.</th>
+                          <th>HBL/HAWB</th>
+                          <th>Transport Mode</th>
+                          <th>Customer</th>
+                          <th>Shipper</th>
+                          <th>Consignee</th>
+                          <th>FFW</th>
+                          <th>FCL/LCL</th>
+                          <th>Port of Delivery</th>
+                          <th>CS/Sales PIC</th>
+                          <th>Commodity</th>
+                          <th>Copy Doc RCV</th>
+                          <th>Invoice Value</th>
+                          <th>Com. Invoice No</th>
+                          <th>Invoice Date</th>
+                          <th>LC Date</th>
+                          <th>LC No</th>
+                          <th>Quantity</th>
+                          <th>Bill of /E</th>
+                          <th>Bill of /E Date</th>
+                          <th>Gross Weight</th>
+                          <th>CBM</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {acLedgerforPaymentReport?.length > 0 &&
+                          acLedgerforPaymentReport?.map((item, i) => {
+                            return (
+                              <tr key={i + 1}>
+                                <td className="text-center">{i + 1}</td>
+                                <td className="">{item?.jobNo}</td>
+                                <td className="">{item?.hblno}</td>
+                                <td className="">{item?.modeOfTransport}</td>
+                                <td className="">{item?.customer}</td>
+                                <td className="">{item?.shipper}</td>
+                                <td className="">{item?.consignee}</td>
+                                <td className="">{item?.ffw}</td>
+                                <td className="">{item?.fclLcl}</td>
+                                <td className="">{item?.portOfDelivery}</td>
+                                <td className="">{item?.cssalesPic}</td>
+                                <td className="">{item?.commodity}</td>
+                                <td className="">
+                                  {item?.copyDocRcv &&
+                                    moment(item?.copyDocRcv).format(
+                                      'YYYY-MM-DD'
+                                    )}
+                                </td>
+                                <td className="">{item?.invoiceValue}</td>
+                                <td className="">{item?.comInvoiceNo}</td>
+                                <td className="text-center">
+                                  {moment(item?.invoiceDate).format(
+                                    'YYYY-MM-DD'
+                                  )}
+                                </td>
+                                <td className="text-center">
+                                  {item?.lcDate
+                                    ? moment(item?.lcDate).format('YYYY-MM-DD')
+                                    : ''}
+                                </td>
+                                <td className="">{item?.lcNo}</td>
+                                <td className="text-right">{item?.quantity}</td>
+                                <td className="">{item?.billOfEntry}</td>
+                                <td className="text-center">
+                                  {item?.billOfEntryDate &&
+                                    moment(item?.billOfEntryDate).format(
+                                      'YYYY-MM-DD'
+                                    )}
+                                </td>
+                                <td className="text-right">
+                                  {item?.grossWeight}
+                                </td>
+                                <td className="text-right">{item?.cbm}</td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </Form>
             </>
           )}
         </Formik>
-        <div className="col-lg-12">
-          <div className="table-responsive" ref={printRef}>
-            <div className="text-center mb-3 d-none-print">
-              <h1>Akij Logistics Ltd.</h1>
-              <h6>CHA Business Report</h6>
-            </div>
-            <table className="table table-striped table-bordered global-table">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Job No.</th>
-                  <th>HBL/HAWB</th>
-                  <th>Transport Mode</th>
-                  <th>Customer</th>
-                  <th>Shipper</th>
-                  <th>Consignee</th>
-                  <th>FFW</th>
-                  <th>FCL/LCL</th>
-                  <th>Port of Delivery</th>
-                  <th>CS/Sales PIC</th>
-                  <th>Commodity</th>
-                  <th>Copy Doc RCV</th>
-                  <th>Invoice Value</th>
-                  <th>Com. Invoice No</th>
-                  <th>Invoice Date</th>
-                  <th>LC Date</th>
-                  <th>LC No</th>
-                  <th>Quantity</th>
-                  <th>Bill of /E</th>
-                  <th>Bill of /E Date</th>
-                  <th>Gross Weight</th>
-                  <th>CBM</th>
-                </tr>
-              </thead>
-              <tbody>
-                {acLedgerforPaymentReport?.length > 0 &&
-                  acLedgerforPaymentReport?.map((item, i) => {
-                    return (
-                      <tr key={i + 1}>
-                        <td className="text-center">{i + 1}</td>
-                        <td className="">{item?.jobNo}</td>
-                        <td className="">{item?.hblno}</td>
-                        <td className="">{item?.modeOfTransport}</td>
-                        <td className="">{item?.customer}</td>
-                        <td className="">{item?.shipper}</td>
-                        <td className="">{item?.consignee}</td>
-                        <td className="">{item?.ffw}</td>
-                        <td className="">{item?.fclLcl}</td>
-                        <td className="">{item?.portOfDelivery}</td>
-                        <td className="">{item?.cssalesPic}</td>
-                        <td className="">{item?.commodity}</td>
-                        <td className="">
-                          {item?.copyDocRcv &&
-                            moment(item?.copyDocRcv).format('YYYY-MM-DD')}
-                        </td>
-                        <td className="">{item?.invoiceValue}</td>
-                        <td className="">{item?.comInvoiceNo}</td>
-                        <td className="text-center">
-                          {moment(item?.invoiceDate).format('YYYY-MM-DD')}
-                        </td>
-                        <td className="text-center">
-                          {item?.lcDate
-                            ? moment(item?.lcDate).format('YYYY-MM-DD')
-                            : ''}
-                        </td>
-                        <td className="">{item?.lcNo}</td>
-                        <td className="text-right">{item?.quantity}</td>
-                        <td className="">{item?.billOfEntry}</td>
-                        <td className="text-center">
-                          {item?.billOfEntryDate &&
-                            moment(item?.billOfEntryDate).format('YYYY-MM-DD')}
-                        </td>
-                        <td className="text-right">{item?.grossWeight}</td>
-                        <td className="text-right">{item?.cbm}</td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
-          </div>
-        </div>
       </ICustomCard>
     </>
   );
