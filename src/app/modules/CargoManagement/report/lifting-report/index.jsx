@@ -32,8 +32,12 @@ export default function LiftingReport() {
     (state) => state?.authData || {},
     shallowEqual
   );
-  const [acLedgerforPaymentReport, getACLedgerforPaymentReport, isLoading] =
-    useAxiosGet();
+  const [
+    acLedgerforPaymentReport,
+    getACLedgerforPaymentReport,
+    isLoading,
+    setACLedgerforPaymentReport,
+  ] = useAxiosGet();
 
   const saveHandler = (values) => {
     commonGetApi(values);
@@ -142,9 +146,10 @@ export default function LiftingReport() {
                       label={'From Date'}
                       name="fromDate"
                       type="date"
-                      onChange={(e) =>
-                        setFieldValue('fromDate', e.target.value)
-                      }
+                      onChange={(e) => {
+                        setFieldValue('fromDate', e.target.value);
+                        setACLedgerforPaymentReport([]);
+                      }}
                     />
                   </div>
                   <div className="col-sm-3 ">
@@ -153,7 +158,10 @@ export default function LiftingReport() {
                       label={'To Date'}
                       name="toDate"
                       type="date"
-                      onChange={(e) => setFieldValue('toDate', e.target.value)}
+                      onChange={(e) => {
+                        setACLedgerforPaymentReport([]);
+                        setFieldValue('toDate', e.target.value);
+                      }}
                     />
                   </div>
                   <div className="col-sm-3">
@@ -172,6 +180,7 @@ export default function LiftingReport() {
                       onChange={(valueOption) => {
                         setFieldValue('shipmentType', valueOption);
                         setFieldValue('modeOfTransport', '');
+                        setACLedgerforPaymentReport([]);
                       }}
                       placeholder="Select Shipment Type"
                       errors={errors}
@@ -186,6 +195,7 @@ export default function LiftingReport() {
                       label="Booking Type"
                       onChange={(valueOption) => {
                         setFieldValue('modeOfTransport', valueOption);
+                        setACLedgerforPaymentReport([]);
                       }}
                       placeholder="Booking Type"
                       errors={errors}
@@ -200,6 +210,7 @@ export default function LiftingReport() {
                       isSearchIcon={true}
                       handleChange={(valueOption) => {
                         setFieldValue('concernSalesPerson', valueOption);
+                        setACLedgerforPaymentReport([]);
                       }}
                       loadOptions={loadEmp}
                       errors={errors}
@@ -221,15 +232,16 @@ export default function LiftingReport() {
                 <div className="col-lg-12">
                   <div className="table-responsive" ref={printRef}>
                     <div className="text-center mb-3 d-none-print">
-                      <h1>Akij Logistics Ltd.</h1>
+                      <h2>Akij Logistics Ltd.</h2>
                       <h6>Lifting Report Report</h6>
-                      <p>
-                        <b>
-                          {values?.chaType?.label
-                            ? `CHA Type: ${values?.chaType?.label}`
-                            : ''}
-                        </b>
+                      <p className="p-0 m-0">
+                        {/* formdate to todate */}
+                        {`From ${moment(values?.fromDate).format(
+                          'YYYY-MM-DD'
+                        )} to ${moment(values?.toDate).format('YYYY-MM-DD')}`}
                       </p>
+                      <p className="p-0 m-0">{`Shipment Type: ${values?.shipmentType?.label}`}</p>
+                      <p className="p-0 m-0">{`Booking Type: ${values?.modeOfTransport?.label}`}</p>
                     </div>
                     <table className="table table-striped table-bordered global-table">
                       <thead>
@@ -278,57 +290,41 @@ export default function LiftingReport() {
                             return (
                               <tr key={i + 1}>
                                 <td className="text-center">{i + 1}</td>
-                                <td className="text-center">
-                                  {item?.shipmentType}
-                                </td>
-                                <td className="text-center">
-                                  {item?.requestCode}
-                                </td>
-                                <td className="text-center">
-                                  {item?.shipperName}
-                                </td>
-                                <td className="text-center">
-                                  {item?.masterBlCode}
-                                </td>
-                                <td className="text-center">
-                                  {item?.hblnumber}
-                                </td>
-                                <td className="text-center">
+                                <td className="">{item?.tradeType}</td>
+                                <td className="">{item?.requestCode}</td>
+                                <td className="">{item?.shipperName}</td>
+                                <td className="">{item?.masterBlCode}</td>
+                                <td className="">{item?.hblnumber}</td>
+                                <td className="">
                                   {item?.flightNumber?.join(', ')}
                                 </td>
-                                <td className="text-center">{item?.gsa}</td>
-                                <td className="text-center">
-                                  {item?.destination}
-                                </td>
-                                <td className="text-center">
-                                  {item?.concernSalesPerson}
-                                </td>
+                                <td className="">{item?.gsa}</td>
+                                <td className="">{item?.destination}</td>
+                                <td className="">{item?.concernSalesPerson}</td>
                                 <td className="text-center">
                                   {item?.etd &&
                                     moment(item?.etd).format('YYYY-MM-DD')}
                                 </td>
-                                <td className="text-center">
+                                <td className="text-right">
                                   {Number(buyingRate.toFixed(2))}
                                 </td>
-                                <td className="text-center">
+                                <td className="text-right">
                                   {Number(sellingRate.toFixed(2))}
                                 </td>
-                                <td className="text-center">
+                                <td className="text-right">
                                   {item?.totalVolumeCbm}
                                 </td>
-                                <td className="text-center">
+                                <td className="text-right">
                                   {item?.totalNumberOfPackages}
                                 </td>
-                                <td className="text-center">
+                                <td className="text-right">
                                   {chargableWeight}
                                 </td>
-                                <td className="text-center">
+                                <td className="text-right">
                                   {item?.grossRevenue}
                                 </td>
-                                <td className="text-center">
-                                  {item?.netConst}
-                                </td>
-                                <td className="text-center">
+                                <td className="text-right">{item?.netConst}</td>
+                                <td className="text-right">
                                   {item?.grossRevenue - item?.netConst}
                                 </td>
                               </tr>
