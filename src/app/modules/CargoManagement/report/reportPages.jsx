@@ -7,6 +7,7 @@ import ProfitAndLoss from './profitAndLoss';
 import CHAReport from './cha-report';
 import CHABusinessReport from './cha-business-report';
 import LiftingReport from './lifting-report';
+import PIReport from './pl-report';
 
 export function ReportPages() {
   return (
@@ -39,6 +40,10 @@ export function ReportPages() {
       <ContentRoute
         path="/cargoManagement/report/chabusiness-report"
         component={CHABusinessReport}
+      />
+      <ContentRoute
+        path="/cargoManagement/report/pl-report"
+        component={PIReport}
       />
     </Switch>
   );
