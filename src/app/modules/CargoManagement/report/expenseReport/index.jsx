@@ -81,7 +81,7 @@ export default function ExpenseReport() {
             </>
           )}
         </Formik>
-        <div className="col-lg-12">
+        <div className="col-lg-12 p-0">
           <div className="table-responsive">
             <table className="table table-striped table-bordered global-table">
               <thead>
