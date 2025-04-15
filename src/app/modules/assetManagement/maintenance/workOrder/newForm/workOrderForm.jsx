@@ -67,13 +67,6 @@ export default function WorkOrderForm({
         return values.picked === 'Preventive' ? true : false;
       };
 
-      let businessUnitId;
-      if (actionFor === 'serviceRequest') {
-        businessUnitId = selectedBusinessUnit?.value; // Use selectedBusinessUnit for serviceRequest
-      } else {
-        businessUnitId = 4; // Hardcoded 4 for assetOrder
-      }
-
       const payload = {
         assetId: values?.assetNo?.value,
         assetCode: values?.assetNo?.code,
@@ -83,7 +76,7 @@ export default function WorkOrderForm({
         accountId: profileData?.accountId,
         sbuId: sbuName?.value,
         plantId: plantName?.value,
-        businessUnitId: businessUnitId, // Dynamically assign the value
+        businessUnitId: selectedBusinessUnit?.value,
         itemServiceId: values?.service?.value,
         itemServiceName: values?.service?.label,
         warehouseId: warehouseName?.value,
