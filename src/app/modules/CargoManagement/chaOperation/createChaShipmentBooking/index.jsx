@@ -400,7 +400,18 @@ function CreateChaShipmentBooking() {
       );
     }
   }, [id]);
-
+  const loadEmp = (v) => {
+    if (v?.length < 2) return [];
+    return axios
+      .get(
+        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${
+          profileData?.accountId
+        }&BusinessUnitId=${225}&Search=${v}`
+      )
+      .then((res) => {
+        return res?.data;
+      });
+  };
   return (
     <ICustomCard
       title={id ? 'Edit CHA Shipment Booking' : 'Create CHA Shipment Booking'}
@@ -815,20 +826,21 @@ function CreateChaShipmentBooking() {
                       handleChange={(valueOption) => {
                         setFieldValue('csSalesPic', valueOption);
                       }}
-                      loadOptions={(v) => {
-                        if (v?.length < 3) return [];
-                        return axios
-                          .get(
-                            `/domain/CreateUser/GetUserListSearchDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`
-                          )
-                          .then((res) => {
-                            const updateList = res?.data.map((item) => ({
-                              ...item,
-                              label: item?.label + ` [${item?.value}]`,
-                            }));
-                            return updateList;
-                          });
-                      }}
+                      // loadOptions={(v) => {
+                      //   if (v?.length < 3) return [];
+                      //   return axios
+                      //     .get(
+                      //       `/domain/CreateUser/GetUserListSearchDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`
+                      //     )
+                      //     .then((res) => {
+                      //       const updateList = res?.data.map((item) => ({
+                      //         ...item,
+                      //         label: item?.label + ` [${item?.value}]`,
+                      //       }));
+                      //       return updateList;
+                      //     });
+                      // }}
+                      loadOptions={loadEmp}
                       placeholder="Select CS/Sales PIC"
                       errors={errors}
                       touched={touched}
