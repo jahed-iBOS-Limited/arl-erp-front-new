@@ -1213,7 +1213,7 @@ const ReconciliationJournal = () => {
                               Total
                             </td>
                             <td className="text-right">
-                              {totalIncentiveProvisionQty || 0}
+                              {_formatMoney(totalIncentiveProvisionQty, 4) || 0}
                             </td>
                           </tr>
                         </table>
