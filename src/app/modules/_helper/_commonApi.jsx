@@ -2168,6 +2168,39 @@ export const getPartnerBook = async (
     setter([]);
   }
 };
+
+
+export const getPartnerBookBankBranch = async (
+  businessUnitId,
+  partnerId,
+  partnerType,
+  fromDate,
+  toDate,
+  setLoading,
+  setter,
+  glId,
+  profitCenter
+) => {
+  try {
+    setLoading(true);
+
+    const profitCenterQuery = profitCenter
+      ? `&ProfitCenterId=${profitCenter?.value}`
+      : "";
+
+    let query = `/fino/BankBranch/GetPartnerBook?BusinessUnitId=${businessUnitId}&PartnerId=${partnerId}&PartnerType=${partnerType}&FromDate=${fromDate}&ToDate=${toDate}${profitCenterQuery}`;
+    if (glId) {
+      query += `&GeneralId=${glId}`;
+    }
+    const res = await axios.get(query);
+    setLoading(false);
+    setter(res?.data);
+  } catch (error) {
+    setLoading(false);
+    setter([]);
+  }
+};
+
 export const partnerGeneralLedgerList = async (
   businessUnitId,
   partnerTypeId,
