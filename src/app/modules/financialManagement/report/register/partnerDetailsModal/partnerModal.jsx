@@ -22,7 +22,7 @@ import { contractualExcelColumn, contractualExcelData } from './excelStyle';
 // import NewSelect from "../../../_helper/_select";
 import html2pdf from 'html2pdf.js';
 import {
-  getPartnerBook,
+  getPartnerBookBankBranch,
   partnerGeneralLedgerList,
 } from '../../../../_helper/_commonApi';
 
@@ -46,7 +46,7 @@ const PartnerModal = ({
 
   useEffect(() => {
     if (tableItem && landingValues) {
-      getPartnerBook(
+      getPartnerBookBankBranch(
         selectedBusinessUnit?.value,
         tableItem?.intPartnerId,
         partnerTypeId,
@@ -164,7 +164,7 @@ const PartnerModal = ({
                       <ButtonStyleOne
                         label="View"
                         onClick={() => {
-                          getPartnerBook(
+                          getPartnerBookBankBranch(
                             selectedBusinessUnit?.value,
                             tableItem?.intPartnerId,
                             partnerTypeId,

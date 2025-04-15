@@ -25,7 +25,7 @@ import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
 // import NewSelect from "../../../_helper/_select";
 import html2pdf from 'html2pdf.js';
 import {
-  getPartnerBook,
+  getPartnerBookBankBranch,
   partnerGeneralLedgerList,
 } from '../../../../_helper/_commonApi';
 
@@ -46,7 +46,7 @@ const SupplierModal = ({ gridItem, partnerTypeId, partnerTypeName }) => {
 
   useEffect(() => {
     if (gridItem) {
-      getPartnerBook(
+      getPartnerBookBankBranch(
         selectedBusinessUnit?.value,
         gridItem?.partnerId,
         partnerTypeId,
@@ -153,7 +153,7 @@ const SupplierModal = ({ gridItem, partnerTypeId, partnerTypeName }) => {
                       <ButtonStyleOne
                         label="View"
                         onClick={() => {
-                          getPartnerBook(
+                          getPartnerBookBankBranch(
                             selectedBusinessUnit?.value,
                             gridItem?.partnerId,
                             partnerTypeId,
