@@ -485,174 +485,181 @@ export default function CateringBill() {
                                     <IView styles={{ fontSize: '16px' }} />
                                   </span>
                                 )}
-                                {item?.purchaseOrderNo && (
-                                  <span
-                                    className=""
-                                    onClick={() => {
-                                      if (!item?.attatchmentId) {
-                                        return toast.warn(
-                                          'Please attach a file first'
-                                        );
-                                      }
-                                      getSingleData(
-                                        `/procurement/PurchaseOrder/GetPurchaseOrderInformationByPOtoPrint_Id?PurchaseOrderId=${item?.purchaseOrderId}&OrderTypeId=5`,
-                                        (data) => {
-                                          console.log(data, 'data');
-                                          const payload = {
-                                            images: [
-                                              {
-                                                imageId:
-                                                  item?.attatchmentId || '',
-                                              },
-                                            ],
-                                            objHeader: {
-                                              serviceCode: '',
-                                              transactionDate: _todayDate(),
-                                              referenceId:
-                                                data[0]?.objHeaderDTO
-                                                  ?.purchaseOrderId || 0,
-                                              referenceCode:
-                                                data[0]?.objHeaderDTO
-                                                  ?.purchaseOrderNo || '',
-                                              accountId: profileData?.accountId,
-                                              accountName:
-                                                profileData?.accountName,
-                                              businessUnitId:
-                                                data[0]?.objHeaderDTO
-                                                  ?.businessUnitId || 0,
-                                              businessUnitName:
-                                                item?.controllingUnitName || '',
-                                              sbuid: item?.sbuid || 0,
-                                              sbuname:
-                                                item?.controllingUnitName || '',
-                                              plantId: item?.plantId || 0,
-                                              plantName: item?.plantName || '',
-                                              warehouseId:
-                                                data[0]?.objHeaderDTO
-                                                  ?.warehouseId || 0,
-                                              warehouseName:
-                                                data[0]?.objHeaderDTO
-                                                  ?.warehouseName || '',
-                                              businessPartnerId:
-                                                item?.supplierId || 0,
-                                              businessPartnerName:
-                                                item?.supplierName || '',
-                                              strComments: 'Auto SRR',
-                                              intActionBy: profileData?.userId,
-                                              // strDocumentId: item?.attatchmentId || "",
-                                              costCenterId:
-                                                item?.costCenterId || 0,
-                                              costCenterCode: '',
-                                              costCenterName:
-                                                item?.costCenterName || '',
-                                              projectId: 0,
-                                              projectCode: '',
-                                              projectName: '',
-                                              receivedById: 0,
-                                              receivedBy: '',
-                                              gateEntryNo: '',
-                                              challan: '123',
-                                              challanDateTime: _todayDate(),
-                                              vatChallan: '',
-                                              vatAmount: 0,
-                                              grossDiscount: 0,
-                                              freight: 0,
-                                              commission: 0,
-                                              shipmentId: 0,
-                                              othersCharge: 0,
-                                            },
-                                            objRow: [
-                                              {
-                                                itemId:
-                                                  data[0]?.objRowListDTO?.[0]
-                                                    ?.itemId,
-                                                itemName:
-                                                  data[0]?.objRowListDTO?.[0]
-                                                    ?.itemName,
-                                                uoMid:
-                                                  data[0]?.objRowListDTO?.[0]
-                                                    ?.uomId,
-                                                uoMname:
-                                                  data[0]?.objRowListDTO?.[0]
-                                                    ?.uomName,
-                                                transactionQuantity:
-                                                  data[0]?.objRowListDTO?.[0]
-                                                    ?.orderQty,
-                                                poQuantity:
-                                                  data[0]?.objRowListDTO?.[0]
-                                                    ?.orderQty,
-                                                previousQuantity:
-                                                  data[0]?.objRowListDTO?.[0]
-                                                    ?.orderQty,
-                                                transactionValue:
-                                                  data[0]?.objRowListDTO?.[0]
-                                                    ?.totalValue,
-                                                vatAmount:
-                                                  data[0]?.objRowListDTO?.[0]
-                                                    ?.numVatAmount,
-                                                discount:
-                                                  data[0]?.objRowListDTO?.[0]
-                                                    ?.numDiscount,
-                                                referenceId:
-                                                  data[0]?.objRowListDTO?.[0]
-                                                    ?.referenceId,
-                                                profitCenterId:
-                                                  item?.profitCenterId,
-                                                profitCenterName:
-                                                  item?.profitCenterName,
-                                                costRevenueName:
-                                                  item?.costElementName,
-                                                costRevenueId:
-                                                  item?.costElementId,
-                                                elementName:
-                                                  item?.costElementName,
-                                                elementId: item?.costElementId,
-                                              },
-                                            ],
-                                          };
-
-                                          onInventoryReceive(
-                                            '/wms/ServiceTransection/CreateServiceTransecionForReceive',
-                                            payload,
-                                            (res) => {
-                                              const updatePayload = [
-                                                {
-                                                  mealConsumeCountId:
-                                                    item?.mealConsumeCountId ||
-                                                    0,
-                                                  inventoryTransactionId:
-                                                    res?.key,
-                                                  inventoryTransactionCode:
-                                                    res?.code,
-                                                },
-                                              ];
-
-                                              onUpdateHandler(
-                                                values,
-                                                updatePayload,
-                                                setFieldValue
-                                              );
-                                            }
+                                {item?.purchaseOrderNo &&
+                                  !item?.inventoryTransactionCode && (
+                                    <span
+                                      className=""
+                                      onClick={() => {
+                                        if (!item?.attatchmentId) {
+                                          return toast.warn(
+                                            'Please attach a file first'
                                           );
                                         }
-                                      );
-                                    }}
-                                  >
-                                    <OverlayTrigger
-                                      overlay={
-                                        <Tooltip id="cs-icon">
-                                          Inventory Receive
-                                        </Tooltip>
-                                      }
+                                        getSingleData(
+                                          `/procurement/PurchaseOrder/GetPurchaseOrderInformationByPOtoPrint_Id?PurchaseOrderId=${item?.purchaseOrderId}&OrderTypeId=5`,
+                                          (data) => {
+                                            console.log(data, 'data');
+                                            const payload = {
+                                              images: [
+                                                {
+                                                  imageId:
+                                                    item?.attatchmentId || '',
+                                                },
+                                              ],
+                                              objHeader: {
+                                                serviceCode: '',
+                                                transactionDate: _todayDate(),
+                                                referenceId:
+                                                  data[0]?.objHeaderDTO
+                                                    ?.purchaseOrderId || 0,
+                                                referenceCode:
+                                                  data[0]?.objHeaderDTO
+                                                    ?.purchaseOrderNo || '',
+                                                accountId:
+                                                  profileData?.accountId,
+                                                accountName:
+                                                  profileData?.accountName,
+                                                businessUnitId:
+                                                  data[0]?.objHeaderDTO
+                                                    ?.businessUnitId || 0,
+                                                businessUnitName:
+                                                  item?.controllingUnitName ||
+                                                  '',
+                                                sbuid: item?.sbuid || 0,
+                                                sbuname:
+                                                  item?.controllingUnitName ||
+                                                  '',
+                                                plantId: item?.plantId || 0,
+                                                plantName:
+                                                  item?.plantName || '',
+                                                warehouseId:
+                                                  data[0]?.objHeaderDTO
+                                                    ?.warehouseId || 0,
+                                                warehouseName:
+                                                  data[0]?.objHeaderDTO
+                                                    ?.warehouseName || '',
+                                                businessPartnerId:
+                                                  item?.supplierId || 0,
+                                                businessPartnerName:
+                                                  item?.supplierName || '',
+                                                strComments: 'Auto SRR',
+                                                intActionBy:
+                                                  profileData?.userId,
+                                                // strDocumentId: item?.attatchmentId || "",
+                                                costCenterId:
+                                                  item?.costCenterId || 0,
+                                                costCenterCode: '',
+                                                costCenterName:
+                                                  item?.costCenterName || '',
+                                                projectId: 0,
+                                                projectCode: '',
+                                                projectName: '',
+                                                receivedById: 0,
+                                                receivedBy: '',
+                                                gateEntryNo: '',
+                                                challan: '123',
+                                                challanDateTime: _todayDate(),
+                                                vatChallan: '',
+                                                vatAmount: 0,
+                                                grossDiscount: 0,
+                                                freight: 0,
+                                                commission: 0,
+                                                shipmentId: 0,
+                                                othersCharge: 0,
+                                              },
+                                              objRow: [
+                                                {
+                                                  itemId:
+                                                    data[0]?.objRowListDTO?.[0]
+                                                      ?.itemId,
+                                                  itemName:
+                                                    data[0]?.objRowListDTO?.[0]
+                                                      ?.itemName,
+                                                  uoMid:
+                                                    data[0]?.objRowListDTO?.[0]
+                                                      ?.uomId,
+                                                  uoMname:
+                                                    data[0]?.objRowListDTO?.[0]
+                                                      ?.uomName,
+                                                  transactionQuantity:
+                                                    data[0]?.objRowListDTO?.[0]
+                                                      ?.orderQty,
+                                                  poQuantity:
+                                                    data[0]?.objRowListDTO?.[0]
+                                                      ?.orderQty,
+                                                  previousQuantity:
+                                                    data[0]?.objRowListDTO?.[0]
+                                                      ?.orderQty,
+                                                  transactionValue:
+                                                    data[0]?.objRowListDTO?.[0]
+                                                      ?.totalValue,
+                                                  vatAmount:
+                                                    data[0]?.objRowListDTO?.[0]
+                                                      ?.numVatAmount,
+                                                  discount:
+                                                    data[0]?.objRowListDTO?.[0]
+                                                      ?.numDiscount,
+                                                  referenceId:
+                                                    data[0]?.objRowListDTO?.[0]
+                                                      ?.referenceId,
+                                                  profitCenterId:
+                                                    item?.profitCenterId,
+                                                  profitCenterName:
+                                                    item?.profitCenterName,
+                                                  costRevenueName:
+                                                    item?.costElementName,
+                                                  costRevenueId:
+                                                    item?.costElementId,
+                                                  elementName:
+                                                    item?.costElementName,
+                                                  elementId:
+                                                    item?.costElementId,
+                                                },
+                                              ],
+                                            };
+
+                                            onInventoryReceive(
+                                              '/wms/ServiceTransection/CreateServiceTransecionForReceive',
+                                              payload,
+                                              (res) => {
+                                                const updatePayload = [
+                                                  {
+                                                    mealConsumeCountId:
+                                                      item?.mealConsumeCountId ||
+                                                      0,
+                                                    inventoryTransactionId:
+                                                      res?.key,
+                                                    inventoryTransactionCode:
+                                                      res?.code,
+                                                  },
+                                                ];
+
+                                                onUpdateHandler(
+                                                  values,
+                                                  updatePayload,
+                                                  setFieldValue
+                                                );
+                                              }
+                                            );
+                                          }
+                                        );
+                                      }}
                                     >
-                                      <i
-                                        style={{ fontSize: '16px' }}
-                                        class="fa fa-briefcase cursor-pointer"
-                                        aria-hidden="true"
-                                      ></i>
-                                    </OverlayTrigger>
-                                  </span>
-                                )}
+                                      <OverlayTrigger
+                                        overlay={
+                                          <Tooltip id="cs-icon">
+                                            Inventory Receive
+                                          </Tooltip>
+                                        }
+                                      >
+                                        <i
+                                          style={{ fontSize: '16px' }}
+                                          class="fa fa-briefcase cursor-pointer"
+                                          aria-hidden="true"
+                                        ></i>
+                                      </OverlayTrigger>
+                                    </span>
+                                  )}
                               </div>
                             </td>
                           </tr>
