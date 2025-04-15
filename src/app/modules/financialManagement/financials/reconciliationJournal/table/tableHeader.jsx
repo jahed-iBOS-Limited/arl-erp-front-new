@@ -427,7 +427,7 @@ const ReconciliationJournal = () => {
                         const [year, month] =
                           values?.monthYear?.split('-')?.map(Number) || [];
                         createIncentiveProvisionJounral(
-                          `/fino/Report/GetIncentiveProvisionLanding?businessUnitId=${selectedBusinessUnit?.value}&yearId=${year}&monthId=${month}&totalValue=${totalIncentiveProvisionQty * values?.totalAmount}&actionBy=${profileData?.userId}`,
+                          `/fino/Report/CreateIncentiveProvisionJournal?businessUnitId=${selectedBusinessUnit?.value}&yearId=${year}&monthId=${month}&totalValue=${_formatMoney(totalIncentiveProvisionQty * values?.totalAmount, 4)}&actionBy=${profileData?.userId}`,
                           null,
                           (response) => {
                             // status code
@@ -1213,7 +1213,7 @@ const ReconciliationJournal = () => {
                               Total
                             </td>
                             <td className="text-right">
-                              {totalIncentiveProvisionQty || 0}
+                              {_formatMoney(totalIncentiveProvisionQty, 4) || 0}
                             </td>
                           </tr>
                         </table>
