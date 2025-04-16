@@ -36,17 +36,18 @@ export default function SearchForAuditReport({ gridAllData, setRowDto }) {
             }}
             color="secondary"
             style={{ width: '170px', marginTop: '-21px', height: '40px' }}
-          />
-          <i
-            class="fas fa-search"
-            style={{
-              position: 'absolute',
-              top: '5px',
-              fontSize: '13px',
-              color: '#6d8aa7',
-              right: '-10px',
+            InputProps={{
+              endAdornment: (
+                <i
+                  className="fas fa-search"
+                  style={{
+                    fontSize: '13px',
+                    color: '#6d8aa7',
+                  }}
+                ></i>
+              ),
             }}
-          ></i>
+          />
         </div>
       </form>
     </div>
