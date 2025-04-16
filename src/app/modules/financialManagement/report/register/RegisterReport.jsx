@@ -681,17 +681,18 @@ export default function SearchRegisterReport({ rowDtoAll, setRowDto }) {
               searchHandler(e.target.value, rowDtoAll);
             }}
             color="secondary"
-          />
-          <i
-            class="fas fa-search"
-            style={{
-              position: 'absolute',
-              right: '7px',
-              top: '25px',
-              fontSize: '13px',
-              color: '#6d8aa7',
+            InputProps={{
+              endAdornment: (
+                <i
+                  className="fas fa-search"
+                  style={{
+                    fontSize: '13px',
+                    color: '#6d8aa7',
+                  }}
+                ></i>
+              ),
             }}
-          ></i>
+          />
         </div>
       </form>
     </div>

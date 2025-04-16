@@ -38,16 +38,18 @@ export default function SearchFormInventoryStatement({
               searchHandler(e.target.value, inventoryStatementAllData);
             }}
             color="secondary"
-          />
-          <i
-            class="fas fa-search"
-            style={{
-              position: 'absolute',
-              top: '25px',
-              fontSize: '13px',
-              color: '#6d8aa7',
+            InputProps={{
+              endAdornment: (
+                <i
+                  className="fas fa-search"
+                  style={{
+                    fontSize: '13px',
+                    color: '#6d8aa7',
+                  }}
+                ></i>
+              ),
             }}
-          ></i>
+          />
         </div>
       </form>
     </div>
