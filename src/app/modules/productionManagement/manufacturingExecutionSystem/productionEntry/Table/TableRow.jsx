@@ -20,6 +20,7 @@ import { SetManufacturePETableLandingAction } from '../../../../_helper/reduxFor
 import { toast } from 'react-toastify';
 import NewSelect from '../../../../_helper/_select';
 import { getShopFloorDDL } from '../../../../_helper/_commonApi';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 export function TableRow({ dataForBackCalculationCheck }) {
   const { manufacturePETableLanding } = useSelector(
@@ -27,8 +28,8 @@ export function TableRow({ dataForBackCalculationCheck }) {
   );
   const [landingData, setLandingData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
-  const [fromDate, setFromDate] = useState('');
-  const [toDate, setToDate] = useState('');
+  const [fromDate, setFromDate] = useState(_todayDate());
+  const [toDate, setToDate] = useState(_todayDate());
   const [modalShowForBackCalculation, setModalShowForBackCalculation] =
     useState(false);
   const [singleData, setSingleData] = useState({});
@@ -249,7 +250,9 @@ export function TableRow({ dataForBackCalculationCheck }) {
             <div style={{ marginTop: '10px' }} className="col-lg-1 ml-5">
               <button
                 className="btn btn-primary"
-                disabled={!selectedDDLShop || !selectPlant}
+                disabled={
+                  !selectedDDLShop || !selectPlant || !fromDate || !toDate
+                }
                 onClick={(e) => {
                   getGridData(
                     profileData.accountId,
