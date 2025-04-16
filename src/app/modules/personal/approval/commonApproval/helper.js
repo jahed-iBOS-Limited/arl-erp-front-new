@@ -158,8 +158,8 @@ export const saveBOMApproval_api = async (
   commonBillOfMaterialGridFunc
 ) => {
   try {
-    // await Axios.put(`/mes/BOM/BOMApproval`, poayload);
-    await Axios.post(`/procurement/Approval/DynamicApproval`, poayload);
+    await Axios.put(`/mes/BOM/BOMApproval`, poayload);
+    // await Axios.post(`/procurement/Approval/DynamicApproval`, poayload);
     toast.success('Approved successfully');
     commonBillOfMaterialGridFunc();
   } catch (error) {
