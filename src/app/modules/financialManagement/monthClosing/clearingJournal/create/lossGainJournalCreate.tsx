@@ -1,22 +1,32 @@
-import { Form, Formik } from 'formik';
-import React, { useEffect } from 'react';
+import { Formik } from 'formik';
+import { useEffect } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
 import IForm from '../../../../_helper/_form';
 import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
-import { unallocatedProfitCenterInitData } from '../helper';
+import {
+  isLossGainSaveButtonDisabled,
+  lossGainJournalInitData,
+} from '../helper';
 
-const UnAllocatedProfitCenterCreate = ({ obj }) => {
+const LossGainJournalCreate = ({ obj }) => {
   // destructure
   const {
     values: landingValues,
     showUnallocatedPCAndLossGainJournalModalAndState,
     setShowUnallocatedPCAndLossGainJournalModalAndState,
     resetForm: resetLandingValues,
-    setUnallocatedProfitCenterData,
+    setLossGainJournalData,
   } = obj;
+
+  // redux
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   // api action
   const [
@@ -25,9 +35,16 @@ const UnAllocatedProfitCenterCreate = ({ obj }) => {
     getProfitCenterDDLLoading,
     setProfitCenterDDL,
   ] = useAxiosGet();
+  const [generalLedgerDDL, getGeneralLedgerDDL, getGeneralLedgerDDLLoading] =
+    useAxiosGet();
+  const [
+    businessTransactionDDL,
+    getBusinessTransactionDDL,
+    getBusinessTransactionDDLLoading,
+    setBusinessTransactionDDL,
+  ] = useAxiosGet();
 
-  const [, saveUnallocatedProfitCenter, saveUnallocatedProfitCenterLoading] =
-    useAxiosPost();
+  const [, saveLossGainJournal, saveLossGainJournalLoading] = useAxiosPost();
 
   useEffect(() => {
     // if landing values found
@@ -46,6 +63,11 @@ const UnAllocatedProfitCenterCreate = ({ obj }) => {
         }
       );
     }
+
+    // general ledger
+    getGeneralLedgerDDL(
+      `/fino/FinanceCommonDDL/GetGeneralLedegerDDL?AccountId=${profileData?.accountId}`
+    );
   }, []);
 
   // save handler
@@ -57,23 +79,21 @@ const UnAllocatedProfitCenterCreate = ({ obj }) => {
     const { state } = showUnallocatedPCAndLossGainJournalModalAndState;
 
     // save unallocated profit center
-    saveUnallocatedProfitCenter(
-      `/fino/ClearingJournal/UpdateUnAllocatedProfitCenter?AccountingJournalId=${state?.intAccountingJournalId}&ProfitCenterId=${profitCenter?.value}`,
-      null,
-      cb,
-      true
-    );
+    saveLossGainJournal(``, null, cb, true);
   };
 
   // is loading
   const isLoading =
-    getProfitCenterDDLLoading || saveUnallocatedProfitCenterLoading;
+    getProfitCenterDDLLoading ||
+    saveLossGainJournalLoading ||
+    getGeneralLedgerDDLLoading ||
+    getBusinessTransactionDDLLoading;
 
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={unallocatedProfitCenterInitData}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
+      initialValues={lossGainJournalInitData}
+      onSubmit={(values, { resetForm }) => {
         saveHandler(values, () => {
           resetForm();
           setShowUnallocatedPCAndLossGainJournalModalAndState((prevState) => ({
@@ -82,19 +102,11 @@ const UnAllocatedProfitCenterCreate = ({ obj }) => {
             isModalOpen: false,
           }));
           resetLandingValues();
-          setUnallocatedProfitCenterData([]);
+          setLossGainJournalData([]);
         });
       }}
     >
-      {({
-        handleSubmit,
-        resetForm,
-        values,
-        setFieldValue,
-        isValid,
-        errors,
-        touched,
-      }) => (
+      {({ handleSubmit, values, setFieldValue, errors, touched }) => (
         <>
           {isLoading && <Loading />}
 
@@ -108,7 +120,7 @@ const UnAllocatedProfitCenterCreate = ({ obj }) => {
                 <button
                   type="submit"
                   className="btn btn-primary"
-                  disabled={!values?.profitCenter}
+                  disabled={isLossGainSaveButtonDisabled(values)}
                   onClick={() => handleSubmit()}
                 >
                   Save
@@ -116,7 +128,7 @@ const UnAllocatedProfitCenterCreate = ({ obj }) => {
               </>
             )}
           >
-            <Form>
+            <form onSubmit={handleSubmit}>
               <Tabs
                 defaultActiveKey="singleProfitCenter"
                 id="uncontrolled-tab-example"
@@ -128,6 +140,43 @@ const UnAllocatedProfitCenterCreate = ({ obj }) => {
                   title="Single Profit Center"
                 >
                   <div className="form-group global-form row">
+                    <div className="col-lg-3">
+                      <NewSelect
+                        label="General Ledger"
+                        options={generalLedgerDDL || []}
+                        value={values?.gl}
+                        name="gl"
+                        onChange={(valueOption) => {
+                          setFieldValue('gl', valueOption);
+                          getBusinessTransactionDDL(
+                            `/fino/FinanceCommonDDL/GetBusinessTransactionDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${valueOption?.value}`,
+                            (res) => {
+                              const modifiedData = res?.map((item) => ({
+                                ...item,
+                                label: item?.buesinessTransactionName,
+                                value: item?.buesinessTransactionId,
+                              }));
+                              setBusinessTransactionDDL(modifiedData);
+                            }
+                          );
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        label="Business Transaction"
+                        options={businessTransactionDDL || []}
+                        value={values?.businessTransaction}
+                        name="businessTransaction"
+                        onChange={(valueOption) => {
+                          setFieldValue('businessTransaction', valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
                     <div className="col-lg-3">
                       <NewSelect
                         label="Profit Center"
@@ -151,7 +200,7 @@ const UnAllocatedProfitCenterCreate = ({ obj }) => {
                   <h3>Multiple</h3>
                 </Tab>
               </Tabs>
-            </Form>
+            </form>
           </IForm>
         </>
       )}
@@ -159,4 +208,4 @@ const UnAllocatedProfitCenterCreate = ({ obj }) => {
   );
 };
 
-export default UnAllocatedProfitCenterCreate;
+export default LossGainJournalCreate;
