@@ -95,7 +95,7 @@ export default function LoanRegisterViewForm({
       const fetchFacilityDDL = () => {
         getFacilityDLL(
           selectedBusinessUnit?.value,
-          initData?.bank?.value,
+          location?.state?.intNbfiId || initData?.bank?.value,
           (resData) => {
             setFacilityDDL(resData);
             if (!renewId && !isEdit && formikRef.current) {
@@ -103,6 +103,10 @@ export default function LoanRegisterViewForm({
               formikRef.current.setFieldValue('facility', facilityFind || '');
               formikRef.current.setFieldValue(
                 'termDays',
+                facilityFind?.tenorDays || 0
+              );
+              onSetMaturityDate(
+                initData?.openingDate,
                 facilityFind?.tenorDays || 0
               );
             }
@@ -193,6 +197,10 @@ export default function LoanRegisterViewForm({
                                   'termDays',
                                   facilityFind?.tenorDays || 0
                                 );
+                                onSetMaturityDate(
+                                  values?.openingDate,
+                                  facilityFind?.tenorDays || 0
+                                );
                               }
                             }
                           },
@@ -249,6 +257,10 @@ export default function LoanRegisterViewForm({
                                     'termDays',
                                     facilityFind?.tenorDays || 0
                                   );
+                                  onSetMaturityDate(
+                                    values?.openingDate,
+                                    facilityFind?.tenorDays || 0
+                                  );
                                 }
                               }
                             },
@@ -284,6 +296,10 @@ export default function LoanRegisterViewForm({
                                   setFieldValue('facility', facilityFind || '');
                                   setFieldValue(
                                     'termDays',
+                                    facilityFind?.tenorDays || 0
+                                  );
+                                  onSetMaturityDate(
+                                    values?.openingDate,
                                     facilityFind?.tenorDays || 0
                                   );
                                 }
