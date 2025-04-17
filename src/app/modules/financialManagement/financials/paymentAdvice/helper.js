@@ -80,14 +80,22 @@ export const getPaymentAdviceIndoPagination = async (
   status,
   setter,
   setLoading,
-  search
+  search,
+  InstrumentTypeId,
+  BankAsPartnerId
 ) => {
   setLoading(true);
 
   const searchPath = search ? `&BillNo=${search}` : '';
+  const instrumentId = InstrumentTypeId
+    ? `&InstrumentTypeId=${InstrumentTypeId}`
+    : '';
+  const bankAsPartnerId = BankAsPartnerId
+    ? `&BankAsPartnerId=${BankAsPartnerId}`
+    : '';
   try {
     const res = await Axios.get(
-      `/fino/PaymentRequest/PrepareAllVoucher?AccountId=${accId}&BusinessUnitId=${buId}&SbuId=${sbuId}&BillType=${billType}&status=${status}${searchPath}`
+      `/fino/PaymentRequest/PrepareAllVoucher?AccountId=${accId}&BusinessUnitId=${buId}&SbuId=${sbuId}&BillType=${billType}&status=${status}${searchPath}${instrumentId}${bankAsPartnerId}`
     );
 
     let newdata = res?.data.map((item) => {

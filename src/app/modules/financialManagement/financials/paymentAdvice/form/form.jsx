@@ -203,7 +203,10 @@ export default function FormCmp({
       values?.billType?.value,
       values?.status?.value,
       setRowDto,
-      setDisabled
+      setDisabled,
+      '',
+      values?.type?.value,
+      values?.bank?.bankAsPartnerId
     );
   };
 
