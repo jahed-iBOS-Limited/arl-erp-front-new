@@ -225,7 +225,9 @@ export const getLoanRegisterLanding = async (
   const dateFilterParam = dateFilter ? `&dateFilter=${dateFilter}` : '';
   const dateParam1 = fromDate ? `&fromDate=${fromDate}` : '';
   const dateParam2 = toDate ? `&toDate=${toDate}` : '';
-  const IsApprovedForNBFI = isNbfi ? `&isNbfi=${isNbfi}` : '';
+  const IsApprovedForNBFI = [true, false].includes(isNbfi)
+    ? `&isNbfi=${isNbfi}`
+    : '';
   try {
     setLoading(true);
     const res = await Axios.get(

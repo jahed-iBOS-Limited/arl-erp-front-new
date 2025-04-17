@@ -15,6 +15,17 @@ export default function RepayForm({
 }) {
   const history = useHistory();
   const location = useLocation();
+  const {
+    bu,
+    intNbfiId,
+    bankId,
+    strLoanAccountName,
+    numPrinciple,
+    numPaid,
+    strNbfiName,
+    principal,
+  } = location.state || {};
+
   const [accountDDL, setAccountDDL] = useState([]);
   const [, setLoading] = useState(false);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -24,8 +35,8 @@ export default function RepayForm({
   useEffect(() => {
     getBankAccountDDLByBankId(
       profileData?.accountId,
-      location?.state?.bu || selectedBusinessUnit?.value,
-      location?.state?.bankId,
+      bu || selectedBusinessUnit?.value,
+      intNbfiId ? 0 : bankId,
       setAccountDDL,
       setLoading
     );
@@ -33,14 +44,27 @@ export default function RepayForm({
 
   const initialValues = {
     ...initData,
-    instrumentNo: location?.state?.strLoanAccountName || initData?.instrumentNo,
+    instrumentNo: strLoanAccountName || initData?.instrumentNo,
+  };
+
+  const principalBalance = Math.max(0, (+numPrinciple || 0) - (+numPaid || 0));
+
+  const setTotalRepayment = ({
+    principalAmount,
+    interestAmount,
+    numExciseDuty,
+    setFieldValue,
+  }) => {
+    const totalRepayment =
+      (+principalAmount || 0) + (+interestAmount || 0) + (+numExciseDuty || 0);
+    setFieldValue('totalRepayment', totalRepayment || '');
   };
 
   return (
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={initialValues}
+        initialValues={{ ...initialValues, principalBalance: principalBalance }}
         validationSchema={loanRegisterSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
@@ -76,7 +100,10 @@ export default function RepayForm({
                     placeholder="Bank Account"
                   />
                 </div>
-
+                <div className="col-lg-2 pl pr-1 mb-1">
+                  <label>NBFI</label>
+                  <InputField value={strNbfiName || ''} name="nbfi" disabled />
+                </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
                   <label>Instrument No</label>
                   <InputField
@@ -105,17 +132,27 @@ export default function RepayForm({
                     name="principalAmount"
                     placeholder="Principal Amount"
                     onChange={(e) => {
+                      setTotalRepayment({
+                        principalAmount: e.target.value,
+                        interestAmount: values?.interestAmount,
+                        numExciseDuty: values?.numExciseDuty,
+                        setFieldValue,
+                      });
                       if (e.target.value > 0) {
                         setFieldValue('principalAmount', e.target.value);
+                        setFieldValue(
+                          'principalBalance',
+                          (+principalBalance || 0) - (+e.target.value || 0)
+                        );
                       } else {
                         setFieldValue('principalAmount', '');
+                        setFieldValue('principalBalance', principalBalance);
                       }
                     }}
                     type="number"
                     // min={1}
                     max={
-                      location?.state?.principal?.toFixed(2) ||
-                      '100000000000000000000000000000'
+                      principal?.toFixed(2) || '100000000000000000000000000000'
                     }
                     step="any"
                   />
@@ -127,6 +164,12 @@ export default function RepayForm({
                     name="interestAmount"
                     placeholder="Interest Amount"
                     onChange={(e) => {
+                      setTotalRepayment({
+                        principalAmount: values?.principalAmount,
+                        interestAmount: e.target.value,
+                        numExciseDuty: values?.numExciseDuty,
+                        setFieldValue,
+                      });
                       if (e.target.value > 0) {
                         setFieldValue('interestAmount', e.target.value);
                       } else {
@@ -145,6 +188,12 @@ export default function RepayForm({
                     name="numExciseDuty"
                     placeholder="Excise Duty"
                     onChange={(e) => {
+                      setTotalRepayment({
+                        principalAmount: values?.principalAmount,
+                        interestAmount: values?.interestAmount,
+                        numExciseDuty: e.target.value,
+                        setFieldValue,
+                      });
                       if (e.target.value > 0) {
                         setFieldValue('numExciseDuty', e.target.value);
                       } else {
@@ -163,6 +212,24 @@ export default function RepayForm({
                     name="transDate"
                     placeholder="Date"
                     type="date"
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <label>Principal Balance</label>
+                  <InputField
+                    value={values?.principalBalance}
+                    name="principalBalance"
+                    type="number"
+                    disabled
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <label>Total Repayment</label>
+                  <InputField
+                    value={values?.totalRepayment}
+                    name="totalRepayment"
+                    type="number"
+                    disabled
                   />
                 </div>
               </div>
