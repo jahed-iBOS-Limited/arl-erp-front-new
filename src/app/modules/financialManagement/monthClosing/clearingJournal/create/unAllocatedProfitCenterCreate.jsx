@@ -12,8 +12,8 @@ const UnAllocatedProfitCenterCreate = ({ obj }) => {
   // destructure
   const {
     values: landingValues,
-    showUnallocatedPCAndLossGainJournalModalAndState,
-    setShowUnallocatedPCAndLossGainJournalModalAndState,
+    showUnallocatedPCModalAndState,
+    setShowUnallocatedPCModalAndState,
     resetForm: resetLandingValues,
     setUnallocatedProfitCenterData,
   } = obj;
@@ -54,7 +54,7 @@ const UnAllocatedProfitCenterCreate = ({ obj }) => {
     const { profitCenter } = values;
 
     // landing unallocated item state
-    const { state } = showUnallocatedPCAndLossGainJournalModalAndState;
+    const { state } = showUnallocatedPCModalAndState;
 
     // save unallocated profit center
     saveUnallocatedProfitCenter(
@@ -76,7 +76,7 @@ const UnAllocatedProfitCenterCreate = ({ obj }) => {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm();
-          setShowUnallocatedPCAndLossGainJournalModalAndState((prevState) => ({
+          setShowUnallocatedPCModalAndState((prevState) => ({
             ...prevState,
             state: {},
             isModalOpen: false,
