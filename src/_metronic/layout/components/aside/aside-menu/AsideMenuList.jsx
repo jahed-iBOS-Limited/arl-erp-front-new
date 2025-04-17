@@ -103,8 +103,6 @@ export function AsideMenuList({ layoutProps }) {
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
-
-  console.log(import.meta.VITE_PUBLIC_URL, 'import.meta.env.VITE_PUBLIC_URL');
   return (
     <>
       {/* begin::Menu Nav */}
