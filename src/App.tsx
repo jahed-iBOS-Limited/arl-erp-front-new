@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import 'react-quill/dist/quill.snow.css';
 import { Provider } from 'react-redux';
@@ -16,6 +16,7 @@ import {
 import { withEncryptedAPI } from './app/modules/_helper/withEncryptedAPI';
 import { setIsExpiredTokenActions } from './app/modules/Auth/_redux/Auth_Actions';
 import useServiceWorkerUpdate from './app/modules/_helper/useServiceWorkerUpdate';
+import { syncStoreAcrossTabs } from './redux/syncAcrossTabs';
 
 const origin = window.location.origin;
 const isDevelopmentOrDevHost = () => {
@@ -145,7 +146,6 @@ const App: React.FC<AppProps> = ({ store, persistor, basename }) => {
       return response;
     },
     async (error) => {
-      console.log('error response', JSON.stringify(error, null, 2));
       const url = error?.config?.url;
       if (withEncryptedAPI?.some((element: any) => url?.includes(element))) {
         const decryptedData = await makeDecryption(error?.response?.data);
@@ -186,6 +186,10 @@ const App: React.FC<AppProps> = ({ store, persistor, basename }) => {
     alert('New version available. Please refresh the page to update.');
   }
   console.log(updateAvailable, 'updateAvailable');
+
+  useEffect(() => {
+    syncStoreAcrossTabs();
+  }, []);
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={<LayoutSplashScreen />}>

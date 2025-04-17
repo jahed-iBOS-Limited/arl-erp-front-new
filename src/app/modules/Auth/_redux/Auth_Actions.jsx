@@ -151,8 +151,8 @@ export const setIsExpiredTokenActions = (payload) => (dispatch) => {
   return dispatch(actions.setIsExpiredToken(payload));
 };
 
-export const setIsTokenActions = (payload) => (dispatch) => {
-  return dispatch(actions.setIsToken(payload));
+export const setTokenUpdateActions = (payload) => (dispatch) => {
+  return dispatch(actions.setUpdateToken(payload));
 };
 
 // Set business unit true

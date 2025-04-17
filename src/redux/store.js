@@ -23,7 +23,7 @@ const encrypt = createTransform(
   }
 );
 
-const persistConfig = {
+export const persistConfig = {
   key: 'root',
   storage,
   whitelist: ['authData', 'localStorage', 'pwa'],

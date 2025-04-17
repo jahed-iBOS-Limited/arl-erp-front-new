@@ -101,7 +101,7 @@ export const authSlice = createSlice({
       const { payload } = action;
       state.isExpiredToken = payload;
     },
-    setIsToken: (state, action) => {
+    setUpdateToken: (state, action) => {
       const { payload } = action;
       state.tokenData = payload;
     },
