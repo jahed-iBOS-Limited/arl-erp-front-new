@@ -8,6 +8,8 @@ import { IInput } from '../../../../../../_helper/_input';
 import InputField from '../../../../../../_helper/_inputField';
 import NewSelect from '../../../../../../_helper/_select';
 import customStyles from '../../../../../../selectCustomStyle';
+import createDebounceHandler from '../../../../../../_helper/debounceForSave';
+import Loading from '../../../../../../_helper/_loading';
 
 const DataValiadtionSchema = Yup.object().shape({
   numGrossWeight: Yup.number()
@@ -47,6 +49,8 @@ export default function FormCmp({
   const [whList, setWhList] = useState([]);
   const [inventoryLocationList, setInventoryLocationList] = useState([]);
   const [baseUomList, setBaseUomList] = useState([]);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (accountId && selectedBusinessUnit) {
@@ -179,8 +183,14 @@ export default function FormCmp({
         }}
         validationSchema={DataValiadtionSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveData(values, () => {
-            resetForm(productData);
+          setIsLoading(true);
+          debounceHandler({
+            setLoading: setIsLoading,
+            CB: () => {
+              saveData(values, () => {
+                resetForm(productData);
+              });
+            },
           });
         }}
       >
@@ -196,7 +206,7 @@ export default function FormCmp({
         }) => (
           <>
             {disableHandler(!isValid)}
-
+            {isLoading && <Loading />}
             <Form className="form form-label-right">
               {!isViewPage && (
                 <div className="form-group row align-content-center my-5 global-form">

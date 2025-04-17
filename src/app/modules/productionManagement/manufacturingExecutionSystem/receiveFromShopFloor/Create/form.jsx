@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { IInput } from '../../../../_helper/_input';
@@ -6,6 +6,8 @@ import IDelete from '../../../../_helper/_helperIcons/_delete';
 import NewSelect from '../../../../_helper/_select';
 import { useParams } from 'react-router-dom';
 import { getItemList_api, getRefferenceCode_api } from '../helper';
+import Loading from '../../../../_helper/_loading';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
 
 const validationSchema = Yup.object().shape({});
 export default function FormCmp({
@@ -27,6 +29,8 @@ export default function FormCmp({
   receiveFromShopFloorInitData,
 }) {
   const { viewId } = useParams();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   return (
     <>
@@ -34,15 +38,21 @@ export default function FormCmp({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
-            setRowDto([]);
-            getRefferenceCode_api(
-              profileData?.accountId,
-              selectedBusinessUnit?.value,
-              receiveFromShopFloorInitData?.warehouse?.value,
-              setRefferenceCodeDDL
-            );
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+                setRowDto([]);
+                getRefferenceCode_api(
+                  profileData?.accountId,
+                  selectedBusinessUnit?.value,
+                  receiveFromShopFloorInitData?.warehouse?.value,
+                  setRefferenceCodeDDL
+                );
+              });
+            },
           });
         }}
       >
@@ -56,6 +66,7 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
+            {isLoading && <Loading />}
             {console.log('Values => ', values)}
             {console.log('RowDto => ', rowDto)}
             <Form>
