@@ -104,8 +104,8 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                       checked: saveItem ? true : false,
                       amount: saveItem?.chargeAmount || '',
                       actualExpense: saveItem?.actualExpense || '',
-                      headOfCharges: item?.label || '',
-                      headOfChargeId: item?.value || 0,
+                      headOfCharges: saveItem?.headOfCharges || '',
+                      headOfChargeId: saveItem?.headOfChargeId || 0,
                       collectionPartyType: saveItem?.collectionPartyType || '',
                       collectionActualAmount:
                         saveItem?.collectionActualAmount || '',
@@ -147,7 +147,7 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                         saveItem?.paymentActualCombindAmount || '',
                       paymentDummyCombindAmount:
                         saveItem?.paymentDummyCombindAmount || '',
-                      billingDate: item?.billingDate || new Date(),
+                      billingDate: saveItem?.billingDate || new Date(),
                       isCommonPaymentCombind: isCommonPaymentCombind,
                       isCommonPaymentCombindDisabled:
                         isCommonPaymentCombind ||
@@ -164,6 +164,9 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                         saveItem?.paymentAdvanceAmount > 0 ||
                         saveItem?.paymentActualAmount > 0 ||
                         saveItem?.paymentDummyAmount > 0,
+                      isHeadOfChargesEdit:
+                        saveItem?.headOfCharges?.includes('Other Charge') ||
+                        false,
                     };
                     arryList.push(obj);
                   });
@@ -334,7 +337,6 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
       CB
     );
   };
-
   return (
     <div className="chargesModal">
       {(bookedRequestBilling ||

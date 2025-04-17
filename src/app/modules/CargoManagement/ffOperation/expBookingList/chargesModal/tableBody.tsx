@@ -165,7 +165,7 @@ function TableBody({
                 <div className="position-relative d-flex align-items-center ">
                   {item?.headOfCharges}
                   {item?.isHeadOfChargesEdit &&
-                    !(isDisabled || item?.billingId) && (
+                    !(isDisabled && item?.billingId) && (
                       <>
                         <OverlayTrigger
                           overlay={
