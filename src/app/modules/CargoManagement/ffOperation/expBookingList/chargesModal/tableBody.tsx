@@ -4,6 +4,8 @@ import InputField from '../../../../_helper/_inputField';
 import NewSelect from '../../../../_helper/_select';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import { imarineBaseUrl } from '../../../../../../App';
+import IViewModal from '../../../../_helper/_viewModal';
+import AdditionalRemarks from './additionalRemarks';
 import axios from 'axios';
 import { useState } from 'react';
 type TbodyType = {
@@ -31,6 +33,11 @@ function TableBody({
   bookingData,
 }: TbodyType) {
   const [updatedRowIndex, setUpdatedRowIndex] = useState<number | null>(null);
+  const [additionalRemarksObj, setAdditionalRemarksObj] = useState<any>({
+    item: {},
+    index: null,
+    isModalOpen: false,
+  });
 
   const transportPlanningAir =
     bookingData?.transportPlanning?.find((i) => {
@@ -154,7 +161,34 @@ function TableBody({
                 />
               </td>
               <td>{index + 1}</td>
-              <td>{item?.headOfCharges}</td>
+              <td>
+                <div className="position-relative d-flex align-items-center ">
+                  {item?.headOfCharges}
+                  {item?.isHeadOfChargesEdit &&
+                    !(isDisabled || item?.billingId) && (
+                      <>
+                        <OverlayTrigger
+                          overlay={
+                            <Tooltip id="cs-icon">Additional remarks</Tooltip>
+                          }
+                        >
+                          <span className="pl-1">
+                            <i
+                              className={`fas fa-pen-square pointer`}
+                              onClick={() => {
+                                setAdditionalRemarksObj({
+                                  item: item,
+                                  index: index,
+                                  isModalOpen: true,
+                                });
+                              }}
+                            ></i>
+                          </span>
+                        </OverlayTrigger>
+                      </>
+                    )}
+                </div>
+              </td>
               <td>
                 <NewSelect
                   label={''}
@@ -179,7 +213,7 @@ function TableBody({
                   isDisabled={isDisabled || item?.billingId}
                 />
               </td>
-              <td className="collection-border-right">
+              <td className="">
                 <InputField
                   disabled={isDisabled || item?.billingId}
                   value={item?.exchangeRate}
@@ -201,7 +235,7 @@ function TableBody({
               {isAirOperation && (
                 <>
                   {/* packageQuantity input  */}
-                  <td className="collection-border-right">
+                  <td className="">
                     <InputField
                       disabled={isDisabled || item?.invoiceId}
                       value={item?.packageQuantity}
@@ -228,7 +262,7 @@ function TableBody({
                     />
                   </td>
                   {/* PackageRate  input */}
-                  <td className="collection-border-right">
+                  <td className="">
                     <InputField
                       disabled={isDisabled || item?.invoiceId}
                       value={item?.packageRate}
@@ -257,7 +291,7 @@ function TableBody({
                 </>
               )}
               {/* "Collection Type" =  NewSelect component */}
-              <td className="collection-border-right">
+              <td className="collection-border-right collection-border-left">
                 <NewSelect
                   isDisabled={isDisabled || item?.invoiceId}
                   options={[
@@ -599,11 +633,16 @@ function TableBody({
                       if (!aboveRow) {
                         return toast.warn('Please select above row');
                       }
+
+                      const isOtherChargeCopy =
+                        aboveRow?.headOfCharges?.includes('Other Charge');
                       // insert new row below the above row
                       const modifiedData = [
                         ...hardCopy?.slice(0, index + 1),
                         {
-                          headOfCharges: aboveRow?.headOfCharges || '',
+                          headOfCharges: isOtherChargeCopy
+                            ? 'Other Charge'
+                            : aboveRow?.headOfCharges || '',
                           headOfChargeId: aboveRow?.headOfChargeId || 0,
                           masterBlId: aboveRow?.masterBlId || 0,
                           masterBlCode: aboveRow?.masterBlCode || '',
@@ -620,6 +659,7 @@ function TableBody({
                           collectionDummyAmount: '',
                           paymentDummyAmount: '',
                           paymentActualAmount: '',
+                          isHeadOfChargesEdit: true,
                         },
                         ...hardCopy?.slice(index + 1),
                       ];
@@ -638,6 +678,30 @@ function TableBody({
           );
         })}
       </tbody>
+
+      {additionalRemarksObj?.isModalOpen && (
+        <IViewModal
+          title={`Additional Remarks`}
+          modelSize="sm"
+          show={additionalRemarksObj?.isModalOpen}
+          onHide={() => {
+            setAdditionalRemarksObj({
+              ...additionalRemarksObj,
+              isModalOpen: false,
+            });
+          }}
+        >
+          <AdditionalRemarks
+            additionalRemarksHandleChange={(value) => {
+              const copyPrv = [...shippingHeadOfCharges];
+              copyPrv[additionalRemarksObj?.index].headOfCharges =
+                `Other Charge ` + value;
+              setShippingHeadOfCharges(copyPrv);
+            }}
+            additionalRemarksValue={additionalRemarksObj?.item?.headOfCharges}
+          />
+        </IViewModal>
+      )}
     </>
   );
 }

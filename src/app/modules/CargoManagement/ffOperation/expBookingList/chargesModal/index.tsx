@@ -175,6 +175,7 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                     masterBlId: masterBlId,
                     masterBlCode: masterBlCode || '',
                     modeOfTransportId: modeOfTransportId,
+                    isHeadOfChargesEdit: item?.label === 'Other Charge',
                   };
                   arryList.push(obj);
                 }
@@ -446,7 +447,14 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                     <tr>
                       <th rowSpan={2}></th>
                       <th rowSpan={2}>SL</th>
-                      <th rowSpan={2}>Attribute</th>
+                      <th
+                        rowSpan={2}
+                        style={{
+                          minWidth: '92px',
+                        }}
+                      >
+                        Attribute
+                      </th>
                       <th rowSpan={2} style={{ minWidth: '110px' }}>
                         Currency
                       </th>
