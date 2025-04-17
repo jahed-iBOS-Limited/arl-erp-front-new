@@ -18,20 +18,30 @@ import PaginationTable from '../../../_helper/_tablePagination';
 import { _timeFormatter } from '../../../_helper/_timeFormatter';
 import { useSelector } from 'react-redux';
 import { shallowEqual } from 'react-redux';
+import NewSelect from '../../../_helper/_select';
 
 function ContractorLabourRegister() {
   const history = useHistory();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [rowData, getRowData, lodar] = useAxiosGet();
+  const [plantDDL, getplantDDL, plantDDLLoading] = useAxiosGet();
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
+  }, shallowEqual);
+  const {
+    profileData: { userId, accountId },
+  } = useSelector((state) => {
+    return state.authData;
   }, shallowEqual);
 
   useEffect(() => {
     getRowData(
       `/mes/MSIL/GetAllLabourInOutRegisterLanding?intBusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`
+    );
+    getplantDDL(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
   }, []);
 
@@ -81,6 +91,16 @@ function ContractorLabourRegister() {
                 <div className="form-group  global-form">
                   <div className="row">
                     <div className="col-lg-3">
+                      <NewSelect
+                        value={values?.plantId}
+                        options={[{ label: 'All', value: 0 }, ...plantDDL]}
+                        label="Plant"
+                        onChange={(valueOption) => {
+                          setFieldValue('plantId', valueOption);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
                       <InputField
                         value={values?.date}
                         label="Date"
@@ -103,7 +123,7 @@ function ContractorLabourRegister() {
                               selectedBusinessUnit?.value
                             }&PageNo=${pageNo}&PageSize=${pageSize}&search=${''}&date=${
                               values?.date || ''
-                            }`
+                            }&plantId=${values?.plantId?.value === 0 ? values?.plantId?.value : values?.plantId?.value || ''}`
                           );
                         }}
                       >

@@ -33,6 +33,7 @@ export default function KeyRegisterCreateEdit() {
   const [modifyData, setModifyData] = useState(initData);
   const [keyLocationDDL, getKeyLocationDDL] = useAxiosGet();
   const [keyProviderDDL, getKeyProviderDDL] = useAxiosGet();
+  const [plantDDL, getplantDDL, plantDDLLoading] = useAxiosGet();
 
   const { profileData } = useSelector((state) => {
     return state.authData;
@@ -48,6 +49,9 @@ export default function KeyRegisterCreateEdit() {
     );
     getKeyProviderDDL(
       `/mes/MesDDL/GetEmployeeAndDesignationDDL?IntBusinessUnitId=${selectedBusinessUnit?.value}`
+    );
+    getplantDDL(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
   }, []);
 
@@ -108,6 +112,8 @@ export default function KeyRegisterCreateEdit() {
         strKeyReceivedFrom: values?.keyProviderNameForEdit || '',
         intKeyReceivedBy: values?.keyReceiverNameForEdit?.value || 0,
         strKeyReceivedBy: values?.keyReceiverNameForEdit?.label || '',
+        plantId: values?.plantId?.value,
+        plantName: values?.plantId?.label,
       },
       id ? '' : cb,
       true
@@ -153,6 +159,16 @@ export default function KeyRegisterCreateEdit() {
                 {false && <Loading />}
                 <div className="form-group  global-form">
                   <div className="row">
+                    <div className="col-lg-3">
+                      <NewSelect
+                        value={values?.plantId}
+                        options={plantDDL}
+                        label="প্ল্যান্ট"
+                        onChange={(valueOption) => {
+                          setFieldValue('plantId', valueOption);
+                        }}
+                      />
+                    </div>
                     <div className="col-lg-3">
                       <InputField
                         value={values?.date}
