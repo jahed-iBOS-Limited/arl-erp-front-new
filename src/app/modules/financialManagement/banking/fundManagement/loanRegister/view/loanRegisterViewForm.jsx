@@ -95,7 +95,7 @@ export default function LoanRegisterViewForm({
       const fetchFacilityDDL = () => {
         getFacilityDLL(
           selectedBusinessUnit?.value,
-          initData?.bank?.value,
+          location?.state?.intNbfiId || initData?.bank?.value,
           (resData) => {
             setFacilityDDL(resData);
             if (!renewId && !isEdit && formikRef.current) {
