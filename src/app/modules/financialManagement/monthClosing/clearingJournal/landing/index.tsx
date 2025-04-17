@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { clearingJournalLandingData } from '../helper';
+import { clearingJournalLandingData, typeDDL } from '../helper';
 import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import InputField from '../../../../_helper/_inputField';
@@ -61,26 +61,18 @@ const ClearningJournalLandingPage = () => {
   const isUnallowcatedShowButtonDisbaled = (values) => {
     const { type, businessUnit, fromDate, toDate } = values;
 
-    return !type?.value === 1 || !businessUnit || !fromDate || !toDate;
+    return type?.value !== 1 || !businessUnit || !fromDate || !toDate;
   };
 
   return (
     <Formik
       enableReinitialize={true}
       initialValues={clearingJournalLandingData}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
+      onSubmit={(values) => {
         saveHandler(values);
       }}
     >
-      {({
-        handleSubmit,
-        resetForm,
-        values,
-        setFieldValue,
-        isValid,
-        errors,
-        touched,
-      }) => (
+      {({ handleSubmit, resetForm, values, setFieldValue }) => (
         <>
           {isLoading && <Loading />}
           <IForm
@@ -125,12 +117,12 @@ const ClearningJournalLandingPage = () => {
               );
             }}
           >
-            <Form>
+            <form onSubmit={handleSubmit}>
               <div className="form-group global-form row">
                 <div className="col-lg-3">
                   <NewSelect
                     label="Type"
-                    options={[]}
+                    options={typeDDL || []}
                     value={values?.type}
                     name="type"
                     onChange={(valueOption) => {
@@ -177,9 +169,9 @@ const ClearningJournalLandingPage = () => {
                       marginTop: '18px',
                     }}
                     className="btn btn-primary"
-                    submit="button"
+                    type="submit"
                     disabled={isUnallowcatedShowButtonDisbaled(values)}
-                    onSubmit={() => handleSubmit()}
+                    // onSubmit={() => handleSubmit()}
                   >
                     Show
                   </button>
@@ -243,7 +235,7 @@ const ClearningJournalLandingPage = () => {
                   <></>
                 )}
               </section>
-            </Form>
+            </form>
 
             {/* Create Unallocated Profit Center */}
             <IViewModal
