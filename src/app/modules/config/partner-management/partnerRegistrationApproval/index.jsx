@@ -9,6 +9,8 @@ import NewSelect from '../../../_helper/_select';
 import PaginationTable from '../../../_helper/_tablePagination';
 import CommonTable from '../../../_helper/commonTable';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IClose from '../../../_helper/_helperIcons/_close';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
   partner: 'customer',
@@ -39,6 +41,17 @@ export default function PartnerRegApproval() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loadGridData] = useAxiosGet();
+  const [, rejectPartnerRegister, rejectPartnerRegisterLoading] =
+    useAxiosPost();
+
+  function rejectPartnerRegisterFunc(id) {
+    rejectPartnerRegister(
+      `/partner/BusinessPartnerBasicInfo/PartnerRejectOfRegistration?partnerId=${id}`,
+      null,
+      null,
+      true
+    );
+  }
 
   const sendheadersData = [
     'Serial',
@@ -74,10 +87,18 @@ export default function PartnerRegApproval() {
         }&partnerType=customer&autoId=0`
       );
     } else {
+      // destructure
+      const { approveStatus } = values;
+
+      let isRejected =
+        approveStatus?.label === 'Reject'
+          ? `&isReject=${values?.approveStatus?.label === 'Reject' ? true : ''}`
+          : '';
+
       getGridData(
         `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=LandingForApproval&pageNo=${pageNo}&pageSize=${pageSize}&businessUnitId=${buId}&isApproved=${
-          values?.approveStatus?.label === 'Approved' ? true : false
-        }&partnerType=supplier&autoId=0
+          approveStatus?.label === 'Approved' ? true : false
+        }&partnerType=supplier&autoId=0${isRejected}
       `
       );
     }
@@ -122,7 +143,7 @@ export default function PartnerRegApproval() {
         touched,
       }) => (
         <>
-          {loadGridData && <Loading />}
+          {(loadGridData || rejectPartnerRegisterLoading) && <Loading />}
           <IForm
             title="Partner Registration Approval"
             isHiddenReset
@@ -140,6 +161,7 @@ export default function PartnerRegApproval() {
                     options={[
                       { value: 1, label: 'Approved' },
                       { value: 0, label: 'Unapproved' },
+                      { value: 2, label: 'Reject' },
                     ]}
                     value={values?.approveStatus}
                     label="Status"
@@ -262,52 +284,75 @@ export default function PartnerRegApproval() {
                           {item?.strWarehouseAddress}
                         </td>
 
-                        <td className="text-center">
-                          {(customerPermissions?.isCreate ||
-                            supplierPermission?.isCreate) &&
-                            !item?.isApproved && (
-                              <span
-                                style={{ cursor: 'pointer' }}
-                                onClick={() =>
-                                  history.push({
-                                    pathname: `/config/partner-management/partner-registration-approval/create/${item?.intRegistrationId}`,
-                                    state: {
-                                      ...item,
-                                      partnerSalesType:
-                                        item?.strPartnerTypeName,
-                                      email: item?.strEmailAddress,
-                                      businessPartnerAddress:
-                                        item?.strOfficeAddress,
-                                      contactNumber: item?.strMobileNumber,
-                                      businessPartnerName: item?.strPartnerName,
-                                      bin: item?.strBinNumber,
-                                      licenseNo: item?.strTradeLicenseNumber,
-                                      businessPartnerTypeId:
-                                        item?.intPartnerTypeId,
-                                      buIdCustomer: item?.intBusinessUnitId,
-                                      strPartnerName: item?.strPartnerName,
-                                      isSupplier:
-                                        item?.strPartnerTypeName === 'Supplier'
-                                          ? true
-                                          : false,
-                                    },
-                                  })
-                                }
-                              >
-                                <OverlayTrigger
-                                  overlay={
-                                    <Tooltip id="cs-icon">{'Approval'}</Tooltip>
-                                  }
-                                >
-                                  <span>
-                                    <i
-                                      class="far fa-check-circle pointer approval"
-                                      style={{ fontSize: '14px' }}
-                                    ></i>
+                        <td className="text-center d-flex flex-row">
+                          {values?.approveStatus?.label !== 'Reject' && (
+                            <>
+                              {(customerPermissions?.isCreate ||
+                                supplierPermission?.isCreate) &&
+                                !item?.isApproved && (
+                                  <span
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() =>
+                                      history.push({
+                                        pathname: `/config/partner-management/partner-registration-approval/create/${item?.intRegistrationId}`,
+                                        state: {
+                                          ...item,
+                                          partnerSalesType:
+                                            item?.strPartnerTypeName,
+                                          email: item?.strEmailAddress,
+                                          businessPartnerAddress:
+                                            item?.strOfficeAddress,
+                                          contactNumber: item?.strMobileNumber,
+                                          businessPartnerName:
+                                            item?.strPartnerName,
+                                          bin: item?.strBinNumber,
+                                          licenseNo:
+                                            item?.strTradeLicenseNumber,
+                                          businessPartnerTypeId:
+                                            item?.intPartnerTypeId,
+                                          buIdCustomer: item?.intBusinessUnitId,
+                                          strPartnerName: item?.strPartnerName,
+                                          isSupplier:
+                                            item?.strPartnerTypeName ===
+                                            'Supplier'
+                                              ? true
+                                              : false,
+                                        },
+                                      })
+                                    }
+                                  >
+                                    <OverlayTrigger
+                                      overlay={
+                                        <Tooltip id="cs-icon">
+                                          {'Approval'}
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <span>
+                                        <i
+                                          class="far fa-check-circle pointer approval"
+                                          style={{ fontSize: '14px' }}
+                                        ></i>
+                                      </span>
+                                    </OverlayTrigger>
                                   </span>
-                                </OverlayTrigger>
-                              </span>
-                            )}
+                                )}
+
+                              {(customerPermissions?.isCreate ||
+                                supplierPermission?.isCreate) &&
+                                !item?.isApproved && (
+                                  <span className="ml-2">
+                                    <IClose
+                                      closer={() =>
+                                        rejectPartnerRegisterFunc(
+                                          item?.intRegistrationId
+                                        )
+                                      }
+                                    />
+                                  </span>
+                                )}
+                            </>
+                          )}
                         </td>
                       </tr>
                     ))}
