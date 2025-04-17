@@ -77,7 +77,7 @@ export default function LoanRegisterViewForm({
 
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
-    getNBFIBankDDL(setNBFIList, setLoading, true, false);
+    getNBFIBankDDL(setNBFIList, setLoading, false, true);
   }, []);
 
   useEffect(() => {
@@ -165,6 +165,7 @@ export default function LoanRegisterViewForm({
                     options={bankDDL}
                     value={values?.bank}
                     onChange={(valueOption) => {
+                      setFacilityDDL([]);
                       setFieldValue('bank', valueOption);
                       setFieldValue('account', '');
                       setFieldValue('facility', '');
@@ -176,26 +177,28 @@ export default function LoanRegisterViewForm({
                         setAccountDDL,
                         setLoading
                       );
-                      getFacilityDLL(
-                        selectedBusinessUnit?.value,
-                        valueOption?.value,
-                        (resData) => {
-                          setFacilityDDL(resData);
-                          if (!renewId && !isEdit) {
-                            if (formikRef.current) {
-                              const facilityFind = resData?.find(
-                                (item) => item?.value === 2
-                              );
-                              setFieldValue('facility', facilityFind || '');
-                              setFieldValue(
-                                'termDays',
-                                facilityFind?.tenorDays || 0
-                              );
+                      if (!values?.IsNBFI) {
+                        getFacilityDLL(
+                          selectedBusinessUnit?.value,
+                          valueOption?.value,
+                          (resData) => {
+                            setFacilityDDL(resData);
+                            if (!renewId && !isEdit) {
+                              if (formikRef.current) {
+                                const facilityFind = resData?.find(
+                                  (item) => item?.value === 2
+                                );
+                                setFieldValue('facility', facilityFind || '');
+                                setFieldValue(
+                                  'termDays',
+                                  facilityFind?.tenorDays || 0
+                                );
+                              }
                             }
-                          }
-                        },
-                        setLoading
-                      );
+                          },
+                          setLoading
+                        );
+                      }
                     }}
                     errors={errors}
                     touched={touched}
@@ -228,6 +231,30 @@ export default function LoanRegisterViewForm({
                       onChange={(e) => {
                         setFieldValue('IsNBFI', e.target.checked);
                         setFieldValue('NBFI', '');
+                        setFieldValue('facility', '');
+                        setFacilityDDL([]);
+                        if (!e.target.checked) {
+                          getFacilityDLL(
+                            selectedBusinessUnit?.value,
+                            values?.bank?.value,
+                            (resData) => {
+                              setFacilityDDL(resData);
+                              if (!renewId && !isEdit) {
+                                if (formikRef.current) {
+                                  const facilityFind = resData?.find(
+                                    (item) => item?.value === 2
+                                  );
+                                  setFieldValue('facility', facilityFind || '');
+                                  setFieldValue(
+                                    'termDays',
+                                    facilityFind?.tenorDays || 0
+                                  );
+                                }
+                              }
+                            },
+                            setLoading
+                          );
+                        }
                       }}
                     />
                     <label className="pl-2">Is NBFI</label>
@@ -241,6 +268,30 @@ export default function LoanRegisterViewForm({
                       value={values?.NBFI}
                       onChange={(valueOption) => {
                         setFieldValue('NBFI', valueOption);
+                        setFieldValue('facility', '');
+                        setFacilityDDL([]);
+                        if (valueOption) {
+                          getFacilityDLL(
+                            selectedBusinessUnit?.value,
+                            valueOption?.value,
+                            (resData) => {
+                              setFacilityDDL(resData);
+                              if (!renewId && !isEdit) {
+                                if (formikRef.current) {
+                                  const facilityFind = resData?.find(
+                                    (item) => item?.value === 2
+                                  );
+                                  setFieldValue('facility', facilityFind || '');
+                                  setFieldValue(
+                                    'termDays',
+                                    facilityFind?.tenorDays || 0
+                                  );
+                                }
+                              }
+                            },
+                            setLoading
+                          );
+                        }
                       }}
                       errors={errors}
                       touched={touched}
