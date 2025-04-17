@@ -147,7 +147,11 @@ const LoanRegisterLanding = () => {
       pageSize,
       setLoanRegisterData,
       setLoading,
-      0
+      0,
+      '',
+      '',
+      '',
+      ''
     );
   }, []);
 
@@ -162,7 +166,11 @@ const LoanRegisterLanding = () => {
       pageSize,
       setLoanRegisterData,
       setLoading,
-      values?.applicationType?.value || 0
+      values?.applicationType?.value || 0,
+      '',
+      '',
+      '',
+      values?.bank?.isNbfi
     );
   };
 
@@ -241,7 +249,11 @@ const LoanRegisterLanding = () => {
             pageSize,
             setLoanRegisterData,
             setLoading,
-            values?.applicationType?.value || 0
+            values?.applicationType?.value || 0,
+            '',
+            '',
+            '',
+            values?.bank?.isNbfi
           );
         };
         createLoanRegister(
@@ -488,7 +500,8 @@ const LoanRegisterLanding = () => {
       values?.applicationType?.value || 0,
       values?.fromDate,
       values?.toDate,
-      values?.dateFilter?.value
+      values?.dateFilter?.value,
+      values?.bank?.isNbfi
     );
   };
   return (
@@ -922,62 +935,71 @@ const LoanRegisterLanding = () => {
                                         <i class="fas fa-paperclip"></i>
                                       </ICon>
                                     </span>
-                                    <span
-                                      className="text-primary "
-                                      style={{
-                                        marginLeft: '4px',
-                                        cursor: 'pointer',
-                                      }}
-                                      onClick={() => {
-                                        if (
-                                          item?.numPrinciple - item?.numPaid <=
-                                          0
-                                        ) {
-                                          toast.warn('You have already repaid');
-                                          return;
-                                        } else {
-                                          history.push({
-                                            pathname: `/financial-management/banking/loan-register/repay/${item?.intLoanAccountId}`,
-                                            state: {
-                                              bankId: item?.intBankId,
-                                              principal:
-                                                item?.numPrinciple -
-                                                item?.numPaid,
-                                              bu: values?.businessUnit?.value,
-                                              strLoanAccountName:
-                                                item?.strLoanAccountName,
-                                            },
-                                          });
-                                        }
-                                      }}
-                                    >
-                                      Repay
-                                    </span>
-                                    <span
-                                      className="text-primary "
-                                      style={{
-                                        marginLeft: '4px',
-                                        cursor: 'pointer',
-                                      }}
-                                      onClick={() => {
-                                        if (
-                                          item?.numPrinciple - item?.numPaid <
-                                          1
-                                        ) {
-                                          toast.warn(
-                                            "You can't renew this loan"
-                                          );
-                                          return;
-                                        } else {
-                                          history.push({
-                                            pathname: `/financial-management/banking/loan-register/re-new/${item?.intLoanAccountId}`,
-                                            state: item,
-                                          });
-                                        }
-                                      }}
-                                    >
-                                      Renew
-                                    </span>
+                                    {item?.isLoanApproved && (
+                                      <>
+                                        <span
+                                          className="text-primary "
+                                          style={{
+                                            marginLeft: '4px',
+                                            cursor: 'pointer',
+                                          }}
+                                          onClick={() => {
+                                            if (
+                                              item?.numPrinciple -
+                                                item?.numPaid <=
+                                              0
+                                            ) {
+                                              toast.warn(
+                                                'You have already repaid'
+                                              );
+                                              return;
+                                            } else {
+                                              history.push({
+                                                pathname: `/financial-management/banking/loan-register/repay/${item?.intLoanAccountId}`,
+                                                state: {
+                                                  bankId: item?.intBankId,
+                                                  principal:
+                                                    item?.numPrinciple -
+                                                    item?.numPaid,
+                                                  bu: values?.businessUnit
+                                                    ?.value,
+                                                  strLoanAccountName:
+                                                    item?.strLoanAccountName,
+                                                },
+                                              });
+                                            }
+                                          }}
+                                        >
+                                          Repay
+                                        </span>
+                                        <span
+                                          className="text-primary "
+                                          style={{
+                                            marginLeft: '4px',
+                                            cursor: 'pointer',
+                                          }}
+                                          onClick={() => {
+                                            if (
+                                              item?.numPrinciple -
+                                                item?.numPaid <
+                                              1
+                                            ) {
+                                              toast.warn(
+                                                "You can't renew this loan"
+                                              );
+                                              return;
+                                            } else {
+                                              history.push({
+                                                pathname: `/financial-management/banking/loan-register/re-new/${item?.intLoanAccountId}`,
+                                                state: item,
+                                              });
+                                            }
+                                          }}
+                                        >
+                                          Renew
+                                        </span>
+                                      </>
+                                    )}
                                     {!item?.isLoanApproved && // Loan must not be approved
                                     ((item?.numPrinciple || 0) -
                                       (item?.numPaid || 0) <=
@@ -1081,7 +1103,11 @@ const LoanRegisterLanding = () => {
                                                   setLoanRegisterData,
                                                   setLoading,
                                                   values?.applicationType
-                                                    ?.value || 0
+                                                    ?.value || 0,
+                                                  '',
+                                                  '',
+                                                  '',
+                                                  values?.bank?.isNbfi
                                                 );
                                               }
                                             );
