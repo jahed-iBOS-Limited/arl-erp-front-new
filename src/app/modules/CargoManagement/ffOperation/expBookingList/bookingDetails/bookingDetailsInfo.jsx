@@ -345,34 +345,6 @@ function BookingDetailsInfo({ bookingData, billingData }) {
           </div>
         </div>
         <div className="box-container">
-          {/* Shipment planning sea*/}
-          {transportPlanningSea && (
-            <>
-              <CommonTransportPlanningView
-                transportPlanning={transportPlanningSea}
-                modeOfTransport="Sea"
-              />
-            </>
-          )}
-          {/* Shipment planning air*/}
-          {transportPlanningAir && (
-            <>
-              <CommonTransportPlanningView
-                transportPlanning={transportPlanningAir}
-                modeOfTransport="Air"
-              />
-            </>
-          )}
-          {/* Shipment planning Land*/}
-          {transportPlanningLand && (
-            <>
-              <CommonTransportPlanningView
-                transportPlanning={transportPlanningLand}
-                modeOfTransport="Land"
-              />
-            </>
-          )}
-
           {/* Confirmation Information */}
           <div className="box">
             <h5>Confirmation Information</h5>
@@ -401,6 +373,34 @@ function BookingDetailsInfo({ bookingData, billingData }) {
               <strong>Warehouse:</strong> {bookingData?.warehouseName}
             </p>
           </div>
+
+          {/* Shipment planning sea*/}
+          {transportPlanningSea && (
+            <>
+              <CommonTransportPlanningView
+                transportPlanning={transportPlanningSea}
+                modeOfTransport="Sea"
+              />
+            </>
+          )}
+          {/* Shipment planning air*/}
+          {transportPlanningAir && (
+            <>
+              <CommonTransportPlanningView
+                transportPlanning={transportPlanningAir}
+                modeOfTransport="Air"
+              />
+            </>
+          )}
+          {/* Shipment planning Land*/}
+          {transportPlanningLand && (
+            <>
+              <CommonTransportPlanningView
+                transportPlanning={transportPlanningLand}
+                modeOfTransport="Land"
+              />
+            </>
+          )}
         </div>
         {/* Shipment planning 2*/}
 

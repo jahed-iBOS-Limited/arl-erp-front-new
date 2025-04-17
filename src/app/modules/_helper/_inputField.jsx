@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Field } from 'formik';
 import { Input } from '../../../_metronic/_partials/controls';
 import FormikError from './_formikError';
-
+import { Overlay, Tooltip } from 'react-bootstrap';
 const InputField = (props) => {
   const {
     placeholder,
@@ -13,9 +13,33 @@ const InputField = (props) => {
     touched,
     resetFieldValue,
     style,
+    isHiddenToolTip,
   } = props;
+  const [show, setShow] = useState(false);
+  const target = useRef(null);
+
   return (
-    <div className="position-relative" style={style}>
+    <div
+      className="position-relative"
+      style={style}
+      ref={target}
+      onMouseEnter={() => setShow(true)}
+      onMouseLeave={() => setShow(false)}
+    >
+      {!isHiddenToolTip && (
+        <Overlay
+          target={target.current}
+          show={value && show}
+          placement="top-start"
+        >
+          {(props) => (
+            <Tooltip id="overlay-example" {...props}>
+              {value}
+            </Tooltip>
+          )}
+        </Overlay>
+      )}
+
       <Field
         step={type === 'number' ? 'any' : ''}
         {...props}
