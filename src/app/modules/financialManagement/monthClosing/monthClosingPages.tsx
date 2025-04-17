@@ -2,7 +2,7 @@ import { Redirect, Switch } from 'react-router-dom';
 import { ContentRoute, LayoutSplashScreen } from '../../../../_metronic/layout';
 import { lazy, Suspense } from 'react';
 const ClearningJournalLandingPage = lazy(
-  () => import('./clearingJournal/landing')
+  () => import('./clearingJournal/landing/index')
 );
 const ReconciliationJournal = lazy(
   () => import('../financials/reconciliationJournal/table/tableHeader')
