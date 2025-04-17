@@ -1,20 +1,20 @@
 import React, { lazy, Suspense } from 'react';
 import { Redirect, Switch } from 'react-router-dom';
 import { ContentRoute, LayoutSplashScreen } from '../../../../_metronic/layout';
-// import SCFRegisterCreateEditRenewPage from "./scfRegister/createEditRenew/index.js";
-// const SCFRegisterLandingPage = lazy(() =>
-//   import("./scfRegister/landing/index.js")
-// );
-// const SCFRegisterAutoJournalLog = lazy(() =>
-//   import("./scfRegister/autoJournalLog/index.js")
-// );
-// const SCFRegisterRepayCreate = lazy(() =>
-//   import("./scfRegister/repay/index.js")
-// );
-// const SCFRegisterViewPage = lazy(() => import("./scfRegister/view/index.js"));
-const SCFLimitCreateEditPage = lazy(() => import('./scfLimit/createEdit'));
-const SCFLimitLandingPage = lazy(() => import('./scfLimit/index'));
-const SCFAdviceLanding = lazy(() => import('./scfAdvice/index'));
+import SCFRegisterCreateEditRenewPage from './scfRegister/createEditRenew/index.jsx';
+const SCFRegisterLandingPage = lazy(
+  () => import('./scfRegister/landing/index.jsx')
+);
+const SCFRegisterAutoJournalLog = lazy(
+  () => import('./scfRegister/autoJournalLog/index.jsx')
+);
+const SCFRegisterRepayCreate = lazy(
+  () => import('./scfRegister/repay/index.jsx')
+);
+const SCFRegisterViewPage = lazy(() => import('./scfRegister/view/index.jsx'));
+const SCFLimitCreateEditPage = lazy(() => import('./scfLimit/createEdit.jsx'));
+const SCFLimitLandingPage = lazy(() => import('./scfLimit/index.jsx'));
+const SCFAdviceLanding = lazy(() => import('./scfAdvice/index.jsx'));
 
 const SCFPages = () => {
   return (
@@ -49,7 +49,7 @@ const SCFPages = () => {
         {/* SCF Register */}
         {/* // ! Don't Comment Out This Below Line Without Permission of Al Mahmud vai (ERP) */}
 
-        {/* <ContentRoute
+        <ContentRoute
           path="/financial-management/scf/scfregister/edit/:editId"
           component={SCFRegisterCreateEditRenewPage}
         />
@@ -81,7 +81,7 @@ const SCFPages = () => {
         <ContentRoute
           path="/financial-management/scf/scfregister"
           component={SCFRegisterLandingPage}
-        /> */}
+        />
       </Switch>
     </Suspense>
   );
