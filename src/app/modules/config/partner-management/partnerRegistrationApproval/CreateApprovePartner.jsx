@@ -14,6 +14,7 @@ import customStyles, {
 } from '../../../selectCustomStyle';
 import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import NewSelect from '../../../_helper/_select';
 
 export default function CreateApprovePartner() {
   const [annualData, getAnnualTurn, loadAnnualData] = useAxiosGet();
@@ -110,6 +111,11 @@ export default function CreateApprovePartner() {
   //     toast.error(error?.response?.data?.message || error?.message);
   //   }
   // };
+
+  const isApproveButtonDisables = (values) => {
+    return !values?.sbu || values?.sbu?.length === 0 || !values?.supplyOrg;
+  };
+
   return (
     <Formik
       enableReinitialize={true}
@@ -145,6 +151,7 @@ export default function CreateApprovePartner() {
                   <button
                     type="button"
                     className="btn btn-primary"
+                    disabled={isApproveButtonDisables(values)}
                     onClick={() => {
                       console.log({ values });
 
@@ -264,6 +271,7 @@ export default function CreateApprovePartner() {
                 <div className="global-form">
                   <h5 className="">Attachments</h5>
                   <hr />
+                  <pre>{JSON.stringify(values, null, 1)}</pre>
                   <div className="d-flex justify-content-center">
                     {location.state?.intNidBackFileId ? (
                       <p>
@@ -528,7 +536,7 @@ export default function CreateApprovePartner() {
                           : ''}
                       </p>
                     </div>
-                    <div className="col-lg-3">
+                    {/* <div className="col-lg-3">
                       <label>Supplier Organization</label>
                       <Field
                         name="supplyOrg"
@@ -575,6 +583,32 @@ export default function CreateApprovePartner() {
                           ? errors.businessTransaction.value
                           : ''}
                       </p>
+                    </div> */}
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="supplyOrg"
+                        options={[
+                          {
+                            value: 12,
+                            label: 'Foreign Procurement',
+                          },
+                          {
+                            value: 11,
+                            label: 'Local Procurement',
+                          },
+                        ]}
+                        value={values?.supplyOrg}
+                        label="Supplier Organization"
+                        onChange={(valueOption) => {
+                          setFieldValue('supplyOrg', valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                        styles={createCustomSelectStyles({
+                          isAutoHeight: true,
+                          minHeight: '30px',
+                        })}
+                      />
                     </div>
                   </div>
                 )}
