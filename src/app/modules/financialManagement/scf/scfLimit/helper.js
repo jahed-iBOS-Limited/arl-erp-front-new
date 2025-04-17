@@ -8,8 +8,7 @@ export const landingInitData = {};
 export const scfLimitLandingTableHeader = [
   'SL',
   'Supplier',
-  'Bank Name',
-  'Acc No',
+  'Financial Institution',
   'Limit',
   'Utilize Amount',
   'Tenor Days',
