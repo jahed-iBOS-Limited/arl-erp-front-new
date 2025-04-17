@@ -26,6 +26,7 @@ import ProjectedFinancialStatement from '../ProjectedFinancialStatement';
 import AssetLiabilityPlanEdit from './AssetLiabilityPlan/Edit';
 import CreateEditProductAnalysis from './productCostAnalysis/CreateEditProductAnalysis';
 import { ProductCostAnalysis } from './productCostAnalysis';
+import ForcastedFinancialLandingPage from './forcastedFinancial';
 
 export function InternalControlBudgetPages() {
   const userRole = useSelector(
@@ -84,6 +85,11 @@ export function InternalControlBudgetPages() {
       <ContentRoute
         from="/internal-control/budget/ProjectedFinancialStatement"
         component={ProjectedFinancialStatement}
+      />
+
+      <ContentRoute
+        from="/internal-control/budget/ForcastedFinancial"
+        component={ForcastedFinancialLandingPage}
       />
 
       {/* Purchase Plan */}
