@@ -73,7 +73,6 @@ const LossGainJournalCreate = ({ obj }) => {
   // save handler
   const saveHandler = (values, cb) => {
     // un allocated profit center modal values
-    const { profitCenter } = values;
 
     // landing unallocated item state
     const { state } = showLossGainJournalModalAndState;
