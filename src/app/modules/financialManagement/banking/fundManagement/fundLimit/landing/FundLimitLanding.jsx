@@ -298,7 +298,7 @@ const FundLimitLanding = () => {
                               <tr>
                                 <th>SL</th>
                                 <th>BusinessUnit Name</th>
-                                <th>Bank Name</th>
+                                <th>Financial Institution</th>
                                 <th>Facilities</th>
                                 <th>Limit Amount</th>
                                 <th>Utilized Amount</th>

@@ -21,8 +21,8 @@ import AttachmentUploadForm from '../../attachmentAdd';
 import {
   createLoanRegister,
   getAttachments,
-  getBankDDLAll,
   getLoanRegisterLanding,
+  getNBFIBankDDL,
 } from '../../helper';
 import IClose from '../../../../../_helper/_helperIcons/_close';
 import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
@@ -133,7 +133,7 @@ const LoanRegisterLanding = () => {
   };
 
   useEffect(() => {
-    getBankDDLAll(setBankDDL, setLoading);
+    getNBFIBankDDL(setBankDDL, setLoading, true, true);
     getBusinessUnitDDL(profileData?.accountId, setBusinessUnitDDL);
   }, []);
 
@@ -294,7 +294,7 @@ const LoanRegisterLanding = () => {
         width: 250,
       },
       {
-        text: 'Bank',
+        text: 'Disbursed Bank Name',
         textFormat: 'text',
         alignment: 'center:middle',
         key: 'strBankName',
@@ -424,6 +424,13 @@ const LoanRegisterLanding = () => {
         textFormat: 'text',
         alignment: 'center:middle',
         key: 'loanTypeName',
+        width: 120,
+      },
+      {
+        text: 'NBFI',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'strNbfiName',
         width: 120,
       },
       {
@@ -559,7 +566,7 @@ const LoanRegisterLanding = () => {
                     <div className="col-lg-3">
                       <NewSelect
                         name="bank"
-                        options={bankDDL}
+                        options={[{ label: 'ALL', value: 0 }, ...bankDDL]}
                         value={values?.bank}
                         onChange={(valueOption) => {
                           setFieldValue('bank', valueOption);
@@ -682,7 +689,8 @@ const LoanRegisterLanding = () => {
                             values?.applicationType?.value || 0,
                             values?.fromDate,
                             values?.toDate,
-                            values?.dateFilter?.value
+                            values?.dateFilter?.value,
+                            values?.bank?.isNbfi
                           );
                         }}
                       >
@@ -723,7 +731,7 @@ const LoanRegisterLanding = () => {
                               <th>SL</th>
                               <th style={{ minWidth: '100px' }}>Status</th>
                               {[136].includes(buId) && <th>SBU</th>}
-                              <th>Bank</th>
+                              <th>Disbursed Bank Name</th>
                               <th style={{ minWidth: '100px' }}>Facility</th>
                               <th style={{ minWidth: '120px' }}>
                                 Loan A/c no.
@@ -775,6 +783,7 @@ const LoanRegisterLanding = () => {
                               </th>
                               <th style={{ minWidth: '70px' }}>Loan Class</th>
                               <th style={{ minWidth: '70px' }}>Loan Type</th>
+                              <th>NBFI</th>
                               <th>Disbursement Voucher No</th>
                               {/* <th style={{ minWidth: "90px" }}>
                                 Application Status
@@ -865,6 +874,9 @@ const LoanRegisterLanding = () => {
 
                                 <td className="text-">{item?.loanClassName}</td>
                                 <td className="text-">{item?.loanTypeName}</td>
+                                <td className="text-">
+                                  {item?.strNbfiName || ''}
+                                </td>
                                 <td className="text-">{item?.brCode}</td>
                                 {/* <td>
                                   {item?.isLoanApproved

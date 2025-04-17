@@ -59,6 +59,7 @@ export default function FundLimitCreate({
         ? landingRowData?.businessUnitId
         : state?.businessUnit?.value,
       bankId: values?.bank?.value,
+      isNbfi: values?.bank?.isNbfi,
       facilityId: values?.facility?.value,
       numLimit: +values?.limit || 0,
       loanUpdateDate: values?.updatedDate,
