@@ -957,6 +957,7 @@ const LoanRegisterLanding = () => {
                                               history.push({
                                                 pathname: `/financial-management/banking/loan-register/repay/${item?.intLoanAccountId}`,
                                                 state: {
+                                                  ...item,
                                                   bankId: item?.intBankId,
                                                   principal:
                                                     item?.numPrinciple -
