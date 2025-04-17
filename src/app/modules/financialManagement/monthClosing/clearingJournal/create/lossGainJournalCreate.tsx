@@ -16,7 +16,7 @@ const LossGainJournalCreate = ({ obj }) => {
   // destructure
   const {
     values: landingValues,
-    showLossGainJournalModalAndState,
+
     setShowLossGainJournalModalAndState,
     resetForm: resetLandingValues,
     setLossGainJournalData,
@@ -76,7 +76,6 @@ const LossGainJournalCreate = ({ obj }) => {
     // un allocated profit center modal values
 
     // landing unallocated item state
-    const { state } = showLossGainJournalModalAndState;
 
     // save unallocated profit center
     saveLossGainJournal(``, null, cb, true);
