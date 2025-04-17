@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { IInput } from '../../../../_helper/_input';
@@ -13,6 +13,8 @@ import {
   getInventoryTransactionData,
   getShopFloorFGItemDDL,
 } from '../helper';
+import Loading from '../../../../_helper/_loading';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
 
 // Validation schema for bank payment
 const validationSchema = Yup.object().shape({});
@@ -38,7 +40,8 @@ export default function FormCmp({
 }) {
   const { viewId } = useParams();
 
-  console.log('itemDDL: ', itemDDL);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     if (location?.state?.selectedTransactionType?.value) {
@@ -97,15 +100,21 @@ export default function FormCmp({
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
-            setRowDto([]);
-            getShopFloorReferenceCodeDDL(
-              values?.referenceType?.value,
-              location?.state?.selectedPlant?.value,
-              location?.state?.selectedShopFloorDDL?.value,
-              setShopFloorRefCodeDDL
-            );
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+                setRowDto([]);
+                getShopFloorReferenceCodeDDL(
+                  values?.referenceType?.value,
+                  location?.state?.selectedPlant?.value,
+                  location?.state?.selectedShopFloorDDL?.value,
+                  setShopFloorRefCodeDDL
+                );
+              });
+            },
           });
         }}
       >
@@ -119,6 +128,7 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
+            {isLoading && <Loading />}
             <Form>
               <div className="row mt-2">
                 <div className="col-lg-12 p-0 m-0">
