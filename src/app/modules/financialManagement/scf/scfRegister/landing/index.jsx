@@ -777,7 +777,7 @@ const SCFRegisterLandingPage = () => {
                                     <InfoCircle
                                       clickHandler={() => {
                                         getSCFInfoData(
-                                          `/fino/FundManagement/GetLoanRegisterHistory?loanAccountId=${item?.intLoanAccountId}&journalCode=${item?.brCode}`
+                                          `/fino/SCFManagement/GetSCFRegisterHistory?loanAccountId=${item?.intLoanAccountId}&journalCode=${item?.brCode}`
                                         );
                                         setShowSCFInfoModal(true);
                                       }}

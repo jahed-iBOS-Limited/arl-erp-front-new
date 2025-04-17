@@ -47,7 +47,7 @@ export const getFacilityDLL = async (buiId, bankId, setter, setLoading) => {
   try {
     setLoading(true);
     const res =
-      await Axios.get(`/fino/FundManagement/GetFacilityDDL?BusinessUnitId=${buiId}&BankId=${
+      await Axios.get(`/fino/SCFManagement/GetFacilityDDL?BusinessUnitId=${buiId}&BankId=${
         bankId || 0
       }
     `);
@@ -213,7 +213,7 @@ export const getLoanRegisterLanding = async (
   try {
     setLoading(true);
     const res = await Axios.get(
-      `/fino/FundManagement/GetLoanRegisterLanding?accountId=${accId}&businessUnitId=${buId}&bankId=${bankId}&statusTypeId=${statusTypeId}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${IsApproved}${dateFilterParam}${dateParam1}${dateParam2}`
+      `/fino/SCFManagement/GetSCFRegisterLanding?accountId=${accId}&businessUnitId=${buId}&bankId=${bankId}&statusTypeId=${statusTypeId}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${IsApproved}${dateFilterParam}${dateParam1}${dateParam2}`
     );
     setter(res?.data);
     setLoading(false);
@@ -236,7 +236,7 @@ export const getLoanRegisterLogs = async (
   try {
     setLoading(true);
     const res = await Axios.get(
-      `/fino/FundManagement/GetLoanRepayAutoJournalLog?businessUnitId=${businessUnitId}&pageNo=${pageNo}&pageSize=${pageSize}${dateParam1}${dateParam2}`
+      `/fino/SCFManagement/GetSCFRepayAutoJournalLog?businessUnitId=${businessUnitId}&pageNo=${pageNo}&pageSize=${pageSize}${dateParam1}${dateParam2}`
     );
     setter(res?.data);
     setLoading(false);
@@ -290,7 +290,7 @@ export const createLoanRegister = async (
       remarks: remarks,
     };
     const res = await Axios.post(
-      '/fino/FundManagement/FundLoanAccountCreate',
+      '/fino/SCFManagement/FundSCFAccountCreate',
       requestBody
     );
 
@@ -327,7 +327,7 @@ export const createRepay = async (
 ) => {
   try {
     const res = await Axios.post(
-      `/fino/FundManagement/FundLoanRepay?accountId=${accId}&businessUnitId=${buId}&loanAccId=${loanAcc}&bankAccId=${bankAccId}&instrumentId=${instrumentId}&instrumentNo=${instrumentNo}&instrumentDate=${instrumentDate}&numAmount=${principalAmount}&numInterestAmount=${
+      `/fino/SCFManagement/FundSCFRepay?accountId=${accId}&businessUnitId=${buId}&loanAccId=${loanAcc}&bankAccId=${bankAccId}&instrumentId=${instrumentId}&instrumentNo=${instrumentNo}&instrumentDate=${instrumentDate}&numAmount=${principalAmount}&numInterestAmount=${
         interestAmount || 0
       }&transDate=${transDate}&actionById=${actionId}&numExciseDuty=${numExciseDuty}`
     );
@@ -344,7 +344,7 @@ export const loadRegisterEdit = async ({ editPayload, setDisabled, cb }) => {
   setDisabled(true);
   try {
     const res = await Axios.put(
-      `/fino/FundManagement/EditLoanRegister`,
+      `/fino/SCFManagement/EditSCFRegister`,
       editPayload
     );
     toast.success(res?.message || 'Submitted successfully');
@@ -434,7 +434,7 @@ export const getLoanRegisterById = async (id, setter, setLoading) => {
   try {
     setLoading(true);
     const res = await Axios.get(
-      `/fino/FundManagement/GetLoanRegisterByid?id=${id}`
+      `/fino/SCFManagement/GetSCFRegisterByid?id=${id}`
     );
     const newData = {
       bank: { label: res?.data?.strBankName, value: res?.data?.intBankId },
@@ -486,7 +486,7 @@ export const attachFilesForBanking = async (payload, setLoading, cb) => {
   setLoading && setLoading(true);
   try {
     const res = await Axios.post(
-      `/fino/FundManagement/CreateAttachmentForFDR`,
+      `/fino/SCFManagement/CreateAttachmentForFDR`,
       payload
     );
     toast.success(res?.data?.message);

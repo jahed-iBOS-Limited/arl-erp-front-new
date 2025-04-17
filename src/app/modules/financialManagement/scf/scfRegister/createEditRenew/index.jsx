@@ -102,7 +102,7 @@ export default function SCFRegisterCreateEditRenewPage({
 
     if (renewId) {
       renewSave(
-        `/fino/FundManagement/FundLoanAccountRenew?accountId=${
+        `/fino/SCFManagement/FundSCFAccountRenew?accountId=${
           profileData?.accountId
         }&businessUnitId=${
           location?.state?.intBusinessUnitId || selectedBusinessUnit?.value
