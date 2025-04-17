@@ -92,16 +92,17 @@ export default function LiftingReport() {
 
   const transportOptions = {
     1: [
+      { value: 0, label: 'All' },
       { value: 1, label: 'Air' },
       { value: 2, label: 'Sea' },
       { value: 3, label: 'Sea-Air' },
     ],
     2: [
+      { value: 0, label: 'All' },
       { value: 1, label: 'Air' },
       { value: 2, label: 'Sea' },
       { value: 4, label: 'Land' },
     ],
-    3: [{ value: 6, label: 'Air Import' }],
   };
 
   const getTransportOptions = (shipmentType) =>
@@ -170,10 +171,6 @@ export default function LiftingReport() {
                       options={[
                         { value: 1, label: 'Export' },
                         { value: 2, label: 'Import' },
-                        {
-                          value: 3,
-                          label: 'Air Ops',
-                        },
                       ]}
                       value={values?.shipmentType}
                       label="Shipment Type"
