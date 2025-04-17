@@ -13,7 +13,26 @@
 .chargesModal .global-table tbody .collection-border-right {
   border-right: 1px solid #9be4eb !important;
 }
+.chargesModal .global-table tbody .collection-border-left {
+  border-left: 1px solid #9be4eb !important;
+}
 
 .chargesModal .global-table tbody .payment-border-right {
   border-right: 1px solid #c9757e !important;
+}
+
+.border-animation {
+  animation: border-pulse 1s infinite;
+}
+
+@keyframes border-pulse {
+  0% {
+    box-shadow: 0px 0px 0px 1px #ffa800
+  }
+  50% {
+    box-shadow: 0px 0px 0px 3px #ffa800
+  }
+  100% {
+    box-shadow: 0px 0px 0px 1px #ffa800
+  }
 }

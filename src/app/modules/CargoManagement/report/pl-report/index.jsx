@@ -97,7 +97,6 @@ export default function PLReport() {
       { value: 2, label: 'Sea' },
       { value: 4, label: 'Land' },
     ],
-    3: [{ value: 6, label: 'Air Import' }],
   };
 
   const getTransportOptions = (shipmentType) =>
@@ -165,10 +164,6 @@ export default function PLReport() {
                       options={[
                         { value: 1, label: 'Export' },
                         { value: 2, label: 'Import' },
-                        {
-                          value: 3,
-                          label: 'Air Ops',
-                        },
                       ]}
                       value={values?.shipmentType}
                       label="Shipment Type"
