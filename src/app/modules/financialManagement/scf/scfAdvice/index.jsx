@@ -114,7 +114,7 @@ const SCFAdviceLanding = () => {
           <NewSelect
             options={adviceTypeDDL}
             name="adviceType"
-            label="Adive Type"
+            label="Advice Type"
             value={values?.adviceType || ''}
             onChange={(valueOption) => {
               commonFormFieldChangeHandler({

@@ -150,7 +150,7 @@ export default function ContractorLabourRegisterCreate() {
                         type="text"
                       />
                     </div>
-                    <div className="col-lg-2">
+                    <div className="col-lg-3">
                       <InputField
                         value={values?.inTime}
                         label="প্রবেশের সময়"
@@ -158,7 +158,7 @@ export default function ContractorLabourRegisterCreate() {
                         type="time"
                       />
                     </div>
-                    <div className="col-lg-2">
+                    <div className="col-lg-3">
                       <InputField
                         value={values?.outTime}
                         label="বহির্গমনের সময়"
@@ -166,7 +166,7 @@ export default function ContractorLabourRegisterCreate() {
                         type="time"
                       />
                     </div>
-                    <div className="col-lg-2">
+                    <div className="col-lg-3">
                       <InputField
                         value={values?.totalLabour}
                         label="মোট শ্রমিক"
