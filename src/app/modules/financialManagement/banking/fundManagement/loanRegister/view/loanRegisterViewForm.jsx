@@ -105,6 +105,10 @@ export default function LoanRegisterViewForm({
                 'termDays',
                 facilityFind?.tenorDays || 0
               );
+              onSetMaturityDate(
+                initData?.openingDate,
+                facilityFind?.tenorDays || 0
+              );
             }
           },
           setLoading
@@ -193,6 +197,10 @@ export default function LoanRegisterViewForm({
                                   'termDays',
                                   facilityFind?.tenorDays || 0
                                 );
+                                onSetMaturityDate(
+                                  values?.openingDate,
+                                  facilityFind?.tenorDays || 0
+                                );
                               }
                             }
                           },
@@ -249,6 +257,10 @@ export default function LoanRegisterViewForm({
                                     'termDays',
                                     facilityFind?.tenorDays || 0
                                   );
+                                  onSetMaturityDate(
+                                    values?.openingDate,
+                                    facilityFind?.tenorDays || 0
+                                  );
                                 }
                               }
                             },
@@ -284,6 +296,10 @@ export default function LoanRegisterViewForm({
                                   setFieldValue('facility', facilityFind || '');
                                   setFieldValue(
                                     'termDays',
+                                    facilityFind?.tenorDays || 0
+                                  );
+                                  onSetMaturityDate(
+                                    values?.openingDate,
                                     facilityFind?.tenorDays || 0
                                   );
                                 }
