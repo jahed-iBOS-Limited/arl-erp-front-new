@@ -9,6 +9,7 @@ import {
   getBankAccountDDLByBankId,
   getBankDDL,
   getFacilityDLL,
+  getNBFIBankDDL,
 } from '../../helper';
 const disbursementPurposeDDL = [
   { value: 1, label: 'Duty' },
@@ -68,6 +69,7 @@ export default function LoanRegisterViewForm({
   const [accountDDL, setAccountDDL] = useState([]);
   const [facilityDDL, setFacilityDDL] = useState([]);
   const [, setLoading] = useState(false);
+  const [nbfiList, setNBFIList] = useState([]);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
@@ -75,6 +77,7 @@ export default function LoanRegisterViewForm({
 
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
+    getNBFIBankDDL(setNBFIList, setLoading, true, false);
   }, []);
 
   useEffect(() => {
@@ -197,8 +200,8 @@ export default function LoanRegisterViewForm({
                     errors={errors}
                     touched={touched}
                     isDisabled={isEdit || renewId}
-                    label="Bank"
-                    placeholder="Bank"
+                    label="Disbursed Bank"
+                    placeholder="Disbursed Bank"
                   />
                 </div>
                 <div className="col-lg-4">
@@ -212,10 +215,42 @@ export default function LoanRegisterViewForm({
                     errors={errors}
                     touched={touched}
                     // isDisabled={isEdit || renewId}
-                    label="Bank Account"
-                    placeholder="Bank Account"
+                    label="Disbursed Account"
+                    placeholder="Disbursed Account"
                   />
                 </div>
+                <div className="col-lg-1 mt-5">
+                  <div className="d-flex align-items-center">
+                    <input
+                      type="checkbox"
+                      checked={values?.IsNBFI}
+                      disabled={renewId || location?.state?.isLoanApproved}
+                      onChange={(e) => {
+                        setFieldValue('IsNBFI', e.target.checked);
+                        setFieldValue('NBFI', '');
+                      }}
+                    />
+                    <label className="pl-2">Is NBFI</label>
+                  </div>
+                </div>
+                {values?.IsNBFI && (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="NBFI"
+                      options={nbfiList}
+                      value={values?.NBFI}
+                      onChange={(valueOption) => {
+                        setFieldValue('NBFI', valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={renewId || location?.state?.isLoanApproved}
+                      label="NBFI"
+                      placeholder="NBFI"
+                    />
+                  </div>
+                )}
+
                 <div className="col-lg-4">
                   <NewSelect
                     name="facility"
