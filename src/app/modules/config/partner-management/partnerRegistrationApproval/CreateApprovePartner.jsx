@@ -271,7 +271,6 @@ export default function CreateApprovePartner() {
                 <div className="global-form">
                   <h5 className="">Attachments</h5>
                   <hr />
-                  <pre>{JSON.stringify(values, null, 1)}</pre>
                   <div className="d-flex justify-content-center">
                     {location.state?.intNidBackFileId ? (
                       <p>
