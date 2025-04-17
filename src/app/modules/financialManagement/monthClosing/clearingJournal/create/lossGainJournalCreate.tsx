@@ -16,8 +16,8 @@ const LossGainJournalCreate = ({ obj }) => {
   // destructure
   const {
     values: landingValues,
-
-    setShowUnallocatedPCAndLossGainJournalModalAndState,
+    showLossGainJournalModalAndState,
+    setShowLossGainJournalModalAndState,
     resetForm: resetLandingValues,
     setLossGainJournalData,
   } = obj;
@@ -75,6 +75,7 @@ const LossGainJournalCreate = ({ obj }) => {
     // un allocated profit center modal values
 
     // landing unallocated item state
+    const { state } = showLossGainJournalModalAndState;
 
     // save unallocated profit center
     saveLossGainJournal(``, null, cb, true);
@@ -94,7 +95,7 @@ const LossGainJournalCreate = ({ obj }) => {
       onSubmit={(values, { resetForm }) => {
         saveHandler(values, () => {
           resetForm();
-          setShowUnallocatedPCAndLossGainJournalModalAndState((prevState) => ({
+          setShowLossGainJournalModalAndState((prevState) => ({
             ...prevState,
             state: {},
             isModalOpen: false,

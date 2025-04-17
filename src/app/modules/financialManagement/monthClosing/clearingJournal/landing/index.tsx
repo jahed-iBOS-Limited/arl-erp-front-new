@@ -26,9 +26,14 @@ const ClearningJournalLandingPage = () => {
   }, shallowEqual);
 
   // state
+  const [showUnallocatedPCModalAndState, setShowUnallocatedPCModalAndState] =
+    useState({
+      state: {},
+      isModalOpen: false,
+    });
   const [
-    showUnallocatedPCAndLossGainJournalModalAndState,
-    setShowUnallocatedPCAndLossGainJournalModalAndState,
+    showLossGainJournalModalAndState,
+    setShowLossGainJournalModalAndState,
   ] = useState({
     state: {},
     isModalOpen: false,
@@ -112,7 +117,7 @@ const ClearningJournalLandingPage = () => {
                             className="btn btn-primary"
                             disabled={isUnallocatedPCSaveButtonDisabled}
                             onClick={() => {
-                              setShowUnallocatedPCAndLossGainJournalModalAndState(
+                              setShowUnallocatedPCModalAndState(
                                 (prevState) => ({
                                   ...prevState,
                                   // set which item is selected from unallocated profit center data
@@ -133,7 +138,7 @@ const ClearningJournalLandingPage = () => {
                             className="btn btn-primary"
                             disabled={isLossGainJournalSaveButtonDisabled}
                             onClick={() => {
-                              setShowUnallocatedPCAndLossGainJournalModalAndState(
+                              setShowLossGainJournalModalAndState(
                                 (prevState) => ({
                                   ...prevState,
                                   // set which item is selected from unallocated profit center data
@@ -257,24 +262,20 @@ const ClearningJournalLandingPage = () => {
             {/* Create Unallocated Profit Center */}
             <IViewModal
               title="Create Unallocated Profit Center"
-              show={
-                showUnallocatedPCAndLossGainJournalModalAndState?.isModalOpen
-              }
+              show={showUnallocatedPCModalAndState?.isModalOpen}
               onHide={() =>
-                setShowUnallocatedPCAndLossGainJournalModalAndState(
-                  (prevState) => ({
-                    ...prevState,
-                    state: {},
-                    isModalOpen: false,
-                  })
-                )
+                setShowUnallocatedPCModalAndState((prevState) => ({
+                  ...prevState,
+                  state: {},
+                  isModalOpen: false,
+                }))
               }
             >
               <UnAllocatedProfitCenterCreate
                 obj={{
                   values,
-                  showUnallocatedPCAndLossGainJournalModalAndState,
-                  setShowUnallocatedPCAndLossGainJournalModalAndState,
+                  showUnallocatedPCModalAndState,
+                  setShowUnallocatedPCModalAndState,
                   resetForm,
                   setUnallocatedProfitCenterData,
                 }}
@@ -284,24 +285,20 @@ const ClearningJournalLandingPage = () => {
             {/* Create Loss Gain Journal */}
             <IViewModal
               title="Create Loss Gain Journal"
-              show={
-                showUnallocatedPCAndLossGainJournalModalAndState?.isModalOpen
-              }
+              show={showLossGainJournalModalAndState?.isModalOpen}
               onHide={() =>
-                setShowUnallocatedPCAndLossGainJournalModalAndState(
-                  (prevState) => ({
-                    ...prevState,
-                    state: {},
-                    isModalOpen: false,
-                  })
-                )
+                setShowLossGainJournalModalAndState((prevState) => ({
+                  ...prevState,
+                  state: {},
+                  isModalOpen: false,
+                }))
               }
             >
               <LossGainJournalCreate
                 obj={{
                   values,
-                  showUnallocatedPCAndLossGainJournalModalAndState,
-                  setShowUnallocatedPCAndLossGainJournalModalAndState,
+                  showLossGainJournalModalAndState,
+                  setShowLossGainJournalModalAndState,
                   resetForm,
                   setLossGainJournalData,
                 }}
