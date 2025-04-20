@@ -305,9 +305,14 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
     // Check if any two "paymentPartyId" values are the same but their "currencyId" values differ
     for (let i = 0; i < payloadList.length; i++) {
       for (let j = i + 1; j < payloadList.length; j++) {
-        if (payloadList[i].paymentPartyId === payloadList[j].paymentPartyId) {
+        if (
+          payloadList[i].paymentPartyId &&
+          payloadList[j].paymentPartyId &&
+          payloadList[i].paymentPartyId === payloadList[j].paymentPartyId
+        ) {
           // If paymentPartyId is the same, check if currencyId is the same
           if (payloadList[i].currencyId !== payloadList[j].currencyId) {
+            console.log(payloadList[i].currencyId, payloadList[j].currencyId);
             return toast.warn(
               `Warning: "Payment Party" ${payloadList[j].headOfCharges} has different currency: ${payloadList[i].currency} and ${payloadList[j].currency}`
             );
@@ -319,6 +324,8 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
     for (let i = 0; i < payloadList.length; i++) {
       for (let j = i + 1; j < payloadList.length; j++) {
         if (
+          payloadList[i].collectionPartyId &&
+          payloadList[j].collectionPartyId &&
           payloadList[i].collectionPartyId === payloadList[j].collectionPartyId
         ) {
           // If collectionPartyId is the same, check if currencyId is the same
@@ -334,7 +341,8 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
     getSaveBookedRequestBilling(
       `${imarineBaseUrl}/domain/ShippingService/SaveBookedRequestBilling`,
       payloadList,
-      CB
+      CB,
+      true
     );
   };
   return (
