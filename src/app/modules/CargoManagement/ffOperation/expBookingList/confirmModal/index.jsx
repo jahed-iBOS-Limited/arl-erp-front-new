@@ -401,7 +401,10 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
       tradeTypeId: tradeTypeId,
       hblNo: values?.hblNo || '',
       modeOfTransportId: rowClickData?.modeOfTransportId || 0,
-      isAirOperation: values?.isAirOperation || false,
+      isAirOperation:
+        rowClickData?.modeOfTransportId === 5
+          ? true
+          : values?.isAirOperation || false,
     };
 
     if (payload) {
