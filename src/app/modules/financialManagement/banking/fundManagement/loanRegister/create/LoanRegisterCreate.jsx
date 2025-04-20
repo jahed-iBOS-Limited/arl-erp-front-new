@@ -22,6 +22,8 @@ const initData = {
   disbursementPurpose: '',
   facilityRemarks: '',
   remarks: '',
+  IsNBFI: false,
+  NBFI: '',
 };
 
 export default function LoanRegisterCreate({
@@ -80,6 +82,14 @@ export default function LoanRegisterCreate({
               }
             : '',
         remarks: location?.state?.loanRemarks || '',
+        IsNBFI: location?.state?.intNbfiId > 0 ? true : false,
+        NBFI:
+          location?.state?.intNbfiId && location?.state?.strNbfiName
+            ? {
+                value: location.state.intNbfiId,
+                label: location.state.strNbfiName,
+              }
+            : '',
       });
     }
   }, [renewId, location, editId]);
@@ -99,6 +109,11 @@ export default function LoanRegisterCreate({
     if (!values?.facility) {
       setDisabled(false);
       return toast.warn('Please Select Facility');
+    }
+
+    if (values?.IsNBFI && !values?.NBFI) {
+      setDisabled(false);
+      return toast.warn('Please Select NBFI');
     }
 
     if (renewId) {
@@ -142,6 +157,7 @@ export default function LoanRegisterCreate({
         disbursementPurposeId: values?.disbursementPurpose?.value || 0,
         disbursementPurposeName: values?.disbursementPurpose?.label || '',
         loanRemarks: values?.remarks || '',
+        intNbfiId: values?.NBFI?.value || null,
       };
       loadRegisterEdit({ editPayload, setDisabled, cb });
       return;
@@ -166,7 +182,8 @@ export default function LoanRegisterCreate({
       false,
       0,
       values?.facilityRemarks,
-      values?.remarks
+      values?.remarks,
+      values?.NBFI?.value || null
     );
   };
 

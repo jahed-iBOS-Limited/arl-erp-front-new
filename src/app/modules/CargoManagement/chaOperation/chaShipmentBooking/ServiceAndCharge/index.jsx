@@ -218,6 +218,7 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                     <th colspan="3" className="group-header collection-header">
                       Collection
                     </th>
+                    <th rowspan="2">Action</th>
                   </tr>
                   <tr>
                     <th
@@ -419,31 +420,53 @@ function ServiceAndCharge({ clickRowDto, CB }) {
                         <td className="collection-border-right text-right">
                           {item?.collectionAmount}
                         </td>
-                        {/* Party */}
-                        {/* <td className="payment-border-right">
-                          <SearchAsyncSelect
-                            isDisabled={isDisabled}
-                            selectedValue={
-                              item?.party
-                                ? {
-                                    label: item?.party,
-                                    value: item?.partyId || 0,
+                        {/* above  row copy button*/}
+                        <td>
+                          {item?.headOfCharges === 'Additional' && (
+                            <div
+                              className="d-flex justify-content-center"
+                              style={{
+                                gap: '5px',
+                              }}
+                            >
+                              <button
+                                disabled={isDisabled}
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={() => {
+                                  const hardCopy = JSON.parse(
+                                    JSON.stringify(shippingHeadOfCharges)
+                                  );
+                                  // copy above row item copy and add new row
+                                  const aboveRow = hardCopy?.[index];
+                                  if (!aboveRow) {
+                                    return toast.warn(
+                                      'Please select above row'
+                                    );
                                   }
-                                : ''
-                            }
-                            handleChange={(valueOption) => {
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].party = valueOption?.label;
-                              copyPrv[index].partyId = valueOption?.value;
-                              setShippingHeadOfCharges(copyPrv);
-                            }}
-                            loadOptions={(v) => {
-                              let url = `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?search=${v}&accountId=1&businessUnitId=${selectedBusinessUnit?.value}`;
-                              if (v?.length < 2) return [];
-                              return axios.get(url).then((res) => res?.data);
-                            }}
-                          />
-                        </td> */}
+                                  // insert new row below the above row
+                                  const modifiedData = [
+                                    ...hardCopy?.slice(0, index + 1),
+                                    {
+                                      checked: false,
+                                      headOfChargeId:
+                                        aboveRow?.headOfChargeId || 0,
+                                      headOfCharges:
+                                        aboveRow?.headOfCharges || '',
+                                    },
+                                    ...hardCopy?.slice(index + 1),
+                                  ];
+                                  setShippingHeadOfCharges(modifiedData);
+                                }}
+                              >
+                                <i
+                                  className="fa fa-clone"
+                                  aria-hidden="true"
+                                ></i>
+                              </button>
+                            </div>
+                          )}
+                        </td>
                       </tr>
                     );
                   })}

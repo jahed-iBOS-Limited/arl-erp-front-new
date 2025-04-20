@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import InputField from '../../../../../_helper/_inputField';
 import Loading from '../../../../../_helper/_loading';
 import NewSelect from '../../../../../_helper/_select';
-import { getBankDDL, getFacilityDLL, getFundLimitById } from '../../helper';
+import { getFacilityDLL, getFundLimitById, getNBFIBankDDL } from '../../helper';
 import { _dateFormatter } from '../../../../../_helper/_dateFormate';
 import { shallowEqual, useSelector } from 'react-redux';
 
@@ -46,7 +46,7 @@ export default function LimitForm({
     return state?.authData;
   }, shallowEqual);
   useEffect(() => {
-    getBankDDL(setBankDDL, setLoading);
+    getNBFIBankDDL(setBankDDL, setLoading, true, true);
     getFacilityDLL(selectedBusinessUnit?.value, 0, setFacilityDDL, setLoading);
   }, []);
   useEffect(() => {
@@ -108,8 +108,8 @@ export default function LimitForm({
                     errors={errors}
                     touched={touched}
                     isDisabled={isEdit}
-                    label="Bank"
-                    placeholder="Bank"
+                    label="Financials institutions"
+                    placeholder="Financials institutions"
                   />
                 </div>
                 <div className="col-lg-4">

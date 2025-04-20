@@ -13,6 +13,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import shortid from 'shortid';
 import { isUniq } from '../../../../../../_helper/uniqChecker';
+import Loading from '../../../../../../_helper/_loading';
 
 const initData = {
   plant: '',
@@ -402,65 +403,68 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
   };
 
   return (
-    <Card>
-      <CardHeader
-        title={
-          isViewPage
-            ? 'Config Item Plant Warehouse'
-            : 'Edit Config Item Plant Warehouse'
-        }
-      >
-        <CardHeaderToolbar>
-          {!isViewPage && (
-            <>
-              <button
-                type="reset"
-                onClick={resetBtnClick}
-                ref={resetBtnRef}
-                className="btn btn-light ml-2"
-              >
-                <i className="fa fa-redo"></i>
-                Reset
-              </button>
-              <button
-                type="submit"
-                className="btn btn-primary ml-2"
-                onClick={saveDataClick}
-                ref={saveBtnRef}
-                disabled={isDisabled}
-              >
-                Save
-              </button>
-            </>
-          )}
-        </CardHeaderToolbar>
-      </CardHeader>
-      <CardBody>
-        <Form
-          isViewPage={isViewPage}
-          productData={singleInitData || initData}
-          saveBtnRef={saveBtnRef}
-          saveData={saveData}
-          resetBtnRef={resetBtnRef}
-          businessUnitName={false}
-          businessUnitCode={true}
-          isDisabledCode={true}
-          disableHandler={disableHandler}
-          setter={setter}
-          defaultSetter={defaultSetter}
-          remover={remover}
-          defaultRemover={defaultRemover}
-          selectedBusinessUnit={selectedBusinessUnit}
-          accountId={profileData.accountId}
-          rowDto={rowDto}
-          defaultRowDto={defaultRowDto}
-          setDefaultRowDto={setDefaultRowDto}
-          userId={profileData?.userId}
-          baseSetter={baseSetter}
-          isEdit={isEdit}
-          existUOMData={existUOMData}
-        />
-      </CardBody>
-    </Card>
+    <>
+      {isDisabled && <Loading />}
+      <Card>
+        <CardHeader
+          title={
+            isViewPage
+              ? 'Config Item Plant Warehouse'
+              : 'Edit Config Item Plant Warehouse'
+          }
+        >
+          <CardHeaderToolbar>
+            {!isViewPage && (
+              <>
+                <button
+                  type="reset"
+                  onClick={resetBtnClick}
+                  ref={resetBtnRef}
+                  className="btn btn-light ml-2"
+                >
+                  <i className="fa fa-redo"></i>
+                  Reset
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary ml-2"
+                  onClick={saveDataClick}
+                  ref={saveBtnRef}
+                  disabled={isDisabled}
+                >
+                  Save
+                </button>
+              </>
+            )}
+          </CardHeaderToolbar>
+        </CardHeader>
+        <CardBody>
+          <Form
+            isViewPage={isViewPage}
+            productData={singleInitData || initData}
+            saveBtnRef={saveBtnRef}
+            saveData={saveData}
+            resetBtnRef={resetBtnRef}
+            businessUnitName={false}
+            businessUnitCode={true}
+            isDisabledCode={true}
+            disableHandler={disableHandler}
+            setter={setter}
+            defaultSetter={defaultSetter}
+            remover={remover}
+            defaultRemover={defaultRemover}
+            selectedBusinessUnit={selectedBusinessUnit}
+            accountId={profileData.accountId}
+            rowDto={rowDto}
+            defaultRowDto={defaultRowDto}
+            setDefaultRowDto={setDefaultRowDto}
+            userId={profileData?.userId}
+            baseSetter={baseSetter}
+            isEdit={isEdit}
+            existUOMData={existUOMData}
+          />
+        </CardBody>
+      </Card>
+    </>
   );
 }

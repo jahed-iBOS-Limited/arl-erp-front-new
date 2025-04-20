@@ -10,6 +10,7 @@ import { IInput } from '../../../../_helper/_input';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import { _todayDate } from '../../../../_helper/_todayDate';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
 
 const initData = {
   transDate: _todayDate(),
@@ -24,6 +25,8 @@ export default function ProductionOrderClosed() {
     setProductionOrderList,
   ] = useAxiosGet();
   const [, closedProductionOrder, closedLoading] = useAxiosPost();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
   //const { id } = useParams();
   const location = useLocation();
   //const [modifyData, setModifyData] = useState(initData);
@@ -100,9 +103,15 @@ export default function ProductionOrderClosed() {
           enableReinitialize={true}
           initialValues={initData}
           onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-            saveHandler(values, () => {
-              resetForm(initData);
-              setProductionOrderList([]);
+            setLoading(true);
+            debounceHandler({
+              setLoading: setLoading,
+              CB: () => {
+                saveHandler(values, () => {
+                  resetForm(initData);
+                  setProductionOrderList([]);
+                });
+              },
             });
           }}
         >
@@ -117,7 +126,7 @@ export default function ProductionOrderClosed() {
           }) => (
             <>
               <Form className="form form-label-right">
-                {closedLoading && <Loading />}
+                {(closedLoading || isLoading) && <Loading />}
                 <div className="form-group  global-form">
                   <div className="row">
                     <div className="col-lg-12">

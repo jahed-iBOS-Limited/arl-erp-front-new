@@ -109,8 +109,7 @@ export default function SCFLimitLandingPage() {
                         <tr key={index}>
                           <td>{item?.sl}</td>
                           <td>{item?.businessPartnerName}</td>
-                          <td>{item?.bankName}</td>
-                          <td>{item?.accountNumber}</td>
+                          <td>{item?.bankAsPartnerName}</td>
                           <td className="text-right">{item?.limit}</td>
                           <td className="text-right">{item?.utilizeAmount}</td>
                           <td>{item?.tenorDays}</td>

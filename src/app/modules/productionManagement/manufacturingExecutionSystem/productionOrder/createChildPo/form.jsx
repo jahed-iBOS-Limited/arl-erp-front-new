@@ -14,6 +14,8 @@ import {
 } from '../helper';
 import customStyles from '../../../../selectCustomStyle';
 import { useLocation } from 'react-router-dom';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
+import Loading from '../../../../_helper/_loading';
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({});
 
@@ -43,6 +45,8 @@ export default function FormCmp({
   const [workCenter, setWorkCenter] = useState([]);
   const [bomName, setBomName] = useState([]);
   const { state } = useLocation();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   // api's
   useEffect(() => {
@@ -82,8 +86,14 @@ export default function FormCmp({
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setValid(false);
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -97,6 +107,7 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
+            {isLoading && <Loading />}
             <Form>
               <div
                 className="table-responsive"

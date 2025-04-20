@@ -30,6 +30,7 @@ export default function ContractorLabourRegisterCreate() {
   const { id } = useParams();
   const location = useLocation();
   const [modifyData, setModifyData] = useState(initData);
+  const [plantDDL, getplantDDL, plantDDLLoading] = useAxiosGet();
 
   const { profileData } = useSelector((state) => {
     return state.authData;
@@ -42,6 +43,9 @@ export default function ContractorLabourRegisterCreate() {
   useEffect(() => {
     setWorkingSectionDDL(
       `/mes/MesDDL/GetWorkingSectionDDL?BusinessunitId=${selectedBusinessUnit?.value}`
+    );
+    getplantDDL(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
   }, []);
 
@@ -85,6 +89,8 @@ export default function ContractorLabourRegisterCreate() {
         intActionBy: profileData?.userId,
         dteInsertDate: _todayDate(),
         isActive: true,
+        plantId: values?.plantId?.value,
+        plantName: values?.plantId?.label,
       },
       id ? '' : cb,
       true
@@ -119,6 +125,16 @@ export default function ContractorLabourRegisterCreate() {
                 <div className="form-group  global-form">
                   <div className="row">
                     <div className="col-lg-3">
+                      <NewSelect
+                        value={values?.plantId}
+                        options={plantDDL}
+                        label="প্ল্যান্ট"
+                        onChange={(valueOption) => {
+                          setFieldValue('plantId', valueOption);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-3">
                       <InputField
                         value={values?.date}
                         label="তারিখ"
@@ -134,7 +150,7 @@ export default function ContractorLabourRegisterCreate() {
                         type="text"
                       />
                     </div>
-                    <div className="col-lg-2">
+                    <div className="col-lg-3">
                       <InputField
                         value={values?.inTime}
                         label="প্রবেশের সময়"
@@ -142,7 +158,7 @@ export default function ContractorLabourRegisterCreate() {
                         type="time"
                       />
                     </div>
-                    <div className="col-lg-2">
+                    <div className="col-lg-3">
                       <InputField
                         value={values?.outTime}
                         label="বহির্গমনের সময়"
@@ -150,7 +166,7 @@ export default function ContractorLabourRegisterCreate() {
                         type="time"
                       />
                     </div>
-                    <div className="col-lg-2">
+                    <div className="col-lg-3">
                       <InputField
                         value={values?.totalLabour}
                         label="মোট শ্রমিক"

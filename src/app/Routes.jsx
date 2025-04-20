@@ -272,9 +272,6 @@ export function Routes() {
   //   return <div></div>;
   // }
 
-  console.log(isAuthorized, 'isAuthorized');
-  console.log(authData, 'authData');
-
   return (
     <Switch>
       {/* Public route here.... */}

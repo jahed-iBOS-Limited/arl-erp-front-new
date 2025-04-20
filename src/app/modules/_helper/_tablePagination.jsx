@@ -93,7 +93,6 @@ export default function PaginationTable({
   values,
   rowsPerPageOptions,
 }) {
-  console.log('paginationState', paginationState);
   const { pageNo, setPageNo, pageSize, setPageSize } = paginationState;
   const handleChangePage = (event, newPage) => {
     setPageNo(newPage);

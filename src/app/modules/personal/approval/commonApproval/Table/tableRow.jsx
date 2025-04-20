@@ -162,29 +162,29 @@ export function CommonApprovalTableRow({ title }) {
   }, [gridData]);
 
   const commonBillOfMaterialGridFunc = (pageNo, pageSize) => {
-    // BOMApprovalLanding(
-    //   profileData?.accountId,
-    //   selectedBusinessUnit?.value,
-    //   selectedPlant?.value,
-    //   profileData?.userId,
-    //   pageNo,
-    //   pageSize,
-    //   setLoading,
-    //   setTableData
-    // );
-
-    getItemGridData(
-      activityName?.value || 77,
+    BOMApprovalLanding(
       profileData?.accountId,
       selectedBusinessUnit?.value,
+      selectedPlant?.value,
       profileData?.userId,
-      setTableData,
-      setLoading,
       pageNo,
       pageSize,
-      '',
-      selectedPlant?.value
+      setLoading,
+      setTableData
     );
+
+    // getItemGridData(
+    //   activityName?.value || 77,
+    //   profileData?.accountId,
+    //   selectedBusinessUnit?.value,
+    //   profileData?.userId,
+    //   setTableData,
+    //   setLoading,
+    //   pageNo,
+    //   pageSize,
+    //   '',
+    //   selectedPlant?.value
+    // );
   };
 
   const setPositionHandlerBillOfMaterial = (pageNo, pageSize) => {
@@ -214,10 +214,12 @@ export function CommonApprovalTableRow({ title }) {
             (item) => item?.isSelected
           );
           const billofmaterialpayload = filterSelectedData?.map((itm) => ({
-            approvalId: itm?.ApprovalId,
-            isApprove: true,
-            quantity: 0,
-            reffId: itm?.TransectionId,
+            // approvalId: itm?.ApprovalId,
+            // isApprove: true,
+            // quantity: 0,
+            // reffId: itm?.TransectionId,
+            billOfMaterialId: itm?.billOfMaterialId || 0,
+            actionBy: profileData?.userId,
           }));
           saveBOMApproval_api(billofmaterialpayload, () => {
             commonBillOfMaterialGridFunc(pageNo, pageSize);
@@ -277,28 +279,29 @@ export function CommonApprovalTableRow({ title }) {
         })
       );
       if (activityName?.label === 'Bill Of Material') {
-        // BOMApprovalLanding(
-        //   profileData?.accountId,
-        //   selectedBusinessUnit?.value,
-        //   peopleDeskPlant?.value,
-        //   profileData?.userId,
-        //   pageNo,
-        //   pageSize,
-        //   setLoading,
-        //   setTableData
-        // );
-        getItemGridData(
-          activityName?.value || 77,
+        BOMApprovalLanding(
           profileData?.accountId,
           selectedBusinessUnit?.value,
+          peopleDeskPlant?.value,
           profileData?.userId,
-          setTableData,
-          setLoading,
           pageNo,
           pageSize,
-          '',
-          selectedPlant?.value
+          setLoading,
+          setTableData
         );
+
+        // getItemGridData(
+        //   activityName?.value || 77,
+        //   profileData?.accountId,
+        //   selectedBusinessUnit?.value,
+        //   profileData?.userId,
+        //   setTableData,
+        //   setLoading,
+        //   pageNo,
+        //   pageSize,
+        //   '',
+        //   selectedPlant?.value
+        // );
       }
     }
   }, []);

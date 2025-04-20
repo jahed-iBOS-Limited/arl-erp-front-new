@@ -49,6 +49,7 @@ export default tseslint.config({
 });
 ```
 
+
 ## Thanks
 
 Powered by AKIJ iBOS Limited

@@ -15,6 +15,20 @@ export const getBankDDL = async (setter, setLoading) => {
   }
 };
 
+export const getNBFIBankDDL = async (setter, setLoading, isBank, isNbfi) => {
+  try {
+    setLoading(true);
+    const res = await Axios.get(
+      `/hcm/HCMDDL/GetAllBankAndNbfiDDL?isBank=${isBank}&isNbfi=${isNbfi}`
+    );
+    setter(res?.data);
+    setLoading(false);
+  } catch (error) {
+    setLoading(false);
+    setter([]);
+  }
+};
+
 //bank ddl
 export const getBankBranchDDL = async (bankId, setter, setLoading) => {
   try {
@@ -199,7 +213,8 @@ export const getLoanRegisterLanding = async (
   applicationType = 0,
   fromDate,
   toDate,
-  dateFilter
+  dateFilter,
+  isNbfi
 ) => {
   const IsApproved =
     applicationType === 1
@@ -210,10 +225,13 @@ export const getLoanRegisterLanding = async (
   const dateFilterParam = dateFilter ? `&dateFilter=${dateFilter}` : '';
   const dateParam1 = fromDate ? `&fromDate=${fromDate}` : '';
   const dateParam2 = toDate ? `&toDate=${toDate}` : '';
+  const IsApprovedForNBFI = [true, false].includes(isNbfi)
+    ? `&isNbfi=${isNbfi}`
+    : '';
   try {
     setLoading(true);
     const res = await Axios.get(
-      `/fino/FundManagement/GetLoanRegisterLanding?accountId=${accId}&businessUnitId=${buId}&bankId=${bankId}&statusTypeId=${statusTypeId}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${IsApproved}${dateFilterParam}${dateParam1}${dateParam2}`
+      `/fino/FundManagement/GetLoanRegisterLanding?accountId=${accId}&businessUnitId=${buId}&bankId=${bankId}&statusTypeId=${statusTypeId}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${IsApproved}${dateFilterParam}${dateParam1}${dateParam2}${IsApprovedForNBFI}`
     );
     setter(res?.data);
     setLoading(false);
@@ -266,7 +284,8 @@ export const createLoanRegister = async (
   isConfirm = false,
   loanAccountId = 0,
   facilityRemarks = '',
-  remarks = ''
+  remarks = '',
+  nbfiId = null
 ) => {
   setDisabled(true);
   try {
@@ -293,6 +312,7 @@ export const createLoanRegister = async (
       loanAccountId: loanAccountId,
       facilityRemarks: facilityRemarks,
       remarks: remarks,
+      nbfiId: nbfiId,
     };
     const res = await Axios.post(
       '/fino/FundManagement/FundLoanAccountCreate',

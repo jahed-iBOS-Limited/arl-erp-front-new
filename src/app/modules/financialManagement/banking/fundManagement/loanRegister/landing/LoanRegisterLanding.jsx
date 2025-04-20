@@ -21,8 +21,8 @@ import AttachmentUploadForm from '../../attachmentAdd';
 import {
   createLoanRegister,
   getAttachments,
-  getBankDDLAll,
   getLoanRegisterLanding,
+  getNBFIBankDDL,
 } from '../../helper';
 import IClose from '../../../../../_helper/_helperIcons/_close';
 import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
@@ -133,7 +133,7 @@ const LoanRegisterLanding = () => {
   };
 
   useEffect(() => {
-    getBankDDLAll(setBankDDL, setLoading);
+    getNBFIBankDDL(setBankDDL, setLoading, true, true);
     getBusinessUnitDDL(profileData?.accountId, setBusinessUnitDDL);
   }, []);
 
@@ -147,7 +147,11 @@ const LoanRegisterLanding = () => {
       pageSize,
       setLoanRegisterData,
       setLoading,
-      0
+      0,
+      '',
+      '',
+      '',
+      ''
     );
   }, []);
 
@@ -162,7 +166,11 @@ const LoanRegisterLanding = () => {
       pageSize,
       setLoanRegisterData,
       setLoading,
-      values?.applicationType?.value || 0
+      values?.applicationType?.value || 0,
+      '',
+      '',
+      '',
+      values?.bank?.isNbfi
     );
   };
 
@@ -241,7 +249,11 @@ const LoanRegisterLanding = () => {
             pageSize,
             setLoanRegisterData,
             setLoading,
-            values?.applicationType?.value || 0
+            values?.applicationType?.value || 0,
+            '',
+            '',
+            '',
+            values?.bank?.isNbfi
           );
         };
         createLoanRegister(
@@ -294,7 +306,7 @@ const LoanRegisterLanding = () => {
         width: 250,
       },
       {
-        text: 'Bank',
+        text: 'Disbursed Bank Name',
         textFormat: 'text',
         alignment: 'center:middle',
         key: 'strBankName',
@@ -427,6 +439,13 @@ const LoanRegisterLanding = () => {
         width: 120,
       },
       {
+        text: 'NBFI',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'strNbfiName',
+        width: 120,
+      },
+      {
         text: 'BR Number',
         textFormat: 'text',
         alignment: 'center:middle',
@@ -481,7 +500,8 @@ const LoanRegisterLanding = () => {
       values?.applicationType?.value || 0,
       values?.fromDate,
       values?.toDate,
-      values?.dateFilter?.value
+      values?.dateFilter?.value,
+      values?.bank?.isNbfi
     );
   };
   return (
@@ -559,7 +579,7 @@ const LoanRegisterLanding = () => {
                     <div className="col-lg-3">
                       <NewSelect
                         name="bank"
-                        options={bankDDL}
+                        options={[{ label: 'ALL', value: 0 }, ...bankDDL]}
                         value={values?.bank}
                         onChange={(valueOption) => {
                           setFieldValue('bank', valueOption);
@@ -682,7 +702,8 @@ const LoanRegisterLanding = () => {
                             values?.applicationType?.value || 0,
                             values?.fromDate,
                             values?.toDate,
-                            values?.dateFilter?.value
+                            values?.dateFilter?.value,
+                            values?.bank?.isNbfi
                           );
                         }}
                       >
@@ -723,7 +744,7 @@ const LoanRegisterLanding = () => {
                               <th>SL</th>
                               <th style={{ minWidth: '100px' }}>Status</th>
                               {[136].includes(buId) && <th>SBU</th>}
-                              <th>Bank</th>
+                              <th>Disbursed Bank Name</th>
                               <th style={{ minWidth: '100px' }}>Facility</th>
                               <th style={{ minWidth: '120px' }}>
                                 Loan A/c no.
@@ -775,6 +796,7 @@ const LoanRegisterLanding = () => {
                               </th>
                               <th style={{ minWidth: '70px' }}>Loan Class</th>
                               <th style={{ minWidth: '70px' }}>Loan Type</th>
+                              <th>NBFI</th>
                               <th>Disbursement Voucher No</th>
                               {/* <th style={{ minWidth: "90px" }}>
                                 Application Status
@@ -865,6 +887,9 @@ const LoanRegisterLanding = () => {
 
                                 <td className="text-">{item?.loanClassName}</td>
                                 <td className="text-">{item?.loanTypeName}</td>
+                                <td className="text-">
+                                  {item?.strNbfiName || ''}
+                                </td>
                                 <td className="text-">{item?.brCode}</td>
                                 {/* <td>
                                   {item?.isLoanApproved
@@ -910,62 +935,72 @@ const LoanRegisterLanding = () => {
                                         <i class="fas fa-paperclip"></i>
                                       </ICon>
                                     </span>
-                                    <span
-                                      className="text-primary "
-                                      style={{
-                                        marginLeft: '4px',
-                                        cursor: 'pointer',
-                                      }}
-                                      onClick={() => {
-                                        if (
-                                          item?.numPrinciple - item?.numPaid <=
-                                          0
-                                        ) {
-                                          toast.warn('You have already repaid');
-                                          return;
-                                        } else {
-                                          history.push({
-                                            pathname: `/financial-management/banking/loan-register/repay/${item?.intLoanAccountId}`,
-                                            state: {
-                                              bankId: item?.intBankId,
-                                              principal:
-                                                item?.numPrinciple -
-                                                item?.numPaid,
-                                              bu: values?.businessUnit?.value,
-                                              strLoanAccountName:
-                                                item?.strLoanAccountName,
-                                            },
-                                          });
-                                        }
-                                      }}
-                                    >
-                                      Repay
-                                    </span>
-                                    <span
-                                      className="text-primary "
-                                      style={{
-                                        marginLeft: '4px',
-                                        cursor: 'pointer',
-                                      }}
-                                      onClick={() => {
-                                        if (
-                                          item?.numPrinciple - item?.numPaid <
-                                          1
-                                        ) {
-                                          toast.warn(
-                                            "You can't renew this loan"
-                                          );
-                                          return;
-                                        } else {
-                                          history.push({
-                                            pathname: `/financial-management/banking/loan-register/re-new/${item?.intLoanAccountId}`,
-                                            state: item,
-                                          });
-                                        }
-                                      }}
-                                    >
-                                      Renew
-                                    </span>
+                                    {item?.isLoanApproved && (
+                                      <>
+                                        <span
+                                          className="text-primary "
+                                          style={{
+                                            marginLeft: '4px',
+                                            cursor: 'pointer',
+                                          }}
+                                          onClick={() => {
+                                            if (
+                                              item?.numPrinciple -
+                                                item?.numPaid <=
+                                              0
+                                            ) {
+                                              toast.warn(
+                                                'You have already repaid'
+                                              );
+                                              return;
+                                            } else {
+                                              history.push({
+                                                pathname: `/financial-management/banking/loan-register/repay/${item?.intLoanAccountId}`,
+                                                state: {
+                                                  ...item,
+                                                  bankId: item?.intBankId,
+                                                  principal:
+                                                    item?.numPrinciple -
+                                                    item?.numPaid,
+                                                  bu: values?.businessUnit
+                                                    ?.value,
+                                                  strLoanAccountName:
+                                                    item?.strLoanAccountName,
+                                                },
+                                              });
+                                            }
+                                          }}
+                                        >
+                                          Repay
+                                        </span>
+                                        <span
+                                          className="text-primary "
+                                          style={{
+                                            marginLeft: '4px',
+                                            cursor: 'pointer',
+                                          }}
+                                          onClick={() => {
+                                            if (
+                                              item?.numPrinciple -
+                                                item?.numPaid <
+                                              1
+                                            ) {
+                                              toast.warn(
+                                                "You can't renew this loan"
+                                              );
+                                              return;
+                                            } else {
+                                              history.push({
+                                                pathname: `/financial-management/banking/loan-register/re-new/${item?.intLoanAccountId}`,
+                                                state: item,
+                                              });
+                                            }
+                                          }}
+                                        >
+                                          Renew
+                                        </span>
+                                      </>
+                                    )}
                                     {!item?.isLoanApproved && // Loan must not be approved
                                     ((item?.numPrinciple || 0) -
                                       (item?.numPaid || 0) <=
@@ -1069,7 +1104,11 @@ const LoanRegisterLanding = () => {
                                                   setLoanRegisterData,
                                                   setLoading,
                                                   values?.applicationType
-                                                    ?.value || 0
+                                                    ?.value || 0,
+                                                  '',
+                                                  '',
+                                                  '',
+                                                  values?.bank?.isNbfi
                                                 );
                                               }
                                             );

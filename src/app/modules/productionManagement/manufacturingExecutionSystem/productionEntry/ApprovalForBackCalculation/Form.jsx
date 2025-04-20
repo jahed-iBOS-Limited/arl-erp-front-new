@@ -9,6 +9,7 @@ import { IInput } from '../../../../_helper/_input';
 import { getWarehouseDDL } from '../helper';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import Loading from '../../../../_helper/_loading';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
 
 export default function FormCmp({
   initData,
@@ -34,6 +35,8 @@ export default function FormCmp({
   const [costCenterDDL, getCostCenterDDL, , setCostCenterDDL] = useAxiosGet();
   const [profitCenterDDL, getProfitCenterDDL, , setProfitCenterDDL] =
     useAxiosGet();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const deleteHandler = (id) => {
     const deleteData = rowData.filter((data, index) => id !== index);
@@ -47,8 +50,14 @@ export default function FormCmp({
         initialValues={initData}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -62,7 +71,7 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
-            {locationLoading && <Loading />}
+            {(locationLoading || isLoading) && <Loading />}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
                 <div className="col-lg-3">

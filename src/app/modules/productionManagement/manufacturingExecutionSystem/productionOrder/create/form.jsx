@@ -19,6 +19,8 @@ import NewSelect from '../../../../_helper/_select';
 import CreateSubPOForm from '../createChildPo/addForm';
 import { useParams } from 'react-router-dom';
 import { getShopFloorDDL } from '../../../../_helper/_commonApi';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
+import Loading from '../../../../_helper/_loading';
 
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
@@ -70,6 +72,8 @@ export default function FormCmp({
 }) {
   // GetPlantNameDDL
   const [plantName, setPlantName] = useState([]);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   // GetPlantNameDDL
   const [shopFloorDDL, setShopFloorDDL] = useState([]);
@@ -122,8 +126,14 @@ export default function FormCmp({
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           setValid(false);
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -137,6 +147,7 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
+            {isLoading && <Loading />}
             <Form className=" from-label-right">
               <div className="global-form">
                 <div className="form-group  row">

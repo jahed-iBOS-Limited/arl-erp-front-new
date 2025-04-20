@@ -23,7 +23,6 @@ export function DamageViewModal({ values, singleData }) {
             <p>Shopfloor Name: {singleData?.strShopfloorName}</p>
           </div>
           <div>
-            <p>Employee Section: {singleData?.SectionName}</p>
             <p>Machine: {singleData?.strMachineName}</p>
           </div>
         </div>
@@ -39,6 +38,7 @@ export function DamageViewModal({ values, singleData }) {
               <tr>
                 <th>SL</th>
                 <th>Date</th>
+                <th>Section</th>
                 <th>Checklist Criteria Type</th>
                 <th>Checklist Criteria</th>
                 <th>Standard Value</th>
@@ -54,6 +54,7 @@ export function DamageViewModal({ values, singleData }) {
                         <td className="text-center">
                           {_dateFormatter(item?.dteCheckedDatetime)}
                         </td>
+                        <td>{item?.strSectionName}</td>
                         <td>{item?.strCheckListCriteriaType}</td>
                         <td>{item?.strCheckListCriteria}</td>
                         <td>{item?.strStandardValue}</td>

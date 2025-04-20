@@ -19,6 +19,7 @@ import {
   getWorkCenterNameDDL,
 } from '../../configuration/routing/helper';
 import { getPlantList } from '../../../_helper/_commonApi';
+import createDebounceHandler from '../../../_helper/debounceForSave';
 
 const initData = {
   businessUnit: '',
@@ -39,6 +40,8 @@ export default function CreateEditMachineEmpAssign() {
   const history = useHistory();
   const location = useLocation();
   const { state } = location;
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const [plantDDL, setPlantDDL] = useState([]);
   const [shopFloorDDL, setShopFloorDDL] = useState([]);
@@ -131,9 +134,17 @@ export default function CreateEditMachineEmpAssign() {
       initialValues={state ? mapStateToInitialValues(state) : initData}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
-          history.push(`/production-management/mes/machine-employee-assign`);
+        setLoading(true);
+        debounceHandler({
+          setLoading: setLoading,
+          CB: () => {
+            saveHandler(values, () => {
+              resetForm(initData);
+              history.push(
+                `/production-management/mes/machine-employee-assign`
+              );
+            });
+          },
         });
       }}
     >
@@ -147,7 +158,7 @@ export default function CreateEditMachineEmpAssign() {
         touched,
       }) => (
         <>
-          {loader && <Loading />}
+          {(loader || isLoading) && <Loading />}
           <IForm
             title={`Create Machine Employee Assign `}
             isHiddenReset

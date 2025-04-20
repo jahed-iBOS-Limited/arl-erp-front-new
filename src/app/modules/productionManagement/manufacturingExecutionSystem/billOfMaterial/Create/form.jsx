@@ -19,6 +19,8 @@ import { CostForBOMLanding } from './../helper';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import axios from 'axios';
 import { getShopFloorDDL } from '../../../../_helper/_commonApi';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
+import Loading from '../../../../_helper/_loading';
 
 const validationSchema = {
   bomName: Yup.string().required('Bom Name is required'),
@@ -100,6 +102,8 @@ export default function FormCmp({
 }) {
   const [, setValid] = useState(true);
   const [cost, setCost] = useState(0);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
   //to get materialDDL in Edit
   useEffect(() => {
     if (plantId) {
@@ -150,11 +154,18 @@ export default function FormCmp({
         validationSchema={isEdit ? editValidation : createValiadtion}
         onSubmit={(values, { resetForm }) => {
           setValid(false);
-          saveHandler(values, () => {
-            resetForm(initData);
-            setRowDto([]);
-            setCostElementRowData([]);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+                setRowDto([]);
+                setCostElementRowData([]);
+              });
+            },
           });
+
           setValid(true);
         }}
       >
@@ -167,6 +178,7 @@ export default function FormCmp({
           setFieldValue,
         }) => (
           <>
+            {isLoading && <Loading />}
             <Form className="form form-label-right">
               <div className="row mt-2">
                 <div className="col-lg-4">

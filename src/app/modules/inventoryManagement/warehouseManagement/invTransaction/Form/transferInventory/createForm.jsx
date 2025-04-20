@@ -139,6 +139,17 @@ export default function TransferInvCreateForm({
   const [, getItemCurrentRate, itemCurrentRateLoader] = useAxiosGet();
   //add row Dto Data
   const addRowDtoData = (values) => {
+    if (values.isAllItem === false) {
+      const existingItem = rowDto?.find(
+        (data) => data?.itemName === values.item?.itemName
+      );
+
+      if (existingItem) {
+        alert('Item Already added');
+        return;
+      }
+    }
+
     getItemStockQty(
       `/wms/InventoryTransaction/sprRuningQty?businessUnitId=${
         selectedBusinessUnit?.value
@@ -152,40 +163,33 @@ export default function TransferInvCreateForm({
           `/wms/InventoryLoan/GetItemRate?ItemId=${values.item?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`,
           (resRate) => {
             if (values.isAllItem === false) {
-              let data = rowDto?.find(
-                (data) => data?.itemName === values?.item?.label
-              );
-              if (data) {
-                alert('Item Already added');
-              } else {
-                setRowDto([
-                  ...rowDto,
-                  {
-                    itemId: values.item?.value,
-                    itemName: values.item?.itemName,
-                    itemCode: values.item?.code,
-                    uoMid: values.item?.baseUoMId,
-                    uoMname: values?.item?.baseUoMName,
-                    baseValue: resRate,
-                    availableStock: resQty,
-                    refQty:
-                      values.refType.label === 'NA (Without Reference)'
-                        ? 0
-                        : values?.item?.refQty || 0,
-                    restQty:
-                      values.refType.label === 'NA (Without Reference)'
-                        ? 0
-                        : values?.item?.restQty || 0,
-                    location: '',
-                    stockType: { value: 1, label: 'Open Stock' },
-                    fromLocation: values?.item?.locationBasedStock[0],
-                    fromStock: { value: 1, label: 'Open Stock' },
-                    quantity: 0,
-                    transferDDl: values?.item?.locationBasedStock,
-                    transferToLocation: values.item.transferToLocation,
-                  },
-                ]);
-              }
+              setRowDto([
+                ...rowDto,
+                {
+                  itemId: values.item?.value,
+                  itemName: values.item?.itemName,
+                  itemCode: values.item?.code,
+                  uoMid: values.item?.baseUoMId,
+                  uoMname: values?.item?.baseUoMName,
+                  baseValue: resRate,
+                  availableStock: resQty,
+                  refQty:
+                    values.refType.label === 'NA (Without Reference)'
+                      ? 0
+                      : values?.item?.refQty || 0,
+                  restQty:
+                    values.refType.label === 'NA (Without Reference)'
+                      ? 0
+                      : values?.item?.restQty || 0,
+                  location: '',
+                  stockType: { value: 1, label: 'Open Stock' },
+                  fromLocation: values?.item?.locationBasedStock[0],
+                  fromStock: { value: 1, label: 'Open Stock' },
+                  quantity: 0,
+                  transferDDl: values?.item?.locationBasedStock,
+                  transferToLocation: values.item.transferToLocation,
+                },
+              ]);
             } else {
               let data = itemDDL?.map((data) => {
                 return {

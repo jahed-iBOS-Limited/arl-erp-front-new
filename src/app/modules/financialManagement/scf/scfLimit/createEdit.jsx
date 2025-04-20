@@ -190,7 +190,7 @@ export default function SCFLimitCreateEditPage() {
                         name="bankAccountNo"
                         options={bankAccountNoDDL || []}
                         value={values?.bankAccountNo}
-                        label="Bank Account No"
+                        label="Financial Institution"
                         onChange={(valueOption) => {
                           setFieldValue('bankAccountNo', valueOption);
                         }}

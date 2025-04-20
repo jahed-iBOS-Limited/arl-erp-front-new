@@ -110,6 +110,8 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
       bookingNumber: bookingData?.bookingRequestCode || '',
       paymentTerms: '',
       actionBy: profileData?.userId || 0,
+      isAirOperation: isAirOperation || false,
+      isEmailSend: false,
       rowString: billingDataFilterData?.map((item) => {
         return {
           intHeadOfChargeid: item?.headOfChargeId,
@@ -784,6 +786,12 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                     SL
                   </th>
                   <th>Attribute</th>
+                  {isAirOperation && (
+                    <>
+                      <th>Quantity</th>
+                      <th>Rate</th>
+                    </>
+                  )}
                   <th>Amount</th>
                   {/* <th>Actual Amount</th> */}
                 </tr>
@@ -796,6 +804,16 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                       <td className="align-middle">
                         <label>{row?.headOfCharges}</label>
                       </td>
+                      {isAirOperation && (
+                        <>
+                          <td style={{ textAlign: 'right' }}>
+                            {row?.packageQuantity}
+                          </td>
+                          <td style={{ textAlign: 'right' }}>
+                            {row?.packageRate}
+                          </td>
+                        </>
+                      )}
                       <td style={{ textAlign: 'right' }}>
                         {row?.collectionActualAmount}
                       </td>
@@ -812,7 +830,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                     textAlign: 'right',
                   }}
                 >
-                  <td colSpan="2"> Total Amount</td>
+                  <td colSpan={isAirOperation ? 4 : 2}> Total Amount</td>
                   <td>
                     <span>
                       {' '}

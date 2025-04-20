@@ -17,6 +17,8 @@ import {
 import BackCalculationModal from './backCalculationModal';
 import { _formatMoney } from '../../../../_helper/_formatMoney';
 import { getShopFloorDDL } from '../../../../_helper/_commonApi';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
+import Loading from '../../../../_helper/_loading';
 
 export default function FormCmp({
   initData,
@@ -41,6 +43,8 @@ export default function FormCmp({
   const [productionItemQuantity, setProductionQuantity] = useState('');
   const [isShowModal, setIsShowModal] = useState(false);
   const location = useLocation();
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -122,8 +126,14 @@ export default function FormCmp({
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -137,6 +147,7 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
+            {isLoading && <Loading />}
             <Form>
               <div className="row">
                 {/* backCalculation true */}

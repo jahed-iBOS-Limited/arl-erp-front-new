@@ -64,9 +64,11 @@ export function CustomerSalesTargetForm({
     return state?.authData;
   }, shallowEqual);
 
-  const buSetOne = [4, 171, 175, 224, 144].includes(
-    selectedBusinessUnit?.value
-  );
+  // const buSetOne = [4, 171, 175, 224, 144].includes(
+  //   selectedBusinessUnit?.value
+  // );
+
+  const buSetOne = true;
 
   if (!id || !approveid) {
     initData = {

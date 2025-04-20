@@ -8,6 +8,8 @@ import { getOrderQuantityDDL, getOtherOutputItemDDL } from '../helper';
 import { toast } from 'react-toastify';
 import CreateTableRow from '../Table/CreateTableRow';
 import { getShopFloorDDL } from '../../../../_helper/_commonApi';
+import Loading from '../../../../_helper/_loading';
+import createDebounceHandler from '../../../../_helper/debounceForSave';
 // import { getItemListForBackCalculation } from "../helper";
 
 export default function FormCmp({
@@ -33,6 +35,8 @@ export default function FormCmp({
 }) {
   console.log('singleData: ', singleData);
   const [othersOutputItemDDL, setOthersOutputItemDDL] = useState([]);
+  const debounceHandler = createDebounceHandler(5000);
+  const [isLoading, setLoading] = useState(false);
 
   const [setGetOrderQuantity] = useState('');
   // console.log("orderQuantity", orderQuantity);
@@ -116,8 +120,14 @@ export default function FormCmp({
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setLoading(true);
+          debounceHandler({
+            setLoading: setLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -132,7 +142,7 @@ export default function FormCmp({
         }) => (
           <>
             {console.log('values: ', values)}
-
+            {isLoading && <Loading />}
             {/* {disableHandler(!isValid)} */}
             <Form>
               <div className="row">
