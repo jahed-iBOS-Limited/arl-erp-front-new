@@ -15,6 +15,7 @@ import IButton from '../../../_helper/iButton';
 import { getMonth } from '../customerSalesTarget/utils';
 import { _dateFormatter } from './../../../_helper/_dateFormate';
 import { _fixedPoint } from './../../../_helper/_fixedPoint';
+import PaginationTable from './../../../_helper/_tablePagination';
 import { _todayDate } from './../../../_helper/_todayDate';
 import { editSalesTarget, getCustomersSalesTarget_Api } from './helper';
 
@@ -53,8 +54,8 @@ const CustomerSalesTargetReport = () => {
       values?.region?.value,
       values?.territory?.value,
       values?.reportType?.value,
-      1,
-      10000000
+      _pageNo,
+      _pageSize
     );
   };
 
@@ -349,7 +350,7 @@ const CustomerSalesTargetReport = () => {
                   </table>{' '}
                 </div>
               )}
-              {/* {rowDto?.objdata?.length > 0 && (
+              {rowDto?.objdata?.length > 0 && (
                 <PaginationTable
                   count={rowDto?.totalCount}
                   setPositionHandler={(pageNo, pageSize) => {
@@ -357,7 +358,7 @@ const CustomerSalesTargetReport = () => {
                   }}
                   paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
                 />
-              )} */}
+              )}
             </Form>
           </>
         )}
