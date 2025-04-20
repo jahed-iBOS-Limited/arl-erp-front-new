@@ -113,7 +113,10 @@ export default function CreateApprovePartner() {
   // };
 
   const isApproveButtonDisables = (values) => {
-    return !values?.sbu || values?.sbu?.length === 0 || !values?.supplyOrg;
+    return (
+      state?.isSupplier &&
+      (!values?.sbu || values?.sbu?.length === 0 || !values?.supplyOrg)
+    );
   };
 
   return (
