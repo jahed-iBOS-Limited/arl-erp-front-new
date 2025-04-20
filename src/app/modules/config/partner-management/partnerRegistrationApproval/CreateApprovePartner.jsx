@@ -192,7 +192,7 @@ export default function CreateApprovePartner() {
                             routingNo: state?.strRoutingNumber,
                             bankAccountNo: state?.strAccountNumber,
                             bankAccountName: state?.strAccountName,
-                            patnerRegistrationId: +id,
+                            partnerRegistrationId: +id,
                             acionByEmployeeId: profileData?.employeeId,
                           },
                           (res) => {
@@ -244,7 +244,7 @@ export default function CreateApprovePartner() {
                             routingNo: state?.strRoutingNumber,
                             bankAccountNo: state?.strAccountNumber,
                             bankAccountName: state?.strAccountName,
-                            patnerRegistrationId: +id,
+                            partnerRegistrationId: +id,
                             acionByEmployeeId: profileData?.employeeId,
                           },
                           (res) => {
