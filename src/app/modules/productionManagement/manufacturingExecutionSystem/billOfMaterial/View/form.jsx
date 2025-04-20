@@ -495,7 +495,7 @@ export default function FormCmp({
                                 </td>
                                 <td className="text-center text-danger">
                                   {rowDto?.reduce(
-                                    (acc, item) => item?.itemValue || 0,
+                                    (acc, item) => acc + (item?.itemValue || 0),
                                     0
                                   ) / (values?.lotSize || 0)}
                                 </td>
