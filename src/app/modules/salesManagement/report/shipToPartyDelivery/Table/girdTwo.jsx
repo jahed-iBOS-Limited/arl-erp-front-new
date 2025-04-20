@@ -16,6 +16,7 @@ function TableGirdTwo({ rowDto, values }) {
             <th>SL </th>
             <th>Partner Code </th>
             <th>Partner Name </th>
+            <th>Partner ID </th>
             <th>Partner Address </th>
             {[4, 5, 6].includes(values?.reportType?.value) && (
               <>
@@ -49,6 +50,7 @@ function TableGirdTwo({ rowDto, values }) {
                 <td>{idx + 1}</td>
                 <td>{itm?.strBusinessPartnerCode}</td>
                 <td>{itm?.strBusinessPartnerName}</td>
+                <td>{itm?.intSoldToPartnerId}</td>
                 <td>{itm?.strBusinessPartnerAddress}</td>
                 {[4, 5, 6].includes(values?.reportType?.value) && (
                   <>
