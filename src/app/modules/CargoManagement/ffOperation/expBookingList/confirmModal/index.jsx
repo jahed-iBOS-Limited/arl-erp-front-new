@@ -623,6 +623,19 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
                     label="Consignee’s Name"
                     onChange={(valueOption) => {
                       setFieldValue('consigneeName', valueOption);
+                      setFieldValue(
+                        'consigneeContactPerson',
+                        valueOption?.contactPerson || ''
+                      );
+                      setFieldValue(
+                        'consigneeContact',
+                        valueOption?.contactNumber || ''
+                      );
+                      setFieldValue('consigneeEmail', valueOption?.email || '');
+                      setFieldValue(
+                        'consigneeAddress',
+                        valueOption?.address || ''
+                      );
                     }}
                     placeholder="Consignee’s Name"
                     errors={errors}
