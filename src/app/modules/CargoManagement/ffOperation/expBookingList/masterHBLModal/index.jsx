@@ -716,7 +716,7 @@ export default function MasterHBLModal({
                         </div>
                         <div className="rightSideBottom">
                           <p className="textTitle" style={{ paddingBottom: 5 }}>
-                            Shipping Line Details:
+                            ShippingLine Details:
                           </p>
                           <div style={{ paddingLeft: 5 }}>
                             {isPrintViewMode ? (

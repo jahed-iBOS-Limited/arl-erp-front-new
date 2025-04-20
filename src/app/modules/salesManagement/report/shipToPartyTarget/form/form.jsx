@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import ICustomCard from '../../../../_helper/_customCard';
 import NewSelect from '../../../../_helper/_select';
@@ -14,6 +15,12 @@ export default function FormCmp({
   channelList,
 }) {
   const history = useHistory();
+
+  const {
+    tokenData: { token },
+  } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
 
   return (
     <>
@@ -45,9 +52,31 @@ export default function FormCmp({
                     }
                   : ''
               }
-              saveHandler={() => {
-                handleSubmit();
+              renderProps={() => {
+                return (
+                  <button
+                    className="btn btn-primary "
+                    disabled={
+                      !values?.conditionType || !values?.conditionTypeRef
+                    }
+                    onClick={() => {
+                      postData(
+                        `https://automation.ibos.io/ship_to_party_id_vs_target`,
+                        {
+                          bearer_token: token,
+                        },
+                        () => {},
+                        true
+                      );
+                    }}
+                  >
+                    Update from Google Sheet
+                  </button>
+                );
               }}
+              // saveHandler={() => {
+              //   handleSubmit();
+              // }}
             >
               <form className="form form-label-right">
                 <div className="global-form">
@@ -88,23 +117,24 @@ export default function FormCmp({
                       />
                     </div>
                     <FromDateToDateForm obj={{ values, setFieldValue }} />
-
                     <IButton
                       disabled={
                         !values?.conditionType || !values?.conditionTypeRef
                       }
                       onClick={() => {
-                        postData(
-                          `/fino/ReturnSales/ShipToPartnerTargetEntryFromGoogleSheet`,
-                          {
-                            // bearer_token: token,
-                          },
-                          () => {},
-                          true
+                        window.open(
+                          'https://docs.google.com/spreadsheets/d/1vYSyNgWPP0qvbEI9mufCr1pC6w9AUWXwd5HlqMUJH-M',
+                          '_blank'
                         );
                       }}
                     >
-                      Update from Google Sheet
+                      <span>
+                        <i
+                          className={`fa pointer fa-eye `}
+                          aria-hidden="true"
+                        ></i>
+                      </span>{' '}
+                      View From Google Sheet
                     </IButton>
                   </div>
                 </div>
