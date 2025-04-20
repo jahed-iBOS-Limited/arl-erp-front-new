@@ -205,7 +205,6 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
-            {disableHandler(!isValid)}
             {isLoading && <Loading />}
             <Form className="form form-label-right">
               {!isViewPage && (
