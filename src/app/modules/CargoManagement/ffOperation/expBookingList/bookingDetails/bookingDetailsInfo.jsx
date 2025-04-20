@@ -859,8 +859,8 @@ const CommonTransportPlanningView = ({
 
         <p>
           <strong>
-            {modeOfTransport === 'Sea' && 'Shipping Line:'}
-            {modeOfTransport === 'Air' && 'Air Line:'}
+            {modeOfTransport === 'Sea' && 'ShippingLine:'}
+            {modeOfTransport === 'Air' && 'AirLine:'}
             {modeOfTransport === 'Land' && 'Transporter:'}
           </strong>{' '}
           {transportPlanning?.airLineOrShippingLine}
