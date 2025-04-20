@@ -516,21 +516,47 @@ const BillGenerateCmp = ({
                     {row?.paymentAdvanceAmount}
                   </td> */}
                   <td style={{ textAlign: 'right' }}>
-                    {row?.paymentActualAmount}
+                    {Number(
+                      Number(+row?.paymentActualAmount || 0).toFixed(4)
+                    ) || 0}
                   </td>
-                  <td style={{ textAlign: 'right' }}>{row?.paymentAmount}</td>
                   <td style={{ textAlign: 'right' }}>
-                    {row?.paymentPayAmount}
+                    {Number(Number(+row?.paymentAmount || 0).toFixed(4)) || 0}
+                  </td>
+                  <td style={{ textAlign: 'right' }}>
+                    {Number(Number(+row?.paymentPayAmount || 0).toFixed(4)) ||
+                      0}
                   </td>
                 </tr>
               ))}
             <tr>
-              <td colSpan="6" style={{ textAlign: 'right' }}>
+              <td colSpan="4" style={{ textAlign: 'right' }}>
                 Total
               </td>
               <td style={{ textAlign: 'right' }}>
                 {billingDataFilterData?.reduce(
-                  (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
+                  (acc, curr) =>
+                    acc +
+                    Number(Number(+curr?.paymentActualAmount || 0).toFixed(4)),
+                  0
+                )}
+              </td>
+              {
+                <td style={{ textAlign: 'right' }}>
+                  {billingDataFilterData?.reduce(
+                    (acc, curr) =>
+                      acc +
+                      Number(Number(+curr?.paymentAmount || 0).toFixed(4)),
+                    0
+                  )}
+                </td>
+              }
+
+              <td style={{ textAlign: 'right' }}>
+                {billingDataFilterData?.reduce(
+                  (acc, curr) =>
+                    acc +
+                    Number(Number(+curr?.paymentPayAmount || 0).toFixed(4)),
                   0
                 )}
               </td>
