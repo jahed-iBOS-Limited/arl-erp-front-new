@@ -341,7 +341,8 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
     getSaveBookedRequestBilling(
       `${imarineBaseUrl}/domain/ShippingService/SaveBookedRequestBilling`,
       payloadList,
-      CB
+      CB,
+      true
     );
   };
   return (
