@@ -55,19 +55,18 @@ export default function DailySalesSetupBase() {
     }
   };
   const parameters = (values) => {
-    console.log(values);
     if (values?.reportType?.value === 4) {
       const params = [
         { name: 'intunit', value: `${buId}` },
         { name: 'dteFromDateDaySales', value: `${values?.fromDate || ''}` },
-        { name: 'dteToDateDaySales ', value: `${values?.toDate || ''}` },
+        { name: 'dteToDateDaySales', value: `${values?.toDate || ''}` },
         { name: 'intTotalDay', value: `${values?.totalDayOfMonth || 0}` },
         {
           name: 'intRunningThDay',
           value: `${values?.runningDayOfMonth || 0}`,
         },
         { name: 'intchannelid', value: `${values?.channel?.value || 0}` },
-        { name: 'intEmployeeid ', value: `${employeeId}` },
+        { name: 'intEmployeeid', value: `${employeeId}` },
         { name: 'RATId', value: `${employeeLoginInfo?.empTerritoryId || 0}` },
         { name: 'intLevelId', value: `${employeeLoginInfo?.empLevelId || 0}` },
         { name: 'state', value: `${values?.state?.value || 0}` },
@@ -205,6 +204,7 @@ export default function DailySalesSetupBase() {
                         label="Distribution Channel"
                         onChange={(valueOption) => {
                           setFieldValue('channel', valueOption);
+                          setShowReport(false);
                         }}
                         placeholder="Select Distribution Channel"
                       />
@@ -217,6 +217,7 @@ export default function DailySalesSetupBase() {
                         label="State"
                         onChange={(valueOption) => {
                           setFieldValue('state', valueOption);
+                          setShowReport(false);
                         }}
                         placeholder="State"
                       />
