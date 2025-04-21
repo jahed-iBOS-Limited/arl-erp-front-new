@@ -47,6 +47,7 @@ export default function Form({ obj }) {
                 label="State"
                 value={values?.state}
                 onChange={(valueOption) => {
+                  setIsShow(false);
                   setGridData([]);
                   setFieldValue('state', valueOption);
                 }}
