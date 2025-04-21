@@ -68,8 +68,11 @@ const ClearningJournalLandingPage = () => {
 
     // getClearingGLData
     if (type?.value === 2) {
+      // getClearingGLData(
+      //   `/fino/Report/GetUnAllocatedLossGainJournal?businessUnitId=${businessUnit?.value}&fromDate=${fromDate}&toDate=${toDate}`
+      // );
       getClearingGLData(
-        `/fino/Report/GetUnAllocatedLossGainJournal?businessUnitId=${businessUnit?.value}&fromDate=${fromDate}&toDate=${toDate}`
+        `/fino/Report/GetAllClearingJournalSummary?businessUnitId=${businessUnit?.value}&fromDate=${fromDate}&toDate=${toDate}`
       );
     }
   };
@@ -400,12 +403,13 @@ const ClearingGLDataTable = ({
         <tr>
           <th></th>
           <th>SL</th>
-          <th>Journal Code</th>
-          <th>General Ledger</th>
-          <th>Sub GL</th>
-          <th>Transaction Date</th>
+          {/* <th>Journal Code</th> */}
+          <th>General Ledger Name</th>
+          <th>General Ledger Code</th>
+          {/* <th>Sub GL</th> */}
+          {/* <th>Transaction Date</th> */}
           <th>Amount</th>
-          <th>Narration</th>
+          {/* <th>Narration</th> */}
         </tr>
       </thead>
       <tbody>
@@ -427,14 +431,15 @@ const ClearingGLDataTable = ({
               />
             </td>
             <td>{index + 1}</td>
-            <td className="text-center">{item?.accountingJournalCode}</td>
+            {/* <td className="text-center">{item?.accountingJournalCode}</td> */}
             <td>{item?.generalLedgerName}</td>
-            <td>{item?.subGlname}</td>
-            <td className="text-center">
+            <td>{item?.generalLedgerCode}</td>
+            {/* <td>{item?.subGlname}</td> */}
+            {/* <td className="text-center">
               {_dateFormatter(item?.transactionDate)}
-            </td>
+            </td> */}
             <td className="text-right">{_formatMoney(item?.amount)}</td>
-            <td>{item?.narration}</td>
+            {/* <td>{item?.narration}</td> */}
           </tr>
         ))}
       </tbody>

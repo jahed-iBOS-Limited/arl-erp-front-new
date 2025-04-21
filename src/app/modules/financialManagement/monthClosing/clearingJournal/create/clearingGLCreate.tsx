@@ -19,7 +19,7 @@ import {
 type ClearingGLType = {
   obj: {
     values: any;
-    showClearingGLModalAndState: { state: object; isModalOpen: boolean };
+    showClearingGLModalAndState: { state: any; isModalOpen: boolean };
     setShowClearingGLModalAndState: React.Dispatch<
       React.SetStateAction<{ state: object; isModalOpen: boolean }>
     >;
@@ -32,10 +32,13 @@ const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
   // destructure
   const {
     values: landingValues,
+    showClearingGLModalAndState,
     setShowClearingGLModalAndState,
     resetForm: resetLandingValues,
     setClearingGLData,
   } = obj;
+
+  console.log(showClearingGLModalAndState);
 
   // redux
   const { profileData, selectedBusinessUnit } = useSelector(
@@ -45,6 +48,8 @@ const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
 
   // state
   const [profitCenterData, setProfitCenterData] = useState<any[]>([]);
+  const [allocationType, setAllocationType] =
+    useState<any>('singleProfitCenter');
 
   // api action
   const [
@@ -90,13 +95,40 @@ const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
 
   // save handler
   const saveHandler = (values, cb) => {
-    console.log('values', values);
-    // un allocated profit center modal values
-
     // landing unallocated item state
+    const { state } = showClearingGLModalAndState;
+    const { profitCenter } = values;
+
+    // payload
+    let payload = {};
+    // allocation 1 is for single profit center (can be single or multiple journal)
+    if (allocationType === 'singleProfitCenter') {
+      payload = {
+        generalLedgerId: state?.generalLedgerId || 0,
+        amount: state?.amount || 0,
+        profitCenter: {
+          profitCenterId: profitCenter?.profitCenterId || 0,
+          profitPercentage: null,
+        },
+      };
+    } else {
+      payload = {
+        generalLedgerId: state?.generalLedgerId || 0,
+        amount: state?.amount || 0,
+        profitCenter: profitCenterData?.map((item) => ({
+          profitCenterId: item?.profitCenterId || 0,
+          profitPercentage: +item?.profitProportion || 0,
+        })),
+      };
+    }
 
     // save unallocated profit center
-    saveClearingGL(``, null, cb, true);
+    saveClearingGL(
+      `/fino/ClearingJournal/CreateLossGainClearingJournal`,
+      payload,
+      cb,
+      true
+    );
   };
 
   // is loading
@@ -151,7 +183,11 @@ const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
                 <button
                   type="submit"
                   className="btn btn-primary"
-                  disabled={isClearingGLSaveButtonDisabled(values)}
+                  disabled={isClearingGLSaveButtonDisabled(
+                    values,
+                    totalProfitPoportion,
+                    allocationType
+                  )}
                   onClick={() => handleSubmit()}
                 >
                   Save
@@ -161,9 +197,10 @@ const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
           >
             <form onSubmit={handleSubmit}>
               <Tabs
-                defaultActiveKey="singleProfitCenter"
+                defaultActiveKey={allocationType}
                 id="uncontrolled-tab-example"
                 className="mb-3"
+                onSelect={(v) => setAllocationType(v)}
               >
                 <Tab
                   unmountOnExit

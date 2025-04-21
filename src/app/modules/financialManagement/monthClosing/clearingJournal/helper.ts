@@ -85,12 +85,20 @@ export const selectedCount = (arr: any[]): number => {
 };
 
 // cerate clearing gl create page save button disabled
-export const isClearingGLSaveButtonDisabled = (values: any) => {
+export const isClearingGLSaveButtonDisabled = (
+  values: any,
+  totalProfitPoportion: number,
+  allocationType: string
+) => {
   const { gl, businessTransaction, profitCenter } = values;
 
   const commonFormValues = !gl || !businessTransaction || !profitCenter;
 
-  return commonFormValues;
+  if (allocationType === 'singleProfitCenter') {
+    return commonFormValues;
+  } else {
+    return totalProfitPoportion !== 100;
+  }
 };
 
 // allow single or multiple row selection
