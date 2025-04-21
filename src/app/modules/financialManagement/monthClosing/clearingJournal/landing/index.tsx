@@ -11,10 +11,13 @@ import IViewModal from '../../../../_helper/_viewModal';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import UnAllocatedProfitCenterCreate from '../create/unAllocatedProfitCenterCreate';
 import {
+  allocationTypeDDL,
   clearingJournalLandingData,
   commonDataReset,
+  isUnallocatedPCSaveButtonDisabled,
   isUnallowcatedShowButtonDisbaled,
   selectedCount,
+  singleOrMultipleRowSelection,
   typeDDL,
 } from '../helper';
 import LossGainJournalCreate from '../create/lossGainJournalCreate';
@@ -78,10 +81,6 @@ const ClearningJournalLandingPage = () => {
     getUnallocatedProfitCenterDataLoading || getLossGainJournalDataLoading;
 
   // disable unallocatedProfitCenterData create button
-  const isUnallocatedPCSaveButtonDisabled =
-    selectedCount(unallocatedProfitCenterData) !== 1;
-
-  // disable unallocatedProfitCenterData create button
   const isLossGainJournalSaveButtonDisabled =
     selectedCount(lossGainJournalData) !== 1;
 
@@ -115,7 +114,10 @@ const ClearningJournalLandingPage = () => {
                           <button
                             type="button"
                             className="btn btn-primary"
-                            disabled={isUnallocatedPCSaveButtonDisabled}
+                            disabled={isUnallocatedPCSaveButtonDisabled(
+                              unallocatedProfitCenterData,
+                              values?.allocationType
+                            )}
                             onClick={() => {
                               setShowUnallocatedPCModalAndState(
                                 (prevState) => ({
@@ -195,6 +197,21 @@ const ClearningJournalLandingPage = () => {
                   />
                 </div>
                 <div className="col-lg-3">
+                  <NewSelect
+                    label="Allocation Type"
+                    options={allocationTypeDDL || []}
+                    value={values?.allocationType}
+                    name="allocationType"
+                    onChange={(valueOption) => {
+                      setFieldValue('allocationType', valueOption);
+                      commonDataReset({
+                        setLossGainJournalData,
+                        setUnallocatedProfitCenterData,
+                      });
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
                   <InputField
                     value={values?.fromDate}
                     name="fromDate"
@@ -246,6 +263,7 @@ const ClearningJournalLandingPage = () => {
                   <UnallocatedProfitCenterDataTable
                     arr={unallocatedProfitCenterData}
                     setter={setUnallocatedProfitCenterData}
+                    values={values}
                   />
                 ) : /* loss gain journal data table */
                 values?.type?.value === 2 && lossGainJournalData?.length > 0 ? (
@@ -317,9 +335,11 @@ export default ClearningJournalLandingPage;
 const UnallocatedProfitCenterDataTable = ({
   arr,
   setter,
+  values,
 }: {
   arr: any[];
   setter: React.Dispatch<React.SetStateAction<any[]>>;
+  values: any;
 }) => {
   return (
     <table className="table table-striped table-bordered bj-table bj-table-landing">
@@ -342,12 +362,13 @@ const UnallocatedProfitCenterDataTable = ({
                 type="checkbox"
                 checked={item?.isSelected}
                 onChange={(e) => {
-                  const value = e?.target?.checked;
-                  const modifyArr = arr?.map((item, itemIndex) => ({
-                    ...item,
-                    isSelected: index === itemIndex ? value : false,
-                  }));
-                  setter(modifyArr);
+                  singleOrMultipleRowSelection({
+                    arr,
+                    setter,
+                    values,
+                    index,
+                    checkedValue: e?.target?.checked,
+                  });
                 }}
               />
             </td>

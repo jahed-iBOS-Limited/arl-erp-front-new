@@ -99,10 +99,10 @@ const UnAllocatedProfitCenterCreate = ({ obj }) => {
           {isLoading && <Loading />}
 
           <IForm
+            title=""
             isHiddenReset
             isHiddenBack
             isHiddenSave
-            isPositionRight
             renderProps={() => (
               <>
                 <button
@@ -117,40 +117,21 @@ const UnAllocatedProfitCenterCreate = ({ obj }) => {
             )}
           >
             <Form>
-              <Tabs
-                defaultActiveKey="singleProfitCenter"
-                id="uncontrolled-tab-example"
-                className="mb-3"
-              >
-                <Tab
-                  unmountOnExit
-                  eventKey="singleProfitCenter"
-                  title="Single Profit Center"
-                >
-                  <div className="form-group global-form row">
-                    <div className="col-lg-3">
-                      <NewSelect
-                        label="Profit Center"
-                        options={profitCenterDDL || []}
-                        value={values?.profitCenter}
-                        name="profitCenter"
-                        onChange={(valueOption) => {
-                          setFieldValue('profitCenter', valueOption);
-                        }}
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-                  </div>
-                </Tab>
-                <Tab
-                  unmountOnExit
-                  eventKey="multipleProfitCenter"
-                  title="Multiple Profit Center"
-                >
-                  <h3>Multiple</h3>
-                </Tab>
-              </Tabs>
+              <div className="form-group global-form row">
+                <div className="col-lg-3">
+                  <NewSelect
+                    label="Profit Center"
+                    options={profitCenterDDL || []}
+                    value={values?.profitCenter}
+                    name="profitCenter"
+                    onChange={(valueOption) => {
+                      setFieldValue('profitCenter', valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+              </div>
             </Form>
           </IForm>
         </>
