@@ -371,7 +371,6 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
           <div>
             <form className="form form-label-right" onSubmit={handleSubmit}>
               <div className="">
-                {/* Save button add */}
                 <>
                   <div className="d-flex justify-content-between">
                     <div>
@@ -413,11 +412,34 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                         </>
                       )}
                     </div>
+                    {/* Save button add */}
                     <button type="submit" className="btn btn-primary">
                       Save
                     </button>
                   </div>
                 </>
+              </div>
+              <div>
+                <p className="p-0 m-0">
+                  {' '}
+                  Booking No: {rowClickData?.bookingRequestCode}
+                </p>
+                <p className="p-0  m-0">
+                  Master BL No:{' '}
+                  {rowClickData?.seaMasterBlCode &&
+                  rowClickData?.airMasterBlCode ? (
+                    <>
+                      {rowClickData?.seaMasterBlCode}{' '}
+                      {rowClickData?.airMasterBlCode
+                        ? ', ' + rowClickData?.airMasterBlCode
+                        : ''}
+                    </>
+                  ) : (
+                    rowClickData?.seaMasterBlCode ||
+                    rowClickData?.airMasterBlCode ||
+                    ''
+                  )}
+                </p>
               </div>
               <div className="form-group row global-form">
                 <div className="col-lg-3">
@@ -453,7 +475,7 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
               </div>{' '}
               <div className="table-responsive">
                 <table className="table global-table">
-                  <thead>
+                  <thead className="fixed-header">
                     <tr>
                       <th rowSpan={2}></th>
                       <th rowSpan={2}>SL</th>
