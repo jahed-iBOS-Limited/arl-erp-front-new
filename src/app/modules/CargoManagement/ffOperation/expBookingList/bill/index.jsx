@@ -335,7 +335,22 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
                   </div>
                 </>
               </div>
-
+              <p className="p-0  m-0">
+                Master BL No:{' '}
+                {rowClickData?.seaMasterBlCode &&
+                rowClickData?.airMasterBlCode ? (
+                  <>
+                    {rowClickData?.seaMasterBlCode}{' '}
+                    {rowClickData?.airMasterBlCode
+                      ? ', ' + rowClickData?.airMasterBlCode
+                      : ''}
+                  </>
+                ) : (
+                  rowClickData?.seaMasterBlCode ||
+                  rowClickData?.airMasterBlCode ||
+                  ''
+                )}
+              </p>
               <Box>
                 <Tabs
                   value={activeTab}
@@ -489,6 +504,7 @@ const BillGenerateCmp = ({
           <thead>
             <tr>
               <th>SL</th>
+              <th>Booking No</th>
               <th>Attribute</th>
               <th>Currency</th>
               <th>Exchange Rate</th>
@@ -503,6 +519,7 @@ const BillGenerateCmp = ({
               billingDataFilterData?.map((row, index) => (
                 <tr key={index}>
                   <td style={{ textAlign: 'right' }}> {index + 1} </td>
+                  <td style={{ textAlign: 'middle' }}>{row?.bookingCode}</td>
                   <td className="align-middle">
                     <label>{row?.headOfCharges}</label>
                   </td>
@@ -530,7 +547,7 @@ const BillGenerateCmp = ({
                 </tr>
               ))}
             <tr>
-              <td colSpan="4" style={{ textAlign: 'right' }}>
+              <td colSpan="5" style={{ textAlign: 'right' }}>
                 Total
               </td>
               <td style={{ textAlign: 'right' }}>
