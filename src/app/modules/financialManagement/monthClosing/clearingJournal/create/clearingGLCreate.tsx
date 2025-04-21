@@ -1,13 +1,20 @@
 import { Formik } from 'formik';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { shallowEqual, useSelector } from 'react-redux';
 import IForm from '../../../../_helper/_form';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
-import { isClearingGLSaveButtonDisabled, clearingGLInitData } from '../helper';
+import {
+  clearingGLInitData,
+  isClearingGLSaveButtonDisabled,
+  profitCenterAddButtonDisabled,
+} from '../helper';
 
 type ClearingGLType = {
   obj: {
@@ -36,6 +43,9 @@ const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
     shallowEqual
   );
 
+  // state
+  const [profitCenterData, setProfitCenterData] = useState<any[]>([]);
+
   // api action
   const [
     profitCenterDDL,
@@ -52,7 +62,7 @@ const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
     setBusinessTransactionDDL,
   ] = useAxiosGet();
 
-  const [, saveLossGainJournal, saveLossGainJournalLoading] = useAxiosPost();
+  const [, saveClearingGL, saveClearingGLLoading] = useAxiosPost();
 
   useEffect(() => {
     // if landing values found
@@ -86,15 +96,29 @@ const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
     // landing unallocated item state
 
     // save unallocated profit center
-    saveLossGainJournal(``, null, cb, true);
+    saveClearingGL(``, null, cb, true);
   };
 
   // is loading
   const isLoading =
     getProfitCenterDDLLoading ||
-    saveLossGainJournalLoading ||
+    saveClearingGLLoading ||
     getGeneralLedgerDDLLoading ||
     getBusinessTransactionDDLLoading;
+
+  // table data calculation
+  const totalProfitPoportion = profitCenterData?.reduce(
+    (acc, item) => (acc += +item?.profitProportion),
+    0
+  );
+
+  // profitCenterRemoveHandler
+  const profitCenterRemoveHandler = (id) => {
+    const modifyArr = profitCenterData?.filter(
+      (_: any, index: number) => index !== id
+    );
+    setProfitCenterData(modifyArr);
+  };
 
   return (
     <Formik
@@ -146,44 +170,21 @@ const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
                   eventKey="singleProfitCenter"
                   title="Single Profit Center"
                 >
-                  <div className="form-group global-form row">
-                    <div className="col-lg-3">
-                      <NewSelect
-                        label="General Ledger"
-                        options={generalLedgerDDL || []}
-                        value={values?.gl}
-                        name="gl"
-                        onChange={(valueOption) => {
-                          setFieldValue('gl', valueOption);
-                          getBusinessTransactionDDL(
-                            `/fino/FinanceCommonDDL/GetBusinessTransactionDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${valueOption?.value}`,
-                            (res) => {
-                              const modifiedData = res?.map((item) => ({
-                                ...item,
-                                label: item?.buesinessTransactionName,
-                                value: item?.buesinessTransactionId,
-                              }));
-                              setBusinessTransactionDDL(modifiedData);
-                            }
-                          );
-                        }}
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-                    <div className="col-lg-3">
-                      <NewSelect
-                        label="Business Transaction"
-                        options={businessTransactionDDL || []}
-                        value={values?.businessTransaction}
-                        name="businessTransaction"
-                        onChange={(valueOption) => {
-                          setFieldValue('businessTransaction', valueOption);
-                        }}
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
+                  <section className="form-group global-form row">
+                    <CommonGLAndSubGLFormField
+                      obj={{
+                        generalLedgerDDL,
+                        values,
+                        setFieldValue,
+                        getBusinessTransactionDDL,
+                        setBusinessTransactionDDL,
+                        errors,
+                        touched,
+                        businessTransactionDDL,
+                        profileData,
+                        selectedBusinessUnit,
+                      }}
+                    />
                     <div className="col-lg-3">
                       <NewSelect
                         label="Profit Center"
@@ -197,14 +198,133 @@ const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
                         touched={touched}
                       />
                     </div>
-                  </div>
+                  </section>
                 </Tab>
                 <Tab
                   unmountOnExit
                   eventKey="multipleProfitCenter"
                   title="Multiple Profit Center"
                 >
-                  <h3>Multiple</h3>
+                  <section className="form-group global-form row">
+                    <CommonGLAndSubGLFormField
+                      obj={{
+                        generalLedgerDDL,
+                        values,
+                        setFieldValue,
+                        getBusinessTransactionDDL,
+                        setBusinessTransactionDDL,
+                        errors,
+                        touched,
+                        businessTransactionDDL,
+                        profileData,
+                        selectedBusinessUnit,
+                      }}
+                    />
+                    <div className="col-lg-3">
+                      <NewSelect
+                        label="Profit Center"
+                        options={profitCenterDDL || []}
+                        value={values?.profitCenter}
+                        name="profitCenter"
+                        onChange={(valueOption) => {
+                          setFieldValue('profitCenter', valueOption);
+                        }}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.profitProportion}
+                        name="profitProportion"
+                        label="Profit Proportion"
+                        type="number"
+                        min={0}
+                        max={100}
+                        onChange={(e) => {
+                          setFieldValue('profitProportion', e?.target?.value);
+                        }}
+                      />
+                    </div>
+                    <div className="col-lg-1 mt-2">
+                      <button
+                        className="btn btn-primary"
+                        type="button"
+                        disabled={profitCenterAddButtonDisabled(
+                          values,
+                          totalProfitPoportion
+                        )}
+                        onClick={() => {
+                          // destrcuture
+                          const { profitCenter, profitProportion } = values;
+                          // new data payload
+                          const newData = {
+                            profitCenterName: profitCenter?.label || '',
+                            profitCenterId: profitCenter?.value || 0,
+                            profitProportion: profitProportion || 0,
+                          };
+
+                          // setter
+                          setProfitCenterData((prevState) => [
+                            ...prevState,
+                            newData,
+                          ]);
+                        }}
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </section>
+
+                  {/* Profit Center Data Table */}
+                  {profitCenterData?.length > 0 && (
+                    <section className="table-responsive mt-2">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Profit Center Name</th>
+                            <th>Profit Center Proportion</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {profitCenterData?.map((item: any, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td className="text-center">
+                                {item?.profitCenterName}
+                              </td>
+                              <td className="text-right">
+                                {item?.profitProportion}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.amount)}
+                              </td>
+                              <td className="text-center">
+                                <IDelete
+                                  remover={profitCenterRemoveHandler}
+                                  id={index}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                          <tr>
+                            <td colSpan={2} className="font-weight-bold">
+                              Total
+                            </td>
+                            <td
+                              className={`text-right font-weight-bold ${totalProfitPoportion === 100 ? 'text-danger' : ''}`}
+                            >
+                              {totalProfitPoportion}
+                            </td>
+                            <td colSpan={2}></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </section>
+                  )}
                 </Tab>
               </Tabs>
             </form>
@@ -216,3 +336,81 @@ const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
 };
 
 export default ClearingGLCreate;
+
+// common gl and sub gl form field
+type CommonGLAndSubGLFormFieldType = {
+  obj: {
+    generalLedgerDDL: any[];
+    values: any;
+    setFieldValue: any;
+    getBusinessTransactionDDL: any;
+    setBusinessTransactionDDL: React.Dispatch<React.SetStateAction<any[]>>;
+    errors: any;
+    touched: any;
+    businessTransactionDDL: any[];
+    profileData: {
+      accountId?: string;
+      [key: string]: any;
+    };
+    selectedBusinessUnit: Record<string, any>;
+  };
+};
+
+export const CommonGLAndSubGLFormField: FC<CommonGLAndSubGLFormFieldType> = ({
+  obj,
+}) => {
+  const {
+    generalLedgerDDL,
+    values,
+    setFieldValue,
+    getBusinessTransactionDDL,
+    setBusinessTransactionDDL,
+    errors,
+    touched,
+    businessTransactionDDL,
+    profileData,
+    selectedBusinessUnit,
+  } = obj;
+
+  return (
+    <>
+      <div className="col-lg-3">
+        <NewSelect
+          label="General Ledger"
+          options={generalLedgerDDL || []}
+          value={values?.gl}
+          name="gl"
+          onChange={(valueOption) => {
+            setFieldValue('gl', valueOption);
+            getBusinessTransactionDDL(
+              `/fino/FinanceCommonDDL/GetBusinessTransactionDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${valueOption?.value}`,
+              (res) => {
+                const modifiedData = res?.map((item) => ({
+                  ...item,
+                  label: item?.buesinessTransactionName,
+                  value: item?.buesinessTransactionId,
+                }));
+                setBusinessTransactionDDL(modifiedData);
+              }
+            );
+          }}
+          errors={errors}
+          touched={touched}
+        />
+      </div>
+      <div className="col-lg-3">
+        <NewSelect
+          label="Business Transaction"
+          options={businessTransactionDDL || []}
+          value={values?.businessTransaction}
+          name="businessTransaction"
+          onChange={(valueOption) => {
+            setFieldValue('businessTransaction', valueOption);
+          }}
+          errors={errors}
+          touched={touched}
+        />
+      </div>
+    </>
+  );
+};

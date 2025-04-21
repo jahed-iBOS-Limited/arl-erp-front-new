@@ -26,24 +26,31 @@ export const clearingJournalLandingData = {
 export const isUnallowcatedShowButtonDisbaled = (values: any) => {
   const { type, businessUnit, fromDate, toDate, allocationType } = values;
 
-  // clearing gl & unallocated type
-  return (
-    ![1, 2].includes(type?.value) ||
-    !businessUnit ||
-    !allocationType ||
-    !fromDate ||
-    !toDate
-  );
+  // common
+  const commonField = !type || !businessUnit || !fromDate || !toDate;
+
+  // unallocated type
+  if (type?.value === 1) return commonField || !allocationType;
+  if (type?.value === 2) return commonField;
 };
 
 // unallocated profit center
 export const unallocatedProfitCenterInitData = { profitCenter: '' };
 
-// clearing gl journal
-export const clearingGLInitData = {
+// clearing gl type
+
+type clearingGLInitDataType = {
+  gl: any;
+  businessTransaction: any;
+  profitCenter: any;
+  profitProportion: any;
+};
+// clearing gl
+export const clearingGLInitData: clearingGLInitDataType = {
   gl: '',
   businessTransaction: '',
   profitCenter: '',
+  profitProportion: '',
 };
 
 // common data table reset
@@ -80,7 +87,10 @@ export const selectedCount = (arr: any[]): number => {
 // cerate clearing gl create page save button disabled
 export const isClearingGLSaveButtonDisabled = (values: any) => {
   const { gl, businessTransaction, profitCenter } = values;
-  return !gl || !businessTransaction || !profitCenter;
+
+  const commonFormValues = !gl || !businessTransaction || !profitCenter;
+
+  return commonFormValues;
 };
 
 // allow single or multiple row selection
@@ -106,4 +116,26 @@ export function singleOrMultipleRowSelection({
     }));
     setter(modifyArr);
   }
+}
+
+// profit center add button disabled
+export function profitCenterAddButtonDisabled(
+  values: any,
+  totalProfitPoportion: number
+): boolean {
+  // destrcuture
+  const { gl, businessTransaction, profitCenter, profitProportion } = values;
+
+  // form values is empty or not
+  const valuesCheckes =
+    !gl || !businessTransaction || !profitCenter || !profitProportion;
+
+  // total proportion check
+  const totalProportionCheck = totalProfitPoportion >= 100;
+
+  // next total proportion check
+  const isTotalProportionOverflow =
+    +totalProfitPoportion + +profitProportion > 100;
+
+  return valuesCheckes || totalProportionCheck || isTotalProportionOverflow;
 }

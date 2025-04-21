@@ -191,21 +191,25 @@ const ClearningJournalLandingPage = () => {
                     }}
                   />
                 </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    label="Allocation Type"
-                    options={allocationTypeDDL || []}
-                    value={values?.allocationType}
-                    name="allocationType"
-                    onChange={(valueOption) => {
-                      setFieldValue('allocationType', valueOption);
-                      commonDataReset({
-                        setClearingGLData,
-                        setUnallocatedProfitCenterData,
-                      });
-                    }}
-                  />
-                </div>
+                {values?.type?.value === 1 ? (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      label="Allocation Type"
+                      options={allocationTypeDDL || []}
+                      value={values?.allocationType}
+                      name="allocationType"
+                      onChange={(valueOption) => {
+                        setFieldValue('allocationType', valueOption);
+                        commonDataReset({
+                          setClearingGLData,
+                          setUnallocatedProfitCenterData,
+                        });
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )}
                 <div className="col-lg-3">
                   <InputField
                     value={values?.fromDate}
@@ -412,6 +416,7 @@ const ClearingGLDataTable = ({
                 type="checkbox"
                 checked={item?.isSelected}
                 onChange={(e) => {
+                  // only one row can be selected
                   const value = e?.target?.checked;
                   const modifyArr = arr?.map((item, itemIndex) => ({
                     ...item,
