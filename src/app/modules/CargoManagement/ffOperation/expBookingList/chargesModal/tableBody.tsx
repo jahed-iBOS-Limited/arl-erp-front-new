@@ -673,7 +673,7 @@ function TableBody({
                           collectionDummyAmount: '',
                           paymentDummyAmount: '',
                           paymentActualAmount: '',
-                          isHeadOfChargesEdit: true,
+                          isHeadOfChargesEdit: aboveRow?.isHeadOfChargesEdit,
                         },
                         ...hardCopy?.slice(index + 1),
                       ];
