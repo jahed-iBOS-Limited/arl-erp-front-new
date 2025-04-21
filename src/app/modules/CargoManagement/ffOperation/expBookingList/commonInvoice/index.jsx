@@ -512,7 +512,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                   </span>
                   <span style={{ padding: 2, fontWeight: 600 }}>
                     {' '}
-                    Pay able immediately Due net{' '}
+                    Pay able immediately Due date{' '}
                   </span>
                 </div>
                 <div
@@ -627,10 +627,17 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                     <span>{bookingData?.incoterms}</span>
                     <br />
                     <span>
-                      {bookingData?.dateOfRequest
+                      {/* {bookingData?.dateOfRequest
                         ? moment(bookingData?.dateOfRequest).format(
                             'YYYY-MM-DD'
                           )
+                        : 'N/A'} */}
+                      {(transportPlanningSea || transportPlanningAir)
+                        ?.estimatedTimeOfDepart
+                        ? moment(
+                            (transportPlanningSea || transportPlanningAir)
+                              ?.estimatedTimeOfDepart
+                          ).format('DD MMM YYYY')
                         : 'N/A'}
                     </span>
                     <br />
