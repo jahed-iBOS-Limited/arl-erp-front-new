@@ -19,6 +19,7 @@ const initData = {
   area: '',
   territory: '',
   customer: '',
+  state: '',
 };
 
 const reportTypes = [
@@ -67,6 +68,10 @@ const AllEssentialReport = () => {
       { name: 'ReportType', value: `${+values?.reportType?.value}` },
       { name: 'FromDate', value: `${values?.fromDate}` },
       { name: 'ToDate', value: `${values?.toDate}` },
+      {
+        name: 'state',
+        value: buId === 232 ? `${values?.state?.value}` : 'All',
+      },
     ];
 
     const skuWiseMonthlyReport = [
@@ -146,6 +151,12 @@ const AllEssentialReport = () => {
     );
   };
 
+  const stateDDL = [
+    { value: 'All', label: 'All' },
+    { value: 'East', label: 'East' },
+    { value: 'West', label: 'West' },
+  ];
+
   return (
     <>
       <Formik enableReinitialize={true} initialValues={initData}>
@@ -171,6 +182,21 @@ const AllEssentialReport = () => {
                     placeholder="Report Type"
                   />
                 </div>
+                {buId === 232 && (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="state"
+                      options={stateDDL}
+                      label="State"
+                      value={values?.state}
+                      onChange={(valueOption) => {
+                        setShowReport(false);
+                        setFieldValue('state', valueOption);
+                      }}
+                      placeholder="State"
+                    />
+                  </div>
+                )}
                 {[5, 8].includes(values?.reportType?.value) && (
                   <div className="col-lg-3">
                     <NewSelect
