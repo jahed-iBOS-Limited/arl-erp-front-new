@@ -514,186 +514,115 @@ const BillGenerateCmp = ({
               <th>Amount (BDT)</th>
             </tr>
           </thead>
-          <tbody>
-            {values?.paymentParty?.value &&
-              billingDataFilterData?.map((row, index) => (
-                <tr key={index}>
-                  <td style={{ textAlign: 'right' }}> {index + 1} </td>
-                  <td style={{ textAlign: 'middle' }}>{row?.bookingCode}</td>
-                  <td className="align-middle">
-                    <label>{row?.headOfCharges}</label>
-                  </td>
-                  <td className="align-middle">
-                    <label>{row?.currency}</label>
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    {row?.exchangeRate || 0}
-                  </td>
-                  {/* <td style={{ textAlign: 'right' }}>
-                    {row?.paymentAdvanceAmount}
-                  </td> */}
-                  <td style={{ textAlign: 'right' }}>
-                    {Number(
-                      Number(+row?.paymentActualAmount || 0).toFixed(4)
-                    ) || 0}
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    {Number(Number(+row?.paymentAmount || 0).toFixed(4)) || 0}
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    {Number(Number(+row?.paymentPayAmount || 0).toFixed(4)) ||
-                      0}
-                  </td>
-                </tr>
-              ))}
-            <tr>
-              <td colSpan="5" style={{ textAlign: 'right' }}>
-                Total
-              </td>
-              <td style={{ textAlign: 'right' }}>
-                {billingDataFilterData?.reduce(
-                  (acc, curr) =>
-                    acc +
-                    Number(Number(+curr?.paymentActualAmount || 0).toFixed(4)),
-                  0
-                )}
-              </td>
-              {
-                <td style={{ textAlign: 'right' }}>
-                  {billingDataFilterData?.reduce(
-                    (acc, curr) =>
-                      acc +
-                      Number(Number(+curr?.paymentAmount || 0).toFixed(4)),
-                    0
-                  )}
-                </td>
-              }
-
-              <td style={{ textAlign: 'right' }}>
-                {billingDataFilterData?.reduce(
-                  (acc, curr) =>
-                    acc +
-                    Number(Number(+curr?.paymentPayAmount || 0).toFixed(4)),
-                  0
-                )}
-              </td>
-            </tr>
-          </tbody>
+          <TableBody
+            values={values}
+            billingDataFilterData={billingDataFilterData}
+          />
         </table>
       </div>
     </>
   );
 };
 
-// const AdvanceGenerateCmp = ({
-//   errors,
-//   setFieldValue,
-//   billingDataFilterData,
-//   paymentPartyListDDL,
-//   values,
-//   invoiceTypeHandeler,
-//   touched,
-//   setOpen,
-// }) => {
-//   const dispatch = useDispatch();
-//   return (
-//     <>
-//       <div className="form-group row global-form">
-//         <div className="col-lg-3">
-//           <NewSelect
-//             name="paymentParty"
-//             options={paymentPartyListDDL || []}
-//             value={values?.paymentParty}
-//             label="Party Type"
-//             onChange={(valueOption) => {
-//               setFieldValue('paymentParty', valueOption);
-//               invoiceTypeHandeler(valueOption);
-//             }}
-//             placeholder="Select Party Type"
-//             errors={errors}
-//             touched={touched}
-//           />
-//         </div>
-//         <div className="col-lg-3 ">
-//           <label>Narration</label>
-//           <InputField
-//             value={values?.narration}
-//             name="narration"
-//             placeholder="Narration"
-//             type="text"
-//             errors={errors}
-//             touched={touched}
-//           />
-//         </div>
-//         <div className="col-lg-6 mt-5">
-//           <button
-//             className="btn btn-primary mr-2 "
-//             type="button"
-//             onClick={() => setOpen(true)}
-//           >
-//             Attachment
-//           </button>
-//           {values?.documentFileId && (
-//             <button
-//               className="btn btn-primary"
-//               type="button"
-//               onClick={() => {
-//                 dispatch(getDownlloadFileView_Action(values?.documentFileId));
-//               }}
-//             >
-//               Attachment View
-//             </button>
-//           )}
-//         </div>
-//       </div>{' '}
-//       <div className="table-responsive">
-//         <table className="table global-table">
-//           <thead>
-//             <tr>
-//               <th>SL</th>
-//               <th>Attribute</th>
-//               <th>Currency</th>
-//               <th>Exchange Rate</th>
-//               <th>Advance Amount</th>
-//               <th>Amount (BDT)</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {values?.paymentParty?.value &&
-//               billingDataFilterData?.map((row, index) => (
-//                 <tr key={index}>
-//                   <td style={{ textAlign: 'right' }}> {index + 1} </td>
-//                   <td className="align-middle">
-//                     <label>{row?.headOfCharges}</label>
-//                   </td>
-//                   <td className="align-middle">
-//                     <label>{row?.currency}</label>
-//                   </td>
-//                   <td style={{ textAlign: 'right' }}>
-//                     {row?.exchangeRate || 0}
-//                   </td>
-//                   <td style={{ textAlign: 'right' }}>
-//                     {row?.paymentAdvanceAmount}
-//                   </td>
-//                   <td style={{ textAlign: 'right' }}>
-//                     {row?.paymentPayAmount}
-//                   </td>
-//                 </tr>
-//               ))}
-//             <tr>
-//               <td colSpan="5" style={{ textAlign: 'right' }}>
-//                 Total
-//               </td>
-//               <td style={{ textAlign: 'right' }}>
-//                 {billingDataFilterData?.reduce(
-//                   (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
-//                   0,
-//                 )}
-//               </td>
-//             </tr>
-//           </tbody>
-//         </table>
-//       </div>
-//     </>
-//   );
-// };
+const TableBody = ({ values, billingDataFilterData }) => {
+  let totalPaymentAmount = 0;
+  let totalPaymentPayAmount = 0;
+  let totalPaymentActualAmount = 0;
+
+  return (
+    <tbody>
+      {values?.paymentParty?.value &&
+        billingDataFilterData
+          ?.reduce((acc, row) => {
+            const existingGroup = acc.find(
+              (group) => group.bookingRequestCode === row.bookingRequestCode
+            );
+            if (existingGroup) {
+              existingGroup.rows.push(row);
+            } else {
+              acc.push({
+                bookingRequestCode: row.bookingRequestCode,
+                rows: [row],
+              });
+            }
+            return acc;
+          }, [])
+          .map((group, groupIndex) => (
+            <React.Fragment key={groupIndex}>
+              {group.rows.map((row, rowIndex) => {
+                const paymentActualAmount =
+                  Number(Number(+row?.paymentActualAmount || 0).toFixed(4)) ||
+                  0;
+                const paymentAmount =
+                  Number(Number(+row?.paymentAmount || 0).toFixed(4)) || 0;
+
+                const paymentPayAmount =
+                  Number(Number(+row?.paymentPayAmount || 0).toFixed(4)) || 0;
+
+                totalPaymentAmount += paymentAmount;
+                totalPaymentPayAmount += paymentPayAmount;
+                totalPaymentActualAmount += paymentActualAmount;
+
+                return (
+                  <tr key={rowIndex}>
+                    {rowIndex === 0 && (
+                      <td
+                        rowSpan={group.rows.length}
+                        style={{
+                          textAlign: 'right',
+                          verticalAlign: 'middle',
+                        }}
+                      >
+                        {groupIndex + 1}
+                      </td>
+                    )}
+                    {rowIndex === 0 && (
+                      <td
+                        rowSpan={group.rows.length}
+                        style={{
+                          textAlign: 'middle',
+                          verticalAlign: 'middle',
+                        }}
+                      >
+                        {group.bookingRequestCode}
+                      </td>
+                    )}
+                    <td className="text-left align-middle">
+                      <label>{row?.headOfCharges}</label>
+                    </td>
+                    <td className="align-middle">
+                      <label>{row?.currency}</label>
+                    </td>
+                    <td style={{ textAlign: 'right' }}>
+                      {row?.exchangeRate || 0}
+                    </td>
+                    <td style={{ textAlign: 'right' }}>
+                      {paymentActualAmount}
+                    </td>
+                    <td style={{ textAlign: 'right' }}>{paymentAmount}</td>
+                    <td style={{ textAlign: 'right' }}>{paymentPayAmount}</td>
+                  </tr>
+                );
+              })}
+            </React.Fragment>
+          ))}
+      <tr>
+        <td colSpan="5" style={{ textAlign: 'right' }}>
+          <b>Total</b>
+        </td>
+        <td style={{ textAlign: 'right' }}>
+          <b>{Number((+totalPaymentActualAmount || 0).toFixed(4))}</b>
+        </td>
+        {
+          <td style={{ textAlign: 'right' }}>
+            <b> {Number((+totalPaymentAmount || 0).toFixed(4))}</b>
+          </td>
+        }
+
+        <td style={{ textAlign: 'right' }}>
+          <b>{Number((+totalPaymentPayAmount || 0).toFixed(4))}</b>
+        </td>
+      </tr>
+    </tbody>
+  );
+};
