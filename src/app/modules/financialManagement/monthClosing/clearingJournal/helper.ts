@@ -118,8 +118,8 @@ export function singleOrMultipleRowSelection({
   }
 }
 
-// profit center add button disabled
-export function profitCenterAddButtonDisabled(
+// clearing gl profit center add button disabled
+export function clearingGLProfitCenterAddButtonDisabled(
   values: any,
   totalProfitPoportion: number
 ): boolean {
@@ -138,4 +138,39 @@ export function profitCenterAddButtonDisabled(
     +totalProfitPoportion + +profitProportion > 100;
 
   return valuesCheckes || totalProportionCheck || isTotalProportionOverflow;
+}
+
+// unallocated profit center add button disabled
+export function unAllocatedProfitCenterAddButtonDisabled(
+  values: any,
+  totalProfitPoportion: number
+): boolean {
+  // destrcuture
+  const { profitCenter, profitProportion } = values;
+
+  // form values is empty or not
+  const valuesCheckes = !profitCenter || !profitProportion;
+
+  // total proportion check
+  const totalProportionCheck = totalProfitPoportion >= 100;
+
+  // next total proportion check
+  const isTotalProportionOverflow =
+    +totalProfitPoportion + +profitProportion > 100;
+
+  return valuesCheckes || totalProportionCheck || isTotalProportionOverflow;
+}
+
+// unAllocatedProfitCenterSaveButtonDisabled
+
+export function unAllocatedProfitCenterSaveButtonDisabled(obj) {
+  // destrcuture
+  const { values, landingValues, totalProfitPoportion } = obj;
+  const { profitCenter } = values;
+
+  if (landingValues?.allocationType?.value === 1) {
+    return !profitCenter;
+  } else {
+    return totalProfitPoportion !== 100;
+  }
 }

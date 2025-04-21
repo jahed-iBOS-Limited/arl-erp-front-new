@@ -12,8 +12,8 @@ import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import {
   clearingGLInitData,
+  clearingGLProfitCenterAddButtonDisabled,
   isClearingGLSaveButtonDisabled,
-  profitCenterAddButtonDisabled,
 } from '../helper';
 
 type ClearingGLType = {
@@ -250,7 +250,7 @@ const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
                       <button
                         className="btn btn-primary"
                         type="button"
-                        disabled={profitCenterAddButtonDisabled(
+                        disabled={clearingGLProfitCenterAddButtonDisabled(
                           values,
                           totalProfitPoportion
                         )}
@@ -269,6 +269,10 @@ const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
                             ...prevState,
                             newData,
                           ]);
+
+                          // reset form field
+                          setFieldValue('profitProportion', '');
+                          setFieldValue('profitCenter', '');
                         }}
                       >
                         Add

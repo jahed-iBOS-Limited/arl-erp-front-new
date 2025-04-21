@@ -122,7 +122,7 @@ const ClearningJournalLandingPage = () => {
                                   // set which item is selected from unallocated profit center data
                                   state: unallocatedProfitCenterData?.filter(
                                     (item) => Boolean(item?.isSelected)
-                                  )[0],
+                                  ),
                                   isModalOpen: true,
                                 })
                               );
