@@ -1,5 +1,5 @@
 import { Formik } from 'formik';
-import { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { shallowEqual, useSelector } from 'react-redux';
 import IForm from '../../../../_helper/_form';
@@ -7,19 +7,27 @@ import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
-import {
-  isLossGainSaveButtonDisabled,
-  lossGainJournalInitData,
-} from '../helper';
+import { isClearingGLSaveButtonDisabled, clearingGLInitData } from '../helper';
 
-const LossGainJournalCreate = ({ obj }) => {
+type ClearingGLType = {
+  obj: {
+    values: any;
+    showClearingGLModalAndState: { state: object; isModalOpen: boolean };
+    setShowClearingGLModalAndState: React.Dispatch<
+      React.SetStateAction<{ state: object; isModalOpen: boolean }>
+    >;
+    resetForm: () => void;
+    setClearingGLData: React.Dispatch<React.SetStateAction<any[]>>;
+  };
+};
+
+const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
   // destructure
   const {
     values: landingValues,
-
-    setShowLossGainJournalModalAndState,
+    setShowClearingGLModalAndState,
     resetForm: resetLandingValues,
-    setLossGainJournalData,
+    setClearingGLData,
   } = obj;
 
   // redux
@@ -91,17 +99,17 @@ const LossGainJournalCreate = ({ obj }) => {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={lossGainJournalInitData}
+      initialValues={clearingGLInitData}
       onSubmit={(values, { resetForm }) => {
         saveHandler(values, () => {
           resetForm();
-          setShowLossGainJournalModalAndState((prevState) => ({
+          setShowClearingGLModalAndState((prevState) => ({
             ...prevState,
             state: {},
             isModalOpen: false,
           }));
           resetLandingValues();
-          setLossGainJournalData([]);
+          setClearingGLData([]);
         });
       }}
     >
@@ -110,16 +118,16 @@ const LossGainJournalCreate = ({ obj }) => {
           {isLoading && <Loading />}
 
           <IForm
+            title=""
             isHiddenReset
             isHiddenBack
             isHiddenSave
-            isPositionRight
             renderProps={() => (
               <>
                 <button
                   type="submit"
                   className="btn btn-primary"
-                  disabled={isLossGainSaveButtonDisabled(values)}
+                  disabled={isClearingGLSaveButtonDisabled(values)}
                   onClick={() => handleSubmit()}
                 >
                   Save
@@ -207,4 +215,4 @@ const LossGainJournalCreate = ({ obj }) => {
   );
 };
 
-export default LossGainJournalCreate;
+export default ClearingGLCreate;

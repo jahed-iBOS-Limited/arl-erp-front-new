@@ -26,7 +26,7 @@ export const clearingJournalLandingData = {
 export const isUnallowcatedShowButtonDisbaled = (values: any) => {
   const { type, businessUnit, fromDate, toDate, allocationType } = values;
 
-  // loss gain & unallocated type
+  // clearing gl & unallocated type
   return (
     ![1, 2].includes(type?.value) ||
     !businessUnit ||
@@ -39,8 +39,8 @@ export const isUnallowcatedShowButtonDisbaled = (values: any) => {
 // unallocated profit center
 export const unallocatedProfitCenterInitData = { profitCenter: '' };
 
-// loss gain journal
-export const lossGainJournalInitData = {
+// clearing gl journal
+export const clearingGLInitData = {
   gl: '',
   businessTransaction: '',
   profitCenter: '',
@@ -49,15 +49,15 @@ export const lossGainJournalInitData = {
 // common data table reset
 type CommonDataReset = {
   setUnallocatedProfitCenterData: React.Dispatch<React.SetStateAction<any[]>>;
-  setLossGainJournalData: React.Dispatch<React.SetStateAction<any[]>>;
+  setClearingGLData: React.Dispatch<React.SetStateAction<any[]>>;
 };
 
 // clearing journal common data reset
 export function commonDataReset(obj: CommonDataReset) {
   // destrcuture
-  const { setLossGainJournalData, setUnallocatedProfitCenterData } = obj;
+  const { setClearingGLData, setUnallocatedProfitCenterData } = obj;
 
-  setLossGainJournalData([]);
+  setClearingGLData([]);
   setUnallocatedProfitCenterData([]);
 }
 
@@ -77,8 +77,8 @@ export const selectedCount = (arr: any[]): number => {
   return arr?.filter((item: any) => item?.isSelected)?.length || 0;
 };
 
-// cerate loss gain create page save button disabled
-export const isLossGainSaveButtonDisabled = (values: any) => {
+// cerate clearing gl create page save button disabled
+export const isClearingGLSaveButtonDisabled = (values: any) => {
   const { gl, businessTransaction, profitCenter } = values;
   return !gl || !businessTransaction || !profitCenter;
 };
