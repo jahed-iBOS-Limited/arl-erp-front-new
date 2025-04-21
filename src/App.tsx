@@ -39,7 +39,7 @@ export const eProcurementBaseURL = isDevelopmentOrDevHost()
   : 'https://arl.peopledesk.io/api';
 
 export const APIUrl = isDevelopmentOrDevHost()
-  ? 'https://erp.ibos.io'
+  ? 'https://deverp.ibos.io'
   : window.location?.hostname === 'deverpv2.ibos.io'
     ? 'https://erp.ibos.io'
     : origin;
