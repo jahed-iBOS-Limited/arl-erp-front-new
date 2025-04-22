@@ -1,5 +1,5 @@
 import * as requestFromServer from './Api';
-import { shipmentSlice } from './Slice';
+import { shipmentSlice } from '../../challanShippointTransfer/_redux/Slice';
 import { toast } from 'react-toastify';
 import { _dateFormatter } from './../../../../_helper/_dateFormate';
 import Axios from 'axios';
