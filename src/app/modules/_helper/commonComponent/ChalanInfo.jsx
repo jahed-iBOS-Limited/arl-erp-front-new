@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getChalanInfo } from '../helper';
+import { getChalanInfo } from '../_commonApi';
 
 const ChalanInfo = ({ shipmentId }) => {
   const [chalanInfo, setChalanInfo] = useState([]);

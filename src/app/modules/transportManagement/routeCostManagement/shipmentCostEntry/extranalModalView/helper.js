@@ -163,18 +163,6 @@ export const getFormDataByShipmentId = async (
   }
 };
 
-export const getChalanInfo = async (shipmentId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/tms/Shipment/GetChallanInfoByShipmentId?shipmentId=${shipmentId}`
-    );
-
-    if (res.status === 200) {
-      setter(res?.data);
-    }
-  } catch (error) {}
-};
-
 export const getShippingInfo = async (id, setter) => {
   try {
     const res = await Axios.get(

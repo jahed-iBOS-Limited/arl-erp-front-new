@@ -2,9 +2,9 @@ import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import ICustomCard from '../../../../_helper/_customCard';
 import InputField from '../../../../_helper/_inputField';
-import ChalanInfo from './ChalanInfo';
 import { getComponentDDL } from './helper';
 import NewSelect from '../../../../_helper/_select';
+import ChalanInfo from '../../../../_helper/commonComponent/ChalanInfo';
 export default function FormCmp({
   initData,
   btnRef,

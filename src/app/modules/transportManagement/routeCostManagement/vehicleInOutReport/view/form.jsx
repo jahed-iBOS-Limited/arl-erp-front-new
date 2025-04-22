@@ -4,7 +4,7 @@ import ICustomCard from '../../../../_helper/_customCard';
 import InputField from '../../../../_helper/_inputField';
 import { getComponentDDL } from '../helper';
 import NewSelect from './../../../../_helper/_select';
-import ChalanInfo from '../../shipmentCostEntry/intranalModalView/ChalanInfo';
+import ChalanInfo from '../../../../_helper/commonComponent/ChalanInfo';
 
 export default function FormCmp({
   initData,
