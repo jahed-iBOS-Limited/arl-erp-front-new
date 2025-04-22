@@ -13,7 +13,7 @@ import {
 
 import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
 
-var userValues = {
+const userValues = {
   businessunit: '',
   name: '',
   email: '',
@@ -79,19 +79,23 @@ export default function CreateUserEdit({
     setTitle(_title);
   }, [userForEdit, id]);
 
+  // CONST
+  const PASSWORD_EXP_DATE = '2050-07-04';
+  const DEFAULT_PASSWORD = 'ibos@123';
+
   const saveUser = (values, cb) => {
     const userdata = {
       userName: values.name,
       accountId: profileData.accountId,
       defaultBusinessUnit: selectedBusinessUnit.value,
       loginId: values.email,
-      password: 'ibos@123',
+      password: DEFAULT_PASSWORD,
       emailAddress: values.email,
       defaultPassword: true,
       contact: values.contactnumber,
       countryId: values.country.value,
       countryName: values.country.label,
-      passwordExpDate: '2050-07-04',
+      passwordExpDate: PASSWORD_EXP_DATE,
       userType: values.type.value,
       userReferenceId: values.reference.value,
       userReferenceNo: values.reference.code,
