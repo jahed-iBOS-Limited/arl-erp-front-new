@@ -1,7 +1,7 @@
 const numberWithCommas = (x) => {
   if (x == null) return '';
   const parts = x.toString().split('.');
-  parts[0] = parts[0].replace(/\d(?=(\d{3})+$)/g, '$&,');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return parts.join('.');
 };
 

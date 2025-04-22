@@ -81,15 +81,16 @@ export default function CreateUserEdit({
 
   // CONST
   const PASSWORD_EXP_DATE = '2050-07-04';
-  const DEFAULT_PASSWORD = 'ibos@123';
-
+  const pass = () => {
+    return 'ibos@123';
+  };
   const saveUser = (values, cb) => {
     const userdata = {
       userName: values.name,
       accountId: profileData.accountId,
       defaultBusinessUnit: selectedBusinessUnit.value,
       loginId: values.email,
-      password: DEFAULT_PASSWORD,
+      password: pass(),
       emailAddress: values.email,
       defaultPassword: true,
       contact: values.contactnumber,

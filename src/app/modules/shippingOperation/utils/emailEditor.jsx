@@ -49,7 +49,7 @@ const EmailEditor = ({ emailEditorProps }) => {
   }, [intId]);
 
   // Regular expression to validate a single email address
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   // Handle input changes for To, Cc, and Subject fields
   const handleInputChange = (e) => {
