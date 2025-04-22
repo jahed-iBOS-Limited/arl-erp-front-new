@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import ValuesTable from '../Table/_valuesTable';
-import CompetencyTable from '../Table/_competencyTable';
 import MeasuringScale from '../../../../_helper/_measuringScale';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getMeasuringScaleAction } from '../../../../_redux/Actions';
 import { getMeasuringScaleBottomAction } from './../../../../_redux/Actions';
 import { toast } from 'react-toastify';
+import CompetencyTable from '../../../../values_competency_employee/Table/_competencyTable';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});

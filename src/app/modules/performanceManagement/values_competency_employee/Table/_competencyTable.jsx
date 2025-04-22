@@ -27,7 +27,6 @@ export default function CompetencyTable({
   const history = useHistory();
   let location = useLocation();
   let { _data } = location;
-
   useEffect(() => {
     if (_data) {
       setCompetencyData({
