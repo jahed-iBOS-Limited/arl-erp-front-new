@@ -1,5 +1,4 @@
 /* eslint-disable no-useless-escape */
- 
 
 export function amountToWords(amountInDigits, currency = null) {
   if (!amountInDigits) return '';

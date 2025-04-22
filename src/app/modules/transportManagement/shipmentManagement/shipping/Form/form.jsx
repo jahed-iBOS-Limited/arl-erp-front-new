@@ -18,13 +18,13 @@ import {
   getDeliveryeDatabyId,
   getStockStatusOnShipmentAction,
   getVehicleNo_action,
-} from '../_redux/Actions';
+} from '../../exportShipping/_redux/Actions';
 import { getItemListForChallan, getTransportStatusAndInfo } from '../helper';
 import ShipmentDetailsInfo from '../shippingUnitView/shipmentDetails';
 import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
 import FormikError from './../../../../_helper/_formikError';
 import NewSelect from './../../../../_helper/_select';
-import { getLoadingPointDDLAction } from './../_redux/Actions';
+import { getLoadingPointDDLAction } from '../../exportShipping/_redux/Actions';
 import ChallanItemsPreview from './itemsPreview';
 import QRCodeScanner from '../../../../_helper/qrCodeScanner';
 import EditDeliveryForm from './EditDelivery/editDeliveryForm';

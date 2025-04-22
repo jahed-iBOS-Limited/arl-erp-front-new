@@ -8,7 +8,6 @@
 /.pnp
 .pnp.js
 debug.log
-.github
 # testing
 /coverage
 

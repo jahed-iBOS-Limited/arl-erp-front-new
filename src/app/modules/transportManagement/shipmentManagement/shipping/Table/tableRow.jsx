@@ -9,7 +9,7 @@ import {
   getSalesContactGridData,
   getSalesContactIncompleteGridData,
   setGridEmptyAction,
-} from '../_redux/Actions';
+} from '../../exportShipping/_redux/Actions';
 
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { toast } from 'react-toastify';

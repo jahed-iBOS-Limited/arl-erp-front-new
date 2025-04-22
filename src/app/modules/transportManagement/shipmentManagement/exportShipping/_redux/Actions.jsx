@@ -198,6 +198,23 @@ export const getVehicleSingleDatabyVehicleIdAction =
         }
       });
   };
+export const getVehicleSingleInfobyVehicleIdAction =
+  (id, setter) => (dispatch) => {
+    return requestFromServer
+      .getVehicleInformationByVehicleIdAPI(id)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          if (setter) {
+            setter('driverId', data?.[0]?.driverId);
+            setter('driverName', data?.[0]?.driverName);
+            setter('driverContactNo', data?.[0]?.driverContact);
+            setter('vehicleId', data?.[0]?.vehicleId);
+          }
+          dispatch(slice.SetVehicleSingleData(data?.[0]));
+        }
+      });
+  };
 
 export const getDeliveryItemVolumeInfoAction =
   (id, setDisabled) => (dispatch) => {
@@ -407,6 +424,14 @@ export const getSalesContactById =
               isLaborImpart: item?.shipmentHeader?.isLaborImpart
                 ? { value: true, label: 'Yes' }
                 : { value: false, label: 'No' },
+              pump: item?.shipmentHeader?.pumpModelId
+                ? {
+                    value: item?.shipmentHeader?.pumpModelId,
+                    label: item?.shipmentHeader?.pumpModelName,
+                    pumpGroupHeadEnroll:
+                      item?.shipmentHeader?.pumpGroupHeadEnroll,
+                  }
+                : '',
             },
           };
           return dispatch(slice.SetDataById(data));
