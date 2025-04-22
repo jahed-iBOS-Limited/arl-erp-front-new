@@ -27,15 +27,15 @@ const isDevelopmentOrDevHost = () => {
 };
 
 export const imarineBaseUrl = isDevelopmentOrDevHost()
-  ? 'https://imarine.ibos.io'
+  ? 'https://devimarine.ibos.io'
   : 'https://imarine.ibos.io';
 
 export const marineBaseUrlPythonAPI = isDevelopmentOrDevHost()
-  ? 'https://marine.ibos.io'
+  ? 'https://devmarine.ibos.io'
   : 'https://marine.ibos.io';
 
 export const eProcurementBaseURL = isDevelopmentOrDevHost()
-  ? 'https://arl.peopledesk.io/api'
+  ? 'https://devarl.peopledesk.io/api'
   : 'https://arl.peopledesk.io/api';
 
 export const APIUrl = isDevelopmentOrDevHost()
