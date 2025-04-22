@@ -10,7 +10,10 @@ import {
   CardHeaderToolbar,
 } from '../../../../../../_metronic/_partials/controls';
 import { saveVehiclesWeight } from '../helper';
-import { GetItemWeightInfo_action, SaveVehicleWeight } from '../_redux/Actions';
+import {
+  GetItemWeightInfo_action,
+  SaveVehicleWeight,
+} from '../../exportShipping/_redux/Actions';
 import InputField from './../../../../_helper/_inputField';
 import Loading from './../../../../_helper/_loading';
 import VehicleWeightTable from './grid';
