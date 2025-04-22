@@ -25,6 +25,8 @@ const initState = {
   itemWeightInfo: '',
   shipPointDDL: [],
   stockStatusOnShipment: false,
+  isSubsidyRunning: false,
+  vehicleNo: '',
 };
 
 export const shipmentSlice = createSlice({
@@ -38,6 +40,10 @@ export const shipmentSlice = createSlice({
     SetSoldToPPDDL: (state, action) => {
       const { payload } = action;
       state.soldToPartyDDL = payload;
+    },
+    setIsSubsidyRunning: (state, action) => {
+      const { payload } = action;
+      state.isSubsidyRunning = payload;
     },
     SetBUsalesOrgIncotermDDL: (state, action) => {
       const { payload } = action;
@@ -102,10 +108,14 @@ export const shipmentSlice = createSlice({
     },
     SetSingleStoreEmpty: (state) => {
       state.singleData = '';
+      state.vehicleSingeData = '';
+      state.vehicleNo = '';
     },
     setGridEmpty: (state) => {
       state.incompleteGridData = [];
       state.gridData = [];
+      state.vehicleSingeData = '';
+      state.vehicleNo = '';
     },
 
     SetDeliveryItemVolumeInfo: (state, action) => {
@@ -123,6 +133,10 @@ export const shipmentSlice = createSlice({
     SetStockStatusOnShipment: (state, action) => {
       const { payload } = action;
       state.stockStatusOnShipment = payload;
+    },
+    setVehicleNo: (state, action) => {
+      const { payload } = action;
+      state.vehicleNo = payload;
     },
   },
 });

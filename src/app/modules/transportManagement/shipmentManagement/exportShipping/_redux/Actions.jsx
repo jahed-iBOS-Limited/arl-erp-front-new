@@ -1,8 +1,8 @@
 import * as requestFromServer from './Api';
-import { shipmentSlice } from '../../challanShippointTransfer/_redux/Slice';
 import { toast } from 'react-toastify';
 import { _dateFormatter } from './../../../../_helper/_dateFormate';
 import Axios from 'axios';
+import { shipmentSlice } from '../../transferShipping/_redux/Slice';
 const { actions: slice } = shipmentSlice;
 
 export const getSalesOfficeDDLAction =
