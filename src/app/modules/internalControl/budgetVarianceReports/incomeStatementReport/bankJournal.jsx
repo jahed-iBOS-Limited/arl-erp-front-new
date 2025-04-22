@@ -19,7 +19,7 @@ import ViewLabourBill from '../../../financialManagement/invoiceManagementSystem
 import OthersBillView from '../../../financialManagement/invoiceManagementSystem/billregister/othersBillNew/view/othersBillView';
 import ViewSalesCommission from '../../../financialManagement/invoiceManagementSystem/billregister/salesCommission/view/viewSalesCommission';
 import ViewTransportBill from '../../../financialManagement/invoiceManagementSystem/billregister/transportBill/view/viewBillRegister';
-import { getBankJournalView } from './helper';
+import { getBankJournalView } from '../../../financialManagement/report/incomestatement/helper';
 
 export function BankJournalViewTableRow({ id, headerData }) {
   const [loading, setLoading] = useState(false);

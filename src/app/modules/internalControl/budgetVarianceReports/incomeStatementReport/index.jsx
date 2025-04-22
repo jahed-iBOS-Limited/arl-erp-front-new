@@ -25,15 +25,14 @@ import printIcon from '../../../_helper/images/print-icon.png';
 import { SetReportIncomestatementAction } from '../../../_helper/reduxForLocalStorage/Actions';
 import InputField from './../../../_helper/_inputField';
 import GeneralLedgerModalForIncomeStatement from './generalLedgerModal';
+import StatisticalDetails from './statisticalDetalis';
+import html2pdf from 'html2pdf.js';
 import {
   getBusinessDDLByED,
   getEnterpriseDivisionDDL,
   getIncomeStatement_api,
   getProfitCenterDDL,
-} from './helper';
-import StatisticalDetails from './statisticalDetalis';
-
-import html2pdf from 'html2pdf.js';
+} from '../../../financialManagement/report/incomestatement/helper';
 
 const initDataFuction = (reportIncomestatement) => {
   const initData = {

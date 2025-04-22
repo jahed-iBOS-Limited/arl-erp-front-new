@@ -8,7 +8,7 @@ import { _dateFormatter } from '../../../_helper/_dateFormate';
 import { _formatMoney } from '../../../_helper/_formatMoney';
 import Loading from '../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
-import { getCashJournalView } from './helper';
+import { getCashJournalView } from '../../../financialManagement/report/incomestatement/helper';
 
 export function InvTransViewTableRow({ id, headerData }) {
   const [loading, setLoading] = useState(false);

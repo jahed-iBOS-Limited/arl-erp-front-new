@@ -205,3 +205,6 @@ export function getVehicleNo(deliveryId, buId) {
     `/tms/Shipment/GetVehicleNo?deliveryId=${deliveryId}&businessUnitId=${buId}`
   );
 }
+export function getVehicleInformationByVehicleIdAPI(id) {
+  return axios.get(`/tms/Vehicle/GetVehicleInformationbyId?vehicleId=${id}`);
+}
