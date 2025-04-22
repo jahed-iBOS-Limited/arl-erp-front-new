@@ -270,6 +270,7 @@ const ViewData = ({ adviceReportData, values }) => {
                       adviceReportData={adviceReportData}
                       total={total}
                       totalInWords={totalInWords}
+                      subjectTitle="Payment Instruction by BEFTN"
                     />
                   )}
                   {getPdfFormatNumber(
