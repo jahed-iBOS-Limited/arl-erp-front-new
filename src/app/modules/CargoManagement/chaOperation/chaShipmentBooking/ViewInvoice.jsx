@@ -380,7 +380,7 @@ export default function ViewInvoice({ clickRowDto }) {
                   style={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    padding: '20px 50px 5px 50px',
+                    padding: '50px 50px 5px 50px',
                   }}
                 >
                   <div>Prepared By:</div>
