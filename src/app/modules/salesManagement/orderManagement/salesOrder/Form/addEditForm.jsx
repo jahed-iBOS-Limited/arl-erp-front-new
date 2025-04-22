@@ -47,13 +47,10 @@ import { SetPartnerBalanceEmpty_Action } from './../_redux/Actions';
 import { SetUndeliveryValuesEmpty_Action } from './../_redux/Actions';
 import Loading from './../../../../_helper/_loading';
 import { isUniq } from './../../../../_helper/uniqChecker';
-import {
-  getBrokers,
-  getChannelBaseCollectionDays,
-  rejectSalesOrder,
-} from '../helper';
+import { getBrokers, getChannelBaseCollectionDays } from '../helper';
 import IConfirmModal from './../../../../_helper/_confirmModal';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { rejectSalesOrder } from '../../../../_helper/_commonApi';
 const initData = {
   id: undefined,
   soldtoParty: '',
