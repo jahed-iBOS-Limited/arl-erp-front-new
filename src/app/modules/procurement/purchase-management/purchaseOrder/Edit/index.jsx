@@ -478,6 +478,7 @@ export function POEditFormByOrderType() {
               {...objProps}
               viewPage={viewPage}
               singlereturnCB={singlereturnCB}
+              payDaysLabel="Pay Days (After MRR)"
             />
           );
           setTitle(

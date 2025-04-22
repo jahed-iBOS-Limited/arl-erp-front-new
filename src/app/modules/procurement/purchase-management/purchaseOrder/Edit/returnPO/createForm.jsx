@@ -26,6 +26,7 @@ export default function ReturnPOCreateForm({
   isEdit,
   poIds,
   singlereturnCB,
+  payDaysLabel,
 }) {
   const dispatch = useDispatch();
   const [rowDto, setRowDto] = useState([]);
@@ -570,7 +571,7 @@ export default function ReturnPOCreateForm({
                     />
                   </div>
                   <div className="col-lg-2">
-                    <label>Pay Days (After MRR)</label>
+                    <label>{payDaysLabel}</label>
                     <InputField
                       value={values?.payDays}
                       name="payDays"
