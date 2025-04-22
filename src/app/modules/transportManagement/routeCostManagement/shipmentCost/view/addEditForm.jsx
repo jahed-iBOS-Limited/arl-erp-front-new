@@ -7,7 +7,7 @@ import {
 } from '../helper';
 import Loading from './../../../../_helper/_loading';
 import { GetShipToPartnerDistanceByShipmentId_api } from './../helper';
-import Form from './form';
+import FormCmp from '../../shipmentCostEntry/intranalModalView/form';
 
 const initData = {
   vehicleNo: '',
@@ -115,7 +115,7 @@ export default function ShipmentCostViewForm({ id, values }) {
   return (
     <div>
       {isDisabled && <Loading />}
-      <Form
+      <FormCmp
         initData={id ? singleData : initData}
         profileData={profileData}
         selectedBusinessUnit={selectedBusinessUnit}
