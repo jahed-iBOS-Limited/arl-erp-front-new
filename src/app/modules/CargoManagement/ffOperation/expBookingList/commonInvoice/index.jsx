@@ -921,7 +921,9 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                 >
                   {isAirOperation ? (
                     <div>
-                      <span>BRAC Bank PLC</span>
+                      <span>
+                        <b>BRAC Bank PLC</b>
+                      </span>
                       <br />
                       <span>A/C Name: Akij Logistics Ltd.</span>
                       <br />
@@ -935,7 +937,9 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                     </div>
                   ) : (
                     <div>
-                      <span>Standard Chartered Bank</span>
+                      <span>
+                        <b>Standard Chartered Bank</b>
+                      </span>
                       <br />
                       <span>A/C Name: Akij Logistics Ltd.</span>
                       <br />

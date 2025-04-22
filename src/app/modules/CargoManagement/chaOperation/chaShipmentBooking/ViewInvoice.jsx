@@ -357,9 +357,30 @@ export default function ViewInvoice({ clickRowDto }) {
               <td colSpan="6" style={cellStyle}>
                 <div
                   style={{
+                    padding: 2,
+                  }}
+                >
+                  <span>
+                    <b>Fund Transfer to</b>
+                  </span>
+                  <br />
+                  <span>BRAC Bank PLC </span>
+                  <br />
+                  <span>A/C Name: Akij Logistics Ltd.</span>
+                  <br />
+                  <span>A/C No. 2063890780002</span>
+                  <br />
+                  <span>Branch: Gulshan</span>
+                  <br />
+                  <span>Routing: 060261726</span>
+                  {/* <br />
+                  <span>Swift code: BRAKBDDH</span> */}
+                </div>
+                <div
+                  style={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    padding: '150px 50px 5px 50px',
+                    padding: '20px 50px 5px 50px',
                   }}
                 >
                   <div>Prepared By:</div>
