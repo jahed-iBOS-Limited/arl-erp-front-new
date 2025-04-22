@@ -14,7 +14,6 @@ import {
   getDataSourceDDLAction,
 } from '../../../_redux/Actions';
 import { BrowserRouter, Route, useParams } from 'react-router-dom';
-import ViewModal from './detailsView';
 import IForm from '../../../../_helper/_form';
 import { toArray } from 'lodash';
 import { getPMSFrequencyDDLAction } from '../../../../_helper/_redux/Actions';
@@ -24,6 +23,7 @@ import {
 } from '../../../_redux/Actions';
 import { getDepartmentDDLAction } from '../../../individualKpi/balancedScore/_redux/Actions';
 import { getPmsReportAction } from '../../../_helper/getReportAction';
+import DetailsView from '../../../individualKpi/copyKpi/Form/detailsView';
 
 const initData = {
   kpiformat: '',
@@ -294,7 +294,7 @@ export default function DeapartmentalKpiEntryForm({ isView, data }) {
         </IForm>
         <Route
           path="/human-capital-management/performance_mgt/kpitarget-entry/details/:typeId/:typeName"
-          component={ViewModal}
+          component={DetailsView}
         />
       </BrowserRouter>
     </>
