@@ -13,10 +13,10 @@ import IViewModal from '../../../../_helper/_viewModal';
 import printIcon from '../../../../_helper/images/print-icon.png';
 import { setShipmentCostLadingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import { billSubmitApi, getGridData } from '../helper';
-import ShipmentCostViewForm from '../view/addEditForm';
 import SalesInvoiceModel from '../viewModal';
 import IConfirmModal from './../../../../_helper/_confirmModal';
 import { SearchForm } from './form';
+import ShipmentCostViewForm from '../../vehicleInOutReport/view/addEditForm';
 
 export function TableRow() {
   const [gridData, setGridData] = useState([]);

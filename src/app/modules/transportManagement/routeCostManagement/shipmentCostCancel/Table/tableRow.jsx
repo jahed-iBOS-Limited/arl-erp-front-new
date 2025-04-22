@@ -10,11 +10,11 @@ import Loading from '../../../../_helper/_loading';
 import PaginationSearch from '../../../../_helper/_search';
 import { _todayDate } from '../../../../_helper/_todayDate';
 import IViewModal from '../../../../_helper/_viewModal';
-import ShipmentCostViewForm from '../view/addEditForm';
 import SalesInvoiceModel from '../viewModal';
 import IConfirmModal from './../../../../_helper/_confirmModal';
 // import ReactToPrint from "react-to-print";
 import { setShipmentCostLadingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import ShipmentCostAuditApproveViewForm from '../../shipmentCostEntry/intranalModalView/addEditForm';
 
 export function TableRow() {
   const [gridData, setGridData] = useState([]);
@@ -341,7 +341,7 @@ export function TableRow() {
                     show={showModal}
                     onHide={() => setShowModal(false)}
                   >
-                    <ShipmentCostViewForm id={id} values={values} />
+                    <ShipmentCostAuditApproveViewForm id={id} values={values} />
                   </IViewModal>
                 </div>
               </div>

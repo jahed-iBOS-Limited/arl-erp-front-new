@@ -1,5 +1,8 @@
 const numberWithCommas = (x) => {
-  return x?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  if (x == null) return '';
+  const parts = x.toString().split('.');
+  parts[0] = parts[0].replace(/\d(?=(\d{3})+$)/g, '$&,');
+  return parts.join('.');
 };
 
 export default numberWithCommas;

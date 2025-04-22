@@ -5,12 +5,12 @@ import IForm from '../../../../_helper/_form';
 import Loading from '../../../../_helper/_loading';
 import {
   EditShipmentStandardCost_api,
-  getChalanInfo,
   getDistanceKm,
   getShippingInfo,
   getSupplierDDL,
   getFormDataByShipmentId,
 } from './helper';
+import { getChalanInfo } from '../../../../_helper/_commonApi';
 
 // const initData = {
 //   rentAmount: 0,
