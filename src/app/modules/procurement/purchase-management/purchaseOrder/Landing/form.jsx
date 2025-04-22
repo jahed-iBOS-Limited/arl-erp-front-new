@@ -343,7 +343,11 @@ export default function HeaderForm({
                   // Super user er ক্ষেত্রে: jodi required fields na thake, tahole disabled
                   if (isSuperUser && !hasRequiredFields) {
                     disabled = true;
-                  } else if (!isSuperUser && isStandardPO) {
+                  } else if (
+                    !isSuperUser &&
+                    isStandardPO &&
+                    ![509675]?.includes(profileData?.userId)
+                  ) {
                     disabled = true;
                   }
                   // Non-super user er ক্ষেত্রে: jodi Service PO hoy ebong Without Reference na hoy, tahole disabled

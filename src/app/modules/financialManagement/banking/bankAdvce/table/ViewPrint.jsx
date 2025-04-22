@@ -5,11 +5,11 @@ import { APIUrl } from '../../../../../../App';
 import { moneyInWord } from '../../../../_helper/_convertMoneyToWord';
 import printIcon from '../../../../_helper/images/print-icon.png';
 import { advicePrintCount } from '../helper';
-import FormatOne from '../pdf/format-01';
-import FormatTwo from '../pdf/format-02';
-import FormatThree from '../pdf/format-03';
+import FormatOne from '../../../financials/bankAdvce/pdf/format-01';
+import FormatTwo from '../../../financials/bankAdvce/pdf/format-02';
+import FormatThree from '../../../financials/bankAdvce/pdf/format-03';
 import { generateExcel } from './excelReportGenarate';
-import { FormatEight } from '../pdf/format-08';
+import { FormatEight } from '../../../financials/bankAdvce/pdf/format-08';
 const ViewData = ({ adviceReportData, values }) => {
   const [fontSize, setFontSize] = useState(9);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -141,104 +141,6 @@ const ViewData = ({ adviceReportData, values }) => {
                   ref={printRef}
                   style={{ margin: '0 60px' }}
                 >
-                  {/* {getPdfFormatNumber(
-                    values?.adviceType?.value,
-                    values?.advice?.value
-                  ) === 1 && (
-                    <FormatOne
-                      fontSize={fontSize}
-                      APIUrl={APIUrl}
-                      selectedBusinessUnit={selectedBusinessUnit}
-                      values={values}
-                      adviceReportData={adviceReportData}
-                      total={total}
-                      totalInWords={totalInWords}
-                    />
-                  )}
-                  {getPdfFormatNumber(
-                    values?.adviceType?.value,
-                    values?.advice?.value
-                  ) === 2 && (
-                      <FormatTwo
-                        fontSize={fontSize}
-                        APIUrl={APIUrl}
-                        selectedBusinessUnit={selectedBusinessUnit}
-                        values={values}
-                        adviceReportData={adviceReportData}
-                        total={total}
-                        totalInWords={totalInWords}
-                      />
-                    )}
-                  {getPdfFormatNumber(
-                    values?.adviceType?.value,
-                    values?.advice?.value
-                  ) === 3 && (
-                    <FormatThree
-                      fontSize={fontSize}
-                      APIUrl={APIUrl}
-                      selectedBusinessUnit={selectedBusinessUnit}
-                      values={values}
-                      adviceReportData={adviceReportData}
-                      total={total}
-                      totalInWords={totalInWords}
-                    />
-                  )}
-                  {getPdfFormatNumber(
-                    values?.adviceType?.value,
-                    values?.advice?.value
-                  ) === 4 && (
-                    <FormatFour
-                      fontSize={fontSize}
-                      APIUrl={APIUrl}
-                      selectedBusinessUnit={selectedBusinessUnit}
-                      values={values}
-                      adviceReportData={adviceReportData}
-                      total={total}
-                      totalInWords={totalInWords}
-                    />
-                  )}
-                  {getPdfFormatNumber(
-                    values?.adviceType?.value,
-                    values?.advice?.value
-                  ) === 5 && (
-                    <FormatFive
-                      fontSize={fontSize}
-                      APIUrl={APIUrl}
-                      selectedBusinessUnit={selectedBusinessUnit}
-                      values={values}
-                      adviceReportData={adviceReportData}
-                      total={total}
-                      totalInWords={totalInWords}
-                    />
-                  )}
-                  {getPdfFormatNumber(
-                    values?.adviceType?.value,
-                    values?.advice?.value
-                  ) === 6 && (
-                    <FormatSix
-                      fontSize={fontSize}
-                      APIUrl={APIUrl}
-                      selectedBusinessUnit={selectedBusinessUnit}
-                      values={values}
-                      adviceReportData={adviceReportData}
-                      total={total}
-                      totalInWords={totalInWords}
-                    />
-                  )}
-                  {getPdfFormatNumber(
-                    values?.adviceType?.value,
-                    values?.advice?.value
-                  ) === 7 && (
-                    <FormatSeven
-                      fontSize={fontSize}
-                      APIUrl={APIUrl}
-                      selectedBusinessUnit={selectedBusinessUnit}
-                      values={values}
-                      adviceReportData={adviceReportData}
-                      total={total}
-                      totalInWords={totalInWords}
-                    />
-                  )} */}
                   {values?.advice?.label === 'RTGS' ? (
                     <FormatEight
                       fontSize={fontSize + 3}
@@ -278,6 +180,7 @@ const ViewData = ({ adviceReportData, values }) => {
                       adviceReportData={adviceReportData}
                       total={total}
                       totalInWords={totalInWords}
+                      subjectTitle={'Payment Instruction by fund transfer'}
                     />
                   )}
                 </div>

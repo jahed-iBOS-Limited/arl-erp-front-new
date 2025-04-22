@@ -20,6 +20,7 @@ const initData = {
   reportType: { value: 0, label: 'Details' },
   channel: '',
   customer: '',
+  state: '',
 };
 
 function SalesOrderReportLanding() {
@@ -88,6 +89,13 @@ function SalesOrderReportLanding() {
             name: 'ViewType',
             value: values?.salesContractInfoReportType?.value?.toString(),
           },
+          {
+            name: 'state',
+            value:
+              selectedBusinessUnit?.value === 232
+                ? values?.state?.value
+                : 'All',
+          },
         ]
       : values?.reportType?.value === 4
         ? [
@@ -97,6 +105,12 @@ function SalesOrderReportLanding() {
           ]
         : [];
   };
+
+  const stateDDL = [
+    { value: 'All', label: 'All' },
+    { value: 'East', label: 'East' },
+    { value: 'West', label: 'West' },
+  ];
 
   const setReportId = (reportTypeId) => {
     let reportId = '';
@@ -125,6 +139,7 @@ function SalesOrderReportLanding() {
                   touched,
                   setGridData,
                   shipPointDDL,
+                  stateDDL,
                   setFieldValue,
                   getReportView,
                   setIsShow,

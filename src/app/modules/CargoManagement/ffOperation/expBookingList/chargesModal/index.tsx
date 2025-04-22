@@ -305,9 +305,14 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
     // Check if any two "paymentPartyId" values are the same but their "currencyId" values differ
     for (let i = 0; i < payloadList.length; i++) {
       for (let j = i + 1; j < payloadList.length; j++) {
-        if (payloadList[i].paymentPartyId === payloadList[j].paymentPartyId) {
+        if (
+          payloadList[i].paymentPartyId &&
+          payloadList[j].paymentPartyId &&
+          payloadList[i].paymentPartyId === payloadList[j].paymentPartyId
+        ) {
           // If paymentPartyId is the same, check if currencyId is the same
           if (payloadList[i].currencyId !== payloadList[j].currencyId) {
+            console.log(payloadList[i].currencyId, payloadList[j].currencyId);
             return toast.warn(
               `Warning: "Payment Party" ${payloadList[j].headOfCharges} has different currency: ${payloadList[i].currency} and ${payloadList[j].currency}`
             );
@@ -319,6 +324,8 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
     for (let i = 0; i < payloadList.length; i++) {
       for (let j = i + 1; j < payloadList.length; j++) {
         if (
+          payloadList[i].collectionPartyId &&
+          payloadList[j].collectionPartyId &&
           payloadList[i].collectionPartyId === payloadList[j].collectionPartyId
         ) {
           // If collectionPartyId is the same, check if currencyId is the same
@@ -334,7 +341,8 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
     getSaveBookedRequestBilling(
       `${imarineBaseUrl}/domain/ShippingService/SaveBookedRequestBilling`,
       payloadList,
-      CB
+      CB,
+      true
     );
   };
   return (
@@ -363,7 +371,6 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
           <div>
             <form className="form form-label-right" onSubmit={handleSubmit}>
               <div className="">
-                {/* Save button add */}
                 <>
                   <div className="d-flex justify-content-between">
                     <div>
@@ -405,11 +412,34 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                         </>
                       )}
                     </div>
+                    {/* Save button add */}
                     <button type="submit" className="btn btn-primary">
                       Save
                     </button>
                   </div>
                 </>
+              </div>
+              <div>
+                <p className="p-0 m-0">
+                  {' '}
+                  Booking No: {rowClickData?.bookingRequestCode}
+                </p>
+                <p className="p-0  m-0">
+                  Master BL No:{' '}
+                  {rowClickData?.seaMasterBlCode &&
+                  rowClickData?.airMasterBlCode ? (
+                    <>
+                      {rowClickData?.seaMasterBlCode}{' '}
+                      {rowClickData?.airMasterBlCode
+                        ? ', ' + rowClickData?.airMasterBlCode
+                        : ''}
+                    </>
+                  ) : (
+                    rowClickData?.seaMasterBlCode ||
+                    rowClickData?.airMasterBlCode ||
+                    ''
+                  )}
+                </p>
               </div>
               <div className="form-group row global-form">
                 <div className="col-lg-3">
@@ -445,7 +475,7 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
               </div>{' '}
               <div className="table-responsive">
                 <table className="table global-table">
-                  <thead>
+                  <thead className="fixed-header">
                     <tr>
                       <th rowSpan={2}></th>
                       <th rowSpan={2}>SL</th>

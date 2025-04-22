@@ -2,9 +2,9 @@ import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import ICustomCard from '../../../../_helper/_customCard';
 import InputField from '../../../../_helper/_inputField';
-import ChalanInfo from './ChalanInfo';
 import { getComponentDDL } from './helper';
-
+import NewSelect from '../../../../_helper/_select';
+import ChalanInfo from '../../../../_helper/commonComponent/ChalanInfo';
 export default function FormCmp({
   initData,
   btnRef,
@@ -49,7 +49,10 @@ export default function FormCmp({
     (acc, cur) => (acc += +cur?.actualCost),
     0
   );
-  const cal = totalActualCost - totalCost;
+  const cal =
+    totalActualCost -
+    totalCost +
+    (initData?.downTripCredit - initData?.downTripCash);
   return (
     <>
       <Formik
@@ -67,7 +70,7 @@ export default function FormCmp({
             <>
               <Form className="form form-label-right position-relative">
                 <p style={{ position: 'absolute', top: '-46px', left: '45%' }}>
-                  <b>Net Payable: </b>
+                  <b>Pay to Driver: </b>
                   {cal - values?.advanceAmount}
                 </p>
                 <div className="row global-form">
@@ -229,6 +232,42 @@ export default function FormCmp({
                           disabled={true}
                         />
                       </div>
+
+                      <div className="col-lg-3 pl pr-1 mb-1">
+                        <InputField
+                          label="Down Trip Cash"
+                          value={values?.downTripCash}
+                          name="downTripCash"
+                          placeholder="Down Trip Cash"
+                          type="number"
+                          min="0"
+                          disabled={true}
+                        />
+                      </div>
+                      <div className="col-lg-3 pl pr-1 mb-1">
+                        <InputField
+                          label="Down Trip Credit"
+                          value={values?.downTripCredit}
+                          name="downTripCredit"
+                          placeholder="Down Trip Credit"
+                          type="number"
+                          min="0"
+                          disabled={true}
+                        />
+                      </div>
+                      {+values?.downTripCredit > 0 && (
+                        <div className="col-lg-3 pl pr-1 mb-1">
+                          <NewSelect
+                            name="businessUnitName"
+                            options={[]}
+                            value={values?.businessUnitName}
+                            label="Business Unit Name"
+                            onChange={(valueOption) => {}}
+                            placeholder="Business Unit Name"
+                            isDisabled={true}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

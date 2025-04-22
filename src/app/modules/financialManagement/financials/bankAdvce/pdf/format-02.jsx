@@ -93,348 +93,346 @@ const FormatTwo = ({
           Detailed particulars of each Account Holder:
         </p>
       </div>
-      <div className="table-responsive">
-        <table
-          className="table table-striped table-bordered  advice-table table-font-size-sm"
-          // style={{ width: "100%" }}
-        >
-          <thead>
-            <tr>
-              <td
-                style={{
-                  width: '115px',
-                  border: '1px solid #000',
-                  textAlign: 'center',
-                }}
-              >
-                Account Name tets
-              </td>
-              <td
-                style={{
-                  width: '53px',
-                  border: '1px solid #000',
-                  textAlign: 'center',
-                }}
-              >
-                Code No
-              </td>
-              <td
-                style={{
-                  width: '120px',
-                  border: '1px solid #000',
-                  textAlign: 'center',
-                }}
-              >
-                Bank Name
-              </td>
-              <td
-                style={{
-                  width: '70px',
-                  border: '1px solid #000',
-                  textAlign: 'center',
-                }}
-              >
-                Branch Name
-              </td>
-              <td
-                style={{
-                  width: '50px',
-                  border: '1px solid #000',
-                  textAlign: 'center',
-                }}
-              >
-                A/C Type
-              </td>
-              <td
-                style={{
-                  width: '80px',
-                  border: '1px solid #000',
-                  textAlign: 'center',
-                }}
-              >
-                Account No
-              </td>
-              <td
-                style={{
-                  width: '57px',
-                  border: '1px solid #000',
-                  textAlign: 'center',
-                }}
-              >
-                Amount{' '}
-              </td>
-              <td
-                style={{
-                  width: '70px',
-                  border: '1px solid #000',
-                  textAlign: 'center',
-                }}
-              >
-                Payment Info
-              </td>
-              <td
-                style={{
-                  width: '110px',
-                  border: '1px solid #000',
-                  textAlign: 'center',
-                }}
-              >
-                Comments
-              </td>
-              <td
-                style={{
-                  width: '80px',
-                  border: '1px solid #000',
-                  textAlign: 'center',
-                }}
-              >
-                Routing No
-              </td>
-              <td
-                style={{
-                  width: '80px',
-                  border: '1px solid #000',
-                  textAlign: 'center',
-                }}
-              >
-                Instrument No
-              </td>
-              <td
-                style={{
-                  width: '35px',
-                  border: '1px solid #000',
-                  textAlign: 'center',
-                }}
-              >
-                Sl No
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            {adviceReportData?.map((itm, index) => {
-              return (
-                <tr key={index}>
-                  <td
-                    style={{
-                      border: '1px solid #000',
-                    }}
-                    className="text-left"
-                  >
-                    <div
-                      className="pl-1"
-                      style={{
-                        ...(fontSize && { fontSize }),
-                      }}
-                    >
-                      {itm?.strBankAccountName}
-                    </div>
-                  </td>
-                  <td
-                    style={{
-                      border: '1px solid #000',
-                    }}
-                  >
-                    <div
-                      style={{
-                        ...(fontSize && { fontSize }),
-                      }}
-                    >
-                      {itm?.strPayeCode}
-                    </div>
-                  </td>
-                  <td
-                    style={{
-                      border: '1px solid #000',
-                    }}
-                  >
-                    <div
-                      className="pl-1"
-                      style={{
-                        ...(fontSize && { fontSize }),
-                      }}
-                    >
-                      {itm?.strBankName}
-                    </div>
-                  </td>
-                  <td
-                    style={{
-                      border: '1px solid #000',
-                    }}
-                  >
-                    <div
-                      className="pl-1"
-                      style={{
-                        ...(fontSize && { fontSize }),
-                      }}
-                    >
-                      {itm?.strBankBranchName}
-                    </div>
-                  </td>
-                  <td
-                    style={{
-                      border: '1px solid #000',
-                    }}
-                  >
-                    <div
-                      className="pl-1"
-                      style={{
-                        ...(fontSize && { fontSize }),
-                      }}
-                    >
-                      {itm?.strBankAccType}
-                    </div>
-                  </td>
-                  <td
-                    style={{
-                      border: '1px solid #000',
-                    }}
-                  >
-                    <div
-                      className="text-right pr-2"
-                      style={{
-                        ...(fontSize && { fontSize }),
-                      }}
-                    >
-                      <span className="d-none">{` ${'\u200C'} `}</span>
-                      <span>{itm?.strBankAccountNo}</span>
-                    </div>
-                  </td>
-                  <td
-                    style={{
-                      border: '1px solid #000',
-                    }}
-                  >
-                    <div
-                      className="text-right pr-2"
-                      style={{
-                        ...(fontSize && { fontSize }),
-                      }}
-                    >
-                      {numberWithCommas(itm?.numAmount)}
-                    </div>
-                  </td>
-                  <td
-                    style={{
-                      border: '1px solid #000',
-                    }}
-                  >
-                    <div
-                      className="text-left"
-                      style={{
-                        ...(fontSize && { fontSize }),
-                      }}
-                    >
-                      {itm?.strPaymentReff || 'N/A'}
-                    </div>
-                  </td>
-                  <td
-                    style={{
-                      border: '1px solid #000',
-                    }}
-                  >
-                    <div
-                      className="pl-1"
-                      style={{
-                        ...(fontSize && { fontSize }),
-                      }}
-                    >
-                      {itm?.strComments}
-                    </div>
-                  </td>
-                  <td
-                    style={{
-                      border: '1px solid #000',
-                    }}
-                  >
-                    <div
-                      className="text-right pr-2"
-                      style={{
-                        ...(fontSize && { fontSize }),
-                      }}
-                    >
-                      <span className="d-none">{` ${'\u200C'} `}</span>
-                      <span>{itm?.strRoutingNumber}</span>
-                    </div>
-                  </td>
-                  <td
-                    style={{
-                      border: '1px solid #000',
-                    }}
-                  >
-                    <div
-                      className="text-left"
-                      style={{
-                        ...(fontSize && { fontSize }),
-                      }}
-                    >
-                      {itm?.strInstrumentNo}
-                    </div>
-                  </td>
-                  <td
-                    style={{
-                      border: '1px solid #000',
-                    }}
-                  >
-                    <div
-                      className="text-center"
-                      style={{
-                        ...(fontSize && { fontSize }),
-                      }}
-                    >
-                      {index + 1}
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td
-                className="font-weight-bold"
-                style={{
-                  border: '1px solid #000',
-                  fontWeight: 'bold',
-                }}
-              >
-                <div className="font-weight-bold text-left pl-2 text-right">
-                  Total
-                </div>
-              </td>
-              <td
-                align="right"
-                className="font-weight-bold"
-                style={{
-                  border: '1px solid #000',
-                  fontWeight: 'bold',
-                }}
-              >
-                <div className="font-weight-bold text-right">
-                  {adviceReportData.length > 0 && numberWithCommas(total)}
-                </div>
-              </td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              {values?.advice?.info === 'scb' && (
+      <table
+        className="table table-striped table-bordered  advice-table table-font-size-sm"
+        // style={{ width: "100%" }}
+      >
+        <thead>
+          <tr>
+            <td
+              style={{
+                width: '115px',
+                border: '1px solid #000',
+                textAlign: 'center',
+              }}
+            >
+              Account Name tets
+            </td>
+            <td
+              style={{
+                width: '53px',
+                border: '1px solid #000',
+                textAlign: 'center',
+              }}
+            >
+              Code No
+            </td>
+            <td
+              style={{
+                width: '120px',
+                border: '1px solid #000',
+                textAlign: 'center',
+              }}
+            >
+              Bank Name
+            </td>
+            <td
+              style={{
+                width: '70px',
+                border: '1px solid #000',
+                textAlign: 'center',
+              }}
+            >
+              Branch Name
+            </td>
+            <td
+              style={{
+                width: '50px',
+                border: '1px solid #000',
+                textAlign: 'center',
+              }}
+            >
+              A/C Type
+            </td>
+            <td
+              style={{
+                width: '80px',
+                border: '1px solid #000',
+                textAlign: 'center',
+              }}
+            >
+              Account No
+            </td>
+            <td
+              style={{
+                width: '57px',
+                border: '1px solid #000',
+                textAlign: 'center',
+              }}
+            >
+              Amount{' '}
+            </td>
+            <td
+              style={{
+                width: '70px',
+                border: '1px solid #000',
+                textAlign: 'center',
+              }}
+            >
+              Payment Info
+            </td>
+            <td
+              style={{
+                width: '110px',
+                border: '1px solid #000',
+                textAlign: 'center',
+              }}
+            >
+              Comments
+            </td>
+            <td
+              style={{
+                width: '80px',
+                border: '1px solid #000',
+                textAlign: 'center',
+              }}
+            >
+              Routing No
+            </td>
+            <td
+              style={{
+                width: '80px',
+                border: '1px solid #000',
+                textAlign: 'center',
+              }}
+            >
+              Instrument No
+            </td>
+            <td
+              style={{
+                width: '35px',
+                border: '1px solid #000',
+                textAlign: 'center',
+              }}
+            >
+              Sl No
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          {adviceReportData?.map((itm, index) => {
+            return (
+              <tr key={index}>
                 <td
                   style={{
                     border: '1px solid #000',
-                    textAlign: 'center',
+                  }}
+                  className="text-left"
+                >
+                  <div
+                    className="pl-1"
+                    style={{
+                      ...(fontSize && { fontSize }),
+                    }}
+                  >
+                    {itm?.strBankAccountName}
+                  </div>
+                </td>
+                <td
+                  style={{
+                    border: '1px solid #000',
                   }}
                 >
-                  {/* {values?.bankAccountNo?.bankAccNo} */}
+                  <div
+                    style={{
+                      ...(fontSize && { fontSize }),
+                    }}
+                  >
+                    {itm?.strPayeCode}
+                  </div>
                 </td>
-              )}
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                <td
+                  style={{
+                    border: '1px solid #000',
+                  }}
+                >
+                  <div
+                    className="pl-1"
+                    style={{
+                      ...(fontSize && { fontSize }),
+                    }}
+                  >
+                    {itm?.strBankName}
+                  </div>
+                </td>
+                <td
+                  style={{
+                    border: '1px solid #000',
+                  }}
+                >
+                  <div
+                    className="pl-1"
+                    style={{
+                      ...(fontSize && { fontSize }),
+                    }}
+                  >
+                    {itm?.strBankBranchName}
+                  </div>
+                </td>
+                <td
+                  style={{
+                    border: '1px solid #000',
+                  }}
+                >
+                  <div
+                    className="pl-1"
+                    style={{
+                      ...(fontSize && { fontSize }),
+                    }}
+                  >
+                    {itm?.strBankAccType}
+                  </div>
+                </td>
+                <td
+                  style={{
+                    border: '1px solid #000',
+                  }}
+                >
+                  <div
+                    className="text-right pr-2"
+                    style={{
+                      ...(fontSize && { fontSize }),
+                    }}
+                  >
+                    <span className="d-none">{` ${'\u200C'} `}</span>
+                    <span>{itm?.strBankAccountNo}</span>
+                  </div>
+                </td>
+                <td
+                  style={{
+                    border: '1px solid #000',
+                  }}
+                >
+                  <div
+                    className="text-right pr-2"
+                    style={{
+                      ...(fontSize && { fontSize }),
+                    }}
+                  >
+                    {numberWithCommas(itm?.numAmount)}
+                  </div>
+                </td>
+                <td
+                  style={{
+                    border: '1px solid #000',
+                  }}
+                >
+                  <div
+                    className="text-left"
+                    style={{
+                      ...(fontSize && { fontSize }),
+                    }}
+                  >
+                    {itm?.strPaymentReff || 'N/A'}
+                  </div>
+                </td>
+                <td
+                  style={{
+                    border: '1px solid #000',
+                  }}
+                >
+                  <div
+                    className="pl-1"
+                    style={{
+                      ...(fontSize && { fontSize }),
+                    }}
+                  >
+                    {itm?.strComments}
+                  </div>
+                </td>
+                <td
+                  style={{
+                    border: '1px solid #000',
+                  }}
+                >
+                  <div
+                    className="text-right pr-2"
+                    style={{
+                      ...(fontSize && { fontSize }),
+                    }}
+                  >
+                    <span className="d-none">{` ${'\u200C'} `}</span>
+                    <span>{itm?.strRoutingNumber}</span>
+                  </div>
+                </td>
+                <td
+                  style={{
+                    border: '1px solid #000',
+                  }}
+                >
+                  <div
+                    className="text-left"
+                    style={{
+                      ...(fontSize && { fontSize }),
+                    }}
+                  >
+                    {itm?.strInstrumentNo}
+                  </div>
+                </td>
+                <td
+                  style={{
+                    border: '1px solid #000',
+                  }}
+                >
+                  <div
+                    className="text-center"
+                    style={{
+                      ...(fontSize && { fontSize }),
+                    }}
+                  >
+                    {index + 1}
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td
+              className="font-weight-bold"
+              style={{
+                border: '1px solid #000',
+                fontWeight: 'bold',
+              }}
+            >
+              <div className="font-weight-bold text-left pl-2 text-right">
+                Total
+              </div>
+            </td>
+            <td
+              align="right"
+              className="font-weight-bold"
+              style={{
+                border: '1px solid #000',
+                fontWeight: 'bold',
+              }}
+            >
+              <div className="font-weight-bold text-right">
+                {adviceReportData.length > 0 && numberWithCommas(total)}
+              </div>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            {values?.advice?.info === 'scb' && (
+              <td
+                style={{
+                  border: '1px solid #000',
+                  textAlign: 'center',
+                }}
+              >
+                {/* {values?.bankAccountNo?.bankAccNo} */}
+              </td>
+            )}
+          </tr>
+        </tbody>
+      </table>
       <p
         className="font-weight-bold mt-5"
         style={{

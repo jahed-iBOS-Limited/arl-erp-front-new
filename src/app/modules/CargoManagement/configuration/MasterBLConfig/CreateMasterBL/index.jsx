@@ -24,8 +24,8 @@ const validationSchema = Yup.object().shape({
     .when('masterBLType.value', {
       is: '1',
       then: Yup.object().shape({
-        value: Yup.number().required('Shipping Line is required'),
-        label: Yup.string().required('Shipping Line is required'),
+        value: Yup.number().required('ShippingLine is required'),
+        label: Yup.string().required('ShippingLine is required'),
       }),
       otherwise: Yup.object().nullable(),
     }),
@@ -34,8 +34,8 @@ const validationSchema = Yup.object().shape({
     .when('masterBLType.value', {
       is: '2',
       then: Yup.object().shape({
-        value: Yup.number().required('Air Line is required'),
-        label: Yup.string().required('Air Line is required'),
+        value: Yup.number().required('AirLine is required'),
+        label: Yup.string().required('AirLine is required'),
       }),
       otherwise: Yup.object().nullable(),
     }),
@@ -306,13 +306,13 @@ function CreateMasterBL() {
                   <div className="col-lg-3">
                     <NewSelect
                       options={airServiceProviderDDLData || []}
-                      label="Shipping Line"
+                      label="ShippingLine"
                       name={'shippingLineName'}
                       value={values?.shippingLineName}
                       onChange={(valueOption) => {
                         setFieldValue(`shippingLineName`, valueOption);
                       }}
-                      placeholder="Shipping Line"
+                      placeholder="ShippingLine"
                       errors={errors}
                       touched={touched}
                     />
@@ -323,13 +323,13 @@ function CreateMasterBL() {
                   <div className="col-lg-3">
                     <NewSelect
                       options={airServiceProviderDDLData || []}
-                      label="Air Line"
+                      label="AirLine"
                       name={'airLineName'}
                       value={values?.airLineName}
                       onChange={(valueOption) => {
                         setFieldValue(`airLineName`, valueOption);
                       }}
-                      placeholder="Air Line"
+                      placeholder="AirLine"
                       errors={errors}
                       touched={touched}
                     />

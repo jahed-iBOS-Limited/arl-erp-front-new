@@ -148,7 +148,8 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
     return amountToWords(
       billingDataFilterData?.reduce((acc, cur) => {
         return acc + (+cur?.collectionActualAmount || 0);
-      }, 0) || 0
+      }, 0) || 0,
+      'USD'
     );
   };
   // filter by collectionPartyTypeId
@@ -511,7 +512,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                   </span>
                   <span style={{ padding: 2, fontWeight: 600 }}>
                     {' '}
-                    Pay able immediately Due net{' '}
+                    Pay able immediately Due date{' '}
                   </span>
                 </div>
                 <div
@@ -626,10 +627,17 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                     <span>{bookingData?.incoterms}</span>
                     <br />
                     <span>
-                      {bookingData?.dateOfRequest
+                      {/* {bookingData?.dateOfRequest
                         ? moment(bookingData?.dateOfRequest).format(
                             'YYYY-MM-DD'
                           )
+                        : 'N/A'} */}
+                      {(transportPlanningSea || transportPlanningAir)
+                        ?.estimatedTimeOfDepart
+                        ? moment(
+                            (transportPlanningSea || transportPlanningAir)
+                              ?.estimatedTimeOfDepart
+                          ).format('DD MMM YYYY')
                         : 'N/A'}
                     </span>
                     <br />
@@ -856,8 +864,10 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                     }}
                   >
                     {' '}
-                    Amount in Words: {billingDataFilterData?.[0]?.currency}{' '}
-                    {getDummyAmountInWords()}
+                    {billingDataFilterData?.[0]?.currency === 'USD'
+                      ? ''
+                      : billingDataFilterData?.[0]?.currency}{' '}
+                    Amount in Words: {getDummyAmountInWords()}
                   </td>
                 </tr>
               </tbody>
@@ -950,7 +960,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
               Payment to be made by Payment Order/Electronic transfer only in
               favor of Akij Logistics Ltd. No query/claim will be entertained
               after 07 days from the date of receipt of Invoice. Interest @ 2%
-              pe rMonth is chargeable on bill not paid on presentation.
+              per month is chargeable on bill not paid on presentation.
             </span>
 
             <p style={{ fontSize: 14, fontWeight: 600 }}>Note:</p>
@@ -966,7 +976,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
             >
               {' '}
               This is a system generated invoice and it does not require any
-              company chop and signature
+              company seal and signature
             </p>
           </div>
         </Form>

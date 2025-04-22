@@ -63,10 +63,12 @@ function TableBody({
                   type="checkbox"
                   checked={item?.checked}
                   onChange={(e) => {
-                    const exchangeRate = e?.target?.checked
-                      ? item?.exchangeRate
-                        ? item?.exchangeRate
-                        : transportPlanningAir?.rate
+                    const packageRate = e?.target?.checked
+                      ? item?.packageRate
+                        ? item?.packageRate
+                        : isAirOperation
+                          ? transportPlanningAir?.rate
+                          : 0
                       : 0;
                     const packageQuantity = e?.target?.checked
                       ? item?.packageQuantity
@@ -77,17 +79,19 @@ function TableBody({
                     const collectionActualAmount = e?.target?.checked
                       ? item?.collectionActualAmount
                         ? item?.collectionActualAmount
-                        : (+exchangeRate || 0) * (+packageQuantity || 0)
-                      : '';
+                        : isAirOperation
+                          ? (+packageRate || 0) * (+packageQuantity || 0)
+                          : 0
+                      : 0;
 
                     const newObj = {
                       ...item,
                       checked: e?.target?.checked,
                       currencyId: e?.target?.checked ? item?.currencyId : 0,
                       currency: e?.target?.checked ? item?.currency : '',
-                      exchangeRate: exchangeRate,
+                      exchangeRate: e?.target?.checked ? item?.exchangeRate : 0,
                       packageQuantity: packageQuantity,
-                      packageRate: e?.target?.checked ? item?.packageRate : 0,
+                      packageRate: packageRate,
                       collectionActualAmount: collectionActualAmount,
                       collectionDummyAmount: e?.target?.checked
                         ? item?.collectionDummyAmount
@@ -301,11 +305,16 @@ function TableBody({
                     ...(isAirOperation
                       ? [
                           {
-                            label: 'Air Ops',
+                            label: 'Freight Forwarder',
                             value: 0,
                           },
                         ]
-                      : []),
+                      : [
+                          {
+                            label: 'Air Ops',
+                            value: 0,
+                          },
+                        ]),
                     {
                       label: `Others`,
                       value: 0,
@@ -426,11 +435,16 @@ function TableBody({
                     ...(isAirOperation
                       ? [
                           {
-                            label: 'Air Ops',
+                            label: 'Freight Forwarder',
                             value: 0,
                           },
                         ]
-                      : []),
+                      : [
+                          {
+                            label: 'Air Ops',
+                            value: 0,
+                          },
+                        ]),
                     {
                       label: `Others`,
                       value: 0,
@@ -659,7 +673,7 @@ function TableBody({
                           collectionDummyAmount: '',
                           paymentDummyAmount: '',
                           paymentActualAmount: '',
-                          isHeadOfChargesEdit: true,
+                          isHeadOfChargesEdit: aboveRow?.isHeadOfChargesEdit,
                         },
                         ...hardCopy?.slice(index + 1),
                       ];
