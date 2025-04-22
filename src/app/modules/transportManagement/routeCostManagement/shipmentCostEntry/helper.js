@@ -68,3 +68,13 @@ export const approveItems = async (payload, cb, setLoading) => {
     setLoading(false);
   }
 };
+export const getComponentDDL = async (accId, setter) => {
+  try {
+    const res = await Axios.get(
+      `/tms/TransportMgtDDL/GetComponentDDL?AccountId=${accId}`
+    );
+    if (res.status === 200 && res?.data) {
+      setter(res?.data);
+    }
+  } catch (error) {}
+};
