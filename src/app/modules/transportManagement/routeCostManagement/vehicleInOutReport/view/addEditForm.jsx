@@ -2,7 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import Form from './form';
 import { getShipmentByID } from '../helper';
-import { toast } from 'react-toastify';
+import Loading from './../../../../_helper/_loading';
+import {
+  GetFuelConstInfoById_api,
+  GetPartnerShippingInformation_api,
+  getBUMilageAllowance,
+  GetShipmentCostEntryStatus_api,
+  GetShipToPartnerDistanceByShipmentId_api,
+} from '../../shipmentCostEntry/intranalModalView/helper';
 
 const initData = {
   vehicleNo: '',
@@ -18,12 +25,16 @@ const initData = {
   costComponent: '',
 };
 
-export default function ShipmentCostViewForm({ id }) {
+export default function ShipmentCostViewForm({ id, values }) {
   const [reset, setReset] = useState({ func: '' });
   const [isDisabled, setDisabled] = useState(true);
-  const [objProps, setObjprops] = useState({});
   const [rowDto, setRowDto] = useState([]);
   const [singleData, setSingleData] = useState('');
+  const [fuleCost, setFuleCost] = useState([]);
+  const [distanceKM, setDistanceKM] = useState([]);
+  const [vehicleReant, setVehicleReant] = useState([]);
+  const [buMilage, setBuMilage] = useState('');
+  const [, setEntryStatus] = useState('');
 
   // get user profile data from store
   const storeData = useSelector((state) => {
@@ -34,93 +45,79 @@ export default function ShipmentCostViewForm({ id }) {
   }, shallowEqual);
 
   const { profileData, selectedBusinessUnit } = storeData;
-
+  useEffect(() => {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
+      getBUMilageAllowance(
+        profileData.accountId,
+        selectedBusinessUnit.value,
+        setBuMilage
+      );
+    }
+  }, [profileData, selectedBusinessUnit]);
   useEffect(() => {
     if (id) {
-      getShipmentByID(id, setSingleData, setRowDto);
+      GetFuelConstInfoById_api(id, setFuleCost);
+      GetShipmentCostEntryStatus_api(
+        profileData.accountId,
+        selectedBusinessUnit.value,
+        id,
+        setEntryStatus
+      );
+      if (values?.reportType?.label !== 'Pending') {
+        getShipmentByID(id, setSingleData, setRowDto, setDisabled);
+      } else {
+        getShipmentByID(id, setSingleData, null, setDisabled);
+      }
     }
   }, []);
 
-  const saveHandler = async (values, cb) => {
-    setDisabled(true);
-
-    if (values && profileData?.accountId && selectedBusinessUnit?.value) {
-      if (id) {
-        const row = rowDto.map((item) => {
-          return {
-            actualCost: +item.actualCost,
-            standardCost: +item.standardCost,
-            transportRouteCostComponent: item.transportRouteCostComponent,
-            transportRouteCostComponentId: item.transportRouteCostComponentId,
-          };
-        });
-        const payload = {
-          objHeader: {
-            shipmentCostId: +id,
-            startMillage: +values.startMillage,
-            endMillage: +values.endMillage,
-            advanceAmount: +values.advanceAmount,
-            inOutStatus: values.handleType,
-            isClose: true,
-          },
-          objRowList: row,
-        };
-        window.payload = payload;
-        // editShipment(payload);
-      }
-    }
-  };
-
-  const setter = (values, cb) => {
-    const arr = rowDto?.filter((item) => item?.value === values?.value);
-
-    if (arr?.length > 0) {
-      toast.warn('Not allowed to duplicate items');
-    } else {
-      console.log(values);
-
-      const item = {
-        transportRouteCostComponentId: values.value,
-        transportRouteCostComponent: values?.label,
-        standardCost: 0,
-        actualCost: 0,
+  // if Report type panding
+  useEffect(() => {
+    if (values?.reportType?.label === 'Pending' && buMilage?.configid) {
+      let amount =
+        +singleData?.distanceKm < +buMilage?.milage
+          ? +singleData?.distanceKm * +buMilage?.minimumAmount
+          : +singleData?.distanceKm * +buMilage?.maximumAmount;
+      let obj = {
+        transportRouteCostComponentId: buMilage?.configid,
+        transportRouteCostComponent: buMilage?.componentName,
+        standardCost: amount,
+        actualCost: amount,
       };
-      setRowDto([...rowDto, item]);
-      cb();
+      setRowDto([obj]);
     }
-  };
+  }, [buMilage, singleData]);
 
-  const remover = (index) => {
-    const filterArr = rowDto.filter((itm, idx) => idx !== index);
-    setRowDto(filterArr);
-  };
-
-  const dataHandler = (name, value, sl) => {
-    const xData = [...rowDto];
-    xData[sl][name] = value;
-    setRowDto([...xData]);
-  };
-
-  const disableHandler = (cond) => {
-    setDisabled(cond);
-  };
+  useEffect(() => {
+    if (singleData?.shipmentId) {
+      GetShipToPartnerDistanceByShipmentId_api(
+        singleData?.shipmentId,
+        setDistanceKM
+      );
+      GetPartnerShippingInformation_api(
+        singleData?.shipmentId,
+        setVehicleReant
+      );
+    }
+  }, [singleData]);
 
   return (
-    <Form
-      {...objProps}
-      initData={id ? singleData : initData}
-      saveHandler={saveHandler}
-      disableHandler={disableHandler}
-      profileData={profileData}
-      selectedBusinessUnit={selectedBusinessUnit}
-      isEdit={id || false}
-      setter={setter}
-      remover={remover}
-      setRowDto={setRowDto}
-      rowDto={rowDto}
-      dataHandler={dataHandler}
-      reset={reset}
-      setReset={setReset}
-    />
+    <div>
+      {isDisabled && <Loading />}
+      <Form
+        initData={id ? singleData : initData}
+        profileData={profileData}
+        selectedBusinessUnit={selectedBusinessUnit}
+        isEdit={id || false}
+        setRowDto={setRowDto}
+        rowDto={rowDto}
+        reset={reset}
+        setReset={setReset}
+        fuleCost={fuleCost}
+        vehicleReant={vehicleReant}
+        distanceKM={distanceKM}
+        shipmentId={singleData?.shipmentId}
+      />
+    </div>
   );
 }

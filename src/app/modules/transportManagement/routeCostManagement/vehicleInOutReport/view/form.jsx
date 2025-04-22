@@ -3,30 +3,57 @@ import React, { useEffect, useState } from 'react';
 import ICustomCard from '../../../../_helper/_customCard';
 import InputField from '../../../../_helper/_inputField';
 import { getComponentDDL } from '../helper';
+import NewSelect from './../../../../_helper/_select';
+import ChalanInfo from '../../shipmentCostEntry/intranalModalView/ChalanInfo';
 
 export default function FormCmp({
   initData,
   btnRef,
   saveHandler,
   resetBtnRef,
-  disableHandler,
-  remover,
-  setter,
   rowDto,
   setRowDto,
   profileData,
   dataHandler,
-  reset,
-  setReset,
+  fuleCost,
+  vehicleReant,
+  distanceKM,
+  shipmentId,
 }) {
   const [componentDDL, setComponentDDL] = useState([]);
-
+  const [total, setTotal] = useState({ totalStandardCost: 0, totalActual: 0 });
   useEffect(() => {
     if (profileData.accountId) {
       getComponentDDL(profileData.accountId, setComponentDDL);
     }
   }, [profileData]);
 
+  // const history = useHistory();
+  //total amount calculation
+  useEffect(() => {
+    let totalStandardCost = 0;
+    let totalActual = 0;
+    if (rowDto.length) {
+      for (let i = 0; i < rowDto.length; i++) {
+        totalStandardCost += +rowDto[i].standardCost;
+        totalActual += +rowDto[i].actualCost;
+      }
+    }
+    setTotal({ totalStandardCost, totalActual });
+  }, [rowDto]);
+
+  const totalCost = fuleCost?.reduce(
+    (acc, cur) => (acc += +cur?.purchaseCreditAmount),
+    0
+  );
+  const totalActualCost = rowDto?.reduce(
+    (acc, cur) => (acc += +cur?.actualCost),
+    0
+  );
+  const cal =
+    totalActualCost -
+    totalCost +
+    (initData?.downTripCredit - initData?.downTripCash);
   return (
     <>
       <Formik
@@ -42,7 +69,11 @@ export default function FormCmp({
         {({ handleSubmit, resetForm, values, isValid }) => (
           <ICustomCard title="View Shipment Cost">
             <>
-              <Form className="form form-label-right">
+              <Form className="form form-label-right position-relative">
+                <p style={{ position: 'absolute', top: '-46px', left: '45%' }}>
+                  <b>Pay to Driver: </b>
+                  {cal - values?.advanceAmount}
+                </p>
                 <div className="row global-form">
                   <div className="col-lg-12">
                     <div
@@ -173,7 +204,7 @@ export default function FormCmp({
                       <div className="col-lg-3 pl pr-1 mb-1">
                         <InputField
                           label="Total Standard Cost"
-                          value={values?.totalStandardCost}
+                          value={total?.totalStandardCost}
                           name="totalStandardCost"
                           placeholder="Total Standard Cost"
                           type="number"
@@ -195,13 +226,49 @@ export default function FormCmp({
                       <div className="col-lg-3 pl pr-1 mb-1">
                         <InputField
                           label="Total Actual"
-                          value={values?.totalActualCost}
+                          value={total?.totalActual}
                           name="totalActualCost"
                           placeholder="Total Actual"
                           type="number"
                           disabled={true}
                         />
                       </div>
+
+                      <div className="col-lg-3 pl pr-1 mb-1">
+                        <InputField
+                          label="Down Trip Cash"
+                          value={values?.downTripCash}
+                          name="downTripCash"
+                          placeholder="Down Trip Cash"
+                          type="number"
+                          min="0"
+                          disabled={true}
+                        />
+                      </div>
+                      <div className="col-lg-3 pl pr-1 mb-1">
+                        <InputField
+                          label="Down Trip Credit"
+                          value={values?.downTripCredit}
+                          name="downTripCredit"
+                          placeholder="Down Trip Credit"
+                          type="number"
+                          min="0"
+                          disabled={true}
+                        />
+                      </div>
+                      {+values?.downTripCredit > 0 && (
+                        <div className="col-lg-3 pl pr-1 mb-1">
+                          <NewSelect
+                            name="businessUnitName"
+                            options={[]}
+                            value={values?.businessUnitName}
+                            label="Business Unit Name"
+                            onChange={(valueOption) => {}}
+                            placeholder="Business Unit Name"
+                            isDisabled={true}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -267,6 +334,96 @@ export default function FormCmp({
                       </tbody>
                     </table>
                   </div>
+                </div>
+                <h5 className="mt-3">Fule Cost</h5>
+                <div className="row">
+                  <div className="col-lg-12 table-responsive">
+                    <table className={'table global-table'}>
+                      <thead>
+                        <tr>
+                          <th style={{ width: '20px' }}>SL</th>
+                          <th style={{ width: '120px' }}>Fuel Station Name</th>
+                          <th style={{ width: '100px' }}>Fuel Type</th>
+                          <th style={{ width: '50px' }}>Litter</th>
+                          <th style={{ width: '50px' }}>Date</th>
+                          <th style={{ width: '50px' }}>Payment Type</th>
+                          <th style={{ width: '50px' }}>Cash Amount</th>
+                          <th style={{ width: '50px' }}>Credit Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {fuleCost?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item?.fuelStationName}</td>
+                            <td>{item?.fuelTypeName}</td>
+                            <td>{item?.fuelQty}</td>
+                            <td>{item?.fuelDate}</td>
+                            <td>{item?.purchaseTypeName}</td>
+                            <td>{item?.purchaseCashAmount}</td>
+                            <td>{item?.purchaseCreditAmount}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-6 mt-2">
+                    <h5 className="mt-1">Distance KM</h5>
+                  </div>
+                  <div className="col-lg-6 mt-2">
+                    {' '}
+                    <h5 className="mt-1">Vehicle Rent</h5>
+                  </div>
+                  {/* distanceKM talbe */}
+                  <div className="col-lg-6 table-responsive">
+                    <table className={'table global-table'}>
+                      <thead>
+                        <tr>
+                          <th style={{ width: '20px' }}>SL</th>
+                          <th style={{ width: '120px' }}>Customer Name </th>
+                          <th style={{ width: '100px' }}>Address</th>
+                          <th style={{ width: '50px' }}>Distance KM</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {distanceKM?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item?.strPartnerShippingName}</td>
+                            <td>{item?.strPartnerShippingAddress}</td>
+                            <td>{item?.numDistanceKM}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Vehicle Reant table */}
+                  <div className="col-lg-6 table-responsive">
+                    <table className={'table global-table'}>
+                      <thead>
+                        <tr>
+                          <th style={{ width: '20px' }}>SL</th>
+                          <th style={{ width: '120px' }}>Customer Name </th>
+                          <th style={{ width: '100px' }}>Address</th>
+                          <th style={{ width: '50px' }}>Rent Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {vehicleReant?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item?.partnerShippingName}</td>
+                            <td>{item?.partnerShippingAddress}</td>
+                            <td>{item?.rentAmount}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <ChalanInfo shipmentId={shipmentId} />
                 </div>
 
                 <button
