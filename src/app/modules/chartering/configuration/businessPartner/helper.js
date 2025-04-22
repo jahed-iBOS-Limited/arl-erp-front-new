@@ -1,4 +1,4 @@
-/* eslint-disable no-useless-escape */
+ 
 
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -19,7 +19,7 @@ export const validationSchema = Yup.object().shape({
   email: Yup.string()
     .required('Email is required')
     .matches(
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
       'Email is invalid'
     ),
   // country: Yup.object().shape({

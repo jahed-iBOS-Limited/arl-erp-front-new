@@ -124,7 +124,8 @@ export default function FormCmp({
                       onClick={() => {
                         window.open(
                           'https://docs.google.com/spreadsheets/d/1vYSyNgWPP0qvbEI9mufCr1pC6w9AUWXwd5HlqMUJH-M',
-                          '_blank'
+                          '_blank',
+                          'noopener'
                         );
                       }}
                     >

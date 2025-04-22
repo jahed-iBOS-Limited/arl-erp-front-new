@@ -63,7 +63,7 @@ const DiffEmailSender = ({ emailEditorProps }) => {
   }, [intId]);
 
   // Regular expression to validate a single email address
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   // Function to validate multiple emails separated by '|'
   const validateToEmails = (emailString) => {

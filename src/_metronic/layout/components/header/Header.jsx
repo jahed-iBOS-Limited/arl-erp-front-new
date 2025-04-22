@@ -18,7 +18,9 @@ export function Header() {
 
   const manualClickHandler = () => {
     window.open(
-      'https://docs.google.com/document/d/1h8N-fjk3yXEkk1_orlHhBna9VqQT4NqlQER9PEfBzVc/view'
+      'https://docs.google.com/document/d/1h8N-fjk3yXEkk1_orlHhBna9VqQT4NqlQER9PEfBzVc/view',
+      '_blank',
+      'noopener'
     );
   };
 
