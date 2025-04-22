@@ -512,7 +512,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                   </span>
                   <span style={{ padding: 2, fontWeight: 600 }}>
                     {' '}
-                    Pay able immediately Due date{' '}
+                    Payable immediately Due date{' '}
                   </span>
                 </div>
                 <div
@@ -708,11 +708,21 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                         <br />
                       </>
                     )}
-                    <span>Volume</span>
-                    <br />
-                    <span>Chrg. Wt</span>
-                    <br />
-                    <span>Rate</span>
+                    {!isAirOperation && (
+                      <>
+                        {' '}
+                        <span>Volume</span>
+                        <br />
+                        <span>Chrg. Wt</span>
+                        <br />
+                        <span>Rate</span>
+                      </>
+                    )}
+                    {isAirOperation && (
+                      <>
+                        <span>CBM</span>
+                      </>
+                    )}
                   </div>
                   <div style={{ padding: 2 }}>
                     <span>{lcType?.lcnumber ?? 'N/A'} </span>
@@ -766,14 +776,28 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                         : 'N/A'}
                     </span>
                     <br />
-                    <span>{totalVolumetricWeight}</span>
-                    <br />
-                    <span>{totalChargeableWeight}</span>
-                    <br />
-                    <span>
-                      {transportPlanningAir?.rate}
-                      {sumOfRate?.map((item) => item?.rate).join(', ')}
-                    </span>
+                    {!isAirOperation && (
+                      <>
+                        {' '}
+                        <span>{totalVolumetricWeight}</span>
+                        <br />
+                        <span>{totalChargeableWeight}</span>
+                        <br />
+                        <span>
+                          {transportPlanningAir?.rate}
+                          {sumOfRate?.map((item) => item?.rate).join(', ')}
+                        </span>
+                      </>
+                    )}
+                    {isAirOperation && (
+                      <>
+                        <span>
+                          {bookingData?.rowsData?.reduce((acc, item) => {
+                            return acc + (+item?.totalVolumeCBM || 0);
+                          }, 0)}
+                        </span>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -895,19 +919,35 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                     padding: 2,
                   }}
                 >
-                  <div>
-                    <span>Standard Chartered Bank</span>
-                    <br />
-                    <span>A/C Name: Akij Logistics Ltd.</span>
-                    <br />
-                    <span>A/C No. 01-8940247-01</span>
-                    <br />
-                    <span>Branch: Gulshan</span>
-                    <br />
-                    <span>Routing: 215261726</span>
-                    <br />
-                    <span>Swift code: SCBLBDDX</span>
-                  </div>
+                  {isAirOperation ? (
+                    <div>
+                      <span>BRAC Bank PLC</span>
+                      <br />
+                      <span>A/C Name: Akij Logistics Ltd.</span>
+                      <br />
+                      <span>A/C No. 2063890780003</span>
+                      <br />
+                      <span>Branch: Nutun Bazar</span>
+                      <br />
+                      <span>Routing: 060263429</span>
+                      <br />
+                      <span>Swift code: BRAKBDDH</span>
+                    </div>
+                  ) : (
+                    <div>
+                      <span>Standard Chartered Bank</span>
+                      <br />
+                      <span>A/C Name: Akij Logistics Ltd.</span>
+                      <br />
+                      <span>A/C No. 01-8940247-01</span>
+                      <br />
+                      <span>Branch: Gulshan</span>
+                      <br />
+                      <span>Routing: 215261726</span>
+                      <br />
+                      <span>Swift code: SCBLBDDX</span>
+                    </div>
+                  )}
                 </div>
               </div>
               <div
