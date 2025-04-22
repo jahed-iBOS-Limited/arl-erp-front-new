@@ -373,8 +373,8 @@ export default function ViewInvoice({ clickRowDto }) {
                   <span>Branch: Gulshan</span>
                   <br />
                   <span>Routing: 060261726</span>
-                  {/* <br />
-                  <span>Swift code: BRAKBDDH</span> */}
+                  <br />
+                  <span>Swift code: BRAKBDDH</span>
                 </div>
                 <div
                   style={{
