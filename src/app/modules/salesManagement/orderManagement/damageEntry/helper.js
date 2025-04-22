@@ -178,11 +178,16 @@ export const handleChallanVSDamageDataFilter = (obj) => {
 };
 
 // get only status from string of full damage status (Damage Entry (Pending) => Pending)
-const extractDamageEntryStatusText = (status) => {
-  if (status) {
-    const match = status?.match(/\((.*?)\)/);
-    return match ? match[1] : null;
+export const extractDamageEntryStatusText = (status) => {
+  if (!status) return null;
+
+  const start = status.indexOf('(');
+  const end = status.indexOf(')', start + 1);
+
+  if (start !== -1 && end !== -1) {
+    return status.slice(start + 1, end);
   }
+  return null;
 };
 
 // options

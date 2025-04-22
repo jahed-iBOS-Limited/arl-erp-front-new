@@ -1,8 +1,6 @@
 const numberWithCommas = (x) => {
-  if (x == null) return '';
-  const parts = x.toString().split('.');
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  return parts.join('.');
+  if (x == null || isNaN(x)) return '';
+  return new Intl.NumberFormat('en-US').format(x);
 };
 
 export default numberWithCommas;
