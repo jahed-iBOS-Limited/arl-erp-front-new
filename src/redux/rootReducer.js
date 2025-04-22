@@ -36,7 +36,6 @@ import { purchaseOrderSlice } from '../app/modules/procurement/purchase-manageme
 import { salesContactSlice } from '../app/modules/salesManagement/orderManagement/salesContract/_redux/Slice';
 
 import { salesQuotationSlice } from '../app/modules/salesManagement/orderManagement/salesQuotation/_redux/Slice';
-import { shipmentSlice } from '../app/modules/transportManagement/shipmentManagement/shipping/_redux/Slice';
 import { performanceMgtSlice } from '../app/modules/performanceManagement/_redux/Slice';
 
 import { PGISlice } from '../app/modules/salesManagement/orderManagement/pgi/_redux/Slice';
@@ -74,6 +73,7 @@ import { corporatePmsAchievementSlice } from './../app/modules/performanceManage
 import { corporateInDividualBalancedScoreSlice } from './../app/modules/performanceManagement/corporateKpi/balancedScore/_redux/Slice';
 import { coporateKpiDeshboardSlice } from './../app/modules/performanceManagement/corporateKpi/kpiDashboard/_redux/Slice';
 import { chattingAppSlice } from '../../src/app/modules/_helper/chattingAppRedux/Slice';
+import { shipmentSlice } from '../app/modules/transportManagement/shipmentManagement/transferShipping/_redux/Slice';
 
 export const rootReducer = combineReducers({
   auth: auth.reducer,

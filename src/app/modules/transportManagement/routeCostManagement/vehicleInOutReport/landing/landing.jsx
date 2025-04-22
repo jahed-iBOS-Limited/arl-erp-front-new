@@ -13,7 +13,7 @@ import PaginationTable from '../../../../_helper/_tablePagination';
 import { _todayDate } from '../../../../_helper/_todayDate';
 import IViewModal from '../../../../_helper/_viewModal';
 import { landingGridData } from '../helper';
-import ShipmentCostViewForm from '../view/addEditForm';
+import ShipmentCostAuditApproveViewForm from '../../shipmentCostEntry/intranalModalView/addEditForm';
 
 const validationSchema = Yup.object().shape({
   reportType: Yup.object().shape({
@@ -250,7 +250,7 @@ const VehicleInOutReportLanding = () => {
               </div>
 
               <IViewModal show={showModal} onHide={() => setShowModal(false)}>
-                <ShipmentCostViewForm id={id} />
+                <ShipmentCostAuditApproveViewForm id={id} />
               </IViewModal>
 
               {gridData?.data?.length > 0 && (
