@@ -22,10 +22,10 @@ import {
   getVehicleSingleInfobyVehicleIdAction,
   saveShipment,
   setSalesContactSingleEmpty,
-} from '../_redux/Actions';
+} from '../../exportShipping/_redux/Actions';
 import { shipmentInfoUpdate } from '../helper';
 import Loading from './../../../../_helper/_loading';
-import { getLoadingPointDDLAction } from './../_redux/Actions';
+import { getLoadingPointDDLAction } from './../../exportShipping/_redux/Actions';
 import Form from './form';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
