@@ -3,8 +3,8 @@ import { Formik, Form, Field } from 'formik';
 import InputField from '../../../../_helper/_inputField';
 import { getComponentDDL } from '../helper';
 import ICustomCard from '../../../../_helper/_customCard';
-import ChalanInfo from './../Form/ChalanInfo';
 import NewSelect from './../../../../_helper/_select';
+import ChalanInfo from '../../../../_helper/commonComponent/ChalanInfo';
 
 export default function FormCmp({
   initData,

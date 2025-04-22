@@ -343,17 +343,6 @@ export const GetPartnerShippingInformation_api = async (shipmentId, setter) => {
   } catch (error) {}
 };
 
-export const getChalanInfo = async (shipmentId, setter) => {
-  try {
-    const res = await Axios.get(
-      `/tms/Shipment/GetChallanInfoByShipmentId?shipmentId=${shipmentId}`
-    );
-    setter(res?.data);
-  } catch (error) {
-    setter([]);
-  }
-};
-
 export const billSubmitApi = async (setLoading, payload, cb) => {
   setLoading(true);
   try {

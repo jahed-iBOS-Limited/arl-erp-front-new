@@ -21,11 +21,11 @@ import {
   GetVehicleFuelTypeDDL_api,
   getBusinessUnitDDL_api,
 } from './../helper';
-import ChalanInfo from './ChalanInfo';
 import AttachmentGrid from './attachmentGrid';
 import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 
 import './form.scss';
+import ChalanInfo from '../../../../_helper/commonComponent/ChalanInfo';
 // Validation schema
 const validationSchema = Yup.object().shape({
   extraMillage: Yup.string()

@@ -2169,7 +2169,6 @@ export const getPartnerBook = async (
   }
 };
 
-
 export const getPartnerBookBankBranch = async (
   businessUnitId,
   partnerId,
@@ -2186,7 +2185,7 @@ export const getPartnerBookBankBranch = async (
 
     const profitCenterQuery = profitCenter
       ? `&ProfitCenterId=${profitCenter?.value}`
-      : "";
+      : '';
 
     let query = `/fino/BankBranch/GetPartnerBook?BusinessUnitId=${businessUnitId}&PartnerId=${partnerId}&PartnerType=${partnerType}&FromDate=${fromDate}&ToDate=${toDate}${profitCenterQuery}`;
     if (glId) {
@@ -2725,4 +2724,14 @@ export const getLeaveSummarySelfData = (employeeId, setter, setLoader) => {
       setter([]);
       setLoader(false);
     });
+};
+export const getChalanInfo = async (shipmentId, setter) => {
+  try {
+    const res = await axios.get(
+      `/tms/Shipment/GetChallanInfoByShipmentId?shipmentId=${shipmentId}`
+    );
+    setter(res?.data);
+  } catch (error) {
+    setter([]);
+  }
 };
