@@ -9,6 +9,8 @@ import Loading from '../../../_helper/_loading';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import NewSelect from '../../../_helper/_select';
 import { useReactToPrint } from 'react-to-print';
+import PaginationSearch from '../../../_helper/_search';
+import PaginationTable from '../../../_helper/_tablePagination';
 const initialValues = {
   fromDate: moment().startOf('month').format('YYYY-MM-DD'),
   toDate: moment().endOf('month').format('YYYY-MM-DD'),
@@ -26,6 +28,8 @@ const validationSchema = Yup.object().shape({
   }),
 });
 export default function CHABusinessReport() {
+  const [pageNo, setPageNo] = React.useState(0);
+  const [pageSize, setPageSize] = React.useState(15);
   const [acLedgerforPaymentReport, getACLedgerforPaymentReport, isLoading] =
     useAxiosGet();
 
@@ -33,12 +37,18 @@ export default function CHABusinessReport() {
     commonGetApi(values);
   };
 
-  const commonGetApi = (values) => {
+  const commonGetApi = (
+    values,
+    searchText,
+    _pageNo = pageNo,
+    _pageSize = pageSize
+  ) => {
     const startDate = moment(values?.fromDate).format('YYYY-MM-DD');
     const endDate = moment(values?.toDate).format('YYYY-MM-DD');
     const query = `fromDate=${startDate}&toDate=${endDate}`;
+    const searchQuery = `${searchText ? `&search=${searchText}` : ''}`;
     getACLedgerforPaymentReport(
-      `${imarineBaseUrl}/domain/CHAShipment/GetChaBusinessReport?tradeTypeId=${values?.chaType?.value}&${query}`
+      `${imarineBaseUrl}/domain/CHAShipment/GetChaBusinessReport?tradeTypeId=${values?.chaType?.value}&${query}${searchQuery}&pageNo=${_pageNo}&pageSize=${_pageSize}`
     );
   };
 
@@ -146,6 +156,15 @@ export default function CHABusinessReport() {
                   </div>
                 </div>
                 <div className="col-lg-12 p-0">
+                  <div className="col-lg-3 mt-5">
+                    <PaginationSearch
+                      placeholder="Search by Customer/FFW/Shipper"
+                      paginationSearchHandler={(searchValue) => {
+                        commonGetApi(values, searchValue);
+                      }}
+                      values={values}
+                    />
+                  </div>
                   <div className="table-responsive" ref={printRef}>
                     <div className="text-center mb-3 d-none-print">
                       <h1>Akij Logistics Ltd.</h1>
@@ -187,8 +206,8 @@ export default function CHABusinessReport() {
                         </tr>
                       </thead>
                       <tbody>
-                        {acLedgerforPaymentReport?.length > 0 &&
-                          acLedgerforPaymentReport?.map((item, i) => {
+                        {acLedgerforPaymentReport?.data?.length > 0 &&
+                          acLedgerforPaymentReport?.data?.map((item, i) => {
                             return (
                               <tr key={i + 1}>
                                 <td className="text-center">{i + 1}</td>
@@ -240,6 +259,23 @@ export default function CHABusinessReport() {
                       </tbody>
                     </table>
                   </div>
+                  {acLedgerforPaymentReport?.data?.length > 0 && (
+                    <PaginationTable
+                      count={acLedgerforPaymentReport?.totalCount}
+                      setPositionHandler={(pageNo, pageSize) => {
+                        setPageNo(pageNo);
+                        setPageSize(pageSize);
+                        commonGetApi(values, '', pageNo, pageSize);
+                      }}
+                      paginationState={{
+                        pageNo,
+                        setPageNo,
+                        pageSize,
+                        setPageSize,
+                      }}
+                      values={values}
+                    />
+                  )}
                 </div>
               </Form>
             </>
