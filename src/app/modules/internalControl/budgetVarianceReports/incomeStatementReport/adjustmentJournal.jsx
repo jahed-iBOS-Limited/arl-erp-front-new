@@ -9,7 +9,7 @@ import { _formatMoney } from '../../../_helper/_formatMoney';
 import Loading from '../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
 import NotPermittedPage from '../../../_helper/notPermitted/NotPermittedPage';
-import { getAdjustmentJournalView } from './helper';
+import { getAdjustmentJournalView } from '../../../financialManagement/report/incomestatement/helper';
 export function AdjustmentJournalViewTableRow({ id, typeId }) {
   const [loading, setLoading] = useState(false);
   const [adjustmentReport, setAdjustmentReport] = useState([]);
