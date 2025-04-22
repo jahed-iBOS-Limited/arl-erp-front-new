@@ -1,11 +1,15 @@
 import axios from 'axios';
-
 // Save created data //
-export function saveCreateData(data) {
+export function saveCreateDataTrading(data) {
   return axios.post(
     `/wms/InventoryTransaction/CreateInvTransectionTrading`,
     data
   );
+}
+
+// Save created data
+export function saveCreateData(data) {
+  return axios.post(`/wms/InventoryTransaction/CreateInvTransection`, data);
 }
 
 // Save created data for issue and return deleviry
@@ -385,6 +389,11 @@ export function getItemForIssue(refId, refName, refNo) {
 export function getSingleDDL(id) {
   return axios.get(
     `/wms/InventoryTransaction/GetInvTransectionById?TransectionId=${id}`
+  );
+}
+export function getBusinessTransactionDDL(id) {
+  return axios.get(
+    `/fino/FinanceCommonDDL/ProjectManagementGlDDL?BusinessUnitId=${id}`
   );
 }
 export function attachmentSave(data) {
