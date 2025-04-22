@@ -3,8 +3,8 @@ import { Formik, Form as FormikForm } from 'formik';
 import * as Yup from 'yup';
 import Loading from '../../../../_helper/_loading';
 import NewSelect from './../../../../_helper/_select';
-import { saveShippointTransfer } from '../helper';
 import { useSelector, shallowEqual } from 'react-redux';
+import { saveShippointTransfer } from '../../../../_helper/_commonApi';
 
 const initData = {
   shippoint: '',
