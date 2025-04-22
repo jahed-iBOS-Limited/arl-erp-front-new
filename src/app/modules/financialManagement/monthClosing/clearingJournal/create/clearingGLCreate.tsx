@@ -105,6 +105,8 @@ const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
     if (allocationType === 'singleProfitCenter') {
       payload = {
         generalLedgerId: state?.generalLedgerId || 0,
+        businessTransactionId: state?.businessTransactionId || 0,
+        businessUnitId: landingValues?.businessUnit?.value || 0,
         amount: state?.amount || 0,
         profitCenter: {
           profitCenterId: profitCenter?.profitCenterId || 0,
@@ -114,6 +116,8 @@ const ClearingGLCreate: FC<ClearingGLType> = ({ obj }) => {
     } else {
       payload = {
         generalLedgerId: state?.generalLedgerId || 0,
+        businessTransactionId: state?.businessTransactionId || 0,
+        businessUnitId: landingValues?.businessUnit?.value || 0,
         amount: state?.amount || 0,
         profitCenter: profitCenterData?.map((item) => ({
           profitCenterId: item?.profitCenterId || 0,

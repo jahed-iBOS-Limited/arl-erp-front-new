@@ -15,7 +15,7 @@ import {
 import * as Yup from 'yup';
 import Loading from '../../../../_helper/_loading';
 import { toast } from 'react-toastify';
-import { getBusinessTransactionDDL } from '../../../../inventoryManagement/warehouseManagement/invTransaction/_redux/Api';
+import { getBusinessTransactionDDL } from '../../../../_helper/_commonApi';
 
 // Validation schema
 const validationSchema = Yup.object().shape({

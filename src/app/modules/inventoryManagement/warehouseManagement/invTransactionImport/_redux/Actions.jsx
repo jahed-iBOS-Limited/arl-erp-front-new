@@ -53,7 +53,9 @@ export const saveInventoryTransactionOrder =
   async (dispatch) => {
     setDisabled(true);
     try {
-      let { data } = await requestFromServer.saveCreateData(payload.data);
+      let { data } = await requestFromServer.saveCreateDataTrading(
+        payload.data
+      );
       //toast.success(data?.message || "Submitted successfully");
       setRowDto([]);
       payload.cb();
@@ -71,30 +73,6 @@ export const saveInventoryTransactionOrder =
       setDisabled(false);
       toast.error(err?.response?.data?.message);
     }
-    // let formData = new FormData();
-    // formData.append("files", attachment[0]);
-    // requestFromServer
-    //   .attachmentSave(formData)
-    //   .then((res) => {
-    //     console.log(res.response?.data[0]?.fileName);
-    //     return requestFromServer
-    //       .saveCreateData(payload.data)
-    //       .then((res) => {
-    //         if (res.status === 200) {
-    //           toast.success(res.data?.message || "Submitted successfully");
-    //           setRowDto([]);
-    //           payload.cb();
-    //         }
-    //       })
-    //       .catch((err) => {
-    //
-    //         toast.error(err?.response?.data?.message);
-    //       });
-    //   })
-    //   .catch((err) => {
-    //
-    //     toast.error(err?.response?.data?.message);
-    //   });
   };
 
 export const attachment_action = (attachment) => async () => {
@@ -787,34 +765,3 @@ export const getSingleDataForShowAction =
         }
       });
   };
-
-// export const saveInventoryTransactionOrder = (
-//   payload,
-//   setRowDto,
-//   attachment
-// ) => () => {
-//   let formData = new FormData();
-//   formData.append("files", attachment[0]);
-//   requestFromServer
-//     .attachmentSave(formData)
-//     .then((res) => {
-//       console.log(res.response?.data[0]?.fileName);
-//       return requestFromServer
-//         .saveCreateData(payload.data)
-//         .then((res) => {
-//           if (res.status === 200) {
-//             toast.success(res.data?.message || "Submitted successfully");
-//             setRowDto([]);
-//             payload.cb();
-//           }
-//         })
-//         .catch((err) => {
-//
-//           toast.error(err?.response?.data?.message);
-//         });
-//     })
-//     .catch((err) => {
-//
-//       toast.error(err?.response?.data?.message);
-//     });
-// };

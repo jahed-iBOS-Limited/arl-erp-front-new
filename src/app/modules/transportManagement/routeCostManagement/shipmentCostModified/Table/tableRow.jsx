@@ -16,7 +16,7 @@ import { billSubmitApi, getGridData } from '../helper';
 import SalesInvoiceModel from '../viewModal';
 import IConfirmModal from './../../../../_helper/_confirmModal';
 import { SearchForm } from './form';
-import ShipmentCostViewForm from '../../vehicleInOutReport/view/addEditForm';
+import ShipmentCostAuditApproveViewForm from '../../shipmentCostEntry/intranalModalView/addEditForm';
 
 export function TableRow() {
   const [gridData, setGridData] = useState([]);
@@ -400,7 +400,7 @@ export function TableRow() {
                     show={showModal}
                     onHide={() => setShowModal(false)}
                   >
-                    <ShipmentCostViewForm id={id} values={values} />
+                    <ShipmentCostAuditApproveViewForm id={id} values={values} />
                   </IViewModal>
                 </div>
               </div>

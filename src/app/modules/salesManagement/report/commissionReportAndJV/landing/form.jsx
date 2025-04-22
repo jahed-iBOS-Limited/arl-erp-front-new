@@ -163,7 +163,7 @@ export default function CommissionReportAndJVForm({ obj }) {
             )}
             {[1, 3].includes(values?.reportType?.value) && (
               <>
-                {[1, 3, 6, 7, 35, 36, 37, 38, 39].includes(
+                {[1, 3, 6, 7, 35, 36, 37, 38, 39, 52].includes(
                   values?.type?.value
                 ) && (
                   <YearMonthForm

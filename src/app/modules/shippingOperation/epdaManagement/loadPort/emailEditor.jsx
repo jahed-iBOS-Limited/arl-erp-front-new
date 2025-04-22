@@ -53,7 +53,7 @@ const EmailEditor = ({ emailEditorProps }) => {
   }, [intId, singleRowData]);
 
   // Regular expression to validate a single email address
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   // Function to validate multiple email addresses separated by commas
   const validateEmails = (emailString) => {
@@ -70,10 +70,7 @@ const EmailEditor = ({ emailEditorProps }) => {
     if (name === 'toEmail' && emailRegex.test(value)) {
       setErrors((prevErrors) => ({ ...prevErrors, to: '' }));
     }
-    if (
-      name === 'ccEmail' &&
-      (emailRegex.test(value) || validateEmails(value))
-    ) {
+    if (name === 'ccEmail' && validateEmails(value)) {
       setErrors((prevErrors) => ({ ...prevErrors, cc: '' }));
     }
     if (name === 'subject' && value.trim()) {

@@ -450,7 +450,7 @@ const SingleItem = ({
                         {transportPlanningSea?.containerDesc?.map(
                           (i, index) => {
                             return (
-                              <tr key={Math.random()}>
+                              <tr key={index}>
                                 <td>{i?.containerNumber}</td>
                                 <td>{i?.sealNumber}</td>
                                 <td>{i?.size}</td>

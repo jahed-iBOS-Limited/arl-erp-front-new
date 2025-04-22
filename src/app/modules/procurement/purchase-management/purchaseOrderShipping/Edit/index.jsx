@@ -19,11 +19,12 @@ import {
 import { useParams } from 'react-router-dom';
 import { getUomDDLAction } from '../../../../_helper/_redux/Actions';
 import StockTransferPOCreateForm from './stockTransfer/createForm';
-import ReturnPOCreateForm from './returnPO/createForm';
+
 import { toast } from 'react-toastify';
 import Loading from './../../../../_helper/_loading';
 import { useLocation } from 'react-router-dom';
 import AssetPOEditForm from './assetPo/createForm';
+import ReturnPOCreateForm from '../../purchaseOrder/Edit/returnPO/createForm';
 
 // id 1 = purchase contract
 // id 2 = request
@@ -488,6 +489,7 @@ export function POEditFormByOrderTypeShipping() {
               {...objProps}
               viewPage={viewPage}
               singlereturnCB={singlereturnCB}
+              payDaysLabel="Pay Days (After Invoice)"
             />
           );
           setTitle(

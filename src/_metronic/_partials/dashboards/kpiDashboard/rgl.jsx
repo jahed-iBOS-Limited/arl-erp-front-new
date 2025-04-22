@@ -81,7 +81,7 @@ const ShowcaseLayout = ({ values }) => {
 
   function generateLayout(arr) {
     return _.map(arr, function (item, i) {
-      var y = Math.ceil(Math.random() * 4) + 1;
+      var y = (i % 4) + 1; // Deterministic value based on index
       return {
         x: (i * 3) % 12,
         y: Math.floor(i / 6) * y,
@@ -92,6 +92,7 @@ const ShowcaseLayout = ({ values }) => {
       };
     });
   }
+
   useEffect(() => {
     const initialLayout = generateLayout(reports);
     setState({

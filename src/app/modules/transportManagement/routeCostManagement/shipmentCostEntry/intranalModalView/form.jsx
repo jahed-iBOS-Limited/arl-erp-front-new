@@ -1,10 +1,11 @@
-import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import ICustomCard from '../../../../_helper/_customCard';
+import { Formik, Form, Field } from 'formik';
 import InputField from '../../../../_helper/_inputField';
-import { getComponentDDL } from './helper';
-import NewSelect from '../../../../_helper/_select';
+import { getComponentDDL } from '../helper';
+import ICustomCard from '../../../../_helper/_customCard';
+import NewSelect from './../../../../_helper/_select';
 import ChalanInfo from '../../../../_helper/commonComponent/ChalanInfo';
+
 export default function FormCmp({
   initData,
   btnRef,
@@ -18,6 +19,7 @@ export default function FormCmp({
   vehicleReant,
   distanceKM,
   shipmentId,
+  landingValues,
 }) {
   const [componentDDL, setComponentDDL] = useState([]);
   const [total, setTotal] = useState({ totalStandardCost: 0, totalActual: 0 });
@@ -89,7 +91,6 @@ export default function FormCmp({
                           disabled={true}
                         />
                       </div>
-
                       <div className="col-lg-3 pl pr-1 mb-1">
                         <InputField
                           label="Driver Name"
@@ -100,7 +101,6 @@ export default function FormCmp({
                           disabled={true}
                         />
                       </div>
-
                       <div className="col-lg-3 pl pr-1 mb-1">
                         <InputField
                           label="Route Name"
@@ -111,7 +111,6 @@ export default function FormCmp({
                           disabled={true}
                         />
                       </div>
-
                       <div className="col-lg-3 pl pr-1 mb-1">
                         <InputField
                           label="Distance Km"
@@ -142,7 +141,6 @@ export default function FormCmp({
                           disabled={true}
                         />
                       </div>
-
                       <div className="col-lg-3 pl pr-1 mb-1">
                         <InputField
                           value={values?.shipmentDate}
@@ -153,7 +151,6 @@ export default function FormCmp({
                           disabled={true}
                         />
                       </div>
-
                       <div className="col-lg-3 pl pr-1 mb-1">
                         <InputField
                           label="Start Millage"
@@ -164,7 +161,6 @@ export default function FormCmp({
                           disabled={true}
                         />
                       </div>
-
                       <div className="col-lg-3 pl pr-1 mb-1">
                         <InputField
                           label="End Millage"
@@ -175,7 +171,6 @@ export default function FormCmp({
                           disabled={true}
                         />
                       </div>
-
                       <div className="col-lg-3 pl pr-1 mb-1">
                         <div style={{ marginBottom: '5px' }}>
                           Expense Entered
@@ -187,7 +182,6 @@ export default function FormCmp({
                           disabled={true}
                         />
                       </div>
-
                       <div className="col-lg-3 pl pr-1 mb-1">
                         <div style={{ marginBottom: '5px' }}>
                           Advane Requested
@@ -199,7 +193,6 @@ export default function FormCmp({
                           disabled={true}
                         />
                       </div>
-
                       <div className="col-lg-3 pl pr-1 mb-1">
                         <InputField
                           label="Total Standard Cost"
@@ -210,7 +203,6 @@ export default function FormCmp({
                           disabled={true}
                         />
                       </div>
-
                       <div className="col-lg-3 pl pr-1 mb-1">
                         <InputField
                           label="Advance Amount"
@@ -221,7 +213,6 @@ export default function FormCmp({
                           disabled={true}
                         />
                       </div>
-
                       <div className="col-lg-3 pl pr-1 mb-1">
                         <InputField
                           label="Total Actual"
@@ -232,7 +223,6 @@ export default function FormCmp({
                           disabled={true}
                         />
                       </div>
-
                       <div className="col-lg-3 pl pr-1 mb-1">
                         <InputField
                           label="Down Trip Cash"
@@ -255,6 +245,30 @@ export default function FormCmp({
                           disabled={true}
                         />
                       </div>
+                      {landingValues?.reportType?.label === 'Complete' && (
+                        <>
+                          <div className="col-lg-3">
+                            <label>Vehicle In Date</label>
+                            <InputField
+                              value={values?.vehicleInDate}
+                              name="vehicleInDate"
+                              placeholder="Vehicle In Date"
+                              type="date"
+                              disabled={true}
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <label>Vehicle In Time</label>
+                            <InputField
+                              value={values?.vehicleInTime}
+                              name="vehicleInTime"
+                              placeholder="Vehicle In Time"
+                              type="time"
+                              disabled={true}
+                            />
+                          </div>
+                        </>
+                      )}
                       {+values?.downTripCredit > 0 && (
                         <div className="col-lg-3 pl pr-1 mb-1">
                           <NewSelect
@@ -268,6 +282,93 @@ export default function FormCmp({
                           />
                         </div>
                       )}
+                      <div className="col-lg-3">
+                        <label>Fuel Rate</label>
+                        <InputField
+                          value={values?.fuelRate}
+                          name="fuelRate"
+                          placeholder="Fuel Rate"
+                          type="number"
+                          onChange={(e) => {}}
+                          disabled={true}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <label>Total Fuel Cost</label>
+                        <InputField
+                          value={values?.totalFuelCost}
+                          name="totalFuelCost"
+                          placeholder="Total Fuel Cost"
+                          type="text"
+                          disabled={true}
+                        />
+                      </div>{' '}
+                      <div className="col-lg-3">
+                        <label>Total Fuel Cost Liter</label>
+                        <InputField
+                          value={values?.totalFuelCostLtr}
+                          name="totalFuelCostLtr"
+                          placeholder="Total Fuel Cost Liter"
+                          type="text"
+                          disabled={true}
+                        />
+                      </div>
+                      <div className="col-lg-3" style={{ marginTop: '18px' }}>
+                        <Field
+                          type="checkbox"
+                          name="downTraip"
+                          checked={values?.downTraip}
+                          disabled={true}
+                        />
+                        <label className="ml-2">is Down Trip Allowance?</label>
+                      </div>
+                      {values?.downTraip === true ? (
+                        <div className="col-lg-3 pl pr-1 mb-1">
+                          <InputField
+                            label="Down Trip Allowance"
+                            value={values?.downTripAllowns}
+                            name="downTripAllowns"
+                            placeholder="Down Trip Allowance"
+                            type="number"
+                            disabled={true}
+                          />
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                      <div className="col-lg-12">
+                        <hr />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="profitCenter"
+                          value={values?.profitCenter}
+                          label="Profit Center"
+                          onChange={(valueOption) => {}}
+                          placeholder="Profit Center"
+                          isDisabled={true}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="costCenter"
+                          value={values?.costCenter}
+                          label="Cost Center"
+                          onChange={(valueOption) => {}}
+                          placeholder="Cost Center"
+                          isDisabled={true}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="costElement"
+                          value={values?.costElement}
+                          label="Cost Element"
+                          onChange={(valueOption) => {}}
+                          placeholder="Cost Element"
+                          isDisabled={true}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

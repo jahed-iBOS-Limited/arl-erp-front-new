@@ -53,210 +53,199 @@ export default function ShippingPrint({ id, shipmentCode, state }) {
   };
   let totalQuantity = 0;
   return (
-    <>
-      <ICard
-        printTitle="Print"
-        title=""
-        isPrint={true}
-        isShowPrintBtn={true}
-        componentRef={printRef}
-        pageStyle={
-          '@media print{body { -webkit-print-color-adjust: exact;padding: 0 50px!important; }@page {size: portrait ! important}}'
-        }
-      >
-        <div ref={printRef}>
-          <div
-            className="mx-auto print_wrapper-shipping"
-            style={{ color: '#000' }}
-          >
-            {loading && <Loading />}
-            <div>
-              <div className="text-center my-2">
-                <h3> Shipping Note </h3>
-                <h4 className="display-5"> {buName} </h4>
-                <h6 className="display-5">
-                  {' '}
-                  {shippingPrint?.objHeader?.shipPointAddress}{' '}
-                </h6>
-              </div>
-              <div className="d-flex justify-content-between my-5">
-                <div>
-                  <b>Delivery From: {`${state?.pgiShippoint?.label}`}</b>
+    <ICard
+      printTitle="Print"
+      title=""
+      isPrint={true}
+      isShowPrintBtn={true}
+      componentRef={printRef}
+      pageStyle={
+        '@media print{body { -webkit-print-color-adjust: exact;padding: 0 50px!important; }@page {size: portrait ! important}}'
+      }
+    >
+      <div ref={printRef}>
+        <div
+          className="mx-auto print_wrapper-shipping"
+          style={{ color: '#000' }}
+        >
+          {loading && <Loading />}
+          <div>
+            <div className="text-center my-2">
+              <h3> Shipping Note </h3>
+              <h4 className="display-5"> {buName} </h4>
+              <h6 className="display-5">
+                {' '}
+                {shippingPrint?.objHeader?.shipPointAddress}{' '}
+              </h6>
+            </div>
+            <div className="d-flex justify-content-between my-5">
+              <div>
+                <b>Delivery From: {`${state?.pgiShippoint?.label}`}</b>
 
-                  <br />
-                  <b>Shipment No: {`${shipmentCode}`}</b>
+                <br />
+                <b>Shipment No: {`${shipmentCode}`}</b>
 
-                  <br />
-                  <b>
-                    Driver Name: {`${shippingPrint?.objHeader?.driverName}`}
-                  </b>
+                <br />
+                <b>Driver Name: {`${shippingPrint?.objHeader?.driverName}`}</b>
 
-                  <br />
-                  <b>
-                    Driver Contact:{' '}
-                    {`${shippingPrint?.objHeader?.driverContact}`}
-                  </b>
+                <br />
+                <b>
+                  Driver Contact: {`${shippingPrint?.objHeader?.driverContact}`}
+                </b>
 
-                  <br />
-                  {/* <b>
+                <br />
+                {/* <b>
                     Item Volume: {`${shippingPrint?.objHeader?.totalVolume}`}
                   </b> */}
-                  <b>
-                    Product Gross Weight:{' '}
-                    {`${shippingPrint?.objHeader?.totalGrossWeight}`}
-                  </b>
+                <b>
+                  Product Gross Weight:{' '}
+                  {`${shippingPrint?.objHeader?.totalGrossWeight}`}
+                </b>
 
-                  <br />
-                  <b>
-                    Partner Reference:{' '}
-                    {`${shippingPrint?.objHeader?.soReferenceNo || ''}`}
-                  </b>
+                <br />
+                <b>
+                  Partner Reference:{' '}
+                  {`${shippingPrint?.objHeader?.soReferenceNo || ''}`}
+                </b>
 
-                  <br />
-                  <b>
-                    Pricing Date:{' '}
-                    {`${
-                      _dateFormatterTwo(
-                        shippingPrint?.objHeader?.pricingDate
-                      ) || ''
-                    }`}
-                  </b>
-                  <br />
-                  {(buId === 171 || buId === 224) && (
-                    <b>Narration: {`${transportStatus[0]?.label || ''}`}</b>
-                  )}
-                </div>
-                <div>
-                  <b>
-                    Delivery Date:{' '}
-                    {_dateFormatterTwo(
-                      shippingPrint?.objHeader?.shipmentDate
-                    )}{' '}
-                  </b>{' '}
-                  <br />
-                  <b>
-                    Vehicle Name: {shippingPrint?.objHeader?.strVehicleName}
-                  </b>
-                  <br />
-                  <b>
-                    Vehicle Owner Name:{' '}
-                    {shippingPrint?.objHeader?.ownerTypeName}
-                  </b>{' '}
-                  {/* <b>
+                <br />
+                <b>
+                  Pricing Date:{' '}
+                  {`${
+                    _dateFormatterTwo(shippingPrint?.objHeader?.pricingDate) ||
+                    ''
+                  }`}
+                </b>
+                <br />
+                {(buId === 171 || buId === 224) && (
+                  <b>Narration: {`${transportStatus[0]?.label || ''}`}</b>
+                )}
+              </div>
+              <div>
+                <b>
+                  Delivery Date:{' '}
+                  {_dateFormatterTwo(
+                    shippingPrint?.objHeader?.shipmentDate
+                  )}{' '}
+                </b>{' '}
+                <br />
+                <b>Vehicle Name: {shippingPrint?.objHeader?.strVehicleName}</b>
+                <br />
+                <b>
+                  Vehicle Owner Name: {shippingPrint?.objHeader?.ownerTypeName}
+                </b>{' '}
+                {/* <b>
                     Vehicle Volume:{" "}
                     {shippingPrint?.objHeader?.unloadVehicleVolume}
                   </b> */}
-                  <br />
-                  <b>
-                    Vehicle Weight (Kg):{' '}
-                    {shippingPrint?.objHeader?.vehicleEntryId
-                      ? shippingPrint?.objHeader?.netWeight
-                      : shippingPrint?.objHeader?.unloadVehicleWeight}
-                  </b>
-                  {/* <b>
+                <br />
+                <b>
+                  Vehicle Weight (Kg):{' '}
+                  {shippingPrint?.objHeader?.vehicleEntryId
+                    ? shippingPrint?.objHeader?.netWeight
+                    : shippingPrint?.objHeader?.unloadVehicleWeight}
+                </b>
+                {/* <b>
                     Total Net Weight:{" "}
                     {`${shippingPrint?.objHeader?.totalNetWeight}`}
                   </b> */}
-                  <br />
-                  <b>
-                    Contact Info:{' '}
-                    {`${
-                      shippingPrint?.objHeader?.shipToPartnerContactNo || ''
-                    }`}
-                  </b>
-                  {(buId === 171 || buId === 224) && (
-                    <>
-                      <br />
-                      <b>
-                        Product Type:{' '}
-                        {`${shippingPrint?.objHeader?.productType || ''}`}
-                      </b>
-                    </>
-                  )}
-                  {buId === 171 || buId === 224 ? (
-                    <>
-                      <br />
-                      <b>
-                        Sold To Party Name:{' '}
-                        {`${shippingPrint?.objHeader?.soldToPartnerName || ''}`}
-                      </b>
-                    </>
-                  ) : null}
-                  <br />
-                  <b>
-                    Complete Date:{' '}
-                    {_dateFormatterTwo(shippingPrint?.objHeader?.completeDate)}
-                  </b>
-                  <br />
-                  {(buId === 171 || buId === 224) && (
+                <br />
+                <b>
+                  Contact Info:{' '}
+                  {`${shippingPrint?.objHeader?.shipToPartnerContactNo || ''}`}
+                </b>
+                {(buId === 171 || buId === 224) && (
+                  <>
+                    <br />
                     <b>
-                      Unload by Company:{' '}
-                      {transportStatus[0]?.labourstatus ? 'Yes' : 'No'}
+                      Product Type:{' '}
+                      {`${shippingPrint?.objHeader?.productType || ''}`}
                     </b>
-                  )}
-                </div>
-              </div>
-
-              <div className=" my-5">
-                <ICustomTable ths={ths}>
-                  {shippingPrint?.objRow?.map((itm) => {
-                    totalQuantity += itm?.quantity;
-                    return (
-                      <tr>
-                        <td>
-                          <div className="text-left">{itm?.customerName} </div>
-                        </td>
-                        <td> {itm?.customerAddress}</td>
-                        <td> {itm?.deliveryCode}</td>
-                        <td> {itm?.salesOrderCode}</td>
-                        <td className="text-center"> {itm?.itemCode}</td>
-                        <td>
-                          {[144, 188, 189].includes(buId)
-                            ? itm?.itemSalesName
-                            : itm?.itemName}
-                        </td>
-                        <td>{itm?.uomName}</td>
-                        <td className="text-center">{itm?.quantity}</td>
-                        {/* <td className="text-center">{itm?.deliveryValue}</td> */}
-                      </tr>
-                    );
-                  })}
-                  <tr>
-                    <td colSpan="7" className="text-left">
-                      <p className="text-left m-0 ml-1">
-                        <b>Total Quantity:</b>
-                      </p>
-                    </td>
-                    <td className="text-center">
-                      <b>{totalQuantity}</b>
-                    </td>
-                  </tr>
-                </ICustomTable>
+                  </>
+                )}
+                {buId === 171 || buId === 224 ? (
+                  <>
+                    <br />
+                    <b>
+                      Sold To Party Name:{' '}
+                      {`${shippingPrint?.objHeader?.soldToPartnerName || ''}`}
+                    </b>
+                  </>
+                ) : null}
+                <br />
+                <b>
+                  Complete Date:{' '}
+                  {_dateFormatterTwo(shippingPrint?.objHeader?.completeDate)}
+                </b>
+                <br />
+                {(buId === 171 || buId === 224) && (
+                  <b>
+                    Unload by Company:{' '}
+                    {transportStatus[0]?.labourstatus ? 'Yes' : 'No'}
+                  </b>
+                )}
               </div>
             </div>
-            <div
-              className="d-flex justify-content-between"
-              style={{ margin: '70px 0 0' }}
-            >
-              <div>
-                <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
-                  Authority Signature
-                </b>
-              </div>
-              <div>
-                <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
-                  Driver Signature
-                </b>
-              </div>
-              <div>
-                <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
-                  Customer Signature
-                </b>
-              </div>
+
+            <div className=" my-5">
+              <ICustomTable ths={ths}>
+                {shippingPrint?.objRow?.map((itm) => {
+                  totalQuantity += itm?.quantity;
+                  return (
+                    <tr>
+                      <td>
+                        <div className="text-left">{itm?.customerName} </div>
+                      </td>
+                      <td> {itm?.customerAddress}</td>
+                      <td> {itm?.deliveryCode}</td>
+                      <td> {itm?.salesOrderCode}</td>
+                      <td className="text-center"> {itm?.itemCode}</td>
+                      <td>
+                        {[144, 188, 189].includes(buId)
+                          ? itm?.itemSalesName
+                          : itm?.itemName}
+                      </td>
+                      <td>{itm?.uomName}</td>
+                      <td className="text-center">{itm?.quantity}</td>
+                      {/* <td className="text-center">{itm?.deliveryValue}</td> */}
+                    </tr>
+                  );
+                })}
+                <tr>
+                  <td colSpan="7" className="text-left">
+                    <p className="text-left m-0 ml-1">
+                      <b>Total Quantity:</b>
+                    </p>
+                  </td>
+                  <td className="text-center">
+                    <b>{totalQuantity}</b>
+                  </td>
+                </tr>
+              </ICustomTable>
+            </div>
+          </div>
+          <div
+            className="d-flex justify-content-between"
+            style={{ margin: '70px 0 0' }}
+          >
+            <div>
+              <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
+                Authority Signature
+              </b>
+            </div>
+            <div>
+              <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
+                Driver Signature
+              </b>
+            </div>
+            <div>
+              <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
+                Customer Signature
+              </b>
             </div>
           </div>
         </div>
-      </ICard>
-    </>
+      </div>
+    </ICard>
   );
 }
