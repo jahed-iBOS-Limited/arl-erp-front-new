@@ -125,7 +125,7 @@ export default function FormCmp({
                             options={shippingLineDDL || []}
                             value={values?.shippingLine}
                             name="shippingLine"
-                            label="Shipping Line"
+                            label="ShippingLine"
                             onChange={(valueOption) => {
                               setFieldValue('shippingLine', valueOption);
                             }}

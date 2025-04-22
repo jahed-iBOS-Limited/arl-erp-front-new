@@ -45,7 +45,6 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
   const [, saveLogisticBillRegister, logisticBillRegisterLoading, ,] =
     useAxiosPost();
   const [paymentPartyListDDL, setPaymentPartyListDDL] = useState();
-
   useEffect(() => {
     const modeOfTransportId = [1, 3].includes(rowClickData?.modeOfTransportId)
       ? 1
@@ -54,7 +53,11 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
     commonGetByIdHandler(modeOfTransportId, false);
   }, [bookingRequestId]);
 
-  const commonGetByIdHandler = (modeOfTransportId, isAdvanced) => {
+  const commonGetByIdHandler = (
+    modeOfTransportId,
+    isAdvanced,
+    isBillGenerate
+  ) => {
     let masterBlId = 0;
     // let masterBlCode = '';
     if ([1, 5].includes(modeOfTransportId)) {
@@ -76,27 +79,51 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
           isAirOperation || false
         }`,
         (resData) => {
-          const billingDataList = resData
-            ?.filter(
-              (i) =>
-                i?.paymentPartyId &&
-                !i?.billRegisterCode &&
-                (i?.isAirOperation || false) === (isAirOperation || false)
-            )
-            ?.map((item) => {
-              return {
-                paymentPartyId: item?.paymentPartyId,
-                value: item?.paymentPartyId,
-                label: item?.paymentParty,
-              };
-            });
-          const unique = [
-            ...new Map(
-              billingDataList.map((item) => [item['paymentPartyId'], item])
-            ).values(),
-          ];
-          setUniqueBookingRequestList(resData?.[0]?.bookingDatas || []);
-          setPaymentPartyListDDL(unique || []);
+          if (isBillGenerate) {
+            const billingDataList = resData
+              ?.filter(
+                (i) =>
+                  i?.paymentPartyId &&
+                  i?.billRegisterCode &&
+                  (i?.isAirOperation || false) === (isAirOperation || false)
+              )
+              ?.map((item) => {
+                return {
+                  paymentPartyId: item?.paymentPartyId,
+                  value: item?.paymentPartyId,
+                  label: item?.paymentParty,
+                };
+              });
+            const unique = [
+              ...new Map(
+                billingDataList.map((item) => [item['paymentPartyId'], item])
+              ).values(),
+            ];
+            setUniqueBookingRequestList(resData?.[0]?.bookingDatas || []);
+            setPaymentPartyListDDL(unique || []);
+          } else {
+            const billingDataList = resData
+              ?.filter(
+                (i) =>
+                  i?.paymentPartyId &&
+                  !i?.billRegisterCode &&
+                  (i?.isAirOperation || false) === (isAirOperation || false)
+              )
+              ?.map((item) => {
+                return {
+                  paymentPartyId: item?.paymentPartyId,
+                  value: item?.paymentPartyId,
+                  label: item?.paymentParty,
+                };
+              });
+            const unique = [
+              ...new Map(
+                billingDataList.map((item) => [item['paymentPartyId'], item])
+              ).values(),
+            ];
+            setUniqueBookingRequestList(resData?.[0]?.bookingDatas || []);
+            setPaymentPartyListDDL(unique || []);
+          }
         }
       );
     }
@@ -206,6 +233,7 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
       setBillingDataFilterData(typeWiseFilter || []);
     }
 
+    // if advance generate
     if (activeTab === 'advanceGenerate') {
       const typeWiseFilter = masterBLWiseBilling
         ?.filter((item) => {
@@ -225,6 +253,30 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
         });
       setBillingDataFilterData(typeWiseFilter || []);
     }
+
+    // if view bill invoice
+    if (activeTab === 'viewBillInvoice') {
+      const typeWiseFilter = masterBLWiseBilling
+        ?.filter((item) => {
+          return (
+            item?.paymentPartyId === valueOption?.value &&
+            item?.billRegisterCode
+          );
+        })
+        .map((item) => {
+          const exchangeRate = item?.exchangeRate || 0;
+          const paymentAdvanceAmount = item?.paymentAdvanceAmount || 0;
+          const paymentActualAmount = item?.paymentActualAmount || 0;
+          const paymentAmount = paymentActualAmount - paymentAdvanceAmount;
+          const paymentPayAmount = exchangeRate * paymentAmount;
+          return {
+            ...item,
+            paymentPayAmount: paymentPayAmount,
+          };
+        });
+      console.log(typeWiseFilter, 'typeWiseFilter');
+      setBillingDataFilterData(typeWiseFilter || []);
+    }
   };
 
   const handleChange = (event, newValue, values) => {
@@ -241,6 +293,9 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
     }
     if (newValue === 'advanceGenerate') {
       commonGetByIdHandler(modeOfTransportId, true);
+    }
+    if (newValue === 'viewBillInvoice') {
+      commonGetByIdHandler(modeOfTransportId, false, true);
     }
   };
   return (
@@ -320,22 +375,37 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
                         </>
                       )}
                     </div>
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      disabled={masterBLWiseBilling?.length === 0}
-                      onClick={() => {
-                        handleSubmit();
-                      }}
-                    >
-                      {activeTab === 'billGenerate'
-                        ? 'Bill Generate'
-                        : 'Advance Generate'}
-                    </button>
+                    {activeTab === 'billGenerate' && (
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        disabled={masterBLWiseBilling?.length === 0}
+                        onClick={() => {
+                          handleSubmit();
+                        }}
+                      >
+                        {'Bill Generate'}
+                      </button>
+                    )}
                   </div>
                 </>
               </div>
-
+              <p className="p-0  m-0">
+                Master BL No:{' '}
+                {rowClickData?.seaMasterBlCode &&
+                rowClickData?.airMasterBlCode ? (
+                  <>
+                    {rowClickData?.seaMasterBlCode}{' '}
+                    {rowClickData?.airMasterBlCode
+                      ? ', ' + rowClickData?.airMasterBlCode
+                      : ''}
+                  </>
+                ) : (
+                  rowClickData?.seaMasterBlCode ||
+                  rowClickData?.airMasterBlCode ||
+                  ''
+                )}
+              </p>
               <Box>
                 <Tabs
                   value={activeTab}
@@ -348,6 +418,8 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
                   style={{ backgroundColor: 'white' }}
                 >
                   <Tab label="Bill Generate" value="billGenerate" />
+                  {/* bill view */}
+                  <Tab label="View Bill " value="viewBillInvoice" />
                   {/* <Tab label="Advance Generate" value="advanceGenerate" /> */}
                 </Tabs>
                 <Box mt={1}>
@@ -364,6 +436,19 @@ const BillGenerate = ({ rowClickData, CB, isAirOperation }) => {
                       setOpen={setOpen}
                     />
                   )}
+
+                  {activeTab === 'viewBillInvoice' && (
+                    <BillInvoiceView
+                      values={values}
+                      errors={errors}
+                      touched={touched}
+                      setFieldValue={setFieldValue}
+                      paymentPartyListDDL={paymentPartyListDDL}
+                      invoiceTypeHandeler={invoiceTypeHandeler}
+                      billingDataFilterData={billingDataFilterData}
+                    />
+                  )}
+
                   {/* {activeTab === 'advanceGenerate' && (
                     <div>
                       <AdvanceGenerateCmp
@@ -489,6 +574,7 @@ const BillGenerateCmp = ({
           <thead>
             <tr>
               <th>SL</th>
+              <th>Booking No</th>
               <th>Attribute</th>
               <th>Currency</th>
               <th>Exchange Rate</th>
@@ -498,159 +584,241 @@ const BillGenerateCmp = ({
               <th>Amount (BDT)</th>
             </tr>
           </thead>
-          <tbody>
-            {values?.paymentParty?.value &&
-              billingDataFilterData?.map((row, index) => (
-                <tr key={index}>
-                  <td style={{ textAlign: 'right' }}> {index + 1} </td>
-                  <td className="align-middle">
-                    <label>{row?.headOfCharges}</label>
-                  </td>
-                  <td className="align-middle">
-                    <label>{row?.currency}</label>
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    {row?.exchangeRate || 0}
-                  </td>
-                  {/* <td style={{ textAlign: 'right' }}>
-                    {row?.paymentAdvanceAmount}
-                  </td> */}
-                  <td style={{ textAlign: 'right' }}>
-                    {row?.paymentActualAmount}
-                  </td>
-                  <td style={{ textAlign: 'right' }}>{row?.paymentAmount}</td>
-                  <td style={{ textAlign: 'right' }}>
-                    {row?.paymentPayAmount}
-                  </td>
-                </tr>
-              ))}
-            <tr>
-              <td colSpan="6" style={{ textAlign: 'right' }}>
-                Total
-              </td>
-              <td style={{ textAlign: 'right' }}>
-                {billingDataFilterData?.reduce(
-                  (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
-                  0
-                )}
-              </td>
-            </tr>
-          </tbody>
+          <TableBody
+            values={values}
+            billingDataFilterData={billingDataFilterData}
+          />
         </table>
       </div>
     </>
   );
 };
 
-// const AdvanceGenerateCmp = ({
-//   errors,
-//   setFieldValue,
-//   billingDataFilterData,
-//   paymentPartyListDDL,
-//   values,
-//   invoiceTypeHandeler,
-//   touched,
-//   setOpen,
-// }) => {
-//   const dispatch = useDispatch();
-//   return (
-//     <>
-//       <div className="form-group row global-form">
-//         <div className="col-lg-3">
-//           <NewSelect
-//             name="paymentParty"
-//             options={paymentPartyListDDL || []}
-//             value={values?.paymentParty}
-//             label="Party Type"
-//             onChange={(valueOption) => {
-//               setFieldValue('paymentParty', valueOption);
-//               invoiceTypeHandeler(valueOption);
-//             }}
-//             placeholder="Select Party Type"
-//             errors={errors}
-//             touched={touched}
-//           />
-//         </div>
-//         <div className="col-lg-3 ">
-//           <label>Narration</label>
-//           <InputField
-//             value={values?.narration}
-//             name="narration"
-//             placeholder="Narration"
-//             type="text"
-//             errors={errors}
-//             touched={touched}
-//           />
-//         </div>
-//         <div className="col-lg-6 mt-5">
-//           <button
-//             className="btn btn-primary mr-2 "
-//             type="button"
-//             onClick={() => setOpen(true)}
-//           >
-//             Attachment
-//           </button>
-//           {values?.documentFileId && (
-//             <button
-//               className="btn btn-primary"
-//               type="button"
-//               onClick={() => {
-//                 dispatch(getDownlloadFileView_Action(values?.documentFileId));
-//               }}
-//             >
-//               Attachment View
-//             </button>
-//           )}
-//         </div>
-//       </div>{' '}
-//       <div className="table-responsive">
-//         <table className="table global-table">
-//           <thead>
-//             <tr>
-//               <th>SL</th>
-//               <th>Attribute</th>
-//               <th>Currency</th>
-//               <th>Exchange Rate</th>
-//               <th>Advance Amount</th>
-//               <th>Amount (BDT)</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {values?.paymentParty?.value &&
-//               billingDataFilterData?.map((row, index) => (
-//                 <tr key={index}>
-//                   <td style={{ textAlign: 'right' }}> {index + 1} </td>
-//                   <td className="align-middle">
-//                     <label>{row?.headOfCharges}</label>
-//                   </td>
-//                   <td className="align-middle">
-//                     <label>{row?.currency}</label>
-//                   </td>
-//                   <td style={{ textAlign: 'right' }}>
-//                     {row?.exchangeRate || 0}
-//                   </td>
-//                   <td style={{ textAlign: 'right' }}>
-//                     {row?.paymentAdvanceAmount}
-//                   </td>
-//                   <td style={{ textAlign: 'right' }}>
-//                     {row?.paymentPayAmount}
-//                   </td>
-//                 </tr>
-//               ))}
-//             <tr>
-//               <td colSpan="5" style={{ textAlign: 'right' }}>
-//                 Total
-//               </td>
-//               <td style={{ textAlign: 'right' }}>
-//                 {billingDataFilterData?.reduce(
-//                   (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
-//                   0,
-//                 )}
-//               </td>
-//             </tr>
-//           </tbody>
-//         </table>
-//       </div>
-//     </>
-//   );
-// };
+const TableBody = ({ values, billingDataFilterData }) => {
+  let totalPaymentAmount = 0;
+  let totalPaymentPayAmount = 0;
+  let totalPaymentActualAmount = 0;
+
+  return (
+    <tbody>
+      {values?.paymentParty?.value &&
+        billingDataFilterData
+          ?.reduce((acc, row) => {
+            const existingGroup = acc.find(
+              (group) => group.bookingRequestCode === row.bookingRequestCode
+            );
+            if (existingGroup) {
+              existingGroup.rows.push(row);
+            } else {
+              acc.push({
+                bookingRequestCode: row.bookingRequestCode,
+                rows: [row],
+              });
+            }
+            return acc;
+          }, [])
+          .map((group, groupIndex) => (
+            <React.Fragment key={groupIndex}>
+              {group.rows.map((row, rowIndex) => {
+                const paymentActualAmount =
+                  Number(Number(+row?.paymentActualAmount || 0).toFixed(4)) ||
+                  0;
+                const paymentAmount =
+                  Number(Number(+row?.paymentAmount || 0).toFixed(4)) || 0;
+
+                const paymentPayAmount =
+                  Number(Number(+row?.paymentPayAmount || 0).toFixed(4)) || 0;
+
+                totalPaymentAmount += paymentAmount;
+                totalPaymentPayAmount += paymentPayAmount;
+                totalPaymentActualAmount += paymentActualAmount;
+
+                return (
+                  <tr key={rowIndex}>
+                    {rowIndex === 0 && (
+                      <td
+                        rowSpan={group.rows.length}
+                        style={{
+                          textAlign: 'right',
+                          verticalAlign: 'middle',
+                        }}
+                      >
+                        {groupIndex + 1}
+                      </td>
+                    )}
+                    {rowIndex === 0 && (
+                      <td
+                        rowSpan={group.rows.length}
+                        style={{
+                          textAlign: 'middle',
+                          verticalAlign: 'middle',
+                        }}
+                      >
+                        {group.bookingRequestCode}
+                      </td>
+                    )}
+                    <td className="text-left align-middle">
+                      <label>{row?.headOfCharges}</label>
+                    </td>
+                    <td className="align-middle">
+                      <label>{row?.currency}</label>
+                    </td>
+                    <td style={{ textAlign: 'right' }}>
+                      {row?.exchangeRate || 0}
+                    </td>
+                    <td style={{ textAlign: 'right' }}>
+                      {paymentActualAmount}
+                    </td>
+                    <td style={{ textAlign: 'right' }}>{paymentAmount}</td>
+                    <td style={{ textAlign: 'right' }}>{paymentPayAmount}</td>
+                  </tr>
+                );
+              })}
+            </React.Fragment>
+          ))}
+      <tr>
+        <td colSpan="5" style={{ textAlign: 'right' }}>
+          <b>Total</b>
+        </td>
+        <td style={{ textAlign: 'right' }}>
+          <b>{Number((+totalPaymentActualAmount || 0).toFixed(4))}</b>
+        </td>
+        {
+          <td style={{ textAlign: 'right' }}>
+            <b> {Number((+totalPaymentAmount || 0).toFixed(4))}</b>
+          </td>
+        }
+
+        <td style={{ textAlign: 'right' }}>
+          <b>{Number((+totalPaymentPayAmount || 0).toFixed(4))}</b>
+        </td>
+      </tr>
+    </tbody>
+  );
+};
+
+// BillInvoiceView componet
+const BillInvoiceView = ({
+  values,
+  errors,
+  touched,
+  setFieldValue,
+  paymentPartyListDDL,
+  invoiceTypeHandeler,
+  billingDataFilterData,
+}) => {
+  return (
+    <>
+      <div className="form-group row global-form">
+        <div className="col-lg-3">
+          <NewSelect
+            name="paymentParty"
+            options={paymentPartyListDDL || []}
+            value={values?.paymentParty}
+            label="Partner"
+            onChange={(valueOption) => {
+              setFieldValue('paymentParty', valueOption);
+              invoiceTypeHandeler(valueOption);
+            }}
+            placeholder="Select Partner"
+            errors={errors}
+            touched={touched}
+          />
+        </div>
+      </div>
+
+      <div className="table-responsive">
+        <table className="table global-table">
+          <thead>
+            <tr>
+              <th>SL</th>
+              <th>Bill Register Code</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {values?.paymentParty?.value &&
+              billingDataFilterData
+                ?.reduce((acc, row) => {
+                  const existingGroup = acc.find(
+                    (group) => group.billRegisterCode === row.billRegisterCode
+                  );
+                  if (existingGroup) {
+                    existingGroup.rows.push(row);
+                  } else {
+                    acc.push({
+                      billRegisterCode: row.billRegisterCode,
+                      rows: [row],
+                    });
+                  }
+                  return acc;
+                }, [])
+                .map((group, groupIndex) => {
+                  const totalPaymentPayAmount = group?.rows?.reduce(
+                    (acc, row) => acc + Number(+row?.paymentPayAmount || 0),
+                    0
+                  );
+                  return (
+                    <React.Fragment key={groupIndex}>
+                      {group.rows.map((row, rowIndex) => {
+                        const paymentPayAmount =
+                          Number(
+                            Number(+row?.paymentPayAmount || 0).toFixed(4)
+                          ) || 0;
+
+                        return (
+                          <tr key={rowIndex}>
+                            {rowIndex === 0 && (
+                              <td
+                                rowSpan={group.rows.length}
+                                style={{
+                                  textAlign: 'right',
+                                  verticalAlign: 'middle',
+                                }}
+                              >
+                                {groupIndex + 1}
+                              </td>
+                            )}
+                            {rowIndex === 0 && (
+                              <td
+                                rowSpan={group.rows.length}
+                                style={{
+                                  textAlign: 'middle',
+                                  verticalAlign: 'middle',
+                                }}
+                              >
+                                {group.billRegisterCode}
+                              </td>
+                            )}
+                            <td style={{ textAlign: 'right' }}>
+                              {paymentPayAmount}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                      <td
+                        colSpan="2"
+                        style={{
+                          textAlign: 'right',
+                          padding: '0px 2px 0px 0px',
+                        }}
+                      >
+                        <b>Total</b>
+                      </td>
+                      <td
+                        style={{
+                          textAlign: 'right',
+                          padding: '0px 2px 0px 0px',
+                        }}
+                      >
+                        <b>{totalPaymentPayAmount}</b>
+                      </td>
+                    </React.Fragment>
+                  );
+                })}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+};

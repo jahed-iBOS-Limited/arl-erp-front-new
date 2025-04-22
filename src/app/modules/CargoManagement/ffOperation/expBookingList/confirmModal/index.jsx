@@ -401,7 +401,10 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
       tradeTypeId: tradeTypeId,
       hblNo: values?.hblNo || '',
       modeOfTransportId: rowClickData?.modeOfTransportId || 0,
-      isAirOperation: values?.isAirOperation || false,
+      isAirOperation:
+        rowClickData?.modeOfTransportId === 5
+          ? true
+          : values?.isAirOperation || false,
     };
 
     if (payload) {
@@ -623,6 +626,19 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
                     label="Consignee’s Name"
                     onChange={(valueOption) => {
                       setFieldValue('consigneeName', valueOption);
+                      setFieldValue(
+                        'consigneeContactPerson',
+                        valueOption?.contactPerson || ''
+                      );
+                      setFieldValue(
+                        'consigneeContact',
+                        valueOption?.contactNumber || ''
+                      );
+                      setFieldValue('consigneeEmail', valueOption?.email || '');
+                      setFieldValue(
+                        'consigneeAddress',
+                        valueOption?.address || ''
+                      );
                     }}
                     placeholder="Consignee’s Name"
                     errors={errors}

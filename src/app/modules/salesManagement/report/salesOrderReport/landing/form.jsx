@@ -15,6 +15,7 @@ export default function Form({ obj }) {
     touched,
     setGridData,
     shipPointDDL,
+    stateDDL,
     setFieldValue,
     getReportView,
     setIsShow,
@@ -38,6 +39,22 @@ export default function Form({ obj }) {
               touched={touched}
             />
           </div>
+          {buId === 232 && (
+            <div className="col-lg-3">
+              <NewSelect
+                name="state"
+                options={stateDDL}
+                label="State"
+                value={values?.state}
+                onChange={(valueOption) => {
+                  setIsShow(false);
+                  setGridData([]);
+                  setFieldValue('state', valueOption);
+                }}
+                placeholder="State"
+              />
+            </div>
+          )}
           <RATForm
             obj={{
               values,

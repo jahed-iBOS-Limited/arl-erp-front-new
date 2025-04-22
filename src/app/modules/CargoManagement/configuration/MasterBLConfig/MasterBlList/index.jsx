@@ -34,7 +34,7 @@ export default function MasterBlList() {
                 <th>SL</th>
                 <th>IMP/EXP</th>
                 <th>Master BL</th>
-                <th>Shipping Line/Air Line</th>
+                <th>ShippingLine/AirLine</th>
                 <th>GSA</th>
                 <th>Is Bl Genarate</th>
                 <th>Action</th>

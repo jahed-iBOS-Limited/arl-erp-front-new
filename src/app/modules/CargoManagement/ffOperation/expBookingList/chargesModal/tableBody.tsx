@@ -305,11 +305,16 @@ function TableBody({
                     ...(isAirOperation
                       ? [
                           {
-                            label: 'Air Ops',
+                            label: 'Freight Forwarder',
                             value: 0,
                           },
                         ]
-                      : []),
+                      : [
+                          {
+                            label: 'Air Ops',
+                            value: 0,
+                          },
+                        ]),
                     {
                       label: `Others`,
                       value: 0,
@@ -430,11 +435,16 @@ function TableBody({
                     ...(isAirOperation
                       ? [
                           {
-                            label: 'Air Ops',
+                            label: 'Freight Forwarder',
                             value: 0,
                           },
                         ]
-                      : []),
+                      : [
+                          {
+                            label: 'Air Ops',
+                            value: 0,
+                          },
+                        ]),
                     {
                       label: `Others`,
                       value: 0,
@@ -663,7 +673,7 @@ function TableBody({
                           collectionDummyAmount: '',
                           paymentDummyAmount: '',
                           paymentActualAmount: '',
-                          isHeadOfChargesEdit: true,
+                          isHeadOfChargesEdit: aboveRow?.isHeadOfChargesEdit,
                         },
                         ...hardCopy?.slice(index + 1),
                       ];

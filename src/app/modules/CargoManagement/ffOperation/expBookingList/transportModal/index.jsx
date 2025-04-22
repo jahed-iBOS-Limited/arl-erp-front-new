@@ -726,7 +726,7 @@ function TransportModal({ rowClickData, CB }) {
                           </>
                         ) : (
                           <>
-                            {/* Air Line */}
+                            {/* AirLine */}
                             <div className="col-lg-3">
                               <NewSelect
                                 name={`rows[${index}].airLineOrShippingLine`}
@@ -737,8 +737,8 @@ function TransportModal({ rowClickData, CB }) {
                                 label={
                                   values?.rows?.[index]?.transportPlanning
                                     ?.value === 1
-                                    ? 'Air Line'
-                                    : 'Shipping Line' || ''
+                                    ? 'AirLine'
+                                    : 'ShippingLine' || ''
                                 }
                                 onChange={(valueOption) => {
                                   setFieldValue(
@@ -749,8 +749,8 @@ function TransportModal({ rowClickData, CB }) {
                                 placeholder={
                                   values?.rows?.[index]?.transportPlanning
                                     ?.value === 1
-                                    ? 'Air Line'
-                                    : 'Shipping Line' || ''
+                                    ? 'AirLine'
+                                    : 'ShippingLine' || ''
                                 }
                                 errors={errors}
                                 touched={touched}

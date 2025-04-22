@@ -9,15 +9,18 @@ import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import IViewModal from '../../../../_helper/_viewModal';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import ClearingGLCreate from '../create/clearingGLCreate';
 import UnAllocatedProfitCenterCreate from '../create/unAllocatedProfitCenterCreate';
 import {
+  allocationTypeDDL,
   clearingJournalLandingData,
   commonDataReset,
+  isUnallocatedPCSaveButtonDisabled,
   isUnallowcatedShowButtonDisbaled,
   selectedCount,
+  singleOrMultipleRowSelection,
   typeDDL,
 } from '../helper';
-import LossGainJournalCreate from '../create/lossGainJournalCreate';
 
 const ClearningJournalLandingPage = () => {
   // redux
@@ -27,17 +30,15 @@ const ClearningJournalLandingPage = () => {
 
   // state
   const [showUnallocatedPCModalAndState, setShowUnallocatedPCModalAndState] =
-    useState({
+    useState<{ state: object; isModalOpen: boolean }>({
       state: {},
       isModalOpen: false,
     });
-  const [
-    showLossGainJournalModalAndState,
-    setShowLossGainJournalModalAndState,
-  ] = useState({
-    state: {},
-    isModalOpen: false,
-  });
+  const [showClearingGLModalAndState, setShowClearingGLModalAndState] =
+    useState<{ state: object; isModalOpen: boolean }>({
+      state: {},
+      isModalOpen: false,
+    });
 
   // api action
   const [
@@ -47,10 +48,10 @@ const ClearningJournalLandingPage = () => {
     setUnallocatedProfitCenterData,
   ] = useAxiosGet();
   const [
-    lossGainJournalData,
-    getLossGainJournalData,
-    getLossGainJournalDataLoading,
-    setLossGainJournalData,
+    clearingGLData,
+    getClearingGLData,
+    getClearingGLDataLoading,
+    setClearingGLData,
   ] = useAxiosGet();
 
   // save handler
@@ -65,25 +66,23 @@ const ClearningJournalLandingPage = () => {
       );
     }
 
-    // getLossGainJournalData
+    // getClearingGLData
     if (type?.value === 2) {
-      getLossGainJournalData(
-        `/fino/Report/GetUnAllocatedLossGainJournal?businessUnitId=${businessUnit?.value}&fromDate=${fromDate}&toDate=${toDate}`
+      // getClearingGLData(
+      //   `/fino/Report/GetUnAllocatedLossGainJournal?businessUnitId=${businessUnit?.value}&fromDate=${fromDate}&toDate=${toDate}`
+      // );
+      getClearingGLData(
+        `/fino/Report/GetAllClearingJournalSummary?businessUnitId=${businessUnit?.value}&fromDate=${fromDate}&toDate=${toDate}`
       );
     }
   };
 
   // is loading
   const isLoading =
-    getUnallocatedProfitCenterDataLoading || getLossGainJournalDataLoading;
+    getUnallocatedProfitCenterDataLoading || getClearingGLDataLoading;
 
   // disable unallocatedProfitCenterData create button
-  const isUnallocatedPCSaveButtonDisabled =
-    selectedCount(unallocatedProfitCenterData) !== 1;
-
-  // disable unallocatedProfitCenterData create button
-  const isLossGainJournalSaveButtonDisabled =
-    selectedCount(lossGainJournalData) !== 1;
+  const isClearingGLSaveButtonDisabled = selectedCount(clearingGLData) !== 1;
 
   return (
     <Formik
@@ -115,7 +114,10 @@ const ClearningJournalLandingPage = () => {
                           <button
                             type="button"
                             className="btn btn-primary"
-                            disabled={isUnallocatedPCSaveButtonDisabled}
+                            disabled={isUnallocatedPCSaveButtonDisabled(
+                              unallocatedProfitCenterData,
+                              values?.allocationType
+                            )}
                             onClick={() => {
                               setShowUnallocatedPCModalAndState(
                                 (prevState) => ({
@@ -123,7 +125,7 @@ const ClearningJournalLandingPage = () => {
                                   // set which item is selected from unallocated profit center data
                                   state: unallocatedProfitCenterData?.filter(
                                     (item) => Boolean(item?.isSelected)
-                                  )[0],
+                                  ),
                                   isModalOpen: true,
                                 })
                               );
@@ -131,23 +133,21 @@ const ClearningJournalLandingPage = () => {
                           >
                             Create
                           </button>
-                        ) : // Loss Gain Journal Create Button
+                        ) : // Clearing GL Create Button
                         type?.value === 2 ? (
                           <button
                             type="button"
                             className="btn btn-primary"
-                            disabled={isLossGainJournalSaveButtonDisabled}
+                            disabled={isClearingGLSaveButtonDisabled}
                             onClick={() => {
-                              setShowLossGainJournalModalAndState(
-                                (prevState) => ({
-                                  ...prevState,
-                                  // set which item is selected from unallocated profit center data
-                                  state: lossGainJournalData?.filter((item) =>
-                                    Boolean(item?.isSelected)
-                                  )[0],
-                                  isModalOpen: true,
-                                })
-                              );
+                              setShowClearingGLModalAndState((prevState) => ({
+                                ...prevState,
+                                // set which item is selected from unallocated profit center data
+                                state: clearingGLData?.filter((item) =>
+                                  Boolean(item?.isSelected)
+                                )[0],
+                                isModalOpen: true,
+                              }));
                             }}
                           >
                             Create
@@ -173,7 +173,7 @@ const ClearningJournalLandingPage = () => {
                     onChange={(valueOption) => {
                       setFieldValue('type', valueOption);
                       commonDataReset({
-                        setLossGainJournalData,
+                        setClearingGLData,
                         setUnallocatedProfitCenterData,
                       });
                     }}
@@ -188,12 +188,31 @@ const ClearningJournalLandingPage = () => {
                     onChange={(valueOption) => {
                       setFieldValue('businessUnit', valueOption);
                       commonDataReset({
-                        setLossGainJournalData,
+                        setClearingGLData,
                         setUnallocatedProfitCenterData,
                       });
                     }}
                   />
                 </div>
+                {values?.type?.value === 1 ? (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      label="Allocation Type"
+                      options={allocationTypeDDL || []}
+                      value={values?.allocationType}
+                      name="allocationType"
+                      onChange={(valueOption) => {
+                        setFieldValue('allocationType', valueOption);
+                        commonDataReset({
+                          setClearingGLData,
+                          setUnallocatedProfitCenterData,
+                        });
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )}
                 <div className="col-lg-3">
                   <InputField
                     value={values?.fromDate}
@@ -203,7 +222,7 @@ const ClearningJournalLandingPage = () => {
                     onChange={(e) => {
                       setFieldValue('fromDate', e?.target?.value);
                       commonDataReset({
-                        setLossGainJournalData,
+                        setClearingGLData,
                         setUnallocatedProfitCenterData,
                       });
                     }}
@@ -218,7 +237,7 @@ const ClearningJournalLandingPage = () => {
                     onChange={(e) => {
                       setFieldValue('toDate', e?.target?.value);
                       commonDataReset({
-                        setLossGainJournalData,
+                        setClearingGLData,
                         setUnallocatedProfitCenterData,
                       });
                     }}
@@ -246,12 +265,13 @@ const ClearningJournalLandingPage = () => {
                   <UnallocatedProfitCenterDataTable
                     arr={unallocatedProfitCenterData}
                     setter={setUnallocatedProfitCenterData}
+                    values={values}
                   />
-                ) : /* loss gain journal data table */
-                values?.type?.value === 2 && lossGainJournalData?.length > 0 ? (
-                  <LossGainJournalDataTable
-                    arr={lossGainJournalData}
-                    setter={setLossGainJournalData}
+                ) : /* clearing gl data table */
+                values?.type?.value === 2 && clearingGLData?.length > 0 ? (
+                  <ClearingGLDataTable
+                    arr={clearingGLData}
+                    setter={setClearingGLData}
                   />
                 ) : (
                   <></>
@@ -282,25 +302,25 @@ const ClearningJournalLandingPage = () => {
               />
             </IViewModal>
 
-            {/* Create Loss Gain Journal */}
+            {/* Create Clearing General Ledger */}
             <IViewModal
-              title="Create Loss Gain Journal"
-              show={showLossGainJournalModalAndState?.isModalOpen}
+              title="Clearing General Ledger"
+              show={showClearingGLModalAndState?.isModalOpen}
               onHide={() =>
-                setShowLossGainJournalModalAndState((prevState) => ({
+                setShowClearingGLModalAndState((prevState) => ({
                   ...prevState,
                   state: {},
                   isModalOpen: false,
                 }))
               }
             >
-              <LossGainJournalCreate
+              <ClearingGLCreate
                 obj={{
                   values,
-                  showLossGainJournalModalAndState,
-                  setShowLossGainJournalModalAndState,
+                  showClearingGLModalAndState,
+                  setShowClearingGLModalAndState,
                   resetForm,
-                  setLossGainJournalData,
+                  setClearingGLData,
                 }}
               />
             </IViewModal>
@@ -317,9 +337,11 @@ export default ClearningJournalLandingPage;
 const UnallocatedProfitCenterDataTable = ({
   arr,
   setter,
+  values,
 }: {
   arr: any[];
   setter: React.Dispatch<React.SetStateAction<any[]>>;
+  values: any;
 }) => {
   return (
     <table className="table table-striped table-bordered bj-table bj-table-landing">
@@ -342,12 +364,13 @@ const UnallocatedProfitCenterDataTable = ({
                 type="checkbox"
                 checked={item?.isSelected}
                 onChange={(e) => {
-                  const value = e?.target?.checked;
-                  const modifyArr = arr?.map((item, itemIndex) => ({
-                    ...item,
-                    isSelected: index === itemIndex ? value : false,
-                  }));
-                  setter(modifyArr);
+                  singleOrMultipleRowSelection({
+                    arr,
+                    setter,
+                    values,
+                    index,
+                    checkedValue: e?.target?.checked,
+                  });
                 }}
               />
             </td>
@@ -366,8 +389,8 @@ const UnallocatedProfitCenterDataTable = ({
   );
 };
 
-/* loss gain journal data table */
-const LossGainJournalDataTable = ({
+/* clearing gl data table */
+const ClearingGLDataTable = ({
   arr,
   setter,
 }: {
@@ -380,12 +403,13 @@ const LossGainJournalDataTable = ({
         <tr>
           <th></th>
           <th>SL</th>
-          <th>Journal Code</th>
-          <th>General Ledger</th>
-          <th>Sub GL</th>
-          <th>Transaction Date</th>
+          {/* <th>Journal Code</th> */}
+          <th>General Ledger Name</th>
+          <th>General Ledger Code</th>
+          {/* <th>Sub GL</th> */}
+          {/* <th>Transaction Date</th> */}
           <th>Amount</th>
-          <th>Narration</th>
+          {/* <th>Narration</th> */}
         </tr>
       </thead>
       <tbody>
@@ -396,6 +420,7 @@ const LossGainJournalDataTable = ({
                 type="checkbox"
                 checked={item?.isSelected}
                 onChange={(e) => {
+                  // only one row can be selected
                   const value = e?.target?.checked;
                   const modifyArr = arr?.map((item, itemIndex) => ({
                     ...item,
@@ -406,14 +431,15 @@ const LossGainJournalDataTable = ({
               />
             </td>
             <td>{index + 1}</td>
-            <td className="text-center">{item?.accountingJournalCode}</td>
+            {/* <td className="text-center">{item?.accountingJournalCode}</td> */}
             <td>{item?.generalLedgerName}</td>
-            <td>{item?.subGlname}</td>
-            <td className="text-center">
+            <td>{item?.generalLedgerCode}</td>
+            {/* <td>{item?.subGlname}</td> */}
+            {/* <td className="text-center">
               {_dateFormatter(item?.transactionDate)}
-            </td>
+            </td> */}
             <td className="text-right">{_formatMoney(item?.amount)}</td>
-            <td>{item?.narration}</td>
+            {/* <td>{item?.narration}</td> */}
           </tr>
         ))}
       </tbody>

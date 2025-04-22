@@ -113,7 +113,10 @@ export default function CreateApprovePartner() {
   // };
 
   const isApproveButtonDisables = (values) => {
-    return !values?.sbu || values?.sbu?.length === 0 || !values?.supplyOrg;
+    return (
+      state?.isSupplier &&
+      (!values?.sbu || values?.sbu?.length === 0 || !values?.supplyOrg)
+    );
   };
 
   return (
@@ -189,6 +192,8 @@ export default function CreateApprovePartner() {
                             routingNo: state?.strRoutingNumber,
                             bankAccountNo: state?.strAccountNumber,
                             bankAccountName: state?.strAccountName,
+                            partnerRegistrationId: +id,
+                            acionByEmployeeId: profileData?.employeeId,
                           },
                           (res) => {
                             if (res?.statuscode === 200) {
@@ -230,10 +235,17 @@ export default function CreateApprovePartner() {
                             PurchaseOrganizationId: values?.supplyOrg?.value,
 
                             // isCreateUser: false,
-                            propitor: profileData?.employeeFullName,
+                            propitor: state?.propeietorName || '',
                             contactPerson: '',
                             contactNumber2: '',
                             contactNumber3: '',
+                            bankId: state?.intBankId,
+                            bankBranchId: state?.intBankBranchId,
+                            routingNo: state?.strRoutingNumber,
+                            bankAccountNo: state?.strAccountNumber,
+                            bankAccountName: state?.strAccountName,
+                            partnerRegistrationId: +id,
+                            acionByEmployeeId: profileData?.employeeId,
                           },
                           (res) => {
                             if (res?.statuscode === 200) {
