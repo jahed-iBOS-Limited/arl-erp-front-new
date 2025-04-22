@@ -17,10 +17,12 @@ import { getDistributionChannelDDLAction } from './../_redux/Actions';
 import { getSalesOrderTypeDDL_Action } from './../_redux/Actions';
 import { getSalesOrderGridData } from './../_redux/Actions';
 import { setSalesOrderLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
-import { salesOrderComplete, cancelSalesOrder } from '../helper';
-// import Loading from "../../../../_helper/_loading";
 import IConfirmModal from './../../../../_helper/_confirmModal';
 import InputField from '../../../../_helper/_inputField';
+import {
+  cancelSalesOrder,
+  salesOrderComplete,
+} from '../../../../_helper/_commonApi';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
